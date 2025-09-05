@@ -1,13 +1,15 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import type { AppState, PokemonPair, LevelCap } from '@/types';
-import { INITIAL_STATE, PLAYER1_NAME, PLAYER2_NAME, PLAYER1_COLOR, PLAYER2_COLOR } from '@/constants';
+import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
+import type { AppState, PokemonPair } from '@/types';
+import { INITIAL_STATE, PLAYER1_COLOR, PLAYER2_COLOR } from '@/constants';
 import TeamTable from '@/src/components/TeamTable';
 import InfoPanel from '@/src/components/InfoPanel';
 import Graveyard from '@/src/components/Graveyard';
+import ClearedRoutes from '@/src/components/ClearedRoutes';
 import AddLostPokemonModal from '@/src/components/AddLostPokemonModal';
 import LoginPage from '@/src/components/LoginPage';
+import SettingsPage from '@/src/components/SettingsPage';
 import { db, auth } from '@/src/firebaseConfig';
-import { ref, onValue, set } from "firebase/database";
+import { ref, onValue, set, get } from "firebase/database";
 import { onAuthStateChanged, User, signOut } from "firebase/auth";
 
 const App: React.FC = () => {
@@ -15,6 +17,34 @@ const App: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
+  const [dataLoaded, setDataLoaded] = useState(false);
+  const skipNextWriteRef = useRef(false);
+
+  // Ensure incoming Firebase data matches our expected shape
+  const coerceAppState = useCallback((incoming: any, base: AppState): AppState => {
+    const safe = (incoming && typeof incoming === 'object') ? incoming : {};
+    return {
+      player1Name: safe.player1Name ?? base.player1Name,
+      player2Name: safe.player2Name ?? base.player2Name,
+      team: Array.isArray(safe.team) ? safe.team : base.team,
+      box: Array.isArray(safe.box) ? safe.box : base.box,
+      graveyard: Array.isArray(safe.graveyard) ? safe.graveyard : base.graveyard,
+      levelCaps: Array.isArray(safe.levelCaps) ? safe.levelCaps : base.levelCaps,
+      stats: {
+        runs: safe.stats?.runs ?? base.stats.runs,
+        best: safe.stats?.best ?? base.stats.best,
+        top4Items: {
+          player1: safe.stats?.top4Items?.player1 ?? base.stats.top4Items.player1,
+          player2: safe.stats?.top4Items?.player2 ?? base.stats.top4Items.player2,
+        },
+        deaths: {
+          player1: safe.stats?.deaths?.player1 ?? base.stats.deaths.player1,
+          player2: safe.stats?.deaths?.player2 ?? base.stats.deaths.player2,
+        },
+      },
+    };
+  }, []);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -28,20 +58,52 @@ const App: React.FC = () => {
     if (!user) return;
 
     const dbRef = ref(db, '/');
-    onValue(dbRef, (snapshot) => {
-      const dbData = snapshot.val();
-      if (dbData) {
-        setData(dbData);
+
+    // 1) Load once on initial login
+    let unsub: (() => void) | undefined;
+    (async () => {
+      try {
+        const snapshot = await get(dbRef);
+        const dbData = snapshot.val();
+        if (dbData) {
+          // Apply remote state without echoing back immediately
+          skipNextWriteRef.current = true;
+          setData(prev => coerceAppState(dbData, prev));
+        }
+      } catch (e) {
+        // If get fails, fall back to initial state silently
+        // (data is already INITIAL_STATE by default)
+      } finally {
+        setDataLoaded(true);
+        // 2) Subscribe for live updates after initial load
+        unsub = onValue(dbRef, (snap) => {
+          const liveData = snap.val();
+          if (liveData) {
+            skipNextWriteRef.current = true;
+            setData(prev => coerceAppState(liveData, prev));
+          }
+        });
       }
-    });
+    })();
+
+    return () => {
+      if (unsub) unsub();
+      setDataLoaded(false);
+    };
   }, [user]);
 
   useEffect(() => {
-    if (!user) return;
-    
+    if (!user || !dataLoaded) return;
+
+    if (skipNextWriteRef.current) {
+      // Skip echoing writes caused by remote updates
+      skipNextWriteRef.current = false;
+      return;
+    }
+
     const dbRef = ref(db, '/');
     set(dbRef, data);
-  }, [data, user]);
+  }, [data, user, dataLoaded]);
 
   const handleReset = () => {
     if (window.confirm('Bist du sicher, dass du alle Daten zurücksetzen möchtest? Dieser Schritt kann nicht rückgängig gemacht werden.')) {
@@ -147,12 +209,43 @@ const App: React.FC = () => {
     }));
   };
 
+  const handleNameChange = (player: 'player1Name' | 'player2Name', name: string) => {
+    setData(prev => ({ ...prev, [player]: name }));
+  };
+
+  const clearedRoutes = useMemo(() => {
+    const routes: string[] = [];
+    const collect = (arr: PokemonPair[] | undefined | null) => {
+      const list = Array.isArray(arr) ? arr : [];
+      for (const p of list) {
+        const r = (p?.route || '').trim();
+        if (r) routes.push(r);
+      }
+    };
+    collect(data?.team as any);
+    collect(data?.box as any);
+    collect(data?.graveyard as any);
+    // Unique + sort
+    return Array.from(new Set(routes)).sort((a, b) => a.localeCompare(b));
+  }, [data]);
+
   if (loading) {
     return <div>Loading...</div>;
   }
 
   if (!user) {
     return <LoginPage />;
+  }
+
+  if (showSettings) {
+    return (
+      <SettingsPage 
+        player1Name={data.player1Name}
+        player2Name={data.player2Name}
+        onNameChange={handleNameChange}
+        onBack={() => setShowSettings(false)}
+      />
+    );
   }
 
   return (
@@ -164,18 +257,33 @@ const App: React.FC = () => {
         />
       )}
       <div className="max-w-[1920px] mx-auto bg-white shadow-lg p-4 rounded-lg">
-        <header className="text-center py-4 border-b-2 border-gray-300">
+        <header className="relative text-center py-4 border-b-2 border-gray-300">
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-press-start tracking-tighter">
-            {PLAYER1_NAME} & {PLAYER2_NAME} Soullink
+            {data.player1Name} & {data.player2Name} Soullink
           </h1>
-          <p className="text-sm text-gray-500 mt-2">Pokemon Schwarz & Weiß - Challenge Tracker</p>
+          <p className="text-sm text-gray-500 mt-2">Pokemon Soullink - Challenge Tracker</p>
+          <button
+            onClick={() => setShowSettings(true)}
+            className="absolute right-2 sm:right-4 top-2 sm:top-3 p-2 rounded-full hover:bg-gray-100 text-gray-600 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            aria-label="Einstellungen"
+            title="Einstellungen"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-7 h-7">
+              <line x1="3" y1="6" x2="21" y2="6" strokeLinecap="round" />
+              <circle cx="9" cy="6" r="2" strokeWidth="1.5" fill="white" />
+              <line x1="3" y1="12" x2="21" y2="12" strokeLinecap="round" />
+              <circle cx="15" cy="12" r="2" strokeWidth="1.5" fill="white" />
+              <line x1="3" y1="18" x2="21" y2="18" strokeLinecap="round" />
+              <circle cx="6" cy="18" r="2" strokeWidth="1.5" fill="white" />
+            </svg>
+          </button>
         </header>
 
         <main className="grid grid-cols-1 xl:grid-cols-3 gap-6 mt-6">
           <div className="xl:col-span-2 space-y-8">
             <TeamTable
-              title={`Team ${PLAYER1_NAME}`}
-              title2={`Team ${PLAYER2_NAME}`}
+              title={`Team ${data.player1Name}`}
+              title2={`Team ${data.player2Name}`}
               color1={PLAYER1_COLOR}
               color2={PLAYER2_COLOR}
               data={data.team}
@@ -185,8 +293,8 @@ const App: React.FC = () => {
               isTeam
             />
             <TeamTable
-              title={`Box 1 ${PLAYER1_NAME}`}
-              title2={`Box 1 ${PLAYER2_NAME}`}
+              title={`Box 1 ${data.player1Name}`}
+              title2={`Box 1 ${data.player2Name}`}
               color1={PLAYER1_COLOR}
               color2={PLAYER2_COLOR}
               data={data.box}
@@ -200,16 +308,19 @@ const App: React.FC = () => {
             <InfoPanel 
               levelCaps={data.levelCaps}
               stats={data.stats}
+              player1Name={data.player1Name}
+              player2Name={data.player2Name}
               onLevelCapChange={handleLevelCapChange}
               onStatChange={handleStatChange}
               onNestedStatChange={handleNestedStatChange}
             />
             <Graveyard 
               graveyard={data.graveyard} 
-              player1Name={PLAYER1_NAME} 
-              player2Name={PLAYER2_NAME} 
+              player1Name={data.player1Name}
+              player2Name={data.player2Name}
               onManualAddClick={() => setIsModalOpen(true)} 
             />
+            <ClearedRoutes routes={clearedRoutes} />
           </div>
         </main>
         

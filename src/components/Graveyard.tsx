@@ -32,15 +32,15 @@ const Graveyard: React.FC<GraveyardProps> = ({ graveyard = [], player1Name = 'Pl
           <div className="space-y-3">
             {graveyard.map((pair) => (
               <div key={pair.id} className="p-2 border border-gray-200 rounded-md bg-gray-50 text-xs">
-                <p className="text-center font-bold text-gray-600 mb-1">Pair from: {pair.route || 'Unknown Route'}</p>
+                <p className="text-center font-bold text-gray-600 mb-1">Gebiet: {pair.route || 'Unbekannte Route'}</p>
                 <div className="grid grid-cols-2 gap-2">
                   <div>
                     <p className="font-bold text-red-600">{player1Name}'s {pair.player1.name || 'Pokemon'}</p>
-                    <p className="text-gray-700">Nickname: {pair.player1.nickname || 'N/A'}</p>
+                    <p className="text-gray-700">Spitzname: {pair.player1.nickname || 'N/A'}</p>
                   </div>
                    <div>
                     <p className="font-bold text-purple-700">{player2Name}'s {pair.player2.name || 'Pokemon'}</p>
-                    <p className="text-gray-700">Nickname: {pair.player2.nickname || 'N/A'}</p>
+                    <p className="text-gray-700">Spitzname: {pair.player2.nickname || 'N/A'}</p>
                   </div>
                 </div>
               </div>

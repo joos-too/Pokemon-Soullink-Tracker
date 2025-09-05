@@ -19,8 +19,6 @@ export const createPokemonPair = (id: number): PokemonPair => ({
 
 export const PLAYER1_COLOR = '#cf5930';
 export const PLAYER2_COLOR = '#693992';
-export const PLAYER1_NAME = 'Jan';
-export const PLAYER2_NAME = 'Felix';
 
 export const INITIAL_STATE: AppState = {
   player1Name: 'Jan',

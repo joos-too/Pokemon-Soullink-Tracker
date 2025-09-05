@@ -2,12 +2,16 @@
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
 import { getAuth } from "firebase/auth";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Read sensitive values from Vite env
+const apiKey = import.meta.env.VITE_FIREBASE_API_KEY as string | undefined;
+if (!apiKey) {
+  throw new Error('Missing VITE_FIREBASE_API_KEY. Define it in your .env file.');
+}
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAAZ6suI45mCkZXABnxsLHAA03_8hbrMPA",
+  apiKey,
   authDomain: "soullink-tracker-d6d9a.firebaseapp.com",
   databaseURL: "https://soullink-tracker-d6d9a-default-rtdb.europe-west1.firebasedatabase.app/",
   projectId: "soullink-tracker-d6d9a",

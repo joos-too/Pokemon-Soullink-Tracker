@@ -19,7 +19,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ player1Name, player2Name, o
         <main className="mt-6 space-y-6">
           <div>
             <label htmlFor="player1Name" className="block text-sm font-bold mb-2" style={{color: PLAYER1_COLOR}}>
-              Player 1 Name
+              Name Spieler 1
             </label>
             <input
               id="player1Name"
@@ -31,7 +31,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ player1Name, player2Name, o
           </div>
           <div>
             <label htmlFor="player2Name" className="block text-sm font-bold mb-2" style={{color: PLAYER2_COLOR}}>
-              Player 2 Name
+              Name Spieler 2
             </label>
             <input
               id="player2Name"

@@ -1,0 +1,35 @@
+import React from 'react';
+
+interface ClearedRoutesProps {
+  routes: string[];
+}
+
+const ClearedRoutes: React.FC<ClearedRoutesProps> = ({ routes }) => {
+  const hasRoutes = routes && routes.length > 0;
+
+  return (
+    <div className="bg-white rounded-lg shadow-md border border-gray-300">
+      <div className="flex justify-center items-center p-2 bg-gray-800">
+        <h2 className="text-center text-white font-press-start text-sm">
+          Abgegraste Gebiete
+        </h2>
+      </div>
+      <div className="p-4 max-h-60 overflow-y-auto">
+        {hasRoutes ? (
+          <ul className="grid grid-cols-1 gap-2 text-sm text-gray-800">
+            {routes.map((r) => (
+              <li key={r} className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-md">
+                {r}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-center text-gray-500 text-sm py-4">Noch keine Routen eingetragen.</p>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default ClearedRoutes;
+
