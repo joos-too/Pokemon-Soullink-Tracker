@@ -1,5 +1,5 @@
 import React from 'react';
-import { PLAYER1_COLOR, PLAYER2_COLOR } from '../constants';
+import { PLAYER1_COLOR, PLAYER2_COLOR } from '@/constants';
 
 interface SettingsPageProps {
   player1Name: string;

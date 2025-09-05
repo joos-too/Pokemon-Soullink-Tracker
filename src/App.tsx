@@ -1,37 +1,58 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
-import type { AppState, PokemonPair, LevelCap } from './types';
-import { INITIAL_STATE, PLAYER1_NAME, PLAYER2_NAME, PLAYER1_COLOR, PLAYER2_COLOR } from './constants';
-import TeamTable from './components/TeamTable';
-import InfoPanel from './components/InfoPanel';
-import Graveyard from './components/Graveyard';
+import type { AppState, PokemonPair, LevelCap } from '@/types';
+import { INITIAL_STATE, PLAYER1_NAME, PLAYER2_NAME, PLAYER1_COLOR, PLAYER2_COLOR } from '@/constants';
+import TeamTable from '@/src/components/TeamTable';
+import InfoPanel from '@/src/components/InfoPanel';
+import Graveyard from '@/src/components/Graveyard';
+import AddLostPokemonModal from '@/src/components/AddLostPokemonModal';
+import LoginPage from '@/src/components/LoginPage';
+import { db, auth } from '@/src/firebaseConfig';
+import { ref, onValue, set } from "firebase/database";
+import { onAuthStateChanged, User, signOut } from "firebase/auth";
 
 const App: React.FC = () => {
-  const [data, setData] = useState<AppState>(() => {
-    try {
-      const savedData = localStorage.getItem('soullinkData');
-      return savedData ? JSON.parse(savedData) : INITIAL_STATE;
-    } catch (error) {
-      console.error("Error loading data from localStorage", error);
-      return INITIAL_STATE;
-    }
-  });
+  const [data, setData] = useState<AppState>(INITIAL_STATE);
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    try {
-      localStorage.setItem('soullinkData', JSON.stringify(data));
-    } catch (error) {
-      console.error("Error saving data to localStorage", error);
-    }
-  }, [data]);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+      setLoading(false);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    if (!user) return;
+
+    const dbRef = ref(db, '/');
+    onValue(dbRef, (snapshot) => {
+      const dbData = snapshot.val();
+      if (dbData) {
+        setData(dbData);
+      }
+    });
+  }, [user]);
+
+  useEffect(() => {
+    if (!user) return;
+    
+    const dbRef = ref(db, '/');
+    set(dbRef, data);
+  }, [data, user]);
 
   const handleReset = () => {
-    if (window.confirm('Are you sure you want to reset all data? This cannot be undone.')) {
+    if (window.confirm('Bist du sicher, dass du alle Daten zurücksetzen möchtest? Dieser Schritt kann nicht rückgängig gemacht werden.')) {
       setData(INITIAL_STATE);
     }
   };
 
-  // FIX: Corrected the function signature for updateNestedState to resolve generic type inference issues.
+  const handleLogout = () => {
+    signOut(auth);
+  };
+
   const updateNestedState = (
     setter: React.Dispatch<React.SetStateAction<AppState>>,
     key: keyof AppState,
@@ -119,15 +140,35 @@ const App: React.FC = () => {
     }));
   }, []);
 
+  const handleManualAddToGraveyard = (pair: PokemonPair) => {
+    setData(prev => ({
+      ...prev,
+      graveyard: [...prev.graveyard, pair],
+    }));
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!user) {
+    return <LoginPage />;
+  }
 
   return (
     <div className="bg-[#f0f0f0] min-h-screen p-2 sm:p-4 md:p-8 text-gray-800">
+      {isModalOpen && (
+        <AddLostPokemonModal 
+          onClose={() => setIsModalOpen(false)}
+          onAddPair={handleManualAddToGraveyard}
+        />
+      )}
       <div className="max-w-[1920px] mx-auto bg-white shadow-lg p-4 rounded-lg">
         <header className="text-center py-4 border-b-2 border-gray-300">
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-press-start tracking-tighter">
-            {PLAYER1_NAME} &amp; {PLAYER2_NAME} Soullink
+            {PLAYER1_NAME} & {PLAYER2_NAME} Soullink
           </h1>
-          <p className="text-sm text-gray-500 mt-2">Pokémon Schwarz 2 Challenge Tracker</p>
+          <p className="text-sm text-gray-500 mt-2">Pokemon Schwarz & Weiß - Challenge Tracker</p>
         </header>
 
         <main className="grid grid-cols-1 xl:grid-cols-3 gap-6 mt-6">
@@ -163,7 +204,12 @@ const App: React.FC = () => {
               onStatChange={handleStatChange}
               onNestedStatChange={handleNestedStatChange}
             />
-            <Graveyard graveyard={data.graveyard} />
+            <Graveyard 
+              graveyard={data.graveyard} 
+              player1Name={PLAYER1_NAME} 
+              player2Name={PLAYER2_NAME} 
+              onManualAddClick={() => setIsModalOpen(true)} 
+            />
           </div>
         </main>
         
@@ -172,9 +218,14 @@ const App: React.FC = () => {
               onClick={handleReset}
               className="bg-red-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-red-700 transition-colors shadow-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
             >
-              Reset Tracker
+              Tracker zurücksetzen
             </button>
-            <p className="text-xs text-gray-400 mt-3">Doc von der einzig wahren Pokemonmeisterin Jenno aka. Louki</p>
+            <button 
+              onClick={handleLogout}
+              className="bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 ml-4"
+            >
+              Logout
+            </button>
         </footer>
       </div>
     </div>

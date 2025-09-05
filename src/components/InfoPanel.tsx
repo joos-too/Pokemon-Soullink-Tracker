@@ -1,7 +1,7 @@
 import React from 'react';
-import type { LevelCap, Stats } from '../types';
+import type { LevelCap, Stats } from '@/types';
 import EditableCell from './EditableCell';
-import { PLAYER1_COLOR, PLAYER2_COLOR } from '../constants';
+import { PLAYER1_COLOR, PLAYER2_COLOR } from '@/constants';
 
 interface InfoPanelProps {
     player1Name: string;
