@@ -1,0 +1,42 @@
+export interface Pokemon {
+  name: string;
+  nickname: string;
+  type1: string;
+  type2: string;
+}
+
+export interface PokemonPair {
+  id: number;
+  player1: Pokemon;
+  player2: Pokemon;
+  route: string;
+}
+
+export interface LevelCap {
+  id: number;
+  arena: string;
+  level: string;
+}
+
+export interface Stats {
+  runs: number;
+  best: number;
+  top4Items: {
+    player1: number;
+    player2: number;
+  };
+  deaths: {
+    player1: number;
+    player2: number;
+  };
+}
+
+export interface AppState {
+  player1Name: string;
+  player2Name: string;
+  team: PokemonPair[];
+  box: PokemonPair[];
+  graveyard: PokemonPair[];
+  levelCaps: LevelCap[];
+  stats: Stats;
+}
