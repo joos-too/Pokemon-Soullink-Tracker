@@ -3,8 +3,8 @@ import type { PokemonPair } from '@/types';
 import EditableCell from './EditableCell';
 
 interface TeamTableProps {
-  player1Name: string;
-  player2Name: string;
+  title: string;
+  title2: string;
   color1: string;
   color2: string;
   data: PokemonPair[];
@@ -13,7 +13,7 @@ interface TeamTableProps {
   onAddToGraveyard: (pair: PokemonPair) => void;
 }
 
-const TeamTable: React.FC<TeamTableProps> = ({player1Name, player2Name, color1, color2, data, onPokemonChange, onRouteChange, onAddToGraveyard }) => {
+const TeamTable: React.FC<TeamTableProps> = ({ title, title2, color1, color2, data, onPokemonChange, onRouteChange, onAddToGraveyard }) => {
   const HeaderCell: React.FC<{ children: React.ReactNode; className?: string; color?: string; colSpan?: number }> = ({ children, className = '', color, colSpan }) => (
     <th className={`p-2 font-press-start text-[10px] text-white whitespace-nowrap ${className}`} style={{ backgroundColor: color }} colSpan={colSpan}>
       {children}
@@ -25,8 +25,8 @@ const TeamTable: React.FC<TeamTableProps> = ({player1Name, player2Name, color1, 
       <table className="w-full border-collapse">
         <thead>
           <tr>
-            <HeaderCell color={color1} colSpan={3}>{`Team ${player1Name}`}</HeaderCell>
-            <HeaderCell color={color2} colSpan={2}>{`Team ${player2Name}`}</HeaderCell>
+            <HeaderCell color={color1} colSpan={3}>{title}</HeaderCell>
+            <HeaderCell color={color2} colSpan={2}>{title2}</HeaderCell>
             <th className="p-2 bg-green-600 text-white font-press-start text-[10px] text-center">Gebiet</th>
             <th className="p-2 bg-gray-700"></th>
           </tr>

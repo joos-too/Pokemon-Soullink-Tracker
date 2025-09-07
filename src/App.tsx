@@ -311,19 +311,18 @@ const App: React.FC = () => {
                 <main className="grid grid-cols-1 xl:grid-cols-3 gap-6 mt-6">
                     <div className="xl:col-span-2 space-y-8">
                         <TeamTable
-                            player1name={data.player1Name}
-                            player2name={data.player2Name}
+                            title={`Team ${data.player1Name}`}
+                            title2={`Team ${data.player2Name}`}
                             color1={PLAYER1_COLOR}
                             color2={PLAYER2_COLOR}
                             data={data.team}
                             onPokemonChange={handleTeamChange}
                             onRouteChange={handleRouteChange}
                             onAddToGraveyard={handleAddToGraveyard}
-                            isTeam
                         />
                         <TeamTable
-                            player1name={data.player1Name}
-                            player2name={data.player2Name}
+                            title={`Box ${data.player1Name}`}
+                            title2={`Box ${data.player2Name}`}
                             color1={PLAYER1_COLOR}
                             color2={PLAYER2_COLOR}
                             data={data.box}
