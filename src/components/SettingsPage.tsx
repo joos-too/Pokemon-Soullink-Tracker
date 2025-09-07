@@ -13,7 +13,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ player1Name, player2Name, o
     <div className="bg-[#f0f0f0] min-h-screen flex items-center justify-center p-4">
       <div className="w-full max-w-md mx-auto bg-white shadow-lg p-6 rounded-lg">
         <header className="text-center pb-4 border-b border-gray-200">
-          <h1 className="text-2xl font-bold font-press-start">Settings</h1>
+          <h1 className="text-2xl font-bold font-press-start">Einstellungen</h1>
         </header>
         
         <main className="mt-6 space-y-6">
@@ -48,7 +48,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ player1Name, player2Name, o
             onClick={onBack}
             className="bg-gray-600 text-white font-bold py-2 px-8 rounded-lg hover:bg-gray-700 transition-colors shadow-md focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
           >
-            Back to Tracker
+            Zurück zum Tracker
           </button>
         </footer>
       </div>

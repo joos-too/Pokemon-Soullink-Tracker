@@ -18,12 +18,25 @@ export const createPokemonPair = (id: number): PokemonPair => ({
 export const PLAYER1_COLOR = '#cf5930';
 export const PLAYER2_COLOR = '#693992';
 
+export const DEFAULT_RULES: string[] = [
+  'Pro Route/Gebiet darf nur das erste Pokémon gefangen werden.',
+  'Besiegte Pokémon gelten als verstorben und müssen in eine Grab-Box.',
+  'Jedes Pokémon erhält einen Spitznamen, den der Seelenpartner auswählt.',
+  'Pokémon, Items, und Trainer sind gerandomized.',
+  'Das Level des stärksten Pokémon des Arenaleiters darf nicht überschritten werden.',
+  "Kampffolge wird auf 'Folgen' gestellt.",
+  'Gegenstände im Kampf nur, wenn der Gegner auch einen verwendet.',
+  'Shiny Pokémon dürfen immer gefangen und ausgetauscht werden.',
+  'Challenge verloren, wenn das komplette Team eines Spielers besiegt wurde.'
+];
+
 export const INITIAL_STATE: AppState = {
   player1Name: 'Jan',
   player2Name: 'Felix',
   team: [],
   box: [],
   graveyard: [],
+  rules: DEFAULT_RULES,
   levelCaps: [
     { id: 1, arena: '1. Arena', level: '14/12', done: false },
     { id: 2, arena: '2. Arena', level: '20/18', done: false },

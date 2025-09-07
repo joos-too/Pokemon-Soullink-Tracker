@@ -36,6 +36,7 @@ export interface AppState {
   team: PokemonPair[];
   box: PokemonPair[];
   graveyard: PokemonPair[];
+  rules: string[];
   levelCaps: LevelCap[];
   stats: Stats;
 }

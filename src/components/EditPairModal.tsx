@@ -12,6 +12,7 @@ interface EditPairModalProps {
   }) => void;
   player1Label: string;
   player2Label: string;
+  mode?: 'create' | 'edit';
   initial: {
     route: string;
     p1Name: string;
@@ -28,6 +29,7 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
   player1Label,
   player2Label,
   initial,
+  mode = 'edit',
 }) => {
   const [route, setRoute] = useState(initial.route || '');
   const [p1Name, setP1Name] = useState(initial.p1Name || '');
@@ -63,12 +65,15 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
   };
 
   const isValid = route.trim().length > 0 && p1Name.trim().length > 0 && p2Name.trim().length > 0;
+  const title = mode === 'create' ? 'Seelenlink hinzufügen' : 'Seelenlink bearbeiten';
+  const cancelLabel = mode === 'create' ? 'Zurück' : 'Abbrechen';
+  const submitLabel = mode === 'create' ? 'Hinzufügen' : 'Speichern';
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-lg">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold">Pokémon bearbeiten/hinzufügen</h2>
+          <h2 className="text-xl font-bold">{title}</h2>
           <button onClick={onClose} className="text-gray-500 hover:text-gray-800">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -138,7 +143,7 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
               onClick={onClose}
               className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50"
             >
-              Abbrechen
+              {cancelLabel}
             </button>
             <button
               type="submit"
@@ -146,7 +151,7 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
               className={`bg-indigo-600 text-white font-bold py-2 px-6 rounded-lg transition-colors shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 ${isValid ? 'hover:bg-indigo-700' : 'opacity-50 cursor-not-allowed'}`}
               aria-disabled={!isValid}
             >
-              Speichern
+              {submitLabel}
             </button>
           </div>
         </form>

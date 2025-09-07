@@ -215,6 +215,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                 onSave={handleSave}
                 player1Label={player1Name}
                 player2Label={player2Name}
+                mode="edit"
                 initial={editInitial || {route: '', p1Name: '', p1Nickname: '', p2Name: '', p2Nickname: ''}}
             />
             <EditPairModal
@@ -223,6 +224,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                 onSave={(payload) => { onAddPair(payload); setAddOpen(false); }}
                 player1Label={player1Name}
                 player2Label={player2Name}
+                mode="create"
                 initial={{route: '', p1Name: '', p1Nickname: '', p2Name: '', p2Nickname: ''}}
             />
         </div>

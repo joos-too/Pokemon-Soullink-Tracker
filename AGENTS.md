@@ -17,6 +17,7 @@
 - TypeScript + React function components; prefer hooks.
 - Indentation: 2 spaces; keep lines focused and readable.
 - Naming: `PascalCase` for components/files in `src/components/`, `camelCase` for vars/props, UPPER_SNAKE for constants when appropriate.
+- User facing text in German
 - Imports: use alias `@` for absolute paths (examples: `import TeamTable from '@/src/components/TeamTable'`, `import { INITIAL_STATE } from '@/constants'`, `import type { AppState } from '@/types'`).
 - Types: avoid `any`; extend interfaces in `types.ts` where feasible.
 

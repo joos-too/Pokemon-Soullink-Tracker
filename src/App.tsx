@@ -2,7 +2,7 @@ import React, {useState, useEffect, useCallback, useRef, useMemo} from 'react';
 import {FiLogOut, FiSettings, FiRotateCw} from 'react-icons/fi';
 import { FaGithub } from 'react-icons/fa';
 import type {AppState, PokemonPair} from '@/types';
-import {INITIAL_STATE, PLAYER1_COLOR, PLAYER2_COLOR} from '@/constants';
+import {INITIAL_STATE, PLAYER1_COLOR, PLAYER2_COLOR, DEFAULT_RULES} from '@/constants';
 import TeamTable from '@/src/components/TeamTable';
 import InfoPanel from '@/src/components/InfoPanel';
 import Graveyard from '@/src/components/Graveyard';
@@ -53,6 +53,7 @@ const App: React.FC = () => {
           team: sanitizeArray(safe.team, base.team),
           box: sanitizeArray(safe.box, base.box),
           graveyard: sanitizeArray(safe.graveyard, base.graveyard),
+          rules: Array.isArray(safe.rules) ? safe.rules.map((r: any) => (typeof r === 'string' ? r : '')).filter((r: string) => r.trim().length > 0) : base.rules ?? DEFAULT_RULES,
           levelCaps: Array.isArray(safe.levelCaps)
             ? safe.levelCaps.map((cap: any, i: number) => ({
                 id: Number(cap?.id ?? base.levelCaps[i]?.id ?? i + 1),
@@ -145,6 +146,7 @@ const App: React.FC = () => {
         } else {
             setData(prev => ({
                 ...INITIAL_STATE,
+                rules: prev.rules, // keep rules on non-full reset
                 stats: {
                     ...prev.stats,
                     runs: prev.stats.runs, // keep current run number
@@ -500,6 +502,8 @@ const App: React.FC = () => {
                             onLevelCapToggle={handleLevelCapToggle}
                             onStatChange={handleStatChange}
                             onNestedStatChange={handleNestedStatChange}
+                            rules={data.rules}
+                            onRulesChange={(rules) => setData(prev => ({ ...prev, rules }))}
                         />
                         <Graveyard
                             graveyard={data.graveyard}
