@@ -1,0 +1,12 @@
+/* Hide default number input spin buttons in WebKit browsers */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Hide number input arrows in Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
