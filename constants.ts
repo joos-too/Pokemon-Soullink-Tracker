@@ -30,7 +30,7 @@ export const DEFAULT_RULES: string[] = [
     'Das Level-Cap darf nicht überschritten werden (1 Pokémon auf höherem Level, restliche auf niedrigerem). Überlevelte Pokémon sowie ihr Seelenpartner dürfen nicht verwendet werden, bis der Level-Cap ansteigt.',
     'Sonderbonbons dürfen direkt VOR Arenaleiter/Top4/Champion verwendet werden. Sie dürfen außerdem verwendet werden um Pokémon auf das Level-Cap der letzten Arena zu bringen.',
     "Kampffolge wird auf 'Folgen' gestellt.",
-    'Gegenstände im Kampf nur, wenn der Gegner auch einen verwendet. In der Top 4 max. 20 außerhalb der Kämpfe',
+    'Gegenstände im Kampf nur, wenn der Gegner auch einen verwendet. In der Top 4 max. 20 Items außerhalb von Kämpfen',
     'Shiny Pokémon dürfen immer gefangen und nach belieben ausgetauscht werden.',
     'Challenge verloren, wenn das komplette Team eines Spielers besiegt wurde.',
     'Challenge geschafft, wenn der Champ der Region besiegt wurde.',

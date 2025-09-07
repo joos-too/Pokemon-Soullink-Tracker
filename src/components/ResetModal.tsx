@@ -51,7 +51,7 @@ const ResetModal: React.FC<ResetModalProps> = ({ isOpen, onClose, onConfirm }) =
             />
             <div>
               <div className="font-medium">Alles zurücksetzen</div>
-              <div className="text-xs text-gray-600">Gesamten Tracker inkl. Statistiken zurücksetzen.</div>
+              <div className="text-xs text-gray-600">Gesamten Tracker inkl. Statistiken und Regeln zurücksetzen.</div>
             </div>
           </label>
         </div>
