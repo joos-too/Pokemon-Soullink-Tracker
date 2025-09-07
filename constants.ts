@@ -19,15 +19,24 @@ export const PLAYER1_COLOR = '#cf5930';
 export const PLAYER2_COLOR = '#693992';
 
 export const DEFAULT_RULES: string[] = [
-  'Pro Route/Gebiet darf nur das erste Pokémon gefangen werden.',
-  'Besiegte Pokémon gelten als verstorben und müssen in eine Grab-Box.',
-  'Jedes Pokémon erhält einen Spitznamen, den der Seelenpartner auswählt.',
-  'Pokémon, Items, und Trainer sind gerandomized.',
-  'Das Level des stärksten Pokémon des Arenaleiters darf nicht überschritten werden.',
-  "Kampffolge wird auf 'Folgen' gestellt.",
-  'Gegenstände im Kampf nur, wenn der Gegner auch einen verwendet.',
-  'Shiny Pokémon dürfen immer gefangen und ausgetauscht werden.',
-  'Challenge verloren, wenn das komplette Team eines Spielers besiegt wurde.'
+    'Pro Route/Gebiet darf nur das erste Pokémon gefangen werden. Diese Pokémon ist mit dem Pokémon des Partners verbunden.',
+    'Pokémon, die bereits gefangen wurden (oder deren Evolutionsreihe) zählen nicht als Routen Pokémon und dürfen gererolled werden. Es gibt max. 2 weitere Versuche.',
+    'Geschenkte/Statische Pokémon & Fossile gelten nicht als Gebietspokémon und dürfen verwendet werden (auch wenn bereits gefangen, auch mit Partner verbunden).',
+    'Wenn ein Pokémon beim Fangversuch flieht/stirbt, zählt das Gebiet als verloren. Der Seelenpartner muss freigelassen werden.',
+    'Jedes Pokémon erhält einen Spitznamen, den der Seelenpartner auswählt.',
+    'Besiegte Pokémon gelten als verstorben und müssen so wie ihr Seelenpartner in eine Grab-Box. (Wenn bereits im Kampf, verwendung bis zum Ende)',
+    'Pokémon, Items, und Trainer sind gerandomized.',
+    'Der Bonusshop ist gerandomized, jedes Item darf max. 1 gekauft werden.',
+    'Das Level-Cap darf nicht überschritten werden (1 Pokémon auf höherem Level, restliche auf niedrigerem). Überlevelte Pokémon sowie ihr Seelenpartner dürfen nicht verwendet werden, bis der Level-Cap ansteigt.',
+    'Sonderbonbons dürfen direkt VOR Arenaleiter/Top4/Champion verwendet werden. Sie dürfen außerdem verwendet werden um Pokémon auf das Level-Cap der letzten Arena zu bringen.',
+    "Kampffolge wird auf 'Folgen' gestellt.",
+    'Gegenstände im Kampf nur, wenn der Gegner auch einen verwendet. In der Top 4 max. 20 außerhalb der Kämpfe',
+    'Shiny Pokémon dürfen immer gefangen und nach belieben ausgetauscht werden.',
+    'Challenge verloren, wenn das komplette Team eines Spielers besiegt wurde.',
+    'Challenge geschafft, wenn der Champ der Region besiegt wurde.',
+    'Challenge startet sobald man die ersten Pokébälle erhalten hat.',
+    'Kein Googlen während Arena/TOP-4/Rivale/Boss-Kämpfen',
+    'Max. 2 legendäre Pokémon pro Team',
 ];
 
 export const INITIAL_STATE: AppState = {

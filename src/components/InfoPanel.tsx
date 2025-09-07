@@ -50,79 +50,6 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
 
     return (
         <div className="space-y-6">
-            <div className="bg-white rounded-lg shadow-md border border-gray-300">
-                <div className="relative">
-                    <h2 className="text-center p-2 text-white font-press-start text-sm" style={{backgroundColor: '#34a853'}}>
-                        Regeln
-                    </h2>
-                    <div className="absolute right-2 top-1.5 flex items-center gap-2">
-                        {!isEditingRules ? (
-                            <button
-                                type="button"
-                                onClick={startEditRules}
-                                className="px-2 py-1 rounded-md text-xs font-semibold bg-green-600 text-white hover:bg-green-700 inline-flex items-center gap-1 shadow"
-                                title="Regeln bearbeiten"
-                            >
-                                <FiEdit size={14}/> Bearbeiten
-                            </button>
-                        ) : (
-                            <div className="flex items-center gap-2">
-                                <button
-                                    type="button"
-                                    onClick={cancelEditRules}
-                                    className="px-2 py-1 rounded-md text-xs font-semibold bg-green-600 text-white hover:bg-green-700 inline-flex items-center gap-1 shadow"
-                                    title="Abbrechen"
-                                >
-                                    <FiX size={14}/> Abbrechen
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={saveEditRules}
-                                    className="px-2 py-1 rounded-md text-xs font-semibold bg-green-600 text-white hover:bg-green-700 inline-flex items-center gap-1 shadow"
-                                    title="Speichern"
-                                >
-                                    <FiSave size={14}/> Speichern
-                                </button>
-                            </div>
-                        )}
-                    </div>
-                </div>
-
-                {!isEditingRules ? (
-                    <ul className="p-4 space-y-2 text-xs list-decimal list-inside text-gray-700">
-                        {rules.map((rule, index) => <li key={index}>{rule}</li>)}
-                    </ul>
-                ) : (
-                    <div className="p-4 space-y-2">
-                        {draftRules.map((rule, index) => (
-                            <div key={index} className="flex items-start gap-2">
-                                <span className="mt-2 text-xs text-gray-500 w-4 text-right">{index + 1}.</span>
-                                <input
-                                    type="text"
-                                    value={rule}
-                                    onChange={(e) => {
-                                        const val = e.target.value;
-                                        setDraftRules(prev => prev.map((r, i) => i === index ? val : r));
-                                    }}
-                                    placeholder={`Regel ${index + 1}`}
-                                    className="flex-1 px-2 py-1.5 border border-gray-300 rounded text-sm"
-                                />
-                            </div>
-                        ))}
-                        <div className="pt-2">
-                            <button
-                                type="button"
-                                onClick={addNewRule}
-                                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-semibold border border-gray-300 text-gray-800 hover:bg-gray-50"
-                                title="Neue Regel hinzufügen"
-                            >
-                                <FiPlus size={14}/> Neue Regel
-                            </button>
-                        </div>
-                    </div>
-                )}
-            </div>
-
             <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-4">
                     {/* Current Level Cap indicator */}
@@ -300,6 +227,79 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                         />
                     </div>
                 </div>
+            </div>
+
+            <div className="bg-white rounded-lg shadow-md border border-gray-300">
+                <div className="relative">
+                    <h2 className="text-center p-2 text-white font-press-start text-sm" style={{backgroundColor: '#34a853'}}>
+                        Regeln
+                    </h2>
+                    <div className="absolute right-2 top-1.5 flex items-center gap-2">
+                        {!isEditingRules ? (
+                            <button
+                                type="button"
+                                onClick={startEditRules}
+                                className="px-2 py-1 rounded-md text-xs font-semibold bg-green-600 text-white hover:bg-green-700 inline-flex items-center gap-1 shadow"
+                                title="Regeln bearbeiten"
+                            >
+                                <FiEdit size={14}/> Bearbeiten
+                            </button>
+                        ) : (
+                            <div className="flex items-center gap-2">
+                                <button
+                                    type="button"
+                                    onClick={cancelEditRules}
+                                    className="px-2 py-1 rounded-md text-xs font-semibold bg-green-600 text-white hover:bg-green-700 inline-flex items-center gap-1 shadow"
+                                    title="Abbrechen"
+                                >
+                                    <FiX size={14}/> Abbrechen
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={saveEditRules}
+                                    className="px-2 py-1 rounded-md text-xs font-semibold bg-green-600 text-white hover:bg-green-700 inline-flex items-center gap-1 shadow"
+                                    title="Speichern"
+                                >
+                                    <FiSave size={14}/> Speichern
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                {!isEditingRules ? (
+                    <ul className="p-4 space-y-2 text-xs list-decimal list-inside text-gray-700">
+                        {rules.map((rule, index) => <li key={index}>{rule}</li>)}
+                    </ul>
+                ) : (
+                    <div className="p-4 space-y-2">
+                        {draftRules.map((rule, index) => (
+                            <div key={index} className="flex items-start gap-2">
+                                <span className="mt-2 text-xs text-gray-500 w-4 text-right">{index + 1}.</span>
+                                <input
+                                    type="text"
+                                    value={rule}
+                                    onChange={(e) => {
+                                        const val = e.target.value;
+                                        setDraftRules(prev => prev.map((r, i) => i === index ? val : r));
+                                    }}
+                                    placeholder={`Regel ${index + 1}`}
+                                    className="flex-1 px-2 py-1.5 border border-gray-300 rounded text-sm"
+                                />
+                            </div>
+                        ))}
+                        <div className="pt-2">
+                            <button
+                                type="button"
+                                onClick={addNewRule}
+                                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-semibold border border-gray-300 text-gray-800 hover:bg-gray-50"
+                                title="Neue Regel hinzufügen"
+                            >
+                                <FiPlus size={14}/> Neue Regel
+                            </button>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );
