@@ -10,6 +10,7 @@ import ClearedRoutes from '@/src/components/ClearedRoutes';
 import AddLostPokemonModal from '@/src/components/AddLostPokemonModal';
 import LoginPage from '@/src/components/LoginPage';
 import SettingsPage from '@/src/components/SettingsPage';
+import ResetModal from '@/src/components/ResetModal';
 import {db, auth} from '@/src/firebaseConfig';
 import {ref, onValue, set, get} from "firebase/database";
 import {onAuthStateChanged, User, signOut} from "firebase/auth";
@@ -20,6 +21,7 @@ const App: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [showSettings, setShowSettings] = useState(false);
+    const [showResetModal, setShowResetModal] = useState(false);
     const [dataLoaded, setDataLoaded] = useState(false);
     const skipNextWriteRef = useRef(false);
 
@@ -43,15 +45,22 @@ const App: React.FC = () => {
         };
         const safe = (incoming && typeof incoming === 'object') ? incoming : {};
         return {
-            player1Name: safe.player1Name ?? base.player1Name,
-            player2Name: safe.player2Name ?? base.player2Name,
-            team: sanitizeArray(safe.team, base.team),
-            box: sanitizeArray(safe.box, base.box),
-            graveyard: sanitizeArray(safe.graveyard, base.graveyard),
-            levelCaps: Array.isArray(safe.levelCaps) ? safe.levelCaps : base.levelCaps,
-            stats: {
-                runs: safe.stats?.runs ?? base.stats.runs,
-                best: safe.stats?.best ?? base.stats.best,
+          player1Name: safe.player1Name ?? base.player1Name,
+          player2Name: safe.player2Name ?? base.player2Name,
+          team: sanitizeArray(safe.team, base.team),
+          box: sanitizeArray(safe.box, base.box),
+          graveyard: sanitizeArray(safe.graveyard, base.graveyard),
+          levelCaps: Array.isArray(safe.levelCaps)
+            ? safe.levelCaps.map((cap: any, i: number) => ({
+                id: Number(cap?.id ?? base.levelCaps[i]?.id ?? i + 1),
+                arena: typeof cap?.arena === 'string' ? cap.arena : (base.levelCaps[i]?.arena ?? ''),
+                level: typeof cap?.level === 'string' ? cap.level : (base.levelCaps[i]?.level ?? ''),
+                done: Boolean(cap?.done),
+              }))
+            : base.levelCaps,
+          stats: {
+            runs: safe.stats?.runs ?? base.stats.runs,
+            best: safe.stats?.best ?? base.stats.best,
                 top4Items: {
                     player1: safe.stats?.top4Items?.player1 ?? base.stats.top4Items.player1,
                     player2: safe.stats?.top4Items?.player2 ?? base.stats.top4Items.player2,
@@ -124,17 +133,25 @@ const App: React.FC = () => {
     }, [data, user, dataLoaded]);
 
     const handleReset = () => {
-        if (window.confirm('Bist du sicher, dass du alle Daten zurücksetzen möchtest? Dieser Schritt kann nicht rückgängig gemacht werden.')) {
+        setShowResetModal(true);
+    };
+
+    const handleConfirmReset = (mode: 'current' | 'all') => {
+        if (mode === 'all') {
+            setData(INITIAL_STATE);
+        } else {
             setData(prev => ({
                 ...INITIAL_STATE,
                 stats: {
-                    ...INITIAL_STATE.stats,
-                    // preserve current run count and best gym count
-                    runs: prev.stats.runs,
-                    best: prev.stats.best,
+                    ...prev.stats,
+                    runs: prev.stats.runs, // keep current run number
+                    best: prev.stats.best, // keep persisted best
+                    top4Items: { player1: 0, player2: 0 },
+                    deaths: { player1: 0, player2: 0 },
                 },
             }));
         }
+        setShowResetModal(false);
     };
 
     const handleLogout = () => {
@@ -186,7 +203,14 @@ const App: React.FC = () => {
     }, []);
 
     const handleLevelCapChange = useCallback((index: number, value: string) => {
-        updateNestedState(setData, 'levelCaps', index, 'level', null, value);
+      updateNestedState(setData, 'levelCaps', index, 'level', null, value);
+    }, []);
+
+    const handleLevelCapToggle = useCallback((index: number) => {
+        setData(prev => ({
+            ...prev,
+            levelCaps: prev.levelCaps.map((c, i) => i === index ? { ...c, done: !c.done } : c)
+        }));
     }, []);
 
     const handleStatChange = (stat: keyof AppState['stats'], value: string) => {
@@ -266,8 +290,36 @@ const App: React.FC = () => {
         return Array.from(new Set(routes)).sort((a, b) => a.localeCompare(b));
     }, [data]);
 
+    // Compute current best from completed arenas
+    const currentBest = useMemo(() => {
+        // Count only the first 8 arenas (exclude Top 4 and Champion)
+        return Array.isArray(data.levelCaps)
+            ? data.levelCaps.slice(0, 8).filter((c) => c && (c as any).done).length
+            : 0;
+    }, [data.levelCaps]);
+
+    // Persist best if current progress exceeds stored best
+    useEffect(() => {
+        if (currentBest > (data.stats?.best ?? 0)) {
+            setData(prev => ({
+                ...prev,
+                stats: {
+                    ...prev.stats,
+                    best: currentBest,
+                }
+            }));
+        }
+    }, [currentBest]);
+
     if (loading) {
-        return <div>Loading...</div>;
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-[#f0f0f0]">
+                <div className="flex flex-col items-center gap-3" role="status" aria-live="polite">
+                    <div className="h-10 w-10 border-4 border-gray-300 border-t-blue-600 rounded-full animate-spin" />
+                    <span className="text-gray-600 text-sm">Loading…</span>
+                </div>
+            </div>
+        );
     }
 
     if (!user) {
@@ -293,6 +345,11 @@ const App: React.FC = () => {
                 onAdd={handleManualAddFromModal}
                 player1Name={data.player1Name}
                 player2Name={data.player2Name}
+            />
+            <ResetModal
+                isOpen={showResetModal}
+                onClose={() => setShowResetModal(false)}
+                onConfirm={handleConfirmReset}
             />
             <div className="max-w-[1920px] mx-auto bg-white shadow-lg p-4 rounded-lg">
                 <header className="relative text-center py-4 border-b-2 border-gray-300">
@@ -355,10 +412,11 @@ const App: React.FC = () => {
                     <div className="xl:col-span-1 space-y-6">
                         <InfoPanel
                             levelCaps={data.levelCaps}
-                            stats={data.stats}
+                            stats={{...data.stats, best: Math.max(data.stats.best, currentBest)}}
                             player1Name={data.player1Name}
                             player2Name={data.player2Name}
                             onLevelCapChange={handleLevelCapChange}
+                            onLevelCapToggle={handleLevelCapToggle}
                             onStatChange={handleStatChange}
                             onNestedStatChange={handleNestedStatChange}
                         />
@@ -380,7 +438,7 @@ const App: React.FC = () => {
                         title="View on GitHub"
                     >
                         <FaGithub size={18} aria-hidden="true" />
-                        <span className="text-sm">made by joos-too</span>
+                        <span className="text-sm">vibecoded by joos-too</span>
                     </a>
                 </footer>
             </div>

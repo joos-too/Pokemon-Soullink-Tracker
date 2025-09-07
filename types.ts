@@ -14,6 +14,7 @@ export interface LevelCap {
   id: number;
   arena: string;
   level: string;
+  done?: boolean;
 }
 
 export interface Stats {
