@@ -13,7 +13,7 @@ const Graveyard: React.FC<GraveyardProps> = ({ graveyard = [], player1Name = 'Pl
     <div className="bg-white rounded-lg shadow-md border border-gray-300">
       <div className="flex justify-center items-center p-2 bg-gray-800">
         <h2 className="text-center text-white font-press-start text-sm">
-          Tote / verlorene Pokemon
+          Tote / verlorene Pokémon
         </h2>
         {onManualAddClick && (
           <button 
@@ -35,11 +35,11 @@ const Graveyard: React.FC<GraveyardProps> = ({ graveyard = [], player1Name = 'Pl
                 <p className="text-center font-bold text-gray-600 mb-1">Gebiet: {pair.route || 'Unbekannte Route'}</p>
                 <div className="grid grid-cols-2 gap-2">
                   <div>
-                    <p className="font-bold text-red-600">{player1Name}'s {pair.player1.name || 'Pokemon'}</p>
+                    <p className="font-bold text-red-600">{player1Name}'s {pair.player1.name || 'Pokémon'}</p>
                     <p className="text-gray-700">Spitzname: {pair.player1.nickname || 'N/A'}</p>
                   </div>
                    <div>
-                    <p className="font-bold text-purple-700">{player2Name}'s {pair.player2.name || 'Pokemon'}</p>
+                    <p className="font-bold text-purple-700">{player2Name}'s {pair.player2.name || 'Pokémon'}</p>
                     <p className="text-gray-700">Spitzname: {pair.player2.nickname || 'N/A'}</p>
                   </div>
                 </div>
@@ -47,7 +47,7 @@ const Graveyard: React.FC<GraveyardProps> = ({ graveyard = [], player1Name = 'Pl
             ))}
           </div>
         ) : (
-          <p className="text-center text-gray-500 text-sm py-4">Noch keine tote/verlorene Pokemon.</p>
+          <p className="text-center text-gray-500 text-sm py-4">Noch keine tote/verlorene Pokémon.</p>
         )}
       </div>
     </div>

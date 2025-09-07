@@ -21,8 +21,8 @@ export const PLAYER2_COLOR = '#693992';
 export const INITIAL_STATE: AppState = {
   player1Name: 'Jan',
   player2Name: 'Felix',
-  team: Array.from({ length: 6 }, (_, i) => createPokemonPair(i + 1)),
-  box: Array.from({ length: 30 }, (_, i) => createPokemonPair(i + 1)),
+  team: [],
+  box: [],
   graveyard: [],
   levelCaps: [
     { id: 1, arena: '1. Arena', level: '14/12', done: false },

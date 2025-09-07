@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useCallback, useRef, useMemo} from 'react';
-import { FiTrash2, FiLogOut, FiSettings } from 'react-icons/fi';
+import {FiLogOut, FiSettings, FiRotateCw} from 'react-icons/fi';
 import { FaGithub } from 'react-icons/fa';
 import type {AppState, PokemonPair} from '@/types';
 import {INITIAL_STATE, PLAYER1_COLOR, PLAYER2_COLOR} from '@/constants';
@@ -8,6 +8,7 @@ import InfoPanel from '@/src/components/InfoPanel';
 import Graveyard from '@/src/components/Graveyard';
 import ClearedRoutes from '@/src/components/ClearedRoutes';
 import AddLostPokemonModal from '@/src/components/AddLostPokemonModal';
+import SelectLossModal from '@/src/components/SelectLossModal';
 import LoginPage from '@/src/components/LoginPage';
 import SettingsPage from '@/src/components/SettingsPage';
 import ResetModal from '@/src/components/ResetModal';
@@ -24,6 +25,8 @@ const App: React.FC = () => {
     const [showResetModal, setShowResetModal] = useState(false);
     const [dataLoaded, setDataLoaded] = useState(false);
     const skipNextWriteRef = useRef(false);
+    const [showLossModal, setShowLossModal] = useState(false);
+    const [pendingLossPair, setPendingLossPair] = useState<PokemonPair | null>(null);
 
     // Ensure incoming Firebase data matches our expected shape
     const coerceAppState = useCallback((incoming: any, base: AppState): AppState => {
@@ -237,20 +240,29 @@ const App: React.FC = () => {
     };
 
     const handleAddToGraveyard = useCallback((pair: PokemonPair) => {
+        setPendingLossPair(pair);
+        setShowLossModal(true);
+    }, []);
+
+    const handleConfirmLoss = (who: 'player1' | 'player2') => {
+        if (!pendingLossPair) return;
+        const pair = pendingLossPair;
         setData(prev => ({
             ...prev,
             graveyard: [...prev.graveyard, pair],
-            team: prev.team.map(p => p.id === pair.id ? INITIAL_STATE.team.find(ip => ip.id === pair.id) || p : p),
-            box: prev.box.map(p => p.id === pair.id ? INITIAL_STATE.box.find(ip => ip.id === pair.id) || p : p),
+            team: prev.team.filter(p => p.id !== pair.id),
+            box: prev.box.filter(p => p.id !== pair.id),
             stats: {
                 ...prev.stats,
                 deaths: {
-                    player1: prev.stats.deaths.player1 + 1,
-                    player2: prev.stats.deaths.player2 + 1
+                    player1: prev.stats.deaths.player1 + (who === 'player1' ? 1 : 0),
+                    player2: prev.stats.deaths.player2 + (who === 'player2' ? 1 : 0),
                 }
             }
         }));
-    }, []);
+        setShowLossModal(false);
+        setPendingLossPair(null);
+    };
 
     const handleManualAddToGraveyard = (pair: PokemonPair) => {
         setData(prev => ({
@@ -268,6 +280,39 @@ const App: React.FC = () => {
         };
         handleManualAddToGraveyard(newPair);
         setIsModalOpen(false);
+    };
+
+    const handleAddTeamPair = (payload: { route: string; p1Name: string; p1Nickname: string; p2Name: string; p2Nickname: string; }) => {
+        setData(prev => {
+            if (prev.team.length >= 6) return prev; // enforce 6 max
+            return ({
+                ...prev,
+                team: [
+                    ...prev.team,
+                    {
+                        id: Date.now(),
+                        route: payload.route.trim(),
+                        player1: { name: payload.p1Name.trim(), nickname: payload.p1Nickname.trim() },
+                        player2: { name: payload.p2Name.trim(), nickname: payload.p2Nickname.trim() },
+                    }
+                ]
+            });
+        });
+    };
+
+    const handleAddBoxPair = (payload: { route: string; p1Name: string; p1Nickname: string; p2Name: string; p2Nickname: string; }) => {
+        setData(prev => ({
+            ...prev,
+            box: [
+                ...prev.box,
+                {
+                    id: Date.now(),
+                    route: payload.route.trim(),
+                    player1: { name: payload.p1Name.trim(), nickname: payload.p1Nickname.trim() },
+                    player2: { name: payload.p2Name.trim(), nickname: payload.p2Nickname.trim() },
+                }
+            ]
+        }));
     };
 
     const handleNameChange = (player: 'player1Name' | 'player2Name', name: string) => {
@@ -346,6 +391,14 @@ const App: React.FC = () => {
                 player1Name={data.player1Name}
                 player2Name={data.player2Name}
             />
+            <SelectLossModal
+                isOpen={showLossModal}
+                onClose={() => { setShowLossModal(false); setPendingLossPair(null); }}
+                onConfirm={handleConfirmLoss}
+                pair={pendingLossPair}
+                player1Name={data.player1Name}
+                player2Name={data.player2Name}
+            />
             <ResetModal
                 isOpen={showResetModal}
                 onClose={() => setShowResetModal(false)}
@@ -356,7 +409,7 @@ const App: React.FC = () => {
                     <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-press-start tracking-tighter">
                         {data.player1Name} & {data.player2Name} Soullink
                     </h1>
-                    <p className="text-sm text-gray-500 mt-2">Pokemon Soullink - Challenge Tracker</p>
+                    <p className="text-sm text-gray-500 mt-2">Pokémon Soullink - Challenge Tracker</p>
                     <div className="absolute right-2 sm:right-4 top-2 sm:top-3 flex items-center gap-1 sm:gap-2">
                         <button
                             onClick={handleReset}
@@ -364,7 +417,7 @@ const App: React.FC = () => {
                             aria-label="Tracker zurücksetzen"
                             title="Tracker zurücksetzen"
                         >
-                            <FiTrash2 size={28} />
+                            <FiRotateCw size={28} />
                         </button>
                         <button
                             onClick={() => setShowSettings(true)}
@@ -396,6 +449,19 @@ const App: React.FC = () => {
                             onPokemonChange={handleTeamChange}
                             onRouteChange={handleRouteChange}
                             onAddToGraveyard={handleAddToGraveyard}
+                            player1Name={data.player1Name}
+                            player2Name={data.player2Name}
+                            onAddPair={handleAddTeamPair}
+                            emptyMessage="Noch keine Pokémon im Team"
+                            addDisabled={data.team.length >= 6}
+                            addDisabledReason="Team ist voll (max 6)"
+                            context="team"
+                            onMoveToTeam={() => {}}
+                            onMoveToBox={(pair) => setData(prev => ({
+                                ...prev,
+                                team: prev.team.filter(p => p.id !== pair.id),
+                                box: [...prev.box, pair],
+                            }))}
                         />
                         <TeamTable
                             title={`Box ${data.player1Name}`}
@@ -406,6 +472,21 @@ const App: React.FC = () => {
                             onPokemonChange={handleBoxChange}
                             onRouteChange={handleBoxRouteChange}
                             onAddToGraveyard={handleAddToGraveyard}
+                            player1Name={data.player1Name}
+                            player2Name={data.player2Name}
+                            onAddPair={handleAddBoxPair}
+                            emptyMessage="Noch keine Pokémon in der Box"
+                            context="box"
+                            onMoveToTeam={(pair) => setData(prev => {
+                                if (prev.team.length >= 6) return prev;
+                                return {
+                                    ...prev,
+                                    box: prev.box.filter(p => p.id !== pair.id),
+                                    team: [...prev.team, pair],
+                                };
+                            })}
+                            onMoveToBox={() => {}}
+                            teamIsFull={data.team.length >= 6}
                         />
                     </div>
 

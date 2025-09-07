@@ -1,4 +1,4 @@
-# Pokemon Soullink Tracker
+# Pokémon Soullink Tracker
 
 ## Run Locally
 

@@ -27,8 +27,14 @@ const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({ isOpen, onClo
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onAdd(route, p1Pokemon, p2Pokemon);
+    const tRoute = route.trim();
+    const tP1 = p1Pokemon.trim();
+    const tP2 = p2Pokemon.trim();
+    if (!tRoute || !tP1 || !tP2) return; // extra guard
+    onAdd(tRoute, tP1, tP2);
   };
+
+  const isValid = route.trim().length > 0 && p1Pokemon.trim().length > 0 && p2Pokemon.trim().length > 0;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -89,7 +95,9 @@ const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({ isOpen, onClo
           <div className="mt-6 flex justify-end">
             <button
               type="submit"
-              className="bg-red-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-red-700 transition-colors shadow-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+              disabled={!isValid}
+              className={`bg-red-600 text-white font-bold py-2 px-6 rounded-lg transition-colors shadow-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 ${isValid ? 'hover:bg-red-700' : 'opacity-50 cursor-not-allowed'}`}
+              aria-disabled={!isValid}
             >
               Hinzufügen
             </button>

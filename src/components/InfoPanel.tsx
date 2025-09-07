@@ -25,14 +25,14 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                                  onNestedStatChange
                                              }) => {
     const rules = [
-        "Pro Route/Gebiet darf nur das erste Pokemon gefangen werden.",
-        "Besiegte Pokemon gelten als verstorben und müssen in eine Grab-Box.",
-        "Jedes Pokemon erhält einen Spitznamen, den der Seelenpartner auswählt.",
-        "Pokemon, Items, und Trainer sind gerandomized.",
-        "Das Level des stärksten Pokemons des Arenaleiters darf nicht überschritten werden.",
+        "Pro Route/Gebiet darf nur das erste Pokémon gefangen werden.",
+        "Besiegte Pokémon gelten als verstorben und müssen in eine Grab-Box.",
+        "Jedes Pokémon erhält einen Spitznamen, den der Seelenpartner auswählt.",
+        "Pokémon, Items, und Trainer sind gerandomized.",
+        "Das Level des stärksten Pokémons des Arenaleiters darf nicht überschritten werden.",
         "Kampffolge wird auf 'Folgen' gestellt.",
         "Gegenstände im Kampf nur, wenn der Gegner auch einen verwendet.",
-        "Shiny Pokemon dürfen immer gefangen und ausgetauscht werden.",
+        "Shiny Pokémon dürfen immer gefangen und ausgetauscht werden.",
         "Challenge verloren, wenn das komplette Team eines Spielers besiegt wurde."
     ];
 
@@ -47,31 +47,6 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-                <div className="bg-white rounded-lg shadow-md border border-gray-300 overflow-hidden">
-                    <h2 className="text-center p-2 text-white font-press-start text-[10px]"
-                        style={{backgroundColor: '#cf5930'}}>Level Caps</h2>
-                    <table className="w-full">
-                        <tbody>
-                        {levelCaps.map((cap, index) => (
-                            <tr
-                                key={cap.id}
-                                className={`border-t border-gray-200 ${cap.done ? 'bg-green-100' : ''}`}
-                            >
-                                <td
-                                    className="px-2 py-1.5 text-xs font-bold text-gray-800 text-left cursor-pointer select-none"
-                                    onClick={() => onLevelCapToggle(index)}
-                                    title={cap.done ? 'Als nicht erledigt markieren' : 'Als erledigt markieren'}
-                                >
-                                    {cap.arena}
-                                </td>
-                                <EditableCell value={cap.level} onChange={(val) => onLevelCapChange(index, val)}
-                                              className="text-right" isBold/>
-                            </tr>
-                        ))}
-                        </tbody>
-                    </table>
-                </div>
-
                 <div className="space-y-4">
                     {/* Current Level Cap indicator */}
                     <div className="bg-white rounded-lg shadow-md border border-gray-300 overflow-hidden">
@@ -112,8 +87,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                         </table>
                     </div>
                     <div className="bg-white rounded-lg shadow-md border border-gray-300 overflow-hidden">
-                        <h2 className="text-center p-2 bg-black text-white font-press-start text-[10px]">Top 4
-                            Items</h2>
+                        <h2 className="text-center p-2 bg-black text-white font-press-start text-[10px]">Top 4 Items</h2>
                         <table className="w-full">
                             <tbody>
                             <tr className="border-t border-gray-200">
@@ -183,6 +157,47 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                             </tbody>
                         </table>
                     </div>
+                </div>
+
+
+                <div className="bg-white rounded-lg shadow-md border border-gray-300 overflow-hidden">
+                    <h2 className="text-center p-2 text-white font-press-start text-[10px]"
+                        style={{backgroundColor: '#cf5930'}}>Level Caps</h2>
+                    <table className="w-full">
+                        <tbody>
+                        {levelCaps.map((cap, index) => {
+                            const checkboxId = `levelcap-done-${cap.id}`;
+                            return (
+                                <tr
+                                    key={cap.id}
+                                    className={`border-t border-gray-200 ${cap.done ? 'bg-green-100' : ''}`}
+                                >
+                                    <td className="px-2 py-1.5 text-xs font-bold text-gray-800 text-left select-none w-[70%]">
+                                        <div className="flex items-center gap-2">
+                                            <input
+                                                id={checkboxId}
+                                                type="checkbox"
+                                                checked={!!cap.done}
+                                                onChange={() => onLevelCapToggle(index)}
+                                                aria-label={`Erledigt: ${cap.arena}`}
+                                                className="h-4 w-4 accent-green-600 cursor-pointer"
+                                            />
+                                            <label htmlFor={checkboxId} className="cursor-pointer">
+                                                {cap.arena}
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <EditableCell
+                                        value={cap.level}
+                                        onChange={(val) => onLevelCapChange(index, val)}
+                                        className="text-right w-[30%]"
+                                        isBold
+                                    />
+                                </tr>
+                            );
+                        })}
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
