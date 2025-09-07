@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useCallback, useRef, useMemo} from 'react';
+import { FiTrash2, FiLogOut, FiSettings } from 'react-icons/fi';
 import type {AppState, PokemonPair} from '@/types';
 import {INITIAL_STATE, PLAYER1_COLOR, PLAYER2_COLOR} from '@/constants';
 import TeamTable from '@/src/components/TeamTable';
@@ -290,22 +291,32 @@ const App: React.FC = () => {
                         {data.player1Name} & {data.player2Name} Soullink
                     </h1>
                     <p className="text-sm text-gray-500 mt-2">Pokemon Soullink - Challenge Tracker</p>
-                    <button
-                        onClick={() => setShowSettings(true)}
-                        className="absolute right-2 sm:right-4 top-2 sm:top-3 p-2 rounded-full hover:bg-gray-100 text-gray-600 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        aria-label="Einstellungen"
-                        title="Einstellungen"
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                             strokeWidth="1.5" className="w-7 h-7">
-                            <line x1="3" y1="6" x2="21" y2="6" strokeLinecap="round"/>
-                            <circle cx="9" cy="6" r="2" strokeWidth="1.5" fill="white"/>
-                            <line x1="3" y1="12" x2="21" y2="12" strokeLinecap="round"/>
-                            <circle cx="15" cy="12" r="2" strokeWidth="1.5" fill="white"/>
-                            <line x1="3" y1="18" x2="21" y2="18" strokeLinecap="round"/>
-                            <circle cx="6" cy="18" r="2" strokeWidth="1.5" fill="white"/>
-                        </svg>
-                    </button>
+                    <div className="absolute right-2 sm:right-4 top-2 sm:top-3 flex items-center gap-1 sm:gap-2">
+                        <button
+                            onClick={handleReset}
+                            className="p-2 rounded-full hover:bg-gray-100 text-gray-600 hover:text-gray-800 focus:outline-none"
+                            aria-label="Tracker zurücksetzen"
+                            title="Tracker zurücksetzen"
+                        >
+                            <FiTrash2 size={28} />
+                        </button>
+                        <button
+                            onClick={() => setShowSettings(true)}
+                            className="p-2 rounded-full hover:bg-gray-100 text-gray-600 hover:text-gray-800 focus:outline-none"
+                            aria-label="Einstellungen"
+                            title="Einstellungen"
+                        >
+                            <FiSettings size={28} />
+                        </button>
+                        <button
+                            onClick={handleLogout}
+                            className="p-2 rounded-full hover:bg-gray-100 text-gray-600 hover:text-gray-800 focus:outline-none"
+                            aria-label="Logout"
+                            title="Logout"
+                        >
+                            <FiLogOut size={28} />
+                        </button>
+                    </div>
                 </header>
 
                 <main className="grid grid-cols-1 xl:grid-cols-3 gap-6 mt-6">
@@ -351,21 +362,7 @@ const App: React.FC = () => {
                         <ClearedRoutes routes={clearedRoutes}/>
                     </div>
                 </main>
-
-                <footer className="text-center mt-8 py-4 border-t-2 border-gray-200">
-                    <button
-                        onClick={handleReset}
-                        className="bg-red-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-red-700 transition-colors shadow-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
-                    >
-                        Tracker zurücksetzen
-                    </button>
-                    <button
-                        onClick={handleLogout}
-                        className="bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 ml-4"
-                    >
-                        Logout
-                    </button>
-                </footer>
+                <footer className="text-center mt-8 py-4 border-t-2 border-gray-200" />
             </div>
         </div>
     );
