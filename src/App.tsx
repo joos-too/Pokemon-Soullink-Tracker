@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useCallback, useRef, useMemo} from 'react';
 import { FiTrash2, FiLogOut, FiSettings } from 'react-icons/fi';
+import { FaGithub } from 'react-icons/fa';
 import type {AppState, PokemonPair} from '@/types';
 import {INITIAL_STATE, PLAYER1_COLOR, PLAYER2_COLOR} from '@/constants';
 import TeamTable from '@/src/components/TeamTable';
@@ -362,7 +363,18 @@ const App: React.FC = () => {
                         <ClearedRoutes routes={clearedRoutes}/>
                     </div>
                 </main>
-                <footer className="text-center mt-8 py-4 border-t-2 border-gray-200" />
+                <footer className="text-center mt-8 py-4 border-t-2 border-gray-200">
+                    <a
+                        href="https://github.com/joos-too/Pokemon-Soullink-Tracker"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900"
+                        title="View on GitHub"
+                    >
+                        <FaGithub size={18} aria-hidden="true" />
+                        <span className="text-sm">made by joos-too</span>
+                    </a>
+                </footer>
             </div>
         </div>
     );
