@@ -156,6 +156,17 @@ const TeamTable: React.FC<TeamTableProps> = ({
                         <td className="p-2 text-center text-sm text-gray-800 border-r border-gray-200">{pair.route || '-'}</td>
                         <td className="p-2 text-center">
                             <div className="inline-flex items-center justify-center gap-1.5">
+                                {/* Edit button */}
+                                {(pair.player1.name || pair.player2.name || pair.route) && (
+                                    <button
+                                        type={"button"}
+                                        onClick={() => setEditIndex(originalIndex)}
+                                        className={`p-1 rounded-full hover:bg-gray-200 inline-flex items-center justify-center text-gray-700`}
+                                        title={'Bearbeiten'}
+                                    >
+                                        <FiEdit size={20}/>
+                                    </button>
+                                )}
                                 {/* Move between Team <-> Box */}
                                 {context === 'team' ? (
                                     <button
@@ -177,17 +188,6 @@ const TeamTable: React.FC<TeamTableProps> = ({
                                         aria-label={teamIsFull ? 'Team ist voll (max 6)' : 'Ins Team verschieben'}
                                     >
                                         <FiArrowUp size={18} />
-                                    </button>
-                                )}
-                                {/* Edit button */}
-                                {(pair.player1.name || pair.player2.name || pair.route) && (
-                                    <button
-                                        type={"button"}
-                                        onClick={() => setEditIndex(originalIndex)}
-                                        className={`p-1 rounded-full hover:bg-gray-200 inline-flex items-center justify-center text-gray-700`}
-                                        title={'Bearbeiten'}
-                                    >
-                                        <FiEdit size={20}/>
                                     </button>
                                 )}
                                 {/* Graveyard (only in team) */}
