@@ -1,8 +1,6 @@
 export interface Pokemon {
   name: string;
   nickname: string;
-  type1: string;
-  type2: string;
 }
 
 export interface PokemonPair {

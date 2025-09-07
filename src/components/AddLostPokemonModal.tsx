@@ -45,7 +45,7 @@ const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({ isOpen, onClo
           <div className="space-y-4">
             <div>
               <label htmlFor="route" className="block text-sm font-bold text-gray-700 mb-1">
-                Route <span className="text-red-500">*</span>
+                Gebiet <span className="text-red-500">*</span>
               </label>
               <input
                 id="route"
@@ -53,13 +53,13 @@ const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({ isOpen, onClo
                 value={route}
                 onChange={(e) => setRoute(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                placeholder="e.g., Route 1"
+                placeholder="z.B. Route 1"
                 required
               />
             </div>
             <div>
               <label htmlFor="p1Pokemon" className="block text-sm font-bold text-gray-700 mb-1">
-                {player1Name}'s Pokémon (Optional)
+                {player1Name}'s Pokémon <span className="text-red-500">*</span>
               </label>
               <input
                 id="p1Pokemon"
@@ -67,12 +67,13 @@ const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({ isOpen, onClo
                 value={p1Pokemon}
                 onChange={(e) => setP1Pokemon(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                placeholder="e.g., Rattata"
+                placeholder="z.B. Rattfratz"
+                required
               />
             </div>
             <div>
               <label htmlFor="p2Pokemon" className="block text-sm font-bold text-gray-700 mb-1">
-                {player2Name}'s Pokémon (Optional)
+                {player2Name}'s Pokémon <span className="text-red-500">*</span>
               </label>
               <input
                 id="p2Pokemon"
@@ -80,7 +81,8 @@ const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({ isOpen, onClo
                 value={p2Pokemon}
                 onChange={(e) => setP2Pokemon(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                placeholder="e.g., Pidgey"
+                placeholder="z.B. Taubsi"
+                required
               />
             </div>
           </div>

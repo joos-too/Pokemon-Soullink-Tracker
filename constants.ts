@@ -4,8 +4,6 @@ import type { AppState, Pokemon, PokemonPair } from './types';
 export const createEmptyPokemon = (): Pokemon => ({
   name: '',
   nickname: '',
-  type1: '',
-  type2: '',
 });
 
 // Exported and typed helper function

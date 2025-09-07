@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
-import type { AppState, PokemonPair } from '@/types';
-import { INITIAL_STATE, PLAYER1_COLOR, PLAYER2_COLOR } from '@/constants';
+import React, {useState, useEffect, useCallback, useRef, useMemo} from 'react';
+import type {AppState, PokemonPair} from '@/types';
+import {INITIAL_STATE, PLAYER1_COLOR, PLAYER2_COLOR} from '@/constants';
 import TeamTable from '@/src/components/TeamTable';
 import InfoPanel from '@/src/components/InfoPanel';
 import Graveyard from '@/src/components/Graveyard';
@@ -8,339 +8,368 @@ import ClearedRoutes from '@/src/components/ClearedRoutes';
 import AddLostPokemonModal from '@/src/components/AddLostPokemonModal';
 import LoginPage from '@/src/components/LoginPage';
 import SettingsPage from '@/src/components/SettingsPage';
-import { db, auth } from '@/src/firebaseConfig';
-import { ref, onValue, set, get } from "firebase/database";
-import { onAuthStateChanged, User, signOut } from "firebase/auth";
+import {db, auth} from '@/src/firebaseConfig';
+import {ref, onValue, set, get} from "firebase/database";
+import {onAuthStateChanged, User, signOut} from "firebase/auth";
 
 const App: React.FC = () => {
-  const [data, setData] = useState<AppState>(INITIAL_STATE);
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [showSettings, setShowSettings] = useState(false);
-  const [dataLoaded, setDataLoaded] = useState(false);
-  const skipNextWriteRef = useRef(false);
+    const [data, setData] = useState<AppState>(INITIAL_STATE);
+    const [user, setUser] = useState<User | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [showSettings, setShowSettings] = useState(false);
+    const [dataLoaded, setDataLoaded] = useState(false);
+    const skipNextWriteRef = useRef(false);
 
-  // Ensure incoming Firebase data matches our expected shape
-  const coerceAppState = useCallback((incoming: any, base: AppState): AppState => {
-    const safe = (incoming && typeof incoming === 'object') ? incoming : {};
-    return {
-      player1Name: safe.player1Name ?? base.player1Name,
-      player2Name: safe.player2Name ?? base.player2Name,
-      team: Array.isArray(safe.team) ? safe.team : base.team,
-      box: Array.isArray(safe.box) ? safe.box : base.box,
-      graveyard: Array.isArray(safe.graveyard) ? safe.graveyard : base.graveyard,
-      levelCaps: Array.isArray(safe.levelCaps) ? safe.levelCaps : base.levelCaps,
-      stats: {
-        runs: safe.stats?.runs ?? base.stats.runs,
-        best: safe.stats?.best ?? base.stats.best,
-        top4Items: {
-          player1: safe.stats?.top4Items?.player1 ?? base.stats.top4Items.player1,
-          player2: safe.stats?.top4Items?.player2 ?? base.stats.top4Items.player2,
-        },
-        deaths: {
-          player1: safe.stats?.deaths?.player1 ?? base.stats.deaths.player1,
-          player2: safe.stats?.deaths?.player2 ?? base.stats.deaths.player2,
-        },
-      },
-    };
-  }, []);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
-      setLoading(false);
-    });
-    return () => unsubscribe();
-  }, []);
-
-  useEffect(() => {
-    if (!user) return;
-
-    const dbRef = ref(db, '/');
-
-    // 1) Load once on initial login
-    let unsub: (() => void) | undefined;
-    (async () => {
-      try {
-        const snapshot = await get(dbRef);
-        const dbData = snapshot.val();
-        if (dbData) {
-          // Apply remote state without echoing back immediately
-          skipNextWriteRef.current = true;
-          setData(prev => coerceAppState(dbData, prev));
-        }
-      } catch (e) {
-        // If get fails, fall back to initial state silently
-        // (data is already INITIAL_STATE by default)
-      } finally {
-        setDataLoaded(true);
-        // 2) Subscribe for live updates after initial load
-        unsub = onValue(dbRef, (snap) => {
-          const liveData = snap.val();
-          if (liveData) {
-            skipNextWriteRef.current = true;
-            setData(prev => coerceAppState(liveData, prev));
-          }
+    // Ensure incoming Firebase data matches our expected shape
+    const coerceAppState = useCallback((incoming: any, base: AppState): AppState => {
+        const sanitizePair = (p: any): PokemonPair => ({
+            id: Number(p?.id) || 0,
+            route: typeof p?.route === 'string' ? p.route : '',
+            player1: {
+                name: typeof p?.player1?.name === 'string' ? p.player1.name : '',
+                nickname: typeof p?.player1?.nickname === 'string' ? p.player1.nickname : '',
+            },
+            player2: {
+                name: typeof p?.player2?.name === 'string' ? p.player2.name : '',
+                nickname: typeof p?.player2?.nickname === 'string' ? p.player2.nickname : '',
+            },
         });
-      }
-    })();
+        const sanitizeArray = (arr: any, fallback: PokemonPair[]) => {
+            const list = Array.isArray(arr) ? arr : fallback;
+            return list.map((p) => sanitizePair(p));
+        };
+        const safe = (incoming && typeof incoming === 'object') ? incoming : {};
+        return {
+            player1Name: safe.player1Name ?? base.player1Name,
+            player2Name: safe.player2Name ?? base.player2Name,
+            team: sanitizeArray(safe.team, base.team),
+            box: sanitizeArray(safe.box, base.box),
+            graveyard: sanitizeArray(safe.graveyard, base.graveyard),
+            levelCaps: Array.isArray(safe.levelCaps) ? safe.levelCaps : base.levelCaps,
+            stats: {
+                runs: safe.stats?.runs ?? base.stats.runs,
+                best: safe.stats?.best ?? base.stats.best,
+                top4Items: {
+                    player1: safe.stats?.top4Items?.player1 ?? base.stats.top4Items.player1,
+                    player2: safe.stats?.top4Items?.player2 ?? base.stats.top4Items.player2,
+                },
+                deaths: {
+                    player1: safe.stats?.deaths?.player1 ?? base.stats.deaths.player1,
+                    player2: safe.stats?.deaths?.player2 ?? base.stats.deaths.player2,
+                },
+            },
+        };
+    }, []);
 
-    return () => {
-      if (unsub) unsub();
-      setDataLoaded(false);
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            setUser(user);
+            setLoading(false);
+        });
+        return () => unsubscribe();
+    }, []);
+
+    useEffect(() => {
+        if (!user) return;
+
+        const dbRef = ref(db, '/');
+
+        // 1) Load once on initial login
+        let unsub: (() => void) | undefined;
+        (async () => {
+            try {
+                const snapshot = await get(dbRef);
+                const dbData = snapshot.val();
+                if (dbData) {
+                    // Apply remote state without echoing back immediately
+                    skipNextWriteRef.current = true;
+                    setData(prev => coerceAppState(dbData, prev));
+                }
+            } catch (e) {
+                // If get fails, fall back to initial state silently
+                // (data is already INITIAL_STATE by default)
+            } finally {
+                setDataLoaded(true);
+                // 2) Subscribe for live updates after initial load
+                unsub = onValue(dbRef, (snap) => {
+                    const liveData = snap.val();
+                    if (liveData) {
+                        skipNextWriteRef.current = true;
+                        setData(prev => coerceAppState(liveData, prev));
+                    }
+                });
+            }
+        })();
+
+        return () => {
+            if (unsub) unsub();
+            setDataLoaded(false);
+        };
+    }, [user]);
+
+    useEffect(() => {
+        if (!user || !dataLoaded) return;
+
+        if (skipNextWriteRef.current) {
+            // Skip echoing writes caused by remote updates
+            skipNextWriteRef.current = false;
+            return;
+        }
+
+        const dbRef = ref(db, '/');
+        set(dbRef, data);
+    }, [data, user, dataLoaded]);
+
+    const handleReset = () => {
+        if (window.confirm('Bist du sicher, dass du alle Daten zurücksetzen möchtest? Dieser Schritt kann nicht rückgängig gemacht werden.')) {
+            setData(INITIAL_STATE);
+        }
     };
-  }, [user]);
 
-  useEffect(() => {
-    if (!user || !dataLoaded) return;
+    const handleLogout = () => {
+        signOut(auth);
+    };
 
-    if (skipNextWriteRef.current) {
-      // Skip echoing writes caused by remote updates
-      skipNextWriteRef.current = false;
-      return;
-    }
+    const updateNestedState = (
+        setter: React.Dispatch<React.SetStateAction<AppState>>,
+        key: keyof AppState,
+        index: number,
+        field: string,
+        subField: string | null,
+        value: string
+    ) => {
+        setter(prev => {
+            const newArray = [...(prev[key] as any[])];
+            if (subField) {
+                newArray[index] = {
+                    ...newArray[index],
+                    [field]: {
+                        ...newArray[index][field],
+                        [subField]: value,
+                    },
+                };
+            } else {
+                newArray[index] = {
+                    ...newArray[index],
+                    [field]: value,
+                };
+            }
+            return {...prev, [key]: newArray};
+        });
+    };
 
-    const dbRef = ref(db, '/');
-    set(dbRef, data);
-  }, [data, user, dataLoaded]);
+    const handleTeamChange = useCallback((index: number, player: 'player1' | 'player2', field: string, value: string) => {
+        updateNestedState(setData, 'team', index, player, field, value);
+    }, []);
 
-  const handleReset = () => {
-    if (window.confirm('Bist du sicher, dass du alle Daten zurücksetzen möchtest? Dieser Schritt kann nicht rückgängig gemacht werden.')) {
-      setData(INITIAL_STATE);
-    }
-  };
+    const handleRouteChange = useCallback((index: number, value: string) => {
+        updateNestedState(setData, 'team', index, 'route', null, value);
+    }, []);
 
-  const handleLogout = () => {
-    signOut(auth);
-  };
+    const handleBoxChange = useCallback((index: number, player: 'player1' | 'player2', field: string, value: string) => {
+        updateNestedState(setData, 'box', index, player, field, value);
+    }, []);
 
-  const updateNestedState = (
-    setter: React.Dispatch<React.SetStateAction<AppState>>,
-    key: keyof AppState,
-    index: number,
-    field: string,
-    subField: string | null,
-    value: string
-  ) => {
-    setter(prev => {
-      const newArray = [...(prev[key] as any[])];
-      if (subField) {
-        newArray[index] = {
-          ...newArray[index],
-          [field]: {
-            ...newArray[index][field],
-            [subField]: value,
-          },
-        };
-      } else {
-        newArray[index] = {
-          ...newArray[index],
-          [field]: value,
-        };
-      }
-      return { ...prev, [key]: newArray };
-    });
-  };
+    const handleBoxRouteChange = useCallback((index: number, value: string) => {
+        updateNestedState(setData, 'box', index, 'route', null, value);
+    }, []);
 
-  const handleTeamChange = useCallback((index: number, player: 'player1' | 'player2', field: string, value: string) => {
-    updateNestedState(setData, 'team', index, player, field, value);
-  }, []);
-  
-  const handleRouteChange = useCallback((index: number, value: string) => {
-    updateNestedState(setData, 'team', index, 'route', null, value);
-  }, []);
+    const handleLevelCapChange = useCallback((index: number, value: string) => {
+        updateNestedState(setData, 'levelCaps', index, 'level', null, value);
+    }, []);
 
-  const handleBoxChange = useCallback((index: number, player: 'player1' | 'player2', field: string, value: string) => {
-    updateNestedState(setData, 'box', index, player, field, value);
-  }, []);
+    const handleStatChange = (stat: keyof AppState['stats'], value: string) => {
+        const numValue = Number(value);
+        if (!isNaN(numValue)) {
+            setData(prev => ({...prev, stats: {...prev.stats, [stat]: numValue}}));
+        }
+    };
 
-  const handleBoxRouteChange = useCallback((index: number, value: string) => {
-    updateNestedState(setData, 'box', index, 'route', null, value);
-  }, []);
+    const handleNestedStatChange = (group: keyof AppState['stats'], key: string, value: string) => {
+        const numValue = Number(value);
+        if (!isNaN(numValue)) {
+            setData(prev => ({
+                ...prev,
+                stats: {
+                    ...prev.stats,
+                    [group]: {
+                        ...(prev.stats[group] as object),
+                        [key]: numValue,
+                    }
+                }
+            }));
+        }
+    };
 
-  const handleLevelCapChange = useCallback((index: number, value: string) => {
-    updateNestedState(setData, 'levelCaps', index, 'level', null, value);
-  }, []);
-
-  const handleStatChange = (stat: keyof AppState['stats'], value: string) => {
-    const numValue = Number(value);
-    if (!isNaN(numValue)) {
-      setData(prev => ({ ...prev, stats: { ...prev.stats, [stat]: numValue } }));
-    }
-  };
-  
-  const handleNestedStatChange = (group: keyof AppState['stats'], key: string, value: string) => {
-    const numValue = Number(value);
-    if (!isNaN(numValue)) {
+    const handleAddToGraveyard = useCallback((pair: PokemonPair) => {
         setData(prev => ({
             ...prev,
+            graveyard: [...prev.graveyard, pair],
+            team: prev.team.map(p => p.id === pair.id ? INITIAL_STATE.team.find(ip => ip.id === pair.id) || p : p),
+            box: prev.box.map(p => p.id === pair.id ? INITIAL_STATE.box.find(ip => ip.id === pair.id) || p : p),
             stats: {
                 ...prev.stats,
-                [group]: {
-                    ...(prev.stats[group] as object),
-                    [key]: numValue,
+                deaths: {
+                    player1: prev.stats.deaths.player1 + 1,
+                    player2: prev.stats.deaths.player2 + 1
                 }
             }
         }));
-    }
-  };
-  
-  const handleAddToGraveyard = useCallback((pair: PokemonPair) => {
-    setData(prev => ({
-      ...prev,
-      graveyard: [...prev.graveyard, pair],
-      team: prev.team.map(p => p.id === pair.id ? INITIAL_STATE.team.find(ip => ip.id === pair.id) || p : p),
-      box: prev.box.map(p => p.id === pair.id ? INITIAL_STATE.box.find(ip => ip.id === pair.id) || p : p),
-      stats: {
-        ...prev.stats,
-        deaths: {
-          player1: prev.stats.deaths.player1 + 1,
-          player2: prev.stats.deaths.player2 + 1
-        }
-      }
-    }));
-  }, []);
+    }, []);
 
-  const handleManualAddToGraveyard = (pair: PokemonPair) => {
-    setData(prev => ({
-      ...prev,
-      graveyard: [...prev.graveyard, pair],
-    }));
-  };
-
-  const handleNameChange = (player: 'player1Name' | 'player2Name', name: string) => {
-    setData(prev => ({ ...prev, [player]: name }));
-  };
-
-  const clearedRoutes = useMemo(() => {
-    const routes: string[] = [];
-    const collect = (arr: PokemonPair[] | undefined | null) => {
-      const list = Array.isArray(arr) ? arr : [];
-      for (const p of list) {
-        const r = (p?.route || '').trim();
-        if (r) routes.push(r);
-      }
+    const handleManualAddToGraveyard = (pair: PokemonPair) => {
+        setData(prev => ({
+            ...prev,
+            graveyard: [...prev.graveyard, pair],
+        }));
     };
-    collect(data?.team as any);
-    collect(data?.box as any);
-    collect(data?.graveyard as any);
-    // Unique + sort
-    return Array.from(new Set(routes)).sort((a, b) => a.localeCompare(b));
-  }, [data]);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+    const handleManualAddFromModal = (route: string, p1Pokemon: string, p2Pokemon: string) => {
+        const newPair: PokemonPair = {
+            id: Date.now(),
+            route: route.trim(),
+            player1: {name: p1Pokemon.trim(), nickname: ''},
+            player2: {name: p2Pokemon.trim(), nickname: ''},
+        };
+        handleManualAddToGraveyard(newPair);
+        setIsModalOpen(false);
+    };
 
-  if (!user) {
-    return <LoginPage />;
-  }
+    const handleNameChange = (player: 'player1Name' | 'player2Name', name: string) => {
+        setData(prev => ({...prev, [player]: name}));
+    };
 
-  if (showSettings) {
+    const clearedRoutes = useMemo(() => {
+        const routes: string[] = [];
+        const collect = (arr: PokemonPair[] | undefined | null) => {
+            const list = Array.isArray(arr) ? arr : [];
+            for (const p of list) {
+                const r = (p?.route || '').trim();
+                if (r) routes.push(r);
+            }
+        };
+        collect(data?.team as any);
+        collect(data?.box as any);
+        collect(data?.graveyard as any);
+        // Unique + sort
+        return Array.from(new Set(routes)).sort((a, b) => a.localeCompare(b));
+    }, [data]);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (!user) {
+        return <LoginPage/>;
+    }
+
+    if (showSettings) {
+        return (
+            <SettingsPage
+                player1Name={data.player1Name}
+                player2Name={data.player2Name}
+                onNameChange={handleNameChange}
+                onBack={() => setShowSettings(false)}
+            />
+        );
+    }
+
     return (
-      <SettingsPage 
-        player1Name={data.player1Name}
-        player2Name={data.player2Name}
-        onNameChange={handleNameChange}
-        onBack={() => setShowSettings(false)}
-      />
+        <div className="bg-[#f0f0f0] min-h-screen p-2 sm:p-4 md:p-8 text-gray-800">
+            <AddLostPokemonModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onAdd={handleManualAddFromModal}
+                player1Name={data.player1Name}
+                player2Name={data.player2Name}
+            />
+            <div className="max-w-[1920px] mx-auto bg-white shadow-lg p-4 rounded-lg">
+                <header className="relative text-center py-4 border-b-2 border-gray-300">
+                    <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-press-start tracking-tighter">
+                        {data.player1Name} & {data.player2Name} Soullink
+                    </h1>
+                    <p className="text-sm text-gray-500 mt-2">Pokemon Soullink - Challenge Tracker</p>
+                    <button
+                        onClick={() => setShowSettings(true)}
+                        className="absolute right-2 sm:right-4 top-2 sm:top-3 p-2 rounded-full hover:bg-gray-100 text-gray-600 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        aria-label="Einstellungen"
+                        title="Einstellungen"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             strokeWidth="1.5" className="w-7 h-7">
+                            <line x1="3" y1="6" x2="21" y2="6" strokeLinecap="round"/>
+                            <circle cx="9" cy="6" r="2" strokeWidth="1.5" fill="white"/>
+                            <line x1="3" y1="12" x2="21" y2="12" strokeLinecap="round"/>
+                            <circle cx="15" cy="12" r="2" strokeWidth="1.5" fill="white"/>
+                            <line x1="3" y1="18" x2="21" y2="18" strokeLinecap="round"/>
+                            <circle cx="6" cy="18" r="2" strokeWidth="1.5" fill="white"/>
+                        </svg>
+                    </button>
+                </header>
+
+                <main className="grid grid-cols-1 xl:grid-cols-3 gap-6 mt-6">
+                    <div className="xl:col-span-2 space-y-8">
+                        <TeamTable
+                            player1name={data.player1Name}
+                            player2name={data.player2Name}
+                            color1={PLAYER1_COLOR}
+                            color2={PLAYER2_COLOR}
+                            data={data.team}
+                            onPokemonChange={handleTeamChange}
+                            onRouteChange={handleRouteChange}
+                            onAddToGraveyard={handleAddToGraveyard}
+                            isTeam
+                        />
+                        <TeamTable
+                            player1name={data.player1Name}
+                            player2name={data.player2Name}
+                            color1={PLAYER1_COLOR}
+                            color2={PLAYER2_COLOR}
+                            data={data.box}
+                            onPokemonChange={handleBoxChange}
+                            onRouteChange={handleBoxRouteChange}
+                            onAddToGraveyard={handleAddToGraveyard}
+                        />
+                    </div>
+
+                    <div className="xl:col-span-1 space-y-6">
+                        <InfoPanel
+                            levelCaps={data.levelCaps}
+                            stats={data.stats}
+                            player1Name={data.player1Name}
+                            player2Name={data.player2Name}
+                            onLevelCapChange={handleLevelCapChange}
+                            onStatChange={handleStatChange}
+                            onNestedStatChange={handleNestedStatChange}
+                        />
+                        <Graveyard
+                            graveyard={data.graveyard}
+                            player1Name={data.player1Name}
+                            player2Name={data.player2Name}
+                            onManualAddClick={() => setIsModalOpen(true)}
+                        />
+                        <ClearedRoutes routes={clearedRoutes}/>
+                    </div>
+                </main>
+
+                <footer className="text-center mt-8 py-4 border-t-2 border-gray-200">
+                    <button
+                        onClick={handleReset}
+                        className="bg-red-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-red-700 transition-colors shadow-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+                    >
+                        Tracker zurücksetzen
+                    </button>
+                    <button
+                        onClick={handleLogout}
+                        className="bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 ml-4"
+                    >
+                        Logout
+                    </button>
+                </footer>
+            </div>
+        </div>
     );
-  }
-
-  return (
-    <div className="bg-[#f0f0f0] min-h-screen p-2 sm:p-4 md:p-8 text-gray-800">
-      {isModalOpen && (
-        <AddLostPokemonModal 
-          onClose={() => setIsModalOpen(false)}
-          onAddPair={handleManualAddToGraveyard}
-        />
-      )}
-      <div className="max-w-[1920px] mx-auto bg-white shadow-lg p-4 rounded-lg">
-        <header className="relative text-center py-4 border-b-2 border-gray-300">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-press-start tracking-tighter">
-            {data.player1Name} & {data.player2Name} Soullink
-          </h1>
-          <p className="text-sm text-gray-500 mt-2">Pokemon Soullink - Challenge Tracker</p>
-          <button
-            onClick={() => setShowSettings(true)}
-            className="absolute right-2 sm:right-4 top-2 sm:top-3 p-2 rounded-full hover:bg-gray-100 text-gray-600 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            aria-label="Einstellungen"
-            title="Einstellungen"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-7 h-7">
-              <line x1="3" y1="6" x2="21" y2="6" strokeLinecap="round" />
-              <circle cx="9" cy="6" r="2" strokeWidth="1.5" fill="white" />
-              <line x1="3" y1="12" x2="21" y2="12" strokeLinecap="round" />
-              <circle cx="15" cy="12" r="2" strokeWidth="1.5" fill="white" />
-              <line x1="3" y1="18" x2="21" y2="18" strokeLinecap="round" />
-              <circle cx="6" cy="18" r="2" strokeWidth="1.5" fill="white" />
-            </svg>
-          </button>
-        </header>
-
-        <main className="grid grid-cols-1 xl:grid-cols-3 gap-6 mt-6">
-          <div className="xl:col-span-2 space-y-8">
-            <TeamTable
-              title={`Team ${data.player1Name}`}
-              title2={`Team ${data.player2Name}`}
-              color1={PLAYER1_COLOR}
-              color2={PLAYER2_COLOR}
-              data={data.team}
-              onPokemonChange={handleTeamChange}
-              onRouteChange={handleRouteChange}
-              onAddToGraveyard={handleAddToGraveyard}
-              isTeam
-            />
-            <TeamTable
-              title={`Box 1 ${data.player1Name}`}
-              title2={`Box 1 ${data.player2Name}`}
-              color1={PLAYER1_COLOR}
-              color2={PLAYER2_COLOR}
-              data={data.box}
-              onPokemonChange={handleBoxChange}
-              onRouteChange={handleBoxRouteChange}
-              onAddToGraveyard={handleAddToGraveyard}
-            />
-          </div>
-
-          <div className="xl:col-span-1 space-y-6">
-            <InfoPanel 
-              levelCaps={data.levelCaps}
-              stats={data.stats}
-              player1Name={data.player1Name}
-              player2Name={data.player2Name}
-              onLevelCapChange={handleLevelCapChange}
-              onStatChange={handleStatChange}
-              onNestedStatChange={handleNestedStatChange}
-            />
-            <Graveyard 
-              graveyard={data.graveyard} 
-              player1Name={data.player1Name}
-              player2Name={data.player2Name}
-              onManualAddClick={() => setIsModalOpen(true)} 
-            />
-            <ClearedRoutes routes={clearedRoutes} />
-          </div>
-        </main>
-        
-        <footer className="text-center mt-8 py-4 border-t-2 border-gray-200">
-            <button 
-              onClick={handleReset}
-              className="bg-red-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-red-700 transition-colors shadow-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
-            >
-              Tracker zurücksetzen
-            </button>
-            <button 
-              onClick={handleLogout}
-              className="bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 ml-4"
-            >
-              Logout
-            </button>
-        </footer>
-      </div>
-    </div>
-  );
 };
 
 export default App;
