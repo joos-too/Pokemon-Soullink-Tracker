@@ -125,7 +125,15 @@ const App: React.FC = () => {
 
     const handleReset = () => {
         if (window.confirm('Bist du sicher, dass du alle Daten zurücksetzen möchtest? Dieser Schritt kann nicht rückgängig gemacht werden.')) {
-            setData(INITIAL_STATE);
+            setData(prev => ({
+                ...INITIAL_STATE,
+                stats: {
+                    ...INITIAL_STATE.stats,
+                    // preserve current run count and best gym count
+                    runs: prev.stats.runs,
+                    best: prev.stats.best,
+                },
+            }));
         }
     };
 
