@@ -31,10 +31,12 @@ You can get these values from your Firebase project's settings. Auth with passwo
 
 ### Deploy
 
-1. Clone the [repository](https://github.com/joos-too/pokemon-soullink-tracker.git)
-2. Install dependencies:
+1. Clone the repository at the desired release tag:
+    `git clone --branch v1.0.0 https://github.com/joos-too/pokemon-soullink-tracker.git`
+2. Configure the `.env` file as described above.
+3. Install dependencies:
    `npm install`
-3. Build the app:
+4. Build the app:
    `npm run build`
-4. (When not on the server: zip the `dist` folder and upload it to your web server. Unzip it in a new directory.)
-5. Make the `index.html` available via a web server e.g. nginx
+5. (When not on the server: zip the `dist` folder and upload it to your web server. Unzip it in a new directory.)
+6. Make the `index.html` available via a web server e.g. nginx
