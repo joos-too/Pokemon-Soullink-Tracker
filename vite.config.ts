@@ -1,16 +1,18 @@
 import path from 'path';
-import { defineConfig, loadEnv } from 'vite';
+import {defineConfig, loadEnv} from 'vite';
 
-export default defineConfig(({ mode }) => {
-    const env = loadEnv(mode, '.', '');
+// Load .env and .env.[mode] and expose VITE_* to import.meta.env
+export default defineConfig(({mode}) => {
+    const env = loadEnv(mode, process.cwd());
+
     return {
-      define: {
-        'process.env.VITE_FIREBASE_API_KEY': JSON.stringify(env.VITE_FIREBASE_API_KEY)
-      },
-      resolve: {
-        alias: {
-          '@': path.resolve(__dirname, '.'),
+        define: {
+            // Keep define empty or only for non-VITE constants. Vite will inject import.meta.env.* automatically.
+        },
+        resolve: {
+            alias: {
+                '@': path.resolve(__dirname, '.'),
+            }
         }
-      }
     };
 });
