@@ -24,16 +24,17 @@ You can get these values from your Firebase project's settings. Auth with passwo
 ### Run Locally
 
 1. Clone the [repository](https://github.com/joos-too/pokemon-soullink-tracker.git)
-2. Install dependencies:
+2. Configure the environment as described above.
+3. Install dependencies:
    `npm install`
-3. Run the app:
+4. Run the app:
    `npm run dev`
 
 ### Deploy
 
 1. Clone the repository at the desired release tag:
     `git clone --branch v1.0.0 https://github.com/joos-too/pokemon-soullink-tracker.git`
-2. Configure the `.env` file as described above.
+2. Configure the environment as described above.
 3. Install dependencies:
    `npm install`
 4. Build the app:
