@@ -25,3 +25,5 @@ VITE_FIREBASE_APP_ID=...
 ```
 
 You can copy `.env.example` to `.env` and fill in values. Vite automatically exposes variables prefixed with `VITE_` to the client.
+
+You can get these values from your Firebase project's settings. Auth with password and email and real-time database is needed for the project.
