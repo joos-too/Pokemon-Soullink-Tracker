@@ -13,7 +13,7 @@
    `npm run dev`
 
 ## Deploy on a web server
-**Prerequisites:**  same as above
+**Prerequisites:**  [Node.js + npm](https://nodejs.org/en/download/) and [git](https://git-scm.com/downloads) installed
 
 1. Clone the repository at the desired release tag:
     `git clone --branch v1.0.0 https://github.com/joos-too/pokemon-soullink-tracker.git`
