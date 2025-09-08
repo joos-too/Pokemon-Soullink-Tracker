@@ -1,7 +1,7 @@
 # Pokémon Soullink Tracker
 
 ## Run locally for development
-**Prerequisites:**  [Node.js + npm](https://nodejs.org/en/download/) and [git](https://git-scm.com/downloads) installed
+**Prerequisites:**  [Node.js + npm](https://nodejs.org/en/download/), [git](https://git-scm.com/downloads) and [Java](https://www.oracle.com/java/technologies/downloads/#java21) installed
 
 1. Clone the [repository](https://github.com/joos-too/pokemon-soullink-tracker.git)
 2. Install dependencies:
