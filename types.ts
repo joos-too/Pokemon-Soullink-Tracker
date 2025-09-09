@@ -28,6 +28,10 @@ export interface Stats {
     player1: number;
     player2: number;
   };
+  sumDeaths?: {
+    player1: number;
+    player2: number;
+  };
 }
 
 export interface AppState {

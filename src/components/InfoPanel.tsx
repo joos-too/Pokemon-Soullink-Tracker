@@ -216,6 +216,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                             disabled
                             className="text-4xl font-press-start text-center bg-transparent w-full outline-none mt-2 text-gray-800 cursor-not-allowed"
                         />
+                        <div className="text-xs text-gray-600 mt-1">Gesamt: {(stats.sumDeaths?.player1 ?? 0) + (stats.deaths.player1 ?? 0)}</div>
                     </div>
                     <div className="text-center p-2">
                         <h3 className="font-press-start text-xs" style={{color: PLAYER2_COLOR}}>{player2Name}</h3>
@@ -225,6 +226,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                             disabled
                             className="text-4xl font-press-start text-center bg-transparent w-full outline-none mt-2 text-gray-800 cursor-not-allowed"
                         />
+                        <div className="text-xs text-gray-600 mt-1">Gesamt: {(stats.sumDeaths?.player2 ?? 0) + (stats.deaths.player2 ?? 0)}</div>
                     </div>
                 </div>
             </div>

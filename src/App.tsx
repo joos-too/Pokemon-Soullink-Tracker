@@ -73,6 +73,10 @@ const App: React.FC = () => {
                     player1: safe.stats?.deaths?.player1 ?? base.stats.deaths.player1,
                     player2: safe.stats?.deaths?.player2 ?? base.stats.deaths.player2,
                 },
+                sumDeaths: {
+                    player1: safe.stats?.sumDeaths?.player1 ?? base.stats.sumDeaths?.player1 ?? 0,
+                    player2: safe.stats?.sumDeaths?.player2 ?? base.stats.sumDeaths?.player2 ?? 0,
+                },
             },
         };
     }, []);
@@ -154,6 +158,10 @@ const App: React.FC = () => {
                     best: prev.stats.best, // keep persisted best
                     top4Items: { player1: 0, player2: 0 },
                     deaths: { player1: 0, player2: 0 },
+                    sumDeaths: {
+                        player1: (prev.stats.sumDeaths?.player1 ?? 0) + (prev.stats.deaths.player1 ?? 0),
+                        player2: (prev.stats.sumDeaths?.player2 ?? 0) + (prev.stats.deaths.player2 ?? 0),
+                    },
                 },
             }));
         }

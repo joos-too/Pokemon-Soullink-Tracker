@@ -55,5 +55,9 @@ export const INITIAL_STATE: AppState = {
             player1: 0,
             player2: 0,
         },
+        sumDeaths: {
+            player1: 0,
+            player2: 0,
+        },
     },
 };
