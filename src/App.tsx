@@ -148,8 +148,7 @@ const App: React.FC = () => {
                 ...INITIAL_STATE,
                 rules: prev.rules, // keep rules on non-full reset
                 stats: {
-                    ...prev.stats,
-                    runs: prev.stats.runs, // keep current run number
+                    runs: prev.stats.runs + 1, // increase run number by 1
                     best: prev.stats.best, // keep persisted best
                     top4Items: { player1: 0, player2: 0 },
                     deaths: { player1: 0, player2: 0 },
