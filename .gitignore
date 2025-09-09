@@ -23,6 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 
-# Env files
+# Environment files
 .env
 .env.production
+.firebaserc
