@@ -52,12 +52,11 @@ const auth = getAuth(app);
 
 // Connect to emulators when running locally (dev or explicit flag)
 if (USE_EMULATORS) {
-    const host = EMULATOR_HOST;
     try {
-        connectDatabaseEmulator(db, host, DB_EMULATOR_PORT);
+        connectDatabaseEmulator(db, EMULATOR_HOST, DB_EMULATOR_PORT);
     } catch {}
     try {
-        connectAuthEmulator(auth, `http://${host}:${AUTH_EMULATOR_PORT}`);
+        connectAuthEmulator(auth, `http://${EMULATOR_HOST}:${AUTH_EMULATOR_PORT}`);
     } catch {}
 }
 
