@@ -147,6 +147,8 @@ const App: React.FC = () => {
             setData(prev => ({
                 ...INITIAL_STATE,
                 rules: prev.rules, // keep rules on non-full reset
+                // Preserve level cap entries (id, arena, level) and only reset the done flag
+                levelCaps: prev.levelCaps.map(cap => ({ ...cap, done: false })),
                 stats: {
                     runs: prev.stats.runs + 1, // increase run number by 1
                     best: prev.stats.best, // keep persisted best

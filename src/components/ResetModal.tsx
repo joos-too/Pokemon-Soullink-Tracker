@@ -39,7 +39,7 @@ const ResetModal: React.FC<ResetModalProps> = ({ isOpen, onClose, onConfirm }) =
             />
             <div>
               <div className="font-medium">Aktuellen Run zurücksetzen</div>
-              <div className="text-xs text-gray-600">Team, Box, Friedhof und Arenen-Status werden zurückgesetzt. Statistiken (Runs, Best) bleiben erhalten; Tode und Top 4 Items werden auf 0 gesetzt.</div>
+              <div className="text-xs text-gray-600">Team, Box, Friedhof und Arenen-Status werden zurückgesetzt. Statistiken, Level-Caps und Regeln bleiben erhalten.</div>
             </div>
           </label>
           <label className="flex items-center gap-3 p-3 border rounded-md cursor-pointer hover:bg-gray-50">
@@ -51,7 +51,7 @@ const ResetModal: React.FC<ResetModalProps> = ({ isOpen, onClose, onConfirm }) =
             />
             <div>
               <div className="font-medium">Alles zurücksetzen</div>
-              <div className="text-xs text-gray-600">Gesamten Tracker inkl. Statistiken und Regeln zurücksetzen.</div>
+              <div className="text-xs text-gray-600">Gesamten Tracker inkl. Statistiken, Level-Caps und Regeln zurücksetzen.</div>
             </div>
           </label>
         </div>
