@@ -10,10 +10,10 @@ interface SettingsPageProps {
 
 const SettingsPage: React.FC<SettingsPageProps> = ({ player1Name, player2Name, onNameChange, onBack }) => {
   return (
-    <div className="bg-[#f0f0f0] min-h-screen flex items-center justify-center p-4">
-      <div className="w-full max-w-md mx-auto bg-white shadow-lg p-6 rounded-lg">
-        <header className="text-center pb-4 border-b border-gray-200">
-          <h1 className="text-2xl font-bold font-press-start">Einstellungen</h1>
+    <div className="bg-[#f0f0f0] dark:bg-gray-900 min-h-screen flex items-center justify-center p-4">
+      <div className="w-full max-w-md mx-auto bg-white dark:bg-gray-800 shadow-lg p-6 rounded-lg">
+        <header className="text-center pb-4 border-b border-gray-200 dark:border-gray-700">
+          <h1 className="text-2xl font-bold font-press-start dark:text-gray-100">Einstellungen</h1>
         </header>
         
         <main className="mt-6 space-y-6">
@@ -26,7 +26,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ player1Name, player2Name, o
               type="text"
               value={player1Name}
               onChange={(e) => onNameChange('player1Name', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
             />
           </div>
           <div>
@@ -38,7 +38,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ player1Name, player2Name, o
               type="text"
               value={player2Name}
               onChange={(e) => onNameChange('player2Name', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
             />
           </div>
         </main>

@@ -10,8 +10,8 @@ interface GraveyardProps {
 
 const Graveyard: React.FC<GraveyardProps> = ({ graveyard = [], player1Name = 'Player 1', player2Name = 'Player 2', onManualAddClick }) => {
   return (
-    <div className="bg-white rounded-lg shadow-md border border-gray-300">
-      <div className="flex justify-center items-center p-2 bg-gray-800">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700">
+      <div className="flex justify-center items-center p-2 bg-gray-800 dark:bg-gray-900">
         <h2 className="text-center text-white font-press-start text-sm">
           Tote / verlorene Pokémon
         </h2>
@@ -31,23 +31,23 @@ const Graveyard: React.FC<GraveyardProps> = ({ graveyard = [], player1Name = 'Pl
         {graveyard && graveyard.length > 0 ? (
           <div className="space-y-3">
             {graveyard.map((pair) => (
-              <div key={pair.id} className="p-2 border border-gray-200 rounded-md bg-gray-50 text-xs">
-                <p className="text-center font-bold text-gray-600 mb-1">Gebiet: {pair.route || 'Unbekannte Route'}</p>
+              <div key={pair.id} className="p-2 border border-gray-200 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 text-xs">
+                <p className="text-center font-bold text-gray-600 dark:text-gray-300 mb-1">Gebiet: {pair.route || 'Unbekannte Route'}</p>
                 <div className="grid grid-cols-2 gap-2">
                   <div>
                     <p className="font-bold text-red-600">{player1Name}'s {pair.player1.name || 'Pokémon'}</p>
-                    <p className="text-gray-700">Spitzname: {pair.player1.nickname || 'N/A'}</p>
+                    <p className="text-gray-700 dark:text-gray-400">Spitzname: {pair.player1.nickname || 'N/A'}</p>
                   </div>
                    <div>
                     <p className="font-bold text-purple-700">{player2Name}'s {pair.player2.name || 'Pokémon'}</p>
-                    <p className="text-gray-700">Spitzname: {pair.player2.nickname || 'N/A'}</p>
+                    <p className="text-gray-700 dark:text-gray-400">Spitzname: {pair.player2.nickname || 'N/A'}</p>
                   </div>
                 </div>
               </div>
             ))}
           </div>
         ) : (
-          <p className="text-center text-gray-500 text-sm py-4">Noch keine tote/verlorene Pokémon.</p>
+          <p className="text-center text-gray-500 dark:text-gray-400 text-sm py-4">Noch keine tote/verlorene Pokémon.</p>
         )}
       </div>
     </div>

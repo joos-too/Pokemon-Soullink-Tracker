@@ -12,6 +12,7 @@ import SelectLossModal from '@/src/components/SelectLossModal';
 import LoginPage from '@/src/components/LoginPage';
 import SettingsPage from '@/src/components/SettingsPage';
 import ResetModal from '@/src/components/ResetModal';
+import DarkModeToggle from '@/src/components/DarkModeToggle';
 import {db, auth} from '@/src/firebaseConfig';
 import {ref, onValue, set, get} from "firebase/database";
 import {onAuthStateChanged, User, signOut} from "firebase/auth";
@@ -125,7 +126,7 @@ const App: React.FC = () => {
             if (unsub) unsub();
             setDataLoaded(false);
         };
-    }, [user]);
+    }, [user, coerceAppState]);
 
     useEffect(() => {
         if (!user || !dataLoaded) return;
@@ -369,10 +370,10 @@ const App: React.FC = () => {
 
     if (loading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-[#f0f0f0]">
+            <div className="min-h-screen flex items-center justify-center bg-[#f0f0f0] dark:bg-gray-900">
                 <div className="flex flex-col items-center gap-3" role="status" aria-live="polite">
-                    <div className="h-10 w-10 border-4 border-gray-300 border-t-blue-600 rounded-full animate-spin" />
-                    <span className="text-gray-600 text-sm">Loading…</span>
+                    <div className="h-10 w-10 border-4 border-gray-300 dark:border-gray-600 border-t-blue-600 rounded-full animate-spin" />
+                    <span className="text-gray-600 dark:text-gray-300 text-sm">Loading…</span>
                 </div>
             </div>
         );
@@ -394,7 +395,7 @@ const App: React.FC = () => {
     }
 
     return (
-        <div className="bg-[#f0f0f0] min-h-screen p-2 sm:p-4 md:p-8 text-gray-800">
+        <div className="bg-[#f0f0f0] dark:bg-gray-900 min-h-screen p-2 sm:p-4 md:p-8 text-gray-800 dark:text-gray-200">
             <AddLostPokemonModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
@@ -415,16 +416,17 @@ const App: React.FC = () => {
                 onClose={() => setShowResetModal(false)}
                 onConfirm={handleConfirmReset}
             />
-            <div className="max-w-[1920px] mx-auto bg-white shadow-lg p-4 rounded-lg">
-                <header className="relative text-center py-4 border-b-2 border-gray-300">
-                    <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-press-start tracking-tighter">
+            <div className="max-w-[1920px] mx-auto bg-white dark:bg-gray-800 shadow-lg p-4 rounded-lg">
+                <header className="relative text-center py-4 border-b-2 border-gray-300 dark:border-gray-700">
+                    <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-press-start tracking-tighter dark:text-gray-100">
                         {data.player1Name} & {data.player2Name} Soullink
                     </h1>
-                    <p className="text-sm text-gray-500 mt-2">Pokémon Soullink - Challenge Tracker</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">Pokémon Soullink - Challenge Tracker</p>
                     <div className="absolute right-2 sm:right-4 top-2 sm:top-3 flex items-center gap-1 sm:gap-2">
+                        <DarkModeToggle />
                         <button
                             onClick={handleReset}
-                            className="p-2 rounded-full hover:bg-gray-100 text-gray-600 hover:text-gray-800 focus:outline-none"
+                            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white focus:outline-none"
                             aria-label="Tracker zurücksetzen"
                             title="Tracker zurücksetzen"
                         >
@@ -432,7 +434,7 @@ const App: React.FC = () => {
                         </button>
                         <button
                             onClick={() => setShowSettings(true)}
-                            className="p-2 rounded-full hover:bg-gray-100 text-gray-600 hover:text-gray-800 focus:outline-none"
+                            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white focus:outline-none"
                             aria-label="Einstellungen"
                             title="Einstellungen"
                         >
@@ -440,7 +442,7 @@ const App: React.FC = () => {
                         </button>
                         <button
                             onClick={handleLogout}
-                            className="p-2 rounded-full hover:bg-gray-100 text-gray-600 hover:text-gray-800 focus:outline-none"
+                            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white focus:outline-none"
                             aria-label="Logout"
                             title="Logout"
                         >
@@ -523,12 +525,12 @@ const App: React.FC = () => {
                         <ClearedRoutes routes={clearedRoutes}/>
                     </div>
                 </main>
-                <footer className="text-center mt-8 py-4 border-t-2 border-gray-200">
+                <footer className="text-center mt-8 py-4 border-t-2 border-gray-200 dark:border-gray-700">
                     <a
                         href="https://github.com/joos-too/Pokemon-Soullink-Tracker"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900"
+                        className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
                         title="View on GitHub"
                     >
                         <FaGithub size={18} aria-hidden="true" />

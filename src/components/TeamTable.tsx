@@ -98,23 +98,17 @@ const TeamTable: React.FC<TeamTableProps> = ({
     ), [data]);
 
     return (
-        <div className="bg-white rounded-lg shadow-md border border-gray-300">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700">
             <div className="px-3 pt-3 pb-2 flex justify-end">
                 <button
                     type="button"
                     onClick={() => { if (!addDisabled) setAddOpen(true); }}
                     disabled={addDisabled}
-                    className={(function(){
-                        const base = 'inline-flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-semibold shadow';
-                        if (addDisabled) {
-                            return variant === 'outline'
-                                ? `${base} border border-gray-300 text-gray-400 bg-white cursor-not-allowed`
-                                : `${base} bg-gray-300 text-gray-500 cursor-not-allowed`;
-                        }
-                        return variant === 'outline'
-                            ? `${base} border border-green-600 text-green-700 bg-white hover:bg-green-50`
-                            : `${base} bg-green-600 text-white hover:bg-green-700`;
-                    })()}
+                    className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-semibold shadow ${
+                        addDisabled
+                        ? 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed'
+                        : 'bg-green-600 text-white hover:bg-green-700 dark:hover:bg-green-500'
+                    }`}
                     title={addDisabled ? (addDisabledReason || 'Hinzufügen deaktiviert') : 'Paar hinzufügen'}
                     aria-label="Paar hinzufügen"
                     aria-disabled={addDisabled}
@@ -128,32 +122,32 @@ const TeamTable: React.FC<TeamTableProps> = ({
                     <HeaderCell color={color1} colSpan={3}>{title}</HeaderCell>
                     <HeaderCell color={color2} colSpan={2}>{title2}</HeaderCell>
                     <th className="p-2 bg-green-600 text-white font-press-start text-[10px] text-center">Gebiet</th>
-                    <th className="p-2 bg-gray-700 text-white font-press-start text-[10px] text-center">Aktion</th>
+                    <th className="p-2 bg-gray-700 dark:bg-gray-600 text-white font-press-start text-[10px] text-center">Aktion</th>
                 </tr>
                 <tr>
-                    <th className="p-2 text-xs font-bold text-gray-800 text-center border-t border-gray-300">#</th>
-                    <th className="p-2 text-xs font-bold text-gray-800 text-center border-t border-gray-300">Pokémon</th>
-                    <th className="p-2 text-xs font-bold text-gray-800 text-center border-t border-gray-300">Spitzname</th>
-                    <th className="p-2 text-xs font-bold text-gray-800 text-center border-t border-gray-300">Pokémon</th>
-                    <th className="p-2 text-xs font-bold text-gray-800 text-center border-t border-gray-300">Spitzname</th>
-                    <th className="p-1 border-t border-gray-300"></th>
-                    <th className="p-1 border-t border-gray-300"></th>
+                    <th className="p-2 text-xs font-bold text-gray-800 dark:text-gray-300 text-center border-t border-gray-300 dark:border-gray-700">#</th>
+                    <th className="p-2 text-xs font-bold text-gray-800 dark:text-gray-300 text-center border-t border-gray-300 dark:border-gray-700">Pokémon</th>
+                    <th className="p-2 text-xs font-bold text-gray-800 dark:text-gray-300 text-center border-t border-gray-300 dark:border-gray-700">Spitzname</th>
+                    <th className="p-2 text-xs font-bold text-gray-800 dark:text-gray-300 text-center border-t border-gray-300 dark:border-gray-700">Pokémon</th>
+                    <th className="p-2 text-xs font-bold text-gray-800 dark:text-gray-300 text-center border-t border-gray-300 dark:border-gray-700">Spitzname</th>
+                    <th className="p-1 border-t border-gray-300 dark:border-gray-700"></th>
+                    <th className="p-1 border-t border-gray-300 dark:border-gray-700"></th>
                 </tr>
                 </thead>
                 <tbody>
                 {rows.length === 0 && (
                     <tr>
-                        <td className="p-3 text-center text-sm text-gray-500" colSpan={7}>{emptyMessage}</td>
+                        <td className="p-3 text-center text-sm text-gray-500 dark:text-gray-400" colSpan={7}>{emptyMessage}</td>
                     </tr>
                 )}
                 {rows.map(({ pair, originalIndex }, index) => (
-                    <tr key={pair.id} className="border-t border-gray-200 hover:bg-gray-50">
-                        <td className="p-2 text-center font-bold text-sm text-gray-800 border-r border-gray-200">{index + 1}</td>
-                        <td className="p-2 text-center text-sm text-gray-800">{pair.player1.name || '-'}</td>
-                        <td className="p-2 text-center text-sm text-gray-800 border-r border-gray-200">{pair.player1.nickname || '-'}</td>
-                        <td className="p-2 text-center text-sm text-gray-800">{pair.player2.name || '-'}</td>
-                        <td className="p-2 text-center text-sm text-gray-800 border-r border-gray-200">{pair.player2.nickname || '-'}</td>
-                        <td className="p-2 text-center text-sm text-gray-800 border-r border-gray-200">{pair.route || '-'}</td>
+                    <tr key={pair.id} className="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                        <td className="p-2 text-center font-bold text-sm text-gray-800 dark:text-gray-200 border-r border-gray-200 dark:border-gray-700">{index + 1}</td>
+                        <td className="p-2 text-center text-sm text-gray-800 dark:text-gray-300">{pair.player1.name || '-'}</td>
+                        <td className="p-2 text-center text-sm text-gray-800 dark:text-gray-300 border-r border-gray-200 dark:border-gray-700">{pair.player1.nickname || '-'}</td>
+                        <td className="p-2 text-center text-sm text-gray-800 dark:text-gray-300">{pair.player2.name || '-'}</td>
+                        <td className="p-2 text-center text-sm text-gray-800 dark:text-gray-300 border-r border-gray-200 dark:border-gray-700">{pair.player2.nickname || '-'}</td>
+                        <td className="p-2 text-center text-sm text-gray-800 dark:text-gray-300 border-r border-gray-200 dark:border-gray-700">{pair.route || '-'}</td>
                         <td className="p-2 text-center">
                             <div className="inline-flex items-center justify-center gap-1.5">
                                 {/* Edit button */}
@@ -161,7 +155,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                                     <button
                                         type={"button"}
                                         onClick={() => setEditIndex(originalIndex)}
-                                        className={`p-1 rounded-full hover:bg-gray-200 inline-flex items-center justify-center text-gray-700`}
+                                        className={`p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 inline-flex items-center justify-center text-gray-700 dark:text-gray-300`}
                                         title={'Bearbeiten'}
                                     >
                                         <FiEdit size={20}/>
@@ -172,7 +166,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                                     <button
                                         type="button"
                                         onClick={() => onMoveToBox(pair)}
-                                        className="p-1 rounded-full hover:bg-gray-200 inline-flex items-center justify-center text-gray-700"
+                                        className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 inline-flex items-center justify-center text-gray-700 dark:text-gray-300"
                                         title="In die Box verschieben"
                                         aria-label="In die Box verschieben"
                                     >
@@ -183,7 +177,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                                         type="button"
                                         onClick={() => { if (!teamIsFull) onMoveToTeam(pair); }}
                                         disabled={teamIsFull}
-                                        className={`p-1 rounded-full inline-flex items-center justify-center ${teamIsFull ? 'text-gray-400 cursor-not-allowed' : 'hover:bg-gray-200 text-gray-700'}`}
+                                        className={`p-1 rounded-full inline-flex items-center justify-center ${teamIsFull ? 'text-gray-400 dark:text-gray-500 cursor-not-allowed' : 'hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300'}`}
                                         title={teamIsFull ? 'Team ist voll (max 6)' : 'Ins Team verschieben'}
                                         aria-label={teamIsFull ? 'Team ist voll (max 6)' : 'Ins Team verschieben'}
                                     >
@@ -195,7 +189,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                                     <button
                                         type="button"
                                         onClick={() => onAddToGraveyard(pair)}
-                                        className="p-1 rounded-full hover:bg-gray-200 inline-flex items-center justify-center text-red-600 hover:text-red-700"
+                                        className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 inline-flex items-center justify-center text-red-600 hover:text-red-700 dark:text-red-500 dark:hover:text-red-400"
                                         title="In den Friedhof verschieben"
                                         aria-label="In den Friedhof verschieben"
                                     >
