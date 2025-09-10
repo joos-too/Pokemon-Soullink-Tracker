@@ -56,7 +56,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                     <div className="bg-white rounded-lg shadow-md border border-gray-300 overflow-hidden">
                         <h2 className="text-center p-2 bg-blue-600 text-white font-press-start text-[10px]">Aktueller
                             Level Cap</h2>
-                        <div className="p-3 text-sm text-gray-800 text-center">
+                        <div className="p-3 text-xl text-gray-800 text-center">
                             {(() => {
                                 const next = levelCaps.find((c) => !c.done);
                                 if (!next) {
