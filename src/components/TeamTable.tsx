@@ -2,7 +2,7 @@ import React, {useMemo, useState} from 'react';
 import type {PokemonPair} from '@/types';
 import EditPairModal from './EditPairModal';
 import {FiEdit, FiPlus, FiTrash, FiArrowUp, FiArrowDown} from "react-icons/fi";
-import { getSpriteUrlForGermanName } from '@/src/services/sprites';
+import { getOfficialArtworkUrlForGermanName } from '@/src/services/sprites';
 
 interface TeamTableProps {
     title: string;
@@ -147,7 +147,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                         <td className="p-2 text-center text-sm text-gray-800 dark:text-gray-300">
                             {pair.player1.name ? (
                                 <div className="inline-flex items-center gap-2">
-                                    {(() => { const url = getSpriteUrlForGermanName(pair.player1.name); return url ? <img src={url} alt={pair.player1.name} className="w-6 h-6" loading="lazy"/> : null; })()}
+                                    {(() => { const url = getOfficialArtworkUrlForGermanName(pair.player1.name); return url ? <img src={url} alt={pair.player1.name} className="w-20 h-20" loading="lazy"/> : null; })()}
                                     <span>{pair.player1.name}</span>
                                 </div>
                             ) : '-'}
@@ -156,7 +156,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                         <td className="p-2 text-center text-sm text-gray-800 dark:text-gray-300">
                             {pair.player2.name ? (
                                 <div className="inline-flex items-center gap-2">
-                                    {(() => { const url = getSpriteUrlForGermanName(pair.player2.name); return url ? <img src={url} alt={pair.player2.name} className="w-6 h-6" loading="lazy"/> : null; })()}
+                                    {(() => { const url = getOfficialArtworkUrlForGermanName(pair.player2.name); return url ? <img src={url} alt={pair.player2.name} className="w-20 h-20" loading="lazy"/> : null; })()}
                                     <span>{pair.player2.name}</span>
                                 </div>
                             ) : '-'}

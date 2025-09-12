@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { searchGermanPokemonNames } from '@/src/services/pokemonSearch';
+import { getSpriteUrlForGermanName } from '@/src/services/sprites';
 
 interface EditPairModalProps {
   isOpen: boolean;
@@ -66,18 +67,25 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
     e.preventDefault();
     const tRoute = route.trim();
     const tP1 = p1Name.trim();
+    const tP1Nick = p1Nickname.trim();
     const tP2 = p2Name.trim();
-    if (!tRoute || !tP1 || !tP2) return; // extra guard
+    const tP2Nick = p2Nickname.trim();
+    if (!tRoute || !tP1 || !tP2 || !tP1Nick || !tP2Nick) return; // extra guard
     onSave({
       route: tRoute,
       p1Name: tP1,
-      p1Nickname: p1Nickname.trim(),
+      p1Nickname: tP1Nick,
       p2Name: tP2,
-      p2Nickname: p2Nickname.trim(),
+      p2Nickname: tP2Nick,
     });
   };
 
-  const isValid = route.trim().length > 0 && p1Name.trim().length > 0 && p2Name.trim().length > 0;
+  const isValid =
+    route.trim().length > 0 &&
+    p1Name.trim().length > 0 &&
+    p2Name.trim().length > 0 &&
+    p1Nickname.trim().length > 0 &&
+    p2Nickname.trim().length > 0;
   const title = mode === 'create' ? 'Seelenlink hinzufügen' : 'Seelenlink bearbeiten';
   const cancelLabel = mode === 'create' ? 'Zurück' : 'Abbrechen';
   const submitLabel = mode === 'create' ? 'Hinzufügen' : 'Speichern';
@@ -217,19 +225,24 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="relative">
               <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">{player1Label} – Pokémon <span className="text-red-500">*</span></label>
-              <input
-                type="text"
-                value={p1Name}
-                onChange={(e) => setP1Name(e.target.value)}
-                onFocus={() => setOpenP1(true)}
-                onBlur={() => setTimeout(() => setOpenP1(false), 150)}
-                onKeyDown={onKeyDownP1}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-                placeholder="z.B. Glumanda"
-                required
-                aria-autocomplete="list"
-                aria-expanded={openP1}
-              />
+              <div className="relative">
+                <input
+                  type="text"
+                  value={p1Name}
+                  onChange={(e) => setP1Name(e.target.value)}
+                  onFocus={() => setOpenP1(true)}
+                  onBlur={() => setTimeout(() => setOpenP1(false), 150)}
+                  onKeyDown={onKeyDownP1}
+                  className="w-full pr-14 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+                  placeholder="z.B. Glumanda"
+                  required
+                  aria-autocomplete="list"
+                  aria-expanded={openP1}
+                />
+                {(() => { const url = getSpriteUrlForGermanName(p1Name); return url ? (
+                  <img src={url} alt="" aria-hidden="true" className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 pointer-events-none select-none" loading="lazy"/>
+                ) : null; })()}
+              </div>
               {openP1 && (loadingP1 || p1Suggestions.length > 0) && (
                 <div className="absolute z-10 mt-1 w-full max-h-56 overflow-auto rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-lg">
                   {loadingP1 && (
@@ -251,30 +264,36 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
                   )}
                 </div>
               )}
-              <label className="block text-xs text-gray-600 dark:text-gray-400 mt-2">Spitzname</label>
+              <label className="block text-xs text-gray-600 dark:text-gray-400 mt-2">Spitzname <span className="text-red-500">*</span></label>
               <input
                 type="text"
                 value={p1Nickname}
                 onChange={(e) => setP1Nickname(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-                placeholder="optional"
+                placeholder='z.B. Gluyarak'
+                required
               />
             </div>
             <div className="relative">
               <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">{player2Label} – Pokémon <span className="text-red-500">*</span></label>
-              <input
-                type="text"
-                value={p2Name}
-                onChange={(e) => setP2Name(e.target.value)}
-                onFocus={() => setOpenP2(true)}
-                onBlur={() => setTimeout(() => setOpenP2(false), 150)}
-                onKeyDown={onKeyDownP2}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-                placeholder="z.B. Schiggy"
-                required
-                aria-autocomplete="list"
-                aria-expanded={openP2}
-              />
+              <div className="relative">
+                <input
+                  type="text"
+                  value={p2Name}
+                  onChange={(e) => setP2Name(e.target.value)}
+                  onFocus={() => setOpenP2(true)}
+                  onBlur={() => setTimeout(() => setOpenP2(false), 150)}
+                  onKeyDown={onKeyDownP2}
+                  className="w-full pr-14 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+                  placeholder="z.B. Schiggy"
+                  required
+                  aria-autocomplete="list"
+                  aria-expanded={openP2}
+                />
+                {(() => { const url = getSpriteUrlForGermanName(p2Name); return url ? (
+                  <img src={url} alt="" aria-hidden="true" className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 pointer-events-none select-none" loading="lazy"/>
+                ) : null; })()}
+              </div>
               {openP2 && (loadingP2 || p2Suggestions.length > 0) && (
                 <div className="absolute z-10 mt-1 w-full max-h-56 overflow-auto rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-lg">
                   {loadingP2 && (
@@ -296,13 +315,14 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
                   )}
                 </div>
               )}
-              <label className="block text-xs text-gray-600 dark:text-gray-400 mt-2">Spitzname</label>
+              <label className="block text-xs text-gray-600 dark:text-gray-400 mt-2">Spitzname <span className="text-red-500">*</span></label>
               <input
                 type="text"
                 value={p2Nickname}
                 onChange={(e) => setP2Nickname(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-                placeholder="optional"
+                placeholder='z.B. Turcock'
+                required
               />
             </div>
           </div>
