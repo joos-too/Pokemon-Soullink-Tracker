@@ -54,7 +54,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                 <div className="space-y-4">
                     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700 overflow-hidden">
                         <h2 className="text-center p-2 bg-blue-600 text-white font-press-start text-[10px]">Aktueller Level Cap</h2>
-                        <div className="p-3 text-xl text-gray-800 dark:text-gray-200 text-center">
+                        <div className="p-3 text-l text-gray-800 dark:text-gray-200 text-center">
                             {(() => {
                                 const next = levelCaps.find((c) => !c.done);
                                 if (!next) return <span>Challenge geschafft!</span>;
