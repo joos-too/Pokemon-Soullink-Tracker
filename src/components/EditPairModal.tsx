@@ -71,10 +71,10 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-lg">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-lg">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold">{title}</h2>
-          <button onClick={onClose} className="text-gray-500 hover:text-gray-800">
+          <h2 className="text-xl font-bold dark:text-gray-100">{title}</h2>
+          <button onClick={onClose} className="text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -82,7 +82,7 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="route" className="block text-sm font-bold text-gray-700 mb-1">
+            <label htmlFor="route" className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">
               Gebiet <span className="text-red-500">*</span>
             </label>
             <input
@@ -90,7 +90,7 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
               type="text"
               value={route}
               onChange={(e) => setRoute(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
               placeholder="z.B. Route 1"
               required
             />
@@ -98,40 +98,40 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-bold text-gray-700 mb-1">{player1Label} – Pokémon <span className="text-red-500">*</span></label>
+              <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">{player1Label} – Pokémon <span className="text-red-500">*</span></label>
               <input
                 type="text"
                 value={p1Name}
                 onChange={(e) => setP1Name(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
                 placeholder="z.B. Glumanda"
                 required
               />
-              <label className="block text-xs text-gray-600 mt-2">Spitzname</label>
+              <label className="block text-xs text-gray-600 dark:text-gray-400 mt-2">Spitzname</label>
               <input
                 type="text"
                 value={p1Nickname}
                 onChange={(e) => setP1Nickname(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
                 placeholder="optional"
               />
             </div>
             <div>
-              <label className="block text-sm font-bold text-gray-700 mb-1">{player2Label} – Pokémon <span className="text-red-500">*</span></label>
+              <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">{player2Label} – Pokémon <span className="text-red-500">*</span></label>
               <input
                 type="text"
                 value={p2Name}
                 onChange={(e) => setP2Name(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
                 placeholder="z.B. Schiggy"
                 required
               />
-              <label className="block text-xs text-gray-600 mt-2">Spitzname</label>
+              <label className="block text-xs text-gray-600 dark:text-gray-400 mt-2">Spitzname</label>
               <input
                 type="text"
                 value={p2Nickname}
                 onChange={(e) => setP2Nickname(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
                 placeholder="optional"
               />
             </div>
@@ -141,7 +141,7 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50"
+              className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-500 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700"
             >
               {cancelLabel}
             </button>

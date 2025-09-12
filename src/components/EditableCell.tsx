@@ -16,7 +16,7 @@ const EditableCell: React.FC<EditableCellProps> = ({ value, onChange, placeholde
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className={`w-full h-full bg-transparent border-none outline-none px-2 py-1.5 text-center text-sm focus:bg-gray-100 text-gray-800 ${isBold ? 'font-bold' : ''}`}
+        className={`w-full h-full bg-transparent border-none outline-none px-2 py-1.5 text-center text-sm focus:bg-gray-100 dark:focus:bg-gray-600 text-gray-800 dark:text-gray-200 ${isBold ? 'font-bold' : ''}`}
       />
     </td>
   );
