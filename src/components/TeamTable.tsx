@@ -41,7 +41,6 @@ const TeamTable: React.FC<TeamTableProps> = ({
                                                  emptyMessage,
                                                  addDisabled = false,
                                                  addDisabledReason,
-                                                 variant = 'solid',
                                                  context,
                                                  onMoveToTeam,
                                                  onMoveToBox,
