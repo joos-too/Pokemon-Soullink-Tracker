@@ -7,10 +7,12 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "build:names": "node scripts/generate-pokemon-de.mjs",
     "emulators": "firebase emulators:start"
   },
   "dependencies": {
     "firebase": "^12.2.1",
+    "pokeapi-js-wrapper": "^1.2.8",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-icons": "^5.5.0"
