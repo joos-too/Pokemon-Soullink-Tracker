@@ -535,7 +535,7 @@ const App: React.FC = () => {
                         title="View on GitHub"
                     >
                         <FaGithub size={18} aria-hidden="true" />
-                        <span className="text-sm">vibecoded by joos-too</span>
+                        <span className="text-sm">vibecoded by joos-too & FreakMediaLP</span>
                     </a>
                 </footer>
             </div>
