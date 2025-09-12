@@ -16,6 +16,7 @@ import DarkModeToggle from '@/src/components/DarkModeToggle';
 import {db, auth} from '@/src/firebaseConfig';
 import {ref, onValue, set, get} from "firebase/database";
 import {onAuthStateChanged, User, signOut} from "firebase/auth";
+import { initPokemonGermanNamesBackgroundRefresh } from '@/src/services/pokemonSearch';
 
 const App: React.FC = () => {
     const [data, setData] = useState<AppState>(INITIAL_STATE);
@@ -88,6 +89,11 @@ const App: React.FC = () => {
             setLoading(false);
         });
         return () => unsubscribe();
+    }, []);
+
+    // Preload/refresh German Pokémon names in the background (non-blocking)
+    useEffect(() => {
+        initPokemonGermanNamesBackgroundRefresh();
     }, []);
 
     useEffect(() => {

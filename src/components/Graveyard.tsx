@@ -1,5 +1,6 @@
 import React from 'react';
 import type { PokemonPair } from '@/types';
+import { getSpriteUrlForGermanName } from '@/src/services/sprites';
 
 interface GraveyardProps {
   graveyard?: PokemonPair[];
@@ -35,11 +36,17 @@ const Graveyard: React.FC<GraveyardProps> = ({ graveyard = [], player1Name = 'Pl
                 <p className="text-center font-bold text-gray-600 dark:text-gray-300 mb-1">Gebiet: {pair.route || 'Unbekannte Route'}</p>
                 <div className="grid grid-cols-2 gap-2">
                   <div>
-                    <p className="font-bold text-red-600">{player1Name}'s {pair.player1.name || 'Pokémon'}</p>
+                    <p className="font-bold text-red-600 flex items-center gap-2">
+                      {(() => { const url = getSpriteUrlForGermanName(pair.player1.name); return url ? <img src={url} alt={pair.player1.name || 'Pokémon'} className="w-6 h-6" loading="lazy"/> : null; })()}
+                      <span>{player1Name}'s {pair.player1.name || 'Pokémon'}</span>
+                    </p>
                     <p className="text-gray-700 dark:text-gray-400">Spitzname: {pair.player1.nickname || 'N/A'}</p>
                   </div>
                    <div>
-                    <p className="font-bold text-purple-700">{player2Name}'s {pair.player2.name || 'Pokémon'}</p>
+                    <p className="font-bold text-purple-700 flex items-center gap-2">
+                      {(() => { const url = getSpriteUrlForGermanName(pair.player2.name); return url ? <img src={url} alt={pair.player2.name || 'Pokémon'} className="w-6 h-6" loading="lazy"/> : null; })()}
+                      <span>{player2Name}'s {pair.player2.name || 'Pokémon'}</span>
+                    </p>
                     <p className="text-gray-700 dark:text-gray-400">Spitzname: {pair.player2.nickname || 'N/A'}</p>
                   </div>
                 </div>

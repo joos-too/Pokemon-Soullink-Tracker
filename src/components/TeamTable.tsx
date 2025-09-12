@@ -2,6 +2,7 @@ import React, {useMemo, useState} from 'react';
 import type {PokemonPair} from '@/types';
 import EditPairModal from './EditPairModal';
 import {FiEdit, FiPlus, FiTrash, FiArrowUp, FiArrowDown} from "react-icons/fi";
+import { getSpriteUrlForGermanName } from '@/src/services/sprites';
 
 interface TeamTableProps {
     title: string;
@@ -143,9 +144,23 @@ const TeamTable: React.FC<TeamTableProps> = ({
                 {rows.map(({ pair, originalIndex }, index) => (
                     <tr key={pair.id} className="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50">
                         <td className="p-2 text-center font-bold text-sm text-gray-800 dark:text-gray-200 border-r border-gray-200 dark:border-gray-700">{index + 1}</td>
-                        <td className="p-2 text-center text-sm text-gray-800 dark:text-gray-300">{pair.player1.name || '-'}</td>
+                        <td className="p-2 text-center text-sm text-gray-800 dark:text-gray-300">
+                            {pair.player1.name ? (
+                                <div className="inline-flex items-center gap-2">
+                                    {(() => { const url = getSpriteUrlForGermanName(pair.player1.name); return url ? <img src={url} alt={pair.player1.name} className="w-6 h-6" loading="lazy"/> : null; })()}
+                                    <span>{pair.player1.name}</span>
+                                </div>
+                            ) : '-'}
+                        </td>
                         <td className="p-2 text-center text-sm text-gray-800 dark:text-gray-300 border-r border-gray-200 dark:border-gray-700">{pair.player1.nickname || '-'}</td>
-                        <td className="p-2 text-center text-sm text-gray-800 dark:text-gray-300">{pair.player2.name || '-'}</td>
+                        <td className="p-2 text-center text-sm text-gray-800 dark:text-gray-300">
+                            {pair.player2.name ? (
+                                <div className="inline-flex items-center gap-2">
+                                    {(() => { const url = getSpriteUrlForGermanName(pair.player2.name); return url ? <img src={url} alt={pair.player2.name} className="w-6 h-6" loading="lazy"/> : null; })()}
+                                    <span>{pair.player2.name}</span>
+                                </div>
+                            ) : '-'}
+                        </td>
                         <td className="p-2 text-center text-sm text-gray-800 dark:text-gray-300 border-r border-gray-200 dark:border-gray-700">{pair.player2.nickname || '-'}</td>
                         <td className="p-2 text-center text-sm text-gray-800 dark:text-gray-300 border-r border-gray-200 dark:border-gray-700">{pair.route || '-'}</td>
                         <td className="p-2 text-center">
