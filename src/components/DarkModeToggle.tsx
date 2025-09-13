@@ -1,28 +1,65 @@
 import React, { useState, useEffect } from 'react';
 import { FiSun, FiMoon } from 'react-icons/fi';
 
-const DarkModeToggle: React.FC = () => {
-    const [isDarkMode, setIsDarkMode] = useState(() => {
-        if (typeof window !== 'undefined' && window.localStorage) {
-            const stored = window.localStorage.getItem('color-theme');
-            if (stored) return stored === 'dark';
-            return window.matchMedia('(prefers-color-scheme: dark)').matches;
-        }
+export function getSystemPrefersDark(): boolean {
+    if (typeof window === 'undefined') return false;
+    try {
+        return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    } catch {
         return false;
-    });
+    }
+}
 
-    useEffect(() => {
-        if (isDarkMode) {
+export function getDarkMode(): boolean {
+    if (typeof document === 'undefined') return false;
+    try {
+        const stored = window.localStorage?.getItem('color-theme');
+        if (stored === 'dark') return true;
+        if (stored === 'light') return false;
+        return document.documentElement.classList.contains('dark') || getSystemPrefersDark();
+    } catch {
+        return document.documentElement.classList.contains('dark');
+    }
+}
+
+export function setDarkMode(enabled: boolean) {
+    try {
+        if (enabled) {
             document.documentElement.classList.add('dark');
-            window.localStorage.setItem('color-theme', 'dark');
+            window.localStorage?.setItem('color-theme', 'dark');
         } else {
             document.documentElement.classList.remove('dark');
-            window.localStorage.setItem('color-theme', 'light');
+            window.localStorage?.setItem('color-theme', 'light');
         }
+    } catch {}
+}
+
+const DarkModeToggle: React.FC = () => {
+    const [isDarkMode, setIsDarkMode] = useState(getDarkMode());
+
+    useEffect(() => {
+        setDarkMode(isDarkMode);
     }, [isDarkMode]);
 
+    useEffect(() => {
+        // Sync with external changes (e.g., other UI triggers)
+        const target = document.documentElement;
+        const observer = new MutationObserver(() => {
+            setIsDarkMode(getDarkMode());
+        });
+        observer.observe(target, { attributes: true, attributeFilter: ['class'] });
+        const onStorage = (e: StorageEvent) => {
+            if (e.key === 'color-theme') setIsDarkMode(getDarkMode());
+        };
+        window.addEventListener('storage', onStorage);
+        return () => {
+            observer.disconnect();
+            window.removeEventListener('storage', onStorage);
+        };
+    }, []);
+
     const toggleDarkMode = () => {
-        setIsDarkMode(!isDarkMode);
+        setIsDarkMode((prev) => !prev);
     };
 
     return (
