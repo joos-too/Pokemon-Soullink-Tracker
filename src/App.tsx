@@ -437,13 +437,13 @@ const App: React.FC = () => {
             />
             <div className="max-w-[1920px] mx-auto bg-white dark:bg-gray-800 shadow-lg p-4 rounded-lg">
                 <header className="relative text-center py-4 border-b-2 border-gray-300 dark:border-gray-700">
-                    <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-press-start tracking-tighter dark:text-gray-100">
+                    <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-3xl 2xl:text-4xl font-bold font-press-start tracking-tighter dark:text-gray-100">
                         {data.player1Name} & {data.player2Name} Soullink
                     </h1>
                     <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">Pokémon Soullink - Challenge Tracker</p>
                     <div className="absolute right-2 sm:right-4 top-2 sm:top-3 flex items-center gap-1 sm:gap-2 z-30">
-                        {/* Desktop icons */}
-                        <div className="hidden sm:flex items-center gap-1 sm:gap-2">
+                        {/* Desktop icons (>=xl) */}
+                        <div className="hidden xl:flex items-center gap-1 sm:gap-2">
                             <DarkModeToggle />
                             <button
                                 onClick={handleReset}
@@ -470,9 +470,9 @@ const App: React.FC = () => {
                                 <FiLogOut size={28} />
                             </button>
                         </div>
-                        {/* Mobile burger */}
+                        {/* Mobile burger (<xl) */}
                         <button
-                          className="sm:hidden p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 focus:outline-none"
+                          className="xl:hidden p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 focus:outline-none"
                           aria-label="Menü"
                           aria-expanded={mobileMenuOpen}
                           onClick={() => setMobileMenuOpen(v => !v)}
@@ -483,7 +483,7 @@ const App: React.FC = () => {
                 </header>
 
                 {/* Mobile side drawer + backdrop */}
-                <div className="sm:hidden">
+                <div className="xl:hidden">
                   {/* Backdrop for outside click */}
                   <div
                     className={`fixed inset-0 bg-black/40 transition-opacity duration-300 ${mobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'} z-40`}
