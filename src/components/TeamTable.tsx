@@ -116,20 +116,22 @@ const TeamTable: React.FC<TeamTableProps> = ({
                     <FiPlus size={18} /> Hinzufügen
                 </button>
             </div>
-            <table className="w-full border-collapse">
+            <table className="w-full table-fixed border-collapse">
                 <thead>
                 <tr>
-                    <HeaderCell color={color1} colSpan={3}>{title}</HeaderCell>
-                    <HeaderCell color={color2} colSpan={2}>{title2}</HeaderCell>
+                    <HeaderCell color={color1} colSpan={4}>{title}</HeaderCell>
+                    <HeaderCell color={color2} colSpan={3}>{title2}</HeaderCell>
                     <th className="p-2 bg-green-600 text-white font-press-start text-[10px] text-center">Gebiet</th>
                     <th className="p-2 bg-gray-700 dark:bg-gray-600 text-white font-press-start text-[10px] text-center">Aktion</th>
                 </tr>
                 <tr>
-                    <th className="p-2 text-xs font-bold text-gray-800 dark:text-gray-300 text-center border-t border-gray-300 dark:border-gray-700">#</th>
-                    <th className="p-2 text-xs font-bold text-gray-800 dark:text-gray-300 text-center border-t border-gray-300 dark:border-gray-700">Pokémon</th>
-                    <th className="p-2 text-xs font-bold text-gray-800 dark:text-gray-300 text-center border-t border-gray-300 dark:border-gray-700">Spitzname</th>
-                    <th className="p-2 text-xs font-bold text-gray-800 dark:text-gray-300 text-center border-t border-gray-300 dark:border-gray-700">Pokémon</th>
-                    <th className="p-2 text-xs font-bold text-gray-800 dark:text-gray-300 text-center border-t border-gray-300 dark:border-gray-700">Spitzname</th>
+                    <th className="p-2 text-xs font-bold text-gray-800 dark:text-gray-300 text-center border-t border-gray-300 dark:border-gray-700 w-8">#</th>
+                    <th className="p-2 text-xs font-bold text-gray-800 dark:text-gray-300 text-center border-t border-gray-300 dark:border-gray-700 w-20"></th>
+                    <th className="p-2 text-xs font-bold text-gray-800 dark:text-gray-300 text-center border-t border-gray-300 dark:border-gray-700 w-40">Pokémon</th>
+                    <th className="p-2 text-xs font-bold text-gray-800 dark:text-gray-300 text-center border-t border-gray-300 dark:border-gray-700 w-40">Spitzname</th>
+                    <th className="p-2 text-xs font-bold text-gray-800 dark:text-gray-300 text-center border-t border-gray-300 dark:border-gray-700 w-20"></th>
+                    <th className="p-2 text-xs font-bold text-gray-800 dark:text-gray-300 text-center border-t border-gray-300 dark:border-gray-700 w-40">Pokémon</th>
+                    <th className="p-2 text-xs font-bold text-gray-800 dark:text-gray-300 text-center border-t border-gray-300 dark:border-gray-700 w-40">Spitzname</th>
                     <th className="p-1 border-t border-gray-300 dark:border-gray-700"></th>
                     <th className="p-1 border-t border-gray-300 dark:border-gray-700"></th>
                 </tr>
@@ -137,30 +139,22 @@ const TeamTable: React.FC<TeamTableProps> = ({
                 <tbody>
                 {rows.length === 0 && (
                     <tr>
-                        <td className="p-3 text-center text-sm text-gray-500 dark:text-gray-400" colSpan={7}>{emptyMessage}</td>
+                        <td className="p-3 text-center text-sm text-gray-500 dark:text-gray-400" colSpan={9}>{emptyMessage}</td>
                     </tr>
                 )}
                 {rows.map(({ pair, originalIndex }, index) => (
                     <tr key={pair.id} className="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50">
                         <td className="p-2 text-center font-bold text-sm text-gray-800 dark:text-gray-200 border-r border-gray-200 dark:border-gray-700">{index + 1}</td>
-                        <td className="p-2 text-center text-sm text-gray-800 dark:text-gray-300">
-                            {pair.player1.name ? (
-                                <div className="inline-flex items-center gap-2">
-                                    {(() => { const url = getOfficialArtworkUrlForGermanName(pair.player1.name); return url ? <img src={url} alt={pair.player1.name} className="w-20 h-20" loading="lazy"/> : null; })()}
-                                    <span>{pair.player1.name}</span>
-                                </div>
-                            ) : '-'}
+                        <td className="p-2 text-center w-20">
+                            {pair.player1.name ? (() => { const url = getOfficialArtworkUrlForGermanName(pair.player1.name); return url ? <img src={url} alt={pair.player1.name} className="w-20 h-20" loading="lazy"/> : null; })() : null}
                         </td>
-                        <td className="p-2 text-center text-sm text-gray-800 dark:text-gray-300 border-r border-gray-200 dark:border-gray-700">{pair.player1.nickname || '-'}</td>
-                        <td className="p-2 text-center text-sm text-gray-800 dark:text-gray-300">
-                            {pair.player2.name ? (
-                                <div className="inline-flex items-center gap-2">
-                                    {(() => { const url = getOfficialArtworkUrlForGermanName(pair.player2.name); return url ? <img src={url} alt={pair.player2.name} className="w-20 h-20" loading="lazy"/> : null; })()}
-                                    <span>{pair.player2.name}</span>
-                                </div>
-                            ) : '-'}
+                        <td className="p-2 text-center text-sm text-gray-800 dark:text-gray-300 w-40">{pair.player1.name || '-'}</td>
+                        <td className="p-2 text-center text-sm text-gray-800 dark:text-gray-300 border-r border-gray-200 dark:border-gray-700 w-40">{pair.player1.nickname || '-'}</td>
+                        <td className="p-2 text-center w-20">
+                            {pair.player2.name ? (() => { const url = getOfficialArtworkUrlForGermanName(pair.player2.name); return url ? <img src={url} alt={pair.player2.name} className="w-20 h-20" loading="lazy"/> : null; })() : null}
                         </td>
-                        <td className="p-2 text-center text-sm text-gray-800 dark:text-gray-300 border-r border-gray-200 dark:border-gray-700">{pair.player2.nickname || '-'}</td>
+                        <td className="p-2 text-center text-sm text-gray-800 dark:text-gray-300 w-40">{pair.player2.name || '-'}</td>
+                        <td className="p-2 text-center text-sm text-gray-800 dark:text-gray-300 border-r border-gray-200 dark:border-gray-700 w-40">{pair.player2.nickname || '-'}</td>
                         <td className="p-2 text-center text-sm text-gray-800 dark:text-gray-300 border-r border-gray-200 dark:border-gray-700">{pair.route || '-'}</td>
                         <td className="p-2 text-center">
                             <div className="inline-flex items-center justify-center gap-1.5">
