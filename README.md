@@ -68,3 +68,16 @@ VITE_FIREBASE_APP_ID=...
 Important:
 - Do not set VITE_USE_FIREBASE_EMULATOR in production. The app will validate these variables at runtime and throw a helpful error if missing.
 - Vite automatically exposes variables prefixed with VITE_ to the client.
+
+## Autocomplete for German Pokémon names 
+
+- The app ships with a preloaded list file at `src/data/pokemon-de.ts` used for zero‑latency suggestions in search fields.
+- To (re)generate this list from PokeAPI, run:
+
+```
+npm run build:names
+```
+
+This fetches all Pokémon species, extracts the german names and writes them back into `src/data/pokemon-de.ts`.
+
+- At runtime, the app also refreshes this list in the background from time to time and caches it in `localStorage` without blocking the UI.

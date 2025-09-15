@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useCallback, useRef, useMemo} from 'react';
-import {FiLogOut, FiSettings, FiRotateCw} from 'react-icons/fi';
+import {FiLogOut, FiSettings, FiRotateCw, FiMenu, FiSun, FiMoon} from 'react-icons/fi';
 import { FaGithub } from 'react-icons/fa';
 import type {AppState, PokemonPair} from '@/types';
 import {INITIAL_STATE, PLAYER1_COLOR, PLAYER2_COLOR, DEFAULT_RULES} from '@/constants';
@@ -12,10 +12,11 @@ import SelectLossModal from '@/src/components/SelectLossModal';
 import LoginPage from '@/src/components/LoginPage';
 import SettingsPage from '@/src/components/SettingsPage';
 import ResetModal from '@/src/components/ResetModal';
-import DarkModeToggle from '@/src/components/DarkModeToggle';
+import DarkModeToggle, { getDarkMode, setDarkMode } from '@/src/components/DarkModeToggle';
 import {db, auth} from '@/src/firebaseConfig';
 import {ref, onValue, set, get} from "firebase/database";
 import {onAuthStateChanged, User, signOut} from "firebase/auth";
+import { initPokemonGermanNamesBackgroundRefresh } from '@/src/services/pokemonSearch';
 
 const App: React.FC = () => {
     const [data, setData] = useState<AppState>(INITIAL_STATE);
@@ -28,6 +29,8 @@ const App: React.FC = () => {
     const skipNextWriteRef = useRef(false);
     const [showLossModal, setShowLossModal] = useState(false);
     const [pendingLossPair, setPendingLossPair] = useState<PokemonPair | null>(null);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [isDark, setIsDark] = useState(getDarkMode());
 
     // Ensure incoming Firebase data matches our expected shape
     const coerceAppState = useCallback((incoming: any, base: AppState): AppState => {
@@ -88,6 +91,21 @@ const App: React.FC = () => {
             setLoading(false);
         });
         return () => unsubscribe();
+    }, []);
+
+    // Preload/refresh German Pokémon names in the background (non-blocking)
+    useEffect(() => {
+        initPokemonGermanNamesBackgroundRefresh();
+    }, []);
+
+    // Keep local isDark in sync with document class/localStorage
+    useEffect(() => {
+        const target = document.documentElement;
+        const observer = new MutationObserver(() => setIsDark(getDarkMode()));
+        observer.observe(target, { attributes: true, attributeFilter: ['class'] });
+        const onStorage = (e: StorageEvent) => { if (e.key === 'color-theme') setIsDark(getDarkMode()); };
+        window.addEventListener('storage', onStorage);
+        return () => { observer.disconnect(); window.removeEventListener('storage', onStorage); };
     }, []);
 
     useEffect(() => {
@@ -368,12 +386,13 @@ const App: React.FC = () => {
         }
     }, [currentBest]);
 
-    if (loading) {
+    // Show loading while auth is initializing, or while initial data is loading for an authenticated user
+    if (loading || (user && !dataLoaded)) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-[#f0f0f0] dark:bg-gray-900">
                 <div className="flex flex-col items-center gap-3" role="status" aria-live="polite">
-                    <div className="h-10 w-10 border-4 border-gray-300 dark:border-gray-600 border-t-blue-600 rounded-full animate-spin" />
-                    <span className="text-gray-600 dark:text-gray-300 text-sm">Loading…</span>
+                    <div className="h-10 w-10 border-4 border-gray-300 dark:border-gray-600 dark:border-t-blue-600 border-t-blue-600 rounded-full animate-spin" />
+                    <span className="text-gray-600 dark:text-gray-300 text-sm">Laden…</span>
                 </div>
             </div>
         );
@@ -418,38 +437,108 @@ const App: React.FC = () => {
             />
             <div className="max-w-[1920px] mx-auto bg-white dark:bg-gray-800 shadow-lg p-4 rounded-lg">
                 <header className="relative text-center py-4 border-b-2 border-gray-300 dark:border-gray-700">
-                    <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-press-start tracking-tighter dark:text-gray-100">
+                    <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-3xl 2xl:text-4xl font-bold font-press-start tracking-tighter dark:text-gray-100">
                         {data.player1Name} & {data.player2Name} Soullink
                     </h1>
                     <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">Pokémon Soullink - Challenge Tracker</p>
-                    <div className="absolute right-2 sm:right-4 top-2 sm:top-3 flex items-center gap-1 sm:gap-2">
-                        <DarkModeToggle />
+                    <div className="absolute right-2 sm:right-4 top-2 sm:top-3 flex items-center gap-1 sm:gap-2 z-30">
+                        {/* Desktop icons (>=xl) */}
+                        <div className="hidden xl:flex items-center gap-1 sm:gap-2">
+                            <DarkModeToggle />
+                            <button
+                                onClick={handleReset}
+                                className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white focus:outline-none"
+                                aria-label="Tracker zurücksetzen"
+                                title="Tracker zurücksetzen"
+                            >
+                                <FiRotateCw size={28} />
+                            </button>
+                            <button
+                                onClick={() => setShowSettings(true)}
+                                className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white focus:outline-none"
+                                aria-label="Einstellungen"
+                                title="Einstellungen"
+                            >
+                                <FiSettings size={28} />
+                            </button>
+                            <button
+                                onClick={handleLogout}
+                                className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white focus:outline-none"
+                                aria-label="Logout"
+                                title="Logout"
+                            >
+                                <FiLogOut size={28} />
+                            </button>
+                        </div>
+                        {/* Mobile burger (<xl) */}
                         <button
-                            onClick={handleReset}
-                            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white focus:outline-none"
-                            aria-label="Tracker zurücksetzen"
-                            title="Tracker zurücksetzen"
+                          className="xl:hidden p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 focus:outline-none"
+                          aria-label="Menü"
+                          aria-expanded={mobileMenuOpen}
+                          onClick={() => setMobileMenuOpen(v => !v)}
                         >
-                            <FiRotateCw size={28} />
-                        </button>
-                        <button
-                            onClick={() => setShowSettings(true)}
-                            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white focus:outline-none"
-                            aria-label="Einstellungen"
-                            title="Einstellungen"
-                        >
-                            <FiSettings size={28} />
-                        </button>
-                        <button
-                            onClick={handleLogout}
-                            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white focus:outline-none"
-                            aria-label="Logout"
-                            title="Logout"
-                        >
-                            <FiLogOut size={28} />
+                          <FiMenu size={26} />
                         </button>
                     </div>
                 </header>
+
+                {/* Mobile side drawer + backdrop */}
+                <div className="xl:hidden">
+                  {/* Backdrop for outside click */}
+                  <div
+                    className={`fixed inset-0 bg-black/40 transition-opacity duration-300 ${mobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'} z-40`}
+                    onClick={() => setMobileMenuOpen(false)}
+                    aria-hidden
+                  />
+                  {/* Sliding panel */}
+                  <div
+                    className={`fixed top-0 right-0 h-full w-64 bg-white dark:bg-gray-800 border-l border-gray-200 dark:border-gray-700 shadow-xl transform transition-transform duration-300 ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'} z-50`}
+                    role="dialog"
+                    aria-label="Mobile Menü"
+                  >
+                    <div className="p-3 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                      <span className="text-sm font-semibold text-gray-800 dark:text-gray-200">Menü</span>
+                      <button
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="p-1 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200"
+                        aria-label="Menü schließen"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                    <div className="p-2 space-y-1">
+                      <button
+                        onClick={() => { const next = !isDark; setDarkMode(next); setIsDark(next); }}
+                        className="w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2"
+                        title={isDark ? 'Tageslichtmodus' : 'Dunkelmodus'}
+                      >
+                        {isDark ? <FiSun size={18} /> : <FiMoon size={18} />}
+                        {isDark ? 'Tageslichtmodus' : 'Dunkelmodus'}
+                      </button>
+                      <button
+                        onClick={() => { setMobileMenuOpen(false); handleReset(); }}
+                        className="w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2"
+                        title="Tracker zurücksetzen"
+                      >
+                        <FiRotateCw size={18} /> Tracker zurücksetzen
+                      </button>
+                      <button
+                        onClick={() => { setMobileMenuOpen(false); setShowSettings(true); }}
+                        className="w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2"
+                        title="Einstellungen"
+                      >
+                        <FiSettings size={18} /> Einstellungen
+                      </button>
+                      <button
+                        onClick={() => { setMobileMenuOpen(false); handleLogout(); }}
+                        className="w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2"
+                        title="Abmelden"
+                      >
+                        <FiLogOut size={18} /> Abmelden
+                      </button>
+                    </div>
+                  </div>
+                </div>
 
                 <main className="grid grid-cols-1 xl:grid-cols-3 gap-6 mt-6">
                     <div className="xl:col-span-2 space-y-8">
@@ -534,7 +623,7 @@ const App: React.FC = () => {
                         title="View on GitHub"
                     >
                         <FaGithub size={18} aria-hidden="true" />
-                        <span className="text-sm">vibecoded by joos-too</span>
+                        <span className="text-sm">vibecoded by joos-too & FreakMediaLP</span>
                     </a>
                 </footer>
             </div>
