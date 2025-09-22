@@ -1,7 +1,7 @@
 import React, {useMemo, useState} from 'react';
 import type {PokemonPair} from '@/types';
 import EditPairModal from './EditPairModal';
-import {FiEdit, FiPlus, FiTrash, FiArrowUp, FiArrowDown} from "react-icons/fi";
+import {FiEdit, FiPlus, FiTrash, FiArrowUp, FiArrowDown, FiChevronsUp} from "react-icons/fi";
 import { getOfficialArtworkUrlForGermanName } from '@/src/services/sprites';
 
 interface TeamTableProps {
@@ -161,14 +161,25 @@ const TeamTable: React.FC<TeamTableProps> = ({
                             <div className="inline-flex items-center justify-center gap-1.5">
                                 {/* Edit button */}
                                 {(pair.player1.name || pair.player2.name || pair.route) && (
-                                    <button
-                                        type={"button"}
-                                        onClick={() => setEditIndex(originalIndex)}
-                                        className={`p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 inline-flex items-center justify-center text-gray-700 dark:text-gray-300`}
-                                        title={'Bearbeiten'}
-                                    >
-                                        <FiEdit size={20}/>
-                                    </button>
+                                    <>
+                                        <button
+                                            type={"button"}
+                                            onClick={() => setEditIndex(originalIndex)}
+                                            className={`p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 inline-flex items-center justify-center text-gray-700 dark:text-gray-300`}
+                                            title={'Bearbeiten'}
+                                        >
+                                            <FiEdit size={20}/>
+                                        </button>
+                                        {/* Evolve button (no functionality yet) */}
+                                        <button
+                                            type="button"
+                                            className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 inline-flex items-center justify-center text-gray-700 dark:text-gray-300"
+                                            title="Entwickeln"
+                                            aria-label="Entwickeln"
+                                        >
+                                            <FiChevronsUp size={18} />
+                                        </button>
+                                    </>
                                 )}
                                 {/* Move between Team <-> Box */}
                                 {context === 'team' ? (
