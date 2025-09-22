@@ -437,6 +437,14 @@ const App: React.FC = () => {
             />
             <div className="max-w-[1920px] mx-auto bg-white dark:bg-gray-800 shadow-lg p-4 rounded-lg">
                 <header className="relative text-center py-4 border-b-2 border-gray-300 dark:border-gray-700">
+                    {/* Logo oben links */}
+                    <div className="absolute left-2 sm:left-4 top-2 sm:top-3 z-30 flex items-center">
+                        <img
+                            src="/Soullinktracker-Logo - cropped.png"
+                            alt="Soullink Logo"
+                            className="w-16 h-16 object-contain"
+                        />
+                    </div>
                     <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-3xl 2xl:text-4xl font-bold font-press-start tracking-tighter dark:text-gray-100">
                         {data.player1Name} & {data.player2Name} Soullink
                     </h1>

@@ -27,6 +27,12 @@ const LoginPage = () => {
       <div className="w-full max-w-md">
         <div className="bg-white dark:bg-gray-800 shadow-lg p-6 sm:p-8 rounded-lg">
           <header className="text-center pb-4 border-b-2 border-gray-200 dark:border-gray-700">
+            {/* Logo oberhalb des Titels */}
+            <img
+              src="/Soullinktracker-Logo - cropped.png"
+              alt="Soullink Tracker Logo"
+              className="mx-auto mb-3 w-40 h-40 object-contain"
+            />
             <h1 className="text-2xl sm:text-3xl font-bold font-press-start tracking-tighter dark:text-gray-100">
               Soullink Tracker
             </h1>
