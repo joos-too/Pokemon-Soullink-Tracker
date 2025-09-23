@@ -16,7 +16,7 @@
 **Prerequisites:**  [Node.js + npm](https://nodejs.org/en/download/) and [git](https://git-scm.com/downloads) installed
 
 1. Clone the repository at the desired release tag:
-    `git clone --branch v1.1.0 https://github.com/joos-too/pokemon-soullink-tracker.git`
+    `git clone --branch v1.2.0 https://github.com/joos-too/pokemon-soullink-tracker.git`
 2. Configure the environment as described below.
 3. Install dependencies:
    `npm install`
