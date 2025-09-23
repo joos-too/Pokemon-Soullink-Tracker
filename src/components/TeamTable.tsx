@@ -1,6 +1,7 @@
 import React, {useMemo, useState} from 'react';
 import type {PokemonPair} from '@/types';
 import EditPairModal from './EditPairModal';
+import SelectEvolveModal from './SelectEvolveModal';
 import {FiEdit, FiPlus, FiTrash, FiArrowUp, FiArrowDown, FiChevronsUp} from "react-icons/fi";
 import {getOfficialArtworkUrlForGermanName} from '@/src/services/sprites';
 
@@ -66,6 +67,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
 
     const [editIndex, setEditIndex] = useState<number | null>(null);
     const [addOpen, setAddOpen] = useState(false);
+    const [evolveIndex, setEvolveIndex] = useState<number | null>(null);
 
     const closeModal = () => setEditIndex(null);
 
@@ -219,6 +221,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                                             {/* Evolve button (no functionality yet) */}
                                             <button
                                                 type="button"
+                                                onClick={() => setEvolveIndex(originalIndex)}
                                                 className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 inline-flex items-center justify-center text-gray-700 dark:text-gray-300"
                                                 title="Entwickeln"
                                                 aria-label="Entwickeln"
@@ -252,6 +255,18 @@ const TeamTable: React.FC<TeamTableProps> = ({
                 player2Label={player2Name}
                 mode="edit"
                 initial={editInitial || {route: '', p1Name: '', p1Nickname: '', p2Name: '', p2Nickname: ''}}
+            />
+            <SelectEvolveModal
+                isOpen={evolveIndex !== null}
+                onClose={() => setEvolveIndex(null)}
+                onConfirm={(player, newName) => {
+                    if (evolveIndex === null) return;
+                    onPokemonChange(evolveIndex, player, 'name', newName);
+                    setEvolveIndex(null);
+                }}
+                pair={evolveIndex !== null ? data[evolveIndex] : null}
+                player1Label={player1Name}
+                player2Label={player2Name}
             />
             <EditPairModal
                 isOpen={addOpen}
