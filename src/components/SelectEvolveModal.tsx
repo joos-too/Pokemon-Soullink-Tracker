@@ -116,8 +116,10 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({isOpen, onClose, o
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-md">
-        <div className="flex justify-between items-center mb-4">
+      {/* modal shell: limit overall height and hide overflow so inner area can scroll */}
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md max-h-[80vh] overflow-hidden">
+        {/* header */}
+        <div className="px-6 py-4 flex justify-between items-center border-b border-gray-100 dark:border-gray-700">
           <h2 className="text-lg font-bold dark:text-gray-100">Entwickeln</h2>
           <button onClick={onClose} className="text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200" aria-label="Schließen">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -126,52 +128,56 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({isOpen, onClose, o
           </button>
         </div>
 
-        <form onSubmit={handleConfirm}>
-          {!selectedPlayer && (
-            <div className="mb-4 text-sm text-gray-700 dark:text-gray-300">
-              <div className="mb-2">Welches Pok&eacute;mon soll entwickelt werden?</div>
-              <label className="flex items-center gap-2 cursor-pointer dark:text-gray-200">
-                <input type="radio" name="which" value="player1" checked={selectedPlayer === 'player1'} onChange={() => setSelectedPlayer('player1')} className="h-4 w-4 accent-green-600"/>
-                <div>
-                  <div className="font-semibold">{player1Label}</div>
-                  <div className="text-sm">{pair?.player1?.name || '—'}{pair?.player1?.nickname ? ` (${pair.player1.nickname})` : ''}</div>
-                </div>
-              </label>
-              <label className="flex items-center gap-2 mt-3 cursor-pointer dark:text-gray-200">
-                <input type="radio" name="which" value="player2" checked={selectedPlayer === 'player2'} onChange={() => setSelectedPlayer('player2')} className="h-4 w-4 accent-green-600"/>
-                <div>
-                  <div className="font-semibold">{player2Label}</div>
-                  <div className="text-sm">{pair?.player2?.name || '—'}{pair?.player2?.nickname ? ` (${pair.player2.nickname})` : ''}</div>
-                </div>
-              </label>
-            </div>
-          )}
+        <form onSubmit={handleConfirm} className="px-6 pb-6">
+          {/* scrollable content area; keeps header and footer visible */}
+          <div className="overflow-auto max-h-[60vh] pr-2 pt-4">
+            {!selectedPlayer && (
+              <div className="mb-4 text-sm text-gray-700 dark:text-gray-300">
+                <div className="mb-2">Welches Pok&eacute;mon soll entwickelt werden?</div>
+                <label className="flex items-center gap-2 cursor-pointer dark:text-gray-200">
+                  <input type="radio" name="which" value="player1" checked={selectedPlayer === 'player1'} onChange={() => setSelectedPlayer('player1')} className="h-4 w-4 accent-green-600"/>
+                  <div>
+                    <div className="font-semibold">{player1Label}</div>
+                    <div className="text-sm">{pair?.player1?.name || '—'}{pair?.player1?.nickname ? ` (${pair.player1.nickname})` : ''}</div>
+                  </div>
+                </label>
+                <label className="flex items-center gap-2 mt-3 cursor-pointer dark:text-gray-200">
+                  <input type="radio" name="which" value="player2" checked={selectedPlayer === 'player2'} onChange={() => setSelectedPlayer('player2')} className="h-4 w-4 accent-green-600"/>
+                  <div>
+                    <div className="font-semibold">{player2Label}</div>
+                    <div className="text-sm">{pair?.player2?.name || '—'}{pair?.player2?.nickname ? ` (${pair.player2.nickname})` : ''}</div>
+                  </div>
+                </label>
+              </div>
+            )}
 
-          {selectedPlayer && (
-            <div className="mb-4">
-              <div className="font-semibold mb-2">{currentName} entwickeln?</div>
+            {selectedPlayer && (
+              <div className="mb-4">
+                <div className="font-semibold mb-2">{currentName} entwickeln?</div>
 
-              {loading && <div className="text-sm text-gray-500">Lade Entwicklungen…</div>}
+                {loading && <div className="text-sm text-gray-500">Lade Entwicklungen…</div>}
 
-              {!loading && availableEvos && availableEvos.length === 0 && (
-                <div className="text-sm text-gray-600 dark:text-gray-300">Für dieses Pokémon sind keine Entwicklungen verfügbar.</div>
-              )}
+                {!loading && availableEvos && availableEvos.length === 0 && (
+                  <div className="text-sm text-gray-600 dark:text-gray-300">Für dieses Pokémon sind keine Entwicklungen verfügbar.</div>
+                )}
 
-              {!loading && availableEvos && availableEvos.length > 0 && (
-                <div className="space-y-3">
-                  {availableEvos.map((ev) => (
-                    <label key={ev.id} className="flex items-center gap-3 cursor-pointer dark:text-gray-200">
-                      <input type="radio" name="evo" value={ev.id} checked={selectedEvoId === ev.id} onChange={() => setSelectedEvoId(ev.id)} className="h-4 w-4 accent-green-600"/>
-                      <img src={ev.artworkUrl || getOfficialArtworkUrlById(ev.id)} alt={ev.name} className="w-16 h-16 object-contain"/>
-                      <div className="text-sm">{ev.name}</div>
-                    </label>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
+                {!loading && availableEvos && availableEvos.length > 0 && (
+                  <div className="space-y-3">
+                    {availableEvos.map((ev) => (
+                      <label key={ev.id} className="flex items-center gap-3 cursor-pointer dark:text-gray-200">
+                        <input type="radio" name="evo" value={ev.id} checked={selectedEvoId === ev.id} onChange={() => setSelectedEvoId(ev.id)} className="h-4 w-4 accent-green-600"/>
+                        <img src={ev.artworkUrl || getOfficialArtworkUrlById(ev.id)} alt={ev.name} className="w-16 h-16 object-contain"/>
+                        <div className="text-sm">{ev.name}</div>
+                      </label>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
 
-          <div className="mt-6 flex justify-end gap-2">
+          {/* footer buttons (kept visible) */}
+          <div className="mt-4 flex justify-end gap-2">
             <button type="button" onClick={onClose} className="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700">Abbrechen</button>
             <button type="submit" disabled={!selectedPlayer || selectedEvoId === null} className={`px-4 py-2 rounded-md font-semibold shadow ${selectedEvoId ? 'bg-green-600 text-white hover:bg-green-700' : 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed'}`}>
               Bestätigen
