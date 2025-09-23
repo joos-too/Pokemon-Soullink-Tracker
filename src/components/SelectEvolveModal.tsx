@@ -166,7 +166,7 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({isOpen, onClose, o
                     {availableEvos.map((ev) => (
                       <label key={ev.id} className="flex items-center gap-3 cursor-pointer dark:text-gray-200">
                         <input type="radio" name="evo" value={ev.id} checked={selectedEvoId === ev.id} onChange={() => setSelectedEvoId(ev.id)} className="h-4 w-4 accent-green-600"/>
-                        <img src={ev.artworkUrl || getOfficialArtworkUrlById(ev.id)} alt={ev.name} className="w-16 h-16 object-contain"/>
+                        <img src={ev.artworkUrl || getOfficialArtworkUrlById(ev.id)} alt="" className="w-16 h-16 object-contain"/>
                         <div className="text-sm">{ev.name}</div>
                       </label>
                     ))}
