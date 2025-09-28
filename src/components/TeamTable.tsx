@@ -177,7 +177,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                             <td className="py-2 pl-1 pr-2 text-center text-sm text-gray-800 dark:text-gray-300">{pair.player2.name || '-'}</td>
                             <td className="py-2 px-2 text-center text-sm text-gray-800 dark:text-gray-300 border-r border-gray-200 dark:border-gray-700">{pair.player2.nickname || '-'}</td>
                             <td className="p-2 text-center text-sm text-gray-800 dark:text-gray-300 border-r border-gray-200 dark:border-gray-700">{pair.route || '-'}</td>
-                            <td className="p-2 text-center">
+                            <td className="p-2 text-center w-40">
                                 <div className="inline-flex items-center justify-center gap-1.5">
                                     {/* Edit button */}
                                     {(pair.player1.name || pair.player2.name || pair.route) && (

@@ -52,23 +52,23 @@ const App: React.FC = () => {
         };
         const safe = (incoming && typeof incoming === 'object') ? incoming : {};
         return {
-          player1Name: safe.player1Name ?? base.player1Name,
-          player2Name: safe.player2Name ?? base.player2Name,
-          team: sanitizeArray(safe.team, base.team),
-          box: sanitizeArray(safe.box, base.box),
-          graveyard: sanitizeArray(safe.graveyard, base.graveyard),
-          rules: Array.isArray(safe.rules) ? safe.rules.map((r: any) => (typeof r === 'string' ? r : '')).filter((r: string) => r.trim().length > 0) : base.rules ?? DEFAULT_RULES,
-          levelCaps: Array.isArray(safe.levelCaps)
-            ? safe.levelCaps.map((cap: any, i: number) => ({
-                id: Number(cap?.id ?? base.levelCaps[i]?.id ?? i + 1),
-                arena: typeof cap?.arena === 'string' ? cap.arena : (base.levelCaps[i]?.arena ?? ''),
-                level: typeof cap?.level === 'string' ? cap.level : (base.levelCaps[i]?.level ?? ''),
-                done: Boolean(cap?.done),
-              }))
-            : base.levelCaps,
-          stats: {
-            runs: safe.stats?.runs ?? base.stats.runs,
-            best: safe.stats?.best ?? base.stats.best,
+            player1Name: safe.player1Name ?? base.player1Name,
+            player2Name: safe.player2Name ?? base.player2Name,
+            team: sanitizeArray(safe.team, base.team),
+            box: sanitizeArray(safe.box, base.box),
+            graveyard: sanitizeArray(safe.graveyard, base.graveyard),
+            rules: Array.isArray(safe.rules) ? safe.rules.map((r: any) => (typeof r === 'string' ? r : '')).filter((r: string) => r.trim().length > 0) : base.rules ?? DEFAULT_RULES,
+            levelCaps: Array.isArray(safe.levelCaps)
+                ? safe.levelCaps.map((cap: any, i: number) => ({
+                    id: Number(cap?.id ?? base.levelCaps[i]?.id ?? i + 1),
+                    arena: typeof cap?.arena === 'string' ? cap.arena : (base.levelCaps[i]?.arena ?? ''),
+                    level: typeof cap?.level === 'string' ? cap.level : (base.levelCaps[i]?.level ?? ''),
+                    done: Boolean(cap?.done),
+                }))
+                : base.levelCaps,
+            stats: {
+                runs: safe.stats?.runs ?? base.stats.runs,
+                best: safe.stats?.best ?? base.stats.best,
                 top4Items: {
                     player1: safe.stats?.top4Items?.player1 ?? base.stats.top4Items.player1,
                     player2: safe.stats?.top4Items?.player2 ?? base.stats.top4Items.player2,
@@ -81,7 +81,9 @@ const App: React.FC = () => {
                     player1: safe.stats?.sumDeaths?.player1 ?? base.stats.sumDeaths?.player1 ?? 0,
                     player2: safe.stats?.sumDeaths?.player2 ?? base.stats.sumDeaths?.player2 ?? 0,
                 },
+                legendaryEncounters: safe.stats?.legendaryEncounters ?? base.stats.legendaryEncounters ?? 0,
             },
+            legendaryTrackerEnabled: safe.legendaryTrackerEnabled ?? base.legendaryTrackerEnabled ?? true,
         };
     }, []);
 
@@ -163,13 +165,14 @@ const App: React.FC = () => {
         setShowResetModal(true);
     };
 
-    const handleConfirmReset = (mode: 'current' | 'all') => {
+    const handleConfirmReset = (mode: 'current' | 'all' | 'legendary') => {
         if (mode === 'all') {
             setData(INITIAL_STATE);
-        } else {
+        } else if (mode === 'current') {
             setData(prev => ({
                 ...INITIAL_STATE,
                 rules: prev.rules, // keep rules on non-full reset
+                legendaryTrackerEnabled: prev.legendaryTrackerEnabled,
                 // Preserve level cap entries (id, arena, level) and only reset the done flag
                 levelCaps: prev.levelCaps.map(cap => ({ ...cap, done: false })),
                 stats: {
@@ -181,8 +184,11 @@ const App: React.FC = () => {
                         player1: (prev.stats.sumDeaths?.player1 ?? 0) + (prev.stats.deaths.player1 ?? 0),
                         player2: (prev.stats.sumDeaths?.player2 ?? 0) + (prev.stats.deaths.player2 ?? 0),
                     },
+                    legendaryEncounters: prev.stats.legendaryEncounters ?? 0,
                 },
             }));
+        } else if (mode === 'legendary') {
+            handlelegendaryReset();
         }
         setShowResetModal(false);
     };
@@ -236,7 +242,7 @@ const App: React.FC = () => {
     }, []);
 
     const handleLevelCapChange = useCallback((index: number, value: string) => {
-      updateNestedState(setData, 'levelCaps', index, 'level', null, value);
+        updateNestedState(setData, 'levelCaps', index, 'level', null, value);
     }, []);
 
     const handleLevelCapToggle = useCallback((index: number) => {
@@ -349,6 +355,30 @@ const App: React.FC = () => {
         setData(prev => ({...prev, [player]: name}));
     };
 
+    const handlelegendaryTrackerToggle = (enabled: boolean) => {
+        setData(prev => ({ ...prev, legendaryTrackerEnabled: enabled }));
+    };
+
+    const handlelegendaryReset = () => {
+        setData(prev => ({
+            ...prev,
+            stats: {
+                ...prev.stats,
+                legendaryEncounters: 0,
+            },
+        }));
+    };
+
+    const handlelegendaryIncrement = () => {
+        setData(prev => ({
+            ...prev,
+            stats: {
+                ...prev.stats,
+                legendaryEncounters: (prev.stats.legendaryEncounters ?? 0) + 1,
+            },
+        }));
+    };
+
     const clearedRoutes = useMemo(() => {
         const routes: string[] = [];
         const collect = (arr: PokemonPair[] | undefined | null) => {
@@ -409,6 +439,8 @@ const App: React.FC = () => {
                 player2Name={data.player2Name}
                 onNameChange={handleNameChange}
                 onBack={() => setShowSettings(false)}
+                legendaryTrackerEnabled={data.legendaryTrackerEnabled ?? true}
+                onlegendaryTrackerToggle={handlelegendaryTrackerToggle}
             />
         );
     }
@@ -434,6 +466,7 @@ const App: React.FC = () => {
                 isOpen={showResetModal}
                 onClose={() => setShowResetModal(false)}
                 onConfirm={handleConfirmReset}
+                legendaryTrackerEnabled={data.legendaryTrackerEnabled ?? true}
             />
             <div className="max-w-[1920px] mx-auto bg-white dark:bg-gray-800 shadow-lg p-4 rounded-lg">
                 <header className="relative text-center py-4 border-b-2 border-gray-300 dark:border-gray-700">
@@ -480,72 +513,72 @@ const App: React.FC = () => {
                         </div>
                         {/* Mobile burger (<xl) */}
                         <button
-                          className="xl:hidden p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 focus:outline-none"
-                          aria-label="Menü"
-                          aria-expanded={mobileMenuOpen}
-                          onClick={() => setMobileMenuOpen(v => !v)}
+                            className="xl:hidden p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 focus:outline-none"
+                            aria-label="Menü"
+                            aria-expanded={mobileMenuOpen}
+                            onClick={() => setMobileMenuOpen(v => !v)}
                         >
-                          <FiMenu size={26} />
+                            <FiMenu size={26} />
                         </button>
                     </div>
                 </header>
 
                 {/* Mobile side drawer + backdrop */}
                 <div className="xl:hidden">
-                  {/* Backdrop for outside click */}
-                  <div
-                    className={`fixed inset-0 bg-black/40 transition-opacity duration-300 ${mobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'} z-40`}
-                    onClick={() => setMobileMenuOpen(false)}
-                    aria-hidden
-                  />
-                  {/* Sliding panel */}
-                  <div
-                    className={`fixed top-0 right-0 h-full w-64 bg-white dark:bg-gray-800 border-l border-gray-200 dark:border-gray-700 shadow-xl transform transition-transform duration-300 ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'} z-50`}
-                    role="dialog"
-                    aria-label="Mobile Menü"
-                  >
-                    <div className="p-3 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
-                      <span className="text-sm font-semibold text-gray-800 dark:text-gray-200">Menü</span>
-                      <button
+                    {/* Backdrop for outside click */}
+                    <div
+                        className={`fixed inset-0 bg-black/40 transition-opacity duration-300 ${mobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'} z-40`}
                         onClick={() => setMobileMenuOpen(false)}
-                        className="p-1 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200"
-                        aria-label="Menü schließen"
-                      >
-                        ✕
-                      </button>
+                        aria-hidden
+                    />
+                    {/* Sliding panel */}
+                    <div
+                        className={`fixed top-0 right-0 h-full w-64 bg-white dark:bg-gray-800 border-l border-gray-200 dark:border-gray-700 shadow-xl transform transition-transform duration-300 ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'} z-50`}
+                        role="dialog"
+                        aria-label="Mobile Menü"
+                    >
+                        <div className="p-3 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                            <span className="text-sm font-semibold text-gray-800 dark:text-gray-200">Menü</span>
+                            <button
+                                onClick={() => setMobileMenuOpen(false)}
+                                className="p-1 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200"
+                                aria-label="Menü schließen"
+                            >
+                                ✕
+                            </button>
+                        </div>
+                        <div className="p-2 space-y-1">
+                            <button
+                                onClick={() => { const next = !isDark; setDarkMode(next); setIsDark(next); }}
+                                className="w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2"
+                                title={isDark ? 'Tageslichtmodus' : 'Dunkelmodus'}
+                            >
+                                {isDark ? <FiSun size={18} /> : <FiMoon size={18} />}
+                                {isDark ? 'Tageslichtmodus' : 'Dunkelmodus'}
+                            </button>
+                            <button
+                                onClick={() => { setMobileMenuOpen(false); handleReset(); }}
+                                className="w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2"
+                                title="Tracker zurücksetzen"
+                            >
+                                <FiRotateCw size={18} /> Tracker zurücksetzen
+                            </button>
+                            <button
+                                onClick={() => { setMobileMenuOpen(false); setShowSettings(true); }}
+                                className="w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2"
+                                title="Einstellungen"
+                            >
+                                <FiSettings size={18} /> Einstellungen
+                            </button>
+                            <button
+                                onClick={() => { setMobileMenuOpen(false); handleLogout(); }}
+                                className="w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2"
+                                title="Abmelden"
+                            >
+                                <FiLogOut size={18} /> Abmelden
+                            </button>
+                        </div>
                     </div>
-                    <div className="p-2 space-y-1">
-                      <button
-                        onClick={() => { const next = !isDark; setDarkMode(next); setIsDark(next); }}
-                        className="w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2"
-                        title={isDark ? 'Tageslichtmodus' : 'Dunkelmodus'}
-                      >
-                        {isDark ? <FiSun size={18} /> : <FiMoon size={18} />}
-                        {isDark ? 'Tageslichtmodus' : 'Dunkelmodus'}
-                      </button>
-                      <button
-                        onClick={() => { setMobileMenuOpen(false); handleReset(); }}
-                        className="w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2"
-                        title="Tracker zurücksetzen"
-                      >
-                        <FiRotateCw size={18} /> Tracker zurücksetzen
-                      </button>
-                      <button
-                        onClick={() => { setMobileMenuOpen(false); setShowSettings(true); }}
-                        className="w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2"
-                        title="Einstellungen"
-                      >
-                        <FiSettings size={18} /> Einstellungen
-                      </button>
-                      <button
-                        onClick={() => { setMobileMenuOpen(false); handleLogout(); }}
-                        className="w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2"
-                        title="Abmelden"
-                      >
-                        <FiLogOut size={18} /> Abmelden
-                      </button>
-                    </div>
-                  </div>
                 </div>
 
                 <main className="grid grid-cols-1 xl:grid-cols-3 gap-6 mt-6">
@@ -612,6 +645,8 @@ const App: React.FC = () => {
                             onNestedStatChange={handleNestedStatChange}
                             rules={data.rules}
                             onRulesChange={(rules) => setData(prev => ({ ...prev, rules }))}
+                            legendaryTrackerEnabled={data.legendaryTrackerEnabled ?? true}
+                            onlegendaryIncrement={handlelegendaryIncrement}
                         />
                         <Graveyard
                             graveyard={data.graveyard}
