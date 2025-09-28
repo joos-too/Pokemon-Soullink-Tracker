@@ -32,6 +32,7 @@ export interface Stats {
     player1: number;
     player2: number;
   };
+  legendaryEncounters?: number;
 }
 
 export interface AppState {
@@ -43,4 +44,5 @@ export interface AppState {
   rules: string[];
   levelCaps: LevelCap[];
   stats: Stats;
+  legendaryTrackerEnabled?: boolean;
 }

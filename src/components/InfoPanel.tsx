@@ -3,6 +3,7 @@ import type {LevelCap, Stats} from '@/types';
 import EditableCell from './EditableCell';
 import {PLAYER1_COLOR, PLAYER2_COLOR} from '@/constants';
 import {FiMinus, FiPlus, FiEdit, FiX, FiSave} from 'react-icons/fi';
+import {getSpriteUrlForGermanName} from '@/src/services/sprites';
 
 interface InfoPanelProps {
     player1Name: string;
@@ -15,6 +16,8 @@ interface InfoPanelProps {
     onNestedStatChange: (group: keyof Stats, key: string, value: string) => void;
     rules: string[];
     onRulesChange: (rules: string[]) => void;
+    legendaryTrackerEnabled: boolean;
+    onlegendaryIncrement: () => void;
 }
 
 const InfoPanel: React.FC<InfoPanelProps> = ({
@@ -26,7 +29,9 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                                  onLevelCapToggle,
                                                  onNestedStatChange,
                                                  rules,
-                                                 onRulesChange
+                                                 onRulesChange,
+                                                 legendaryTrackerEnabled,
+                                                 onlegendaryIncrement,
                                              }) => {
     const [isEditingRules, setIsEditingRules] = useState(false);
     const [draftRules, setDraftRules] = useState<string[]>(rules);
@@ -141,6 +146,34 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                     </div>
                 </div>
             </div>
+
+            {legendaryTrackerEnabled && (
+                <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700 overflow-hidden">
+                    <h2 className="text-center p-2 text-black font-press-start text-sm" style={{backgroundColor: '#cfcfc3'}}>Legendären begegnet</h2>
+                    <div className="p-3 flex items-center justify-center relative">
+                        <div className="flex items-center justify-center gap-3">
+                            <img
+                                src={getSpriteUrlForGermanName("Arceus") || ""}
+                                alt="Arceus"
+                                className="w-16 h-16"
+                            />
+                            <div className="text-4xl font-press-start text-gray-800 dark:text-gray-200">
+                                {stats.legendaryEncounters ?? 0}
+                            </div>
+                        </div>
+
+                        <button
+                            type="button"
+                            onClick={onlegendaryIncrement}
+                            className="absolute top-1/2 right-3 -translate-y-1/2 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300"
+                            aria-label="Legendäre Begegnung hinzufügen"
+                            title="Legendäre Begegnung hinzufügen"
+                        >
+                            <FiPlus size={28}/>
+                        </button>
+                    </div>
+                </div>
+            )}
 
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700">
                 <div className="relative">
