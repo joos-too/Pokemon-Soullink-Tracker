@@ -1,40 +1,56 @@
 import React, { useState } from 'react';
-import type {LevelCap, Stats} from '@/types';
+import type {LevelCap, RivalCap, Stats} from '@/types';
 import EditableCell from './EditableCell';
 import {PLAYER1_COLOR, PLAYER2_COLOR} from '@/constants';
-import {FiMinus, FiPlus, FiEdit, FiX, FiSave} from 'react-icons/fi';
+import {FiMinus, FiPlus, FiEdit, FiX, FiSave, FiEye} from 'react-icons/fi';
 import {getSpriteUrlForGermanName} from '@/src/services/sprites';
 
 interface InfoPanelProps {
     player1Name: string;
     player2Name: string;
     levelCaps: LevelCap[];
+    rivalCaps: RivalCap[];
     stats: Stats;
     onLevelCapChange: (index: number, value: string) => void;
     onLevelCapToggle: (index: number) => void;
+    onRivalCapToggleDone: (index: number) => void;
+    onRivalCapReveal: (index: number) => void;
     onStatChange: (stat: keyof Stats, value: string) => void;
     onNestedStatChange: (group: keyof Stats, key: string, value: string) => void;
     rules: string[];
     onRulesChange: (rules: string[]) => void;
     legendaryTrackerEnabled: boolean;
+    rivalCensorEnabled: boolean;
     onlegendaryIncrement: () => void;
 }
+
+const RivalImage: React.FC<{ name: string }> = ({ name }) => {
+    const imageName = name.toLowerCase().replace(/ & /g, '_').replace(/ /g, '_').replace(/[^a-z0-9_]/g, '') + '.png';
+    const imagePath = `/rival-sprites/${imageName}`;
+    return <img src={imagePath} alt={name} title={name} className="w-8 h-8 object-contain mx-auto" />;
+};
 
 const InfoPanel: React.FC<InfoPanelProps> = ({
                                                  player1Name,
                                                  player2Name,
                                                  levelCaps,
+                                                 rivalCaps,
                                                  stats,
                                                  onLevelCapChange,
                                                  onLevelCapToggle,
+                                                 onRivalCapToggleDone,
+                                                 onRivalCapReveal,
                                                  onNestedStatChange,
                                                  rules,
                                                  onRulesChange,
                                                  legendaryTrackerEnabled,
+                                                 rivalCensorEnabled,
                                                  onlegendaryIncrement,
                                              }) => {
     const [isEditingRules, setIsEditingRules] = useState(false);
     const [draftRules, setDraftRules] = useState<string[]>(rules);
+
+    const nextRivalToRevealIndex = rivalCensorEnabled ? rivalCaps.findIndex(rc => !rc.revealed) : -1;
 
     const startEditRules = () => {
         setDraftRules(rules);
@@ -55,7 +71,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
 
     return (
         <div className="space-y-6">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-4">
                     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700 overflow-hidden">
                         <h2 className="text-center p-2 bg-blue-600 text-white font-press-start text-[10px]">Aktueller Level Cap</h2>
@@ -111,8 +127,9 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                     </div>
                 </div>
 
+                <div className="space-y-4">
                 <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700 overflow-hidden">
-                    <h2 className="text-center p-2 text-white font-press-start text-[10px]" style={{backgroundColor: '#cf5930'}}>Level Caps</h2>
+                        <h2 className="text-center p-2 text-white font-press-start text-[10px]" style={{backgroundColor: '#cf5930'}}>Arenen-Caps</h2>
                     <table className="w-full">
                         <tbody>
                         {levelCaps.map((cap, index) => (
@@ -128,6 +145,59 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                         ))}
                         </tbody>
                     </table>
+                </div>
+
+                    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700 overflow-hidden">
+                        <h2 className="text-center p-2 text-white font-press-start text-[10px]" style={{backgroundColor: '#4285F4'}}>Rivalen-Caps</h2>
+                        <div className="overflow-x-auto">
+                            <table className="w-full table-fixed">
+                                <thead>
+                                {/*
+                                <tr className="bg-gray-50 dark:bg-gray-700/50">
+                                        <th style={{width: '10%'}}></th>
+                                        <th className="px-2 py-1 text-xs font-bold text-gray-600 dark:text-gray-400 text-left" style={{width: '35%'}}>Ort</th>
+                                    <th className="px-2 py-1 text-xs font-bold text-gray-600 dark:text-gray-400 text-center" style={{width: '35%'}}>Rivale</th>
+                                    <th className="px-2 py-1 text-xs font-bold text-gray-600 dark:text-gray-400 text-center" style={{width: '20%'}}>Level</th>
+                                </tr>
+                                */}
+                                </thead>
+                                <tbody>
+                                {rivalCaps.map((rc, index) => (
+                                    <tr key={rc.id} className={`border-t border-gray-200 dark:border-gray-700 ${rc.done ? 'bg-green-100 dark:bg-green-900/50' : ''}`}>
+                                        {rivalCensorEnabled && !rc.revealed ? (
+                                            <td colSpan={4} className="p-0">
+                                                {index === nextRivalToRevealIndex ? (
+                                                <button onClick={() => onRivalCapReveal(index)} className="w-full flex items-center justify-center gap-2 text-sm px-2 py-2.5 bg-gray-100 dark:bg-gray-700/50 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300">
+                                                        <FiEye size={16}/> Rivale aufdecken
+                                                    </button>
+                                                ) : (
+                                                    <div className="w-full flex items-center justify-center gap-2 text-sm px-2 py-2.5 bg-gray-50 dark:bg-gray-800 text-gray-400 dark:text-gray-500 cursor-not-allowed">
+                                                        <FiEye size={16}/> Zukünftiger Kampf
+                                                    </div>
+                                                )}
+                                            </td>
+                                        ) : (
+                                            <>
+                                                <td className="py-1.5 text-center align-middle" style={{width: '10%'}}>
+                                                    <input id={`rivalcap-done-${rc.id}`} type="checkbox" checked={!!rc.done} onChange={() => onRivalCapToggleDone(index)} aria-label={`Erledigt: ${rc.rival}`} className="h-4 w-4 accent-green-600 cursor-pointer"/>
+                                                </td>
+                                                <td className="text-sm text-gray-800 dark:text-gray-300 break-words px-2 py-1.5 align-middle" style={{width: '35%'}}>
+                                                    {rc.location}
+                                            </td>
+                                                <td className="py-1.5 align-middle" style={{width: '35%'}}>
+                                                    <RivalImage name={rc.rival} />
+                                                </td>
+                                                <td className="text-center font-bold text-sm text-gray-800 dark:text-gray-200 align-middle" style={{width: '20%'}}>
+                                                    {rc.level}
+                                                </td>
+                                            </>
+                                        )}
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
 

@@ -1,4 +1,4 @@
-import type {AppState} from './types';
+import type {AppState, RivalCap} from './types';
 
 
 export const PLAYER1_COLOR = '#cf5930';
@@ -25,6 +25,23 @@ export const DEFAULT_RULES: string[] = [
     'Max. 2 legendäre Pokémon pro Team',
 ];
 
+export const DEFAULT_RIVAL_CAPS: RivalCap[] = [
+    {id: 1, location: 'Route 2', rival: 'Bell', level: '6', done: false, revealed: false},
+    {id: 2, location: 'Gavina', rival: 'N', level: '7', done: false, revealed: false},
+    {id: 3, location: 'Orion City', rival: 'Cheren', level: '8', done: false, revealed: false},
+    {id: 4, location: 'Septerna City', rival: 'N', level: '13', done: false, revealed: false},
+    {id: 5, location: 'Route 3', rival: 'Cheren', level: '14', done: false, revealed: false},
+    {id: 6, location: 'Route 4', rival: 'Bell', level: '18', done: false, revealed: false},
+    {id: 7, location: 'Route 4', rival: 'Cheren', level: '20', done: false, revealed: false},
+    {id: 8, location: 'Rayono City', rival: 'N', level: '22', done: false, revealed: false},
+    {id: 9, location: 'Route 5', rival: 'Cheren', level: '24', done: false, revealed: false},
+    {id: 10, location: 'Marea City', rival: 'Bell', level: '26', done: false, revealed: false},
+    {id: 11, location: 'Elektrolithhöhle', rival: 'N', level: '28', done: false, revealed: false},
+    {id: 12, location: 'Wendelberg', rival: 'Cheren', level: '33', done: false, revealed: false},
+    {id: 13, location: 'Route 8', rival: 'Bell', level: '38', done: false, revealed: false},
+    {id: 14, location: 'Route 10', rival: 'Cheren', level: '43', done: false, revealed: false},
+];
+
 export const INITIAL_STATE: AppState = {
     player1Name: 'Jan',
     player2Name: 'Felix',
@@ -44,6 +61,7 @@ export const INITIAL_STATE: AppState = {
         {id: 9, arena: 'Top 4', level: '50/48', done: false},
         {id: 10, arena: 'Champ', level: '52/50', done: false},
     ],
+    rivalCaps: DEFAULT_RIVAL_CAPS,
     stats: {
         runs: 1,
         best: 0,
@@ -62,4 +80,5 @@ export const INITIAL_STATE: AppState = {
         legendaryEncounters: 0,
     },
     legendaryTrackerEnabled: true,
+    rivalCensorEnabled: true,
 };

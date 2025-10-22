@@ -8,9 +8,11 @@ interface SettingsPageProps {
   onBack: () => void;
   legendaryTrackerEnabled: boolean;
   onlegendaryTrackerToggle: (enabled: boolean) => void;
+  rivalCensorEnabled: boolean;
+  onRivalCensorToggle: (enabled: boolean) => void;
 }
 
-const SettingsPage: React.FC<SettingsPageProps> = ({ player1Name, player2Name, onNameChange, onBack, legendaryTrackerEnabled, onlegendaryTrackerToggle }) => {
+const SettingsPage: React.FC<SettingsPageProps> = ({ player1Name, player2Name, onNameChange, onBack, legendaryTrackerEnabled, onlegendaryTrackerToggle, rivalCensorEnabled, onRivalCensorToggle }) => {
   return (
       <div className="bg-[#f0f0f0] dark:bg-gray-900 min-h-screen flex items-center justify-center p-4">
         <div className="w-full max-w-md mx-auto bg-white dark:bg-gray-800 shadow-lg p-6 rounded-lg">
@@ -46,10 +48,20 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ player1Name, player2Name, o
 
             <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
               <h2 className="text-lg font-bold font-press-start dark:text-gray-100 text-center mb-4">Tracker</h2>
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between mb-4">
                 <span className="font-medium text-gray-800 dark:text-gray-200">Legendary Tracker</span>
                 <label htmlFor="legendary-toggle" className="inline-flex relative items-center cursor-pointer">
                   <input type="checkbox" checked={legendaryTrackerEnabled} onChange={(e) => onlegendaryTrackerToggle(e.target.checked)} id="legendary-toggle" className="sr-only peer" />
+                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                </label>
+              </div>
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="font-medium text-gray-800 dark:text-gray-200">Rivalenkämpfe zensieren</div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400">Verbirgt Details zu Rivalenkämpfen, bis sie aufgedeckt werden.</div>
+                </div>
+                <label htmlFor="rival-censor-toggle" className="inline-flex relative items-center cursor-pointer">
+                  <input type="checkbox" checked={rivalCensorEnabled} onChange={(e) => onRivalCensorToggle(e.target.checked)} id="rival-censor-toggle" className="sr-only peer" />
                   <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
                 </label>
               </div>

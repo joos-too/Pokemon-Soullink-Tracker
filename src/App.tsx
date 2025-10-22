@@ -1,8 +1,8 @@
 import React, {useState, useEffect, useCallback, useRef, useMemo} from 'react';
 import {FiLogOut, FiSettings, FiRotateCw, FiMenu, FiSun, FiMoon} from 'react-icons/fi';
 import { FaGithub } from 'react-icons/fa';
-import type {AppState, PokemonPair} from '@/types';
-import {INITIAL_STATE, PLAYER1_COLOR, PLAYER2_COLOR, DEFAULT_RULES} from '@/constants';
+import type {AppState, PokemonPair, RivalCap} from '@/types';
+import {INITIAL_STATE, PLAYER1_COLOR, PLAYER2_COLOR, DEFAULT_RULES, DEFAULT_RIVAL_CAPS} from '@/constants';
 import TeamTable from '@/src/components/TeamTable';
 import InfoPanel from '@/src/components/InfoPanel';
 import Graveyard from '@/src/components/Graveyard';
@@ -50,6 +50,15 @@ const App: React.FC = () => {
             const list = Array.isArray(arr) ? arr : fallback;
             return list.map((p) => sanitizePair(p));
         };
+        const sanitizeRivalCap = (rc: any, i: number): RivalCap => ({
+            id: Number(rc?.id ?? base.rivalCaps[i]?.id ?? i + 1),
+            location: typeof rc?.location === 'string' ? rc.location : (base.rivalCaps[i]?.location ?? ''),
+            rival: typeof rc?.rival === 'string' ? rc.rival : (base.rivalCaps[i]?.rival ?? ''),
+            level: typeof rc?.level === 'string' ? rc.level : (base.rivalCaps[i]?.level ?? ''),
+            done: Boolean(rc?.done),
+            revealed: Boolean(rc?.revealed),
+        });
+
         const safe = (incoming && typeof incoming === 'object') ? incoming : {};
         return {
             player1Name: safe.player1Name ?? base.player1Name,
@@ -66,6 +75,9 @@ const App: React.FC = () => {
                     done: Boolean(cap?.done),
                 }))
                 : base.levelCaps,
+            rivalCaps: Array.isArray(safe.rivalCaps)
+                ? safe.rivalCaps.map((rc, i) => sanitizeRivalCap(rc, i))
+                : base.rivalCaps ?? DEFAULT_RIVAL_CAPS,
             stats: {
                 runs: safe.stats?.runs ?? base.stats.runs,
                 best: safe.stats?.best ?? base.stats.best,
@@ -84,6 +96,7 @@ const App: React.FC = () => {
                 legendaryEncounters: safe.stats?.legendaryEncounters ?? base.stats.legendaryEncounters ?? 0,
             },
             legendaryTrackerEnabled: safe.legendaryTrackerEnabled ?? base.legendaryTrackerEnabled ?? true,
+            rivalCensorEnabled: safe.rivalCensorEnabled ?? base.rivalCensorEnabled ?? true,
         };
     }, []);
 
@@ -173,8 +186,10 @@ const App: React.FC = () => {
                 ...INITIAL_STATE,
                 rules: prev.rules, // keep rules on non-full reset
                 legendaryTrackerEnabled: prev.legendaryTrackerEnabled,
+                rivalCensorEnabled: prev.rivalCensorEnabled,
                 // Preserve level cap entries (id, arena, level) and only reset the done flag
                 levelCaps: prev.levelCaps.map(cap => ({ ...cap, done: false })),
+                rivalCaps: prev.rivalCaps.map(rc => ({...rc, done: false})),
                 stats: {
                     runs: prev.stats.runs + 1, // increase run number by 1
                     best: prev.stats.best, // keep persisted best
@@ -216,10 +231,7 @@ const App: React.FC = () => {
                     },
                 };
             } else {
-                newArray[index] = {
-                    ...newArray[index],
-                    [field]: value,
-                };
+                newArray[index] = { ...newArray[index], [field]: value };
             }
             return {...prev, [key]: newArray};
         });
@@ -249,6 +261,20 @@ const App: React.FC = () => {
         setData(prev => ({
             ...prev,
             levelCaps: prev.levelCaps.map((c, i) => i === index ? { ...c, done: !c.done } : c)
+        }));
+    }, []);
+
+    const handleRivalCapToggleDone = useCallback((index: number) => {
+        setData(prev => ({
+            ...prev,
+            rivalCaps: prev.rivalCaps.map((rc, i) => i === index ? { ...rc, done: !rc.done } : rc),
+        }));
+    }, []);
+
+    const handleRivalCapReveal = useCallback((index: number) => {
+        setData(prev => ({
+            ...prev,
+            rivalCaps: prev.rivalCaps.map((rc, i) => i === index ? { ...rc, revealed: true } : rc),
         }));
     }, []);
 
@@ -359,6 +385,10 @@ const App: React.FC = () => {
         setData(prev => ({ ...prev, legendaryTrackerEnabled: enabled }));
     };
 
+    const handleRivalCensorToggle = (enabled: boolean) => {
+        setData(prev => ({...prev, rivalCensorEnabled: enabled}));
+    };
+
     const handlelegendaryReset = () => {
         setData(prev => ({
             ...prev,
@@ -441,6 +471,8 @@ const App: React.FC = () => {
                 onBack={() => setShowSettings(false)}
                 legendaryTrackerEnabled={data.legendaryTrackerEnabled ?? true}
                 onlegendaryTrackerToggle={handlelegendaryTrackerToggle}
+                rivalCensorEnabled={data.rivalCensorEnabled ?? true}
+                onRivalCensorToggle={handleRivalCensorToggle}
             />
         );
     }
@@ -636,16 +668,20 @@ const App: React.FC = () => {
                     <div className="xl:col-span-1 space-y-6">
                         <InfoPanel
                             levelCaps={data.levelCaps}
+                            rivalCaps={data.rivalCaps}
                             stats={{...data.stats, best: Math.max(data.stats.best, currentBest)}}
                             player1Name={data.player1Name}
                             player2Name={data.player2Name}
                             onLevelCapChange={handleLevelCapChange}
                             onLevelCapToggle={handleLevelCapToggle}
+                            onRivalCapToggleDone={handleRivalCapToggleDone}
+                            onRivalCapReveal={handleRivalCapReveal}
                             onStatChange={handleStatChange}
                             onNestedStatChange={handleNestedStatChange}
                             rules={data.rules}
                             onRulesChange={(rules) => setData(prev => ({ ...prev, rules }))}
                             legendaryTrackerEnabled={data.legendaryTrackerEnabled ?? true}
+                            rivalCensorEnabled={data.rivalCensorEnabled ?? true}
                             onlegendaryIncrement={handlelegendaryIncrement}
                         />
                         <Graveyard
