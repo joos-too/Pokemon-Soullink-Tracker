@@ -57,5 +57,12 @@
         { "id": 6, "location": "Route 19", "rival": "Tierno", "level": "48", "done": false, "revealed": false },
         { "id": 7, "location": "Route 19", "rival": "Trovato", "level": "48", "done": false, "revealed": false },
         { "id": 8, "location": "Siegesstraße", "rival": "Kalem/Serena", "level": "59", "done": false, "revealed": false }
+    ],
+    "gen6_oras": [
+        { "id": 1, "location": "Route 110", "rival": "Brix/Maike", "level": "20", "done": false, "revealed": false },
+        { "id": 2, "location": "Malvenfroh City", "rival": "Heiko", "level": "16", "done": false, "revealed": false },
+        { "id": 3, "location": "Route 119", "rival": "Brix/Maike", "level": "33", "done": false, "revealed": false },
+        { "id": 4, "location": "Seegrasulb City", "rival": "Brix/Maike", "level": "39", "done": false, "revealed": false },
+        { "id": 5, "location": "Siegesstraße", "rival": "Heiko", "level": "48", "done": false, "revealed": false }
     ]
 }
