@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import type {LevelCap, RivalCap, Stats} from '@/types';
 import EditableCell from './EditableCell';
 import {PLAYER1_COLOR, PLAYER2_COLOR} from '@/constants';
-import {FiMinus, FiPlus, FiEdit, FiX, FiSave, FiEye} from 'react-icons/fi';
+import {FiMinus, FiPlus, FiEdit, FiX, FiSave, FiEye, FiEyeOff} from 'react-icons/fi';
 import {getSpriteUrlForGermanName} from '@/src/services/sprites';
 
 interface InfoPanelProps {
@@ -172,7 +172,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                                     </button>
                                                 ) : (
                                                     <div className="w-full flex items-center justify-center gap-2 text-sm px-2 py-2.5 bg-gray-50 dark:bg-gray-800 text-gray-400 dark:text-gray-500 cursor-not-allowed">
-                                                        <FiEye size={16}/> Zukünftiger Kampf
+                                                        <FiEyeOff size={16}/> Zukünftiger Kampf
                                                     </div>
                                                 )}
                                             </td>
