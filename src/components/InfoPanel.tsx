@@ -27,7 +27,13 @@ interface InfoPanelProps {
 const RivalImage: React.FC<{ name: string }> = ({ name }) => {
     const imageName = name.toLowerCase().replace(/ & /g, '_').replace(/ /g, '_').replace(/[^a-z0-9_]/g, '') + '.png';
     const imagePath = `/rival-sprites/${imageName}`;
-    return <img src={imagePath} alt={name} title={name} className="w-8 h-8 object-contain mx-auto" />;
+    return <img
+      src={imagePath}
+      alt={name}
+      title={name}
+      className="w-8 h-8 object-contain mx-auto"
+      style={{ imageRendering: 'pixelated' }}
+    />;
 };
 
 const InfoPanel: React.FC<InfoPanelProps> = ({
@@ -127,7 +133,6 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                     </div>
                 </div>
 
-                <div className="space-y-4">
                 <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700 overflow-hidden">
                         <h2 className="text-center p-2 text-white font-press-start text-[10px]" style={{backgroundColor: '#cf5930'}}>Arenen-Caps</h2>
                     <table className="w-full">
@@ -146,60 +151,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                         </tbody>
                     </table>
                 </div>
-
-                    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700 overflow-hidden">
-                        <h2 className="text-center p-2 text-white font-press-start text-[10px]" style={{backgroundColor: '#4285F4'}}>Rivalen-Caps</h2>
-                        <div className="overflow-x-auto">
-                            <table className="w-full table-fixed">
-                                <thead>
-                                {/*
-                                <tr className="bg-gray-50 dark:bg-gray-700/50">
-                                        <th style={{width: '10%'}}></th>
-                                        <th className="px-2 py-1 text-xs font-bold text-gray-600 dark:text-gray-400 text-left" style={{width: '35%'}}>Ort</th>
-                                    <th className="px-2 py-1 text-xs font-bold text-gray-600 dark:text-gray-400 text-center" style={{width: '35%'}}>Rivale</th>
-                                    <th className="px-2 py-1 text-xs font-bold text-gray-600 dark:text-gray-400 text-center" style={{width: '20%'}}>Level</th>
-                                </tr>
-                                */}
-                                </thead>
-                                <tbody>
-                                {rivalCaps.map((rc, index) => (
-                                    <tr key={rc.id} className={`border-t border-gray-200 dark:border-gray-700 ${rc.done ? 'bg-green-100 dark:bg-green-900/50' : ''}`}>
-                                        {rivalCensorEnabled && !rc.revealed ? (
-                                            <td colSpan={4} className="p-0">
-                                                {index === nextRivalToRevealIndex ? (
-                                                <button onClick={() => onRivalCapReveal(index)} className="w-full flex items-center justify-center gap-2 text-sm px-2 py-2.5 bg-gray-100 dark:bg-gray-700/50 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300">
-                                                        <FiEye size={16}/> Rivale aufdecken
-                                                    </button>
-                                                ) : (
-                                                    <div className="w-full flex items-center justify-center gap-2 text-sm px-2 py-2.5 bg-gray-50 dark:bg-gray-800 text-gray-400 dark:text-gray-500 cursor-not-allowed">
-                                                        <FiEyeOff size={16}/> Zukünftiger Kampf
-                                                    </div>
-                                                )}
-                                            </td>
-                                        ) : (
-                                            <>
-                                                <td className="py-1.5 text-center align-middle" style={{width: '10%'}}>
-                                                    <input id={`rivalcap-done-${rc.id}`} type="checkbox" checked={!!rc.done} onChange={() => onRivalCapToggleDone(index)} aria-label={`Erledigt: ${rc.rival}`} className="h-4 w-4 accent-green-600 cursor-pointer"/>
-                                                </td>
-                                                <td className="text-sm text-gray-800 dark:text-gray-300 break-words px-2 py-1.5 align-middle" style={{width: '35%'}}>
-                                                    {rc.location}
-                                            </td>
-                                                <td className="py-1.5 align-middle" style={{width: '35%'}}>
-                                                    <RivalImage name={rc.rival} />
-                                                </td>
-                                                <td className="text-center font-bold text-sm text-gray-800 dark:text-gray-200 align-middle" style={{width: '20%'}}>
-                                                    {rc.level}
-                                                </td>
-                                            </>
-                                        )}
-                                    </tr>
-                                ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
                 </div>
-            </div>
 
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700 overflow-hidden">
                 <h2 className="text-center p-2 bg-black text-white font-press-start text-sm">Tode</h2>
@@ -245,7 +197,41 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                 </div>
             )}
 
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700 overflow-hidden">
+                <h2 className="text-center p-2 text-white font-press-start text-sm bg-blue-600">Rivalenkämpfe</h2>
+                <div className="p-4 max-h-96 overflow-y-auto space-y-3">
+                    {rivalCaps.map((rc, index) => (
+                        <div key={rc.id}>
+                            {rivalCensorEnabled && !rc.revealed ? (
+                                <>
+                                    {index === nextRivalToRevealIndex ? (
+                                        <button onClick={() => onRivalCapReveal(index)} className="w-full flex items-center justify-center gap-2 text-sm p-3 rounded-md bg-gray-100 dark:bg-gray-700/50 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600">
+                                            <FiEye size={16}/> Nächsten Rivalen aufdecken
+                                        </button>
+                                    ) : (
+                                        <div className="w-full flex items-center justify-center gap-2 text-sm p-3 rounded-md bg-gray-50 dark:bg-gray-800 text-gray-400 dark:text-gray-500 cursor-not-allowed border border-dashed border-gray-300 dark:border-gray-600">
+                                            <FiEyeOff size={16}/> Zukünftiger Kampf
+                                        </div>
+                                    )}
+                                </>
+                            ) : (
+                                <div className={`flex items-center justify-between p-2 border rounded-md ${rc.done ? 'bg-green-100 dark:bg-green-900/50 border-green-200 dark:border-green-800' : 'bg-gray-50 dark:bg-gray-700/50 border-gray-200 dark:border-gray-600'}`}>
+                                    <div className="flex items-center gap-3 w-1/2">
+                                        <input id={`rivalcap-done-${rc.id}`} type="checkbox" checked={!!rc.done} onChange={() => onRivalCapToggleDone(index)} aria-label={`Erledigt: ${rc.rival}`} className="h-5 w-5 accent-green-600 cursor-pointer flex-shrink-0"/>
+                                        <span className="text-sm text-gray-800 dark:text-gray-300 break-words">{rc.location}</span>
+                                    </div>
+                                    <div className="flex items-center justify-end gap-4 w-1/2">
+                                        <RivalImage name={rc.rival} />
+                                        <span className="font-bold text-lg text-gray-800 dark:text-gray-200 w-12 text-center">{rc.level}</span>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700 overflow-hidden">
                 <div className="relative">
                     <h2 className="text-center p-2 text-white font-press-start text-sm" style={{backgroundColor: '#34a853'}}>Regeln</h2>
                     <div className="absolute right-2 top-1.5 flex items-center gap-2">
@@ -277,6 +263,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                     </div>
                 )}
             </div>
+
         </div>
     );
 };
