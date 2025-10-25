@@ -15,12 +15,6 @@ interface HomePageProps {
     onLogout: () => void;
 }
 
-const infoLines = [
-    {label: 'Team', valueKey: 'team'},
-    {label: 'Box', valueKey: 'box'},
-    {label: 'Routen', valueKey: 'routes'},
-];
-
 const HomePage: React.FC<HomePageProps> = ({
                                                player1Name,
                                                player2Name,
@@ -33,55 +27,43 @@ const HomePage: React.FC<HomePageProps> = ({
                                                onLogout,
                                            }) => {
     const trackerTitle = `${player1Name} & ${player2Name}`;
-    const derivedValues: Record<string, number> = {
-        team: teamCount,
-        box: boxCount,
-        routes: clearedRoutesCount,
-    };
 
     return (
         <div className="min-h-screen bg-[#f0f0f0] dark:bg-gray-900 text-gray-800 dark:text-gray-100 px-3 py-6 sm:py-10">
             <div className="max-w-4xl mx-auto space-y-6">
-                <header
-                    className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-4 py-5 sm:px-6 shadow-[6px_6px_0_0_rgba(31,41,55,0.25)]">
+                <header className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-4 py-5 sm:px-6 shadow-[6px_6px_0_0_rgba(31,41,55,0.25)]">
                     <div className="flex flex-wrap items-start justify-between gap-4">
-                        <div>
-                            {/* Logo oben links */}
-                            <div className="left-2 sm:left-4 top-2 sm:top-3 z-30 flex items-center">
-                                <img
-                                    src="/Soullinktracker-Logo - cropped.png"
-                                    alt="Soullink Logo"
-                                    className="w-16 h-16 object-contain"
-                                />
+                        <div className="flex items-center gap-4">
+                            <img
+                                src="/Soullinktracker-Logo - cropped.png"
+                                alt="Soullink Tracker Logo"
+                                className="w-16 h-16 sm:w-20 sm:h-20 object-contain drop-shadow"
+                            />
+                            <div>
+                                <h1 className="text-xl sm:text-3xl font-press-start text-gray-900 dark:text-gray-100 mt-2">
+                                    Soullink Tracker
+                                </h1>
+                                <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                                    Übersicht über deine Tracker
+                                </p>
                             </div>
-                            <h1 className="text-2xl sm:text-3xl font-press-start text-gray-900 dark:text-gray-100 mt-2">
-                                Soullink Tracker
-                            </h1>
-                            <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-                                Übersicht über deine Tracker
-                            </p>
                         </div>
                         <div className="flex items-center gap-2">
-                            <DarkModeToggle/>
+                            <DarkModeToggle />
                             <button
                                 onClick={onLogout}
                                 className="inline-flex items-center gap-2 rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
                             >
-                                <FiLogOut/> Logout
+                                <FiLogOut /> Logout
                             </button>
                         </div>
                     </div>
                 </header>
 
-                <section
-                    className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-4 py-6 sm:px-6 shadow-[6px_6px_0_0_rgba(31,41,55,0.25)]">
-                    <div
-                        className="flex flex-wrap items-center justify-between gap-3 border-b border-gray-200 dark:border-gray-700 pb-4 mb-5">
-                        <div>
-                            <p className="text-xs uppercase tracking-[0.3em] text-rose-500">Aktiver Tracker</p>
-                            <h2 className="text-xl font-semibold mt-1">{trackerTitle} Soullink</h2>
-                            <p className="text-sm text-gray-500 dark:text-gray-400">Status: Laufend</p>
-                        </div>
+                <section className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-4 py-6 sm:px-6 shadow-[6px_6px_0_0_rgba(31,41,55,0.25)]">
+                    <div className="mb-6">
+                        <p className="text-xs uppercase tracking-[0.3em] text-rose-500">Team</p>
+                        <h2 className="text-xl font-semibold mt-1">{trackerTitle}</h2>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
