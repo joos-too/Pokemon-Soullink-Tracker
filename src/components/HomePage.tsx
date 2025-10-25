@@ -136,6 +136,14 @@ const HomePage: React.FC<HomePageProps> = ({
                       </div>
                       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
                         <div className="grid grid-cols-2 gap-3 w-full md:w-auto md:min-w-[260px]">
+                            <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/40 p-3 text-center">
+                                <p className="text-[0.65rem] uppercase tracking-[0.3em] text-gray-500">Run</p>
+                                <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">{runNumber}</p>
+                            </div>
+                            <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/40 p-3 text-center">
+                                <p className="text-[0.65rem] uppercase tracking-[0.3em] text-gray-500">Fortschritt</p>
+                                <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">{progressLabel}</p>
+                            </div>
                           <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/40 p-3 text-center">
                             <p className="text-[0.65rem] uppercase tracking-[0.3em] text-gray-500">Links aktiv</p>
                             <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">{activePokemon}</p>
@@ -143,14 +151,6 @@ const HomePage: React.FC<HomePageProps> = ({
                           <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/40 p-3 text-center">
                             <p className="text-[0.65rem] uppercase tracking-[0.3em] text-gray-500">Links tot</p>
                             <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">{deadPokemon}</p>
-                          </div>
-                          <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/40 p-3 text-center">
-                            <p className="text-[0.65rem] uppercase tracking-[0.3em] text-gray-500">Run</p>
-                            <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">{runNumber}</p>
-                          </div>
-                          <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/40 p-3 text-center">
-                            <p className="text-[0.65rem] uppercase tracking-[0.3em] text-gray-500">Fortschritt</p>
-                            <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">{progressLabel}</p>
                           </div>
                         </div>
                         <div className="flex flex-col gap-2 self-end md:items-end w-full md:w-auto md:min-w-[170px]">
