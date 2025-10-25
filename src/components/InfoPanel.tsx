@@ -108,7 +108,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                     Run
                                 </td>
                                 <td className="px-2 py-1.5 text-right"><span
-                                    className="inline-block min-w-[2ch] text-sm font-bold">{stats.runs}</span></td>
+                                    className="inline-block min-w-[2ch] text-sm font-bold">Run {stats.runs}</span></td>
                             </tr>
                             <tr className="border-t border-gray-200 dark:border-gray-700">
                                 <td className="px-2 py-1.5 text-xs font-bold text-gray-800 dark:text-gray-300">Bester
