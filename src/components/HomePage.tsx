@@ -159,11 +159,11 @@ const HomePage: React.FC<HomePageProps> = ({
                         </div>
                         <div className="grid grid-cols-2 gap-3 w-full md:w-auto md:min-w-[260px]">
                           <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/40 p-3 text-center">
-                            <p className="text-[0.65rem] uppercase tracking-[0.3em] text-gray-500">Pokémon aktiv</p>
+                            <p className="text-[0.65rem] uppercase tracking-[0.3em] text-gray-500">Links aktiv</p>
                             <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">{activePokemon}</p>
                           </div>
                           <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/40 p-3 text-center">
-                            <p className="text-[0.65rem] uppercase tracking-[0.3em] text-gray-500">Pokémon gefallen</p>
+                            <p className="text-[0.65rem] uppercase tracking-[0.3em] text-gray-500">Links tot</p>
                             <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">{deadPokemon}</p>
                           </div>
                           <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/40 p-3 text-center">
