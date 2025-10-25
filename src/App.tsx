@@ -895,9 +895,6 @@ const App: React.FC = () => {
                     <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-3xl 2xl:text-4xl font-bold font-press-start tracking-tighter dark:text-gray-100">
                         {trackerTitleDisplay}
                     </h1>
-                    {nameTitleFallback && (
-                        <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">{nameTitleFallback}</p>
-                    )}
                     <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Pokémon Soullink - Challenge Tracker</p>
                     <div className="absolute right-2 sm:right-4 top-2 sm:top-3 flex items-center gap-1 sm:gap-2 z-30">
                         {/* Desktop icons (>=xl) */}
