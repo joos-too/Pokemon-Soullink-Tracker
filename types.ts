@@ -57,3 +57,40 @@ export interface AppState {
   legendaryTrackerEnabled?: boolean;
   rivalCensorEnabled?: boolean;
 }
+
+export type TrackerRole = 'owner' | 'editor';
+
+export interface TrackerMember {
+  uid: string;
+  email: string;
+  role: TrackerRole;
+  addedAt: number;
+}
+
+export interface TrackerMeta {
+  id: string;
+  title: string;
+  player1Name: string;
+  player2Name: string;
+  createdBy: string;
+  createdAt: number;
+  members: Record<string, TrackerMember>;
+}
+
+export interface TrackerSummary {
+  teamCount: number;
+  boxCount: number;
+  graveyardCount: number;
+  deathCount: number;
+  runs: number;
+  championDone: boolean;
+  progressLabel: string;
+}
+
+export interface UserProfile {
+  uid: string;
+  email: string;
+  emailLowerCase: string;
+  createdAt: number;
+  lastLoginAt: number;
+}

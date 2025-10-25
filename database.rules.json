@@ -1,6 +1,31 @@
 {
   "rules": {
-    ".read": "auth.uid != null",
-    ".write": "auth.uid != null"
+    "users": {
+      ".read": "auth.uid != null",
+      "$uid": {
+        ".write": "auth.uid === $uid"
+      },
+      ".indexOn": ["emailLowerCase"]
+    },
+    "userTrackers": {
+      "$uid": {
+        ".read": "auth.uid === $uid",
+        "$trackerId": {
+          ".write": "auth.uid === $uid || root.child('trackers').child($trackerId).child('meta').child('members').child(auth.uid).child('role').val() === 'owner'"
+        }
+      }
+    },
+    "userEmails": {
+      ".read": "auth.uid != null",
+      "$emailKey": {
+        ".write": "auth.uid != null && ((newData.exists() && newData.child('uid').val() === auth.uid) || (!newData.exists() && data.child('uid').val() === auth.uid))"
+      }
+    },
+    "trackers": {
+      "$trackerId": {
+        ".read": "auth.uid != null && root.child('trackers').child($trackerId).child('meta').child('members').child(auth.uid).exists()",
+        ".write": "auth.uid != null && (newData.child('meta').child('members').child(auth.uid).exists() || root.child('trackers').child($trackerId).child('meta').child('members').child(auth.uid).exists())"
+      }
+    }
   }
 }
