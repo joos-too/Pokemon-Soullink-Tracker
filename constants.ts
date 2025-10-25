@@ -26,11 +26,11 @@ export const DEFAULT_RULES: string[] = [
 ];
 
 export const DEFAULT_RIVAL_CAPS: RivalCap[] = [
-    {id: 1, location: 'Route 2', rival: 'Bell', level: '6', done: false, revealed: false},
-    {id: 2, location: 'Gavina', rival: 'N', level: '7', done: false, revealed: false},
+    {id: 1, location: 'Gavina', rival: 'N', level: '7', done: false, revealed: false},
+    {id: 2, location: 'Route 2', rival: 'Bell', level: '6', done: false, revealed: false},
     {id: 3, location: 'Orion City', rival: 'Cheren', level: '8', done: false, revealed: false},
-    {id: 4, location: 'Septerna City', rival: 'N', level: '13', done: false, revealed: false},
-    {id: 5, location: 'Route 3', rival: 'Cheren', level: '14', done: false, revealed: false},
+    {id: 4, location: 'Route 3', rival: 'Cheren', level: '14', done: false, revealed: false},
+    {id: 5, location: 'Septerna City', rival: 'N', level: '13', done: false, revealed: false},
     {id: 6, location: 'Route 4', rival: 'Bell', level: '18', done: false, revealed: false},
     {id: 7, location: 'Route 4', rival: 'Cheren', level: '20', done: false, revealed: false},
     {id: 8, location: 'Rayono City', rival: 'N', level: '22', done: false, revealed: false},
