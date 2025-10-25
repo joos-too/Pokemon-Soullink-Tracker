@@ -1,8 +1,8 @@
 import {ref, set, update, get} from 'firebase/database';
 import type {User} from 'firebase/auth';
 import {db} from '@/src/firebaseConfig';
-import {INITIAL_STATE} from '@/constants';
-import type {AppState, TrackerMember, TrackerMeta, TrackerRole} from '@/types';
+import {INITIAL_STATE, createInitialState} from '@/constants';
+import type {TrackerMember, TrackerMeta, TrackerRole} from '@/types';
 
 export class TrackerOperationError extends Error {
   code: 'user-not-found' | 'member-exists' | 'invalid-input' | 'unknown';
@@ -145,11 +145,9 @@ export const createTracker = async ({
     members,
   };
 
-  const initialState: AppState = {
-    ...INITIAL_STATE,
-    player1Name: sanitizedP1,
-    player2Name: sanitizedP2,
-  };
+  const initialState = createInitialState();
+  initialState.player1Name = sanitizedP1;
+  initialState.player2Name = sanitizedP2;
 
   const updates: Record<string, unknown> = {
     [`trackers/${trackerId}/meta`]: meta,
@@ -194,4 +192,28 @@ export const addMemberByEmail = async (
 
   await update(ref(db), updates);
   return member;
+};
+
+export const deleteTracker = async (trackerId: string): Promise<void> => {
+  if (!trackerId) {
+    throw new TrackerOperationError('Ungültiger Tracker.', 'invalid-input');
+  }
+
+  const trackerSnapshot = await get(ref(db, `trackers/${trackerId}`));
+  if (!trackerSnapshot.exists()) {
+    return;
+  }
+
+  const trackerValue = trackerSnapshot.val() as { meta?: TrackerMeta };
+  const memberEntries = trackerValue?.meta?.members ?? {};
+
+  const updates: Record<string, unknown> = {
+    [`trackers/${trackerId}`]: null,
+  };
+
+  Object.keys(memberEntries).forEach((uid) => {
+    updates[`userTrackers/${uid}/${trackerId}`] = null;
+  });
+
+  await update(ref(db), updates);
 };

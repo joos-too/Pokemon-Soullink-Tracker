@@ -7,6 +7,7 @@ interface SettingsPageProps {
   trackerTitle: string;
   player1Name: string;
   player2Name: string;
+  onTitleChange: (title: string) => void;
   onNameChange: (player: 'player1Name' | 'player2Name', name: string) => void;
   onBack: () => void;
   legendaryTrackerEnabled: boolean;
@@ -23,6 +24,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
   trackerTitle,
   player1Name,
   player2Name,
+  onTitleChange,
   onNameChange,
   onBack,
   legendaryTrackerEnabled,
@@ -73,6 +75,19 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
           <section>
             <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-gray-500 mb-4">Spieler</h2>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div className="sm:col-span-2">
+                <label htmlFor="trackerTitle" className="block text-sm font-bold mb-2 text-gray-800 dark:text-gray-200">
+                  Tracker Titel
+                </label>
+                <input
+                  id="trackerTitle"
+                  type="text"
+                  value={trackerTitle}
+                  onChange={(e) => onTitleChange(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+                  placeholder="z. B. Schwarz 2 Randomizer"
+                />
+              </div>
               <div>
                 <label htmlFor="player1Name" className="block text-sm font-bold mb-2" style={{color: PLAYER1_COLOR}}>
                   Name Spieler 1

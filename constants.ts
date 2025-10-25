@@ -1,4 +1,4 @@
-import type {AppState, RivalCap} from './types';
+import type {AppState, LevelCap, RivalCap} from './types';
 
 
 export const PLAYER1_COLOR = '#cf5930';
@@ -52,14 +52,7 @@ export const LEGENDARY_POKEMON_NAMES: string[] = [
     'Xerneas', 'Yveltal', 'Zygarde', 'Diancie', 'Hoopa', 'Volcanion'
 ];
 
-export const INITIAL_STATE: AppState = {
-    player1Name: 'Jan',
-    player2Name: 'Felix',
-    team: [],
-    box: [],
-    graveyard: [],
-    rules: DEFAULT_RULES,
-    levelCaps: [
+export const DEFAULT_LVL_CAPS: LevelCap[] = [
         {id: 1, arena: '1. Arena', level: '14/12', done: false},
         {id: 2, arena: '2. Arena', level: '20/18', done: false},
         {id: 3, arena: '3. Arena', level: '23/21', done: false},
@@ -70,7 +63,16 @@ export const INITIAL_STATE: AppState = {
         {id: 8, arena: '8. Arena', level: '43/31', done: false},
         {id: 9, arena: 'Top 4', level: '50/48', done: false},
         {id: 10, arena: 'Champ', level: '52/50', done: false},
-    ],
+    ];
+
+export const INITIAL_STATE: AppState = {
+    player1Name: 'Jan',
+    player2Name: 'Felix',
+    team: [],
+    box: [],
+    graveyard: [],
+    rules: DEFAULT_RULES,
+    levelCaps: DEFAULT_LVL_CAPS,
     rivalCaps: DEFAULT_RIVAL_CAPS,
     stats: {
         runs: 1,
@@ -92,3 +94,5 @@ export const INITIAL_STATE: AppState = {
     legendaryTrackerEnabled: true,
     rivalCensorEnabled: true,
 };
+
+export const createInitialState = (): AppState => JSON.parse(JSON.stringify(INITIAL_STATE)) as AppState;

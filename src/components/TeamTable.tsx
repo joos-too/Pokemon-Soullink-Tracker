@@ -161,7 +161,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                             <td className="py-2 pl-2 pr-1 text-center">
                                 {pair.player1.name ? (() => {
                                     const url = getOfficialArtworkUrlForGermanName(pair.player1.name);
-                                    return url ? <img src={url} alt={pair.player1.name} className="w-20 h-20"
+                                    return url ? <img src={url} alt="" className="w-20 h-20"
                                                       loading="lazy"/> : null;
                                 })() : null}
                             </td>
@@ -170,7 +170,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                             <td className="py-2 pl-2 pr-1 text-center">
                                 {pair.player2.name ? (() => {
                                     const url = getOfficialArtworkUrlForGermanName(pair.player2.name);
-                                    return url ? <img src={url} alt={pair.player2.name} className="w-20 h-20"
+                                    return url ? <img src={url} alt="" className="w-20 h-20"
                                                       loading="lazy"/> : null;
                                 })() : null}
                             </td>

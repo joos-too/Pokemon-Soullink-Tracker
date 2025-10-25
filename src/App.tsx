@@ -1,8 +1,8 @@
 import React, {useState, useEffect, useCallback, useRef, useMemo} from 'react';
 import {FiSettings, FiRotateCw, FiMenu, FiSun, FiMoon, FiHome} from 'react-icons/fi';
 import { FaGithub } from 'react-icons/fa';
-import type {AppState, PokemonPair, RivalCap, TrackerMeta} from '@/types';
-import {INITIAL_STATE, PLAYER1_COLOR, PLAYER2_COLOR, DEFAULT_RULES, DEFAULT_RIVAL_CAPS} from '@/constants';
+import type {AppState, PokemonPair, RivalCap, TrackerMeta, TrackerSummary, LevelCap} from '@/types';
+import {createInitialState, PLAYER1_COLOR, PLAYER2_COLOR, DEFAULT_RULES, DEFAULT_RIVAL_CAPS} from '@/constants';
 import TeamTable from '@/src/components/TeamTable';
 import InfoPanel from '@/src/components/InfoPanel';
 import Graveyard from '@/src/components/Graveyard';
@@ -16,19 +16,43 @@ import ResetModal from '@/src/components/ResetModal';
 import DarkModeToggle, { getDarkMode, setDarkMode } from '@/src/components/DarkModeToggle';
 import HomePage from '@/src/components/HomePage';
 import CreateTrackerModal from '@/src/components/CreateTrackerModal';
+import DeleteTrackerModal from '@/src/components/DeleteTrackerModal';
 import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import {db, auth} from '@/src/firebaseConfig';
 import {ref, onValue, set, get, update} from "firebase/database";
 import {onAuthStateChanged, User, signOut} from "firebase/auth";
 import { initPokemonGermanNamesBackgroundRefresh } from '@/src/services/pokemonSearch';
-import {addMemberByEmail, createTracker, ensureUserProfile, TrackerOperationError} from '@/src/services/trackers';
+import {addMemberByEmail, createTracker, deleteTracker, ensureUserProfile, TrackerOperationError} from '@/src/services/trackers';
 
 const LAST_TRACKER_STORAGE_KEY = 'soullink:lastTrackerId';
+
+const computeTrackerSummary = (state?: Partial<AppState> | null): TrackerSummary => {
+    const teamCount = Array.isArray(state?.team) ? state.team.length : 0;
+    const boxCount = Array.isArray(state?.box) ? state.box.length : 0;
+    const graveyardCount = Array.isArray(state?.graveyard) ? state.graveyard.length : 0;
+    const runs = Number(state?.stats?.runs ?? 0) || 0;
+    const levelCaps = Array.isArray(state?.levelCaps) ? (state.levelCaps as LevelCap[]) : [];
+    const championCap = levelCaps.find((cap) => cap?.arena?.toLowerCase().includes('champ')) ?? levelCaps[levelCaps.length - 1];
+    const championDone = Boolean(championCap?.done);
+    let bestLabel = 'Noch keine Arena';
+    const doneCaps = levelCaps.filter((cap) => cap?.done);
+    if (doneCaps.length > 0) {
+        bestLabel = doneCaps[doneCaps.length - 1]?.arena || bestLabel;
+    }
+    return {
+        teamCount,
+        boxCount,
+        graveyardCount,
+        runs,
+        championDone,
+        progressLabel: championDone ? 'Run geschafft' : bestLabel,
+    };
+};
 
 const App: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const [data, setData] = useState<AppState>(INITIAL_STATE);
+    const [data, setData] = useState<AppState>(createInitialState());
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
     const storedTrackerId = typeof window !== 'undefined' ? window.localStorage.getItem(LAST_TRACKER_STORAGE_KEY) : null;
@@ -36,6 +60,8 @@ const App: React.FC = () => {
     const [userTrackerIds, setUserTrackerIds] = useState<string[]>([]);
     const [trackerMetas, setTrackerMetas] = useState<Record<string, TrackerMeta>>({});
     const metaListenersRef = useRef<Map<string, () => void>>(new Map());
+    const trackerStateListenersRef = useRef<Map<string, () => void>>(new Map());
+    const [trackerSummaries, setTrackerSummaries] = useState<Record<string, TrackerSummary>>({});
     const [userTrackersLoading, setUserTrackersLoading] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [showSettings, setShowSettings] = useState(false);
@@ -50,6 +76,9 @@ const App: React.FC = () => {
     const [showCreateModal, setShowCreateModal] = useState(false);
     const [createTrackerError, setCreateTrackerError] = useState<string | null>(null);
     const [createTrackerLoading, setCreateTrackerLoading] = useState(false);
+    const [trackerPendingDelete, setTrackerPendingDelete] = useState<TrackerMeta | null>(null);
+    const [deleteTrackerLoading, setDeleteTrackerLoading] = useState(false);
+    const [deleteTrackerError, setDeleteTrackerError] = useState<string | null>(null);
 
     // Ensure incoming Firebase data matches our expected shape
     const coerceAppState = useCallback((incoming: any, base: AppState): AppState => {
@@ -225,6 +254,54 @@ const App: React.FC = () => {
 
     useEffect(() => {
         if (!user) {
+            trackerStateListenersRef.current.forEach(unsub => unsub());
+            trackerStateListenersRef.current.clear();
+            setTrackerSummaries({});
+            return;
+        }
+
+        const listeners = trackerStateListenersRef.current;
+        for (const [trackerId, unsubscribe] of listeners.entries()) {
+            if (!userTrackerIds.includes(trackerId)) {
+                unsubscribe();
+                listeners.delete(trackerId);
+                setTrackerSummaries(prev => {
+                    const next = { ...prev };
+                    delete next[trackerId];
+                    return next;
+                });
+            }
+        }
+
+        userTrackerIds.forEach((trackerId) => {
+            if (listeners.has(trackerId)) return;
+            const stateRef = ref(db, `trackers/${trackerId}/state`);
+            const unsubscribe = onValue(stateRef, (snapshot) => {
+                const stateValue = snapshot.val();
+                setTrackerSummaries(prev => ({
+                    ...prev,
+                    [trackerId]: computeTrackerSummary(stateValue),
+                }));
+            }, () => {
+                setTrackerSummaries(prev => {
+                    const next = { ...prev };
+                    delete next[trackerId];
+                    return next;
+                });
+            });
+            listeners.set(trackerId, unsubscribe);
+        });
+
+        return () => {
+            if (!user) {
+                listeners.forEach(unsub => unsub());
+                listeners.clear();
+            }
+        };
+    }, [user, userTrackerIds]);
+
+    useEffect(() => {
+        if (!user) {
             setActiveTrackerId(null);
             return;
         }
@@ -269,13 +346,13 @@ const App: React.FC = () => {
 
     useEffect(() => {
         if (!user) {
-            setData(INITIAL_STATE);
+            setData(createInitialState());
             setDataLoaded(false);
             return;
         }
 
         if (!activeTrackerId) {
-            setData(INITIAL_STATE);
+            setData(createInitialState());
             setDataLoaded(true);
             return;
         }
@@ -292,10 +369,10 @@ const App: React.FC = () => {
                     skipNextWriteRef.current = true;
                     setData(prev => coerceAppState(dbData, prev));
                 } else {
-                    setData(INITIAL_STATE);
+                    setData(createInitialState());
                 }
             } catch (e) {
-                setData(INITIAL_STATE);
+                setData(createInitialState());
             } finally {
                 if (cancelled) return;
                 setDataLoaded(true);
@@ -335,28 +412,31 @@ const App: React.FC = () => {
 
     const handleConfirmReset = (mode: 'current' | 'all' | 'legendary') => {
         if (mode === 'all') {
-            setData(INITIAL_STATE);
+            setData(createInitialState());
         } else if (mode === 'current') {
-            setData(prev => ({
-                ...INITIAL_STATE,
-                rules: prev.rules, // keep rules on non-full reset
-                legendaryTrackerEnabled: prev.legendaryTrackerEnabled,
-                rivalCensorEnabled: prev.rivalCensorEnabled,
-                // Preserve level cap entries (id, arena, level) and only reset the done flag
-                levelCaps: prev.levelCaps.map(cap => ({ ...cap, done: false })),
-                rivalCaps: prev.rivalCaps.map(rc => ({...rc, done: false})),
-                stats: {
-                    runs: prev.stats.runs + 1, // increase run number by 1
-                    best: prev.stats.best, // keep persisted best
-                    top4Items: { player1: 0, player2: 0 },
-                    deaths: { player1: 0, player2: 0 },
-                    sumDeaths: {
-                        player1: (prev.stats.sumDeaths?.player1 ?? 0) + (prev.stats.deaths.player1 ?? 0),
-                        player2: (prev.stats.sumDeaths?.player2 ?? 0) + (prev.stats.deaths.player2 ?? 0),
+            setData(prev => {
+                const base = createInitialState();
+                return {
+                    ...base,
+                    rules: prev.rules, // keep rules on non-full reset
+                    legendaryTrackerEnabled: prev.legendaryTrackerEnabled,
+                    rivalCensorEnabled: prev.rivalCensorEnabled,
+                    // Preserve level cap entries (id, arena, level) and only reset the done flag
+                    levelCaps: prev.levelCaps.map(cap => ({ ...cap, done: false })),
+                    rivalCaps: prev.rivalCaps.map(rc => ({ ...rc, done: false })),
+                    stats: {
+                        runs: prev.stats.runs + 1, // increase run number by 1
+                        best: prev.stats.best, // keep persisted best
+                        top4Items: { player1: 0, player2: 0 },
+                        deaths: { player1: 0, player2: 0 },
+                        sumDeaths: {
+                            player1: (prev.stats.sumDeaths?.player1 ?? 0) + (prev.stats.deaths.player1 ?? 0),
+                            player2: (prev.stats.sumDeaths?.player2 ?? 0) + (prev.stats.deaths.player2 ?? 0),
+                        },
+                        legendaryEncounters: prev.stats.legendaryEncounters ?? 0,
                     },
-                    legendaryEncounters: prev.stats.legendaryEncounters ?? 0,
-                },
-            }));
+                };
+            });
         } else if (mode === 'legendary') {
             handlelegendaryReset();
         }
@@ -551,6 +631,22 @@ const App: React.FC = () => {
         }
     };
 
+    const handleTitleChange = (title: string) => {
+        if (!activeTrackerId) return;
+        setTrackerMetas(prev => {
+            const existing = prev[activeTrackerId];
+            if (!existing) return prev;
+            return {
+                ...prev,
+                [activeTrackerId]: {
+                    ...existing,
+                    title,
+                },
+            };
+        });
+        update(ref(db, `trackers/${activeTrackerId}/meta`), { title });
+    };
+
     const handlelegendaryTrackerToggle = (enabled: boolean) => {
         setData(prev => ({ ...prev, legendaryTrackerEnabled: enabled }));
     };
@@ -601,6 +697,10 @@ const App: React.FC = () => {
                 memberEmails: payload.memberEmails,
                 owner: user,
             });
+            const freshState = createInitialState();
+            freshState.player1Name = result.meta.player1Name;
+            freshState.player2Name = result.meta.player2Name;
+            setData(freshState);
             setShowCreateModal(false);
             setActiveTrackerId(result.trackerId);
             navigate('/tracker');
@@ -614,6 +714,44 @@ const App: React.FC = () => {
             setCreateTrackerLoading(false);
         }
     };
+
+    const handleRequestTrackerDeletion = useCallback((trackerId: string) => {
+        if (!user) return;
+        const meta = trackerMetas[trackerId];
+        if (!meta) return;
+        const role = meta.members?.[user.uid]?.role;
+        if (role !== 'owner') return;
+        setDeleteTrackerError(null);
+        setTrackerPendingDelete(meta);
+    }, [trackerMetas, user]);
+
+    const handleCloseDeleteModal = () => {
+        if (deleteTrackerLoading) return;
+        setTrackerPendingDelete(null);
+        setDeleteTrackerError(null);
+    };
+
+    const handleDeleteTracker = useCallback(async () => {
+        if (!trackerPendingDelete) return;
+        setDeleteTrackerError(null);
+        setDeleteTrackerLoading(true);
+        try {
+            await deleteTracker(trackerPendingDelete.id);
+            if (trackerPendingDelete.id === activeTrackerId) {
+                setActiveTrackerId(null);
+                setData(createInitialState());
+                if (typeof window !== 'undefined') {
+                    window.localStorage.removeItem(LAST_TRACKER_STORAGE_KEY);
+                }
+                navigate('/');
+            }
+            setTrackerPendingDelete(null);
+        } catch (error) {
+            setDeleteTrackerError(error instanceof Error ? error.message : 'Tracker konnte nicht gelöscht werden.');
+        } finally {
+            setDeleteTrackerLoading(false);
+        }
+    }, [trackerPendingDelete, activeTrackerId, navigate]);
 
     const handleInviteMember = useCallback(async (email: string) => {
         if (!activeTrackerId) {
@@ -678,6 +816,8 @@ const App: React.FC = () => {
     const activeTrackerMeta = activeTrackerId ? trackerMetas[activeTrackerId] : undefined;
     const trackerMembers = activeTrackerMeta ? Object.values(activeTrackerMeta.members ?? {}) : [];
     const canManageMembers = Boolean(user && activeTrackerMeta?.members?.[user.uid]?.role === 'owner');
+    const nameTitleFallback = [data.player1Name, data.player2Name].map((n) => n?.trim()).filter(Boolean).join(' & ');
+    const trackerTitleDisplay = activeTrackerMeta?.title?.trim() || nameTitleFallback || 'Soullink Tracker';
 
     // Show loading while auth is initializing, or while initial data is loading for an authenticated user
     if (loading || (user && !dataLoaded)) {
@@ -711,6 +851,7 @@ const App: React.FC = () => {
     ) : showSettings ? (
         <SettingsPage
             trackerTitle={activeTrackerMeta?.title ?? 'Tracker'}
+            onTitleChange={handleTitleChange}
             player1Name={data.player1Name}
             player2Name={data.player2Name}
             onNameChange={handleNameChange}
@@ -750,9 +891,12 @@ const App: React.FC = () => {
             <div className="max-w-[1920px] mx-auto bg-white dark:bg-gray-800 shadow-lg p-4 rounded-lg">
                 <header className="relative text-center py-4 border-b-2 border-gray-300 dark:border-gray-700">
                     <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-3xl 2xl:text-4xl font-bold font-press-start tracking-tighter dark:text-gray-100">
-                        {data.player1Name} & {data.player2Name} Soullink
+                        {trackerTitleDisplay}
                     </h1>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">Pokémon Soullink - Challenge Tracker</p>
+                    {nameTitleFallback && (
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">{nameTitleFallback}</p>
+                    )}
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Pokémon Soullink - Challenge Tracker</p>
                     <div className="absolute right-2 sm:right-4 top-2 sm:top-3 flex items-center gap-1 sm:gap-2 z-30">
                         {/* Desktop icons (>=xl) */}
                         <div className="hidden xl:flex items-center gap-1 sm:gap-2">
@@ -960,6 +1104,14 @@ const App: React.FC = () => {
                 isSubmitting={createTrackerLoading}
                 error={createTrackerError}
             />
+            <DeleteTrackerModal
+                isOpen={Boolean(trackerPendingDelete)}
+                trackerTitle={trackerPendingDelete?.title}
+                onConfirm={handleDeleteTracker}
+                onCancel={handleCloseDeleteModal}
+                isDeleting={deleteTrackerLoading}
+                error={deleteTrackerError}
+            />
             <Routes>
                 <Route
                     path="/"
@@ -972,6 +1124,9 @@ const App: React.FC = () => {
                             isLoading={trackerListLoading}
                             activeTrackerId={activeTrackerId}
                             userEmail={user?.email ?? undefined}
+                            onDeleteTracker={handleRequestTrackerDeletion}
+                            currentUserId={user?.uid ?? null}
+                            trackerSummaries={trackerSummaries}
                         />
                     }
                 />
