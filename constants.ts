@@ -42,6 +42,16 @@ export const DEFAULT_RIVAL_CAPS: RivalCap[] = [
     {id: 14, location: 'Route 10', rival: 'Cheren', level: '43', done: false, revealed: false},
 ];
 
+export const LEGENDARY_POKEMON_NAMES: string[] = [
+    'Arktos', 'Zapdos', 'Lavados', 'Mewtu', 'Mew',
+    'Raikou', 'Entei', 'Suicune', 'Lugia', 'Ho-Oh', 'Celebi',
+    'Regirock', 'Regice', 'Registeel', 'Latias', 'Latios', 'Kyogre', 'Groudon', 'Rayquaza', 'Jirachi', 'Deoxys',
+    'Selfe', 'Vesprit', 'Tobutz', 'Dialga', 'Palkia', 'Heatran', 'Regigigas', 'Giratina', 'Cresselia',
+    'Phione', 'Manaphy', 'Darkrai', 'Shaymin', 'Arceus',
+    'Victini', 'Kobalium', 'Terrakium', 'Viridium', 'Boreos', 'Voltolos', 'Reshiram', 'Zekrom', 'Demeteros', 'Kyurem', 'Keldeo', 'Meloetta', 'Genesect',
+    'Xerneas', 'Yveltal', 'Zygarde', 'Diancie', 'Hoopa', 'Volcanion'
+];
+
 export const INITIAL_STATE: AppState = {
     player1Name: 'Jan',
     player2Name: 'Felix',

@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
+import React, {useState, useMemo} from 'react';
 import type {LevelCap, RivalCap, Stats} from '@/types';
 import EditableCell from './EditableCell';
-import {PLAYER1_COLOR, PLAYER2_COLOR} from '@/constants';
+import {PLAYER1_COLOR, PLAYER2_COLOR, LEGENDARY_POKEMON_NAMES} from '@/constants';
 import {FiMinus, FiPlus, FiEdit, FiX, FiSave, FiEye, FiEyeOff} from 'react-icons/fi';
 import {getSpriteUrlForGermanName} from '@/src/services/sprites';
 
@@ -55,6 +55,11 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                              }) => {
     const [isEditingRules, setIsEditingRules] = useState(false);
     const [draftRules, setDraftRules] = useState<string[]>(rules);
+
+    const randomLegendary = useMemo(() => {
+        const randomIndex = Math.floor(Math.random() * LEGENDARY_POKEMON_NAMES.length);
+        return LEGENDARY_POKEMON_NAMES[randomIndex];
+    }, []);
 
     const nextRivalToRevealIndex = rivalCensorEnabled ? rivalCaps.findIndex(rc => !rc.revealed) : -1;
 
@@ -232,8 +237,8 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                         <div className="p-3 flex items-center justify-center flex-grow">
                             <div className="flex items-center justify-center gap-2">
                                 <img
-                                    src={getSpriteUrlForGermanName("Arceus") || ""}
-                                    alt="Arceus"
+                                    src={getSpriteUrlForGermanName(randomLegendary) || ""}
+                                    alt={randomLegendary}
                                     className="w-16 h-16"
                                 />
                                 <div className="text-3xl font-press-start text-gray-800 dark:text-gray-200">
