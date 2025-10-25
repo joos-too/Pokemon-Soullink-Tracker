@@ -17,7 +17,7 @@ import DarkModeToggle, { getDarkMode, setDarkMode } from '@/src/components/DarkM
 import HomePage from '@/src/components/HomePage';
 import CreateTrackerModal from '@/src/components/CreateTrackerModal';
 import DeleteTrackerModal from '@/src/components/DeleteTrackerModal';
-import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
+import { Routes, Route, Navigate, useNavigate, useLocation, useMatch } from 'react-router-dom';
 import {db, auth} from '@/src/firebaseConfig';
 import {ref, onValue, set, get, update} from "firebase/database";
 import {onAuthStateChanged, User, signOut} from "firebase/auth";
@@ -54,6 +54,8 @@ const computeTrackerSummary = (state?: Partial<AppState> | null): TrackerSummary
 const App: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
+    const trackerRouteMatch = useMatch('/tracker/:trackerId');
+    const routeTrackerId = trackerRouteMatch?.params?.trackerId ?? null;
     const [data, setData] = useState<AppState>(createInitialState());
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
@@ -176,7 +178,7 @@ const App: React.FC = () => {
     }, [user, loading, navigate]);
 
     useEffect(() => {
-        if (location.pathname !== '/tracker' && showSettings) {
+        if (!location.pathname.startsWith('/tracker') && showSettings) {
             setShowSettings(false);
         }
     }, [location.pathname, showSettings]);
@@ -308,17 +310,30 @@ const App: React.FC = () => {
             return;
         }
         if (userTrackersLoading) return;
+
+        if (routeTrackerId) {
+            if (userTrackerIds.includes(routeTrackerId)) {
+                if (activeTrackerId !== routeTrackerId) {
+                    setActiveTrackerId(routeTrackerId);
+                }
+            } else if (activeTrackerId !== null) {
+                setActiveTrackerId(null);
+            }
+            return;
+        }
+
         if (activeTrackerId && !userTrackerIds.includes(activeTrackerId)) {
             setActiveTrackerId(null);
             return;
         }
+
         if (!activeTrackerId) {
             const stored = typeof window !== 'undefined' ? window.localStorage.getItem(LAST_TRACKER_STORAGE_KEY) : null;
             if (stored && userTrackerIds.includes(stored)) {
                 setActiveTrackerId(stored);
             }
         }
-    }, [userTrackerIds, activeTrackerId, user, userTrackersLoading]);
+    }, [userTrackerIds, activeTrackerId, user, userTrackersLoading, routeTrackerId]);
 
     useEffect(() => {
         if (!user) return;
@@ -684,7 +699,7 @@ const App: React.FC = () => {
 
     const handleOpenTracker = (trackerId: string) => {
         setActiveTrackerId(trackerId);
-        navigate('/tracker');
+        navigate(`/tracker/${trackerId}`);
     };
 
     const handleCreateTrackerSubmit = async (payload: { title: string; player1Name: string; player2Name: string; memberEmails: string[] }) => {
@@ -705,7 +720,7 @@ const App: React.FC = () => {
             setData(freshState);
             setShowCreateModal(false);
             setActiveTrackerId(result.trackerId);
-            navigate('/tracker');
+            navigate(`/tracker/${result.trackerId}`);
         } catch (error) {
             if (error instanceof TrackerOperationError && error.code === 'user-not-found' && Array.isArray(error.details)) {
                 setCreateTrackerError(`Folgende Emails wurden nicht gefunden: ${error.details.join(', ')}`);
@@ -1129,7 +1144,15 @@ const App: React.FC = () => {
                         />
                     }
                 />
-                <Route path="/tracker" element={trackerElement} />
+                <Route path="/tracker/:trackerId" element={trackerElement} />
+                <Route
+                    path="/tracker"
+                    element={
+                        activeTrackerId
+                            ? <Navigate to={`/tracker/${activeTrackerId}`} replace />
+                            : <Navigate to="/" replace />
+                    }
+                />
                 <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
         </>
