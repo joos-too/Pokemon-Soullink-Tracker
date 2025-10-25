@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useCallback, useRef, useMemo} from 'react';
 import {FiSettings, FiRotateCw, FiMenu, FiSun, FiMoon, FiHome} from 'react-icons/fi';
 import { FaGithub } from 'react-icons/fa';
-import type {AppState, PokemonPair, RivalCap} from '@/types';
+import type {AppState, PokemonPair, RivalCap, TrackerMeta} from '@/types';
 import {INITIAL_STATE, PLAYER1_COLOR, PLAYER2_COLOR, DEFAULT_RULES, DEFAULT_RIVAL_CAPS} from '@/constants';
 import TeamTable from '@/src/components/TeamTable';
 import InfoPanel from '@/src/components/InfoPanel';
@@ -15,11 +15,15 @@ import SettingsPage from '@/src/components/SettingsPage';
 import ResetModal from '@/src/components/ResetModal';
 import DarkModeToggle, { getDarkMode, setDarkMode } from '@/src/components/DarkModeToggle';
 import HomePage from '@/src/components/HomePage';
+import CreateTrackerModal from '@/src/components/CreateTrackerModal';
 import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import {db, auth} from '@/src/firebaseConfig';
-import {ref, onValue, set, get} from "firebase/database";
+import {ref, onValue, set, get, update} from "firebase/database";
 import {onAuthStateChanged, User, signOut} from "firebase/auth";
 import { initPokemonGermanNamesBackgroundRefresh } from '@/src/services/pokemonSearch';
+import {addMemberByEmail, createTracker, ensureUserProfile, TrackerOperationError} from '@/src/services/trackers';
+
+const LAST_TRACKER_STORAGE_KEY = 'soullink:lastTrackerId';
 
 const App: React.FC = () => {
     const navigate = useNavigate();
@@ -27,6 +31,12 @@ const App: React.FC = () => {
     const [data, setData] = useState<AppState>(INITIAL_STATE);
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
+    const storedTrackerId = typeof window !== 'undefined' ? window.localStorage.getItem(LAST_TRACKER_STORAGE_KEY) : null;
+    const [activeTrackerId, setActiveTrackerId] = useState<string | null>(storedTrackerId);
+    const [userTrackerIds, setUserTrackerIds] = useState<string[]>([]);
+    const [trackerMetas, setTrackerMetas] = useState<Record<string, TrackerMeta>>({});
+    const metaListenersRef = useRef<Map<string, () => void>>(new Map());
+    const [userTrackersLoading, setUserTrackersLoading] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [showSettings, setShowSettings] = useState(false);
     const [showResetModal, setShowResetModal] = useState(false);
@@ -37,6 +47,9 @@ const App: React.FC = () => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [isDark, setIsDark] = useState(getDarkMode());
     const [authScreen, setAuthScreen] = useState<'login' | 'register'>('login');
+    const [showCreateModal, setShowCreateModal] = useState(false);
+    const [createTrackerError, setCreateTrackerError] = useState<string | null>(null);
+    const [createTrackerLoading, setCreateTrackerLoading] = useState(false);
 
     // Ensure incoming Firebase data matches our expected shape
     const coerceAppState = useCallback((incoming: any, base: AppState): AppState => {
@@ -121,6 +134,11 @@ const App: React.FC = () => {
     }, [user]);
 
     useEffect(() => {
+        if (!user) return;
+        ensureUserProfile(user).catch(() => {});
+    }, [user]);
+
+    useEffect(() => {
         if (!user && !loading) {
             navigate('/', { replace: true });
         }
@@ -131,6 +149,108 @@ const App: React.FC = () => {
             setShowSettings(false);
         }
     }, [location.pathname, showSettings]);
+
+    useEffect(() => {
+        if (!user) {
+            setUserTrackerIds([]);
+            setTrackerMetas({});
+            metaListenersRef.current.forEach(unsub => unsub());
+            metaListenersRef.current.clear();
+            setActiveTrackerId(null);
+            setUserTrackersLoading(false);
+            return;
+        }
+
+        setUserTrackersLoading(true);
+        const userTrackersRef = ref(db, `userTrackers/${user.uid}`);
+        const unsubscribe = onValue(userTrackersRef, (snapshot) => {
+            const ids = snapshot.exists() ? Object.keys(snapshot.val()) : [];
+            setUserTrackerIds(ids);
+            setUserTrackersLoading(false);
+        }, () => setUserTrackersLoading(false));
+
+        return () => {
+            unsubscribe();
+            setUserTrackersLoading(false);
+        };
+    }, [user]);
+
+    useEffect(() => {
+        if (!user) return;
+
+        const listeners = metaListenersRef.current;
+        for (const [trackerId, unsub] of listeners.entries()) {
+            if (!userTrackerIds.includes(trackerId)) {
+                unsub();
+                listeners.delete(trackerId);
+                setTrackerMetas(prev => {
+                    const next = { ...prev };
+                    delete next[trackerId];
+                    return next;
+                });
+            }
+        }
+
+        userTrackerIds.forEach((trackerId) => {
+            if (listeners.has(trackerId)) return;
+            const metaRef = ref(db, `trackers/${trackerId}/meta`);
+            const unsubscribe = onValue(metaRef, (snapshot) => {
+                const meta = snapshot.val();
+                setTrackerMetas(prev => {
+                    const next = { ...prev };
+                    if (meta) {
+                        next[trackerId] = { ...meta, id: trackerId };
+                    } else {
+                        delete next[trackerId];
+                    }
+                    return next;
+                });
+            }, () => {
+                setTrackerMetas(prev => {
+                    const next = { ...prev };
+                    delete next[trackerId];
+                    return next;
+                });
+            });
+            listeners.set(trackerId, unsubscribe);
+        });
+
+        return () => {
+            if (!user) {
+                listeners.forEach(unsub => unsub());
+                listeners.clear();
+            }
+        };
+    }, [userTrackerIds, user]);
+
+    useEffect(() => {
+        if (!user) {
+            setActiveTrackerId(null);
+            return;
+        }
+        if (userTrackersLoading) return;
+        if (activeTrackerId && !userTrackerIds.includes(activeTrackerId)) {
+            setActiveTrackerId(null);
+            return;
+        }
+        if (!activeTrackerId) {
+            const stored = typeof window !== 'undefined' ? window.localStorage.getItem(LAST_TRACKER_STORAGE_KEY) : null;
+            if (stored && userTrackerIds.includes(stored)) {
+                setActiveTrackerId(stored);
+            }
+        }
+    }, [userTrackerIds, activeTrackerId, user, userTrackersLoading]);
+
+    useEffect(() => {
+        if (!user) return;
+        if (activeTrackerId) {
+            if (typeof window !== 'undefined') {
+                window.localStorage.setItem(LAST_TRACKER_STORAGE_KEY, activeTrackerId);
+            }
+        } else if (typeof window !== 'undefined') {
+            window.localStorage.removeItem(LAST_TRACKER_STORAGE_KEY);
+        }
+    }, [activeTrackerId, user]);
 
     // Preload/refresh German Pokémon names in the background (non-blocking)
     useEffect(() => {
@@ -148,27 +268,37 @@ const App: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        if (!user) return;
+        if (!user) {
+            setData(INITIAL_STATE);
+            setDataLoaded(false);
+            return;
+        }
 
-        const dbRef = ref(db, '/');
+        if (!activeTrackerId) {
+            setData(INITIAL_STATE);
+            setDataLoaded(true);
+            return;
+        }
 
-        // 1) Load once on initial login
+        const dbRef = ref(db, `trackers/${activeTrackerId}/state`);
         let unsub: (() => void) | undefined;
+        let cancelled = false;
+
         (async () => {
             try {
                 const snapshot = await get(dbRef);
                 const dbData = snapshot.val();
                 if (dbData) {
-                    // Apply remote state without echoing back immediately
                     skipNextWriteRef.current = true;
                     setData(prev => coerceAppState(dbData, prev));
+                } else {
+                    setData(INITIAL_STATE);
                 }
             } catch (e) {
-                // If get fails, fall back to initial state silently
-                // (data is already INITIAL_STATE by default)
+                setData(INITIAL_STATE);
             } finally {
+                if (cancelled) return;
                 setDataLoaded(true);
-                // 2) Subscribe for live updates after initial load
                 unsub = onValue(dbRef, (snap) => {
                     const liveData = snap.val();
                     if (liveData) {
@@ -180,13 +310,14 @@ const App: React.FC = () => {
         })();
 
         return () => {
+            cancelled = true;
             if (unsub) unsub();
             setDataLoaded(false);
         };
-    }, [user, coerceAppState]);
+    }, [user, activeTrackerId, coerceAppState]);
 
     useEffect(() => {
-        if (!user || !dataLoaded) return;
+        if (!user || !dataLoaded || !activeTrackerId) return;
 
         if (skipNextWriteRef.current) {
             // Skip echoing writes caused by remote updates
@@ -194,9 +325,9 @@ const App: React.FC = () => {
             return;
         }
 
-        const dbRef = ref(db, '/');
+        const dbRef = ref(db, `trackers/${activeTrackerId}/state`);
         set(dbRef, data);
-    }, [data, user, dataLoaded]);
+    }, [data, user, dataLoaded, activeTrackerId]);
 
     const handleReset = () => {
         setShowResetModal(true);
@@ -235,6 +366,10 @@ const App: React.FC = () => {
     const handleLogout = () => {
         setMobileMenuOpen(false);
         setShowSettings(false);
+        setActiveTrackerId(null);
+        if (typeof window !== 'undefined') {
+            window.localStorage.removeItem(LAST_TRACKER_STORAGE_KEY);
+        }
         navigate('/');
         signOut(auth);
     };
@@ -411,6 +546,9 @@ const App: React.FC = () => {
 
     const handleNameChange = (player: 'player1Name' | 'player2Name', name: string) => {
         setData(prev => ({...prev, [player]: name}));
+        if (activeTrackerId) {
+            update(ref(db, `trackers/${activeTrackerId}/meta`), { [player]: name });
+        }
     };
 
     const handlelegendaryTrackerToggle = (enabled: boolean) => {
@@ -440,6 +578,57 @@ const App: React.FC = () => {
             },
         }));
     };
+
+    const openCreateTrackerModal = () => {
+        setCreateTrackerError(null);
+        setShowCreateModal(true);
+    };
+
+    const handleOpenTracker = (trackerId: string) => {
+        setActiveTrackerId(trackerId);
+        navigate('/tracker');
+    };
+
+    const handleCreateTrackerSubmit = async (payload: { title: string; player1Name: string; player2Name: string; memberEmails: string[] }) => {
+        if (!user) return;
+        setCreateTrackerError(null);
+        setCreateTrackerLoading(true);
+        try {
+            const result = await createTracker({
+                title: payload.title,
+                player1Name: payload.player1Name,
+                player2Name: payload.player2Name,
+                memberEmails: payload.memberEmails,
+                owner: user,
+            });
+            setShowCreateModal(false);
+            setActiveTrackerId(result.trackerId);
+            navigate('/tracker');
+        } catch (error) {
+            if (error instanceof TrackerOperationError && error.code === 'user-not-found' && Array.isArray(error.details)) {
+                setCreateTrackerError(`Folgende Emails wurden nicht gefunden: ${error.details.join(', ')}`);
+            } else {
+                setCreateTrackerError(error instanceof Error ? error.message : 'Tracker konnte nicht erstellt werden.');
+            }
+        } finally {
+            setCreateTrackerLoading(false);
+        }
+    };
+
+    const handleInviteMember = useCallback(async (email: string) => {
+        if (!activeTrackerId) {
+            throw new Error('Kein aktiver Tracker ausgewählt.');
+        }
+        try {
+            await addMemberByEmail(activeTrackerId, email);
+        } catch (error) {
+            if (error instanceof TrackerOperationError) {
+                const details = Array.isArray(error.details) ? ` (${error.details.join(', ')})` : '';
+                throw new Error(`${error.message}${details}`);
+            }
+            throw new Error('Mitglied konnte nicht hinzugefügt werden.');
+        }
+    }, [activeTrackerId]);
 
     const clearedRoutes = useMemo(() => {
         const routes: string[] = [];
@@ -478,6 +667,18 @@ const App: React.FC = () => {
         }
     }, [currentBest]);
 
+    const trackerList = useMemo(
+        () => userTrackerIds
+            .map((id) => trackerMetas[id])
+            .filter((meta): meta is TrackerMeta => Boolean(meta)),
+        [userTrackerIds, trackerMetas]
+    );
+    const trackerListLoading = userTrackersLoading || (userTrackerIds.length > 0 && trackerList.length === 0);
+
+    const activeTrackerMeta = activeTrackerId ? trackerMetas[activeTrackerId] : undefined;
+    const trackerMembers = activeTrackerMeta ? Object.values(activeTrackerMeta.members ?? {}) : [];
+    const canManageMembers = Boolean(user && activeTrackerMeta?.members?.[user.uid]?.role === 'owner');
+
     // Show loading while auth is initializing, or while initial data is loading for an authenticated user
     if (loading || (user && !dataLoaded)) {
         return (
@@ -496,8 +697,20 @@ const App: React.FC = () => {
             : <RegisterPage onSwitchToLogin={() => setAuthScreen('login')}/>;
     }
 
-    const trackerElement = showSettings ? (
+    const trackerElement = !activeTrackerId ? (
+        <div className="min-h-screen flex flex-col items-center justify-center bg-[#f0f0f0] dark:bg-gray-900 text-gray-700 dark:text-gray-200">
+            <p className="text-lg font-semibold">Kein Tracker ausgewählt.</p>
+            <p className="text-sm text-gray-500 mt-2">Bitte wähle einen Tracker auf der Startseite aus oder erstelle einen neuen.</p>
+            <button
+                onClick={handleNavigateHome}
+                className="mt-6 inline-flex items-center gap-2 rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700"
+            >
+                Zur Übersicht
+            </button>
+        </div>
+    ) : showSettings ? (
         <SettingsPage
+            trackerTitle={activeTrackerMeta?.title ?? 'Tracker'}
             player1Name={data.player1Name}
             player2Name={data.player2Name}
             onNameChange={handleNameChange}
@@ -506,6 +719,10 @@ const App: React.FC = () => {
             onlegendaryTrackerToggle={handlelegendaryTrackerToggle}
             rivalCensorEnabled={data.rivalCensorEnabled ?? true}
             onRivalCensorToggle={handleRivalCensorToggle}
+            members={trackerMembers}
+            onInviteMember={handleInviteMember}
+            canManageMembers={canManageMembers}
+            currentUserEmail={user?.email}
         />
     ) : (
         <div className="bg-[#f0f0f0] dark:bg-gray-900 min-h-screen p-2 sm:p-4 md:p-8 text-gray-800 dark:text-gray-200">
@@ -732,26 +949,36 @@ const App: React.FC = () => {
     );
 
     return (
-        <Routes>
-            <Route
-                path="/"
-                element={
-                    <HomePage
-                        player1Name={data.player1Name}
-                        player2Name={data.player2Name}
-                        stats={data.stats}
-                        teamCount={data.team.length}
-                        boxCount={data.box.length}
-                        graveyardCount={data.graveyard.length}
-                        clearedRoutesCount={clearedRoutes.length}
-                        onOpenTracker={() => navigate('/tracker')}
-                        onLogout={handleLogout}
-                    />
-                }
+        <>
+            <CreateTrackerModal
+                isOpen={showCreateModal}
+                onClose={() => {
+                    setShowCreateModal(false);
+                    setCreateTrackerError(null);
+                }}
+                onSubmit={handleCreateTrackerSubmit}
+                isSubmitting={createTrackerLoading}
+                error={createTrackerError}
             />
-            <Route path="/tracker" element={trackerElement} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+            <Routes>
+                <Route
+                    path="/"
+                    element={
+                        <HomePage
+                            trackers={trackerList}
+                            onOpenTracker={handleOpenTracker}
+                            onLogout={handleLogout}
+                            onCreateTracker={openCreateTrackerModal}
+                            isLoading={trackerListLoading}
+                            activeTrackerId={activeTrackerId}
+                            userEmail={user?.email ?? undefined}
+                        />
+                    }
+                />
+                <Route path="/tracker" element={trackerElement} />
+                <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+        </>
     );
 };
 
