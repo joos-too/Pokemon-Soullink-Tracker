@@ -195,7 +195,11 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                              transformStyle: 'preserve-3d',
                              transform: showRivalCaps ? 'rotateY(180deg)' : 'rotateY(0deg)'
                          }}>
-                        <div className="absolute w-full h-full" style={{backfaceVisibility: 'hidden'}}>
+                        <div className="absolute w-full h-full"
+                             style={{
+                                 backfaceVisibility: 'hidden',
+                                 transform: 'rotateY(0deg)'
+                             }}>
                             <div className="h-full overflow-y-auto">
                                 <table className="w-full h-full flex flex-col">
                                     <tbody className="flex-grow flex flex-col">
@@ -224,7 +228,10 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                         </div>
 
                         <div className="absolute w-full h-full"
-                             style={{backfaceVisibility: 'hidden', transform: 'rotateY(180deg)'}}>
+                             style={{
+                                 backfaceVisibility: 'hidden',
+                                 transform: 'rotateY(180deg)'
+                             }}>
                             <div className="p-4 h-full overflow-y-auto space-y-2 custom-scrollbar">
                                 {rivalCaps.map((rc, index) => (
                                     <div key={rc.id}>
