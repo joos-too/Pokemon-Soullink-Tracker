@@ -377,10 +377,18 @@ const App: React.FC = () => {
         const dbRef = ref(db, `trackers/${activeTrackerId}/state`);
         let unsub: (() => void) | undefined;
         let cancelled = false;
+        let initialSnapshotApplied = false;
+        const markInitialSnapshot = () => {
+            if (!initialSnapshotApplied) {
+                initialSnapshotApplied = true;
+                setDataLoaded(true);
+            }
+        };
 
         (async () => {
             try {
                 const snapshot = await get(dbRef);
+                if (cancelled) return;
                 const dbData = snapshot.val();
                 if (dbData) {
                     skipNextWriteRef.current = true;
@@ -388,18 +396,23 @@ const App: React.FC = () => {
                 } else {
                     setData(createInitialState());
                 }
+                markInitialSnapshot();
             } catch (e) {
+                console.error('Tracker state fetch failed', e);
                 setData(createInitialState());
             } finally {
-                if (cancelled) return;
-                setDataLoaded(true);
-                unsub = onValue(dbRef, (snap) => {
-                    const liveData = snap.val();
-                    if (liveData) {
-                        skipNextWriteRef.current = true;
-                        setData(prev => coerceAppState(liveData, prev));
-                    }
-                });
+                if (!cancelled) {
+                    unsub = onValue(dbRef, (snap) => {
+                        const liveData = snap.val();
+                        if (liveData) {
+                            skipNextWriteRef.current = true;
+                            setData(prev => coerceAppState(liveData, prev));
+                        }
+                        markInitialSnapshot();
+                    }, (error) => {
+                        console.error('Tracker state listener error', error);
+                    });
+                }
             }
         })();
 
