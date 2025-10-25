@@ -11,7 +11,7 @@ interface GraveyardProps {
 
 const Graveyard: React.FC<GraveyardProps> = ({ graveyard = [], player1Name = 'Player 1', player2Name = 'Player 2', onManualAddClick }) => {
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700 overflow-hidden custom-scrollbar">
       <div className="flex justify-center items-center p-2 bg-gray-800 dark:bg-gray-900">
         <h2 className="text-center text-white font-press-start text-sm">
           Tote / verlorene Pokémon
@@ -37,14 +37,20 @@ const Graveyard: React.FC<GraveyardProps> = ({ graveyard = [], player1Name = 'Pl
                 <div className="grid grid-cols-2 gap-2">
                   <div>
                     <p className="font-bold text-red-600 flex items-center gap-2">
-                      {(() => { const url = getSpriteUrlForGermanName(pair.player1.name); return url ? <img src={url} alt={pair.player1.name || 'Pokémon'} className="w-8 h-8" loading="lazy"/> : null; })()}
+                      {(() => {
+                        const url = getSpriteUrlForGermanName(pair.player1.name);
+                        return url ? <img src={url} alt={pair.player1.name || 'Pokémon'} className="w-8 h-8" loading="lazy" style={{ imageRendering: 'pixelated' }}/> : null;
+                      })()}
                       <span>{player1Name}'s {pair.player1.name || 'Pokémon'}</span>
                     </p>
                     <p className="text-gray-700 dark:text-gray-400">Spitzname: {pair.player1.nickname || 'N/A'}</p>
                   </div>
                    <div>
                     <p className="font-bold text-purple-700 flex items-center gap-2">
-                      {(() => { const url = getSpriteUrlForGermanName(pair.player2.name); return url ? <img src={url} alt={pair.player2.name || 'Pokémon'} className="w-8 h-8" loading="lazy"/> : null; })()}
+                      {(() => {
+                        const url = getSpriteUrlForGermanName(pair.player2.name);
+                        return url ? <img src={url} alt={pair.player2.name || 'Pokémon'} className="w-8 h-8" loading="lazy" style={{ imageRendering: 'pixelated' }}/> : null;
+                      })()}
                       <span>{player2Name}'s {pair.player2.name || 'Pokémon'}</span>
                     </p>
                     <p className="text-gray-700 dark:text-gray-400">Spitzname: {pair.player2.nickname || 'N/A'}</p>

@@ -1,0 +1,68 @@
+{
+    "gen1_rby": [
+        { "id": 1, "location": "Azuria City", "rival": "Blau", "level": "18", "done": false, "revealed": false },
+        { "id": 2, "location": "M.S. Anne", "rival": "Blau", "level": "19", "done": false, "revealed": false },
+        { "id": 3, "location": "Pokémon-Turm", "rival": "Blau", "level": "25", "done": false, "revealed": false },
+        { "id": 4, "location": "Silph Co.", "rival": "Blau", "level": "40", "done": false, "revealed": false },
+        { "id": 5, "location": "Route 22", "rival": "Blau", "level": "53", "done": false, "revealed": false }
+    ],
+    "gen2_gsc": [
+        { "id": 1, "location": "Azetalea City", "rival": "Silber", "level": "18", "done": false, "revealed": false },
+        { "id": 2, "location": "Turmruine", "rival": "Silber", "level": "22", "done": false, "revealed": false },
+        { "id": 3, "location": "Radioturm (Dukatia City)", "rival": "Silber", "level": "34", "done": false, "revealed": false },
+        { "id": 4, "location": "Siegesstraße", "rival": "Silber", "level": "40", "done": false, "revealed": false }
+    ],
+    "gen3_rse": [
+        { "id": 1, "location": "Malvenfroh City", "rival": "Heiko", "level": "16", "done": false, "revealed": false },
+        { "id": 2, "location": "Route 110", "rival": "Brix/Maike", "level": "20", "done": false, "revealed": false },
+        { "id": 3, "location": "Seegrasulb City", "rival": "Brix/Maike", "level": "34", "done": false, "revealed": false },
+        { "id": 4, "location": "Siegesstraße", "rival": "Heiko", "level": "45", "done": false, "revealed": false }
+    ],
+    "gen4_dpp": [
+        { "id": 1, "location": "Herzhofen", "rival": "Perl", "level": "20", "done": false, "revealed": false },
+        { "id": 2, "location": "Weideburg", "rival": "Perl", "level": "31", "done": false, "revealed": false },
+        { "id": 3, "location": "Fleetburg", "rival": "Perl", "level": "38", "done": false, "revealed": false },
+        { "id": 4, "location": "Pokémon Liga (Eingang)", "rival": "Perl", "level": "48", "done": false, "revealed": false }
+    ],
+    "gen5_bw": [
+        { "id": 1, "location": "Route 2", "rival": "Bell", "level": "6", "done": false, "revealed": false },
+        { "id": 2, "location": "Gavina", "rival": "N", "level": "7", "done": false, "revealed": false },
+        { "id": 3, "location": "Orion City", "rival": "Cheren", "level": "8", "done": false, "revealed": false },
+        { "id": 4, "location": "Septerna City", "rival": "N", "level": "13", "done": false, "revealed": false },
+        { "id": 5, "location": "Route 3", "rival": "Cheren", "level": "14", "done": false, "revealed": false },
+        { "id": 6, "location": "Route 4", "rival": "Bell", "level": "18", "done": false, "revealed": false },
+        { "id": 7, "location": "Route 4", "rival": "Cheren", "level": "20", "done": false, "revealed": false },
+        { "id": 8, "location": "Rayono City", "rival": "N", "level": "22", "done": false, "revealed": false },
+        { "id": 9, "location": "Route 5", "rival": "Cheren", "level": "24", "done": false, "revealed": false },
+        { "id": 10, "location": "Marea City", "rival": "Bell", "level": "26", "done": false, "revealed": false },
+        { "id": 11, "location": "Elektrolithhöhle", "rival": "N", "level": "28", "done": false, "revealed": false },
+        { "id": 12, "location": "Wendelberg", "rival": "Cheren", "level": "33", "done": false, "revealed": false },
+        { "id": 13, "location": "Route 8", "rival": "Bell", "level": "38", "done": false, "revealed": false },
+        { "id": 14, "location": "Route 10", "rival": "Cheren", "level": "43", "done": false, "revealed": false }
+    ],
+    "gen5_bw2": [
+        { "id": 1, "location": "Eventura-Farm", "rival": "Matisse", "level": "8", "done": false, "revealed": false },
+        { "id": 2, "location": "Route 20", "rival": "Matisse", "level": "14", "done": false, "revealed": false },
+        { "id": 3, "location": "Pokémon World Tournament", "rival": "Matisse", "level": "25", "done": false, "revealed": false },
+        { "id": 4, "location": "Route 22", "rival": "Matisse", "level": "40", "done": false, "revealed": false },
+        { "id": 5, "location": "Plasma-Fregatte", "rival": "Matisse", "level": "50", "done": false, "revealed": false },
+        { "id": 6, "location": "Siegesstraße", "rival": "Matisse", "level": "55", "done": false, "revealed": false }
+    ],
+    "gen6_xy": [
+        { "id": 1, "location": "Route 7", "rival": "Kalem/Serena", "level": "14", "done": false, "revealed": false },
+        { "id": 2, "location": "Turm der Erkenntnis", "rival": "Kalem/Serena", "level": "28", "done": false, "revealed": false },
+        { "id": 3, "location": "Geosenge", "rival": "Kalem/Serena", "level": "31", "done": false, "revealed": false },
+        { "id": 4, "location": "Tempera City", "rival": "Kalem/Serena", "level": "46", "done": false, "revealed": false },
+        { "id": 5, "location": "Route 19", "rival": "Sannah", "level": "49", "done": false, "revealed": false },
+        { "id": 6, "location": "Route 19", "rival": "Tierno", "level": "48", "done": false, "revealed": false },
+        { "id": 7, "location": "Route 19", "rival": "Trovato", "level": "48", "done": false, "revealed": false },
+        { "id": 8, "location": "Siegesstraße", "rival": "Kalem/Serena", "level": "59", "done": false, "revealed": false }
+    ],
+    "gen6_oras": [
+        { "id": 1, "location": "Route 110", "rival": "Brix/Maike", "level": "20", "done": false, "revealed": false },
+        { "id": 2, "location": "Malvenfroh City", "rival": "Heiko", "level": "16", "done": false, "revealed": false },
+        { "id": 3, "location": "Route 119", "rival": "Brix/Maike", "level": "33", "done": false, "revealed": false },
+        { "id": 4, "location": "Seegrasulb City", "rival": "Brix/Maike", "level": "39", "done": false, "revealed": false },
+        { "id": 5, "location": "Siegesstraße", "rival": "Heiko", "level": "48", "done": false, "revealed": false }
+    ]
+}

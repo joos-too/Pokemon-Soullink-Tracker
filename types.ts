@@ -17,6 +17,15 @@ export interface LevelCap {
   done?: boolean;
 }
 
+export interface RivalCap {
+  id: number;
+  location: string;
+  rival: string;
+  level: string;
+  done?: boolean;
+  revealed?: boolean;
+}
+
 export interface Stats {
   runs: number;
   best: number;
@@ -43,6 +52,8 @@ export interface AppState {
   graveyard: PokemonPair[];
   rules: string[];
   levelCaps: LevelCap[];
+  rivalCaps: RivalCap[];
   stats: Stats;
   legendaryTrackerEnabled?: boolean;
+  rivalCensorEnabled?: boolean;
 }
