@@ -134,29 +134,7 @@ const HomePage: React.FC<HomePageProps> = ({
                           {tracker.player1Name} &amp; {tracker.player2Name}
                         </p>
                       </div>
-                      <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-                        <div className="flex gap-3">
-                          <div className="flex flex-col gap-2">
-                            <button
-                              type="button"
-                              onClick={() => onOpenTracker(tracker.id)}
-                              className="inline-flex items-center gap-2 rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm font-semibold text-gray-800 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800"
-                            >
-                              Öffnen
-                              <FiArrowRightCircle />
-                            </button>
-                            {isOwner && (
-                              <button
-                                type="button"
-                                onClick={() => onDeleteTracker(tracker.id)}
-                                className="inline-flex items-center gap-2 rounded-md border border-red-200 dark:border-red-700 px-3 py-2 text-sm font-semibold text-red-700 dark:text-red-200 hover:bg-red-50 dark:hover:bg-red-900/30"
-                              >
-                                <FiTrash2 />
-                                Löschen
-                              </button>
-                            )}
-                          </div>
-                        </div>
+                      <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
                         <div className="grid grid-cols-2 gap-3 w-full md:w-auto md:min-w-[260px]">
                           <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/40 p-3 text-center">
                             <p className="text-[0.65rem] uppercase tracking-[0.3em] text-gray-500">Links aktiv</p>
@@ -174,6 +152,26 @@ const HomePage: React.FC<HomePageProps> = ({
                             <p className="text-[0.65rem] uppercase tracking-[0.3em] text-gray-500">Fortschritt</p>
                             <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">{progressLabel}</p>
                           </div>
+                        </div>
+                        <div className="flex flex-col gap-2 self-end md:items-end w-full md:w-auto md:min-w-[170px]">
+                          <button
+                            type="button"
+                            onClick={() => onOpenTracker(tracker.id)}
+                            className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-500"
+                          >
+                            Öffnen
+                            <FiArrowRightCircle />
+                          </button>
+                          {isOwner && (
+                            <button
+                              type="button"
+                              onClick={() => onDeleteTracker(tracker.id)}
+                              className="inline-flex w-full items-center justify-center gap-2 rounded-md border border-red-200 dark:border-red-700 px-3 py-2 text-sm font-semibold text-red-700 dark:text-red-200 hover:bg-red-50 dark:hover:bg-red-900/30"
+                            >
+                              <FiTrash2 />
+                              Löschen
+                            </button>
+                          )}
                         </div>
                       </div>
                     </div>

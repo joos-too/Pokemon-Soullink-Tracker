@@ -68,12 +68,11 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
       <div className="w-full max-w-2xl mx-auto bg-white dark:bg-gray-800 shadow-lg p-6 rounded-lg">
         <header className="pb-4 border-b border-gray-200 dark:border-gray-700">
           <p className="text-xs uppercase tracking-[0.3em] text-green-600">Tracker</p>
-          <h1 className="text-2xl font-bold font-press-start dark:text-gray-100 mt-2">{trackerTitle}</h1>
+          <h1 className="text-2xl font-bold font-press-start dark:text-gray-100 mt-2">Einstellungen</h1>
         </header>
 
         <main className="mt-6 space-y-8">
           <section>
-            <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-gray-500 mb-4">Spieler</h2>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="sm:col-span-2">
                 <label htmlFor="trackerTitle" className="block text-sm font-bold mb-2 text-gray-800 dark:text-gray-200">
