@@ -10,6 +10,7 @@ import ClearedRoutes from '@/src/components/ClearedRoutes';
 import AddLostPokemonModal from '@/src/components/AddLostPokemonModal';
 import SelectLossModal from '@/src/components/SelectLossModal';
 import LoginPage from '@/src/components/LoginPage';
+import RegisterPage from '@/src/components/RegisterPage';
 import SettingsPage from '@/src/components/SettingsPage';
 import ResetModal from '@/src/components/ResetModal';
 import DarkModeToggle, { getDarkMode, setDarkMode } from '@/src/components/DarkModeToggle';
@@ -31,6 +32,7 @@ const App: React.FC = () => {
     const [pendingLossPair, setPendingLossPair] = useState<PokemonPair | null>(null);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [isDark, setIsDark] = useState(getDarkMode());
+    const [authScreen, setAuthScreen] = useState<'login' | 'register'>('login');
 
     // Ensure incoming Firebase data matches our expected shape
     const coerceAppState = useCallback((incoming: any, base: AppState): AppState => {
@@ -107,6 +109,12 @@ const App: React.FC = () => {
         });
         return () => unsubscribe();
     }, []);
+
+    useEffect(() => {
+        if (!user) {
+            setAuthScreen('login');
+        }
+    }, [user]);
 
     // Preload/refresh German Pokémon names in the background (non-blocking)
     useEffect(() => {
@@ -459,7 +467,9 @@ const App: React.FC = () => {
     }
 
     if (!user) {
-        return <LoginPage/>;
+        return authScreen === 'login'
+            ? <LoginPage onSwitchToRegister={() => setAuthScreen('register')}/>
+            : <RegisterPage onSwitchToLogin={() => setAuthScreen('login')}/>;
     }
 
     if (showSettings) {

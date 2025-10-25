@@ -1,26 +1,51 @@
 import React, { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import type { FirebaseError } from "firebase/app";
 import { auth } from "../firebaseConfig";
 
-type LoginPageProps = {
-  onSwitchToRegister: () => void;
+type RegisterPageProps = {
+  onSwitchToLogin: () => void;
 };
 
-const LoginPage: React.FC<LoginPageProps> = ({ onSwitchToRegister }) => {
+const RegisterPage: React.FC<RegisterPageProps> = ({ onSwitchToLogin }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const handleAuthAction = async (e: React.FormEvent) => {
+  const resolveErrorMessage = (err: unknown): string => {
+    if (typeof err === "object" && err !== null && "code" in err) {
+      const code = (err as FirebaseError).code;
+      switch (code) {
+        case "auth/email-already-in-use":
+          return "Diese Email wird bereits verwendet.";
+        case "auth/invalid-email":
+          return "Bitte gib eine gültige Email-Adresse ein.";
+        case "auth/weak-password":
+          return "Das Passwort muss mindestens 6 Zeichen lang sein.";
+        default:
+          break;
+      }
+    }
+    return "Registrierung fehlgeschlagen. Bitte versuche es später erneut.";
+  };
+
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+
+    if (password !== confirmPassword) {
+      setError("Die Passwörter stimmen nicht überein.");
+      return;
+    }
+
     setLoading(true);
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      await createUserWithEmailAndPassword(auth, email.trim(), password);
     } catch (err) {
-      console.error("Error signing in", err);
-      setError("Login fehlgeschlagen. Bitte prüfe deine Zugangsdaten.");
+      console.error("Error registering user", err);
+      setError(resolveErrorMessage(err));
     } finally {
       setLoading(false);
     }
@@ -31,33 +56,34 @@ const LoginPage: React.FC<LoginPageProps> = ({ onSwitchToRegister }) => {
       <div className="w-full max-w-md">
         <div className="bg-white dark:bg-gray-800 shadow-lg p-6 sm:p-8 rounded-lg">
           <header className="text-center pb-4 border-b-2 border-gray-200 dark:border-gray-700">
-            {/* Logo oberhalb des Titels */}
             <img
               src="/Soullinktracker-Logo - cropped.png"
               alt="Soullink Tracker Logo"
               className="mx-auto mb-3 w-40 h-40 object-contain"
             />
             <h1 className="text-2xl sm:text-3xl font-bold font-press-start tracking-tighter dark:text-gray-100">
-              Soullink Tracker
+              Account erstellen
             </h1>
             <p className="text-sm text-gray-500 dark:text-gray-400 mt-2 text-center">
-              <span className="block">Anmeldung erforderlich</span>
+              <span className="block">Starte dein Soullink Abenteuer</span>
               <span className="block mt-1">
-                Noch kein Account?{" "}
+                Schon ein Account?{" "}
                 <button
                   type="button"
-                  onClick={onSwitchToRegister}
+                  onClick={onSwitchToLogin}
                   className="font-medium text-blue-600 dark:text-blue-400 hover:underline focus:outline-none focus-visible:underline"
                 >
-                  Hier registrieren
+                  Hier anmelden
                 </button>
               </span>
             </p>
           </header>
 
-          <form onSubmit={handleAuthAction} className="mt-6 space-y-4">
+          <form onSubmit={handleRegister} className="mt-6 space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Email
+              </label>
               <input
                 type="email"
                 autoComplete="email"
@@ -69,10 +95,12 @@ const LoginPage: React.FC<LoginPageProps> = ({ onSwitchToRegister }) => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Passwort</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Passwort
+              </label>
               <input
                 type="password"
-                autoComplete="current-password"
+                autoComplete="new-password"
                 required
                 className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
                 placeholder="••••••••"
@@ -80,17 +108,29 @@ const LoginPage: React.FC<LoginPageProps> = ({ onSwitchToRegister }) => {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Passwort bestätigen
+              </label>
+              <input
+                type="password"
+                autoComplete="new-password"
+                required
+                className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+                placeholder="••••••••"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+            </div>
 
-            {error && (
-              <div className="text-red-500 dark:text-red-400 text-sm">{error}</div>
-            )}
+            {error && <div className="text-red-500 dark:text-red-400 text-sm">{error}</div>}
 
             <button
               type="submit"
               disabled={loading}
               className="w-full bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 disabled:opacity-70"
             >
-              {loading ? "Anmelden…" : "Anmelden"}
+              {loading ? "Registriere…" : "Registrieren"}
             </button>
           </form>
         </div>
@@ -99,4 +139,4 @@ const LoginPage: React.FC<LoginPageProps> = ({ onSwitchToRegister }) => {
   );
 };
 
-export default LoginPage;
+export default RegisterPage;
