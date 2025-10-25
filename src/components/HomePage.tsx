@@ -62,7 +62,7 @@ const HomePage: React.FC<HomePageProps> = ({
 
                 <section className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-4 py-6 sm:px-6 shadow-[6px_6px_0_0_rgba(31,41,55,0.25)]">
                     <div className="mb-6">
-                        <p className="text-xs uppercase tracking-[0.3em] text-rose-500">Team</p>
+                        <p className="text-xs uppercase tracking-[0.3em] text-green-600">Team</p>
                         <h2 className="text-xl font-semibold mt-1">{trackerTitle}</h2>
                     </div>
 
@@ -99,16 +99,15 @@ const HomePage: React.FC<HomePageProps> = ({
                                 </li>
                                 <li className="flex items-center justify-between">
                                     <span className="flex items-center gap-2">
-                                        <FiTarget/> Gefallene
+                                        <FiTarget/> Gestorbene Pokémon
                                     </span>
                                     <span className="font-press-start">{graveyardCount}</span>
                                 </li>
                                 <li className="flex items-center justify-between">
-                                    <span
-                                        className="flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-gray-500 dark:text-gray-400">
-                                        <FiMapPin/> Cleared Routes
+                                    <span className="flex items-center gap-2">
+                                        <FiMapPin/> Abgegraste Routen
                                     </span>
-                                    <span className="text-lg font-semibold">{clearedRoutesCount}</span>
+                                    <span className="font-press-start">{clearedRoutesCount}</span>
                                 </li>
                             </ul>
                         </div>
@@ -117,7 +116,7 @@ const HomePage: React.FC<HomePageProps> = ({
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <button
                     onClick={onOpenTracker}
-                    className="inline-flex items-center justify-center gap-3 rounded-md border-2 border-gray-900 dark:border-white bg-rose-500 text-white font-press-start px-5 py-3 text-sm tracking-[0.2em] hover:bg-rose-600 transition"
+                    className="inline-flex items-center justify-center gap-3 rounded-md border-2 border-gray-900 dark:border-white bg-green-600 text-white font-press-start px-5 py-3 text-sm tracking-[0.2em] hover:bg-green-700 transition"
                 >
                     Tracker öffnen
                     <FiChevronRight/>
