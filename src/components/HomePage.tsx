@@ -1,5 +1,5 @@
 import React from 'react';
-import {FiLogOut, FiPlus, FiUsers, FiShield, FiArrowRightCircle} from 'react-icons/fi';
+import {FiLogOut, FiPlus, FiUsers, FiArrowRightCircle} from 'react-icons/fi';
 import DarkModeToggle from '@/src/components/DarkModeToggle';
 import type {TrackerMeta} from '@/types';
 
@@ -119,11 +119,6 @@ const HomePage: React.FC<HomePageProps> = ({
                       <span className="inline-flex items-center gap-1 rounded-full bg-gray-100 dark:bg-gray-800 px-2 py-1 text-xs font-semibold">
                         <FiUsers /> {memberCount} Mitglieder
                       </span>
-                      {tracker.members && Object.values(tracker.members).some(member => member.role === 'owner') && (
-                        <span className="inline-flex items-center gap-1 text-xs uppercase tracking-[0.2em] text-gray-500">
-                          <FiShield /> Owner vorhanden
-                        </span>
-                      )}
                     </div>
                     <button
                       type="button"
