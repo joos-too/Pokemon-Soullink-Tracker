@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useCallback, useRef, useMemo} from 'react';
-import {FiLogOut, FiSettings, FiRotateCw, FiMenu, FiSun, FiMoon} from 'react-icons/fi';
+import {FiSettings, FiRotateCw, FiMenu, FiSun, FiMoon, FiHome} from 'react-icons/fi';
 import { FaGithub } from 'react-icons/fa';
 import type {AppState, PokemonPair, RivalCap} from '@/types';
 import {INITIAL_STATE, PLAYER1_COLOR, PLAYER2_COLOR, DEFAULT_RULES, DEFAULT_RIVAL_CAPS} from '@/constants';
@@ -14,12 +14,16 @@ import RegisterPage from '@/src/components/RegisterPage';
 import SettingsPage from '@/src/components/SettingsPage';
 import ResetModal from '@/src/components/ResetModal';
 import DarkModeToggle, { getDarkMode, setDarkMode } from '@/src/components/DarkModeToggle';
+import HomePage from '@/src/components/HomePage';
+import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import {db, auth} from '@/src/firebaseConfig';
 import {ref, onValue, set, get} from "firebase/database";
 import {onAuthStateChanged, User, signOut} from "firebase/auth";
 import { initPokemonGermanNamesBackgroundRefresh } from '@/src/services/pokemonSearch';
 
 const App: React.FC = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
     const [data, setData] = useState<AppState>(INITIAL_STATE);
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
@@ -115,6 +119,18 @@ const App: React.FC = () => {
             setAuthScreen('login');
         }
     }, [user]);
+
+    useEffect(() => {
+        if (!user && !loading) {
+            navigate('/', { replace: true });
+        }
+    }, [user, loading, navigate]);
+
+    useEffect(() => {
+        if (location.pathname !== '/tracker' && showSettings) {
+            setShowSettings(false);
+        }
+    }, [location.pathname, showSettings]);
 
     // Preload/refresh German Pokémon names in the background (non-blocking)
     useEffect(() => {
@@ -217,7 +233,15 @@ const App: React.FC = () => {
     };
 
     const handleLogout = () => {
+        setMobileMenuOpen(false);
+        setShowSettings(false);
+        navigate('/');
         signOut(auth);
+    };
+
+    const handleNavigateHome = () => {
+        setMobileMenuOpen(false);
+        navigate('/');
     };
 
     const updateNestedState = (
@@ -472,22 +496,18 @@ const App: React.FC = () => {
             : <RegisterPage onSwitchToLogin={() => setAuthScreen('login')}/>;
     }
 
-    if (showSettings) {
-        return (
-            <SettingsPage
-                player1Name={data.player1Name}
-                player2Name={data.player2Name}
-                onNameChange={handleNameChange}
-                onBack={() => setShowSettings(false)}
-                legendaryTrackerEnabled={data.legendaryTrackerEnabled ?? true}
-                onlegendaryTrackerToggle={handlelegendaryTrackerToggle}
-                rivalCensorEnabled={data.rivalCensorEnabled ?? true}
-                onRivalCensorToggle={handleRivalCensorToggle}
-            />
-        );
-    }
-
-    return (
+    const trackerElement = showSettings ? (
+        <SettingsPage
+            player1Name={data.player1Name}
+            player2Name={data.player2Name}
+            onNameChange={handleNameChange}
+            onBack={() => setShowSettings(false)}
+            legendaryTrackerEnabled={data.legendaryTrackerEnabled ?? true}
+            onlegendaryTrackerToggle={handlelegendaryTrackerToggle}
+            rivalCensorEnabled={data.rivalCensorEnabled ?? true}
+            onRivalCensorToggle={handleRivalCensorToggle}
+        />
+    ) : (
         <div className="bg-[#f0f0f0] dark:bg-gray-900 min-h-screen p-2 sm:p-4 md:p-8 text-gray-800 dark:text-gray-200">
             <AddLostPokemonModal
                 isOpen={isModalOpen}
@@ -512,14 +532,6 @@ const App: React.FC = () => {
             />
             <div className="max-w-[1920px] mx-auto bg-white dark:bg-gray-800 shadow-lg p-4 rounded-lg">
                 <header className="relative text-center py-4 border-b-2 border-gray-300 dark:border-gray-700">
-                    {/* Logo oben links */}
-                    <div className="absolute left-2 sm:left-4 top-2 sm:top-3 z-30 flex items-center">
-                        <img
-                            src="/Soullinktracker-Logo - cropped.png"
-                            alt="Soullink Logo"
-                            className="w-16 h-16 object-contain"
-                        />
-                    </div>
                     <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-3xl 2xl:text-4xl font-bold font-press-start tracking-tighter dark:text-gray-100">
                         {data.player1Name} & {data.player2Name} Soullink
                     </h1>
@@ -528,6 +540,14 @@ const App: React.FC = () => {
                         {/* Desktop icons (>=xl) */}
                         <div className="hidden xl:flex items-center gap-1 sm:gap-2">
                             <DarkModeToggle />
+                            <button
+                                onClick={handleNavigateHome}
+                                className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white focus:outline-none"
+                                aria-label="Zur Übersicht"
+                                title="Zur Übersicht"
+                            >
+                                <FiHome size={28} />
+                            </button>
                             <button
                                 onClick={handleReset}
                                 className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white focus:outline-none"
@@ -543,14 +563,6 @@ const App: React.FC = () => {
                                 title="Einstellungen"
                             >
                                 <FiSettings size={28} />
-                            </button>
-                            <button
-                                onClick={handleLogout}
-                                className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white focus:outline-none"
-                                aria-label="Logout"
-                                title="Logout"
-                            >
-                                <FiLogOut size={28} />
                             </button>
                         </div>
                         {/* Mobile burger (<xl) */}
@@ -599,6 +611,13 @@ const App: React.FC = () => {
                                 {isDark ? 'Tageslichtmodus' : 'Dunkelmodus'}
                             </button>
                             <button
+                                onClick={handleNavigateHome}
+                                className="w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2"
+                                title="Zur Übersicht"
+                            >
+                                <FiHome size={18} /> Übersicht
+                            </button>
+                            <button
                                 onClick={() => { setMobileMenuOpen(false); handleReset(); }}
                                 className="w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2"
                                 title="Tracker zurücksetzen"
@@ -611,13 +630,6 @@ const App: React.FC = () => {
                                 title="Einstellungen"
                             >
                                 <FiSettings size={18} /> Einstellungen
-                            </button>
-                            <button
-                                onClick={() => { setMobileMenuOpen(false); handleLogout(); }}
-                                className="w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2"
-                                title="Abmelden"
-                            >
-                                <FiLogOut size={18} /> Abmelden
                             </button>
                         </div>
                     </div>
@@ -717,6 +729,29 @@ const App: React.FC = () => {
                 </footer>
             </div>
         </div>
+    );
+
+    return (
+        <Routes>
+            <Route
+                path="/"
+                element={
+                    <HomePage
+                        player1Name={data.player1Name}
+                        player2Name={data.player2Name}
+                        stats={data.stats}
+                        teamCount={data.team.length}
+                        boxCount={data.box.length}
+                        graveyardCount={data.graveyard.length}
+                        clearedRoutesCount={clearedRoutes.length}
+                        onOpenTracker={() => navigate('/tracker')}
+                        onLogout={handleLogout}
+                    />
+                }
+            />
+            <Route path="/tracker" element={trackerElement} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
     );
 };
 
