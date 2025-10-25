@@ -1,5 +1,5 @@
 import React from 'react';
-import {FiUsers, FiTarget, FiMapPin, FiArchive, FiLogOut, FiChevronRight} from 'react-icons/fi';
+import {FiUsers, FiTarget, FiMapPin, FiArchive, FiLogOut, FiChevronRight, FiPlus} from 'react-icons/fi';
 import DarkModeToggle from '@/src/components/DarkModeToggle';
 import type {AppState} from '@/types';
 
@@ -48,13 +48,21 @@ const HomePage: React.FC<HomePageProps> = ({
                                 </p>
                             </div>
                         </div>
-                        <div className="flex items-center gap-2">
-                            <DarkModeToggle />
+                        <div className="flex flex-col items-end gap-3 sm:gap-4">
+                            <div className="flex items-center gap-2">
+                                <DarkModeToggle />
+                                <button
+                                    onClick={onLogout}
+                                    className="inline-flex items-center gap-2 rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+                                >
+                                    <FiLogOut /> Logout
+                                </button>
+                            </div>
                             <button
-                                onClick={onLogout}
-                                className="inline-flex items-center gap-2 rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+                                type="button"
+                                className="inline-flex items-center gap-2 justify-center rounded-md bg-green-600 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-white shadow-sm transition hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-500"
                             >
-                                <FiLogOut /> Logout
+                               <FiPlus /> Neuer Tracker
                             </button>
                         </div>
                     </div>
