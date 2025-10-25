@@ -8,7 +8,7 @@ const ClearedRoutes: React.FC<ClearedRoutesProps> = ({ routes }) => {
   const hasRoutes = routes && routes.length > 0;
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700 overflow-hidden">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700 overflow-hidden custom-scrollbar">
       <div className="flex justify-center items-center p-2 bg-gray-800 dark:bg-gray-900">
         <h2 className="text-center text-white font-press-start text-sm">
           Abgegraste Gebiete

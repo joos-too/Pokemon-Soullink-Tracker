@@ -2,7 +2,7 @@ import React, {useState, useMemo} from 'react';
 import type {LevelCap, RivalCap, Stats} from '@/types';
 import EditableCell from './EditableCell';
 import {PLAYER1_COLOR, PLAYER2_COLOR, LEGENDARY_POKEMON_NAMES} from '@/constants';
-import {FiMinus, FiPlus, FiEdit, FiX, FiSave, FiEye, FiEyeOff} from 'react-icons/fi';
+import {FiMinus, FiPlus, FiEdit, FiX, FiSave, FiEye, FiEyeOff, FiRefreshCw} from 'react-icons/fi';
 import {getSpriteUrlForGermanName} from '@/src/services/sprites';
 
 interface InfoPanelProps {
@@ -55,6 +55,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                              }) => {
     const [isEditingRules, setIsEditingRules] = useState(false);
     const [draftRules, setDraftRules] = useState<string[]>(rules);
+    const [showRivalCaps, setShowRivalCaps] = useState(false);
 
     const randomLegendary = useMemo(() => {
         const randomIndex = Math.floor(Math.random() * LEGENDARY_POKEMON_NAMES.length);
@@ -174,30 +175,97 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                 </div>
 
                 <div
-                    className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700 overflow-hidden flex flex-col">
-                    <h2 className="text-center p-2 text-white font-press-start text-[10px] flex-shrink-0"
-                        style={{backgroundColor: '#cf5930'}}>Arenen-Caps</h2>
-                    <table className="w-full h-full flex flex-col">
-                        <tbody className="flex-grow flex flex-col">
-                        {levelCaps.map((cap, index) => (
-                            <tr key={cap.id}
-                                className={`flex flex-grow items-center border-t border-gray-200 dark:border-gray-700 ${cap.done ? 'bg-green-100 dark:bg-green-900/50' : ''}`}>
-                                <td className="px-2 text-xs font-bold text-gray-800 dark:text-gray-300 text-left select-none w-[70%]">
-                                    <div className="flex items-center gap-2">
-                                        <input id={`levelcap-done-${cap.id}`} type="checkbox" checked={!!cap.done}
-                                               onChange={() => onLevelCapToggle(index)}
-                                               aria-label={`Erledigt: ${cap.arena}`}
-                                               className="h-4 w-4 accent-green-600 cursor-pointer"/>
-                                        <label htmlFor={`levelcap-done-${cap.id}`}
-                                               className="cursor-pointer">{cap.arena}</label>
+                    className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700 overflow-hidden flex flex-col"
+                    style={{perspective: '1000px'}}>
+                    <div className="relative flex-shrink-0">
+                        <h2 className="text-center p-2 text-white font-press-start text-[10px] transition-colors duration-500"
+                            style={{backgroundColor: showRivalCaps ? '#693992' : '#cf5930'}}>
+                            {showRivalCaps ? 'Rivalenkämpfe' : 'Arenen'}
+                        </h2>
+                        <button onClick={() => setShowRivalCaps(prev => !prev)}
+                                className="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-full text-white/70 hover:text-white hover:bg-black/20 ring-2 ring-white/25"
+                                title="Ansicht wechseln">
+                            <FiRefreshCw size={14}
+                                         className={`transition-transform duration-500 ${showRivalCaps ? 'rotate-180' : ''}`}/>
+                        </button>
+                    </div>
+
+                    <div className={`relative flex-grow transition-transform duration-700`}
+                         style={{
+                             transformStyle: 'preserve-3d',
+                             transform: showRivalCaps ? 'rotateY(180deg)' : 'rotateY(0deg)'
+                         }}>
+                        <div className="absolute w-full h-full" style={{backfaceVisibility: 'hidden'}}>
+                            <div className="h-full overflow-y-auto">
+                                <table className="w-full h-full flex flex-col">
+                                    <tbody className="flex-grow flex flex-col">
+                                    {levelCaps.map((cap, index) => (
+                                        <tr key={cap.id}
+                                            className={`flex flex-grow items-center border-t border-gray-200 dark:border-gray-700 ${cap.done ? 'bg-green-100 dark:bg-green-900/50' : ''}`}>
+                                            <td className="px-2 text-xs font-bold text-gray-800 dark:text-gray-300 text-left select-none w-[70%]">
+                                                <div className="flex items-center gap-2">
+                                                    <input id={`levelcap-done-${cap.id}`} type="checkbox"
+                                                           checked={!!cap.done}
+                                                           onChange={() => onLevelCapToggle(index)}
+                                                           aria-label={`Erledigt: ${cap.arena}`}
+                                                           className="h-4 w-4 accent-green-600 cursor-pointer"/>
+                                                    <label htmlFor={`levelcap-done-${cap.id}`}
+                                                           className="cursor-pointer">{cap.arena}</label>
+                                                </div>
+                                            </td>
+                                            <EditableCell value={cap.level}
+                                                          onChange={(val) => onLevelCapChange(index, val)}
+                                                          className="text-right w-[30%] px-2" isBold/>
+                                        </tr>
+                                    ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div className="absolute w-full h-full"
+                             style={{backfaceVisibility: 'hidden', transform: 'rotateY(180deg)'}}>
+                            <div className="p-4 h-full overflow-y-auto space-y-2 custom-scrollbar">
+                                {rivalCaps.map((rc, index) => (
+                                    <div key={rc.id}>
+                                        {rivalCensorEnabled && !rc.revealed ? (
+                                            <>
+                                                {index === nextRivalToRevealIndex ? (
+                                                    <button onClick={() => onRivalCapReveal(index)}
+                                                            className="w-full flex items-center justify-center gap-2 text-sm p-3 rounded-md bg-gray-100 dark:bg-gray-700/50 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600">
+                                                        <FiEye size={16}/> Nächsten Rivalen aufdecken
+                                                    </button>
+                                                ) : (
+                                                    <div
+                                                        className="w-full flex items-center justify-center gap-2 text-sm p-3 rounded-md bg-gray-50 dark:bg-gray-800 text-gray-400 dark:text-gray-500 cursor-not-allowed border border-dashed border-gray-300 dark:border-gray-600">
+                                                        <FiEyeOff size={16}/> Zukünftiger Kampf
+                                                    </div>
+                                                )}
+                                            </>
+                                        ) : (
+                                            <div
+                                                className={`flex items-center justify-between px-2 py-1.5 border rounded-md ${rc.done ? 'bg-green-100 dark:bg-green-900/50 border-green-200 dark:border-green-800' : 'bg-gray-50 dark:bg-gray-700/50 border-gray-200 dark:border-gray-600'}`}>
+                                                <div className="flex items-center gap-3 flex-grow min-w-0">
+                                                    <input id={`rivalcap-done-${rc.id}`} type="checkbox"
+                                                           checked={!!rc.done}
+                                                           onChange={() => onRivalCapToggleDone(index)}
+                                                           aria-label={`Erledigt: ${rc.rival}`}
+                                                           className="h-5 w-5 accent-green-600 cursor-pointer flex-shrink-0"/>
+                                                    <span
+                                                        className="text-sm text-gray-800 dark:text-gray-300 break-words">{rc.location}</span>
+                                                </div>
+                                                <div className="flex items-center justify-end flex-shrink-0">
+                                                    <RivalImage name={rc.rival}/>
+                                                    <span
+                                                        className="font-bold text-lg text-gray-800 dark:text-gray-200 w-10 text-center">{rc.level}</span>
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
-                                </td>
-                                <EditableCell value={cap.level} onChange={(val) => onLevelCapChange(index, val)}
-                                              className="text-right w-[30%] px-2" isBold/>
-                            </tr>
-                        ))}
-                        </tbody>
-                    </table>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -248,51 +316,6 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                         </div>
                     </div>
                 )}
-            </div>
-
-
-            <div
-                className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700 overflow-hidden">
-                <h2 className="text-center p-2 text-white font-press-start text-sm bg-blue-600"
-                    style={{backgroundColor: '#693992'}}>Rivalenkämpfe</h2>
-                <div className="p-4 max-h-96 overflow-y-auto space-y-3">
-                    {rivalCaps.map((rc, index) => (
-                        <div key={rc.id}>
-                            {rivalCensorEnabled && !rc.revealed ? (
-                                <>
-                                    {index === nextRivalToRevealIndex ? (
-                                        <button onClick={() => onRivalCapReveal(index)}
-                                                className="w-full flex items-center justify-center gap-2 text-sm p-3 rounded-md bg-gray-100 dark:bg-gray-700/50 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600">
-                                            <FiEye size={16}/> Nächsten Rivalen aufdecken
-                                        </button>
-                                    ) : (
-                                        <div
-                                            className="w-full flex items-center justify-center gap-2 text-sm p-3 rounded-md bg-gray-50 dark:bg-gray-800 text-gray-400 dark:text-gray-500 cursor-not-allowed border border-dashed border-gray-300 dark:border-gray-600">
-                                            <FiEyeOff size={16}/> Zukünftiger Kampf
-                                        </div>
-                                    )}
-                                </>
-                            ) : (
-                                <div
-                                    className={`flex items-center justify-between p-2 border rounded-md ${rc.done ? 'bg-green-100 dark:bg-green-900/50 border-green-200 dark:border-green-800' : 'bg-gray-50 dark:bg-gray-700/50 border-gray-200 dark:border-gray-600'}`}>
-                                    <div className="flex items-center gap-3 w-1/2">
-                                        <input id={`rivalcap-done-${rc.id}`} type="checkbox" checked={!!rc.done}
-                                               onChange={() => onRivalCapToggleDone(index)}
-                                               aria-label={`Erledigt: ${rc.rival}`}
-                                               className="h-5 w-5 accent-green-600 cursor-pointer flex-shrink-0"/>
-                                        <span
-                                            className="text-sm text-gray-800 dark:text-gray-300 break-words">{rc.location}</span>
-                                    </div>
-                                    <div className="flex items-center justify-end gap-4 w-1/2">
-                                        <RivalImage name={rc.rival}/>
-                                        <span
-                                            className="font-bold text-lg text-gray-800 dark:text-gray-200 w-12 text-center">{rc.level}</span>
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                    ))}
-                </div>
             </div>
 
             <div

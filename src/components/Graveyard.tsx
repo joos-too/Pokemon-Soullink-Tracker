@@ -11,7 +11,7 @@ interface GraveyardProps {
 
 const Graveyard: React.FC<GraveyardProps> = ({ graveyard = [], player1Name = 'Player 1', player2Name = 'Player 2', onManualAddClick }) => {
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700 overflow-hidden">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700 overflow-hidden custom-scrollbar">
       <div className="flex justify-center items-center p-2 bg-gray-800 dark:bg-gray-900">
         <h2 className="text-center text-white font-press-start text-sm">
           Tote / verlorene Pokémon
