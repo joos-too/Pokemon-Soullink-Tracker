@@ -306,7 +306,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                             <div className="flex items-center justify-center gap-2">
                                 <img
                                     src={getSpriteUrlForGermanName(randomLegendary) || ""}
-                                    alt={randomLegendary}
+                                    alt=""
                                     className="w-16 h-16"
                                 />
                                 <div className="text-3xl font-press-start text-gray-800 dark:text-gray-200">
