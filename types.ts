@@ -81,6 +81,7 @@ export interface TrackerSummary {
   teamCount: number;
   boxCount: number;
   graveyardCount: number;
+  deathCount: number;
   runs: number;
   championDone: boolean;
   progressLabel: string;

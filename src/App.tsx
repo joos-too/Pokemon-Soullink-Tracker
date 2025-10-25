@@ -39,10 +39,12 @@ const computeTrackerSummary = (state?: Partial<AppState> | null): TrackerSummary
     if (doneCaps.length > 0) {
         bestLabel = doneCaps[doneCaps.length - 1]?.arena || bestLabel;
     }
+    const deathCount = Number(state?.stats?.deaths?.player1 ?? 0) + Number(state?.stats?.deaths?.player2 ?? 0);
     return {
         teamCount,
         boxCount,
         graveyardCount,
+        deathCount,
         runs,
         championDone,
         progressLabel: championDone ? 'Run geschafft' : bestLabel,
