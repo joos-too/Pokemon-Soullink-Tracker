@@ -19,9 +19,4 @@ jobs:
 
       - name: Deploy to server
         run: |
-          ssh -i ~/.ssh/id_ed25519 projects@janlieder.de << 'EOF'
-            cd /var/www/pokemon-soullink-tracker/
-            git pull
-            npm ci
-            npm run build
-          EOF
+          ssh -i ~/.ssh/id_ed25519 projects@janlieder.de "bash -lc 'cd /var/www/pokemon-soullink-tracker && git pull && npm ci && npm run build'"
