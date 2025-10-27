@@ -72,6 +72,7 @@ const App: React.FC = () => {
     const [showResetModal, setShowResetModal] = useState(false);
     const [dataLoaded, setDataLoaded] = useState(false);
     const skipNextWriteRef = useRef(false);
+    const isHydratingRef = useRef(true);
     const [showLossModal, setShowLossModal] = useState(false);
     const [pendingLossPair, setPendingLossPair] = useState<PokemonPair | null>(null);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -362,15 +363,18 @@ const App: React.FC = () => {
     }, []);
 
     useEffect(() => {
+        isHydratingRef.current = true;
         if (!user) {
             setData(createInitialState());
             setDataLoaded(false);
+            isHydratingRef.current = false;
             return;
         }
 
         if (!activeTrackerId) {
             setData(createInitialState());
             setDataLoaded(true);
+            isHydratingRef.current = false;
             return;
         }
 
@@ -381,6 +385,7 @@ const App: React.FC = () => {
         const markInitialSnapshot = () => {
             if (!initialSnapshotApplied) {
                 initialSnapshotApplied = true;
+                isHydratingRef.current = false;
                 setDataLoaded(true);
             }
         };
@@ -419,12 +424,13 @@ const App: React.FC = () => {
         return () => {
             cancelled = true;
             if (unsub) unsub();
+            isHydratingRef.current = true;
             setDataLoaded(false);
         };
     }, [user, activeTrackerId, coerceAppState]);
 
     useEffect(() => {
-        if (!user || !dataLoaded || !activeTrackerId) return;
+        if (!user || !dataLoaded || !activeTrackerId || isHydratingRef.current) return;
 
         if (skipNextWriteRef.current) {
             // Skip echoing writes caused by remote updates
