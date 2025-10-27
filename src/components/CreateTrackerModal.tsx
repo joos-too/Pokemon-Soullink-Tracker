@@ -126,7 +126,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
                   <FiPlus /> E-Mail
                 </button>
               </div>
-              <div className="space-y-2 max-h-44 overflow-y-auto pr-1">
+              <div className="space-y-2 max-h-44 overflow-y-auto px-1 py-1">
                 {memberInputs.map((value, index) => (
                   <div key={`member-${index}`} className="flex gap-2">
                     <input
