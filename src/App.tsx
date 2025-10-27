@@ -72,6 +72,7 @@ const App: React.FC = () => {
     const [showResetModal, setShowResetModal] = useState(false);
     const [dataLoaded, setDataLoaded] = useState(false);
     const skipNextWriteRef = useRef(false);
+    const isHydratingRef = useRef(true);
     const [showLossModal, setShowLossModal] = useState(false);
     const [pendingLossPair, setPendingLossPair] = useState<PokemonPair | null>(null);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -361,16 +362,40 @@ const App: React.FC = () => {
         return () => { observer.disconnect(); window.removeEventListener('storage', onStorage); };
     }, []);
 
+    const routeTrackerExistsForUser = routeTrackerId ? userTrackerIds.includes(routeTrackerId) : false;
+    const routeTrackerKnownMissing = Boolean(routeTrackerId && !userTrackersLoading && !routeTrackerExistsForUser);
+    const routeTrackerPendingSelection = Boolean(
+        routeTrackerId &&
+        !routeTrackerKnownMissing &&
+        (userTrackersLoading || activeTrackerId !== routeTrackerId)
+    );
+
     useEffect(() => {
+        isHydratingRef.current = true;
         if (!user) {
             setData(createInitialState());
             setDataLoaded(false);
+            isHydratingRef.current = false;
+            return;
+        }
+
+        if (routeTrackerPendingSelection) {
+            setData(createInitialState());
+            setDataLoaded(false);
+            return;
+        }
+
+        if (routeTrackerKnownMissing) {
+            setData(createInitialState());
+            setDataLoaded(true);
+            isHydratingRef.current = false;
             return;
         }
 
         if (!activeTrackerId) {
             setData(createInitialState());
             setDataLoaded(true);
+            isHydratingRef.current = false;
             return;
         }
 
@@ -381,6 +406,7 @@ const App: React.FC = () => {
         const markInitialSnapshot = () => {
             if (!initialSnapshotApplied) {
                 initialSnapshotApplied = true;
+                isHydratingRef.current = false;
                 setDataLoaded(true);
             }
         };
@@ -419,12 +445,13 @@ const App: React.FC = () => {
         return () => {
             cancelled = true;
             if (unsub) unsub();
+            isHydratingRef.current = true;
             setDataLoaded(false);
         };
-    }, [user, activeTrackerId, coerceAppState]);
+    }, [user, activeTrackerId, coerceAppState, routeTrackerPendingSelection, routeTrackerKnownMissing]);
 
     useEffect(() => {
-        if (!user || !dataLoaded || !activeTrackerId) return;
+        if (!user || !dataLoaded || !activeTrackerId || isHydratingRef.current) return;
 
         if (skipNextWriteRef.current) {
             // Skip echoing writes caused by remote updates
@@ -849,8 +876,8 @@ const App: React.FC = () => {
     const nameTitleFallback = [data.player1Name, data.player2Name].map((n) => n?.trim()).filter(Boolean).join(' & ');
     const trackerTitleDisplay = activeTrackerMeta?.title?.trim() || nameTitleFallback || 'Soullink Tracker';
 
-    // Show loading while auth is initializing, or while initial data is loading for an authenticated user
-    if (loading || (user && !dataLoaded)) {
+    // Show loading while auth is initializing, or while the target tracker is still resolving/loading
+    if (loading || (user && (!dataLoaded || routeTrackerPendingSelection))) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-[#f0f0f0] dark:bg-gray-900">
                 <div className="flex flex-col items-center gap-3" role="status" aria-live="polite">
@@ -868,16 +895,31 @@ const App: React.FC = () => {
     }
 
     const trackerElement = !activeTrackerId ? (
-        <div className="min-h-screen flex flex-col items-center justify-center bg-[#f0f0f0] dark:bg-gray-900 text-gray-700 dark:text-gray-200">
-            <p className="text-lg font-semibold">Kein Tracker ausgewählt.</p>
-            <p className="text-sm text-gray-500 mt-2">Bitte wähle einen Tracker auf der Startseite aus oder erstelle einen neuen.</p>
-            <button
-                onClick={handleNavigateHome}
-                className="mt-6 inline-flex items-center gap-2 rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700"
-            >
-                Zur Übersicht
-            </button>
-        </div>
+        routeTrackerKnownMissing ? (
+            <div className="min-h-screen flex flex-col items-center justify-center bg-[#f0f0f0] dark:bg-gray-900 text-gray-700 dark:text-gray-200 px-6 text-center">
+                <p className="text-lg font-semibold">Tracker nicht gefunden.</p>
+                <p className="text-sm text-gray-500 mt-2">
+                    Prüfe, ob du die richtige URL verwendest oder ob du Zugriff auf diesen Tracker hast.
+                </p>
+                <button
+                    onClick={handleNavigateHome}
+                    className="mt-6 inline-flex items-center gap-2 rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700"
+                >
+                    Zur Übersicht
+                </button>
+            </div>
+        ) : (
+            <div className="min-h-screen flex flex-col items-center justify-center bg-[#f0f0f0] dark:bg-gray-900 text-gray-700 dark:text-gray-200">
+                <p className="text-lg font-semibold">Kein Tracker ausgewählt.</p>
+                <p className="text-sm text-gray-500 mt-2">Bitte wähle einen Tracker auf der Startseite aus oder erstelle einen neuen.</p>
+                <button
+                    onClick={handleNavigateHome}
+                    className="mt-6 inline-flex items-center gap-2 rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700"
+                >
+                    Zur Übersicht
+                </button>
+            </div>
+        )
     ) : showSettings ? (
         <SettingsPage
             trackerTitle={activeTrackerMeta?.title ?? 'Tracker'}
