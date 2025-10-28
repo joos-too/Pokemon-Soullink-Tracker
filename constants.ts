@@ -93,6 +93,12 @@ export const INITIAL_STATE: AppState = {
     },
     legendaryTrackerEnabled: true,
     rivalCensorEnabled: true,
+    runStartedAt: Date.now(),
 };
 
-export const createInitialState = (): AppState => JSON.parse(JSON.stringify(INITIAL_STATE)) as AppState;
+export const createInitialState = (): AppState => {
+    const base = JSON.parse(JSON.stringify(INITIAL_STATE)) as AppState;
+    // Always stamp a fresh start time for each new run/state
+    base.runStartedAt = Date.now();
+    return base;
+};
