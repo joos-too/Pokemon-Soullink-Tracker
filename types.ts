@@ -56,6 +56,7 @@ export interface AppState {
   stats: Stats;
   legendaryTrackerEnabled?: boolean;
   rivalCensorEnabled?: boolean;
+  runStartedAt?: number;
 }
 
 export type TrackerRole = 'owner' | 'editor';

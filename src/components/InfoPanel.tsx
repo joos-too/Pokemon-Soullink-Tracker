@@ -1,6 +1,5 @@
 import React, {useState, useMemo} from 'react';
 import type {LevelCap, RivalCap, Stats} from '@/types';
-import EditableCell from './EditableCell';
 import {PLAYER1_COLOR, PLAYER2_COLOR, LEGENDARY_POKEMON_NAMES} from '@/constants';
 import {FiMinus, FiPlus, FiEdit, FiX, FiSave, FiEye, FiEyeOff, FiRefreshCw} from 'react-icons/fi';
 import {getSpriteUrlForGermanName} from '@/src/services/sprites';
@@ -11,7 +10,6 @@ interface InfoPanelProps {
     levelCaps: LevelCap[];
     rivalCaps: RivalCap[];
     stats: Stats;
-    onLevelCapChange: (index: number, value: string) => void;
     onLevelCapToggle: (index: number) => void;
     onRivalCapToggleDone: (index: number) => void;
     onRivalCapReveal: (index: number) => void;
@@ -22,6 +20,7 @@ interface InfoPanelProps {
     legendaryTrackerEnabled: boolean;
     rivalCensorEnabled: boolean;
     onlegendaryIncrement: () => void;
+    runStartedAt?: number;
 }
 
 const RivalImage: React.FC<{ name: string }> = ({name}) => {
@@ -32,8 +31,15 @@ const RivalImage: React.FC<{ name: string }> = ({name}) => {
         alt={name}
         title={name}
         className="w-8 h-8 object-contain mx-auto"
-        style={{imageRendering: 'pixelated'}}
     />;
+};
+
+const getBadgeUrl = (arenaLabel: string, posIndex: number): string => {
+    const label = (arenaLabel || '').toLowerCase();
+    if (label.includes('top 4')) return '/badge-sprites/top_4.png';
+    if (label.includes('champ')) return '/champ-sprites/lilia.png';
+    const pos = Math.min(Math.max(posIndex + 1, 1), 8);
+    return `/badge-sprites/gen5/bw/${pos}.png`;
 };
 
 const InfoPanel: React.FC<InfoPanelProps> = ({
@@ -42,7 +48,6 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                                  levelCaps,
                                                  rivalCaps,
                                                  stats,
-                                                 onLevelCapChange,
                                                  onLevelCapToggle,
                                                  onRivalCapToggleDone,
                                                  onRivalCapReveal,
@@ -52,6 +57,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                                  legendaryTrackerEnabled,
                                                  rivalCensorEnabled,
                                                  onlegendaryIncrement,
+                                                 runStartedAt,
                                              }) => {
     const [isEditingRules, setIsEditingRules] = useState(false);
     const [draftRules, setDraftRules] = useState<string[]>(rules);
@@ -89,12 +95,34 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                         className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700 overflow-hidden">
                         <h2 className="text-center p-2 bg-blue-600 text-white font-press-start text-[10px]">Aktueller
                             Level Cap</h2>
-                        <div className="p-3 text-l text-gray-800 dark:text-gray-200 text-center">
-                            {(() => {
-                                const next = levelCaps.find((c) => !c.done);
-                                if (!next) return <span>Challenge geschafft!</span>;
-                                return <span>Als Nächstes: <strong>{next.arena}</strong><br/>Level Cap: <strong>{next.level}</strong></span>;
-                            })()}
+                        <div className="p-3 text-l text-gray-800 dark:text-gray-200 text-center space-y-1">
+                            <div className="min-h-20 flex flex-col items-center justify-center">
+                                {(() => {
+                                    const next = levelCaps.find((c) => !c.done);
+                                    if (!next) return <span className="text-xl font-bold">Challenge geschafft!</span>;
+                                    return (
+                                        <div className="flex items-center justify-center gap-3">
+                                            <img
+                                                src={getBadgeUrl(next.arena, Math.max(levelCaps.findIndex(c => c.id === next.id), 0))}
+                                                alt={`${next.arena} Badge`}
+                                                className="w-14 h-14 sm:w-16 sm:h-16 object-contain"
+                                                style={{imageRendering: 'inherit'}}/>
+                                            <div className="flex flex-col items-center">
+                                                <div>Als Nächstes: <strong>{next.arena}</strong></div>
+                                                <div>Level Cap: <strong>{next.level}</strong></div>
+                                            </div>
+                                        </div>
+                                    );
+                                })()}
+                            </div>
+                            {typeof runStartedAt === 'number' && runStartedAt > 0 && (
+                                <div className="text-xs text-gray-600 dark:text-gray-400 mt-">
+                                    Run Gestartet: {new Date(runStartedAt).toLocaleString('de-DE', {
+                                    dateStyle: 'short',
+                                    timeStyle: 'short'
+                                })} Uhr
+                                </div>
+                            )}
                         </div>
                     </div>
                     <div
@@ -104,17 +132,17 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                         <table className="w-full">
                             <tbody>
                             <tr className="border-t border-gray-200 dark:border-gray-700">
-                                <td className="px-2 py-1.5 text-xs font-bold text-gray-800 dark:text-gray-300">Aktueller
+                                <td className="px-2 py-3 text-xs font-bold text-gray-800 dark:text-gray-300">Aktueller
                                     Run
                                 </td>
-                                <td className="px-2 py-1.5 text-right"><span
+                                <td className="px-2 py-3 text-right"><span
                                     className="inline-block min-w-[2ch] text-sm font-bold">Run {stats.runs}</span></td>
                             </tr>
                             <tr className="border-t border-gray-200 dark:border-gray-700">
-                                <td className="px-2 py-1.5 text-xs font-bold text-gray-800 dark:text-gray-300">Bester
+                                <td className="px-2 py-3 text-xs font-bold text-gray-800 dark:text-gray-300">Bester
                                     Run
                                 </td>
-                                <td className="px-2 py-1.5 text-right"><span
+                                <td className="px-2 py-3 text-right"><span
                                     className="inline-block min-w-[2ch] text-sm font-bold">Arena {stats.best}</span>
                                 </td>
                             </tr>
@@ -202,24 +230,30 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                              }}>
                             <div className="h-full overflow-y-auto">
                                 <table className="w-full h-full flex flex-col">
-                                    <tbody className="flex-grow flex flex-col">
+                                    <tbody
+                                        className="flex-grow flex flex-col divide-y divide-gray-200 dark:divide-gray-700">
                                     {levelCaps.map((cap, index) => (
                                         <tr key={cap.id}
-                                            className={`flex flex-grow items-center border-t border-gray-200 dark:border-gray-700 ${cap.done ? 'bg-green-100 dark:bg-green-900/50' : ''}`}>
+                                            className={`flex flex-grow items-center ${cap.done ? 'bg-green-100 dark:bg-green-900/50' : ''}`}>
                                             <td className="px-2 text-xs font-bold text-gray-800 dark:text-gray-300 text-left select-none w-[70%]">
                                                 <div className="flex items-center gap-2">
                                                     <input id={`levelcap-done-${cap.id}`} type="checkbox"
                                                            checked={!!cap.done}
                                                            onChange={() => onLevelCapToggle(index)}
                                                            aria-label={`Erledigt: ${cap.arena}`}
-                                                           className="h-4 w-4 accent-green-600 cursor-pointer"/>
+                                                           className={`${!cap.done && !(index === 0 || levelCaps[index - 1]?.done)} h-4 w-4 accent-green-600`}/>
                                                     <label htmlFor={`levelcap-done-${cap.id}`}
-                                                           className="cursor-pointer">{cap.arena}</label>
+                                                           className="px-0.75 cursor-pointer">{cap.arena}</label>
                                                 </div>
                                             </td>
-                                            <EditableCell value={cap.level}
-                                                          onChange={(val) => onLevelCapChange(index, val)}
-                                                          className="text-right w-[30%] px-2" isBold/>
+                                            <td>
+                                                <img src={getBadgeUrl(cap.arena, index)} alt={`${cap.arena} Badge`}
+                                                     className="w-8 h-8 object-contain"/>
+                                            </td>
+                                            <td className="text-right pl-2 pr-3">
+                                                <span
+                                                    className="font-bold text-lg text-gray-800 dark:text-gray-200">{cap.level}</span>
+                                            </td>
                                         </tr>
                                     ))}
                                     </tbody>
@@ -232,7 +266,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                  backfaceVisibility: 'hidden',
                                  transform: 'rotateY(180deg)'
                              }}>
-                            <div className="p-4 h-full overflow-y-auto space-y-2 custom-scrollbar">
+                            <div className="p-2 h-full overflow-y-auto space-y-1 custom-scrollbar">
                                 {rivalCaps.map((rc, index) => (
                                     <div key={rc.id}>
                                         {rivalCensorEnabled && !rc.revealed ? (
@@ -259,6 +293,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                                            aria-label={`Erledigt: ${rc.rival}`}
                                                            className="h-5 w-5 accent-green-600 cursor-pointer flex-shrink-0"/>
                                                     <span
+                                                        onClick={(e) => e.stopPropagation()}
                                                         className="text-sm text-gray-800 dark:text-gray-300 break-words">{rc.location}</span>
                                                 </div>
                                                 <div className="flex items-center justify-end flex-shrink-0">

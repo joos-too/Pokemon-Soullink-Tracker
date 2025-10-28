@@ -150,6 +150,7 @@ const App: React.FC = () => {
             },
             legendaryTrackerEnabled: safe.legendaryTrackerEnabled ?? base.legendaryTrackerEnabled ?? true,
             rivalCensorEnabled: safe.rivalCensorEnabled ?? base.rivalCensorEnabled ?? true,
+            runStartedAt: typeof safe.runStartedAt === 'number' ? safe.runStartedAt : (typeof base.runStartedAt === 'number' ? base.runStartedAt : 0),
         };
     }, []);
 
@@ -492,6 +493,7 @@ const App: React.FC = () => {
                         },
                         legendaryEncounters: prev.stats.legendaryEncounters ?? 0,
                     },
+                    runStartedAt: Date.now(),
                 };
             });
         } else if (mode === 'legendary') {
@@ -555,10 +557,6 @@ const App: React.FC = () => {
 
     const handleBoxRouteChange = useCallback((index: number, value: string) => {
         updateNestedState(setData, 'box', index, 'route', null, value);
-    }, []);
-
-    const handleLevelCapChange = useCallback((index: number, value: string) => {
-        updateNestedState(setData, 'levelCaps', index, 'level', null, value);
     }, []);
 
     const handleLevelCapToggle = useCallback((index: number) => {
@@ -873,6 +871,16 @@ const App: React.FC = () => {
     const activeTrackerMeta = activeTrackerId ? trackerMetas[activeTrackerId] : undefined;
     const trackerMembers = activeTrackerMeta ? Object.values(activeTrackerMeta.members ?? {}) : [];
     const canManageMembers = Boolean(user && activeTrackerMeta?.members?.[user.uid]?.role === 'owner');
+
+    // Backfill runStartedAt for legacy trackers once
+    useEffect(() => {
+        if (!user || !dataLoaded || !activeTrackerId) return;
+        const hasRunStarted = typeof data.runStartedAt === 'number' && data.runStartedAt > 0;
+        const metaCreated = typeof activeTrackerMeta?.createdAt === 'number' ? activeTrackerMeta.createdAt : 0;
+        if (!hasRunStarted && (metaCreated > 0)) {
+            setData(prev => ({ ...prev, runStartedAt: metaCreated }));
+        }
+    }, [user, dataLoaded, activeTrackerId, data.runStartedAt, activeTrackerMeta?.createdAt]);
     const nameTitleFallback = [data.player1Name, data.player2Name].map((n) => n?.trim()).filter(Boolean).join(' & ');
     const trackerTitleDisplay = activeTrackerMeta?.title?.trim() || nameTitleFallback || 'Soullink Tracker';
 
@@ -1124,7 +1132,6 @@ const App: React.FC = () => {
                             stats={{...data.stats, best: Math.max(data.stats.best, currentBest)}}
                             player1Name={data.player1Name}
                             player2Name={data.player2Name}
-                            onLevelCapChange={handleLevelCapChange}
                             onLevelCapToggle={handleLevelCapToggle}
                             onRivalCapToggleDone={handleRivalCapToggleDone}
                             onRivalCapReveal={handleRivalCapReveal}
@@ -1135,6 +1142,7 @@ const App: React.FC = () => {
                             legendaryTrackerEnabled={data.legendaryTrackerEnabled ?? true}
                             rivalCensorEnabled={data.rivalCensorEnabled ?? true}
                             onlegendaryIncrement={handlelegendaryIncrement}
+                            runStartedAt={data.runStartedAt ?? activeTrackerMeta?.createdAt}
                         />
                         <Graveyard
                             graveyard={data.graveyard}
