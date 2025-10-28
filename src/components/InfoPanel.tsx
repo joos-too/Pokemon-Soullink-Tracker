@@ -70,7 +70,6 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
 
     const nextRivalToRevealIndex = rivalCensorEnabled ? rivalCaps.findIndex(rc => !rc.revealed) : -1;
 
-    // Overall progress (arenas + top4 + champ = 10) + number of rival fights
     const doneArenas = levelCaps.filter(c => c.done).length;
     const doneRivals = rivalCaps.filter(r => r.done).length;
     const totalMilestones = 10 + rivalCaps.length;
