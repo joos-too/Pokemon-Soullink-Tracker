@@ -1,8 +1,7 @@
 import React, {useState, useMemo} from 'react';
 import {PLAYER1_COLOR, PLAYER2_COLOR} from '@/constants';
-import type {TrackerMember, GameVersion, VariableRival} from '@/types';
+import type {TrackerMember, GameVersion, VariableRival, UserSettings, RivalGender} from '@/types';
 import {FiShield, FiUserPlus} from 'react-icons/fi';
-import { RivalGender, RivalPreferences } from '@/src/services/userSettings';
 
 interface SettingsPageProps {
     trackerTitle: string;
@@ -20,7 +19,7 @@ interface SettingsPageProps {
     canManageMembers: boolean;
     currentUserEmail?: string | null;
     gameVersion?: GameVersion;
-    rivalPreferences: RivalPreferences;
+    rivalPreferences?: UserSettings['rivalPreferences'];
     onRivalPreferenceChange: (key: string, gender: RivalGender) => void;
 }
 
@@ -83,6 +82,10 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
         return a.role === 'owner' ? -1 : 1;
     });
 
+    const getRivalNameFromOption = (option: string): string => {
+        return option.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+    };
+
     return (
         <div className="bg-[#f0f0f0] dark:bg-gray-900 min-h-screen flex items-center justify-center p-4">
             <div className="w-full max-w-2xl mx-auto bg-white dark:bg-gray-800 shadow-lg p-6 rounded-lg">
@@ -143,7 +146,8 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                         <div className="flex items-center justify-between mb-4">
                             <div>
                                 <div className="font-medium text-gray-800 dark:text-gray-200">Legendary Tracker</div>
-                                <div className="text-xs text-gray-500 dark:text-gray-400">Tracke die Anzahl der Legendaries, den ihr in der Challenge begegnet.
+                                <div className="text-xs text-gray-500 dark:text-gray-400">Tracke die Anzahl der
+                                    Legendaries, den ihr in der Challenge begegnet.
                                 </div>
                             </div>
                             <label htmlFor="legendary-toggle"
@@ -177,35 +181,26 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                     {variableRivals.length > 0 && (
                         <section>
                             <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-gray-500 mb-4">
-                                Rivalen-Charakter
+                                Rivalen-Auswahl
                             </h2>
                             {variableRivals.map(rival => (
                                 <div key={rival.key} className="mb-4">
-                                    <div className="font-medium text-gray-800 dark:text-gray-200">{rival.name}</div>
-                                    <div className="text-xs text-gray-500 dark:text-gray-400 mb-2">Wähle den Charakter für die Sprites aus.</div>
                                     <div className="flex items-center gap-4 text-gray-800 dark:text-gray-200">
                                         <label className="flex items-center gap-2 cursor-pointer">
-                                            <input
-                                                type="radio"
-                                                name={`rival-${rival.key}`}
-                                                value="male"
-                                                checked={(rivalPreferences[rival.key] || 'male') === 'male'}
-                                                onChange={() => onRivalPreferenceChange(rival.key, 'male')}
-                                                className="h-4 w-4 accent-green-600"
-                                            />
-                                            Männlich
+                                            <input type="radio" name={`rival-${rival.key}`} value="male"
+                                                   checked={(rivalPreferences?.[rival.key] || 'male') === 'male'}
+                                                   onChange={() => onRivalPreferenceChange(rival.key, 'male')}
+                                                   className="h-4 w-4 accent-green-600"/> {getRivalNameFromOption(rival.options.male)}
                                         </label>
                                         <label className="flex items-center gap-2 cursor-pointer">
-                                            <input
-                                                type="radio"
-                                                name={`rival-${rival.key}`}
-                                                value="female"
-                                                checked={rivalPreferences[rival.key] === 'female'}
-                                                onChange={() => onRivalPreferenceChange(rival.key, 'female')}
-                                                className="h-4 w-4 accent-green-600"
-                                            />
-                                            Weiblich
+                                            <input type="radio" name={`rival-${rival.key}`} value="female"
+                                                   checked={rivalPreferences?.[rival.key] === 'female'}
+                                                   onChange={() => onRivalPreferenceChange(rival.key, 'female')}
+                                                   className="h-4 w-4 accent-green-600"/> {getRivalNameFromOption(rival.options.female)}
                                         </label>
+                                    </div>
+                                    <div className="text-xs text-gray-500 dark:text-gray-400 mb-2">Wähle deinen Antagonisten
+                                        für die korrekte Darstellung in den Rivalenkämpfe aus.
                                     </div>
                                 </div>
                             ))}

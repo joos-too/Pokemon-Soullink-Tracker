@@ -70,6 +70,12 @@ export interface AppState {
 
 export type TrackerRole = 'owner' | 'editor';
 
+export type RivalGender = 'male' | 'female';
+
+export interface UserSettings {
+  rivalPreferences?: Record<string, RivalGender>;
+}
+
 export interface TrackerMember {
   uid: string;
   email: string;
@@ -77,10 +83,20 @@ export interface TrackerMember {
   addedAt: number;
 }
 
+export interface GameVersionBadgeSegment {
+    text: string;
+    bgColor: string;
+    textColor: string;
+    borderColor: string;
+}
+
 export interface GameVersion {
     id: string;
     name: string;
     badgeSet: string;
+    badge?: {
+      segments: GameVersionBadgeSegment[];
+    };
     levelCaps: Omit<LevelCap, 'done'>[];
     rivalCaps: Omit<RivalCap, 'done' | 'revealed'>[];
     champion: {
@@ -98,6 +114,7 @@ export interface TrackerMeta {
   createdAt: number;
   members: Record<string, TrackerMember>;
   gameVersionId: string;
+  userSettings?: Record<string, UserSettings>;
 }
 
 export interface TrackerSummary {

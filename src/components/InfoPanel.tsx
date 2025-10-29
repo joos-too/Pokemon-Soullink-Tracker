@@ -1,9 +1,8 @@
 import React, {useState, useMemo} from 'react';
-import type {LevelCap, RivalCap, Stats, GameVersion, VariableRival} from '@/types';
+import type {LevelCap, RivalCap, Stats, GameVersion, VariableRival, UserSettings} from '@/types';
 import {PLAYER1_COLOR, PLAYER2_COLOR, LEGENDARY_POKEMON_NAMES} from '@/constants';
 import {FiMinus, FiPlus, FiEdit, FiX, FiSave, FiEye, FiEyeOff, FiRefreshCw} from 'react-icons/fi';
 import {getSpriteUrlForGermanName} from '@/src/services/sprites';
-import { RivalPreferences } from '@/src/services/userSettings';
 
 interface InfoPanelProps {
     player1Name: string;
@@ -23,10 +22,10 @@ interface InfoPanelProps {
     onlegendaryIncrement: () => void;
     runStartedAt?: number;
     gameVersion?: GameVersion;
-    rivalPreferences: RivalPreferences;
+    rivalPreferences: UserSettings['rivalPreferences'];
 }
 
-const RivalImage: React.FC<{ rival: string | VariableRival, preferences: RivalPreferences }> = ({ rival, preferences }) => {
+const RivalImage: React.FC<{ rival: string | VariableRival, preferences: UserSettings['rivalPreferences'] }> = ({ rival, preferences }) => {
     let spriteName: string;
     let displayName: string;
 
@@ -34,7 +33,7 @@ const RivalImage: React.FC<{ rival: string | VariableRival, preferences: RivalPr
         spriteName = rival.toLowerCase().replace(/ & /g, '_').replace(/ /g, '_').replace(/[^a-z0-9_]/g, '');
         displayName = rival;
     } else {
-        const preference = preferences[rival.key] || 'male'; // Standardmäßig männlich
+        const preference = preferences?.[rival.key] || 'male';
         spriteName = rival.options[preference];
         displayName = rival.name;
     }
@@ -339,7 +338,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                                     <input id={`rivalcap-done-${rc.id}`} type="checkbox"
                                                            checked={!!rc.done}
                                                            onChange={() => onRivalCapToggleDone(index)}
-                                                           aria-label={`Erledigt: ${rc.rival}`}
+                                                           aria-label={`Erledigt: ${typeof rc.rival === 'object' ? rc.rival.name : rc.rival}`}
                                                            className="h-5 w-5 accent-green-600 cursor-pointer flex-shrink-0"/>
                                                     <span
                                                         onClick={(e) => e.stopPropagation()}

@@ -2,7 +2,7 @@ import {ref, set, update, get} from 'firebase/database';
 import type {User} from 'firebase/auth';
 import {db} from '@/src/firebaseConfig';
 import {INITIAL_STATE, createInitialState} from '@/constants';
-import type {TrackerMember, TrackerMeta, TrackerRole} from '@/types';
+import type {RivalGender, TrackerMember, TrackerMeta, TrackerRole} from '@/types';
 
 export class TrackerOperationError extends Error {
   code: 'user-not-found' | 'member-exists' | 'invalid-input' | 'unknown';
@@ -219,4 +219,14 @@ export const deleteTracker = async (trackerId: string): Promise<void> => {
   });
 
   await update(ref(db), updates);
+};
+
+export const updateRivalPreference = async (
+    trackerId: string,
+    userId: string,
+    rivalKey: string,
+    gender: RivalGender
+): Promise<void> => {
+    const prefPath = `trackers/${trackerId}/meta/userSettings/${userId}/rivalPreferences/${rivalKey}`;
+    await set(ref(db, prefPath), gender);
 };

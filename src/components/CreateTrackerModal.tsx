@@ -15,7 +15,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
   const [player1Name, setPlayer1Name] = useState('');
   const [player2Name, setPlayer2Name] = useState('');
   const [memberInputs, setMemberInputs] = useState<string[]>(['']);
-  const [gameVersionId, setGameVersionId] = useState('gen5_bw');
+  const [gameVersionId, setGameVersionId] = useState('gen5_sw');
 
   if (!isOpen) return null;
 
@@ -45,7 +45,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
     setPlayer1Name('');
     setPlayer2Name('');
     setMemberInputs(['']);
-    setGameVersionId('gen5_bw');
+    setGameVersionId('gen5_sw');
   };
 
   const handleClose = () => {
