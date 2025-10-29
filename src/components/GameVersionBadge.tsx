@@ -1,5 +1,3 @@
-// src/components/GameVersionBadge.tsx
-
 import React from 'react';
 import {GAME_VERSIONS} from '@/src/data/game-versions';
 
