@@ -2,7 +2,7 @@ import {ref, set, update, get} from 'firebase/database';
 import type {User} from 'firebase/auth';
 import {db} from '@/src/firebaseConfig';
 import {INITIAL_STATE, createInitialState} from '@/constants';
-import type {TrackerMember, TrackerMeta, TrackerRole} from '@/types';
+import type {RivalGender, TrackerMember, TrackerMeta, TrackerRole} from '@/types';
 
 export class TrackerOperationError extends Error {
   code: 'user-not-found' | 'member-exists' | 'invalid-input' | 'unknown';
@@ -98,6 +98,7 @@ interface CreateTrackerPayload {
   player2Name: string;
   memberEmails: string[];
   owner: User;
+  gameVersionId: string;
 }
 
 export const createTracker = async ({
@@ -106,6 +107,7 @@ export const createTracker = async ({
   player2Name,
   memberEmails,
   owner,
+  gameVersionId,
 }: CreateTrackerPayload): Promise<{ trackerId: string; meta: TrackerMeta }> => {
   if (!owner.email) {
     throw new TrackerOperationError('Owner benötigt eine gültige Email.', 'invalid-input');
@@ -143,9 +145,10 @@ export const createTracker = async ({
     createdAt,
     createdBy: owner.uid,
     members,
+    gameVersionId,
   };
 
-  const initialState = createInitialState();
+  const initialState = createInitialState(gameVersionId);
   initialState.player1Name = sanitizedP1;
   initialState.player2Name = sanitizedP2;
 
@@ -216,4 +219,14 @@ export const deleteTracker = async (trackerId: string): Promise<void> => {
   });
 
   await update(ref(db), updates);
+};
+
+export const updateRivalPreference = async (
+    trackerId: string,
+    userId: string,
+    rivalKey: string,
+    gender: RivalGender
+): Promise<void> => {
+    const prefPath = `trackers/${trackerId}/meta/userSettings/${userId}/rivalPreferences/${rivalKey}`;
+    await set(ref(db, prefPath), gender);
 };
