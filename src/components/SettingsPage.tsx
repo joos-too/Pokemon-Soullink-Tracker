@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, {useState, useMemo} from 'react';
 import {PLAYER1_COLOR, PLAYER2_COLOR} from '@/constants';
-import type {TrackerMember} from '@/types';
+import type {TrackerMember, GameVersion, VariableRival} from '@/types';
 import {FiShield, FiUserPlus} from 'react-icons/fi';
+import { RivalGender, RivalPreferences } from '@/src/services/userSettings';
 
 interface SettingsPageProps {
     trackerTitle: string;
@@ -18,6 +19,9 @@ interface SettingsPageProps {
     onInviteMember: (email: string) => Promise<void>;
     canManageMembers: boolean;
     currentUserEmail?: string | null;
+    gameVersion?: GameVersion;
+    rivalPreferences: RivalPreferences;
+    onRivalPreferenceChange: (key: string, gender: RivalGender) => void;
 }
 
 const SettingsPage: React.FC<SettingsPageProps> = ({
@@ -35,11 +39,27 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                                                        onInviteMember,
                                                        canManageMembers,
                                                        currentUserEmail,
+                                                       gameVersion,
+                                                       rivalPreferences,
+                                                       onRivalPreferenceChange,
                                                    }) => {
     const [inviteEmail, setInviteEmail] = useState('');
     const [inviteMessage, setInviteMessage] = useState<string | null>(null);
     const [inviteError, setInviteError] = useState<string | null>(null);
     const [inviteLoading, setInviteLoading] = useState(false);
+
+    const variableRivals = useMemo(() => {
+        if (!gameVersion) return [];
+        const seen = new Set<string>();
+        const result: VariableRival[] = [];
+        for (const cap of gameVersion.rivalCaps) {
+            if (typeof cap.rival === 'object' && !seen.has(cap.rival.key)) {
+                result.push(cap.rival);
+                seen.add(cap.rival.key);
+            }
+        }
+        return result;
+    }, [gameVersion]);
 
     const handleInvite = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -153,6 +173,44 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                             </label>
                         </div>
                     </section>
+
+                    {variableRivals.length > 0 && (
+                        <section>
+                            <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-gray-500 mb-4">
+                                Rivalen-Charakter
+                            </h2>
+                            {variableRivals.map(rival => (
+                                <div key={rival.key} className="mb-4">
+                                    <div className="font-medium text-gray-800 dark:text-gray-200">{rival.name}</div>
+                                    <div className="text-xs text-gray-500 dark:text-gray-400 mb-2">Wähle den Charakter für die Sprites aus.</div>
+                                    <div className="flex items-center gap-4 text-gray-800 dark:text-gray-200">
+                                        <label className="flex items-center gap-2 cursor-pointer">
+                                            <input
+                                                type="radio"
+                                                name={`rival-${rival.key}`}
+                                                value="male"
+                                                checked={(rivalPreferences[rival.key] || 'male') === 'male'}
+                                                onChange={() => onRivalPreferenceChange(rival.key, 'male')}
+                                                className="h-4 w-4 accent-green-600"
+                                            />
+                                            Männlich
+                                        </label>
+                                        <label className="flex items-center gap-2 cursor-pointer">
+                                            <input
+                                                type="radio"
+                                                name={`rival-${rival.key}`}
+                                                value="female"
+                                                checked={rivalPreferences[rival.key] === 'female'}
+                                                onChange={() => onRivalPreferenceChange(rival.key, 'female')}
+                                                className="h-4 w-4 accent-green-600"
+                                            />
+                                            Weiblich
+                                        </label>
+                                    </div>
+                                </div>
+                            ))}
+                        </section>
+                    )}
 
                     <section>
                         <div className="flex items-center justify-between mb-4">

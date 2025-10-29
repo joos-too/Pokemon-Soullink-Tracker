@@ -98,6 +98,7 @@ interface CreateTrackerPayload {
   player2Name: string;
   memberEmails: string[];
   owner: User;
+  gameVersionId: string;
 }
 
 export const createTracker = async ({
@@ -106,6 +107,7 @@ export const createTracker = async ({
   player2Name,
   memberEmails,
   owner,
+  gameVersionId,
 }: CreateTrackerPayload): Promise<{ trackerId: string; meta: TrackerMeta }> => {
   if (!owner.email) {
     throw new TrackerOperationError('Owner benötigt eine gültige Email.', 'invalid-input');
@@ -143,9 +145,10 @@ export const createTracker = async ({
     createdAt,
     createdBy: owner.uid,
     members,
+    gameVersionId,
   };
 
-  const initialState = createInitialState();
+  const initialState = createInitialState(gameVersionId);
   initialState.player1Name = sanitizedP1;
   initialState.player2Name = sanitizedP2;
 

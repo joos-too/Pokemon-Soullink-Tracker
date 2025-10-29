@@ -17,10 +17,19 @@ export interface LevelCap {
   done?: boolean;
 }
 
+export interface VariableRival {
+    name: string;
+    key: string;
+    options: {
+        male: string;
+        female: string;
+    };
+}
+
 export interface RivalCap {
   id: number;
   location: string;
-  rival: string;
+  rival: string | VariableRival;
   level: string;
   done?: boolean;
   revealed?: boolean;
@@ -68,6 +77,18 @@ export interface TrackerMember {
   addedAt: number;
 }
 
+export interface GameVersion {
+    id: string;
+    name: string;
+    badgeSet: string;
+    levelCaps: Omit<LevelCap, 'done'>[];
+    rivalCaps: Omit<RivalCap, 'done' | 'revealed'>[];
+    champion: {
+        name: string;
+        sprite: string;
+    };
+}
+
 export interface TrackerMeta {
   id: string;
   title: string;
@@ -76,6 +97,7 @@ export interface TrackerMeta {
   createdBy: string;
   createdAt: number;
   members: Record<string, TrackerMember>;
+  gameVersionId: string;
 }
 
 export interface TrackerSummary {

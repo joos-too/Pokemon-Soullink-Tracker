@@ -2,7 +2,7 @@ import React, {useState, useEffect, useCallback, useRef, useMemo} from 'react';
 import {FiSettings, FiRotateCw, FiMenu, FiSun, FiMoon, FiHome} from 'react-icons/fi';
 import { FaGithub } from 'react-icons/fa';
 import type {AppState, PokemonPair, RivalCap, TrackerMeta, TrackerSummary, LevelCap} from '@/types';
-import {createInitialState, PLAYER1_COLOR, PLAYER2_COLOR, DEFAULT_RULES, DEFAULT_RIVAL_CAPS} from '@/constants';
+import {createInitialState, PLAYER1_COLOR, PLAYER2_COLOR, DEFAULT_RULES} from '@/constants';
 import TeamTable from '@/src/components/TeamTable';
 import InfoPanel from '@/src/components/InfoPanel';
 import Graveyard from '@/src/components/Graveyard';
@@ -23,6 +23,8 @@ import {ref, onValue, set, get, update} from "firebase/database";
 import {onAuthStateChanged, User, signOut} from "firebase/auth";
 import { initPokemonGermanNamesBackgroundRefresh } from '@/src/services/pokemonSearch';
 import {addMemberByEmail, createTracker, deleteTracker, ensureUserProfile, TrackerOperationError} from '@/src/services/trackers';
+import { GAME_VERSIONS } from '@/src/data/game-versions';
+import { getRivalPreferences, setRivalPreference, RivalPreferences } from '@/src/services/userSettings';
 
 const LAST_TRACKER_STORAGE_KEY = 'soullink:lastTrackerId';
 
@@ -84,6 +86,10 @@ const App: React.FC = () => {
     const [trackerPendingDelete, setTrackerPendingDelete] = useState<TrackerMeta | null>(null);
     const [deleteTrackerLoading, setDeleteTrackerLoading] = useState(false);
     const [deleteTrackerError, setDeleteTrackerError] = useState<string | null>(null);
+    const [rivalPreferences, setRivalPreferences] = useState<RivalPreferences>(getRivalPreferences());
+
+    const activeGameVersionId = activeTrackerId ? trackerMetas[activeTrackerId]?.gameVersionId : undefined;
+    const activeGameVersion = activeGameVersionId ? GAME_VERSIONS[activeGameVersionId] : undefined;
 
     // Ensure incoming Firebase data matches our expected shape
     const coerceAppState = useCallback((incoming: any, base: AppState): AppState => {
@@ -113,6 +119,7 @@ const App: React.FC = () => {
         });
 
         const safe = (incoming && typeof incoming === 'object') ? incoming : {};
+        const gameVersionForDefaults = activeGameVersion ?? GAME_VERSIONS['gen5_bw'];
         return {
             player1Name: safe.player1Name ?? base.player1Name,
             player2Name: safe.player2Name ?? base.player2Name,
@@ -127,10 +134,10 @@ const App: React.FC = () => {
                     level: typeof cap?.level === 'string' ? cap.level : (base.levelCaps[i]?.level ?? ''),
                     done: Boolean(cap?.done),
                 }))
-                : base.levelCaps,
+                : base.levelCaps.length > 0 ? base.levelCaps : gameVersionForDefaults.levelCaps.map(c => ({...c, done: false})),
             rivalCaps: Array.isArray(safe.rivalCaps)
                 ? safe.rivalCaps.map((rc, i) => sanitizeRivalCap(rc, i))
-                : base.rivalCaps ?? DEFAULT_RIVAL_CAPS,
+                : base.rivalCaps.length > 0 ? base.rivalCaps : gameVersionForDefaults.rivalCaps.map(c => ({...c, done: false, revealed: false })),
             stats: {
                 runs: safe.stats?.runs ?? base.stats.runs,
                 best: safe.stats?.best ?? base.stats.best,
@@ -152,7 +159,7 @@ const App: React.FC = () => {
             rivalCensorEnabled: safe.rivalCensorEnabled ?? base.rivalCensorEnabled ?? true,
             runStartedAt: typeof safe.runStartedAt === 'number' ? safe.runStartedAt : (typeof base.runStartedAt === 'number' ? base.runStartedAt : 0),
         };
-    }, []);
+    }, [activeGameVersion]);
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -373,6 +380,7 @@ const App: React.FC = () => {
 
     useEffect(() => {
         isHydratingRef.current = true;
+        const gameVersionId = activeTrackerId ? trackerMetas[activeTrackerId]?.gameVersionId : undefined;
         if (!user) {
             setData(createInitialState());
             setDataLoaded(false);
@@ -421,12 +429,12 @@ const App: React.FC = () => {
                     skipNextWriteRef.current = true;
                     setData(prev => coerceAppState(dbData, prev));
                 } else {
-                    setData(createInitialState());
+                    setData(createInitialState(gameVersionId));
                 }
                 markInitialSnapshot();
             } catch (e) {
                 console.error('Tracker state fetch failed', e);
-                setData(createInitialState());
+                setData(createInitialState(gameVersionId));
             } finally {
                 if (!cancelled) {
                     unsub = onValue(dbRef, (snap) => {
@@ -449,7 +457,7 @@ const App: React.FC = () => {
             isHydratingRef.current = true;
             setDataLoaded(false);
         };
-    }, [user, activeTrackerId, coerceAppState, routeTrackerPendingSelection, routeTrackerKnownMissing]);
+    }, [user, activeTrackerId, coerceAppState, routeTrackerPendingSelection, routeTrackerKnownMissing, trackerMetas]);
 
     useEffect(() => {
         if (!user || !dataLoaded || !activeTrackerId || isHydratingRef.current) return;
@@ -469,11 +477,12 @@ const App: React.FC = () => {
     };
 
     const handleConfirmReset = (mode: 'current' | 'all' | 'legendary') => {
+        const gameVersionId = activeTrackerId ? trackerMetas[activeTrackerId]?.gameVersionId : undefined;
         if (mode === 'all') {
-            setData(createInitialState());
+            setData(createInitialState(gameVersionId));
         } else if (mode === 'current') {
             setData(prev => {
-                const base = createInitialState();
+                const base = createInitialState(gameVersionId);
                 return {
                     ...base,
                     rules: prev.rules, // keep rules on non-full reset
@@ -710,6 +719,11 @@ const App: React.FC = () => {
         setData(prev => ({...prev, rivalCensorEnabled: enabled}));
     };
 
+    const handleRivalPreferenceChange = (key: string, gender: 'male' | 'female') => {
+        setRivalPreference(key, gender);
+        setRivalPreferences(getRivalPreferences());
+    };
+
     const handlelegendaryReset = () => {
         setData(prev => ({
             ...prev,
@@ -740,7 +754,7 @@ const App: React.FC = () => {
         navigate(`/tracker/${trackerId}`);
     };
 
-    const handleCreateTrackerSubmit = async (payload: { title: string; player1Name: string; player2Name: string; memberEmails: string[] }) => {
+    const handleCreateTrackerSubmit = async (payload: { title: string; player1Name: string; player2Name: string; memberEmails: string[], gameVersionId: string; }) => {
         if (!user) return;
         setCreateTrackerError(null);
         setCreateTrackerLoading(true);
@@ -751,8 +765,9 @@ const App: React.FC = () => {
                 player2Name: payload.player2Name,
                 memberEmails: payload.memberEmails,
                 owner: user,
+                gameVersionId: payload.gameVersionId,
             });
-            const freshState = createInitialState();
+            const freshState = createInitialState(result.meta.gameVersionId);
             freshState.player1Name = result.meta.player1Name;
             freshState.player2Name = result.meta.player2Name;
             setData(freshState);
@@ -944,6 +959,9 @@ const App: React.FC = () => {
             onInviteMember={handleInviteMember}
             canManageMembers={canManageMembers}
             currentUserEmail={user?.email}
+            gameVersion={activeGameVersion}
+            rivalPreferences={rivalPreferences}
+            onRivalPreferenceChange={handleRivalPreferenceChange}
         />
     ) : (
         <div className="bg-[#f0f0f0] dark:bg-gray-900 min-h-screen p-2 sm:p-4 md:p-8 text-gray-800 dark:text-gray-200">
@@ -1143,6 +1161,8 @@ const App: React.FC = () => {
                             rivalCensorEnabled={data.rivalCensorEnabled ?? true}
                             onlegendaryIncrement={handlelegendaryIncrement}
                             runStartedAt={data.runStartedAt ?? activeTrackerMeta?.createdAt}
+                            gameVersion={activeGameVersion}
+                            rivalPreferences={rivalPreferences}
                         />
                         <Graveyard
                             graveyard={data.graveyard}

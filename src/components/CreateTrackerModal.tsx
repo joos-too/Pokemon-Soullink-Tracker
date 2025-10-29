@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 import {FiPlus, FiX, FiUsers} from 'react-icons/fi';
+import { GAME_VERSIONS } from '@/src/data/game-versions';
 
 interface CreateTrackerModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (payload: { title: string; player1Name: string; player2Name: string; memberEmails: string[] }) => Promise<void>;
+  onSubmit: (payload: { title: string; player1Name: string; player2Name: string; memberEmails: string[], gameVersionId: string; }) => Promise<void>;
   isSubmitting: boolean;
   error?: string | null;
 }
@@ -14,6 +15,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
   const [player1Name, setPlayer1Name] = useState('');
   const [player2Name, setPlayer2Name] = useState('');
   const [memberInputs, setMemberInputs] = useState<string[]>(['']);
+  const [gameVersionId, setGameVersionId] = useState('gen5_bw');
 
   if (!isOpen) return null;
 
@@ -34,6 +36,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
       player1Name,
       player2Name,
       memberEmails: memberInputs.map((entry) => entry.trim()).filter(Boolean),
+      gameVersionId: gameVersionId,
     });
   };
 
@@ -42,6 +45,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
     setPlayer1Name('');
     setPlayer2Name('');
     setMemberInputs(['']);
+    setGameVersionId('gen5_bw');
   };
 
   const handleClose = () => {
@@ -72,10 +76,28 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
 
           <div className="px-5 py-4 space-y-4">
             <div>
-              <label className="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-1 block">
+              <label className="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-1 block" htmlFor="gameVersion">
+                Spielversion
+              </label>
+              <select
+                id="gameVersion"
+                value={gameVersionId}
+                onChange={(e) => setGameVersionId(e.target.value)}
+                className="w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500"
+              >
+                {Object.values(GAME_VERSIONS).map((version) => (
+                  <option key={version.id} value={version.id}>
+                    {version.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-1 block" htmlFor="trackerTitle">
                 Titel
               </label>
               <input
+                id="trackerTitle"
                 type="text"
                 required
                 value={title}
