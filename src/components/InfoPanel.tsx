@@ -131,19 +131,21 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                             )}
                         </div>
                         <div className="p-3">
-                            <div className="flex items-center justify-between text-xs text-gray-600 dark:text-gray-300 mb-2">
+                            <div
+                                className="flex items-center justify-between text-xs text-gray-600 dark:text-gray-300 mb-2">
                                 <span>Fortschritt</span>
-                                <span className="font-semibold">{completedMilestones}/{totalMilestones} · {progressPct}%</span>
+                                <span
+                                    className="font-semibold">{completedMilestones}/{totalMilestones} · {progressPct}%</span>
                             </div>
-                            <div className="relative h-4 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden" aria-label="Fortschritt" role="progressbar" aria-valuenow={progressPct} aria-valuemin={0} aria-valuemax={100}>
+                            <div className="relative h-4 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden"
+                                 aria-label="Fortschritt" role="progressbar" aria-valuenow={progressPct}
+                                 aria-valuemin={0} aria-valuemax={100}>
                                 <div
                                     className="h-full transition-all duration-700 ease-out bg-gradient-to-r from-green-400 via-emerald-500 to-teal-500 shadow-[inset_0_0_6px_rgba(0,0,0,0.25)]"
-                                    style={{ width: `${progressPct}%` }}
+                                    style={{width: `${progressPct}%`}}
                                 />
-                                <div className="absolute inset-0 [mask-image:radial-gradient(transparent,black)] opacity-20 pointer-events-none"></div>
-                            </div>
-                            <div className="mt-2 text-[11px] text-gray-500 dark:text-gray-400">
-                                Arenen + Top 4 + Champ = 10 | Rivalenkämpfe = {rivalCaps.length}
+                                <div
+                                    className="absolute inset-0 [mask-image:radial-gradient(transparent,black)] opacity-20 pointer-events-none"></div>
                             </div>
                         </div>
                     </div>
@@ -264,7 +266,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                                            checked={!!cap.done}
                                                            onChange={() => onLevelCapToggle(index)}
                                                            aria-label={`Erledigt: ${cap.arena}`}
-                                                           className={`${!cap.done && !(index === 0 || levelCaps[index - 1]?.done)} h-4 w-4 accent-green-600`}/>
+                                                           className={`${!cap.done && !(index === 0 || levelCaps[index - 1]?.done)} h-5 w-5 accent-green-600 cursor-pointer`}/>
                                                     <label htmlFor={`levelcap-done-${cap.id}`}
                                                            className="px-0.75 cursor-pointer">{cap.arena}</label>
                                                 </div>
