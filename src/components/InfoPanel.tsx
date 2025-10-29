@@ -70,6 +70,12 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
 
     const nextRivalToRevealIndex = rivalCensorEnabled ? rivalCaps.findIndex(rc => !rc.revealed) : -1;
 
+    const doneArenas = levelCaps.filter(c => c.done).length;
+    const doneRivals = rivalCaps.filter(r => r.done).length;
+    const totalMilestones = 10 + rivalCaps.length;
+    const completedMilestones = Math.min(doneArenas + doneRivals, totalMilestones);
+    const progressPct = totalMilestones > 0 ? Math.round((completedMilestones / totalMilestones) * 100) : 0;
+
     const startEditRules = () => {
         setDraftRules(rules);
         setIsEditingRules(true);
@@ -95,7 +101,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                         className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700 overflow-hidden">
                         <h2 className="text-center p-2 bg-blue-600 text-white font-press-start text-[10px]">Aktueller
                             Level Cap</h2>
-                        <div className="p-3 text-l text-gray-800 dark:text-gray-200 text-center space-y-1">
+                        <div className="p-1 text-l text-gray-800 dark:text-gray-200 text-center space-y-1">
                             <div className="min-h-20 flex flex-col items-center justify-center">
                                 {(() => {
                                     const next = levelCaps.find((c) => !c.done);
@@ -124,7 +130,26 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                 </div>
                             )}
                         </div>
+                        <div className="p-3">
+                            <div
+                                className="flex items-center justify-between text-xs text-gray-600 dark:text-gray-300 mb-2">
+                                <span>Fortschritt</span>
+                                <span
+                                    className="font-semibold">{completedMilestones}/{totalMilestones} · {progressPct}%</span>
+                            </div>
+                            <div className="relative h-4 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden"
+                                 aria-label="Fortschritt" role="progressbar" aria-valuenow={progressPct}
+                                 aria-valuemin={0} aria-valuemax={100}>
+                                <div
+                                    className="h-full transition-all duration-700 ease-out bg-gradient-to-r from-green-400 via-emerald-500 to-teal-500 shadow-[inset_0_0_6px_rgba(0,0,0,0.25)]"
+                                    style={{width: `${progressPct}%`}}
+                                />
+                                <div
+                                    className="absolute inset-0 [mask-image:radial-gradient(transparent,black)] opacity-20 pointer-events-none"></div>
+                            </div>
+                        </div>
                     </div>
+
                     <div
                         className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700 overflow-hidden">
                         <h2 className="text-center p-2 bg-blue-600 text-white font-press-start text-[10px]">Run
@@ -132,17 +157,17 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                         <table className="w-full">
                             <tbody>
                             <tr className="border-t border-gray-200 dark:border-gray-700">
-                                <td className="px-2 py-3 text-xs font-bold text-gray-800 dark:text-gray-300">Aktueller
+                                <td className="px-2 py-1.5 text-xs font-bold text-gray-800 dark:text-gray-300">Aktueller
                                     Run
                                 </td>
-                                <td className="px-2 py-3 text-right"><span
+                                <td className="px-2 py-1.5 text-right"><span
                                     className="inline-block min-w-[2ch] text-sm font-bold">Run {stats.runs}</span></td>
                             </tr>
                             <tr className="border-t border-gray-200 dark:border-gray-700">
-                                <td className="px-2 py-3 text-xs font-bold text-gray-800 dark:text-gray-300">Bester
+                                <td className="px-2 py-1.5 text-xs font-bold text-gray-800 dark:text-gray-300">Bester
                                     Run
                                 </td>
-                                <td className="px-2 py-3 text-right"><span
+                                <td className="px-2 py-1.5 text-right"><span
                                     className="inline-block min-w-[2ch] text-sm font-bold">Arena {stats.best}</span>
                                 </td>
                             </tr>
@@ -241,7 +266,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                                            checked={!!cap.done}
                                                            onChange={() => onLevelCapToggle(index)}
                                                            aria-label={`Erledigt: ${cap.arena}`}
-                                                           className={`${!cap.done && !(index === 0 || levelCaps[index - 1]?.done)} h-4 w-4 accent-green-600`}/>
+                                                           className={`${!cap.done && !(index === 0 || levelCaps[index - 1]?.done)} h-5 w-5 accent-green-600 cursor-pointer`}/>
                                                     <label htmlFor={`levelcap-done-${cap.id}`}
                                                            className="px-0.75 cursor-pointer">{cap.arena}</label>
                                                 </div>
