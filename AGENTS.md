@@ -1,62 +1,59 @@
-# Repository Guidelines
+# Agent Handbook
 
-## Project Structure & Module Organization
-- `src/`: App code (`App.tsx`) and UI in `src/components/`.
-- `src/services/`: App services (e.g. `pokemonSearch.ts`, `sprites.ts`) incl. background refresh and localStorage caching.
-- `src/data/`: Generated data files used for instant search and lookups (`pokemon-de.ts`, `pokemon-de-map.ts`, `pokemon-evolutions.ts`).
-- `src/pokeapi.ts`: Shared PokeAPI client instance.
-- `index.tsx`: React entry; applies dark mode class before mount.
-- `index.html`: Vite HTML shell; Tailwind via CDN with `darkMode: 'class'`.
-- `index.css`: Minimal global styles.
-- `public/`: Static assets (e.g. favicon, logo).
-- `constants.ts` and `types.ts`: shared constants and TypeScript models.
-- `src/firebaseConfig.ts`: Firebase init (DB + Auth). Uses Vite env and connects to local emulators in dev or when `VITE_USE_FIREBASE_EMULATOR=true`.
-- `vite.config.ts` and `tsconfig.json`: build and path aliases (`@/*` → project root).
+Aktueller Überblick für Coding-Agents, die am Pokémon Soullink Tracker arbeiten.
 
-## Build, Test, and Development Commands
-- `npm install`: install dependencies.
-- `npm run dev`: start Vite dev server with HMR.
-- `npm run emulators`: start Firebase emulators (Realtime DB + Auth).
-- `npm run build`: production build to `dist/`.
-- `npm run preview`: preview the production build locally.
-- `npm run build:names`: regenerate German Pokémon data from PokeAPI; writes to `src/data/` (requires network).
+## Architektur & Hauptfunktionen
+- React 19 Single-Page-App mit React Router; Einstieg über `index.tsx`, Hauptlogik in `src/App.tsx`.
+- Firebase Realtime Database und Firebase Auth: Benutzer müssen sich einloggen, bevor sie Tracker sehen/verwalten.
+- Home-Dashboard zeigt alle Tracker des eingeloggten Users, inkl. Zusammenfassungen (Team, Box, Grab, Fortschritt). Tracker lassen sich erstellen, öffnen und für Owners löschen.
+- Tracker-Ansicht verwaltet Team-, Box- und Grab-Paare, Level- und Rivalen-Caps, Regeln, Statistiken sowie optionale Features (Legendary-Zähler, Rivalen-Zensur).
+- Spielversionen inkl. Badge-Designs, Level- und Rivalen-Caps sind in `src/data/game-versions.ts` definierte Stammdaten.
+- Hintergrundaktualisierung deutscher Pokémon-Namen (`src/services/pokemonSearch.ts`) und Sprite-Zugriff (`src/services/sprites.ts`) nutzen lokale Caches + PokeAPI.
 
-## Coding Style & Naming Conventions
-- TypeScript + React function components (React 19); prefer hooks.
-- Indentation: 2 spaces; keep lines focused and readable.
-- Naming: `PascalCase` for components/files in `src/components/`, `camelCase` for vars/props, UPPER_SNAKE for constants when appropriate.
-- User facing text in German.
-- Dark mode: toggled via `class="dark"` on `<html>`; see `index.tsx`.
-- Imports: use alias `@` for absolute paths (examples: `import TeamTable from '@/src/components/TeamTable'`, `import { INITIAL_STATE } from '@/constants'`, `import type { AppState } from '@/types'`).
-- Types: avoid `any`; extend interfaces in `types.ts` where feasible.
+## Projektstruktur (Auszug)
+- `src/App.tsx`: Router-Setup, Firebase-Listener, Tracker-Lifecycle, Modale Steuerung.
+- `src/components/`: UI-Bausteine
+  - Auth (`LoginPage.tsx`, `RegisterPage.tsx`)
+  - Dashboard (`HomePage.tsx`, `GameVersionBadge.tsx`)
+  - Tracker-UI (`TeamTable.tsx`, `InfoPanel.tsx`, `ClearedRoutes.tsx`, `Graveyard.tsx`, `SettingsPage.tsx`, diverse Modale).
+- `src/services/`:
+  - `trackers.ts`: CRUD-Operationen auf Realtime DB, Mitgliederverwaltung, Rivalenpräferenzen.
+  - `pokemonSearch.ts`: Sofortsuche + Hintergrundrefresh deutscher Namen.
+  - `sprites.ts`: Sprite-/Artwork-Auflösung über Namen → IDs.
+- `src/data/`: Generierte Datensätze (`pokemon-de.ts`, `pokemon-de-map.ts`, `pokemon-evolutions.ts`, `game-versions.ts`). Änderungen i.d.R. per Script.
+- `src/firebaseConfig.ts`: Firebase-Initialisierung, Emulatorkonfiguration basierend auf Vite-Umgebungsvariablen.
+- `constants.ts`: Default-Setup (Farben, Regeln, Initialstate-Helfer), legt Standardspielversion fest.
+- `types.ts`: Applikationsmodelle (Tracker-Struktur, Rivalen, Stats etc.).
+- `public/`: Statische Assets (Logos, Badges, Rival-Sprites, Champion-Sprites).
+- `vite.config.ts` / `tsconfig.json`: Vite-Build + Pfadalias `@/*` → Projektwurzel.
 
-## Testing Guidelines
-- No automated tests configured yet. If adding tests, prefer Vitest + React Testing Library.
-- Suggested naming: mirror source file, e.g., `src/components/TeamTable.test.tsx`.
-- Keep tests deterministic; mock Firebase where needed.
+## Build-, Dev- & Datenbefehle
+- `npm run dev`: Vite Dev-Server (nutzt automatisch Emulatoren).
+- `npm run emulators`: Firebase Emulator Suite (Auth + Realtime DB).
+- `npm run build`: Production-Build nach `dist/`.
+- `npm run preview`: Preview-Server für Build.
+- `npm run build:names`: Regeneriert deutsche Pokémon-Namen + Map via PokeAPI (Netzwerkzugriff erforderlich).
 
-## Commit & Pull Request Guidelines
-- Commits: short, imperative summaries (e.g., `fix login flow`, `add graveyard modal`).
-- Scope changes logically; one topic per commit.
-- PRs: include a clear description, screenshots/GIFs for UI changes, and steps to validate (`npm run dev` or `npm run preview`). Link related issues.
-- Update docs when changing env, scripts, or public behavior.
- - When regenerating data in `src/data/`, include a note and diff summary.
+## Entwicklungsrichtlinien
+- TypeScript + React Hooks; Komponenten funktional halten, Props typisieren (`types.ts` erweitern statt `any`).
+- 2 Leerzeichen Einrückung, short & readable Zeilen, Nutzertexte Deutsch.
+- Imports über `@/…` Alias; UI-Files in `src/components/` nutzen PascalCase.
+- Dark Mode via `<html class="dark">`; `DarkModeToggle` synchronisiert LocalStorage + DOM.
+- Firebase: Emulatormodus per `VITE_USE_FIREBASE_EMULATOR=true` (Standard in `.env`). Production benötigt vollständige `VITE_FIREBASE_*` Variablen; ohne Emulator strikte Runtime-Checks.
+- Tracker-Daten liegen unter `trackers/{trackerId}/state`. Schema-Änderungen mit Bedacht planen, Migration kommunizieren.
+- Namen/Sprite-Caches greifen auf `localStorage` zu; schützende Try/Catch-Blöcke beibehalten, um SSR/Emulator-Kontexte nicht zu brechen.
 
-## Security & Configuration Tips
-- Environments:
-  - Local dev: copy `.env.example` → `.env`. Uses Firebase emulators by default (`VITE_USE_FIREBASE_EMULATOR=true` or `vite` dev mode). Minimal values required.
-  - Production: copy `.env.production.example` → `.env.production` and set all `VITE_FIREBASE_*` values. Do not set emulator flags.
-- Runtime validation: in production (non-emulator), the app throws if required `VITE_FIREBASE_*` vars are missing.
-- Never commit secrets; `.env*` files are git-ignored.
-- Only expose variables with `VITE_` prefix (Vite client behavior).
+## Testing & Qualität
+- Noch keine Tests eingerichtet; bei Bedarf Vitest + React Testing Library einsetzen (`*.test.tsx` neben Quelle).
+- Tests deterministisch halten; Firebase über Emulatoren oder Mocks stubben.
+- Vor größeren Änderungen: `npm run dev` + Emulatoren lokal prüfen. UI-Änderungen mit Screenshots im PR dokumentieren.
 
-## Architecture Overview
-- Single-page React app with Firebase Realtime Database and Auth.
-- State shape in `types.ts`; initial data and colors in `constants.ts`.
-- Firebase config connects to local emulators in dev; production uses real project via env.
-- Reads/writes app state at DB root; be cautious with breaking schema changes.
-- Pokémon names & assets:
-  - Preloaded German names and id map in `src/data/` for instant search.
-  - Background refresh from PokeAPI updates localStorage (non-blocking).
-  - Sprites/artwork loaded from PokeAPI sprite repository URLs.
+## Datenpflege & Skripte
+- Änderungen in `src/data/` möglichst über vorhandene Skripte erzeugen; im PR vermerken, dass Daten regeneriert wurden.
+- `metadata.json` beschreibt App für externe Integrationen – bei Produktänderungen aktualisieren.
+
+## Sicherheit & Konfiguration
+- `.env.example` → `.env` für lokale Dev-Umgebung (keine Secrets committed). Production-Werte in `.env.production` pflegen.
+- Nur `VITE_*` Variablen ins Frontend exportieren; Secrets bleiben serverseitig.
+- Bei neuem Feature-Zugriff via Firebase Auth sicherstellen, dass DB-Regeln (`database.rules.json`) den erwarteten Zugriff erlauben.
 
