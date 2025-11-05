@@ -1,8 +1,8 @@
 import type {GameVersion} from '@/types';
 
 export const GAME_VERSIONS: Record<string, GameVersion> = {
-    gen1_rbg: {
-        id: 'gen1_rbg',
+    gen1_rb: {
+        id: 'gen1_rb',
         name: 'Pokémon Rot / Blau',
         badgeSet: 'gen1/rbg',
         badge: {
@@ -36,8 +36,8 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
         ],
         champion: {name: 'Blau', sprite: '/champ-sprites/blau.png'},
     },
-    gen1_y: {
-        id: 'gen1_y',
+    gen1_g: {
+        id: 'gen1_g',
         name: 'Pokémon Gelb',
         badgeSet: 'gen1/rbg',
         badge: {
@@ -135,8 +135,8 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
         ],
         champion: {name: 'Siegfried', sprite: '/champ-sprites/siegfried.png'},
     },
-    gen3_rusasm: {
-        id: 'gen3_rusasm',
+    gen3_rusa: {
+        id: 'gen3_rusa',
         name: 'Pokémon Rubin / Saphir',
         badgeSet: 'gen3/rusasm',
         badge: {
@@ -179,8 +179,8 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
         ],
         champion: {name: 'Wassili', sprite: '/champ-sprites/wassili.png'},
     },
-    gen3_em: {
-        id: 'gen3_em',
+    gen3_sm: {
+        id: 'gen3_sm',
         name: 'Pokémon Smaragd',
         badgeSet: 'gen3/rusasm',
         badge: {
@@ -256,8 +256,8 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
         ],
         champion: {name: 'Blau', sprite: '/champ-sprites/blau.png'},
     },
-    gen4_dppt: {
-        id: 'gen4_dppt',
+    gen4_dp: {
+        id: 'gen4_dp',
         name: 'Pokémon Diamant / Perl',
         badgeSet: 'gen4/dppt',
         badge: {
