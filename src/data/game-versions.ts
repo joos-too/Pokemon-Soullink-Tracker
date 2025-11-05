@@ -3,14 +3,17 @@ import type {GameVersion} from '@/types';
 export const GAME_VERSIONS: Record<string, GameVersion> = {
     gen1_rbg: {
         id: 'gen1_rbg',
-        name: 'Pokémon Rot / Blau / Gelb',
+        name: 'Pokémon Rot / Blau',
         badgeSet: 'gen1/rbg',
         badge: {
             segments: [
-                {text: 'R', bgColor: '#ff4444', textColor: '#000000', borderColor: '#5c0000'},
-                {text: 'B', bgColor: '#6792ff', textColor: '#000000', borderColor: '#001c78'},
-                {text: 'G', bgColor: '#ffff00', textColor: '#000000', borderColor: '#766a00'},
+                {text: 'R', bgColor: '#ff6b6b', textColor: '#000000', borderColor: '#5c0000'},
+                {text: 'B', bgColor: '#1d89e4', textColor: '#000000', borderColor: '#053b78'},
             ],
+        },
+        selectionColors: {
+            'Rot': { bgColor: '#f44236', textColor: '#000000', borderColor: '#f44236' },
+            'Blau': { bgColor: '#1d89e4', textColor: '#000000', borderColor: '#1d89e4' },
         },
         levelCaps: [
             {id: 1, arena: '1. Arena', level: '12'},
@@ -33,16 +36,84 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
         ],
         champion: {name: 'Blau', sprite: '/champ-sprites/blau.png'},
     },
-    gen2_gsk: {
-        id: 'gen2_gsk',
-        name: 'Pokémon Gold / Silber / Kristall',
+    gen1_y: {
+        id: 'gen1_y',
+        name: 'Pokémon Gelb',
+        badgeSet: 'gen1/rbg',
+        badge: {
+            segments: [
+                {text: 'G', bgColor: '#ffff00', textColor: '#000000', borderColor: '#766a00'},
+            ],
+        },
+        selectionColors: {
+            'Gelb': { bgColor: '#ffbe00', textColor: '#000000', borderColor: '#ffbe00' },
+        },
+        levelCaps: [
+            {id: 1, arena: '1. Arena', level: '12'},
+            {id: 2, arena: '2. Arena', level: '21'},
+            {id: 3, arena: '3. Arena', level: '24'},
+            {id: 4, arena: '4. Arena', level: '29'},
+            {id: 5, arena: '5. Arena', level: '43'},
+            {id: 6, arena: '6. Arena', level: '43'},
+            {id: 7, arena: '7. Arena', level: '47'},
+            {id: 8, arena: '8. Arena', level: '50'},
+            {id: 9, arena: 'Top 4', level: '58'},
+            {id: 10, arena: 'Champ', level: '65'},
+        ],
+        rivalCaps: [
+            {id: 1, location: 'Azuria City', rival: 'Blau', level: '18'},
+            {id: 2, location: 'M.S. Anne', rival: 'Blau', level: '19'},
+            {id: 3, location: 'Pokémon-Turm', rival: 'Blau', level: '25'},
+            {id: 4, location: 'Silph Co.', rival: 'Blau', level: '40'},
+            {id: 5, location: 'Route 22', rival: 'Blau', level: '53'},
+        ],
+        champion: {name: 'Blau', sprite: '/champ-sprites/blau.png'},
+    },
+    gen2_gs: {
+        id: 'gen2_gs',
+        name: 'Pokémon Gold / Silber',
         badgeSet: 'gen2/gsk',
         badge: {
             segments: [
-                {text: 'G', bgColor: '#e3c641', textColor: '#000000', borderColor: '#786200'},
-                {text: 'S', bgColor: '#c1ccd3', textColor: '#000000', borderColor: '#5d5d5d'},
+                {text: 'G', bgColor: '#d3af37', textColor: '#000000', borderColor: '#786200'},
+                {text: 'S', bgColor: '#b0bfc6', textColor: '#000000', borderColor: '#5a686e'},
+            ],
+        },
+        selectionColors: {
+            'Gold': { bgColor: '#d3af37', textColor: '#000000', borderColor: '#d3af37' },
+            'Silber': { bgColor: '#b0bfc6', textColor: '#000000', borderColor: '#b0bfc6' },
+        },
+        levelCaps: [
+            {id: 1, arena: '1. Arena', level: '9'},
+            {id: 2, arena: '2. Arena', level: '16'},
+            {id: 3, arena: '3. Arena', level: '20'},
+            {id: 4, arena: '4. Arena', level: '25'},
+            {id: 5, arena: '5. Arena', level: '30'},
+            {id: 6, arena: '6. Arena', level: '31'},
+            {id: 7, arena: '7. Arena', level: '35'},
+            {id: 8, arena: '8. Arena', level: '40'},
+            {id: 9, arena: 'Top 4', level: '47'},
+            {id: 10, arena: 'Champ', level: '50'},
+        ],
+        rivalCaps: [
+            {id: 1, location: 'Azetalea City', rival: 'Silber', level: '18'},
+            {id: 2, location: 'Turmruine', rival: 'Silber', level: '22'},
+            {id: 3, location: 'Radioturm (Dukatia City)', rival: 'Silber', level: '34'},
+            {id: 4, location: 'Siegesstraße', rival: 'Silber', level: '40'},
+        ],
+        champion: {name: 'Siegfried', sprite: '/champ-sprites/siegfried.png'},
+    },
+    gen2_k: {
+        id: 'gen2_k',
+        name: 'Pokémon Kristall',
+        badgeSet: 'gen2/gsk',
+        badge: {
+            segments: [
                 {text: 'K', bgColor: '#87cefa', textColor: '#000000', borderColor: '#064973'},
             ],
+        },
+        selectionColors: {
+            'Kristall': { bgColor: '#4dd0e2', textColor: '#000000', borderColor: '#4dd0e2' },
         },
         levelCaps: [
             {id: 1, arena: '1. Arena', level: '9'},
@@ -66,14 +137,59 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
     },
     gen3_rusasm: {
         id: 'gen3_rusasm',
-        name: 'Pokémon Rubin / Saphir / Smaragd',
+        name: 'Pokémon Rubin / Saphir',
         badgeSet: 'gen3/rusasm',
         badge: {
             segments: [
-                {text: 'RU', bgColor: '#bf0109', textColor: '#FFFFFF', borderColor: '#490004'},
-                {text: 'SA', bgColor: '#3862ae', textColor: '#FFFFFF', borderColor: '#072660'},
-                {text: 'SM', bgColor: '#017f3f', textColor: '#FFFFFF', borderColor: '#033d1d'},
+                {text: 'RU', bgColor: '#bf0109', textColor: '#ffffff', borderColor: '#490004'},
+                {text: 'SA', bgColor: '#3862ae', textColor: '#ffffff', borderColor: '#072660'},
             ],
+        },
+        selectionColors: {
+            'Rubin': { bgColor: '#cf0304', textColor: '#ffffff', borderColor: '#cf0304' },
+            'Saphir': { bgColor: '#3c3696', textColor: '#ffffff', borderColor: '#3c3696' },
+        },
+        levelCaps: [
+            {id: 1, arena: '1. Arena', level: '15'},
+            {id: 2, arena: '2. Arena', level: '19'},
+            {id: 3, arena: '3. Arena', level: '23'},
+            {id: 4, arena: '4. Arena', level: '28'},
+            {id: 5, arena: '5. Arena', level: '31'},
+            {id: 6, arena: '6. Arena', level: '33'},
+            {id: 7, arena: '7. Arena', level: '42'},
+            {id: 8, arena: '8. Arena', level: '46'},
+            {id: 9, arena: 'Top 4', level: '55'},
+            {id: 10, arena: 'Champ', level: '58'},
+        ],
+        rivalCaps: [
+            {id: 1, location: 'Malvenfroh City', rival: 'Heiko', level: '16'},
+            {
+                id: 2,
+                location: 'Route 110',
+                rival: {name: 'Brix / Maike', key: 'brix_maike', options: {male: 'brix', female: 'maike'}},
+                level: '20'
+            },
+            {
+                id: 3,
+                location: 'Seegrasulb City',
+                rival: {name: 'Brix / Maike', key: 'brix_maike', options: {male: 'brix', female: 'maike'}},
+                level: '34'
+            },
+            {id: 4, location: 'Siegesstraße', rival: 'Heiko', level: '45'},
+        ],
+        champion: {name: 'Wassili', sprite: '/champ-sprites/wassili.png'},
+    },
+    gen3_em: {
+        id: 'gen3_em',
+        name: 'Pokémon Smaragd',
+        badgeSet: 'gen3/rusasm',
+        badge: {
+            segments: [
+                {text: 'SM', bgColor: '#017f3f', textColor: '#ffffff', borderColor: '#033d1d'},
+            ],
+        },
+        selectionColors: {
+            'Smaragd': { bgColor: '#078347', textColor: '#ffffff', borderColor: '#078347' },
         },
         levelCaps: [
             {id: 1, arena: '1. Arena', level: '15'},
@@ -115,6 +231,10 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
                 {text: 'BG', bgColor: '#b9d101', textColor: '#000000', borderColor: '#738205'},
             ],
         },
+        selectionColors: {
+            'Feuerrot': { bgColor: '#f44236', textColor: '#000000', borderColor: '#f44236' },
+            'Blattgrün': { bgColor: '#4cb050', textColor: '#000000', borderColor: '#4cb050' },
+        },
         levelCaps: [
             {id: 1, arena: '1. Arena', level: '14'},
             {id: 2, arena: '2. Arena', level: '21'},
@@ -138,14 +258,49 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
     },
     gen4_dppt: {
         id: 'gen4_dppt',
-        name: 'Pokémon Diamant / Perl / Platin',
+        name: 'Pokémon Diamant / Perl',
         badgeSet: 'gen4/dppt',
         badge: {
             segments: [
-                {text: 'D', bgColor: '#84baf8', textColor: '#000000', borderColor: '#053b78'},
-                {text: 'P', bgColor: '#ddaaaa', textColor: '#000000', borderColor: '#033d1d'},
-                {text: 'PT', bgColor: '#aabbd1', textColor: '#000000', borderColor: '#6f5454'},
+                {text: 'D', bgColor: '#00bcd5', textColor: '#ffffff', borderColor: '#007c8b'},
+                {text: 'P', bgColor: '#aa47bc', textColor: '#ffffff', borderColor: '#6e2e78'},
             ],
+        },
+        selectionColors: {
+            'Diamant': { bgColor: '#00bcd5', textColor: '#ffffff', borderColor: '#00bcd5' },
+            'Perl': { bgColor: '#aa47bc', textColor: '#ffffff', borderColor: '#aa47bc' },
+        },
+        levelCaps: [
+            {id: 1, arena: '1. Arena', level: '14'},
+            {id: 2, arena: '2. Arena', level: '22'},
+            {id: 3, arena: '3. Arena', level: '26'},
+            {id: 4, arena: '4. Arena', level: '32'},
+            {id: 5, arena: '5. Arena', level: '36'},
+            {id: 6, arena: '6. Arena', level: '41'},
+            {id: 7, arena: '7. Arena', level: '44'},
+            {id: 8, arena: '8. Arena', level: '50'},
+            {id: 9, arena: 'Top 4', level: '57'},
+            {id: 10, arena: 'Champ', level: '62'},
+        ],
+        rivalCaps: [
+            {id: 1, location: 'Herzhofen', rival: 'Barry', level: '20'},
+            {id: 2, location: 'Weideburg', rival: 'Barry', level: '31'},
+            {id: 3, location: 'Fleetburg', rival: 'Barry', level: '38'},
+            {id: 4, location: 'Pokémon Liga (Eingang)', rival: 'Barry', level: '48'},
+        ],
+        champion: {name: 'Cynthia', sprite: '/champ-sprites/cynthia.png'},
+    },
+    gen4_pt: {
+        id: 'gen4_pt',
+        name: 'Pokémon Platin',
+        badgeSet: 'gen4/dppt',
+        badge: {
+            segments: [
+                {text: 'P', bgColor: '#aabbd1', textColor: '#000000', borderColor: '#6f5454'},
+            ],
+        },
+        selectionColors: {
+            'Platin': { bgColor: '#c9c1b6', textColor: '#000000', borderColor: '#c9c1b6' },
         },
         levelCaps: [
             {id: 1, arena: '1. Arena', level: '14'},
@@ -177,6 +332,10 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
                 {text: 'SS', bgColor: '#b9d3ee', textColor: '#3f566f', borderColor: '#3f566f'},
             ],
         },
+        selectionColors: {
+            'Heart Gold': { bgColor: '#d3af37', textColor: '#ffffff', borderColor: '#d3af37' },
+            'Soul Silver': { bgColor: '#b0bfc6', textColor: '#ffffff', borderColor: '#b0bfc6' },
+        },
         levelCaps: [
             {id: 1, arena: '1. Arena', level: '13'},
             {id: 2, arena: '2. Arena', level: '17'},
@@ -203,9 +362,13 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
         badgeSet: 'gen5/sw',
         badge: {
             segments: [
-                {text: 'S', bgColor: '#000000', textColor: '#FFFFFF', borderColor: '#000000'},
+                {text: 'S', bgColor: '#000000', textColor: '#ffffff', borderColor: '#000000'},
                 {text: 'W', bgColor: '#ffffff', textColor: '#000000', borderColor: '#000000'},
             ],
+        },
+        selectionColors: {
+            'Schwarz': { bgColor: '#424242', textColor: '#ffffff', borderColor: '#424242' },
+            'Weiß': { bgColor: '#eeeeee', textColor: '#000000', borderColor: '#eeeeee' },
         },
         levelCaps: [
             {id: 1, arena: '1. Arena', level: '14/12'},
@@ -247,6 +410,10 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
                 {text: 'W2', bgColor: '#ffffff', textColor: '#dd151b', borderColor: '#ed1c24'},
             ],
         },
+        selectionColors: {
+            'Schwarz 2': { bgColor: '#424242', textColor: '#ffffff', borderColor: '#424242' },
+            'Weiß 2': { bgColor: '#eeeeee', textColor: '#000000', borderColor: '#eeeeee' },
+        },
         levelCaps: [
             {id: 1, arena: '1. Arena', level: '13'},
             {id: 2, arena: '2. Arena', level: '18'},
@@ -278,6 +445,10 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
                 {text: 'X', bgColor: '#dff3f4', textColor: '#005e9b', borderColor: '#005e9b'},
                 {text: 'Y', bgColor: '#e9b2bf', textColor: '#871223', borderColor: '#871223'},
             ],
+        },
+        selectionColors: {
+            'X': { bgColor: '#325ca6', textColor: '#ffffff', borderColor: '#325ca6' },
+            'Y': { bgColor: '#d41235', textColor: '#ffffff', borderColor: '#d41235' },
         },
         levelCaps: [
             {id: 1, arena: '1. Arena', level: '12'},
@@ -337,6 +508,10 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
                 {text: 'ΩR', bgColor: '#bf0109', textColor: '#f8f688', borderColor: '#4f1734'},
                 {text: 'αS', bgColor: '#3862ae', textColor: '#f8f688', borderColor: '#0a1535'},
             ],
+        },
+        selectionColors: {
+            'Omega Rubin': { bgColor: '#cf0304', textColor: '#ffffff', borderColor: '#cf0304' },
+            'Alpha Saphir': { bgColor: '#3c3696', textColor: '#ffffff', borderColor: '#3c3696' },
         },
         levelCaps: [
             {id: 1, arena: '1. Arena', level: '14'},

@@ -90,6 +90,12 @@ export interface GameVersionBadgeSegment {
     borderColor: string;
 }
 
+export interface GameSelectionColor {
+    bgColor: string;
+    textColor: string;
+    borderColor: string;
+}
+
 export interface GameVersion {
     id: string;
     name: string;
@@ -97,6 +103,7 @@ export interface GameVersion {
     badge?: {
       segments: GameVersionBadgeSegment[];
     };
+    selectionColors?: Record<string, GameSelectionColor>;
     levelCaps: Omit<LevelCap, 'done'>[];
     rivalCaps: Omit<RivalCap, 'done' | 'revealed'>[];
     champion: {

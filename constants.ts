@@ -39,8 +39,8 @@ export const LEGENDARY_POKEMON_NAMES: string[] = [
 const DEFAULT_GAME_VERSION_ID = 'gen5_sw';
 
 export const INITIAL_STATE: AppState = {
-    player1Name: 'Jan',
-    player2Name: 'Felix',
+    player1Name: 'Spieler 1',
+    player2Name: 'Spieler 2',
     team: [],
     box: [],
     graveyard: [],

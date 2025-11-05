@@ -314,7 +314,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                  backfaceVisibility: 'hidden',
                                  transform: 'rotateY(180deg)'
                              }}>
-                            <div className="p-2 h-full overflow-y-auto space-y-1 custom-scrollbar">
+                            <div className="p-2 h-full overflow-y-auto space-y-1 overscroll-contain custom-scrollbar">
                                 {rivalCaps.map((rc, index) => (
                                     <div key={rc.id}>
                                         {rivalCensorEnabled && !rc.revealed ? (
