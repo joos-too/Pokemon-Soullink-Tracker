@@ -12,8 +12,8 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
             ],
         },
         selectionColors: {
-            'Rot': { bgColor: '#f44236', textColor: '#000000', borderColor: '#f44236' },
-            'Blau': { bgColor: '#1d89e4', textColor: '#000000', borderColor: '#1d89e4' },
+            'Rot': { bgColor: '#f44236', textColor: '#ffffff', borderColor: '#f44236' },
+            'Blau': { bgColor: '#1d89e4', textColor: '#ffffff', borderColor: '#1d89e4' },
         },
         levelCaps: [
             {id: 1, arena: '1. Arena', level: '14/12'},
@@ -47,7 +47,7 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
             ],
         },
         selectionColors: {
-            'Gelb': { bgColor: '#ffbe00', textColor: '#000000', borderColor: '#ffbe00' },
+            'Gelb': { bgColor: '#ffbe00', textColor: '#ffffff', borderColor: '#ffbe00' },
         },
         levelCaps: [
             {id: 1, arena: '1. Arena', level: '12/10'},
@@ -82,8 +82,8 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
             ],
         },
         selectionColors: {
-            'Gold': { bgColor: '#d3af37', textColor: '#000000', borderColor: '#d3af37' },
-            'Silber': { bgColor: '#b0bfc6', textColor: '#000000', borderColor: '#b0bfc6' },
+            'Gold': { bgColor: '#d3af37', textColor: '#ffffff', borderColor: '#d3af37' },
+            'Silber': { bgColor: '#b0bfc6', textColor: '#ffffff', borderColor: '#b0bfc6' },
         },
         levelCaps: [
             {id: 1, arena: '1. Arena', level: '9/7'},
@@ -115,7 +115,7 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
             ],
         },
         selectionColors: {
-            'Kristall': { bgColor: '#4dd0e2', textColor: '#000000', borderColor: '#4dd0e2' },
+            'Kristall': { bgColor: '#4dd0e2', textColor: '#ffffff', borderColor: '#4dd0e2' },
         },
         levelCaps: [
             {id: 1, arena: '1. Arena', level: '9/7'},
@@ -219,8 +219,8 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
             ],
         },
         selectionColors: {
-            'Feuerrot': { bgColor: '#f44236', textColor: '#000000', borderColor: '#f44236' },
-            'Blattgrün': { bgColor: '#4cb050', textColor: '#000000', borderColor: '#4cb050' },
+            'Feuerrot': { bgColor: '#f44236', textColor: '#ffffff', borderColor: '#f44236' },
+            'Blattgrün': { bgColor: '#4cb050', textColor: '#ffffff', borderColor: '#4cb050' },
         },
         levelCaps: [
             {id: 1, arena: '1. Arena', level: '14/12'},
@@ -289,7 +289,7 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
             ],
         },
         selectionColors: {
-            'Platin': { bgColor: '#c9c1b6', textColor: '#000000', borderColor: '#c9c1b6' },
+            'Platin': { bgColor: '#c9c1b6', textColor: '#ffffff', borderColor: '#c9c1b6' },
         },
         levelCaps: [
             {id: 1, arena: '1. Arena', level: '14/12'},
