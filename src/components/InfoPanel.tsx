@@ -344,7 +344,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                                         onClick={(e) => e.stopPropagation()}
                                                         className="text-sm text-gray-800 dark:text-gray-300 break-words">{rc.location}</span>
                                                 </div>
-                                                <div className="flex items-center justify-end flex-shrink-0">
+                                                <div className="flex items-center justify-end flex-shrink-0 px-3">
                                                     <RivalImage rival={rc.rival} preferences={rivalPreferences}/>
                                                     <span
                                                         className="font-bold text-lg text-gray-800 dark:text-gray-200 w-10 text-center">{rc.level}</span>
