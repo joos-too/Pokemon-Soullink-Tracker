@@ -1,10 +1,13 @@
 import React, {useState} from 'react';
 import {FiPlus, FiX, FiUsers} from 'react-icons/fi';
+import { GAME_VERSIONS } from '@/src/data/game-versions';
+import GameVersionPicker from './GameVersionPicker';
+
 
 interface CreateTrackerModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (payload: { title: string; player1Name: string; player2Name: string; memberEmails: string[] }) => Promise<void>;
+  onSubmit: (payload: { title: string; player1Name: string; player2Name: string; memberEmails: string[], gameVersionId: string; }) => Promise<void>;
   isSubmitting: boolean;
   error?: string | null;
 }
@@ -14,6 +17,8 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
   const [player1Name, setPlayer1Name] = useState('');
   const [player2Name, setPlayer2Name] = useState('');
   const [memberInputs, setMemberInputs] = useState<string[]>(['']);
+  const [gameVersionId, setGameVersionId] = useState('gen5_sw');
+  const [showVersionPicker, setShowVersionPicker] = useState(false);
 
   if (!isOpen) return null;
 
@@ -34,6 +39,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
       player1Name,
       player2Name,
       memberEmails: memberInputs.map((entry) => entry.trim()).filter(Boolean),
+      gameVersionId: gameVersionId,
     });
   };
 
@@ -42,6 +48,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
     setPlayer1Name('');
     setPlayer2Name('');
     setMemberInputs(['']);
+    setGameVersionId('gen5_sw');
   };
 
   const handleClose = () => {
@@ -70,12 +77,43 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
             </button>
           </header>
 
-          <div className="px-5 py-4 space-y-4">
+          <div className="px-5 py-4 space-y-4 max-h-[60vh] overflow-y-auto custom-scrollbar">
             <div>
-              <label className="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-1 block">
+              <label className="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2 block">
+                Spielversion
+              </label>
+              <button
+                type="button"
+                onClick={() => setShowVersionPicker((v) => !v)}
+                aria-expanded={showVersionPicker}
+                aria-controls="game-version-picker-panel"
+                className="w-full inline-flex items-center justify-between rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-sm font-semibold text-gray-800 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-600"
+                title="Spielversion auswählen"
+              >
+                <span>Spielversion auswählen</span>
+                <span className="text-xs text-gray-600 dark:text-gray-300">{GAME_VERSIONS[gameVersionId]?.name ?? gameVersionId}</span>
+              </button>
+
+              <div
+                id="game-version-picker-panel"
+                aria-hidden={!showVersionPicker}
+                className={`transform-gpu ${showVersionPicker ? 'mt-3 max-h-72 opacity-100' : 'max-h-0 opacity-0 pointer-events-none'} transition-all duration-300 ease-in-out overflow-hidden`}
+              >
+                <GameVersionPicker
+                  value={gameVersionId}
+                  onSelect={(versionId) => {
+                    setGameVersionId(versionId);
+                    setShowVersionPicker(false)
+                  }}
+                />
+              </div>
+            </div>
+            <div>
+              <label className="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-1 block" htmlFor="trackerTitle">
                 Titel
               </label>
               <input
+                id="trackerTitle"
                 type="text"
                 required
                 value={title}
@@ -126,7 +164,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
                   <FiPlus /> E-Mail
                 </button>
               </div>
-              <div className="space-y-2 max-h-44 overflow-y-auto px-1 py-1">
+              <div className="space-y-2 max-h-44 overflow-y-auto px-1 py-1 custom-scrollbar">
                 {memberInputs.map((value, index) => (
                   <div key={`member-${index}`} className="flex gap-2">
                     <input

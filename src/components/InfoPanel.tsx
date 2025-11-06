@@ -1,5 +1,5 @@
 import React, {useState, useMemo} from 'react';
-import type {LevelCap, RivalCap, Stats} from '@/types';
+import type {LevelCap, RivalCap, Stats, GameVersion, VariableRival, UserSettings} from '@/types';
 import {PLAYER1_COLOR, PLAYER2_COLOR, LEGENDARY_POKEMON_NAMES} from '@/constants';
 import {FiMinus, FiPlus, FiEdit, FiX, FiSave, FiEye, FiEyeOff, FiRefreshCw} from 'react-icons/fi';
 import {getSpriteUrlForGermanName} from '@/src/services/sprites';
@@ -21,25 +21,40 @@ interface InfoPanelProps {
     rivalCensorEnabled: boolean;
     onlegendaryIncrement: () => void;
     runStartedAt?: number;
+    gameVersion?: GameVersion;
+    rivalPreferences: UserSettings['rivalPreferences'];
 }
 
-const RivalImage: React.FC<{ name: string }> = ({name}) => {
-    const imageName = name.toLowerCase().replace(/ & /g, '_').replace(/ /g, '_').replace(/[^a-z0-9_]/g, '') + '.png';
-    const imagePath = `/rival-sprites/${imageName}`;
+const RivalImage: React.FC<{ rival: string | VariableRival, preferences: UserSettings['rivalPreferences'] }> = ({ rival, preferences }) => {
+    let spriteName: string;
+    let displayName: string;
+
+    if (typeof rival === 'string') {
+        spriteName = rival.toLowerCase().replace(/ & /g, '_').replace(/ /g, '_').replace(/[^a-z0-9_]/g, '');
+        displayName = rival;
+    } else {
+        const preference = preferences?.[rival.key] || 'male';
+        spriteName = rival.options[preference];
+        displayName = rival.name;
+    }
+
+    const imagePath = `/rival-sprites/${spriteName}.png`;
     return <img
         src={imagePath}
-        alt={name}
-        title={name}
+        alt={displayName}
+        title={displayName}
         className="w-8 h-8 object-contain mx-auto"
     />;
 };
 
-const getBadgeUrl = (arenaLabel: string, posIndex: number): string => {
+const getBadgeUrl = (arenaLabel: string, posIndex: number, badgeSet?: string, championSprite?: string): string => {
     const label = (arenaLabel || '').toLowerCase();
+    if (label.includes('champ')) return championSprite || '/champ-sprites/lauro.png'; // Fallback
     if (label.includes('top 4')) return '/badge-sprites/top_4.png';
-    if (label.includes('champ')) return '/champ-sprites/lilia.png';
+    const set = badgeSet || 'gen5/sw';
     const pos = Math.min(Math.max(posIndex + 1, 1), 8);
-    return `/badge-sprites/gen5/bw/${pos}.png`;
+    if (!set) return '/favicon.svg';
+    return `/badge-sprites/${set}/${pos}.png`;
 };
 
 const InfoPanel: React.FC<InfoPanelProps> = ({
@@ -58,6 +73,8 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                                  rivalCensorEnabled,
                                                  onlegendaryIncrement,
                                                  runStartedAt,
+                                                 gameVersion,
+                                                 rivalPreferences,
                                              }) => {
     const [isEditingRules, setIsEditingRules] = useState(false);
     const [draftRules, setDraftRules] = useState<string[]>(rules);
@@ -72,7 +89,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
 
     const doneArenas = levelCaps.filter(c => c.done).length;
     const doneRivals = rivalCaps.filter(r => r.done).length;
-    const totalMilestones = 10 + rivalCaps.length;
+    const totalMilestones = (levelCaps.length || 0) + (rivalCaps.length || 0);
     const completedMilestones = Math.min(doneArenas + doneRivals, totalMilestones);
     const progressPct = totalMilestones > 0 ? Math.round((completedMilestones / totalMilestones) * 100) : 0;
 
@@ -106,10 +123,16 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                 {(() => {
                                     const next = levelCaps.find((c) => !c.done);
                                     if (!next) return <span className="text-xl font-bold">Challenge geschafft!</span>;
+                                    const badgeUrl = getBadgeUrl(
+                                        next.arena,
+                                        Math.max(levelCaps.findIndex(c => c.id === next.id), 0),
+                                        gameVersion?.badgeSet,
+                                        gameVersion?.champion.sprite
+                                    );
                                     return (
                                         <div className="flex items-center justify-center gap-3">
                                             <img
-                                                src={getBadgeUrl(next.arena, Math.max(levelCaps.findIndex(c => c.id === next.id), 0))}
+                                                src={badgeUrl}
                                                 alt={`${next.arena} Badge`}
                                                 className="w-14 h-14 sm:w-16 sm:h-16 object-contain"
                                                 style={{imageRendering: 'inherit'}}/>
@@ -272,7 +295,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                                 </div>
                                             </td>
                                             <td>
-                                                <img src={getBadgeUrl(cap.arena, index)} alt={`${cap.arena} Badge`}
+                                                <img src={getBadgeUrl(cap.arena, index, gameVersion?.badgeSet, gameVersion?.champion.sprite)} alt={`${cap.arena} Badge`}
                                                      className="w-8 h-8 object-contain"/>
                                             </td>
                                             <td className="text-right pl-2 pr-3">
@@ -291,7 +314,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                  backfaceVisibility: 'hidden',
                                  transform: 'rotateY(180deg)'
                              }}>
-                            <div className="p-2 h-full overflow-y-auto space-y-1 custom-scrollbar">
+                            <div className="p-2 h-full overflow-y-auto space-y-1 overscroll-contain custom-scrollbar">
                                 {rivalCaps.map((rc, index) => (
                                     <div key={rc.id}>
                                         {rivalCensorEnabled && !rc.revealed ? (
@@ -315,14 +338,14 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                                     <input id={`rivalcap-done-${rc.id}`} type="checkbox"
                                                            checked={!!rc.done}
                                                            onChange={() => onRivalCapToggleDone(index)}
-                                                           aria-label={`Erledigt: ${rc.rival}`}
+                                                           aria-label={`Erledigt: ${typeof rc.rival === 'object' ? rc.rival.name : rc.rival}`}
                                                            className="h-5 w-5 accent-green-600 cursor-pointer flex-shrink-0"/>
                                                     <span
                                                         onClick={(e) => e.stopPropagation()}
                                                         className="text-sm text-gray-800 dark:text-gray-300 break-words">{rc.location}</span>
                                                 </div>
-                                                <div className="flex items-center justify-end flex-shrink-0">
-                                                    <RivalImage name={rc.rival}/>
+                                                <div className="flex items-center justify-end flex-shrink-0 px-3">
+                                                    <RivalImage rival={rc.rival} preferences={rivalPreferences}/>
                                                     <span
                                                         className="font-bold text-lg text-gray-800 dark:text-gray-200 w-10 text-center">{rc.level}</span>
                                                 </div>
