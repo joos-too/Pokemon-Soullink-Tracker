@@ -44,16 +44,43 @@ const RivalImage: React.FC<{ rival: string | VariableRival, preferences: UserSet
         alt={displayName}
         title={displayName}
         className="w-8 h-8 object-contain mx-auto"
+        style={{ imageRendering: 'pixelated' }}
     />;
 };
 
-const getBadgeUrl = (arenaLabel: string, posIndex: number, badgeSet?: string, championSprite?: string): string => {
-    const label = (arenaLabel || '').toLowerCase();
-    if (label.includes('champ')) return championSprite || '/champ-sprites/lauro.png'; // Fallback
-    if (label.includes('top 4')) return '/badge-sprites/top_4.png';
-    const set = badgeSet || 'gen5/sw';
+const getBadgeUrl = (arenaLabel: string, posIndex: number, badgeSet?: string, _championSprite?: string): string => {
+    const sanitize = (s: string) => s
+        .toLowerCase()
+        .replace(/ \& /g, '_')
+        .replace(/ /g, '_')
+        .replace(/[^a-z0-9_]/g, '');
+
+    const raw = arenaLabel || '';
+    const label = raw.toLowerCase();
+
+    if (label.includes('top 4')) {
+        const parts = raw.split('|');
+        const name = parts[1]?.trim();
+        if (name && name.length > 0) {
+            const sprite = sanitize(name);
+            return `/elite4-sprites/${sprite}.png`;
+        }
+    }
+
+    if (label.includes('champ')) {
+        const parts = raw.split('|');
+        const name = parts[1]?.trim();
+        if (name && name.length > 0) {
+            const sprite = sanitize(name);
+            return `/champ-sprites/${sprite}.png`;
+        }
+        const set = badgeSet;
+        const pos = 8;
+        return `/badge-sprites/${set}/${pos}.png`;
+    }
+
+    const set = badgeSet;
     const pos = Math.min(Math.max(posIndex + 1, 1), 8);
-    if (!set) return '/favicon.svg';
     return `/badge-sprites/${set}/${pos}.png`;
 };
 
@@ -127,17 +154,20 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                         next.arena,
                                         Math.max(levelCaps.findIndex(c => c.id === next.id), 0),
                                         gameVersion?.badgeSet,
-                                        gameVersion?.champion.sprite
                                     );
                                     return (
-                                        <div className="flex items-center justify-center gap-3">
+                                        <div className="flex items-center justify-center px-3">
                                             <img
                                                 src={badgeUrl}
                                                 alt={`${next.arena} Badge`}
                                                 className="w-14 h-14 sm:w-16 sm:h-16 object-contain"
-                                                style={{imageRendering: 'inherit'}}/>
+                                                style={{ imageRendering: next.arena.toLowerCase().includes('arena') && !next.arena.toLowerCase().includes('top 4') && !next.arena.toLowerCase().includes('champ') ? 'inherit' : 'pixelated' }}
+                                            />
                                             <div className="flex flex-col items-center">
-                                                <div>Als Nächstes: <strong>{next.arena}</strong></div>
+                                                <div className="flex flex-wrap justify-center items-baseline gap-x-1">
+                                                    <span>Als Nächstes:</span>
+                                                    <strong>{next.arena}</strong>
+                                                </div>
                                                 <div>Level Cap: <strong>{next.level}</strong></div>
                                             </div>
                                         </div>
@@ -266,50 +296,41 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                         </button>
                     </div>
 
-                    <div className={`relative flex-grow transition-transform duration-700`}
+                    <div className={`relative flex-grow min-h-0 transition-transform duration-700`}
                          style={{
                              transformStyle: 'preserve-3d',
                              transform: showRivalCaps ? 'rotateY(180deg)' : 'rotateY(0deg)'
                          }}>
-                        <div className="absolute w-full h-full"
+                        <div className={`absolute w-full h-full ${showRivalCaps ? 'pointer-events-none' : 'pointer-events-auto'}`}
                              style={{
                                  backfaceVisibility: 'hidden',
                                  transform: 'rotateY(0deg)'
                              }}>
-                            <div className="h-full overflow-y-auto">
-                                <table className="w-full h-full flex flex-col">
-                                    <tbody
-                                        className="flex-grow flex flex-col divide-y divide-gray-200 dark:divide-gray-700">
-                                    {levelCaps.map((cap, index) => (
-                                        <tr key={cap.id}
-                                            className={`flex flex-grow items-center ${cap.done ? 'bg-green-100 dark:bg-green-900/50' : ''}`}>
-                                            <td className="px-2 text-xs font-bold text-gray-800 dark:text-gray-300 text-left select-none w-[70%]">
-                                                <div className="flex items-center gap-2">
-                                                    <input id={`levelcap-done-${cap.id}`} type="checkbox"
-                                                           checked={!!cap.done}
-                                                           onChange={() => onLevelCapToggle(index)}
-                                                           aria-label={`Erledigt: ${cap.arena}`}
-                                                           className={`${!cap.done && !(index === 0 || levelCaps[index - 1]?.done)} h-5 w-5 accent-green-600 cursor-pointer`}/>
-                                                    <label htmlFor={`levelcap-done-${cap.id}`}
-                                                           className="px-0.75 cursor-pointer">{cap.arena}</label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <img src={getBadgeUrl(cap.arena, index, gameVersion?.badgeSet, gameVersion?.champion.sprite)} alt={`${cap.arena} Badge`}
-                                                     className="w-8 h-8 object-contain"/>
-                                            </td>
-                                            <td className="text-right pl-2 pr-3">
-                                                <span
-                                                    className="font-bold text-lg text-gray-800 dark:text-gray-200">{cap.level}</span>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                    </tbody>
-                                </table>
+                            <div className="p-2 h-full overflow-y-auto space-y-1 overscroll-contain custom-scrollbar">
+                                {levelCaps.map((cap, index) => (
+                                    <div key={cap.id}
+                                         className={`flex items-center justify-between px-2 py-1.5 border rounded-md ${cap.done ? 'bg-green-100 dark:bg-green-900/50 border-green-200 dark:border-green-800' : 'bg-gray-50 dark:bg-gray-700/50 border-gray-200 dark:border-gray-600'}`}>
+                                        <div className="flex items-center gap-3 flex-grow min-w-0">
+                                            <input id={`levelcap-done-${cap.id}`} type="checkbox"
+                                                   checked={!!cap.done}
+                                                   onChange={() => onLevelCapToggle(index)}
+                                                   aria-label={`Erledigt: ${cap.arena}`}
+                                                   className="h-5 w-5 accent-green-600 cursor-pointer flex-shrink-0"/>
+                                            <span className="text-sm text-gray-800 dark:text-gray-300 break-words">{cap.arena}</span>
+                                        </div>
+                                        <div className="flex items-center justify-end flex-shrink-0 px-3">
+                                            <img src={getBadgeUrl(cap.arena, index, gameVersion?.badgeSet)} alt={`${cap.arena} Badge`}
+                                                 className="w-8 h-8 object-contain"
+                                                 style={{ imageRendering: cap.arena.toLowerCase().includes('arena') && !cap.arena.toLowerCase().includes('top 4') && !cap.arena.toLowerCase().includes('champ') ? 'inherit' : 'pixelated' }}
+                                            />
+                                            <span className="font-bold text-lg text-gray-800 dark:text-gray-200 w-10 text-center">{cap.level}</span>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
                         </div>
 
-                        <div className="absolute w-full h-full"
+                        <div className={`absolute w-full h-full ${showRivalCaps ? 'pointer-events-auto' : 'pointer-events-none'}`}
                              style={{
                                  backfaceVisibility: 'hidden',
                                  transform: 'rotateY(180deg)'
