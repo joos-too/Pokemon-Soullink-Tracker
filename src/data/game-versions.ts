@@ -375,8 +375,8 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
             {id: 10, arena: 'Champ', level: '52/50'},
         ],
         rivalCaps: [
-            {id: 1, location: 'Route 2', rival: 'Bell', level: '7/6'},
-            {id: 2, location: 'Gavina', rival: 'N', level: '7/7'},
+            {id: 1, location: 'Gavina', rival: 'N', level: '7/7'},
+            {id: 2, location: 'Route 2', rival: 'Bell', level: '7/6'},
             {id: 3, location: 'Orion City', rival: 'Cheren', level: '8/8'},
             {id: 4, location: 'Septerna City', rival: 'N', level: '13/13'},
             {id: 5, location: 'Route 3', rival: 'Cheren', level: '14/12'},
