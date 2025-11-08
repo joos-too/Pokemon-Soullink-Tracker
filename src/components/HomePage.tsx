@@ -159,8 +159,8 @@ const HomePage: React.FC<HomePageProps> = ({
                                                     </div>
                                                     <div
                                                         className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/40 p-3 text-center">
-                                                        <p className="text-[0.65rem] uppercase tracking-[0.3em] text-gray-500">Fortschritt</p>
-                                                        <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">{progressLabel}</p>
+                                                        <p className="text-[0.65rem] uppercase tracking-[0.3em] text-gray-500 break-words break-all whitespace-normal leading-tight">Fortschritt</p>
+                                                        <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 break-words break-all whitespace-normal leading-snug">{progressLabel}</p>
                                                     </div>
                                                     <div
                                                         className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/40 p-3 text-center">
