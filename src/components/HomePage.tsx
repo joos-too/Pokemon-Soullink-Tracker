@@ -124,7 +124,7 @@ const HomePage: React.FC<HomePageProps> = ({
                                                 onOpenTracker(tracker.id);
                                             }
                                         }}
-                                        className={`rounded-lg border px-4 py-5 shadow-sm transition cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#f0f0f0] dark:focus-visible:ring-offset-transparent ${
+                                        className={`rounded-lg border px-4 py-5 shadow-sm transition cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#f0f0f0] dark:focus-visible:ring-offset-transparent hover:transform hover:scale-[1.02] hover:shadow-md ${
                                             isActive
                                                 ? 'border-green-500 bg-green-50/70 dark:border-green-500 dark:bg-green-900/10'
                                                 : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900'
@@ -150,28 +150,28 @@ const HomePage: React.FC<HomePageProps> = ({
                                             </div>
                                             <div
                                                 className="flex flex-col gap-4">
-                                                <div
-                                                    className="grid grid-cols-2 md:grid-cols-4 gap-3 w-full">
-                                                    <div
-                                                        className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/40 p-3 text-center">
-                                                        <p className="text-[0.65rem] uppercase tracking-[0.3em] text-gray-500">Run</p>
-                                                        <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">{runNumber}</p>
+                                                <div className="grid grid-cols-4 gap-3 w-full">
+                                                    {/* Progress field (takes 2 columns) */}
+                                                    <div className="col-span-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/40 p-3">
+                                                        <div className="flex justify-between items-center mb-1">
+                                                            <p className="text-[0.65rem] uppercase tracking-[0.3em] text-gray-500">Fortschritt</p>
+                                                            <p className="text-[0.65rem] uppercase tracking-[0.3em] text-gray-500">Run {runNumber}</p>
+                                                        </div>
+                                                        <div className="relative group">
+                                                            <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">{progressLabel}</p>
+                                                            <div className="absolute left-0 top-full mt-1 hidden group-hover:block z-10 bg-white dark:bg-gray-800 p-2 rounded-md shadow-lg border border-gray-200 dark:border-gray-700 max-w-[200px] text-xs">
+                                                                {progressLabel}
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div
-                                                        className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/40 p-3 text-center">
-                                                        <p className="text-[0.65rem] uppercase tracking-[0.3em] text-gray-500 break-words break-all whitespace-normal leading-tight">Fortschritt</p>
-                                                        <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 break-words break-all whitespace-normal leading-snug">{progressLabel}</p>
-                                                    </div>
-                                                    <div
-                                                        className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/40 p-3 text-center">
-                                                        <p className="text-[0.65rem] uppercase tracking-[0.3em] text-gray-500">Links
-                                                            aktiv</p>
+
+                                                    {/* Stats fields (1 column each) */}
+                                                    <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/40 p-3 text-center">
+                                                        <p className="text-[0.65rem] uppercase tracking-[0.3em] text-gray-500 whitespace-nowrap">Aktiv</p>
                                                         <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">{activePokemon}</p>
                                                     </div>
-                                                    <div
-                                                        className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/40 p-3 text-center">
-                                                        <p className="text-[0.65rem] uppercase tracking-[0.3em] text-gray-500">Links
-                                                            tot</p>
+                                                    <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/40 p-3 text-center">
+                                                        <p className="text-[0.65rem] uppercase tracking-[0.3em] text-gray-500 whitespace-nowrap">Tot</p>
                                                         <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">{deadPokemon}</p>
                                                     </div>
                                                 </div>

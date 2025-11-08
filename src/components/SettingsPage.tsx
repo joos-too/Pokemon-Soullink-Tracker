@@ -119,14 +119,36 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
         return option.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
     };
 
-    const removalModalTitle = pendingRemovalIsSelf ? 'Tracker verlassen?' : 'Mitglied entfernen?';
-
     return (
         <div className="bg-[#f0f0f0] dark:bg-gray-900 min-h-screen flex items-center justify-center p-4">
             <div className="w-full max-w-2xl mx-auto bg-white dark:bg-gray-800 shadow-lg p-6 rounded-lg">
                 <header className="pb-4 border-b border-gray-200 dark:border-gray-700">
-                    <p className="text-xs uppercase tracking-[0.3em] text-green-600">Tracker</p>
-                    <h1 className="text-2xl font-bold font-press-start dark:text-gray-100 mt-2">Einstellungen</h1>
+                    <div className="flex justify-between items-center">
+                        <div>
+                            <p className="text-xs uppercase tracking-[0.3em] text-green-600">Tracker</p>
+                            <h1 className="text-2xl font-bold font-press-start dark:text-gray-100 mt-2">Einstellungen</h1>
+                        </div>
+                        {canManageMembers ? (
+                            <button
+                                type="button"
+                                onClick={onRequestDeleteTracker}
+                                className="text-red-600 hover:text-red-800 p-2"
+                                title="Tracker löschen"
+                            >
+                                <FiTrash2 size={24} />
+                            </button>
+                        ) : currentMember ? (
+                            <button
+                                type="button"
+                                onClick={() => setMemberPendingRemoval(currentMember)}
+                                disabled={removingMemberId === currentMember.uid}
+                                className="text-red-600 hover:text-red-800 p-2 disabled:opacity-60"
+                                title="Tracker verlassen"
+                            >
+                                <FiLogOut size={24} />
+                            </button>
+                        ) : null}
+                    </div>
                 </header>
 
                 <main className="mt-6 space-y-8">
@@ -326,43 +348,6 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                             </form>
                         )}
                     </section>
-                    <section className="pt-6 border-t border-gray-200 dark:border-gray-700">
-                        <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-gray-500 mb-4">Tracker verwalten</h2>
-                        {canManageMembers ? (
-                            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                                <p className="text-sm text-gray-600 dark:text-gray-300">
-                                    Nur Owner können den Tracker vollständig löschen. Dies entfernt alle Daten für alle Mitglieder.
-                                </p>
-                                <button
-                                    type="button"
-                                    onClick={onRequestDeleteTracker}
-                                    className="inline-flex items-center justify-center gap-2 rounded-md border border-red-200 dark:border-red-700 px-4 py-2 text-sm font-semibold text-red-700 dark:text-red-200 hover:bg-red-50 dark:hover:bg-red-900/30"
-                                >
-                                    <FiTrash2/>
-                                    Tracker löschen
-                                </button>
-                            </div>
-                        ) : currentMember ? (
-                            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                                <p className="text-sm text-gray-600 dark:text-gray-300">
-                                    Du kannst diesen Tracker verlassen. Deine bisherigen Daten bleiben für die anderen Teilnehmer sichtbar.
-                                </p>
-                                <button
-                                    type="button"
-                                    onClick={() => setMemberPendingRemoval(currentMember)}
-                                    disabled={removingMemberId === currentMember.uid}
-                                    className="inline-flex items-center justify-center gap-2 rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700 disabled:opacity-60"
-                                >
-                                    <FiLogOut/>
-                                    Tracker verlassen
-                                </button>
-                            </div>
-                        ) : (
-                            <p className="text-sm text-gray-600 dark:text-gray-300">
-                                Du hast keine Berechtigung, diesen Tracker zu verwalten.
-                            </p>
-                        )}
-                    </section>
                 </main>
 
                 <footer className="mt-8 text-center">
@@ -375,30 +360,60 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                 </footer>
             </div>
             {memberPendingRemoval && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
-                    <div className="w-full max-w-sm rounded-lg bg-white dark:bg-gray-800 p-6 shadow-xl">
-                        <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">{removalModalTitle}</h3>
-                        <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                            {pendingRemovalIsSelf ? (
-                                <>
-                                    Möchtest du den Tracker <span className="font-semibold">"{trackerTitle}"</span> wirklich
-                                    verlassen? Du verlierst sofort den Zugriff und musst erneut eingeladen werden.
-                                </>
-                            ) : (
-                                <>
-                                    Möchtest du <span className="font-semibold">{memberPendingRemoval.email}</span> dauerhaft aus
-                                    diesem Tracker entfernen? Die Person verliert sofort den Zugriff.
-                                </>
-                            )}
-                        </p>
-                        {memberActionError && (
-                            <p className="mt-3 text-sm text-red-600 dark:text-red-400">{memberActionError}</p>
-                        )}
-                        <div className="mt-6 flex justify-end gap-3">
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
+                    <div className="w-full max-w-md rounded-xl bg-white dark:bg-gray-800 shadow-2xl border border-gray-200 dark:border-gray-700">
+                        <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 px-5 py-4">
+                            <div>
+                                <p className="text-xs uppercase tracking-[0.3em] text-red-500">
+                                    {pendingRemovalIsSelf ? 'Tracker verlassen' : 'Mitglied entfernen'}
+                                </p>
+                                <h2 className="text-xl font-semibold mt-1 text-gray-900 dark:text-gray-100">
+                                    {pendingRemovalIsSelf ? trackerTitle : memberPendingRemoval.email}
+                                </h2>
+                            </div>
                             <button
                                 type="button"
                                 onClick={handleCancelRemoveMember}
-                                className="rounded-md border border-gray-300 dark:border-gray-600 px-4 py-2 text-sm font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700"
+                                className="rounded-full p-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                                aria-label="Schließen"
+                                disabled={removingMemberId === memberPendingRemoval.uid}
+                            >
+                                <FiX size={20} />
+                            </button>
+                        </div>
+
+                        <div className="px-5 py-6 space-y-4">
+                            <div className="rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 px-4 py-3 text-sm text-red-900 dark:text-red-100">
+                                {pendingRemovalIsSelf ? (
+                                    <>Möchtest du diesen Tracker wirklich verlassen?</>
+                                ) : (
+                                    <>Möchtest du dieses Mitglied wirklich entfernen?</>
+                                )}
+                            </div>
+                            <p className="text-sm text-gray-600 dark:text-gray-300">
+                                {pendingRemovalIsSelf ? (
+                                    <>
+                                        Du verlierst sofort den Zugriff auf den Tracker und musst erneut eingeladen werden, um wieder teilnehmen zu können.
+                                    </>
+                                ) : (
+                                    <>
+                                        Die Person verliert sofort den Zugriff auf diesen Tracker und muss erneut eingeladen werden.
+                                    </>
+                                )}
+                            </p>
+                            {memberActionError && (
+                                <div className="rounded-md bg-red-50 dark:bg-red-900/40 border border-red-200 dark:border-red-700 px-3 py-2 text-sm text-red-700 dark:text-red-200">
+                                    {memberActionError}
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="flex flex-col gap-2 sm:flex-row sm:justify-end border-t border-gray-200 dark:border-gray-700 px-5 py-4">
+                            <button
+                                type="button"
+                                onClick={handleCancelRemoveMember}
+                                disabled={removingMemberId === memberPendingRemoval.uid}
+                                className="inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-600 px-4 py-2 text-sm font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-60"
                             >
                                 Abbrechen
                             </button>
@@ -406,9 +421,10 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                                 type="button"
                                 onClick={handleConfirmRemoveMember}
                                 disabled={removingMemberId === memberPendingRemoval.uid}
-                                className="rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700 disabled:opacity-60"
+                                className="inline-flex items-center justify-center gap-2 rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500 disabled:opacity-60"
                             >
-                                Entfernen
+                                {pendingRemovalIsSelf ? <FiLogOut /> : <FiX />}
+                                {removingMemberId === memberPendingRemoval.uid ? 'Wird bearbeitet…' : (pendingRemovalIsSelf ? 'Tracker verlassen' : 'Mitglied entfernen')}
                             </button>
                         </div>
                     </div>
