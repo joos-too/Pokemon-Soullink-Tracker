@@ -1,5 +1,5 @@
 import React from 'react';
-import {FiLogOut, FiPlus, FiUsers, FiArrowRightCircle, FiTrash2} from 'react-icons/fi';
+import {FiLogOut, FiPlus, FiUsers} from 'react-icons/fi';
 import DarkModeToggle from '@/src/components/DarkModeToggle';
 import type {TrackerMeta, TrackerSummary} from '@/types';
 import GameVersionBadge from './GameVersionBadge';
@@ -12,7 +12,6 @@ interface HomePageProps {
     isLoading: boolean;
     activeTrackerId: string | null;
     userEmail?: string | null;
-    onDeleteTracker: (trackerId: string) => void;
     currentUserId?: string | null;
     trackerSummaries: Record<string, TrackerSummary | undefined>;
 }
@@ -24,8 +23,6 @@ const HomePage: React.FC<HomePageProps> = ({
                                                onCreateTracker,
                                                isLoading,
                                                activeTrackerId,
-                                               onDeleteTracker,
-                                               currentUserId,
                                                trackerSummaries,
                                            }) => {
     const sortedTrackers = [...trackers].sort((a, b) => b.createdAt - a.createdAt);
@@ -110,7 +107,6 @@ const HomePage: React.FC<HomePageProps> = ({
                             {sortedTrackers.map((tracker) => {
                                 const memberCount = Object.keys(tracker.members ?? {}).length;
                                 const isActive = tracker.id === activeTrackerId;
-                                const isOwner = Boolean(currentUserId && tracker.members?.[currentUserId]?.role === 'owner');
                                 const summary = trackerSummaries[tracker.id];
                                 const activePokemon = (summary?.teamCount ?? 0) + (summary?.boxCount ?? 0);
                                 const deadPokemon = summary?.deathCount ?? 0;
@@ -119,7 +115,16 @@ const HomePage: React.FC<HomePageProps> = ({
                                 return (
                                     <div
                                         key={tracker.id}
-                                        className={`rounded-lg border px-4 py-5 shadow-sm transition ${
+                                        role="button"
+                                        tabIndex={0}
+                                        onClick={() => onOpenTracker(tracker.id)}
+                                        onKeyDown={(event) => {
+                                            if (event.key === 'Enter' || event.key === ' ') {
+                                                event.preventDefault();
+                                                onOpenTracker(tracker.id);
+                                            }
+                                        }}
+                                        className={`rounded-lg border px-4 py-5 shadow-sm transition cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#f0f0f0] dark:focus-visible:ring-offset-transparent hover:transform hover:scale-[1.02] hover:shadow-md ${
                                             isActive
                                                 ? 'border-green-500 bg-green-50/70 dark:border-green-500 dark:bg-green-900/10'
                                                 : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900'
@@ -144,52 +149,31 @@ const HomePage: React.FC<HomePageProps> = ({
                                                 </p>
                                             </div>
                                             <div
-                                                className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-                                                <div
-                                                    className="grid grid-cols-2 gap-3 w-full md:w-auto md:min-w-[260px]">
-                                                    <div
-                                                        className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/40 p-3 text-center">
-                                                        <p className="text-[0.65rem] uppercase tracking-[0.3em] text-gray-500">Run</p>
-                                                        <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">{runNumber}</p>
+                                                className="flex flex-col gap-4">
+                                                <div className="grid grid-cols-4 gap-3 w-full">
+                                                    {/* Progress field (takes 2 columns) */}
+                                                    <div className="col-span-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/40 p-3">
+                                                        <div className="flex justify-between items-center mb-1">
+                                                            <p className="text-[0.65rem] uppercase tracking-[0.3em] text-gray-500">Fortschritt</p>
+                                                            <p className="text-[0.65rem] uppercase tracking-[0.3em] text-gray-500">Run {runNumber}</p>
+                                                        </div>
+                                                        <div className="relative group">
+                                                            <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">{progressLabel}</p>
+                                                            <div className="absolute left-0 top-full mt-1 hidden group-hover:block z-10 bg-white dark:bg-gray-800 p-2 rounded-md shadow-lg border border-gray-200 dark:border-gray-700 max-w-[200px] text-xs">
+                                                                {progressLabel}
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div
-                                                        className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/40 p-3 text-center">
-                                                        <p className="text-[0.65rem] uppercase tracking-[0.3em] text-gray-500">Fortschritt</p>
-                                                        <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">{progressLabel}</p>
-                                                    </div>
-                                                    <div
-                                                        className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/40 p-3 text-center">
-                                                        <p className="text-[0.65rem] uppercase tracking-[0.3em] text-gray-500">Links
-                                                            aktiv</p>
+
+                                                    {/* Stats fields (1 column each) */}
+                                                    <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/40 p-3 text-center">
+                                                        <p className="text-[0.65rem] uppercase tracking-[0.3em] text-gray-500 whitespace-nowrap">Aktiv</p>
                                                         <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">{activePokemon}</p>
                                                     </div>
-                                                    <div
-                                                        className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/40 p-3 text-center">
-                                                        <p className="text-[0.65rem] uppercase tracking-[0.3em] text-gray-500">Links
-                                                            tot</p>
+                                                    <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/40 p-3 text-center">
+                                                        <p className="text-[0.65rem] uppercase tracking-[0.3em] text-gray-500 whitespace-nowrap">Tot</p>
                                                         <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">{deadPokemon}</p>
                                                     </div>
-                                                </div>
-                                                <div
-                                                    className="flex flex-col gap-2 self-end md:items-end w-full md:w-auto md:min-w-[170px]">
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => onOpenTracker(tracker.id)}
-                                                        className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-500"
-                                                    >
-                                                        Öffnen
-                                                        <FiArrowRightCircle/>
-                                                    </button>
-                                                    {isOwner && (
-                                                        <button
-                                                            type="button"
-                                                            onClick={() => onDeleteTracker(tracker.id)}
-                                                            className="inline-flex w-full items-center justify-center gap-2 rounded-md border border-red-200 dark:border-red-700 px-3 py-2 text-sm font-semibold text-red-700 dark:text-red-200 hover:bg-red-50 dark:hover:bg-red-900/30"
-                                                        >
-                                                            <FiTrash2/>
-                                                            Löschen
-                                                        </button>
-                                                    )}
                                                 </div>
                                             </div>
                                         </div>

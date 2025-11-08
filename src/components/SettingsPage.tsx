@@ -1,7 +1,7 @@
 import React, {useState, useMemo} from 'react';
 import {PLAYER1_COLOR, PLAYER2_COLOR} from '@/constants';
 import type {TrackerMember, GameVersion, VariableRival, UserSettings, RivalGender} from '@/types';
-import {FiShield, FiUserPlus} from 'react-icons/fi';
+import {FiShield, FiUserPlus, FiX, FiTrash2, FiLogOut} from 'react-icons/fi';
 
 interface SettingsPageProps {
     trackerTitle: string;
@@ -16,8 +16,11 @@ interface SettingsPageProps {
     onRivalCensorToggle: (enabled: boolean) => void;
     members: TrackerMember[];
     onInviteMember: (email: string) => Promise<void>;
+    onRemoveMember: (memberUid: string) => Promise<void>;
+    onRequestDeleteTracker: () => void;
     canManageMembers: boolean;
     currentUserEmail?: string | null;
+    currentUserId?: string | null;
     gameVersion?: GameVersion;
     rivalPreferences?: UserSettings['rivalPreferences'];
     onRivalPreferenceChange: (key: string, gender: RivalGender) => void;
@@ -34,10 +37,13 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                                                        onlegendaryTrackerToggle,
                                                        rivalCensorEnabled,
                                                        onRivalCensorToggle,
-                                                       members,
-                                                       onInviteMember,
-                                                       canManageMembers,
-                                                       currentUserEmail,
+    members,
+    onInviteMember,
+    onRemoveMember,
+    onRequestDeleteTracker,
+    canManageMembers,
+    currentUserEmail,
+    currentUserId,
                                                        gameVersion,
                                                        rivalPreferences,
                                                        onRivalPreferenceChange,
@@ -46,6 +52,9 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
     const [inviteMessage, setInviteMessage] = useState<string | null>(null);
     const [inviteError, setInviteError] = useState<string | null>(null);
     const [inviteLoading, setInviteLoading] = useState(false);
+    const [memberActionError, setMemberActionError] = useState<string | null>(null);
+    const [removingMemberId, setRemovingMemberId] = useState<string | null>(null);
+    const [memberPendingRemoval, setMemberPendingRemoval] = useState<TrackerMember | null>(null);
 
     const variableRivals = useMemo(() => {
         if (!gameVersion) return [];
@@ -77,10 +86,34 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
         }
     };
 
+    const handleConfirmRemoveMember = async () => {
+        if (!memberPendingRemoval) return;
+        setMemberActionError(null);
+        setRemovingMemberId(memberPendingRemoval.uid);
+        try {
+            await onRemoveMember(memberPendingRemoval.uid);
+            setMemberPendingRemoval(null);
+        } catch (error) {
+            const message = error instanceof Error ? error.message : 'Mitglied konnte nicht entfernt werden.';
+            setMemberActionError(message);
+        } finally {
+            setRemovingMemberId(null);
+        }
+    };
+
+    const handleCancelRemoveMember = () => {
+        if (removingMemberId) return;
+        setMemberPendingRemoval(null);
+        setMemberActionError(null);
+    };
+
     const sortedMembers = [...members].sort((a, b) => {
         if (a.role === b.role) return a.email.localeCompare(b.email);
         return a.role === 'owner' ? -1 : 1;
     });
+
+    const currentMember = currentUserId ? members.find((member) => member.uid === currentUserId) : undefined;
+    const pendingRemovalIsSelf = memberPendingRemoval && memberPendingRemoval.uid === currentUserId;
 
     const getRivalNameFromOption = (option: string): string => {
         return option.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
@@ -90,8 +123,32 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
         <div className="bg-[#f0f0f0] dark:bg-gray-900 min-h-screen flex items-center justify-center p-4">
             <div className="w-full max-w-2xl mx-auto bg-white dark:bg-gray-800 shadow-lg p-6 rounded-lg">
                 <header className="pb-4 border-b border-gray-200 dark:border-gray-700">
-                    <p className="text-xs uppercase tracking-[0.3em] text-green-600">Tracker</p>
-                    <h1 className="text-2xl font-bold font-press-start dark:text-gray-100 mt-2">Einstellungen</h1>
+                    <div className="flex justify-between items-center">
+                        <div>
+                            <p className="text-xs uppercase tracking-[0.3em] text-green-600">Tracker</p>
+                            <h1 className="text-2xl font-bold font-press-start dark:text-gray-100 mt-2">Einstellungen</h1>
+                        </div>
+                        {canManageMembers ? (
+                            <button
+                                type="button"
+                                onClick={onRequestDeleteTracker}
+                                className="text-red-600 hover:text-red-800 p-2"
+                                title="Tracker löschen"
+                            >
+                                <FiTrash2 size={24} />
+                            </button>
+                        ) : currentMember ? (
+                            <button
+                                type="button"
+                                onClick={() => setMemberPendingRemoval(currentMember)}
+                                disabled={removingMemberId === currentMember.uid}
+                                className="text-red-600 hover:text-red-800 p-2 disabled:opacity-60"
+                                title="Tracker verlassen"
+                            >
+                                <FiLogOut size={24} />
+                            </button>
+                        ) : null}
+                    </div>
                 </header>
 
                 <main className="mt-6 space-y-8">
@@ -223,11 +280,21 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                                 <li key={member.uid}
                                     className="flex items-center justify-between rounded-md border border-gray-200 dark:border-gray-700 px-3 py-2">
                                     <div>
-                                        <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">
-                                            {member.email}
+                                        <div className="flex flex-wrap items-center gap-2 text-sm font-semibold text-gray-900 dark:text-gray-100">
+                                            <span>{member.email}</span>
                                             {currentUserEmail && member.email === currentUserEmail &&
-                                                <span className="ml-2 text-xs text-green-600">(Du)</span>}
-                                        </p>
+                                                <span className="text-xs text-green-600">(Du)</span>}
+                                            {canManageMembers && member.role !== 'owner' && member.email !== currentUserEmail && (
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setMemberPendingRemoval(member)}
+                                                    className="text-xs text-red-600 hover:text-red-800 flex items-center gap-1"
+                                                    aria-label={`${member.email} entfernen`}
+                                                >
+                                                    <FiX size={14} />
+                                                </button>
+                                            )}
+                                        </div>
                                         <p className="text-xs text-gray-500">
                                             {member.addedAt ? new Date(member.addedAt).toLocaleDateString() : 'Datum unbekannt'}
                                         </p>
@@ -247,6 +314,9 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                                 <li className="text-sm text-gray-500 dark:text-gray-400">Keine Mitglieder gefunden.</li>
                             )}
                         </ul>
+                        {memberActionError && (
+                            <p className="text-sm text-red-600 dark:text-red-400 mb-4">{memberActionError}</p>
+                        )}
 
                         {canManageMembers && (
                             <form onSubmit={handleInvite}
@@ -289,6 +359,77 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                     </button>
                 </footer>
             </div>
+            {memberPendingRemoval && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
+                    <div className="w-full max-w-md rounded-xl bg-white dark:bg-gray-800 shadow-2xl border border-gray-200 dark:border-gray-700">
+                        <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 px-5 py-4">
+                            <div>
+                                <p className="text-xs uppercase tracking-[0.3em] text-red-500">
+                                    {pendingRemovalIsSelf ? 'Tracker verlassen' : 'Mitglied entfernen'}
+                                </p>
+                                <h2 className="text-xl font-semibold mt-1 text-gray-900 dark:text-gray-100">
+                                    {pendingRemovalIsSelf ? trackerTitle : memberPendingRemoval.email}
+                                </h2>
+                            </div>
+                            <button
+                                type="button"
+                                onClick={handleCancelRemoveMember}
+                                className="rounded-full p-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                                aria-label="Schließen"
+                                disabled={removingMemberId === memberPendingRemoval.uid}
+                            >
+                                <FiX size={20} />
+                            </button>
+                        </div>
+
+                        <div className="px-5 py-6 space-y-4">
+                            <div className="rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 px-4 py-3 text-sm text-red-900 dark:text-red-100">
+                                {pendingRemovalIsSelf ? (
+                                    <>Möchtest du diesen Tracker wirklich verlassen?</>
+                                ) : (
+                                    <>Möchtest du dieses Mitglied wirklich entfernen?</>
+                                )}
+                            </div>
+                            <p className="text-sm text-gray-600 dark:text-gray-300">
+                                {pendingRemovalIsSelf ? (
+                                    <>
+                                        Du verlierst sofort den Zugriff auf den Tracker und musst erneut eingeladen werden, um wieder teilnehmen zu können.
+                                    </>
+                                ) : (
+                                    <>
+                                        Die Person verliert sofort den Zugriff auf diesen Tracker und muss erneut eingeladen werden.
+                                    </>
+                                )}
+                            </p>
+                            {memberActionError && (
+                                <div className="rounded-md bg-red-50 dark:bg-red-900/40 border border-red-200 dark:border-red-700 px-3 py-2 text-sm text-red-700 dark:text-red-200">
+                                    {memberActionError}
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="flex flex-col gap-2 sm:flex-row sm:justify-end border-t border-gray-200 dark:border-gray-700 px-5 py-4">
+                            <button
+                                type="button"
+                                onClick={handleCancelRemoveMember}
+                                disabled={removingMemberId === memberPendingRemoval.uid}
+                                className="inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-600 px-4 py-2 text-sm font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-60"
+                            >
+                                Abbrechen
+                            </button>
+                            <button
+                                type="button"
+                                onClick={handleConfirmRemoveMember}
+                                disabled={removingMemberId === memberPendingRemoval.uid}
+                                className="inline-flex items-center justify-center gap-2 rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500 disabled:opacity-60"
+                            >
+                                {pendingRemovalIsSelf ? <FiLogOut /> : <FiX />}
+                                {removingMemberId === memberPendingRemoval.uid ? 'Wird bearbeitet…' : (pendingRemovalIsSelf ? 'Tracker verlassen' : 'Mitglied entfernen')}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

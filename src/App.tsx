@@ -22,7 +22,7 @@ import {db, auth} from '@/src/firebaseConfig';
 import {ref, onValue, set, get, update} from "firebase/database";
 import {onAuthStateChanged, User, signOut} from "firebase/auth";
 import { initPokemonGermanNamesBackgroundRefresh } from '@/src/services/pokemonSearch';
-import {addMemberByEmail, createTracker, deleteTracker, ensureUserProfile, TrackerOperationError, updateRivalPreference} from '@/src/services/trackers';
+import {addMemberByEmail, createTracker, deleteTracker, ensureUserProfile, removeMemberFromTracker, TrackerOperationError, updateRivalPreference} from '@/src/services/trackers';
 import { GAME_VERSIONS } from '@/src/data/game-versions';
 
 const LAST_TRACKER_STORAGE_KEY = 'soullink:lastTrackerId';
@@ -864,6 +864,29 @@ const App: React.FC = () => {
         }
     }, [activeTrackerId]);
 
+    const handleRemoveMember = useCallback(async (memberUid: string) => {
+        if (!activeTrackerId) {
+            throw new Error('Kein aktiver Tracker ausgewählt.');
+        }
+        try {
+            await removeMemberFromTracker(activeTrackerId, memberUid);
+            if (user && memberUid === user.uid) {
+                setShowSettings(false);
+                setActiveTrackerId(null);
+                setData(createInitialState());
+                if (typeof window !== 'undefined') {
+                    window.localStorage.removeItem(LAST_TRACKER_STORAGE_KEY);
+                }
+                navigate('/');
+            }
+        } catch (error) {
+            if (error instanceof TrackerOperationError) {
+                throw new Error(error.message);
+            }
+            throw new Error('Mitglied konnte nicht entfernt werden.');
+        }
+    }, [activeTrackerId, user, navigate]);
+
     const clearedRoutes = useMemo(() => {
         const routes: string[] = [];
         const collect = (arr: PokemonPair[] | undefined | null) => {
@@ -984,8 +1007,15 @@ const App: React.FC = () => {
             onRivalCensorToggle={handleRivalCensorToggle}
             members={trackerMembers}
             onInviteMember={handleInviteMember}
+            onRemoveMember={handleRemoveMember}
+            onRequestDeleteTracker={() => {
+                if (activeTrackerId) {
+                    handleRequestTrackerDeletion(activeTrackerId);
+                }
+            }}
             canManageMembers={canManageMembers}
             currentUserEmail={user?.email}
+            currentUserId={user?.uid}
             gameVersion={activeGameVersion}
             rivalPreferences={currentUserRivalPreferences}
             onRivalPreferenceChange={handleRivalPreferenceChange}
@@ -1248,7 +1278,6 @@ const App: React.FC = () => {
                             isLoading={trackerListLoading}
                             activeTrackerId={activeTrackerId}
                             userEmail={user?.email ?? undefined}
-                            onDeleteTracker={handleRequestTrackerDeletion}
                             currentUserId={user?.uid ?? null}
                             trackerSummaries={trackerSummaries}
                         />
