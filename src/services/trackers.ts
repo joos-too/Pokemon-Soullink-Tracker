@@ -197,6 +197,31 @@ export const addMemberByEmail = async (
   return member;
 };
 
+export const removeMemberFromTracker = async (trackerId: string, memberUid: string): Promise<void> => {
+  if (!trackerId || !memberUid) {
+    throw new TrackerOperationError('Ungültige Anfrage zum Entfernen.', 'invalid-input');
+  }
+
+  const memberRef = ref(db, `trackers/${trackerId}/meta/members/${memberUid}`);
+  const snapshot = await get(memberRef);
+  if (!snapshot.exists()) {
+    throw new TrackerOperationError('Mitglied wurde nicht gefunden.', 'invalid-input');
+  }
+
+  const member = snapshot.val() as TrackerMember;
+  if (member.role === 'owner') {
+    throw new TrackerOperationError('Owner können nicht entfernt werden.', 'invalid-input');
+  }
+
+  const updates: Record<string, unknown> = {
+    [`trackers/${trackerId}/meta/members/${memberUid}`]: null,
+    [`userTrackers/${memberUid}/${trackerId}`]: null,
+    [`trackers/${trackerId}/meta/userSettings/${memberUid}`]: null,
+  };
+
+  await update(ref(db), updates);
+};
+
 export const deleteTracker = async (trackerId: string): Promise<void> => {
   if (!trackerId) {
     throw new TrackerOperationError('Ungültiger Tracker.', 'invalid-input');

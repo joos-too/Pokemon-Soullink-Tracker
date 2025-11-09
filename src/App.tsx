@@ -22,7 +22,7 @@ import {db, auth} from '@/src/firebaseConfig';
 import {ref, onValue, set, get, update} from "firebase/database";
 import {onAuthStateChanged, User, signOut} from "firebase/auth";
 import { initPokemonGermanNamesBackgroundRefresh } from '@/src/services/pokemonSearch';
-import {addMemberByEmail, createTracker, deleteTracker, ensureUserProfile, TrackerOperationError, updateRivalPreference} from '@/src/services/trackers';
+import {addMemberByEmail, createTracker, deleteTracker, ensureUserProfile, removeMemberFromTracker, TrackerOperationError, updateRivalPreference} from '@/src/services/trackers';
 import { GAME_VERSIONS } from '@/src/data/game-versions';
 
 const LAST_TRACKER_STORAGE_KEY = 'soullink:lastTrackerId';
@@ -73,6 +73,7 @@ const App: React.FC = () => {
     const [showResetModal, setShowResetModal] = useState(false);
     const [dataLoaded, setDataLoaded] = useState(false);
     const skipNextWriteRef = useRef(false);
+    const pendingWriteRef = useRef<Promise<void>>(Promise.resolve());
     const isHydratingRef = useRef(true);
     const [showLossModal, setShowLossModal] = useState(false);
     const [pendingLossPair, setPendingLossPair] = useState<PokemonPair | null>(null);
@@ -481,8 +482,16 @@ const App: React.FC = () => {
         }
 
         const dbRef = ref(db, `trackers/${activeTrackerId}/state`);
-        set(dbRef, data);
+        pendingWriteRef.current = pendingWriteRef.current
+            .then(() => set(dbRef, data))
+            .catch((error) => {
+                console.error('Tracker state write failed', error);
+            });
     }, [data, user, dataLoaded, activeTrackerId]);
+
+    useEffect(() => {
+        pendingWriteRef.current = Promise.resolve();
+    }, [activeTrackerId, user]);
 
     const handleReset = () => {
         setShowResetModal(true);
@@ -702,9 +711,19 @@ const App: React.FC = () => {
 
     const handleNameChange = (player: 'player1Name' | 'player2Name', name: string) => {
         setData(prev => ({...prev, [player]: name}));
-        if (activeTrackerId) {
-            update(ref(db, `trackers/${activeTrackerId}/meta`), { [player]: name });
-        }
+        if (!activeTrackerId) return;
+        setTrackerMetas(prev => {
+            const existing = prev[activeTrackerId];
+            if (!existing) return prev;
+            return {
+                ...prev,
+                [activeTrackerId]: {
+                    ...existing,
+                    [player]: name,
+                },
+            };
+        });
+        update(ref(db, `trackers/${activeTrackerId}/meta`), { [player]: name });
     };
 
     const handleTitleChange = (title: string) => {
@@ -845,6 +864,29 @@ const App: React.FC = () => {
         }
     }, [activeTrackerId]);
 
+    const handleRemoveMember = useCallback(async (memberUid: string) => {
+        if (!activeTrackerId) {
+            throw new Error('Kein aktiver Tracker ausgewählt.');
+        }
+        try {
+            await removeMemberFromTracker(activeTrackerId, memberUid);
+            if (user && memberUid === user.uid) {
+                setShowSettings(false);
+                setActiveTrackerId(null);
+                setData(createInitialState());
+                if (typeof window !== 'undefined') {
+                    window.localStorage.removeItem(LAST_TRACKER_STORAGE_KEY);
+                }
+                navigate('/');
+            }
+        } catch (error) {
+            if (error instanceof TrackerOperationError) {
+                throw new Error(error.message);
+            }
+            throw new Error('Mitglied konnte nicht entfernt werden.');
+        }
+    }, [activeTrackerId, user, navigate]);
+
     const clearedRoutes = useMemo(() => {
         const routes: string[] = [];
         const collect = (arr: PokemonPair[] | undefined | null) => {
@@ -892,6 +934,8 @@ const App: React.FC = () => {
 
     const trackerMembers = activeTrackerMeta ? Object.values(activeTrackerMeta.members ?? {}) : [];
     const canManageMembers = Boolean(user && activeTrackerMeta?.members?.[user.uid]?.role === 'owner');
+    const player1Name = activeTrackerMeta?.player1Name ?? data.player1Name;
+    const player2Name = activeTrackerMeta?.player2Name ?? data.player2Name;
 
     // Backfill runStartedAt for legacy trackers once
     useEffect(() => {
@@ -902,7 +946,7 @@ const App: React.FC = () => {
             setData(prev => ({ ...prev, runStartedAt: metaCreated }));
         }
     }, [user, dataLoaded, activeTrackerId, data.runStartedAt, activeTrackerMeta?.createdAt]);
-    const nameTitleFallback = [data.player1Name, data.player2Name].map((n) => n?.trim()).filter(Boolean).join(' & ');
+    const nameTitleFallback = [player1Name, player2Name].map((n) => n?.trim()).filter(Boolean).join(' & ');
     const trackerTitleDisplay = activeTrackerMeta?.title?.trim() || nameTitleFallback || 'Soullink Tracker';
 
     // Show loading while auth is initializing, or while the target tracker is still resolving/loading
@@ -953,8 +997,8 @@ const App: React.FC = () => {
         <SettingsPage
             trackerTitle={activeTrackerMeta?.title ?? 'Tracker'}
             onTitleChange={handleTitleChange}
-            player1Name={data.player1Name}
-            player2Name={data.player2Name}
+            player1Name={player1Name}
+            player2Name={player2Name}
             onNameChange={handleNameChange}
             onBack={() => setShowSettings(false)}
             legendaryTrackerEnabled={data.legendaryTrackerEnabled ?? true}
@@ -963,8 +1007,15 @@ const App: React.FC = () => {
             onRivalCensorToggle={handleRivalCensorToggle}
             members={trackerMembers}
             onInviteMember={handleInviteMember}
+            onRemoveMember={handleRemoveMember}
+            onRequestDeleteTracker={() => {
+                if (activeTrackerId) {
+                    handleRequestTrackerDeletion(activeTrackerId);
+                }
+            }}
             canManageMembers={canManageMembers}
             currentUserEmail={user?.email}
+            currentUserId={user?.uid}
             gameVersion={activeGameVersion}
             rivalPreferences={currentUserRivalPreferences}
             onRivalPreferenceChange={handleRivalPreferenceChange}
@@ -975,16 +1026,16 @@ const App: React.FC = () => {
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
                 onAdd={handleManualAddFromModal}
-                player1Name={data.player1Name}
-                player2Name={data.player2Name}
+                player1Name={player1Name}
+                player2Name={player2Name}
             />
             <SelectLossModal
                 isOpen={showLossModal}
                 onClose={() => { setShowLossModal(false); setPendingLossPair(null); }}
                 onConfirm={handleConfirmLoss}
                 pair={pendingLossPair}
-                player1Name={data.player1Name}
-                player2Name={data.player2Name}
+                player1Name={player1Name}
+                player2Name={player2Name}
             />
             <ResetModal
                 isOpen={showResetModal}
@@ -1100,16 +1151,16 @@ const App: React.FC = () => {
                 <main className="grid grid-cols-1 xl:grid-cols-3 gap-6 mt-6">
                     <div className="xl:col-span-2 space-y-8">
                         <TeamTable
-                            title={`Team ${data.player1Name}`}
-                            title2={`Team ${data.player2Name}`}
+                            title={`Team ${player1Name}`}
+                            title2={`Team ${player2Name}`}
                             color1={PLAYER1_COLOR}
                             color2={PLAYER2_COLOR}
                             data={data.team}
                             onPokemonChange={handleTeamChange}
                             onRouteChange={handleRouteChange}
                             onAddToGraveyard={handleAddToGraveyard}
-                            player1Name={data.player1Name}
-                            player2Name={data.player2Name}
+                            player1Name={player1Name}
+                            player2Name={player2Name}
                             onAddPair={handleAddTeamPair}
                             emptyMessage="Noch keine Pokémon im Team"
                             addDisabled={data.team.length >= 6}
@@ -1123,16 +1174,16 @@ const App: React.FC = () => {
                             }))}
                         />
                         <TeamTable
-                            title={`Box ${data.player1Name}`}
-                            title2={`Box ${data.player2Name}`}
+                            title={`Box ${player1Name}`}
+                            title2={`Box ${player2Name}`}
                             color1={PLAYER1_COLOR}
                             color2={PLAYER2_COLOR}
                             data={data.box}
                             onPokemonChange={handleBoxChange}
                             onRouteChange={handleBoxRouteChange}
                             onAddToGraveyard={handleAddToGraveyard}
-                            player1Name={data.player1Name}
-                            player2Name={data.player2Name}
+                            player1Name={player1Name}
+                            player2Name={player2Name}
                             onAddPair={handleAddBoxPair}
                             emptyMessage="Noch keine Pokémon in der Box"
                             context="box"
@@ -1154,8 +1205,8 @@ const App: React.FC = () => {
                             levelCaps={data.levelCaps}
                             rivalCaps={data.rivalCaps}
                             stats={{...data.stats, best: Math.max(data.stats.best, currentBest)}}
-                            player1Name={data.player1Name}
-                            player2Name={data.player2Name}
+                            player1Name={player1Name}
+                            player2Name={player2Name}
                             onLevelCapToggle={handleLevelCapToggle}
                             onRivalCapToggleDone={handleRivalCapToggleDone}
                             onRivalCapReveal={handleRivalCapReveal}
@@ -1172,8 +1223,8 @@ const App: React.FC = () => {
                         />
                         <Graveyard
                             graveyard={data.graveyard}
-                            player1Name={data.player1Name}
-                            player2Name={data.player2Name}
+                            player1Name={player1Name}
+                            player2Name={player2Name}
                             onManualAddClick={() => setIsModalOpen(true)}
                         />
                         <ClearedRoutes routes={clearedRoutes}/>
@@ -1227,7 +1278,6 @@ const App: React.FC = () => {
                             isLoading={trackerListLoading}
                             activeTrackerId={activeTrackerId}
                             userEmail={user?.email ?? undefined}
-                            onDeleteTracker={handleRequestTrackerDeletion}
                             currentUserId={user?.uid ?? null}
                             trackerSummaries={trackerSummaries}
                         />
