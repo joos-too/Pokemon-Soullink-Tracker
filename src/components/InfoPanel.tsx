@@ -1,8 +1,8 @@
 import React, {useState, useMemo} from 'react';
-import type {LevelCap, RivalCap, Stats, GameVersion, VariableRival, UserSettings} from '@/types';
+import type {LevelCap, RivalCap, Stats, GameVersion, UserSettings} from '@/types';
 import {PLAYER1_COLOR, PLAYER2_COLOR, LEGENDARY_POKEMON_NAMES} from '@/constants';
 import {FiMinus, FiPlus, FiEdit, FiX, FiSave, FiEye, FiEyeOff, FiRefreshCw} from 'react-icons/fi';
-import {getSpriteUrlForGermanName} from '@/src/services/sprites';
+import {RivalImage, BadgeImage, LegendaryImage} from './GameImages';
 
 interface InfoPanelProps {
     player1Name: string;
@@ -25,64 +25,6 @@ interface InfoPanelProps {
     rivalPreferences: UserSettings['rivalPreferences'];
 }
 
-const RivalImage: React.FC<{ rival: string | VariableRival, preferences: UserSettings['rivalPreferences'] }> = ({ rival, preferences }) => {
-    let spriteName: string;
-    let displayName: string;
-
-    if (typeof rival === 'string') {
-        spriteName = rival.toLowerCase().replace(/ & /g, '_').replace(/ /g, '_').replace(/[^a-z0-9_]/g, '');
-        displayName = rival;
-    } else {
-        const preference = preferences?.[rival.key] || 'male';
-        spriteName = rival.options[preference];
-        displayName = rival.name;
-    }
-
-    const imagePath = `/rival-sprites/${spriteName}.png`;
-    return <img
-        src={imagePath}
-        alt={displayName}
-        title={displayName}
-        className="w-8 h-8 object-contain mx-auto"
-        style={{ imageRendering: 'pixelated' }}
-    />;
-};
-
-const getBadgeUrl = (arenaLabel: string, posIndex: number, badgeSet?: string, _championSprite?: string): string => {
-    const sanitize = (s: string) => s
-        .toLowerCase()
-        .replace(/ \& /g, '_')
-        .replace(/ /g, '_')
-        .replace(/[^a-z0-9_]/g, '');
-
-    const raw = arenaLabel || '';
-    const label = raw.toLowerCase();
-
-    if (label.includes('top 4')) {
-        const parts = raw.split('|');
-        const name = parts[1]?.trim();
-        if (name && name.length > 0) {
-            const sprite = sanitize(name);
-            return `/elite4-sprites/${sprite}.png`;
-        }
-    }
-
-    if (label.includes('champ')) {
-        const parts = raw.split('|');
-        const name = parts[1]?.trim();
-        if (name && name.length > 0) {
-            const sprite = sanitize(name);
-            return `/champ-sprites/${sprite}.png`;
-        }
-        const set = badgeSet;
-        const pos = 8;
-        return `/badge-sprites/${set}/${pos}.png`;
-    }
-
-    const set = badgeSet;
-    const pos = Math.min(Math.max(posIndex + 1, 1), 8);
-    return `/badge-sprites/${set}/${pos}.png`;
-};
 
 const InfoPanel: React.FC<InfoPanelProps> = ({
                                                  player1Name,
@@ -150,22 +92,17 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                 {(() => {
                                     const next = levelCaps.find((c) => !c.done);
                                     if (!next) return <span className="text-xl font-bold">Challenge geschafft!</span>;
-                                    const badgeUrl = getBadgeUrl(
-                                        next.arena,
-                                        Math.max(levelCaps.findIndex(c => c.id === next.id), 0),
-                                        gameVersion?.badgeSet,
-                                    );
                                     return (
-                                        <div className="flex items-center justify-center px-3">
-                                            <img
-                                                src={badgeUrl}
-                                                alt={`${next.arena} Badge`}
+                                        <div className="flex items-center justify-center px-3 gap-x-4">
+                                            <BadgeImage
+                                                arenaLabel={next.arena}
+                                                posIndex={Math.max(levelCaps.findIndex(c => c.id === next.id), 0)}
+                                                badgeSet={gameVersion?.badgeSet}
                                                 className="w-14 h-14 sm:w-16 sm:h-16 object-contain"
-                                                style={{ imageRendering: next.arena.toLowerCase().includes('arena') && !next.arena.toLowerCase().includes('top 4') && !next.arena.toLowerCase().includes('champ') ? 'inherit' : 'pixelated' }}
                                             />
                                             <div className="flex flex-col items-center">
                                                 <div className="flex flex-wrap justify-center items-baseline gap-x-1">
-                                                    <span>Als Nächstes:</span>
+                                                    <span>Aktuell:</span>
                                                     <strong>{next.arena}</strong>
                                                 </div>
                                                 <div>Level Cap: <strong>{next.level}</strong></div>
@@ -319,9 +256,10 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                             <span className="text-sm text-gray-800 dark:text-gray-300 break-words">{cap.arena}</span>
                                         </div>
                                         <div className="flex items-center justify-end flex-shrink-0 px-3">
-                                            <img src={getBadgeUrl(cap.arena, index, gameVersion?.badgeSet)} alt={`${cap.arena} Badge`}
-                                                 className="w-8 h-8 object-contain"
-                                                 style={{ imageRendering: cap.arena.toLowerCase().includes('arena') && !cap.arena.toLowerCase().includes('top 4') && !cap.arena.toLowerCase().includes('champ') ? 'inherit' : 'pixelated' }}
+                                            <BadgeImage 
+                                                arenaLabel={cap.arena} 
+                                                posIndex={index} 
+                                                badgeSet={gameVersion?.badgeSet} 
                                             />
                                             <span className="font-bold text-lg text-gray-800 dark:text-gray-200 w-10 text-center">{cap.level}</span>
                                         </div>
@@ -415,11 +353,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                         </h2>
                         <div className="p-3 flex items-center justify-center flex-grow">
                             <div className="flex items-center justify-center gap-2">
-                                <img
-                                    src={getSpriteUrlForGermanName(randomLegendary) || ""}
-                                    alt=""
-                                    className="w-16 h-16"
-                                />
+                                <LegendaryImage pokemonName={randomLegendary} />
                                 <div className="text-3xl font-press-start text-gray-800 dark:text-gray-200">
                                     {stats.legendaryEncounters ?? 0}
                                 </div>
