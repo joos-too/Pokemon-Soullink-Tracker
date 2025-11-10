@@ -65,6 +65,7 @@ export interface AppState {
   stats: Stats;
   legendaryTrackerEnabled?: boolean;
   rivalCensorEnabled?: boolean;
+  hardcoreModeEnabled?: boolean;
   runStartedAt?: number;
 }
 

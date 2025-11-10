@@ -19,6 +19,7 @@ interface InfoPanelProps {
     onRulesChange: (rules: string[]) => void;
     legendaryTrackerEnabled: boolean;
     rivalCensorEnabled: boolean;
+    hardcoreModeEnabled?: boolean;
     onlegendaryIncrement: () => void;
     runStartedAt?: number;
     gameVersion?: GameVersion;
@@ -40,6 +41,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                                  onRulesChange,
                                                  legendaryTrackerEnabled,
                                                  rivalCensorEnabled,
+                                                 hardcoreModeEnabled,
                                                  onlegendaryIncrement,
                                                  runStartedAt,
                                                  gameVersion,
@@ -78,6 +80,39 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
     const addNewRule = () => {
         setDraftRules(prev => [...prev, ""]);
     };
+
+    const renderLevelCaps = (level: string) => {
+        const hc = hardcoreModeEnabled !== false; // default true
+        const hasSlash = level.includes('/');
+        const [leftRaw, rightRaw] = hasSlash ? level.split('/') : [level, undefined];
+        const left = (leftRaw || '').trim();
+        const right = (rightRaw || '').trim();
+
+        if (!hc) {
+            const show = hasSlash ? left : (left || right || '');
+            return (
+                <div className="inline-flex items-center pl-1">
+                    <span className="min-w-[2.5rem] px-1 py-0.5 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-bold text-gray-800 dark:text-gray-200 text-center">
+                        {show}
+                    </span>
+                </div>
+            );
+        }
+
+        const leftDisplay = hasSlash ? left : left;
+        const rightDisplay = hasSlash ? right : '-';
+        return (
+            <div className="inline-flex items-center gap-1 pl-1">
+                <span className="min-w-8 px-1 py-0.5 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-bold text-gray-800 dark:text-gray-200 text-center">
+                    {leftDisplay}
+                </span>
+                <span className="min-w-8 px-1 py-0.5 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-bold text-gray-800 dark:text-gray-200 text-center">
+                    {rightDisplay}
+                </span>
+            </div>
+        );
+    };
+
 
     return (
         <div className="space-y-6">
@@ -246,7 +281,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                             <div className="p-2 h-full overflow-y-auto space-y-1 overscroll-contain custom-scrollbar">
                                 {levelCaps.map((cap, index) => (
                                     <div key={cap.id}
-                                         className={`flex items-center justify-between px-2 py-1.5 border rounded-md ${cap.done ? 'bg-green-100 dark:bg-green-900/50 border-green-200 dark:border-green-800' : 'bg-gray-50 dark:bg-gray-700/50 border-gray-200 dark:border-gray-600'}`}>
+                                         className={`flex items-center justify-between pl-2 py-1.5 border rounded-md ${cap.done ? 'bg-green-100 dark:bg-green-900/50 border-green-200 dark:border-green-800' : 'bg-gray-50 dark:bg-gray-700/50 border-gray-200 dark:border-gray-600'}`}>
                                         <div className="flex items-center gap-3 flex-grow min-w-0">
                                             <input id={`levelcap-done-${cap.id}`} type="checkbox"
                                                    checked={!!cap.done}
@@ -256,12 +291,12 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                             <span className="text-sm text-gray-800 dark:text-gray-300 break-words">{cap.arena}</span>
                                         </div>
                                         <div className="flex items-center justify-end flex-shrink-0 px-3">
-                                            <BadgeImage 
-                                                arenaLabel={cap.arena} 
-                                                posIndex={index} 
-                                                badgeSet={gameVersion?.badgeSet} 
+                                            <BadgeImage
+                                                arenaLabel={cap.arena}
+                                                posIndex={index}
+                                                badgeSet={gameVersion?.badgeSet}
                                             />
-                                            <span className="font-bold text-lg text-gray-800 dark:text-gray-200 w-10 text-center">{cap.level}</span>
+                                            <span className="font-bold text-lg text-gray-800 dark:text-gray-200 text-center">{renderLevelCaps(cap.level)}</span>
                                         </div>
                                     </div>
                                 ))}
@@ -292,7 +327,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                             </>
                                         ) : (
                                             <div
-                                                className={`flex items-center justify-between px-2 py-1.5 border rounded-md ${rc.done ? 'bg-green-100 dark:bg-green-900/50 border-green-200 dark:border-green-800' : 'bg-gray-50 dark:bg-gray-700/50 border-gray-200 dark:border-gray-600'}`}>
+                                                className={`flex items-center justify-between pl-2 py-1.5 border rounded-md ${rc.done ? 'bg-green-100 dark:bg-green-900/50 border-green-200 dark:border-green-800' : 'bg-gray-50 dark:bg-gray-700/50 border-gray-200 dark:border-gray-600'}`}>
                                                 <div className="flex items-center gap-3 flex-grow min-w-0">
                                                     <input id={`rivalcap-done-${rc.id}`} type="checkbox"
                                                            checked={!!rc.done}
@@ -306,7 +341,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                                 <div className="flex items-center justify-end flex-shrink-0 px-3">
                                                     <RivalImage rival={rc.rival} preferences={rivalPreferences}/>
                                                     <span
-                                                        className="font-bold text-lg text-gray-800 dark:text-gray-200 w-10 text-center">{rc.level}</span>
+                                                        className="font-bold text-lg text-gray-800 dark:text-gray-200 text-center">{renderLevelCaps(rc.level)}</span>
                                                 </div>
                                             </div>
                                         )}
