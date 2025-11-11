@@ -106,10 +106,6 @@ export interface GameVersion {
     selectionColors?: Record<string, GameSelectionColor>;
     levelCaps: Omit<LevelCap, 'done'>[];
     rivalCaps: Omit<RivalCap, 'done' | 'revealed'>[];
-    champion: {
-        name: string;
-        sprite: string;
-    };
 }
 
 export interface TrackerMeta {

@@ -1,8 +1,8 @@
 import React, {useState, useMemo} from 'react';
-import type {LevelCap, RivalCap, Stats, GameVersion, VariableRival, UserSettings} from '@/types';
+import type {LevelCap, RivalCap, Stats, GameVersion, UserSettings} from '@/types';
 import {PLAYER1_COLOR, PLAYER2_COLOR, LEGENDARY_POKEMON_NAMES} from '@/constants';
 import {FiMinus, FiPlus, FiEdit, FiX, FiSave, FiEye, FiEyeOff, FiRefreshCw} from 'react-icons/fi';
-import {getSpriteUrlForGermanName} from '@/src/services/sprites';
+import {RivalImage, BadgeImage, LegendaryImage} from './GameImages';
 
 interface InfoPanelProps {
     player1Name: string;
@@ -25,37 +25,6 @@ interface InfoPanelProps {
     rivalPreferences: UserSettings['rivalPreferences'];
 }
 
-const RivalImage: React.FC<{ rival: string | VariableRival, preferences: UserSettings['rivalPreferences'] }> = ({ rival, preferences }) => {
-    let spriteName: string;
-    let displayName: string;
-
-    if (typeof rival === 'string') {
-        spriteName = rival.toLowerCase().replace(/ & /g, '_').replace(/ /g, '_').replace(/[^a-z0-9_]/g, '');
-        displayName = rival;
-    } else {
-        const preference = preferences?.[rival.key] || 'male';
-        spriteName = rival.options[preference];
-        displayName = rival.name;
-    }
-
-    const imagePath = `/rival-sprites/${spriteName}.png`;
-    return <img
-        src={imagePath}
-        alt={displayName}
-        title={displayName}
-        className="w-8 h-8 object-contain mx-auto"
-    />;
-};
-
-const getBadgeUrl = (arenaLabel: string, posIndex: number, badgeSet?: string, championSprite?: string): string => {
-    const label = (arenaLabel || '').toLowerCase();
-    if (label.includes('champ')) return championSprite || '/champ-sprites/lauro.png'; // Fallback
-    if (label.includes('top 4')) return '/badge-sprites/top_4.png';
-    const set = badgeSet || 'gen5/sw';
-    const pos = Math.min(Math.max(posIndex + 1, 1), 8);
-    if (!set) return '/favicon.svg';
-    return `/badge-sprites/${set}/${pos}.png`;
-};
 
 const InfoPanel: React.FC<InfoPanelProps> = ({
                                                  player1Name,
@@ -123,21 +92,19 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                 {(() => {
                                     const next = levelCaps.find((c) => !c.done);
                                     if (!next) return <span className="text-xl font-bold">Challenge geschafft!</span>;
-                                    const badgeUrl = getBadgeUrl(
-                                        next.arena,
-                                        Math.max(levelCaps.findIndex(c => c.id === next.id), 0),
-                                        gameVersion?.badgeSet,
-                                        gameVersion?.champion.sprite
-                                    );
                                     return (
-                                        <div className="flex items-center justify-center gap-3">
-                                            <img
-                                                src={badgeUrl}
-                                                alt={`${next.arena} Badge`}
+                                        <div className="flex items-center justify-center px-3 gap-x-4">
+                                            <BadgeImage
+                                                arenaLabel={next.arena}
+                                                posIndex={Math.max(levelCaps.findIndex(c => c.id === next.id), 0)}
+                                                badgeSet={gameVersion?.badgeSet}
                                                 className="w-14 h-14 sm:w-16 sm:h-16 object-contain"
-                                                style={{imageRendering: 'inherit'}}/>
+                                            />
                                             <div className="flex flex-col items-center">
-                                                <div>Als Nächstes: <strong>{next.arena}</strong></div>
+                                                <div className="flex flex-wrap justify-center items-baseline gap-x-1">
+                                                    <span>Aktuell:</span>
+                                                    <strong>{next.arena}</strong>
+                                                </div>
                                                 <div>Level Cap: <strong>{next.level}</strong></div>
                                             </div>
                                         </div>
@@ -266,50 +233,42 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                         </button>
                     </div>
 
-                    <div className={`relative flex-grow transition-transform duration-700`}
+                    <div className={`relative flex-grow min-h-0 transition-transform duration-700`}
                          style={{
                              transformStyle: 'preserve-3d',
                              transform: showRivalCaps ? 'rotateY(180deg)' : 'rotateY(0deg)'
                          }}>
-                        <div className="absolute w-full h-full"
+                        <div className={`absolute w-full h-full ${showRivalCaps ? 'pointer-events-none' : 'pointer-events-auto'}`}
                              style={{
                                  backfaceVisibility: 'hidden',
                                  transform: 'rotateY(0deg)'
                              }}>
-                            <div className="h-full overflow-y-auto">
-                                <table className="w-full h-full flex flex-col">
-                                    <tbody
-                                        className="flex-grow flex flex-col divide-y divide-gray-200 dark:divide-gray-700">
-                                    {levelCaps.map((cap, index) => (
-                                        <tr key={cap.id}
-                                            className={`flex flex-grow items-center ${cap.done ? 'bg-green-100 dark:bg-green-900/50' : ''}`}>
-                                            <td className="px-2 text-xs font-bold text-gray-800 dark:text-gray-300 text-left select-none w-[70%]">
-                                                <div className="flex items-center gap-2">
-                                                    <input id={`levelcap-done-${cap.id}`} type="checkbox"
-                                                           checked={!!cap.done}
-                                                           onChange={() => onLevelCapToggle(index)}
-                                                           aria-label={`Erledigt: ${cap.arena}`}
-                                                           className={`${!cap.done && !(index === 0 || levelCaps[index - 1]?.done)} h-5 w-5 accent-green-600 cursor-pointer`}/>
-                                                    <label htmlFor={`levelcap-done-${cap.id}`}
-                                                           className="px-0.75 cursor-pointer">{cap.arena}</label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <img src={getBadgeUrl(cap.arena, index, gameVersion?.badgeSet, gameVersion?.champion.sprite)} alt={`${cap.arena} Badge`}
-                                                     className="w-8 h-8 object-contain"/>
-                                            </td>
-                                            <td className="text-right pl-2 pr-3">
-                                                <span
-                                                    className="font-bold text-lg text-gray-800 dark:text-gray-200">{cap.level}</span>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                    </tbody>
-                                </table>
+                            <div className="p-2 h-full overflow-y-auto space-y-1 overscroll-contain custom-scrollbar">
+                                {levelCaps.map((cap, index) => (
+                                    <div key={cap.id}
+                                         className={`flex items-center justify-between px-2 py-1.5 border rounded-md ${cap.done ? 'bg-green-100 dark:bg-green-900/50 border-green-200 dark:border-green-800' : 'bg-gray-50 dark:bg-gray-700/50 border-gray-200 dark:border-gray-600'}`}>
+                                        <div className="flex items-center gap-3 flex-grow min-w-0">
+                                            <input id={`levelcap-done-${cap.id}`} type="checkbox"
+                                                   checked={!!cap.done}
+                                                   onChange={() => onLevelCapToggle(index)}
+                                                   aria-label={`Erledigt: ${cap.arena}`}
+                                                   className="h-5 w-5 accent-green-600 cursor-pointer flex-shrink-0"/>
+                                            <span className="text-sm text-gray-800 dark:text-gray-300 break-words">{cap.arena}</span>
+                                        </div>
+                                        <div className="flex items-center justify-end flex-shrink-0 px-3">
+                                            <BadgeImage 
+                                                arenaLabel={cap.arena} 
+                                                posIndex={index} 
+                                                badgeSet={gameVersion?.badgeSet} 
+                                            />
+                                            <span className="font-bold text-lg text-gray-800 dark:text-gray-200 w-10 text-center">{cap.level}</span>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
                         </div>
 
-                        <div className="absolute w-full h-full"
+                        <div className={`absolute w-full h-full ${showRivalCaps ? 'pointer-events-auto' : 'pointer-events-none'}`}
                              style={{
                                  backfaceVisibility: 'hidden',
                                  transform: 'rotateY(180deg)'
@@ -394,11 +353,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                         </h2>
                         <div className="p-3 flex items-center justify-center flex-grow">
                             <div className="flex items-center justify-center gap-2">
-                                <img
-                                    src={getSpriteUrlForGermanName(randomLegendary) || ""}
-                                    alt=""
-                                    className="w-16 h-16"
-                                />
+                                <LegendaryImage pokemonName={randomLegendary} />
                                 <div className="text-3xl font-press-start text-gray-800 dark:text-gray-200">
                                     {stats.legendaryEncounters ?? 0}
                                 </div>
