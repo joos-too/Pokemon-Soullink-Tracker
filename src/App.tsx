@@ -48,7 +48,7 @@ const computeTrackerSummary = (state?: Partial<AppState> | null): TrackerSummary
         deathCount,
         runs,
         championDone,
-        progressLabel: championDone ? 'Run geschafft' : bestLabel,
+        progressLabel: championDone ? 'Challenge geschafft!' : bestLabel,
     };
 };
 
@@ -170,6 +170,7 @@ const App: React.FC = () => {
             },
             legendaryTrackerEnabled: safe.legendaryTrackerEnabled ?? base.legendaryTrackerEnabled ?? true,
             rivalCensorEnabled: safe.rivalCensorEnabled ?? base.rivalCensorEnabled ?? true,
+            hardcoreModeEnabled: safe.hardcoreModeEnabled ?? base.hardcoreModeEnabled ?? true,
             runStartedAt: typeof safe.runStartedAt === 'number' ? safe.runStartedAt : (typeof base.runStartedAt === 'number' ? base.runStartedAt : 0),
         };
     }, [activeGameVersion]);
@@ -750,6 +751,10 @@ const App: React.FC = () => {
         setData(prev => ({...prev, rivalCensorEnabled: enabled}));
     };
 
+    const handleHardcoreModeToggle = (enabled: boolean) => {
+        setData(prev => ({...prev, hardcoreModeEnabled: enabled}));
+    };
+
     const handlelegendaryReset = () => {
         setData(prev => ({
             ...prev,
@@ -1005,6 +1010,8 @@ const App: React.FC = () => {
             onlegendaryTrackerToggle={handlelegendaryTrackerToggle}
             rivalCensorEnabled={data.rivalCensorEnabled ?? true}
             onRivalCensorToggle={handleRivalCensorToggle}
+            hardcoreModeEnabled={data.hardcoreModeEnabled ?? true}
+            onHardcoreModeToggle={handleHardcoreModeToggle}
             members={trackerMembers}
             onInviteMember={handleInviteMember}
             onRemoveMember={handleRemoveMember}
@@ -1148,8 +1155,8 @@ const App: React.FC = () => {
                     </div>
                 </div>
 
-                <main className="grid grid-cols-1 xl:grid-cols-3 gap-6 mt-6">
-                    <div className="xl:col-span-2 space-y-8">
+                <main className="grid grid-cols-1 xl:grid-cols-[64fr_36fr] gap-6 mt-6">
+  <div className="space-y-8">
                         <TeamTable
                             title={`Team ${player1Name}`}
                             title2={`Team ${player2Name}`}
@@ -1200,7 +1207,7 @@ const App: React.FC = () => {
                         />
                     </div>
 
-                    <div className="xl:col-span-1 space-y-6">
+                    <div className="space-y-6">
                         <InfoPanel
                             levelCaps={data.levelCaps}
                             rivalCaps={data.rivalCaps}
@@ -1216,6 +1223,7 @@ const App: React.FC = () => {
                             onRulesChange={(rules) => setData(prev => ({ ...prev, rules }))}
                             legendaryTrackerEnabled={data.legendaryTrackerEnabled ?? true}
                             rivalCensorEnabled={data.rivalCensorEnabled ?? true}
+                            hardcoreModeEnabled={data.hardcoreModeEnabled ?? true}
                             onlegendaryIncrement={handlelegendaryIncrement}
                             runStartedAt={data.runStartedAt ?? activeTrackerMeta?.createdAt}
                             gameVersion={activeGameVersion}

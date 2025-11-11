@@ -66,6 +66,7 @@ export const INITIAL_STATE: AppState = {
     },
     legendaryTrackerEnabled: true,
     rivalCensorEnabled: true,
+    hardcoreModeEnabled: true,
     runStartedAt: Date.now(),
 };
 
