@@ -102,7 +102,7 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
             {id: 10, arena: 'Top 4 | Koga', level: '44/43'},
             {id: 11, arena: 'Top 4 | Bruno', level: '46/43'},
             {id: 12, arena: 'Top 4 | Melanie', level: '47/45'},
-            {id: 13, arena: 'Champ| Siegfried', level: '50/46'},
+            {id: 13, arena: 'Champ | Siegfried', level: '50/46'},
         ],
         rivalCaps: [
             {id: 1, location: 'Azetalea City', rival: 'Silber', level: '16/14'},
@@ -209,7 +209,7 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
             {id: 10, arena: 'Top 4 | Antonia', level: '51/50'},
             {id: 11, arena: 'Top 4 | Frosina', level: '53/52'},
             {id: 12, arena: 'Top 4 | Dragan', level: '55/54'},
-            {id: 13, arena: 'Champ| Wassili', level: '58/56'},
+            {id: 13, arena: 'Champ | Wassili', level: '58/56'},
         ],
         rivalCaps: [
             {id: 1, location: 'Malvenfroh City', rival: 'Heiko', level: '16/16'},
