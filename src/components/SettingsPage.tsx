@@ -1,7 +1,8 @@
 import React, {useState, useMemo} from 'react';
 import {PLAYER1_COLOR, PLAYER2_COLOR} from '@/constants';
 import type {TrackerMember, GameVersion, VariableRival, UserSettings, RivalGender} from '@/types';
-import {FiShield, FiUserPlus, FiX, FiTrash2, FiLogOut} from 'react-icons/fi';
+import {FiShield, FiUserPlus, FiX, FiTrash2, FiLogOut, FiInfo} from 'react-icons/fi';
+import Tooltip from './Tooltip';
 
 interface SettingsPageProps {
     trackerTitle: string;
@@ -139,7 +140,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                                 className="text-red-600 hover:text-red-800 p-2"
                                 title="Tracker löschen"
                             >
-                                <FiTrash2 size={24} />
+                                <FiTrash2 size={24}/>
                             </button>
                         ) : currentMember ? (
                             <button
@@ -149,7 +150,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                                 className="text-red-600 hover:text-red-800 p-2 disabled:opacity-60"
                                 title="Tracker verlassen"
                             >
-                                <FiLogOut size={24} />
+                                <FiLogOut size={24}/>
                             </button>
                         ) : null}
                     </div>
@@ -206,19 +207,50 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                             Optionen</h2>
                         <div className="flex items-center justify-between mb-4">
                             <div>
-                                <div className="font-medium text-gray-800 dark:text-gray-200">Hardcore Modus</div>
-                                <div className="text-xs text-gray-500 dark:text-gray-400">Wenn deaktiviert, wird nur die linke Levelcap angezeigt.</div>
+                                <div className="flex items-center gap-2">
+                                    <div className="font-medium text-gray-800 dark:text-gray-200">Hardcore Modus</div>
+                                    <Tooltip side="top" content={
+                                        `Standardmäßig orientiert sich die Level-Cap am hösten Pokémon eines Trainers, im Hardcore modus wird jedoch eine weitere Level-Cap hinzugefügt, welche sich am zweithöchsten Pokémon eines Trainers orientiert.
+                                        
+                                        Es darf nun lediglich ein Pokémon bis zur oberen Level-Cap gelevelt werden, der Rest des Teams darf die untere Level-Cap nicht überschreiten.`
+                                        }>
+                                        <span
+                                            className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-help"
+                                            aria-label="Info Hardcore Modus">
+                                            <FiInfo size={16}/>
+                                        </span>
+                                    </Tooltip>
+                                </div>
+                                <div className="text-xs text-gray-500 dark:text-gray-400">Erhöht die Schwierigkeit,
+                                    durch striktere Level-Caps.
+                                </div>
                             </div>
-                            <label htmlFor="hardcore-toggle" className="inline-flex relative items-center cursor-pointer">
+                            <label htmlFor="hardcore-toggle"
+                                   className="inline-flex relative items-center cursor-pointer">
                                 <input type="checkbox" checked={hardcoreModeEnabled}
                                        onChange={(e) => onHardcoreModeToggle(e.target.checked)} id="hardcore-toggle"
                                        className="sr-only peer"/>
-                                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600"></div>
+                                <div
+                                    className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600"></div>
                             </label>
                         </div>
                         <div className="flex items-center justify-between mb-4">
                             <div>
-                                <div className="font-medium text-gray-800 dark:text-gray-200">Rivalenkämpfe zensieren
+                                <div className="flex items-center gap-2">
+                                    <div className="font-medium text-gray-800 dark:text-gray-200">Rivalenkämpfe
+                                        zensieren
+                                    </div>
+                                    <Tooltip side="top" content={
+                                        `Um Spoiler zu vermeiden und die Story besser genießen zu können, werden Rivalenkämpfe zensiert und müssen händisch aufgedeckt werden.
+                                        
+                                        Nach einmaligem aufdecken und auch in folgenden Runs, bleiben sie dann aufgedeckt.`
+                                        }>
+                                        <span
+                                            className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-help"
+                                            aria-label="Info Rivalenkämpfe zensieren">
+                                            <FiInfo size={16}/>
+                                        </span>
+                                    </Tooltip>
                                 </div>
                                 <div className="text-xs text-gray-500 dark:text-gray-400">Verbirgt Details zu
                                     Rivalenkämpfen, bis sie aufgedeckt werden.
@@ -235,9 +267,21 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                         </div>
                         <div className="flex items-center justify-between">
                             <div>
-                                <div className="font-medium text-gray-800 dark:text-gray-200">Legendary Tracker</div>
+                                <div className="flex items-center gap-2">
+                                    <div className="font-medium text-gray-800 dark:text-gray-200">Legendary Tracker
+                                    </div>
+                                    <Tooltip side="top" content={
+                                        `Aktiviert einen Tracker, welcher es ermöglicht die Encounter mit Legendären Pokémon nachzuvollziehen, um eine eigene Statistik zu führen.`
+                                        }>
+                                        <span
+                                            className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-help"
+                                            aria-label="Info Legendary Tracker">
+                                            <FiInfo size={16}/>
+                                        </span>
+                                    </Tooltip>
+                                </div>
                                 <div className="text-xs text-gray-500 dark:text-gray-400">Tracke die Anzahl der
-                                    Legendaries, den ihr in der Challenge begegnet.
+                                    Legendaries, welchen man während der Challenge begegnet.
                                 </div>
                             </div>
                             <label htmlFor="legendary-toggle"
@@ -272,7 +316,8 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                                                    className="h-4 w-4 accent-green-600"/> {getRivalNameFromOption(rival.options.female)}
                                         </label>
                                     </div>
-                                    <div className="text-xs text-gray-500 dark:text-gray-400 mb-2">Wähle deinen Antagonisten
+                                    <div className="text-xs text-gray-500 dark:text-gray-400 mb-2">Wähle deinen
+                                        Antagonisten
                                         für die korrekte Darstellung in den Rivalenkämpfe aus.
                                     </div>
                                 </div>
@@ -296,7 +341,8 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                                 <li key={member.uid}
                                     className="flex items-center justify-between rounded-md border border-gray-200 dark:border-gray-700 px-3 py-2">
                                     <div>
-                                        <div className="flex flex-wrap items-center gap-2 text-sm font-semibold text-gray-900 dark:text-gray-100">
+                                        <div
+                                            className="flex flex-wrap items-center gap-2 text-sm font-semibold text-gray-900 dark:text-gray-100">
                                             <span>{member.email}</span>
                                             {currentUserEmail && member.email === currentUserEmail &&
                                                 <span className="text-xs text-green-600">(Du)</span>}
@@ -307,7 +353,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                                                     className="text-xs text-red-600 hover:text-red-800 flex items-center gap-1"
                                                     aria-label={`${member.email} entfernen`}
                                                 >
-                                                    <FiX size={14} />
+                                                    <FiX size={14}/>
                                                 </button>
                                             )}
                                         </div>
@@ -377,8 +423,10 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
             </div>
             {memberPendingRemoval && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
-                    <div className="w-full max-w-md rounded-xl bg-white dark:bg-gray-800 shadow-2xl border border-gray-200 dark:border-gray-700">
-                        <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 px-5 py-4">
+                    <div
+                        className="w-full max-w-md rounded-xl bg-white dark:bg-gray-800 shadow-2xl border border-gray-200 dark:border-gray-700">
+                        <div
+                            className="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 px-5 py-4">
                             <div>
                                 <p className="text-xs uppercase tracking-[0.3em] text-red-500">
                                     {pendingRemovalIsSelf ? 'Tracker verlassen' : 'Mitglied entfernen'}
@@ -394,12 +442,13 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                                 aria-label="Schließen"
                                 disabled={removingMemberId === memberPendingRemoval.uid}
                             >
-                                <FiX size={20} />
+                                <FiX size={20}/>
                             </button>
                         </div>
 
                         <div className="px-5 py-6 space-y-4">
-                            <div className="rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 px-4 py-3 text-sm text-red-900 dark:text-red-100">
+                            <div
+                                className="rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 px-4 py-3 text-sm text-red-900 dark:text-red-100">
                                 {pendingRemovalIsSelf ? (
                                     <>Möchtest du diesen Tracker wirklich verlassen?</>
                                 ) : (
@@ -409,22 +458,26 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                             <p className="text-sm text-gray-600 dark:text-gray-300">
                                 {pendingRemovalIsSelf ? (
                                     <>
-                                        Du verlierst sofort den Zugriff auf den Tracker und musst erneut eingeladen werden, um wieder teilnehmen zu können.
+                                        Du verlierst sofort den Zugriff auf den Tracker und musst erneut eingeladen
+                                        werden, um wieder teilnehmen zu können.
                                     </>
                                 ) : (
                                     <>
-                                        Die Person verliert sofort den Zugriff auf diesen Tracker und muss erneut eingeladen werden.
+                                        Die Person verliert sofort den Zugriff auf diesen Tracker und muss erneut
+                                        eingeladen werden.
                                     </>
                                 )}
                             </p>
                             {memberActionError && (
-                                <div className="rounded-md bg-red-50 dark:bg-red-900/40 border border-red-200 dark:border-red-700 px-3 py-2 text-sm text-red-700 dark:text-red-200">
+                                <div
+                                    className="rounded-md bg-red-50 dark:bg-red-900/40 border border-red-200 dark:border-red-700 px-3 py-2 text-sm text-red-700 dark:text-red-200">
                                     {memberActionError}
                                 </div>
                             )}
                         </div>
 
-                        <div className="flex flex-col gap-2 sm:flex-row sm:justify-end border-t border-gray-200 dark:border-gray-700 px-5 py-4">
+                        <div
+                            className="flex flex-col gap-2 sm:flex-row sm:justify-end border-t border-gray-200 dark:border-gray-700 px-5 py-4">
                             <button
                                 type="button"
                                 onClick={handleCancelRemoveMember}
@@ -439,7 +492,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                                 disabled={removingMemberId === memberPendingRemoval.uid}
                                 className="inline-flex items-center justify-center gap-2 rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500 disabled:opacity-60"
                             >
-                                {pendingRemovalIsSelf ? <FiLogOut /> : <FiX />}
+                                {pendingRemovalIsSelf ? <FiLogOut/> : <FiX/>}
                                 {removingMemberId === memberPendingRemoval.uid ? 'Wird bearbeitet…' : (pendingRemovalIsSelf ? 'Tracker verlassen' : 'Mitglied entfernen')}
                             </button>
                         </div>
