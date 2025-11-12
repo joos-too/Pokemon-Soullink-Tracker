@@ -1125,10 +1125,10 @@ const App: React.FC = () => {
                             <button
                                 onClick={() => { const next = !isDark; setDarkMode(next); setIsDark(next); }}
                                 className="w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2"
-                                title={isDark ? 'Tageslichtmodus' : 'Dunkelmodus'}
+                                title={isDark ? 'Lightmode' : 'Darkmode'}
                             >
                                 {isDark ? <FiSun size={18} /> : <FiMoon size={18} />}
-                                {isDark ? 'Tageslichtmodus' : 'Dunkelmodus'}
+                                {isDark ? 'Lightmode' : 'Darkmode'}
                             </button>
                             <button
                                 onClick={handleNavigateHome}
