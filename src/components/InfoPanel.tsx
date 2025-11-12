@@ -4,6 +4,30 @@ import {PLAYER1_COLOR, PLAYER2_COLOR, LEGENDARY_POKEMON_NAMES} from '@/constants
 import {FiMinus, FiPlus, FiEdit, FiX, FiSave, FiEye, FiEyeOff, FiRefreshCw} from 'react-icons/fi';
 import {RivalImage, BadgeImage, LegendaryImage} from './GameImages';
 
+// Displays the label for the best run based on completed level caps (includes Top 4 and Champion)
+const BestRunLabel: React.FC<{ levelCaps: LevelCap[]; bestCount: number }> = ({ levelCaps, bestCount }) => {
+    // Determine the label from the levelCaps array using the bestCount as index
+    const hasAnyDone = Array.isArray(levelCaps) && levelCaps.some(c => c?.done);
+    const index = Math.max(0, Math.min((bestCount || 0) - 1, (levelCaps?.length || 1) - 1));
+    let fallback = 'Noch keine Arena';
+    if (hasAnyDone) {
+        for (let i = levelCaps.length - 1; i >= 0; i--) {
+            const c = levelCaps[i];
+            if (c && (c as any).done) {
+                fallback = c.arena || fallback;
+                break;
+            }
+        }
+    }
+    const label = (bestCount > 0 && levelCaps?.[index]?.arena)
+        ? levelCaps[index].arena
+        : fallback;
+
+    return (
+        <span className="inline-block min-w-[2ch] text-sm font-bold">{label}</span>
+    );
+};
+
 interface InfoPanelProps {
     player1Name: string;
     player2Name: string;
@@ -192,8 +216,8 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                 <td className="px-2 py-1.5 text-xs font-bold text-gray-800 dark:text-gray-300">Bester
                                     Run
                                 </td>
-                                <td className="px-2 py-1.5 text-right"><span
-                                    className="inline-block min-w-[2ch] text-sm font-bold">Arena {stats.best}</span>
+                                <td className="px-2 py-1.5 text-right">
+                                    <BestRunLabel levelCaps={levelCaps} bestCount={stats.best} />
                                 </td>
                             </tr>
                             </tbody>

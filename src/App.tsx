@@ -91,8 +91,8 @@ const App: React.FC = () => {
     const activeGameVersion = activeTrackerMeta ? GAME_VERSIONS[activeTrackerMeta.gameVersionId] : undefined;
 
     const currentUserRivalPreferences = useMemo(() => {
-      if (!user || !activeTrackerMeta) return {};
-      return activeTrackerMeta.userSettings?.[user.uid]?.rivalPreferences ?? {};
+        if (!user || !activeTrackerMeta) return {};
+        return activeTrackerMeta.userSettings?.[user.uid]?.rivalPreferences ?? {};
     }, [user, activeTrackerMeta]);
 
     const handleRivalPreferenceChange = useCallback(async (key: string, gender: RivalGender) => {
@@ -153,7 +153,17 @@ const App: React.FC = () => {
             rivalCaps: finalRivalCaps,
             stats: {
                 runs: safe.stats?.runs ?? base.stats.runs,
-                best: safe.stats?.best ?? base.stats.best,
+                best: (() => {
+                    const incomingBest = Number(safe.stats?.best ?? base.stats.best ?? 0) || 0;
+                    const caps = Array.isArray(safe.levelCaps) ? safe.levelCaps : base.levelCaps;
+                    let lastCompleted = 0;
+                    if (Array.isArray(caps)) {
+                        for (let i = 0; i < caps.length; i++) {
+                            if (caps[i] && (caps[i] as any).done) lastCompleted = i + 1;
+                        }
+                    }
+                    return Math.max(incomingBest, lastCompleted);
+                })(),
                 top4Items: {
                     player1: safe.stats?.top4Items?.player1 ?? base.stats.top4Items.player1,
                     player2: safe.stats?.top4Items?.player2 ?? base.stats.top4Items.player2,
@@ -505,6 +515,11 @@ const App: React.FC = () => {
         } else if (mode === 'current') {
             setData(prev => {
                 const base = createInitialState(gameVersionId);
+                let lastCompleted = 0;
+                for (let i = 0; i < prev.levelCaps.length; i++) {
+                    if (prev.levelCaps[i] && (prev.levelCaps[i] as any).done) lastCompleted = i + 1;
+                }
+                const persistedBest = Math.max(Number(prev.stats.best || 0), lastCompleted);
                 return {
                     ...base,
                     rules: prev.rules, // keep rules on non-full reset
@@ -515,7 +530,7 @@ const App: React.FC = () => {
                     rivalCaps: prev.rivalCaps.map(rc => ({ ...rc, done: false })),
                     stats: {
                         runs: prev.stats.runs + 1, // increase run number by 1
-                        best: prev.stats.best, // keep persisted best
+                        best: persistedBest, // persist best between runs like legendary tracker
                         top4Items: { player1: 0, player2: 0 },
                         deaths: { player1: 0, player2: 0 },
                         sumDeaths: {
@@ -908,12 +923,17 @@ const App: React.FC = () => {
         return Array.from(new Set(routes)).sort((a, b) => a.localeCompare(b));
     }, [data]);
 
-    // Compute current best from completed arenas
+    // Compute current best from completed milestones (Arenen, Top 4, Champion)
     const currentBest = useMemo(() => {
-        // Count only the first 8 arenas (exclude Top 4 and Champion)
-        return Array.isArray(data.levelCaps)
-            ? data.levelCaps.slice(0, 8).filter((c) => c && (c as any).done).length
-            : 0;
+        if (!Array.isArray(data.levelCaps)) return 0;
+        // Return the count up to the last completed cap (index + 1)
+        let lastCompleted = 0;
+        for (let i = 0; i < data.levelCaps.length; i++) {
+            if (data.levelCaps[i] && (data.levelCaps[i] as any).done) {
+                lastCompleted = i + 1;
+            }
+        }
+        return lastCompleted;
     }, [data.levelCaps]);
 
     // Persist best if current progress exceeds stored best
@@ -1156,7 +1176,7 @@ const App: React.FC = () => {
                 </div>
 
                 <main className="grid grid-cols-1 xl:grid-cols-[64fr_36fr] gap-6 mt-6">
-  <div className="space-y-8">
+                    <div className="space-y-8">
                         <TeamTable
                             title={`Team ${player1Name}`}
                             title2={`Team ${player2Name}`}
