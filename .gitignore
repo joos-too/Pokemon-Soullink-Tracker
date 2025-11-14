@@ -26,4 +26,3 @@ dist-ssr
 # Environment files
 .env
 .env.production
-.firebaserc
