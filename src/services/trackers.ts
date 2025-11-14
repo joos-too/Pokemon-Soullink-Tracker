@@ -152,16 +152,24 @@ export const createTracker = async ({
   initialState.player1Name = sanitizedP1;
   initialState.player2Name = sanitizedP2;
 
-  const updates: Record<string, unknown> = {
+  const trackerUpdates: Record<string, unknown> = {
     [`trackers/${trackerId}/meta`]: meta,
     [`trackers/${trackerId}/state`]: initialState,
   };
+  trackerUpdates[`userTrackers/${owner.uid}/${trackerId}`] = true;
 
-  Object.keys(members).forEach((uid) => {
-    updates[`userTrackers/${uid}/${trackerId}`] = true;
-  });
+  await update(ref(db), trackerUpdates);
 
-  await update(ref(db), updates);
+  const userTrackerUpdates: Record<string, unknown> = {};
+  Object.keys(members)
+    .filter((uid) => uid !== owner.uid)
+    .forEach((uid) => {
+      userTrackerUpdates[`userTrackers/${uid}/${trackerId}`] = true;
+    });
+
+  if (Object.keys(userTrackerUpdates).length > 0) {
+    await update(ref(db), userTrackerUpdates);
+  }
   return { trackerId, meta };
 };
 
