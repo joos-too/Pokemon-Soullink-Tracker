@@ -486,38 +486,31 @@ const App: React.FC = () => {
         setShowResetModal(true);
     };
 
-    const handleConfirmReset = (mode: 'current' | 'all' | 'legendary') => {
+    const handleConfirmReset = () => {
         const gameVersionId = activeTrackerId ? trackerMetas[activeTrackerId]?.gameVersionId : undefined;
-        if (mode === 'all') {
-            setData(createInitialState(gameVersionId));
-        } else if (mode === 'current') {
-            setData(prev => {
-                const base = createInitialState(gameVersionId);
-                return {
-                    ...base,
-                    rules: prev.rules, // keep rules on non-full reset
-                    legendaryTrackerEnabled: prev.legendaryTrackerEnabled,
-                    rivalCensorEnabled: prev.rivalCensorEnabled,
-                    // Preserve level cap entries (id, arena, level) and only reset the done flag
-                    levelCaps: prev.levelCaps.map(cap => ({ ...cap, done: false })),
-                    rivalCaps: prev.rivalCaps.map(rc => ({ ...rc, done: false })),
-                    stats: {
-                        runs: prev.stats.runs + 1, // increase run number by 1
-                        best: prev.stats.best, // keep persisted best
-                        top4Items: { player1: 0, player2: 0 },
-                        deaths: { player1: 0, player2: 0 },
-                        sumDeaths: {
-                            player1: (prev.stats.sumDeaths?.player1 ?? 0) + (prev.stats.deaths.player1 ?? 0),
-                            player2: (prev.stats.sumDeaths?.player2 ?? 0) + (prev.stats.deaths.player2 ?? 0),
-                        },
-                        legendaryEncounters: prev.stats.legendaryEncounters ?? 0,
+        setData(prev => {
+            const base = createInitialState(gameVersionId);
+            return {
+                ...base,
+                rules: prev.rules, // keep rule changes
+                // keep toggled settings
+                legendaryTrackerEnabled: prev.legendaryTrackerEnabled,
+                rivalCensorEnabled: prev.rivalCensorEnabled,
+                hardcoreModeEnabled: prev.hardcoreModeEnabled,
+                stats: {
+                    runs: prev.stats.runs + 1, // increase run number by 1
+                    best: prev.stats.best, // keep persisted best
+                    top4Items: { player1: 0, player2: 0 },
+                    deaths: { player1: 0, player2: 0 },
+                    sumDeaths: {
+                        player1: (prev.stats.sumDeaths?.player1 ?? 0) + (prev.stats.deaths.player1 ?? 0),
+                        player2: (prev.stats.sumDeaths?.player2 ?? 0) + (prev.stats.deaths.player2 ?? 0),
                     },
-                    runStartedAt: Date.now(),
-                };
-            });
-        } else if (mode === 'legendary') {
-            handlelegendaryReset();
-        }
+                    legendaryEncounters: prev.stats.legendaryEncounters ?? 0,
+                },
+                runStartedAt: Date.now(),
+            };
+        });
         setShowResetModal(false);
     };
 
@@ -1036,7 +1029,6 @@ const App: React.FC = () => {
                 isOpen={showResetModal}
                 onClose={() => setShowResetModal(false)}
                 onConfirm={handleConfirmReset}
-                legendaryTrackerEnabled={data.legendaryTrackerEnabled ?? true}
             />
             <div className="max-w-[1920px] mx-auto bg-white dark:bg-gray-800 shadow-lg p-4 rounded-lg">
                 <header className="relative text-center py-4 border-b-2 border-gray-300 dark:border-gray-700">
@@ -1058,8 +1050,8 @@ const App: React.FC = () => {
                             <button
                                 onClick={handleReset}
                                 className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white focus:outline-none"
-                                aria-label="Tracker zurücksetzen"
-                                title="Tracker zurücksetzen"
+                                aria-label="Run zurücksetzen"
+                                title="Run zurücksetzen"
                             >
                                 <FiRotateCw size={28} />
                             </button>
@@ -1119,9 +1111,9 @@ const App: React.FC = () => {
                             <button
                                 onClick={() => { setMobileMenuOpen(false); handleReset(); }}
                                 className="w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2"
-                                title="Tracker zurücksetzen"
+                                title="Run zurücksetzen"
                             >
-                                <FiRotateCw size={18} /> Tracker zurücksetzen
+                                <FiRotateCw size={18} /> Run zurücksetzen
                             </button>
                             <button
                                 onClick={() => { setMobileMenuOpen(false); setShowSettings(true); }}
