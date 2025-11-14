@@ -117,8 +117,8 @@ const App: React.FC = () => {
                 nickname: typeof p?.player2?.nickname === 'string' ? p.player2.nickname : '',
             },
         });
-        const sanitizeArray = (arr: any, fallback: PokemonPair[]) => {
-            const list = Array.isArray(arr) ? arr : fallback;
+        const sanitizeArray = (arr: any): PokemonPair[] => {
+            const list = Array.isArray(arr) ? arr : [];
             return list.map((p) => sanitizePair(p));
         };
 
@@ -138,9 +138,9 @@ const App: React.FC = () => {
         return {
             player1Name: safe.player1Name ?? base.player1Name,
             player2Name: safe.player2Name ?? base.player2Name,
-            team: sanitizeArray(safe.team, base.team),
-            box: sanitizeArray(safe.box, base.box),
-            graveyard: sanitizeArray(safe.graveyard, base.graveyard),
+            team: sanitizeArray(safe.team),
+            box: sanitizeArray(safe.box),
+            graveyard: sanitizeArray(safe.graveyard),
             rules: Array.isArray(safe.rules) ? safe.rules.map((r: any) => (typeof r === 'string' ? r : '')).filter((r: string) => r.trim().length > 0) : base.rules ?? DEFAULT_RULES,
             levelCaps: Array.isArray(safe.levelCaps)
                 ? safe.levelCaps.map((cap: any, i: number) => ({
@@ -790,7 +790,7 @@ const App: React.FC = () => {
         setCreateTrackerError(null);
         setCreateTrackerLoading(true);
         try {
-            const result = await createTracker({
+            await createTracker({
                 title: payload.title,
                 player1Name: payload.player1Name,
                 player2Name: payload.player2Name,
@@ -798,13 +798,7 @@ const App: React.FC = () => {
                 owner: user,
                 gameVersionId: payload.gameVersionId,
             });
-            const freshState = createInitialState(result.meta.gameVersionId);
-            freshState.player1Name = result.meta.player1Name;
-            freshState.player2Name = result.meta.player2Name;
-            setData(freshState);
             setShowCreateModal(false);
-            setActiveTrackerId(result.trackerId);
-            navigate(`/tracker/${result.trackerId}`);
         } catch (error) {
             if (error instanceof TrackerOperationError && error.code === 'user-not-found' && Array.isArray(error.details)) {
                 setCreateTrackerError(`Folgende Emails wurden nicht gefunden: ${error.details.join(', ')}`);
