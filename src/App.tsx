@@ -1204,6 +1204,7 @@ const App: React.FC = () => {
                             rivalCensorEnabled={data.rivalCensorEnabled ?? true}
                             hardcoreModeEnabled={data.hardcoreModeEnabled ?? true}
                             onlegendaryIncrement={handlelegendaryIncrement}
+                            onlegendaryReset={handlelegendaryReset}
                             runStartedAt={data.runStartedAt ?? activeTrackerMeta?.createdAt}
                             gameVersion={activeGameVersion}
                             rivalPreferences={currentUserRivalPreferences}

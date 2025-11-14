@@ -1,7 +1,7 @@
 import React, {useState, useMemo} from 'react';
 import type {LevelCap, RivalCap, Stats, GameVersion, UserSettings} from '@/types';
 import {PLAYER1_COLOR, PLAYER2_COLOR, LEGENDARY_POKEMON_NAMES} from '@/constants';
-import {FiMinus, FiPlus, FiEdit, FiX, FiSave, FiEye, FiEyeOff, FiRefreshCw} from 'react-icons/fi';
+import {FiMinus, FiPlus, FiEdit, FiX, FiSave, FiEye, FiEyeOff, FiRefreshCw, FiRotateCw} from 'react-icons/fi';
 import {RivalImage, BadgeImage, LegendaryImage} from './GameImages';
 
 interface InfoPanelProps {
@@ -21,6 +21,7 @@ interface InfoPanelProps {
     rivalCensorEnabled: boolean;
     hardcoreModeEnabled?: boolean;
     onlegendaryIncrement: () => void;
+    onlegendaryReset: () => void;
     runStartedAt?: number;
     gameVersion?: GameVersion;
     rivalPreferences: UserSettings['rivalPreferences'];
@@ -43,6 +44,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                                  rivalCensorEnabled,
                                                  hardcoreModeEnabled,
                                                  onlegendaryIncrement,
+                                                 onlegendaryReset,
                                                  runStartedAt,
                                                  gameVersion,
                                                  rivalPreferences,
@@ -382,10 +384,21 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                         dark:hover:bg-gray-700 dark:active:bg-gray-600 duration-200 cursor-pointer select-none"
                         onClick={onlegendaryIncrement}
                     >
-                        <h2 className="text-center p-2 text-black font-press-start text-[13.5px]"
-                            style={{backgroundColor: '#cfcfc3'}}>
-                            Legendären begegnet
-                        </h2>
+                        <div className="relative">
+                            <h2 className="text-center p-2 text-black font-press-start text-[13.5px]"
+                                style={{backgroundColor: '#cfcfc3'}}>
+                                Legendary Tracker
+                            </h2>
+                            <button
+                                type="button"
+                                onClick={(event) => { event.stopPropagation(); onlegendaryReset(); }}
+                                className="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-full text-black/70 hover:text-black hover:bg-black/10 ring-2 ring-black/20"
+                                aria-label="Legendäre Begegnungen zurücksetzen"
+                                title="Legendäre Begegnungen zurücksetzen"
+                            >
+                                <FiRotateCw size={16} />
+                            </button>
+                        </div>
                         <div className="p-3 flex items-center justify-center flex-grow">
                             <div className="flex items-center justify-center gap-2">
                                 <LegendaryImage pokemonName={randomLegendary} />

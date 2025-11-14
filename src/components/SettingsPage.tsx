@@ -271,7 +271,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                                     <div className="font-medium text-gray-800 dark:text-gray-200">Legendary Tracker
                                     </div>
                                     <Tooltip side="top" content={
-                                        `Aktiviert einen Tracker, welcher es ermöglicht die Encounter mit Legendären Pokémon nachzuvollziehen, um eine eigene Statistik zu führen.`
+                                        `Aktiviert einen Tracier, welcher es ermöglicht die Encounter mit Legendären Pokémon nachzuvollziehen, um eine eigene Statistik zu führen.`
                                         }>
                                         <span
                                             className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-help"
