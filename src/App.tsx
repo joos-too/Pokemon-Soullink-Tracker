@@ -790,7 +790,7 @@ const App: React.FC = () => {
         setCreateTrackerError(null);
         setCreateTrackerLoading(true);
         try {
-            const result = await createTracker({
+            await createTracker({
                 title: payload.title,
                 player1Name: payload.player1Name,
                 player2Name: payload.player2Name,
@@ -798,13 +798,7 @@ const App: React.FC = () => {
                 owner: user,
                 gameVersionId: payload.gameVersionId,
             });
-            const freshState = createInitialState(result.meta.gameVersionId);
-            freshState.player1Name = result.meta.player1Name;
-            freshState.player2Name = result.meta.player2Name;
-            setData(freshState);
             setShowCreateModal(false);
-            setActiveTrackerId(result.trackerId);
-            navigate(`/tracker/${result.trackerId}`);
         } catch (error) {
             if (error instanceof TrackerOperationError && error.code === 'user-not-found' && Array.isArray(error.details)) {
                 setCreateTrackerError(`Folgende Emails wurden nicht gefunden: ${error.details.join(', ')}`);

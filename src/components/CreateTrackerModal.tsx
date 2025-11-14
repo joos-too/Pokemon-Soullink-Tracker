@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {FiPlus, FiX, FiUsers} from 'react-icons/fi';
 import { GAME_VERSIONS } from '@/src/data/game-versions';
 import GameVersionPicker from './GameVersionPicker';
@@ -19,6 +19,21 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
   const [memberInputs, setMemberInputs] = useState<string[]>(['']);
   const [gameVersionId, setGameVersionId] = useState('gen5_sw');
   const [showVersionPicker, setShowVersionPicker] = useState(false);
+
+  const resetForm = useCallback(() => {
+    setTitle('');
+    setPlayer1Name('');
+    setPlayer2Name('');
+    setMemberInputs(['']);
+    setGameVersionId('gen5_sw');
+    setShowVersionPicker(false);
+  }, []);
+
+  useEffect(() => {
+    if (!isOpen) {
+      resetForm();
+    }
+  }, [isOpen, resetForm]);
 
   if (!isOpen) return null;
 
@@ -41,14 +56,6 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
       memberEmails: memberInputs.map((entry) => entry.trim()).filter(Boolean),
       gameVersionId: gameVersionId,
     });
-  };
-
-  const resetForm = () => {
-    setTitle('');
-    setPlayer1Name('');
-    setPlayer2Name('');
-    setMemberInputs(['']);
-    setGameVersionId('gen5_sw');
   };
 
   const handleClose = () => {
