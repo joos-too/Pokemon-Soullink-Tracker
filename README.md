@@ -69,6 +69,19 @@ Important:
 - Do not set VITE_USE_FIREBASE_EMULATOR in production. The app will validate these variables at runtime and throw a helpful error if missing.
 - Vite automatically exposes variables prefixed with VITE_ to the client.
 
+## Sync Firebase Database Rules via CLI
+
+The Realtime Database rules live in `database.rules.json`. To upload the current rules to a Firebase project:
+
+1. Log into the Firebase CLI (install it globally first if needed):  
+   `npx firebase login`
+2. Select your Firebase project (skip if already configured in `.firebaserc`):  
+   `npx firebase use <your-project-id>`
+3. Deploy only the database rules:  
+   `npx firebase deploy --only database`
+
+The same `database.rules.json` file is loaded automatically when you run the local emulators via `npm run emulators`.
+
 ## Autocomplete for German Pokémon names 
 
 - The app ships with a preloaded list file at `src/data/pokemon-de.ts` used for zero‑latency suggestions in search fields.
