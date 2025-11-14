@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useCallback, useRef, useMemo} from 'react';
-import {FiSettings, FiRotateCw, FiMenu, FiSun, FiMoon, FiHome} from 'react-icons/fi';
+import {FiSettings, FiRotateCw, FiMenu, FiHome} from 'react-icons/fi';
 import { FaGithub } from 'react-icons/fa';
 import type {AppState, PokemonPair, TrackerMeta, TrackerSummary, LevelCap, RivalGender} from '@/types';
 import {createInitialState, PLAYER1_COLOR, PLAYER2_COLOR, DEFAULT_RULES} from '@/constants';
@@ -13,7 +13,6 @@ import LoginPage from '@/src/components/LoginPage';
 import RegisterPage from '@/src/components/RegisterPage';
 import SettingsPage from '@/src/components/SettingsPage';
 import ResetModal from '@/src/components/ResetModal';
-import DarkModeToggle, { getDarkMode, setDarkMode } from '@/src/components/DarkModeToggle';
 import HomePage from '@/src/components/HomePage';
 import CreateTrackerModal from '@/src/components/CreateTrackerModal';
 import DeleteTrackerModal from '@/src/components/DeleteTrackerModal';
@@ -78,7 +77,6 @@ const App: React.FC = () => {
     const [showLossModal, setShowLossModal] = useState(false);
     const [pendingLossPair, setPendingLossPair] = useState<PokemonPair | null>(null);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const [isDark, setIsDark] = useState(getDarkMode());
     const [authScreen, setAuthScreen] = useState<'login' | 'register'>('login');
     const [showCreateModal, setShowCreateModal] = useState(false);
     const [createTrackerError, setCreateTrackerError] = useState<string | null>(null);
@@ -372,16 +370,6 @@ const App: React.FC = () => {
     // Preload/refresh German Pokémon names in the background (non-blocking)
     useEffect(() => {
         initPokemonGermanNamesBackgroundRefresh();
-    }, []);
-
-    // Keep local isDark in sync with document class/localStorage
-    useEffect(() => {
-        const target = document.documentElement;
-        const observer = new MutationObserver(() => setIsDark(getDarkMode()));
-        observer.observe(target, { attributes: true, attributeFilter: ['class'] });
-        const onStorage = (e: StorageEvent) => { if (e.key === 'color-theme') setIsDark(getDarkMode()); };
-        window.addEventListener('storage', onStorage);
-        return () => { observer.disconnect(); window.removeEventListener('storage', onStorage); };
     }, []);
 
     const routeTrackerExistsForUser = routeTrackerId ? userTrackerIds.includes(routeTrackerId) : false;
@@ -1059,7 +1047,6 @@ const App: React.FC = () => {
                     <div className="absolute right-2 sm:right-4 top-2 sm:top-3 flex items-center gap-1 sm:gap-2 z-30">
                         {/* Desktop icons (>=xl) */}
                         <div className="hidden xl:flex items-center gap-1 sm:gap-2">
-                            <DarkModeToggle />
                             <button
                                 onClick={handleNavigateHome}
                                 className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white focus:outline-none"
@@ -1122,14 +1109,6 @@ const App: React.FC = () => {
                             </button>
                         </div>
                         <div className="p-2 space-y-1">
-                            <button
-                                onClick={() => { const next = !isDark; setDarkMode(next); setIsDark(next); }}
-                                className="w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2"
-                                title={isDark ? 'Lightmode' : 'Darkmode'}
-                            >
-                                {isDark ? <FiSun size={18} /> : <FiMoon size={18} />}
-                                {isDark ? 'Lightmode' : 'Darkmode'}
-                            </button>
                             <button
                                 onClick={handleNavigateHome}
                                 className="w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2"
