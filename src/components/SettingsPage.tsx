@@ -1,7 +1,7 @@
 import React, {useState, useMemo} from 'react';
 import {PLAYER1_COLOR, PLAYER2_COLOR} from '@/constants';
 import type {TrackerMember, GameVersion, VariableRival, UserSettings, RivalGender} from '@/types';
-import {FiShield, FiUserPlus, FiX, FiTrash2, FiLogOut, FiInfo} from 'react-icons/fi';
+import {FiShield, FiUserPlus, FiX, FiTrash2, FiLogOut, FiInfo, FiArrowLeft} from 'react-icons/fi';
 import Tooltip from './Tooltip';
 
 interface SettingsPageProps {
@@ -128,10 +128,19 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
         <div className="bg-[#f0f0f0] dark:bg-gray-900 min-h-screen flex items-center justify-center p-4">
             <div className="w-full max-w-2xl mx-auto bg-white dark:bg-gray-800 shadow-lg p-6 rounded-lg">
                 <header className="pb-4 border-b border-gray-200 dark:border-gray-700">
-                    <div className="flex justify-between items-center">
-                        <div>
-                            <p className="text-xs uppercase tracking-[0.3em] text-green-600">Tracker</p>
-                            <h1 className="text-2xl font-bold font-press-start dark:text-gray-100 mt-2">Einstellungen</h1>
+                    <div className="flex justify-between items-center gap-4">
+                        <div className="flex items-center gap-4">
+                            <button
+                                type="button"
+                                onClick={onBack}
+                                className="p-2 rounded-full text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500"
+                                aria-label="Zurück zum Tracker"
+                            >
+                                <FiArrowLeft size={20} />
+                            </button>
+                            <div>
+                                <h1 className="text-2xl font-bold font-press-start dark:text-gray-100">Einstellungen</h1>
+                            </div>
                         </div>
                         {canManageMembers ? (
                             <button
@@ -412,14 +421,6 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                     </section>
                 </main>
 
-                <footer className="mt-8 text-center">
-                    <button
-                        onClick={onBack}
-                        className="bg-gray-600 text-white font-bold py-2 px-8 rounded-lg hover:bg-gray-700 transition-colors shadow-md focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
-                    >
-                        Zurück zum Tracker
-                    </button>
-                </footer>
             </div>
             {memberPendingRemoval && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
