@@ -13,8 +13,10 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({ isOpen, onClose, onCo
   const [selected, setSelected] = useState<number | null>(null);
 
   useEffect(() => {
-    if (isOpen) setSelected(null);
-  }, [isOpen]);
+    if (isOpen) {
+      setSelected(playerNames.length === 1 ? 0 : null);
+    }
+  }, [isOpen, playerNames.length]);
 
   if (!isOpen) return null;
 
@@ -56,14 +58,20 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({ isOpen, onClose, onCo
         )}
 
         <form onSubmit={handleSubmit}>
-          <div className="space-y-3">
-            {playerNames.map((name, index) => (
-              <label key={`lost-player-${index}`} className="flex items-center gap-2 cursor-pointer dark:text-gray-200">
-                <input type="radio" name="lostPlayer" value={index} checked={selected === index} onChange={() => setSelected(index)} className="h-4 w-4 accent-red-600"/>
-                <span>{name}</span>
-              </label>
-            ))}
-          </div>
+          {playerNames.length === 1 ? (
+            <div className="text-sm text-gray-700 dark:text-gray-300 border border-red-200 dark:border-red-500 rounded-md p-3 bg-red-50 dark:bg-red-900/30">
+              Der Verlust wird automatisch <span className="font-semibold">{playerNames[0]}</span> zugewiesen.
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {playerNames.map((name, index) => (
+                <label key={`lost-player-${index}`} className="flex items-center gap-2 cursor-pointer dark:text-gray-200">
+                  <input type="radio" name="lostPlayer" value={index} checked={selected === index} onChange={() => setSelected(index)} className="h-4 w-4 accent-red-600"/>
+                  <span>{name}</span>
+                </label>
+              ))}
+            </div>
+          )}
 
           <div className="mt-6 flex justify-end gap-2">
             <button type="button" onClick={onClose} className="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700">Abbrechen</button>
