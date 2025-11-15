@@ -74,7 +74,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
     return (
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700">
             <div className="px-3 pt-3 pb-2 flex items-center justify-between">
-                <h3 className="text-sm font-semibold text-gray-800 dark:text-gray-200">{title}</h3>
+                <h3 className="text-sm font-press-start text-gray-800 dark:text-gray-200">{title}</h3>
                 <button
                     type="button"
                     onClick={() => {
