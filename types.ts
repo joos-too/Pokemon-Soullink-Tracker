@@ -102,9 +102,9 @@ export interface TrackerMeta {
   id: string;
   title: string;
   playerNames: string[];
-  player1Name?: string;
-  player2Name?: string;
-  player3Name?: string;
+  player1Name?: string | null;
+  player2Name?: string | null;
+  player3Name?: string | null;
   createdBy: string;
   createdAt: number;
   members: Record<string, TrackerMember>;
