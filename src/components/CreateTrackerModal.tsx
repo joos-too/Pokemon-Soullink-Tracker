@@ -5,6 +5,8 @@ import { PLAYER_COLORS } from '@/constants';
 import { focusRingClasses, focusRingInsetClasses } from '@/src/styles/focusRing';
 import GameVersionPicker from './GameVersionPicker';
 
+const PLAYER_COUNT_LABELS: Record<number, string> = { 1: 'Solo', 2: 'Duo', 3: 'Trio' };
+
 
 interface CreateTrackerModalProps {
   isOpen: boolean;
@@ -163,7 +165,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
                             : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600'
                         } ${count !== 3 ? 'border-r border-gray-300 dark:border-gray-600' : ''} ${focusRingInsetClasses}`}
                       >
-                        {count} Spieler
+                        {PLAYER_COUNT_LABELS[count]}
                       </button>
                     );
                   })}
@@ -171,23 +173,26 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
               </div>
 
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                {playerNames.map((value, index) => (
-                  <div key={`player-name-${index}`}>
-                    <label
-                      className="text-sm font-semibold mb-1 block"
-                      style={{color: PLAYER_COLORS[index] ?? '#4b5563'}}
-                    >
-                      Spieler {index + 1}
-                    </label>
-                    <input
-                      type="text"
-                      value={value}
-                      onChange={(e) => setPlayerNames((prev) => prev.map((entry, i) => (i === index ? e.target.value : entry)))}
-                      className="w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500"
-                      placeholder="Name"
-                    />
-                  </div>
-                ))}
+                {playerNames.map((value, index) => {
+                  const fullWidth = playerNames.length === 3 && index === 2;
+                  return (
+                    <div key={`player-name-${index}`} className={fullWidth ? 'sm:col-span-2' : undefined}>
+                      <label
+                        className="text-sm font-semibold mb-1 block"
+                        style={{color: PLAYER_COLORS[index] ?? '#4b5563'}}
+                      >
+                        Spieler {index + 1}
+                      </label>
+                      <input
+                        type="text"
+                        value={value}
+                        onChange={(e) => setPlayerNames((prev) => prev.map((entry, i) => (i === index ? e.target.value : entry)))}
+                        className="w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500"
+                        placeholder="Name"
+                      />
+                    </div>
+                  );
+                })}
               </div>
             </div>
 

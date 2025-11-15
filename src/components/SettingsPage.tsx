@@ -172,46 +172,25 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                                     placeholder="z. B. Schwarz 2 Soullink"
                                 />
                             </div>
-                            <div className="space-y-3 border border-gray-200 dark:border-gray-700 rounded-md p-3">
-                                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                                    <label className="text-sm font-bold text-gray-800 dark:text-gray-200">
-                                        Spieler
-                                    </label>
-                                    <div className="inline-flex rounded-md border border-gray-300 dark:border-gray-600 overflow-hidden">
-                                        {Array.from({length: MAX_PLAYER_COUNT}, (_, idx) => idx + 1).map((count) => {
-                                            const active = count === safePlayerCount;
-                                            return (
-                                                <span
-                                                    key={`count-${count}`}
-                                                    className={`px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] ${
-                                                        active
-                                                            ? 'bg-green-600 text-white'
-                                                            : 'bg-white dark:bg-gray-700 text-gray-400 dark:text-gray-500 opacity-60'
-                                                    } ${count < MAX_PLAYER_COUNT ? 'border-r border-gray-300 dark:border-gray-600' : ''}`}
-                                                    aria-disabled={!active}
-                                                >
-                                                    {count} Spieler
-                                                </span>
-                                            );
-                                        })}
-                                    </div>
-                                </div>
-
+                            <div className="space-y-2">
                                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                                    {Array.from({length: safePlayerCount}, (_, index) => (
-                                        <div key={`player-${index}`}>
-                                            <label className="block text-sm font-bold mb-2"
-                                                   style={{color: PLAYER_COLORS[index] ?? '#4b5563'}}>
-                                                Name Spieler {index + 1}
-                                            </label>
-                                            <input
-                                                type="text"
-                                                value={playerNames[index] ?? ''}
-                                                onChange={(e) => onPlayerNameChange(index, e.target.value)}
-                                                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-                                            />
-                                        </div>
-                                    ))}
+                                    {Array.from({length: safePlayerCount}, (_, index) => {
+                                        const fullWidth = safePlayerCount === 3 && index === 2;
+                                        return (
+                                            <div key={`player-${index}`} className={fullWidth ? 'sm:col-span-2' : undefined}>
+                                                <label className="block text-sm font-bold mb-2"
+                                                       style={{color: PLAYER_COLORS[index] ?? '#4b5563'}}>
+                                                    Name Spieler {index + 1}
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    value={playerNames[index] ?? ''}
+                                                    onChange={(e) => onPlayerNameChange(index, e.target.value)}
+                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+                                                />
+                                            </div>
+                                        );
+                                    })}
                                 </div>
                             </div>
                         </div>
