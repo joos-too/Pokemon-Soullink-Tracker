@@ -775,6 +775,16 @@ const App: React.FC = () => {
         }));
     };
 
+    const handlelegendaryDecrement = () => {
+        setData(prev => ({
+            ...prev,
+            stats: {
+                ...prev.stats,
+                legendaryEncounters: Math.max(0, (prev.stats.legendaryEncounters ?? 0) - 1),
+            },
+        }));
+    };
+
     const openCreateTrackerModal = () => {
         setCreateTrackerError(null);
         setShowCreateModal(true);
@@ -1219,6 +1229,7 @@ const App: React.FC = () => {
                             rivalCensorEnabled={data.rivalCensorEnabled ?? true}
                             hardcoreModeEnabled={data.hardcoreModeEnabled ?? true}
                             onlegendaryIncrement={handlelegendaryIncrement}
+                            onlegendaryDecrement={handlelegendaryDecrement}
                             runStartedAt={data.runStartedAt ?? activeTrackerMeta?.createdAt}
                             gameVersion={activeGameVersion}
                             rivalPreferences={currentUserRivalPreferences}
