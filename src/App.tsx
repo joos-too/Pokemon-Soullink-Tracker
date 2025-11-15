@@ -1,8 +1,8 @@
 import React, {useState, useEffect, useCallback, useRef, useMemo} from 'react';
 import {FiSettings, FiRotateCw, FiMenu, FiSun, FiMoon, FiHome} from 'react-icons/fi';
 import { FaGithub } from 'react-icons/fa';
-import type {AppState, PokemonPair, TrackerMeta, TrackerSummary, LevelCap, RivalGender} from '@/types';
-import {createInitialState, PLAYER1_COLOR, PLAYER2_COLOR, DEFAULT_RULES} from '@/constants';
+import type {AppState, PokemonLink, TrackerMeta, TrackerSummary, LevelCap, RivalGender, Pokemon} from '@/types';
+import {createInitialState, DEFAULT_RULES, PLAYER_COLORS, sanitizePlayerNames, ensureStatsForPlayers} from '@/constants';
 import TeamTable from '@/src/components/TeamTable';
 import InfoPanel from '@/src/components/InfoPanel';
 import Graveyard from '@/src/components/Graveyard';
@@ -40,7 +40,9 @@ const computeTrackerSummary = (state?: Partial<AppState> | null): TrackerSummary
     if (doneCaps.length > 0) {
         bestLabel = doneCaps[doneCaps.length - 1]?.arena || bestLabel;
     }
-    const deathCount = Number(state?.stats?.deaths?.player1 ?? 0) + Number(state?.stats?.deaths?.player2 ?? 0);
+    const deathCount = Array.isArray(state?.stats?.deaths)
+        ? state!.stats!.deaths.reduce((sum, value) => sum + Number(value || 0), 0)
+        : 0;
     return {
         teamCount,
         boxCount,
@@ -76,7 +78,7 @@ const App: React.FC = () => {
     const pendingWriteRef = useRef<Promise<void>>(Promise.resolve());
     const isHydratingRef = useRef(true);
     const [showLossModal, setShowLossModal] = useState(false);
-    const [pendingLossPair, setPendingLossPair] = useState<PokemonPair | null>(null);
+    const [pendingLossPair, setPendingLossPair] = useState<PokemonLink | null>(null);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [isDark, setIsDark] = useState(getDarkMode());
     const [authScreen, setAuthScreen] = useState<'login' | 'register'>('login');
@@ -105,23 +107,6 @@ const App: React.FC = () => {
     }, [activeTrackerId, user]);
 
     const coerceAppState = useCallback((incoming: any, base: AppState): AppState => {
-        const sanitizePair = (p: any): PokemonPair => ({
-            id: Number(p?.id) || 0,
-            route: typeof p?.route === 'string' ? p.route : '',
-            player1: {
-                name: typeof p?.player1?.name === 'string' ? p.player1.name : '',
-                nickname: typeof p?.player1?.nickname === 'string' ? p.player1.nickname : '',
-            },
-            player2: {
-                name: typeof p?.player2?.name === 'string' ? p.player2.name : '',
-                nickname: typeof p?.player2?.nickname === 'string' ? p.player2.nickname : '',
-            },
-        });
-        const sanitizeArray = (arr: any): PokemonPair[] => {
-            const list = Array.isArray(arr) ? arr : [];
-            return list.map((p) => sanitizePair(p));
-        };
-
         const gameVersionForDefaults = activeGameVersion ?? GAME_VERSIONS['gen5_sw'];
         const savedRivalCaps = Array.isArray(incoming?.rivalCaps) ? incoming.rivalCaps : [];
         const finalRivalCaps = gameVersionForDefaults.rivalCaps.map((rivalCapTemplate) => {
@@ -134,10 +119,46 @@ const App: React.FC = () => {
         });
 
         const safe = (incoming && typeof incoming === 'object') ? incoming : {};
+        const legacyNames: string[] = [safe.player1Name, safe.player2Name, safe.player3Name].filter((name): name is string => typeof name === 'string' && name.trim().length > 0);
+        const normalizedNames = sanitizePlayerNames(Array.isArray(safe.playerNames) ? safe.playerNames : (legacyNames.length > 0 ? legacyNames : base.playerNames));
+        const playerCount = normalizedNames.length;
+
+        const sanitizePokemon = (pokemon: any): Pokemon => ({
+            name: typeof pokemon?.name === 'string' ? pokemon.name : '',
+            nickname: typeof pokemon?.nickname === 'string' ? pokemon.nickname : '',
+        });
+
+        const sanitizeMembers = (link: any): Pokemon[] => {
+            const members = Array.isArray(link?.members) ? link.members.map(sanitizePokemon) : [];
+            if (members.length === 0) {
+                ['player1', 'player2', 'player3'].forEach((key) => {
+                    if (link?.[key]) {
+                        members.push(sanitizePokemon(link[key]));
+                    }
+                });
+            }
+            const trimmed = members.slice(0, playerCount);
+            while (trimmed.length < playerCount) {
+                trimmed.push({ name: '', nickname: '' });
+            }
+            return trimmed;
+        };
+
+        const sanitizeLink = (p: any, fallbackId: number): PokemonLink => ({
+            id: Number.isFinite(Number(p?.id)) && Number(p?.id) > 0 ? Number(p?.id) : fallbackId,
+            route: typeof p?.route === 'string' ? p.route : '',
+            members: sanitizeMembers(p),
+        });
+
+        const sanitizeArray = (arr: any): PokemonLink[] => {
+            const list = Array.isArray(arr) ? arr : [];
+            return list.map((p, index) => sanitizeLink(p, index + 1));
+        };
+
+        const stats = ensureStatsForPlayers(safe.stats, playerCount);
 
         return {
-            player1Name: safe.player1Name ?? base.player1Name,
-            player2Name: safe.player2Name ?? base.player2Name,
+            playerNames: normalizedNames,
             team: sanitizeArray(safe.team),
             box: sanitizeArray(safe.box),
             graveyard: sanitizeArray(safe.graveyard),
@@ -152,21 +173,9 @@ const App: React.FC = () => {
                 : base.levelCaps.length > 0 ? base.levelCaps : gameVersionForDefaults.levelCaps.map(c => ({...c, done: false})),
             rivalCaps: finalRivalCaps,
             stats: {
-                runs: safe.stats?.runs ?? base.stats.runs,
-                best: safe.stats?.best ?? base.stats.best,
-                top4Items: {
-                    player1: safe.stats?.top4Items?.player1 ?? base.stats.top4Items.player1,
-                    player2: safe.stats?.top4Items?.player2 ?? base.stats.top4Items.player2,
-                },
-                deaths: {
-                    player1: safe.stats?.deaths?.player1 ?? base.stats.deaths.player1,
-                    player2: safe.stats?.deaths?.player2 ?? base.stats.deaths.player2,
-                },
-                sumDeaths: {
-                    player1: safe.stats?.sumDeaths?.player1 ?? base.stats.sumDeaths?.player1 ?? 0,
-                    player2: safe.stats?.sumDeaths?.player2 ?? base.stats.sumDeaths?.player2 ?? 0,
-                },
-                legendaryEncounters: safe.stats?.legendaryEncounters ?? base.stats.legendaryEncounters ?? 0,
+                ...stats,
+                runs: typeof safe.stats?.runs === 'number' ? safe.stats.runs : stats.runs,
+                best: typeof safe.stats?.best === 'number' ? safe.stats.best : stats.best,
             },
             legendaryTrackerEnabled: safe.legendaryTrackerEnabled ?? base.legendaryTrackerEnabled ?? true,
             rivalCensorEnabled: safe.rivalCensorEnabled ?? base.rivalCensorEnabled ?? true,
@@ -549,46 +558,46 @@ const App: React.FC = () => {
         navigate('/');
     };
 
-    const updateNestedState = (
-        setter: React.Dispatch<React.SetStateAction<AppState>>,
-        key: keyof AppState,
-        index: number,
-        field: string,
-        subField: string | null,
-        value: string
-    ) => {
-        setter(prev => {
-            const newArray = [...(prev[key] as any[])];
-            if (subField) {
-                newArray[index] = {
-                    ...newArray[index],
-                    [field]: {
-                        ...newArray[index][field],
-                        [subField]: value,
-                    },
-                };
-            } else {
-                newArray[index] = { ...newArray[index], [field]: value };
-            }
-            return {...prev, [key]: newArray};
+    const updateLinkMember = useCallback((key: 'team' | 'box', index: number, playerIndex: number, field: keyof Pokemon, value: string) => {
+        setData(prev => {
+            const list = [...prev[key]];
+            const target = list[index];
+            if (!target) return prev;
+            const members = [...target.members];
+            members[playerIndex] = {
+                ...(members[playerIndex] ?? { name: '', nickname: '' }),
+                [field]: value,
+            };
+            list[index] = { ...target, members };
+            return { ...prev, [key]: list };
         });
-    };
-
-    const handleTeamChange = useCallback((index: number, player: 'player1' | 'player2', field: string, value: string) => {
-        updateNestedState(setData, 'team', index, player, field, value);
     }, []);
+
+    const updateLinkRoute = useCallback((key: 'team' | 'box', index: number, value: string) => {
+        setData(prev => {
+            const list = [...prev[key]];
+            const target = list[index];
+            if (!target) return prev;
+            list[index] = { ...target, route: value };
+            return { ...prev, [key]: list };
+        });
+    }, []);
+
+    const handleTeamChange = useCallback((index: number, playerIndex: number, field: keyof Pokemon, value: string) => {
+        updateLinkMember('team', index, playerIndex, field, value);
+    }, [updateLinkMember]);
 
     const handleRouteChange = useCallback((index: number, value: string) => {
-        updateNestedState(setData, 'team', index, 'route', null, value);
-    }, []);
+        updateLinkRoute('team', index, value);
+    }, [updateLinkRoute]);
 
-    const handleBoxChange = useCallback((index: number, player: 'player1' | 'player2', field: string, value: string) => {
-        updateNestedState(setData, 'box', index, player, field, value);
-    }, []);
+    const handleBoxChange = useCallback((index: number, playerIndex: number, field: keyof Pokemon, value: string) => {
+        updateLinkMember('box', index, playerIndex, field, value);
+    }, [updateLinkMember]);
 
     const handleBoxRouteChange = useCallback((index: number, value: string) => {
-        updateNestedState(setData, 'box', index, 'route', null, value);
-    }, []);
+        updateLinkRoute('box', index, value);
+    }, [updateLinkRoute]);
 
     const handleLevelCapToggle = useCallback((index: number) => {
         setData(prev => ({
@@ -618,28 +627,29 @@ const App: React.FC = () => {
         }
     };
 
-    const handleNestedStatChange = (group: keyof AppState['stats'], key: string, value: string) => {
+    const handlePlayerStatChange = (group: keyof AppState['stats'], playerIndex: number, value: string) => {
         const numValue = Number(value);
-        if (!isNaN(numValue)) {
-            setData(prev => ({
+        if (isNaN(numValue)) return;
+        setData(prev => {
+            const target = prev.stats[group];
+            if (!Array.isArray(target)) return prev;
+            const updated = target.map((entry, index) => index === playerIndex ? numValue : entry);
+            return {
                 ...prev,
                 stats: {
                     ...prev.stats,
-                    [group]: {
-                        ...(prev.stats[group] as object),
-                        [key]: numValue,
-                    }
+                    [group]: updated,
                 }
-            }));
-        }
+            };
+        });
     };
 
-    const handleAddToGraveyard = useCallback((pair: PokemonPair) => {
+    const handleAddToGraveyard = useCallback((pair: PokemonLink) => {
         setPendingLossPair(pair);
         setShowLossModal(true);
     }, []);
 
-    const handleConfirmLoss = (who: 'player1' | 'player2') => {
+    const handleConfirmLoss = (playerIndex: number) => {
         if (!pendingLossPair) return;
         const pair = pendingLossPair;
         setData(prev => ({
@@ -649,35 +659,34 @@ const App: React.FC = () => {
             box: prev.box.filter(p => p.id !== pair.id),
             stats: {
                 ...prev.stats,
-                deaths: {
-                    player1: prev.stats.deaths.player1 + (who === 'player1' ? 1 : 0),
-                    player2: prev.stats.deaths.player2 + (who === 'player2' ? 1 : 0),
-                }
+                deaths: prev.stats.deaths.map((count, index) => index === playerIndex ? (Number(count || 0) + 1) : count),
             }
         }));
         setShowLossModal(false);
         setPendingLossPair(null);
     };
 
-    const handleManualAddToGraveyard = (pair: PokemonPair) => {
+    const handleManualAddToGraveyard = (pair: PokemonLink) => {
         setData(prev => ({
             ...prev,
             graveyard: [...prev.graveyard, pair],
         }));
     };
 
-    const handleManualAddFromModal = (route: string, p1Pokemon: string, p2Pokemon: string) => {
-        const newPair: PokemonPair = {
+    const handleManualAddFromModal = (route: string, members: Pokemon[]) => {
+        const newPair: PokemonLink = {
             id: Date.now(),
             route: route.trim(),
-            player1: {name: p1Pokemon.trim(), nickname: ''},
-            player2: {name: p2Pokemon.trim(), nickname: ''},
+            members: members.map((member) => ({
+                name: member.name.trim(),
+                nickname: member.nickname.trim(),
+            })),
         };
         handleManualAddToGraveyard(newPair);
         setIsModalOpen(false);
     };
 
-    const handleAddTeamPair = (payload: { route: string; p1Name: string; p1Nickname: string; p2Name: string; p2Nickname: string; }) => {
+    const handleAddTeamPair = (payload: { route: string; members: Pokemon[]; }) => {
         setData(prev => {
             if (prev.team.length >= 6) return prev; // enforce 6 max
             return ({
@@ -687,15 +696,17 @@ const App: React.FC = () => {
                     {
                         id: Date.now(),
                         route: payload.route.trim(),
-                        player1: { name: payload.p1Name.trim(), nickname: payload.p1Nickname.trim() },
-                        player2: { name: payload.p2Name.trim(), nickname: payload.p2Nickname.trim() },
+                        members: payload.members.map(member => ({
+                            name: member.name.trim(),
+                            nickname: member.nickname.trim(),
+                        })),
                     }
                 ]
             });
         });
     };
 
-    const handleAddBoxPair = (payload: { route: string; p1Name: string; p1Nickname: string; p2Name: string; p2Nickname: string; }) => {
+    const handleAddBoxPair = (payload: { route: string; members: Pokemon[]; }) => {
         setData(prev => ({
             ...prev,
             box: [
@@ -703,15 +714,16 @@ const App: React.FC = () => {
                 {
                     id: Date.now(),
                     route: payload.route.trim(),
-                    player1: { name: payload.p1Name.trim(), nickname: payload.p1Nickname.trim() },
-                    player2: { name: payload.p2Name.trim(), nickname: payload.p2Nickname.trim() },
+                    members: payload.members.map(member => ({
+                        name: member.name.trim(),
+                        nickname: member.nickname.trim(),
+                    })),
                 }
             ]
         }));
     };
 
-    const handleNameChange = (player: 'player1Name' | 'player2Name', name: string) => {
-        setData(prev => ({...prev, [player]: name}));
+    const syncActiveMetaPlayerNames = useCallback((names: string[]) => {
         if (!activeTrackerId) return;
         setTrackerMetas(prev => {
             const existing = prev[activeTrackerId];
@@ -720,11 +732,61 @@ const App: React.FC = () => {
                 ...prev,
                 [activeTrackerId]: {
                     ...existing,
-                    [player]: name,
+                    playerNames: names,
+                    player1Name: names[0],
+                    player2Name: names[1],
+                    player3Name: names[2],
                 },
             };
         });
-        update(ref(db, `trackers/${activeTrackerId}/meta`), { [player]: name });
+        update(ref(db, `trackers/${activeTrackerId}/meta`), {
+            playerNames: names,
+            player1Name: names[0],
+            player2Name: names[1] ?? null,
+            player3Name: names[2] ?? null,
+        }).catch(() => {});
+    }, [activeTrackerId]);
+
+    const handlePlayerNameChange = (index: number, name: string) => {
+        setData(prev => {
+            const playerNames = [...prev.playerNames];
+            while (playerNames.length <= index) {
+                playerNames.push(`Spieler ${playerNames.length + 1}`);
+            }
+            playerNames[index] = name;
+            syncActiveMetaPlayerNames(playerNames);
+            return { ...prev, playerNames };
+        });
+    };
+
+    const handlePlayerCountChange = (count: number) => {
+        const nextCount = Math.min(Math.max(count, 1), PLAYER_COLORS.length);
+        setData(prev => {
+            const nextNames = (() => {
+                const names = prev.playerNames.slice(0, nextCount).map((n, idx) => (n?.trim().length ? n : `Spieler ${idx + 1}`));
+                while (names.length < nextCount) {
+                    names.push(`Spieler ${names.length + 1}`);
+                }
+                return names;
+            })();
+            const resizeLinks = (links: PokemonLink[]) => links.map(link => {
+                const members = link.members.slice(0, nextCount);
+                while (members.length < nextCount) {
+                    members.push({ name: '', nickname: '' });
+                }
+                return { ...link, members };
+            });
+            const resizedStats = ensureStatsForPlayers(prev.stats, nextCount);
+            syncActiveMetaPlayerNames(nextNames);
+            return {
+                ...prev,
+                playerNames: nextNames,
+                team: resizeLinks(prev.team),
+                box: resizeLinks(prev.box),
+                graveyard: resizeLinks(prev.graveyard),
+                stats: resizedStats,
+            };
+        });
     };
 
     const handleTitleChange = (title: string) => {
@@ -785,15 +847,14 @@ const App: React.FC = () => {
         navigate(`/tracker/${trackerId}`);
     };
 
-    const handleCreateTrackerSubmit = async (payload: { title: string; player1Name: string; player2Name: string; memberEmails: string[], gameVersionId: string; }) => {
+    const handleCreateTrackerSubmit = async (payload: { title: string; playerNames: string[]; memberEmails: string[]; gameVersionId: string; }) => {
         if (!user) return;
         setCreateTrackerError(null);
         setCreateTrackerLoading(true);
         try {
             await createTracker({
                 title: payload.title,
-                player1Name: payload.player1Name,
-                player2Name: payload.player2Name,
+                playerNames: payload.playerNames,
                 memberEmails: payload.memberEmails,
                 owner: user,
                 gameVersionId: payload.gameVersionId,
@@ -888,17 +949,16 @@ const App: React.FC = () => {
 
     const clearedRoutes = useMemo(() => {
         const routes: string[] = [];
-        const collect = (arr: PokemonPair[] | undefined | null) => {
+        const collect = (arr: PokemonLink[] | undefined | null) => {
             const list = Array.isArray(arr) ? arr : [];
             for (const p of list) {
                 const r = (p?.route || '').trim();
                 if (r) routes.push(r);
             }
         };
-        collect(data?.team as any);
-        collect(data?.box as any);
-        collect(data?.graveyard as any);
-        // Unique + sort
+        collect(data?.team);
+        collect(data?.box);
+        collect(data?.graveyard);
         return Array.from(new Set(routes)).sort((a, b) => a.localeCompare(b));
     }, [data]);
 
@@ -933,8 +993,13 @@ const App: React.FC = () => {
 
     const trackerMembers = activeTrackerMeta ? Object.values(activeTrackerMeta.members ?? {}) : [];
     const canManageMembers = Boolean(user && activeTrackerMeta?.members?.[user.uid]?.role === 'owner');
-    const player1Name = activeTrackerMeta?.player1Name ?? data.player1Name;
-    const player2Name = activeTrackerMeta?.player2Name ?? data.player2Name;
+    const resolvedPlayerNames = useMemo(() => {
+        if (Array.isArray(activeTrackerMeta?.playerNames) && activeTrackerMeta.playerNames.length > 0) {
+            return sanitizePlayerNames(activeTrackerMeta.playerNames);
+        }
+        return data.playerNames;
+    }, [activeTrackerMeta?.playerNames, data.playerNames]);
+    const playerColors = useMemo(() => resolvedPlayerNames.map((_, index) => PLAYER_COLORS[index]), [resolvedPlayerNames]);
 
     // Backfill runStartedAt for legacy trackers once
     useEffect(() => {
@@ -945,7 +1010,7 @@ const App: React.FC = () => {
             setData(prev => ({ ...prev, runStartedAt: metaCreated }));
         }
     }, [user, dataLoaded, activeTrackerId, data.runStartedAt, activeTrackerMeta?.createdAt]);
-    const nameTitleFallback = [player1Name, player2Name].map((n) => n?.trim()).filter(Boolean).join(' & ');
+    const nameTitleFallback = resolvedPlayerNames.map((n) => n?.trim()).filter(Boolean).join(' • ');
     const trackerTitleDisplay = activeTrackerMeta?.title?.trim() || nameTitleFallback || 'Soullink Tracker';
 
     // Show loading while auth is initializing, or while the target tracker is still resolving/loading
@@ -996,9 +1061,9 @@ const App: React.FC = () => {
         <SettingsPage
             trackerTitle={activeTrackerMeta?.title ?? 'Tracker'}
             onTitleChange={handleTitleChange}
-            player1Name={player1Name}
-            player2Name={player2Name}
-            onNameChange={handleNameChange}
+            playerNames={resolvedPlayerNames}
+            onPlayerNameChange={handlePlayerNameChange}
+            onPlayerCountChange={handlePlayerCountChange}
             onBack={() => setShowSettings(false)}
             legendaryTrackerEnabled={data.legendaryTrackerEnabled ?? true}
             onlegendaryTrackerToggle={handlelegendaryTrackerToggle}
@@ -1027,16 +1092,14 @@ const App: React.FC = () => {
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
                 onAdd={handleManualAddFromModal}
-                player1Name={player1Name}
-                player2Name={player2Name}
+                playerNames={resolvedPlayerNames}
             />
             <SelectLossModal
                 isOpen={showLossModal}
                 onClose={() => { setShowLossModal(false); setPendingLossPair(null); }}
                 onConfirm={handleConfirmLoss}
                 pair={pendingLossPair}
-                player1Name={player1Name}
-                player2Name={player2Name}
+                playerNames={resolvedPlayerNames}
             />
             <ResetModal
                 isOpen={showResetModal}
@@ -1152,18 +1215,15 @@ const App: React.FC = () => {
                 <main className="grid grid-cols-1 xl:grid-cols-[64fr_36fr] gap-6 mt-6">
   <div className="space-y-8">
                         <TeamTable
-                            title={`Team ${player1Name}`}
-                            title2={`Team ${player2Name}`}
-                            color1={PLAYER1_COLOR}
-                            color2={PLAYER2_COLOR}
+                            title="Team"
                             data={data.team}
+                            playerNames={resolvedPlayerNames}
+                            playerColors={playerColors}
                             onPokemonChange={handleTeamChange}
                             onRouteChange={handleRouteChange}
                             onAddToGraveyard={handleAddToGraveyard}
-                            player1Name={player1Name}
-                            player2Name={player2Name}
-                            onAddPair={handleAddTeamPair}
-                            emptyMessage="Noch keine Pokémon im Team"
+                            onAddLink={handleAddTeamPair}
+                            emptyMessage="Noch keine Pokemon im Team"
                             addDisabled={data.team.length >= 6}
                             addDisabledReason="Team ist voll (max 6)"
                             context="team"
@@ -1175,18 +1235,15 @@ const App: React.FC = () => {
                             }))}
                         />
                         <TeamTable
-                            title={`Box ${player1Name}`}
-                            title2={`Box ${player2Name}`}
-                            color1={PLAYER1_COLOR}
-                            color2={PLAYER2_COLOR}
+                            title="Box"
                             data={data.box}
+                            playerNames={resolvedPlayerNames}
+                            playerColors={playerColors}
                             onPokemonChange={handleBoxChange}
                             onRouteChange={handleBoxRouteChange}
                             onAddToGraveyard={handleAddToGraveyard}
-                            player1Name={player1Name}
-                            player2Name={player2Name}
-                            onAddPair={handleAddBoxPair}
-                            emptyMessage="Noch keine Pokémon in der Box"
+                            onAddLink={handleAddBoxPair}
+                            emptyMessage="Noch keine Pokemon in der Box"
                             context="box"
                             onMoveToTeam={(pair) => setData(prev => {
                                 if (prev.team.length >= 6) return prev;
@@ -1206,13 +1263,13 @@ const App: React.FC = () => {
                             levelCaps={data.levelCaps}
                             rivalCaps={data.rivalCaps}
                             stats={{...data.stats, best: Math.max(data.stats.best, currentBest)}}
-                            player1Name={player1Name}
-                            player2Name={player2Name}
+                            playerNames={resolvedPlayerNames}
+                            playerColors={playerColors}
                             onLevelCapToggle={handleLevelCapToggle}
                             onRivalCapToggleDone={handleRivalCapToggleDone}
                             onRivalCapReveal={handleRivalCapReveal}
                             onStatChange={handleStatChange}
-                            onNestedStatChange={handleNestedStatChange}
+                            onPlayerStatChange={handlePlayerStatChange}
                             rules={data.rules}
                             onRulesChange={(rules) => setData(prev => ({ ...prev, rules }))}
                             legendaryTrackerEnabled={data.legendaryTrackerEnabled ?? true}
@@ -1225,8 +1282,8 @@ const App: React.FC = () => {
                         />
                         <Graveyard
                             graveyard={data.graveyard}
-                            player1Name={player1Name}
-                            player2Name={player2Name}
+                            playerNames={resolvedPlayerNames}
+                            playerColors={playerColors}
                             onManualAddClick={() => setIsModalOpen(true)}
                         />
                         <ClearedRoutes routes={clearedRoutes}/>

@@ -1,15 +1,15 @@
 import React, {useState, useMemo} from 'react';
-import {PLAYER1_COLOR, PLAYER2_COLOR} from '@/constants';
+import {PLAYER_COLORS, MAX_PLAYER_COUNT, MIN_PLAYER_COUNT} from '@/constants';
 import type {TrackerMember, GameVersion, VariableRival, UserSettings, RivalGender} from '@/types';
 import {FiShield, FiUserPlus, FiX, FiTrash2, FiLogOut, FiInfo} from 'react-icons/fi';
 import Tooltip from './Tooltip';
 
 interface SettingsPageProps {
     trackerTitle: string;
-    player1Name: string;
-    player2Name: string;
+    playerNames: string[];
     onTitleChange: (title: string) => void;
-    onNameChange: (player: 'player1Name' | 'player2Name', name: string) => void;
+    onPlayerNameChange: (index: number, name: string) => void;
+    onPlayerCountChange: (count: number) => void;
     onBack: () => void;
     legendaryTrackerEnabled: boolean;
     onlegendaryTrackerToggle: (enabled: boolean) => void;
@@ -31,10 +31,10 @@ interface SettingsPageProps {
 
 const SettingsPage: React.FC<SettingsPageProps> = ({
                                                        trackerTitle,
-                                                       player1Name,
-                                                       player2Name,
+                                                       playerNames,
                                                        onTitleChange,
-                                                       onNameChange,
+                                                       onPlayerNameChange,
+                                                       onPlayerCountChange,
                                                        onBack,
                                                        legendaryTrackerEnabled,
                                                        onlegendaryTrackerToggle,
@@ -60,6 +60,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
     const [memberActionError, setMemberActionError] = useState<string | null>(null);
     const [removingMemberId, setRemovingMemberId] = useState<string | null>(null);
     const [memberPendingRemoval, setMemberPendingRemoval] = useState<TrackerMember | null>(null);
+    const safePlayerCount = Math.min(Math.max(playerNames.length, MIN_PLAYER_COUNT), MAX_PLAYER_COUNT);
 
     const variableRivals = useMemo(() => {
         if (!gameVersion) return [];
@@ -158,8 +159,8 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
 
                 <main className="mt-6 space-y-8">
                     <section>
-                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                            <div className="sm:col-span-2">
+                        <div className="space-y-4">
+                            <div>
                                 <label htmlFor="trackerTitle"
                                        className="block text-sm font-bold mb-2 text-gray-800 dark:text-gray-200">
                                     Tracker Titel
@@ -173,31 +174,48 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                                     placeholder="z. B. Schwarz 2 Soullink"
                                 />
                             </div>
-                            <div>
-                                <label htmlFor="player1Name" className="block text-sm font-bold mb-2"
-                                       style={{color: PLAYER1_COLOR}}>
-                                    Name Spieler 1
-                                </label>
-                                <input
-                                    id="player1Name"
-                                    type="text"
-                                    value={player1Name}
-                                    onChange={(e) => onNameChange('player1Name', e.target.value)}
-                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-                                />
-                            </div>
-                            <div>
-                                <label htmlFor="player2Name" className="block text-sm font-bold mb-2"
-                                       style={{color: PLAYER2_COLOR}}>
-                                    Name Spieler 2
-                                </label>
-                                <input
-                                    id="player2Name"
-                                    type="text"
-                                    value={player2Name}
-                                    onChange={(e) => onNameChange('player2Name', e.target.value)}
-                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-                                />
+                            <div className="space-y-3 border border-gray-200 dark:border-gray-700 rounded-md p-3">
+                                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                                    <label className="text-sm font-bold text-gray-800 dark:text-gray-200">
+                                        Spieleranzahl
+                                    </label>
+                                    <div className="inline-flex rounded-md border border-gray-300 dark:border-gray-600 overflow-hidden">
+                                        {Array.from({length: MAX_PLAYER_COUNT}, (_, idx) => idx + 1).map((count) => {
+                                            const active = count === safePlayerCount;
+                                            return (
+                                                <button
+                                                    key={`count-${count}`}
+                                                    type="button"
+                                                    onClick={() => onPlayerCountChange(count)}
+                                                    className={`px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] transition ${
+                                                        active
+                                                            ? 'bg-green-600 text-white'
+                                                            : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600'
+                                                    } ${count < MAX_PLAYER_COUNT ? 'border-r border-gray-300 dark:border-gray-600' : ''}`}
+                                                >
+                                                    {count} Spieler
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                                    {Array.from({length: safePlayerCount}, (_, index) => (
+                                        <div key={`player-${index}`}>
+                                            <label className="block text-sm font-bold mb-2"
+                                                   style={{color: PLAYER_COLORS[index] ?? '#4b5563'}}>
+                                                Name Spieler {index + 1}
+                                            </label>
+                                            <input
+                                                type="text"
+                                                value={playerNames[index] ?? ''}
+                                                onChange={(e) => onPlayerNameChange(index, e.target.value)}
+                                                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         </div>
                     </section>

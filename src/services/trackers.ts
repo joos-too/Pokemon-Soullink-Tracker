@@ -1,7 +1,7 @@
 import {ref, set, update, get} from 'firebase/database';
 import type {User} from 'firebase/auth';
 import {db} from '@/src/firebaseConfig';
-import {INITIAL_STATE, createInitialState} from '@/constants';
+import {createInitialState, sanitizePlayerNames} from '@/constants';
 import type {RivalGender, TrackerMember, TrackerMeta, TrackerRole} from '@/types';
 
 export class TrackerOperationError extends Error {
@@ -94,8 +94,7 @@ const buildMember = (uid: string, email: string, role: TrackerRole): TrackerMemb
 
 interface CreateTrackerPayload {
   title: string;
-  player1Name: string;
-  player2Name: string;
+  playerNames: string[];
   memberEmails: string[];
   owner: User;
   gameVersionId: string;
@@ -103,8 +102,7 @@ interface CreateTrackerPayload {
 
 export const createTracker = async ({
   title,
-  player1Name,
-  player2Name,
+  playerNames,
   memberEmails,
   owner,
   gameVersionId,
@@ -114,8 +112,7 @@ export const createTracker = async ({
   }
 
   const sanitizedTitle = title.trim() || 'Neuer Tracker';
-  const sanitizedP1 = player1Name.trim() || INITIAL_STATE.player1Name;
-  const sanitizedP2 = player2Name.trim() || INITIAL_STATE.player2Name;
+  const normalizedPlayerNames = sanitizePlayerNames(playerNames);
   const filteredEmails = (memberEmails ?? [])
     .map(normalizeEmail)
     .filter((email) => email && email !== normalizeEmail(owner.email!));
@@ -140,17 +137,17 @@ export const createTracker = async ({
   const meta: TrackerMeta = {
     id: trackerId,
     title: sanitizedTitle,
-    player1Name: sanitizedP1,
-    player2Name: sanitizedP2,
+    playerNames: normalizedPlayerNames,
+    player1Name: normalizedPlayerNames[0],
+    player2Name: normalizedPlayerNames[1],
+    player3Name: normalizedPlayerNames[2],
     createdAt,
     createdBy: owner.uid,
     members,
     gameVersionId,
   };
 
-  const initialState = createInitialState(gameVersionId);
-  initialState.player1Name = sanitizedP1;
-  initialState.player2Name = sanitizedP2;
+  const initialState = createInitialState(gameVersionId, normalizedPlayerNames);
 
   const trackerUpdates: Record<string, unknown> = {
     [`trackers/${trackerId}/meta`]: meta,

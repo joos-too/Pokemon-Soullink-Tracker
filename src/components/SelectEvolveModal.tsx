@@ -3,14 +3,14 @@ import P from '@/src/pokeapi';
 import {EVOLUTIONS} from '@/src/data/pokemon-evolutions';
 import {GERMAN_TO_ID as GERMAN_TO_ID_PRELOAD} from '@/src/data/pokemon-de-map';
 import {getOfficialArtworkUrlById} from '@/src/services/sprites';
+import type { PokemonLink } from '@/types';
 
 interface SelectEvolveModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: (player: 'player1' | 'player2', newName: string, newId: number) => void;
-  pair: any | null;
-  player1Label: string;
-  player2Label: string;
+  onConfirm: (playerIndex: number, newName: string, newId: number) => void;
+  pair: PokemonLink | null;
+  playerLabels: string[];
 }
 
 interface EvoInfo {
@@ -34,15 +34,15 @@ function prettyName(raw: string) {
   return raw.charAt(0).toUpperCase() + raw.slice(1);
 }
 
-const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({isOpen, onClose, onConfirm, pair, player1Label, player2Label}) => {
-  const [selectedPlayer, setSelectedPlayer] = useState<'player1' | 'player2' | ''>('');
+const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({isOpen, onClose, onConfirm, pair, playerLabels}) => {
+  const [selectedPlayer, setSelectedPlayer] = useState<number | null>(null);
   const [availableEvos, setAvailableEvos] = useState<EvoInfo[] | null>(null);
   const [selectedEvoId, setSelectedEvoId] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
-      setSelectedPlayer('');
+      setSelectedPlayer(null);
       setAvailableEvos(null);
       setSelectedEvoId(null);
       setLoading(false);
@@ -50,10 +50,8 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({isOpen, onClose, o
   }, [isOpen]);
 
   const currentName = useMemo(() => {
-    if (!pair) return '';
-    if (selectedPlayer === 'player1') return pair.player1.name || '';
-    if (selectedPlayer === 'player2') return pair.player2.name || '';
-    return '';
+    if (!pair || selectedPlayer === null) return '';
+    return pair.members?.[selectedPlayer]?.name || '';
   }, [pair, selectedPlayer]);
 
   // when a player gets selected, compute evolutions
@@ -61,8 +59,8 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({isOpen, onClose, o
     async function loadEvos() {
       setAvailableEvos(null);
       setSelectedEvoId(null);
-      if (!pair) return;
-      const name = selectedPlayer === 'player1' ? pair.player1.name : pair.player2.name;
+      if (!pair || selectedPlayer === null) return;
+      const name = pair.members?.[selectedPlayer]?.name;
       if (!name) {
         setAvailableEvos([]);
         return;
@@ -101,14 +99,14 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({isOpen, onClose, o
       }
     }
 
-    if (selectedPlayer) loadEvos();
+    if (selectedPlayer !== null) loadEvos();
   }, [selectedPlayer, pair]);
 
   if (!isOpen) return null;
 
   const handleConfirm = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedPlayer || selectedEvoId === null) return;
+    if (selectedPlayer === null || selectedEvoId === null) return;
     const germanNameRaw = ID_TO_GERMAN[selectedEvoId] || '';
     const germanName = germanNameRaw ? prettyName(germanNameRaw) : String(selectedEvoId);
     onConfirm(selectedPlayer, germanName, selectedEvoId);
@@ -131,27 +129,25 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({isOpen, onClose, o
         <form onSubmit={handleConfirm} className="px-6 pb-6">
           {/* scrollable content area; keeps header and footer visible */}
           <div className="overflow-auto max-h-[60vh] pr-2 pt-4">
-            {!selectedPlayer && (
+            {selectedPlayer === null && (
               <div className="mb-4 text-sm text-gray-700 dark:text-gray-300">
                 <div className="mb-2">Welches Pok&eacute;mon soll entwickelt werden?</div>
-                <label className="flex items-center gap-2 cursor-pointer dark:text-gray-200">
-                  <input type="radio" name="which" value="player1" checked={selectedPlayer === 'player1'} onChange={() => setSelectedPlayer('player1')} className="h-4 w-4 accent-green-600"/>
-                  <div>
-                    <div className="font-semibold">{player1Label}</div>
-                    <div className="text-sm">{pair?.player1?.name || '—'}{pair?.player1?.nickname ? ` (${pair.player1.nickname})` : ''}</div>
-                  </div>
-                </label>
-                <label className="flex items-center gap-2 mt-3 cursor-pointer dark:text-gray-200">
-                  <input type="radio" name="which" value="player2" checked={selectedPlayer === 'player2'} onChange={() => setSelectedPlayer('player2')} className="h-4 w-4 accent-green-600"/>
-                  <div>
-                    <div className="font-semibold">{player2Label}</div>
-                    <div className="text-sm">{pair?.player2?.name || '—'}{pair?.player2?.nickname ? ` (${pair.player2.nickname})` : ''}</div>
-                  </div>
-                </label>
+                {playerLabels.map((label, index) => {
+                  const member = pair?.members?.[index];
+                  return (
+                    <label key={`evolve-player-${index}`} className="flex items-center gap-2 mt-3 cursor-pointer dark:text-gray-200">
+                      <input type="radio" name="which" value={index} checked={selectedPlayer === index} onChange={() => setSelectedPlayer(index)} className="h-4 w-4 accent-green-600"/>
+                      <div>
+                        <div className="font-semibold">{label}</div>
+                        <div className="text-sm">{member?.name || '—'}{member?.nickname ? ` (${member.nickname})` : ''}</div>
+                      </div>
+                    </label>
+                  );
+                })}
               </div>
             )}
 
-            {selectedPlayer && (
+            {selectedPlayer !== null && (
               <div className="mb-4">
                 <div className="font-semibold mb-2">{currentName} entwickeln?</div>
 

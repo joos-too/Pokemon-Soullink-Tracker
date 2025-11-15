@@ -145,7 +145,12 @@ const HomePage: React.FC<HomePageProps> = ({
                                             <div>
                                                 <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">{tracker.title}</h3>
                                                 <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                                                    {tracker.player1Name} &amp; {tracker.player2Name}
+                                                    {(() => {
+                                                        const names = Array.isArray(tracker.playerNames) && tracker.playerNames.length > 0
+                                                            ? tracker.playerNames
+                                                            : [tracker.player1Name, tracker.player2Name].filter(Boolean);
+                                                        return names.length ? names.join(' • ') : 'Unbekannte Spieler';
+                                                    })()}
                                                 </p>
                                             </div>
                                             <div

@@ -3,11 +3,10 @@ export interface Pokemon {
   nickname: string;
 }
 
-export interface PokemonPair {
+export interface PokemonLink {
   id: number;
-  player1: Pokemon;
-  player2: Pokemon;
   route: string;
+  members: Pokemon[];
 }
 
 export interface LevelCap {
@@ -38,27 +37,17 @@ export interface RivalCap {
 export interface Stats {
   runs: number;
   best: number;
-  top4Items: {
-    player1: number;
-    player2: number;
-  };
-  deaths: {
-    player1: number;
-    player2: number;
-  };
-  sumDeaths?: {
-    player1: number;
-    player2: number;
-  };
+  top4Items: number[];
+  deaths: number[];
+  sumDeaths?: number[];
   legendaryEncounters?: number;
 }
 
 export interface AppState {
-  player1Name: string;
-  player2Name: string;
-  team: PokemonPair[];
-  box: PokemonPair[];
-  graveyard: PokemonPair[];
+  playerNames: string[];
+  team: PokemonLink[];
+  box: PokemonLink[];
+  graveyard: PokemonLink[];
   rules: string[];
   levelCaps: LevelCap[];
   rivalCaps: RivalCap[];
@@ -112,8 +101,10 @@ export interface GameVersion {
 export interface TrackerMeta {
   id: string;
   title: string;
-  player1Name: string;
-  player2Name: string;
+  playerNames: string[];
+  player1Name?: string;
+  player2Name?: string;
+  player3Name?: string;
   createdBy: string;
   createdAt: number;
   members: Record<string, TrackerMember>;
