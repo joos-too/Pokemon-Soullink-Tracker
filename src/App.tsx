@@ -131,6 +131,14 @@ const App: React.FC = () => {
         };
 
         const gameVersionForDefaults = activeGameVersion ?? GAME_VERSIONS['gen5_sw'];
+        const savedLevelCaps = Array.isArray(incoming?.levelCaps) ? incoming.levelCaps : [];
+        const finalLevelCaps = gameVersionForDefaults.levelCaps.map((levelCapTemplate) => {
+            const savedState = savedLevelCaps.find((lc) => lc.id === levelCapTemplate.id);
+            return {
+                ...levelCapTemplate,
+                done: savedState?.done ?? false,
+            };
+        });
         const savedRivalCaps = Array.isArray(incoming?.rivalCaps) ? incoming.rivalCaps : [];
         const finalRivalCaps = gameVersionForDefaults.rivalCaps.map((rivalCapTemplate) => {
             const savedState = savedRivalCaps.find(rc => rc.id === rivalCapTemplate.id);
@@ -150,17 +158,7 @@ const App: React.FC = () => {
             box: sanitizeArray(safe.box),
             graveyard: sanitizeArray(safe.graveyard),
             rules: Array.isArray(safe.rules) ? safe.rules.map((r: any) => (typeof r === 'string' ? r : '')).filter((r: string) => r.trim().length > 0) : base.rules ?? DEFAULT_RULES,
-            levelCaps: Array.isArray(safe.levelCaps)
-                ? safe.levelCaps.map((cap: any, i: number) => ({
-                    id: Number(cap?.id ?? base.levelCaps[i]?.id ?? i + 1),
-                    arena: typeof cap?.arena === 'string' ? cap.arena : (base.levelCaps[i]?.arena ?? ''),
-                    level: typeof cap?.level === 'string' ? cap.level : (base.levelCaps[i]?.level ?? ''),
-                    done: Boolean(cap?.done),
-                }))
-                : base.levelCaps.length > 0 ? base.levelCaps : gameVersionForDefaults.levelCaps.map(c => ({
-                    ...c,
-                    done: false
-                })),
+            levelCaps: finalLevelCaps,
             rivalCaps: finalRivalCaps,
             stats: {
                 runs: safe.stats?.runs ?? base.stats.runs,
