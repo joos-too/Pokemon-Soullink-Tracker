@@ -9,7 +9,6 @@ interface SettingsPageProps {
     playerNames: string[];
     onTitleChange: (title: string) => void;
     onPlayerNameChange: (index: number, name: string) => void;
-    onPlayerCountChange: (count: number) => void;
     onBack: () => void;
     legendaryTrackerEnabled: boolean;
     onlegendaryTrackerToggle: (enabled: boolean) => void;
@@ -34,7 +33,6 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                                                        playerNames,
                                                        onTitleChange,
                                                        onPlayerNameChange,
-                                                       onPlayerCountChange,
                                                        onBack,
                                                        legendaryTrackerEnabled,
                                                        onlegendaryTrackerToggle,
@@ -177,24 +175,23 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                             <div className="space-y-3 border border-gray-200 dark:border-gray-700 rounded-md p-3">
                                 <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                                     <label className="text-sm font-bold text-gray-800 dark:text-gray-200">
-                                        Spieleranzahl
+                                        Spieler
                                     </label>
                                     <div className="inline-flex rounded-md border border-gray-300 dark:border-gray-600 overflow-hidden">
                                         {Array.from({length: MAX_PLAYER_COUNT}, (_, idx) => idx + 1).map((count) => {
                                             const active = count === safePlayerCount;
                                             return (
-                                                <button
+                                                <span
                                                     key={`count-${count}`}
-                                                    type="button"
-                                                    onClick={() => onPlayerCountChange(count)}
-                                                    className={`px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] transition ${
+                                                    className={`px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] ${
                                                         active
                                                             ? 'bg-green-600 text-white'
-                                                            : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600'
+                                                            : 'bg-white dark:bg-gray-700 text-gray-400 dark:text-gray-500 opacity-60'
                                                     } ${count < MAX_PLAYER_COUNT ? 'border-r border-gray-300 dark:border-gray-600' : ''}`}
+                                                    aria-disabled={!active}
                                                 >
                                                     {count} Spieler
-                                                </button>
+                                                </span>
                                             );
                                         })}
                                     </div>

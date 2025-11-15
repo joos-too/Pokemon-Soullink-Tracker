@@ -759,36 +759,6 @@ const App: React.FC = () => {
         });
     };
 
-    const handlePlayerCountChange = (count: number) => {
-        const nextCount = Math.min(Math.max(count, 1), PLAYER_COLORS.length);
-        setData(prev => {
-            const nextNames = (() => {
-                const names = prev.playerNames.slice(0, nextCount).map((n, idx) => (n?.trim().length ? n : `Spieler ${idx + 1}`));
-                while (names.length < nextCount) {
-                    names.push(`Spieler ${names.length + 1}`);
-                }
-                return names;
-            })();
-            const resizeLinks = (links: PokemonLink[]) => links.map(link => {
-                const members = link.members.slice(0, nextCount);
-                while (members.length < nextCount) {
-                    members.push({ name: '', nickname: '' });
-                }
-                return { ...link, members };
-            });
-            const resizedStats = ensureStatsForPlayers(prev.stats, nextCount);
-            syncActiveMetaPlayerNames(nextNames);
-            return {
-                ...prev,
-                playerNames: nextNames,
-                team: resizeLinks(prev.team),
-                box: resizeLinks(prev.box),
-                graveyard: resizeLinks(prev.graveyard),
-                stats: resizedStats,
-            };
-        });
-    };
-
     const handleTitleChange = (title: string) => {
         if (!activeTrackerId) return;
         setTrackerMetas(prev => {
@@ -1063,7 +1033,6 @@ const App: React.FC = () => {
             onTitleChange={handleTitleChange}
             playerNames={resolvedPlayerNames}
             onPlayerNameChange={handlePlayerNameChange}
-            onPlayerCountChange={handlePlayerCountChange}
             onBack={() => setShowSettings(false)}
             legendaryTrackerEnabled={data.legendaryTrackerEnabled ?? true}
             onlegendaryTrackerToggle={handlelegendaryTrackerToggle}
