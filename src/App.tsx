@@ -514,6 +514,12 @@ const App: React.FC = () => {
         } else if (mode === 'current') {
             setData(prev => {
                 const base = createInitialState(gameVersionId);
+                const playerCount = prev.playerNames.length;
+                const makeZeroArray = () => Array.from({ length: playerCount }, () => 0);
+                const summedDeaths = Array.from(
+                    { length: playerCount },
+                    (_, index) => (prev.stats.sumDeaths?.[index] ?? 0) + (prev.stats.deaths?.[index] ?? 0)
+                );
                 return {
                     ...base,
                     rules: prev.rules, // keep rules on non-full reset
@@ -525,12 +531,9 @@ const App: React.FC = () => {
                     stats: {
                         runs: prev.stats.runs + 1, // increase run number by 1
                         best: prev.stats.best, // keep persisted best
-                        top4Items: { player1: 0, player2: 0 },
-                        deaths: { player1: 0, player2: 0 },
-                        sumDeaths: {
-                            player1: (prev.stats.sumDeaths?.player1 ?? 0) + (prev.stats.deaths.player1 ?? 0),
-                            player2: (prev.stats.sumDeaths?.player2 ?? 0) + (prev.stats.deaths.player2 ?? 0),
-                        },
+                        top4Items: makeZeroArray(),
+                        deaths: makeZeroArray(),
+                        sumDeaths: summedDeaths,
                         legendaryEncounters: prev.stats.legendaryEncounters ?? 0,
                     },
                     runStartedAt: Date.now(),
