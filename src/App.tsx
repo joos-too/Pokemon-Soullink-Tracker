@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useCallback, useRef, useMemo} from 'react';
 import {FiSettings, FiRotateCw, FiMenu, FiSun, FiMoon, FiHome} from 'react-icons/fi';
-import { FaGithub } from 'react-icons/fa';
+import {FaGithub} from 'react-icons/fa';
 import type {AppState, PokemonPair, TrackerMeta, TrackerSummary, LevelCap, RivalGender} from '@/types';
 import {createInitialState, PLAYER1_COLOR, PLAYER2_COLOR, DEFAULT_RULES} from '@/constants';
 import TeamTable from '@/src/components/TeamTable';
@@ -13,17 +13,25 @@ import LoginPage from '@/src/components/LoginPage';
 import RegisterPage from '@/src/components/RegisterPage';
 import SettingsPage from '@/src/components/SettingsPage';
 import ResetModal from '@/src/components/ResetModal';
-import DarkModeToggle, { getDarkMode, setDarkMode } from '@/src/components/DarkModeToggle';
+import DarkModeToggle, {getDarkMode, setDarkMode} from '@/src/components/DarkModeToggle';
 import HomePage from '@/src/components/HomePage';
 import CreateTrackerModal from '@/src/components/CreateTrackerModal';
 import DeleteTrackerModal from '@/src/components/DeleteTrackerModal';
-import { Routes, Route, Navigate, useNavigate, useLocation, useMatch } from 'react-router-dom';
+import {Routes, Route, Navigate, useNavigate, useLocation, useMatch} from 'react-router-dom';
 import {db, auth} from '@/src/firebaseConfig';
 import {ref, onValue, set, get, update} from "firebase/database";
 import {onAuthStateChanged, User, signOut} from "firebase/auth";
-import { initPokemonGermanNamesBackgroundRefresh } from '@/src/services/pokemonSearch';
-import {addMemberByEmail, createTracker, deleteTracker, ensureUserProfile, removeMemberFromTracker, TrackerOperationError, updateRivalPreference} from '@/src/services/trackers';
-import { GAME_VERSIONS } from '@/src/data/game-versions';
+import {initPokemonGermanNamesBackgroundRefresh} from '@/src/services/pokemonSearch';
+import {
+    addMemberByEmail,
+    createTracker,
+    deleteTracker,
+    ensureUserProfile,
+    removeMemberFromTracker,
+    TrackerOperationError,
+    updateRivalPreference
+} from '@/src/services/trackers';
+import {GAME_VERSIONS} from '@/src/data/game-versions';
 
 const LAST_TRACKER_STORAGE_KEY = 'soullink:lastTrackerId';
 
@@ -91,8 +99,8 @@ const App: React.FC = () => {
     const activeGameVersion = activeTrackerMeta ? GAME_VERSIONS[activeTrackerMeta.gameVersionId] : undefined;
 
     const currentUserRivalPreferences = useMemo(() => {
-      if (!user || !activeTrackerMeta) return {};
-      return activeTrackerMeta.userSettings?.[user.uid]?.rivalPreferences ?? {};
+        if (!user || !activeTrackerMeta) return {};
+        return activeTrackerMeta.userSettings?.[user.uid]?.rivalPreferences ?? {};
     }, [user, activeTrackerMeta]);
 
     const handleRivalPreferenceChange = useCallback(async (key: string, gender: RivalGender) => {
@@ -149,7 +157,10 @@ const App: React.FC = () => {
                     level: typeof cap?.level === 'string' ? cap.level : (base.levelCaps[i]?.level ?? ''),
                     done: Boolean(cap?.done),
                 }))
-                : base.levelCaps.length > 0 ? base.levelCaps : gameVersionForDefaults.levelCaps.map(c => ({...c, done: false})),
+                : base.levelCaps.length > 0 ? base.levelCaps : gameVersionForDefaults.levelCaps.map(c => ({
+                    ...c,
+                    done: false
+                })),
             rivalCaps: finalRivalCaps,
             stats: {
                 runs: safe.stats?.runs ?? base.stats.runs,
@@ -191,12 +202,13 @@ const App: React.FC = () => {
 
     useEffect(() => {
         if (!user) return;
-        ensureUserProfile(user).catch(() => {});
+        ensureUserProfile(user).catch(() => {
+        });
     }, [user]);
 
     useEffect(() => {
         if (!user && !loading) {
-            navigate('/', { replace: true });
+            navigate('/', {replace: true});
         }
     }, [user, loading, navigate]);
 
@@ -240,7 +252,7 @@ const App: React.FC = () => {
                 unsub();
                 listeners.delete(trackerId);
                 setTrackerMetas(prev => {
-                    const next = { ...prev };
+                    const next = {...prev};
                     delete next[trackerId];
                     return next;
                 });
@@ -253,9 +265,9 @@ const App: React.FC = () => {
             const unsubscribe = onValue(metaRef, (snapshot) => {
                 const meta = snapshot.val();
                 setTrackerMetas(prev => {
-                    const next = { ...prev };
+                    const next = {...prev};
                     if (meta) {
-                        next[trackerId] = { ...meta, id: trackerId };
+                        next[trackerId] = {...meta, id: trackerId};
                     } else {
                         delete next[trackerId];
                     }
@@ -263,7 +275,7 @@ const App: React.FC = () => {
                 });
             }, () => {
                 setTrackerMetas(prev => {
-                    const next = { ...prev };
+                    const next = {...prev};
                     delete next[trackerId];
                     return next;
                 });
@@ -293,7 +305,7 @@ const App: React.FC = () => {
                 unsubscribe();
                 listeners.delete(trackerId);
                 setTrackerSummaries(prev => {
-                    const next = { ...prev };
+                    const next = {...prev};
                     delete next[trackerId];
                     return next;
                 });
@@ -311,7 +323,7 @@ const App: React.FC = () => {
                 }));
             }, () => {
                 setTrackerSummaries(prev => {
-                    const next = { ...prev };
+                    const next = {...prev};
                     delete next[trackerId];
                     return next;
                 });
@@ -378,10 +390,15 @@ const App: React.FC = () => {
     useEffect(() => {
         const target = document.documentElement;
         const observer = new MutationObserver(() => setIsDark(getDarkMode()));
-        observer.observe(target, { attributes: true, attributeFilter: ['class'] });
-        const onStorage = (e: StorageEvent) => { if (e.key === 'color-theme') setIsDark(getDarkMode()); };
+        observer.observe(target, {attributes: true, attributeFilter: ['class']});
+        const onStorage = (e: StorageEvent) => {
+            if (e.key === 'color-theme') setIsDark(getDarkMode());
+        };
         window.addEventListener('storage', onStorage);
-        return () => { observer.disconnect(); window.removeEventListener('storage', onStorage); };
+        return () => {
+            observer.disconnect();
+            window.removeEventListener('storage', onStorage);
+        };
     }, []);
 
     const routeTrackerExistsForUser = routeTrackerId ? userTrackerIds.includes(routeTrackerId) : false;
@@ -498,38 +515,31 @@ const App: React.FC = () => {
         setShowResetModal(true);
     };
 
-    const handleConfirmReset = (mode: 'current' | 'all' | 'legendary') => {
+    const handleConfirmReset = () => {
         const gameVersionId = activeTrackerId ? trackerMetas[activeTrackerId]?.gameVersionId : undefined;
-        if (mode === 'all') {
-            setData(createInitialState(gameVersionId));
-        } else if (mode === 'current') {
-            setData(prev => {
-                const base = createInitialState(gameVersionId);
-                return {
-                    ...base,
-                    rules: prev.rules, // keep rules on non-full reset
-                    legendaryTrackerEnabled: prev.legendaryTrackerEnabled,
-                    rivalCensorEnabled: prev.rivalCensorEnabled,
-                    // Preserve level cap entries (id, arena, level) and only reset the done flag
-                    levelCaps: prev.levelCaps.map(cap => ({ ...cap, done: false })),
-                    rivalCaps: prev.rivalCaps.map(rc => ({ ...rc, done: false })),
-                    stats: {
-                        runs: prev.stats.runs + 1, // increase run number by 1
-                        best: prev.stats.best, // keep persisted best
-                        top4Items: { player1: 0, player2: 0 },
-                        deaths: { player1: 0, player2: 0 },
-                        sumDeaths: {
-                            player1: (prev.stats.sumDeaths?.player1 ?? 0) + (prev.stats.deaths.player1 ?? 0),
-                            player2: (prev.stats.sumDeaths?.player2 ?? 0) + (prev.stats.deaths.player2 ?? 0),
-                        },
-                        legendaryEncounters: prev.stats.legendaryEncounters ?? 0,
+        setData(prev => {
+            const base = createInitialState(gameVersionId);
+            return {
+                ...base,
+                rules: prev.rules, // keep rule changes
+                // keep toggled settings
+                legendaryTrackerEnabled: prev.legendaryTrackerEnabled,
+                rivalCensorEnabled: prev.rivalCensorEnabled,
+                hardcoreModeEnabled: prev.hardcoreModeEnabled,
+                stats: {
+                    runs: prev.stats.runs + 1, // increase run number by 1
+                    best: prev.stats.best, // keep persisted best
+                    top4Items: {player1: 0, player2: 0},
+                    deaths: {player1: 0, player2: 0},
+                    sumDeaths: {
+                        player1: (prev.stats.sumDeaths?.player1 ?? 0) + (prev.stats.deaths.player1 ?? 0),
+                        player2: (prev.stats.sumDeaths?.player2 ?? 0) + (prev.stats.deaths.player2 ?? 0),
                     },
-                    runStartedAt: Date.now(),
-                };
-            });
-        } else if (mode === 'legendary') {
-            handlelegendaryReset();
-        }
+                    legendaryEncounters: prev.stats.legendaryEncounters ?? 0,
+                },
+                runStartedAt: Date.now(),
+            };
+        });
         setShowResetModal(false);
     };
 
@@ -568,7 +578,7 @@ const App: React.FC = () => {
                     },
                 };
             } else {
-                newArray[index] = { ...newArray[index], [field]: value };
+                newArray[index] = {...newArray[index], [field]: value};
             }
             return {...prev, [key]: newArray};
         });
@@ -593,21 +603,21 @@ const App: React.FC = () => {
     const handleLevelCapToggle = useCallback((index: number) => {
         setData(prev => ({
             ...prev,
-            levelCaps: prev.levelCaps.map((c, i) => i === index ? { ...c, done: !c.done } : c)
+            levelCaps: prev.levelCaps.map((c, i) => i === index ? {...c, done: !c.done} : c)
         }));
     }, []);
 
     const handleRivalCapToggleDone = useCallback((index: number) => {
         setData(prev => ({
             ...prev,
-            rivalCaps: prev.rivalCaps.map((rc, i) => i === index ? { ...rc, done: !rc.done } : rc),
+            rivalCaps: prev.rivalCaps.map((rc, i) => i === index ? {...rc, done: !rc.done} : rc),
         }));
     }, []);
 
     const handleRivalCapReveal = useCallback((index: number) => {
         setData(prev => ({
             ...prev,
-            rivalCaps: prev.rivalCaps.map((rc, i) => i === index ? { ...rc, revealed: true } : rc),
+            rivalCaps: prev.rivalCaps.map((rc, i) => i === index ? {...rc, revealed: true} : rc),
         }));
     }, []);
 
@@ -677,7 +687,13 @@ const App: React.FC = () => {
         setIsModalOpen(false);
     };
 
-    const handleAddTeamPair = (payload: { route: string; p1Name: string; p1Nickname: string; p2Name: string; p2Nickname: string; }) => {
+    const handleAddTeamPair = (payload: {
+        route: string;
+        p1Name: string;
+        p1Nickname: string;
+        p2Name: string;
+        p2Nickname: string;
+    }) => {
         setData(prev => {
             if (prev.team.length >= 6) return prev; // enforce 6 max
             return ({
@@ -687,15 +703,21 @@ const App: React.FC = () => {
                     {
                         id: Date.now(),
                         route: payload.route.trim(),
-                        player1: { name: payload.p1Name.trim(), nickname: payload.p1Nickname.trim() },
-                        player2: { name: payload.p2Name.trim(), nickname: payload.p2Nickname.trim() },
+                        player1: {name: payload.p1Name.trim(), nickname: payload.p1Nickname.trim()},
+                        player2: {name: payload.p2Name.trim(), nickname: payload.p2Nickname.trim()},
                     }
                 ]
             });
         });
     };
 
-    const handleAddBoxPair = (payload: { route: string; p1Name: string; p1Nickname: string; p2Name: string; p2Nickname: string; }) => {
+    const handleAddBoxPair = (payload: {
+        route: string;
+        p1Name: string;
+        p1Nickname: string;
+        p2Name: string;
+        p2Nickname: string;
+    }) => {
         setData(prev => ({
             ...prev,
             box: [
@@ -703,8 +725,8 @@ const App: React.FC = () => {
                 {
                     id: Date.now(),
                     route: payload.route.trim(),
-                    player1: { name: payload.p1Name.trim(), nickname: payload.p1Nickname.trim() },
-                    player2: { name: payload.p2Name.trim(), nickname: payload.p2Nickname.trim() },
+                    player1: {name: payload.p1Name.trim(), nickname: payload.p1Nickname.trim()},
+                    player2: {name: payload.p2Name.trim(), nickname: payload.p2Nickname.trim()},
                 }
             ]
         }));
@@ -724,7 +746,7 @@ const App: React.FC = () => {
                 },
             };
         });
-        update(ref(db, `trackers/${activeTrackerId}/meta`), { [player]: name });
+        update(ref(db, `trackers/${activeTrackerId}/meta`), {[player]: name});
     };
 
     const handleTitleChange = (title: string) => {
@@ -740,11 +762,11 @@ const App: React.FC = () => {
                 },
             };
         });
-        update(ref(db, `trackers/${activeTrackerId}/meta`), { title });
+        update(ref(db, `trackers/${activeTrackerId}/meta`), {title});
     };
 
     const handlelegendaryTrackerToggle = (enabled: boolean) => {
-        setData(prev => ({ ...prev, legendaryTrackerEnabled: enabled }));
+        setData(prev => ({...prev, legendaryTrackerEnabled: enabled}));
     };
 
     const handleRivalCensorToggle = (enabled: boolean) => {
@@ -753,16 +775,6 @@ const App: React.FC = () => {
 
     const handleHardcoreModeToggle = (enabled: boolean) => {
         setData(prev => ({...prev, hardcoreModeEnabled: enabled}));
-    };
-
-    const handlelegendaryReset = () => {
-        setData(prev => ({
-            ...prev,
-            stats: {
-                ...prev.stats,
-                legendaryEncounters: 0,
-            },
-        }));
     };
 
     const handlelegendaryIncrement = () => {
@@ -795,7 +807,13 @@ const App: React.FC = () => {
         navigate(`/tracker/${trackerId}`);
     };
 
-    const handleCreateTrackerSubmit = async (payload: { title: string; player1Name: string; player2Name: string; memberEmails: string[], gameVersionId: string; }) => {
+    const handleCreateTrackerSubmit = async (payload: {
+        title: string;
+        player1Name: string;
+        player2Name: string;
+        memberEmails: string[],
+        gameVersionId: string;
+    }) => {
         if (!user) return;
         setCreateTrackerError(null);
         setCreateTrackerLoading(true);
@@ -952,7 +970,7 @@ const App: React.FC = () => {
         const hasRunStarted = typeof data.runStartedAt === 'number' && data.runStartedAt > 0;
         const metaCreated = typeof activeTrackerMeta?.createdAt === 'number' ? activeTrackerMeta.createdAt : 0;
         if (!hasRunStarted && (metaCreated > 0)) {
-            setData(prev => ({ ...prev, runStartedAt: metaCreated }));
+            setData(prev => ({...prev, runStartedAt: metaCreated}));
         }
     }, [user, dataLoaded, activeTrackerId, data.runStartedAt, activeTrackerMeta?.createdAt]);
     const nameTitleFallback = [player1Name, player2Name].map((n) => n?.trim()).filter(Boolean).join(' & ');
@@ -963,7 +981,8 @@ const App: React.FC = () => {
         return (
             <div className="min-h-screen flex items-center justify-center bg-[#f0f0f0] dark:bg-gray-900">
                 <div className="flex flex-col items-center gap-3" role="status" aria-live="polite">
-                    <div className="h-10 w-10 border-4 border-gray-300 dark:border-gray-600 dark:border-t-blue-600 border-t-blue-600 rounded-full animate-spin" />
+                    <div
+                        className="h-10 w-10 border-4 border-gray-300 dark:border-gray-600 dark:border-t-blue-600 border-t-blue-600 rounded-full animate-spin"/>
                     <span className="text-gray-600 dark:text-gray-300 text-sm">Laden…</span>
                 </div>
             </div>
@@ -978,7 +997,8 @@ const App: React.FC = () => {
 
     const trackerElement = !activeTrackerId ? (
         routeTrackerKnownMissing ? (
-            <div className="min-h-screen flex flex-col items-center justify-center bg-[#f0f0f0] dark:bg-gray-900 text-gray-700 dark:text-gray-200 px-6 text-center">
+            <div
+                className="min-h-screen flex flex-col items-center justify-center bg-[#f0f0f0] dark:bg-gray-900 text-gray-700 dark:text-gray-200 px-6 text-center">
                 <p className="text-lg font-semibold">Tracker nicht gefunden.</p>
                 <p className="text-sm text-gray-500 mt-2">
                     Prüfe, ob du die richtige URL verwendest oder ob du Zugriff auf diesen Tracker hast.
@@ -991,9 +1011,11 @@ const App: React.FC = () => {
                 </button>
             </div>
         ) : (
-            <div className="min-h-screen flex flex-col items-center justify-center bg-[#f0f0f0] dark:bg-gray-900 text-gray-700 dark:text-gray-200">
+            <div
+                className="min-h-screen flex flex-col items-center justify-center bg-[#f0f0f0] dark:bg-gray-900 text-gray-700 dark:text-gray-200">
                 <p className="text-lg font-semibold">Kein Tracker ausgewählt.</p>
-                <p className="text-sm text-gray-500 mt-2">Bitte wähle einen Tracker auf der Startseite aus oder erstelle einen neuen.</p>
+                <p className="text-sm text-gray-500 mt-2">Bitte wähle einen Tracker auf der Startseite aus oder erstelle
+                    einen neuen.</p>
                 <button
                     onClick={handleNavigateHome}
                     className="mt-6 inline-flex items-center gap-2 rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700"
@@ -1042,7 +1064,10 @@ const App: React.FC = () => {
             />
             <SelectLossModal
                 isOpen={showLossModal}
-                onClose={() => { setShowLossModal(false); setPendingLossPair(null); }}
+                onClose={() => {
+                    setShowLossModal(false);
+                    setPendingLossPair(null);
+                }}
                 onConfirm={handleConfirmLoss}
                 pair={pendingLossPair}
                 player1Name={player1Name}
@@ -1052,33 +1077,33 @@ const App: React.FC = () => {
                 isOpen={showResetModal}
                 onClose={() => setShowResetModal(false)}
                 onConfirm={handleConfirmReset}
-                legendaryTrackerEnabled={data.legendaryTrackerEnabled ?? true}
             />
             <div className="max-w-[1920px] mx-auto bg-white dark:bg-gray-800 shadow-lg p-4 rounded-lg">
                 <header className="relative text-center py-4 border-b-2 border-gray-300 dark:border-gray-700">
                     <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-3xl 2xl:text-4xl font-bold font-press-start tracking-tighter dark:text-gray-100">
                         {trackerTitleDisplay}
                     </h1>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Pokémon Soullink - Challenge Tracker</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Pokémon Soullink - Challenge
+                        Tracker</p>
                     <div className="absolute right-2 sm:right-4 top-2 sm:top-3 flex items-center gap-1 sm:gap-2 z-30">
                         {/* Desktop icons (>=xl) */}
                         <div className="hidden xl:flex items-center gap-1 sm:gap-2">
-                            <DarkModeToggle />
+                            <DarkModeToggle/>
                             <button
                                 onClick={handleNavigateHome}
                                 className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white focus:outline-none"
                                 aria-label="Zur Übersicht"
                                 title="Zur Übersicht"
                             >
-                                <FiHome size={28} />
+                                <FiHome size={28}/>
                             </button>
                             <button
                                 onClick={handleReset}
                                 className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white focus:outline-none"
-                                aria-label="Tracker zurücksetzen"
-                                title="Tracker zurücksetzen"
+                                aria-label="Run zurücksetzen"
+                                title="Run zurücksetzen"
                             >
-                                <FiRotateCw size={28} />
+                                <FiRotateCw size={28}/>
                             </button>
                             <button
                                 onClick={() => setShowSettings(true)}
@@ -1086,7 +1111,7 @@ const App: React.FC = () => {
                                 aria-label="Einstellungen"
                                 title="Einstellungen"
                             >
-                                <FiSettings size={28} />
+                                <FiSettings size={28}/>
                             </button>
                         </div>
                         {/* Mobile burger (<xl) */}
@@ -1096,7 +1121,7 @@ const App: React.FC = () => {
                             aria-expanded={mobileMenuOpen}
                             onClick={() => setMobileMenuOpen(v => !v)}
                         >
-                            <FiMenu size={26} />
+                            <FiMenu size={26}/>
                         </button>
                     </div>
                 </header>
@@ -1115,7 +1140,8 @@ const App: React.FC = () => {
                         role="dialog"
                         aria-label="Mobile Menü"
                     >
-                        <div className="p-3 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                        <div
+                            className="p-3 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
                             <span className="text-sm font-semibold text-gray-800 dark:text-gray-200">Menü</span>
                             <button
                                 onClick={() => setMobileMenuOpen(false)}
@@ -1127,11 +1153,15 @@ const App: React.FC = () => {
                         </div>
                         <div className="p-2 space-y-1">
                             <button
-                                onClick={() => { const next = !isDark; setDarkMode(next); setIsDark(next); }}
+                                onClick={() => {
+                                    const next = !isDark;
+                                    setDarkMode(next);
+                                    setIsDark(next);
+                                }}
                                 className="w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2"
                                 title={isDark ? 'Lightmode' : 'Darkmode'}
                             >
-                                {isDark ? <FiSun size={18} /> : <FiMoon size={18} />}
+                                {isDark ? <FiSun size={18}/> : <FiMoon size={18}/>}
                                 {isDark ? 'Lightmode' : 'Darkmode'}
                             </button>
                             <button
@@ -1139,28 +1169,34 @@ const App: React.FC = () => {
                                 className="w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2"
                                 title="Zur Übersicht"
                             >
-                                <FiHome size={18} /> Übersicht
+                                <FiHome size={18}/> Übersicht
                             </button>
                             <button
-                                onClick={() => { setMobileMenuOpen(false); handleReset(); }}
+                                onClick={() => {
+                                    setMobileMenuOpen(false);
+                                    handleReset();
+                                }}
                                 className="w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2"
-                                title="Tracker zurücksetzen"
+                                title="Run zurücksetzen"
                             >
-                                <FiRotateCw size={18} /> Tracker zurücksetzen
+                                <FiRotateCw size={18}/> Run zurücksetzen
                             </button>
                             <button
-                                onClick={() => { setMobileMenuOpen(false); setShowSettings(true); }}
+                                onClick={() => {
+                                    setMobileMenuOpen(false);
+                                    setShowSettings(true);
+                                }}
                                 className="w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2"
                                 title="Einstellungen"
                             >
-                                <FiSettings size={18} /> Einstellungen
+                                <FiSettings size={18}/> Einstellungen
                             </button>
                         </div>
                     </div>
                 </div>
 
                 <main className="grid grid-cols-1 xl:grid-cols-[64fr_36fr] gap-6 mt-6">
-  <div className="space-y-8">
+                    <div className="space-y-8">
                         <TeamTable
                             title={`Team ${player1Name}`}
                             title2={`Team ${player2Name}`}
@@ -1177,7 +1213,8 @@ const App: React.FC = () => {
                             addDisabled={data.team.length >= 6}
                             addDisabledReason="Team ist voll (max 6)"
                             context="team"
-                            onMoveToTeam={() => {}}
+                            onMoveToTeam={() => {
+                            }}
                             onMoveToBox={(pair) => setData(prev => ({
                                 ...prev,
                                 team: prev.team.filter(p => p.id !== pair.id),
@@ -1206,7 +1243,8 @@ const App: React.FC = () => {
                                     team: [...prev.team, pair],
                                 };
                             })}
-                            onMoveToBox={() => {}}
+                            onMoveToBox={() => {
+                            }}
                             teamIsFull={data.team.length >= 6}
                         />
                     </div>
@@ -1224,7 +1262,7 @@ const App: React.FC = () => {
                             onStatChange={handleStatChange}
                             onNestedStatChange={handleNestedStatChange}
                             rules={data.rules}
-                            onRulesChange={(rules) => setData(prev => ({ ...prev, rules }))}
+                            onRulesChange={(rules) => setData(prev => ({...prev, rules}))}
                             legendaryTrackerEnabled={data.legendaryTrackerEnabled ?? true}
                             rivalCensorEnabled={data.rivalCensorEnabled ?? true}
                             hardcoreModeEnabled={data.hardcoreModeEnabled ?? true}
@@ -1251,7 +1289,7 @@ const App: React.FC = () => {
                         className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
                         title="View on GitHub"
                     >
-                        <FaGithub size={18} aria-hidden="true" />
+                        <FaGithub size={18} aria-hidden="true"/>
                         <span className="text-sm">vibecoded by joos-too & FreakMediaLP</span>
                     </a>
                 </footer>
@@ -1296,16 +1334,16 @@ const App: React.FC = () => {
                         />
                     }
                 />
-                <Route path="/tracker/:trackerId" element={trackerElement} />
+                <Route path="/tracker/:trackerId" element={trackerElement}/>
                 <Route
                     path="/tracker"
                     element={
                         activeTrackerId
-                            ? <Navigate to={`/tracker/${activeTrackerId}`} replace />
-                            : <Navigate to="/" replace />
+                            ? <Navigate to={`/tracker/${activeTrackerId}`} replace/>
+                            : <Navigate to="/" replace/>
                     }
                 />
-                <Route path="*" element={<Navigate to="/" replace />} />
+                <Route path="*" element={<Navigate to="/" replace/>}/>
             </Routes>
         </>
     );
