@@ -1,12 +1,12 @@
 import React, {useState, useMemo} from 'react';
 import type {LevelCap, RivalCap, Stats, GameVersion, UserSettings} from '@/types';
-import {PLAYER1_COLOR, PLAYER2_COLOR, LEGENDARY_POKEMON_NAMES} from '@/constants';
+import {PLAYER_COLORS, LEGENDARY_POKEMON_NAMES} from '@/constants';
 import {FiMinus, FiPlus, FiEdit, FiX, FiSave, FiEye, FiEyeOff, FiRefreshCw} from 'react-icons/fi';
 import {RivalImage, BadgeImage, LegendaryImage} from './GameImages';
 
 interface InfoPanelProps {
-    player1Name: string;
-    player2Name: string;
+    playerNames: string[];
+    playerColors: string[];
     levelCaps: LevelCap[];
     rivalCaps: RivalCap[];
     stats: Stats;
@@ -14,7 +14,7 @@ interface InfoPanelProps {
     onRivalCapToggleDone: (index: number) => void;
     onRivalCapReveal: (index: number) => void;
     onStatChange: (stat: keyof Stats, value: string) => void;
-    onNestedStatChange: (group: keyof Stats, key: string, value: string) => void;
+    onPlayerStatChange: (group: keyof Stats, playerIndex: number, value: string) => void;
     rules: string[];
     onRulesChange: (rules: string[]) => void;
     legendaryTrackerEnabled: boolean;
@@ -28,15 +28,15 @@ interface InfoPanelProps {
 
 
 const InfoPanel: React.FC<InfoPanelProps> = ({
-                                                 player1Name,
-                                                 player2Name,
+                                                 playerNames,
+                                                 playerColors,
                                                  levelCaps,
                                                  rivalCaps,
                                                  stats,
                                                  onLevelCapToggle,
                                                  onRivalCapToggleDone,
                                                  onRivalCapReveal,
-                                                 onNestedStatChange,
+                                                 onPlayerStatChange,
                                                  rules,
                                                  onRulesChange,
                                                  legendaryTrackerEnabled,
@@ -50,6 +50,11 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
     const [isEditingRules, setIsEditingRules] = useState(false);
     const [draftRules, setDraftRules] = useState<string[]>(rules);
     const [showRivalCaps, setShowRivalCaps] = useState(false);
+    const normalizedPlayerNames = useMemo(() => {
+        const list = playerNames.length > 0 ? playerNames : ['Spieler 1'];
+        return list.map((name, index) => (typeof name === 'string' && name.trim().length > 0 ? name.trim() : `Spieler ${index + 1}`));
+    }, [playerNames]);
+    const getPlayerColor = (index: number) => playerColors[index] ?? PLAYER_COLORS[index] ?? '#4b5563';
 
     const randomLegendary = useMemo(() => {
         const randomIndex = Math.floor(Math.random() * LEGENDARY_POKEMON_NAMES.length);
@@ -205,48 +210,36 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                             Items</h2>
                         <table className="w-full">
                             <tbody>
-                            <tr className="border-t border-gray-200 dark:border-gray-700">
-                                <td className="px-2 py-1.5 text-xs font-bold"
-                                    style={{color: PLAYER1_COLOR}}>{player1Name}</td>
-                                <td className="px-2 py-1.5 text-right">
-                                    <div className="inline-flex items-center gap-1">
-                                        <button type="button"
-                                                onClick={() => onNestedStatChange('top4Items', 'player1', String(Math.max(0, (stats.top4Items.player1 || 0) - 1)))}
-                                                className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300"
-                                                aria-label="Items verringern" title="Items verringern"><FiMinus
-                                            size={16}/></button>
-                                        <input type="number" value={stats.top4Items.player1}
-                                               onChange={(e) => onNestedStatChange('top4Items', 'player1', e.target.value)}
-                                               className="w-16 text-right bg-transparent border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-sm"/>
-                                        <button type="button"
-                                                onClick={() => onNestedStatChange('top4Items', 'player1', String((stats.top4Items.player1 || 0) + 1))}
-                                                className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300"
-                                                aria-label="Items erhöhen" title="Items erhöhen"><FiPlus size={16}/>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr className="border-t border-gray-200 dark:border-gray-700">
-                                <td className="px-2 py-1.5 text-xs font-bold"
-                                    style={{color: PLAYER2_COLOR}}>{player2Name}</td>
-                                <td className="px-2 py-1.5 text-right">
-                                    <div className="inline-flex items-center gap-1">
-                                        <button type="button"
-                                                onClick={() => onNestedStatChange('top4Items', 'player2', String(Math.max(0, (stats.top4Items.player2 || 0) - 1)))}
-                                                className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300"
-                                                aria-label="Items verringern" title="Items verringern"><FiMinus
-                                            size={16}/></button>
-                                        <input type="number" value={stats.top4Items.player2}
-                                               onChange={(e) => onNestedStatChange('top4Items', 'player2', e.target.value)}
-                                               className="w-16 text-right bg-transparent border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-sm"/>
-                                        <button type="button"
-                                                onClick={() => onNestedStatChange('top4Items', 'player2', String((stats.top4Items.player2 || 0) + 1))}
-                                                className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300"
-                                                aria-label="Items erhöhen" title="Items erhöhen"><FiPlus size={16}/>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
+                            {normalizedPlayerNames.map((name, index) => {
+                                const value = stats.top4Items?.[index] ?? 0;
+                                return (
+                                    <tr key={`top4-${index}`} className="border-t border-gray-200 dark:border-gray-700">
+                                        <td className="px-2 py-1.5 text-xs font-bold" style={{color: getPlayerColor(index)}}>
+                                            {name}
+                                        </td>
+                                        <td className="px-2 py-1.5 text-right">
+                                            <div className="inline-flex items-center gap-1">
+                                                <button type="button"
+                                                        onClick={() => onPlayerStatChange('top4Items', index, String(Math.max(0, value - 1)))}
+                                                        className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300"
+                                                        aria-label="Items verringern" title="Items verringern"><FiMinus
+                                                    size={16}/>
+                                                </button>
+                                                <input type="number"
+                                                       value={value}
+                                                       onChange={(e) => onPlayerStatChange('top4Items', index, e.target.value)}
+                                                       className="w-16 text-right bg-transparent border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-sm"/>
+                                                <button type="button"
+                                                        onClick={() => onPlayerStatChange('top4Items', index, String(value + 1))}
+                                                        className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300"
+                                                        aria-label="Items erhöhen" title="Items erhöhen"><FiPlus
+                                                    size={16}/>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
                             </tbody>
                         </table>
                     </div>
@@ -357,21 +350,21 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                 <div
                     className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700 overflow-hidden">
                     <h2 className="text-center p-2 bg-gray-800 dark:bg-gray-900 text-white font-press-start text-sm">Tode</h2>
-                    <div className="grid grid-cols-2">
-                        <div className="text-center border-r border-gray-300 dark:border-gray-700 p-2">
-                            <h3 className="font-press-start text-xs" style={{color: PLAYER1_COLOR}}>{player1Name}</h3>
-                            <div
-                                className="text-4xl font-press-start text-center bg-transparent w-full outline-none mt-2 text-gray-800 dark:text-gray-200">{stats.deaths.player1}</div>
-                            <div
-                                className="text-xs text-gray-600 dark:text-gray-400 mt-1">Gesamt: {(stats.sumDeaths?.player1 ?? 0) + (stats.deaths.player1 ?? 0)}</div>
-                        </div>
-                        <div className="text-center p-2">
-                            <h3 className="font-press-start text-xs" style={{color: PLAYER2_COLOR}}>{player2Name}</h3>
-                            <div
-                                className="text-4xl font-press-start text-center bg-transparent w-full outline-none mt-2 text-gray-800 dark:text-gray-200">{stats.deaths.player2}</div>
-                            <div
-                                className="text-xs text-gray-600 dark:text-gray-400 mt-1">Gesamt: {(stats.sumDeaths?.player2 ?? 0) + (stats.deaths.player2 ?? 0)}</div>
-                        </div>
+                    <div className="grid gap-2" style={{gridTemplateColumns: `repeat(${normalizedPlayerNames.length}, minmax(0, 1fr))`}}>
+                        {normalizedPlayerNames.map((name, index) => {
+                            const deaths = stats.deaths?.[index] ?? 0;
+                            const historic = stats.sumDeaths?.[index] ?? 0;
+                            const color = getPlayerColor(index);
+                            return (
+                                <div key={`deaths-${index}`} className={`text-center p-2 ${index < normalizedPlayerNames.length - 1 ? 'border-r border-gray-300 dark:border-gray-700' : ''}`}>
+                                    <h3 className="font-press-start text-xs" style={{color}}>{name}</h3>
+                                    <div
+                                        className="text-4xl font-press-start text-center bg-transparent w-full outline-none mt-2 text-gray-800 dark:text-gray-200">{deaths}</div>
+                                    <div
+                                        className="text-xs text-gray-600 dark:text-gray-400 mt-1">Gesamt: {historic + deaths}</div>
+                                </div>
+                            );
+                        })}
                     </div>
                 </div>
 

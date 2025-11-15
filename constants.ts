@@ -1,9 +1,54 @@
-import type {AppState} from './types';
+import type {AppState, Stats} from './types';
 import { GAME_VERSIONS } from '@/src/data/game-versions';
-
 
 export const PLAYER1_COLOR = '#cf5930';
 export const PLAYER2_COLOR = '#693992';
+export const PLAYER3_COLOR = '#2c7b90';
+export const PLAYER_COLORS = [PLAYER1_COLOR, PLAYER2_COLOR, PLAYER3_COLOR];
+
+export const MIN_PLAYER_COUNT = 1;
+export const MAX_PLAYER_COUNT = 3;
+export const DEFAULT_PLAYER_NAMES = ['Spieler 1', 'Spieler 2', 'Spieler 3'];
+
+export const sanitizePlayerNames = (names?: string[]): string[] => {
+    const source = Array.isArray(names) && names.length > 0 ? names : DEFAULT_PLAYER_NAMES;
+    const cleaned = source
+        .map((name, index) => {
+            const fallback = `Spieler ${index + 1}`;
+            return typeof name === 'string' && name.trim().length > 0 ? name.trim() : fallback;
+        })
+        .slice(0, MAX_PLAYER_COUNT);
+    while (cleaned.length < MIN_PLAYER_COUNT) {
+        cleaned.push(`Spieler ${cleaned.length + 1}`);
+    }
+    return cleaned;
+};
+
+export const ensureStatsForPlayers = (stats: Stats | undefined, playerCount: number): Stats => {
+    const base = stats ?? {
+        runs: 1,
+        best: 0,
+        top4Items: [],
+        deaths: [],
+        sumDeaths: [],
+        legendaryEncounters: 0,
+    };
+    const normalizeArray = (values?: number[]) => {
+        const arr = Array.isArray(values) ? values.slice(0, playerCount) : [];
+        while (arr.length < playerCount) {
+            arr.push(0);
+        }
+        return arr;
+    };
+    return {
+        runs: typeof base.runs === 'number' ? base.runs : 1,
+        best: typeof base.best === 'number' ? base.best : 0,
+        top4Items: normalizeArray(base.top4Items),
+        deaths: normalizeArray(base.deaths),
+        sumDeaths: normalizeArray(base.sumDeaths),
+        legendaryEncounters: typeof base.legendaryEncounters === 'number' ? base.legendaryEncounters : 0,
+    };
+};
 
 export const DEFAULT_RULES: string[] = [
     'Pro Route/Gebiet darf nur das erste Pokémon gefangen werden. Diese Pokémon ist mit dem Pokémon des Partners verbunden.',
@@ -38,42 +83,30 @@ export const LEGENDARY_POKEMON_NAMES: string[] = [
 
 const DEFAULT_GAME_VERSION_ID = 'gen5_sw';
 
+const DEFAULT_PLAYER_NAME_SET = sanitizePlayerNames();
+
 export const INITIAL_STATE: AppState = {
-    player1Name: 'Spieler 1',
-    player2Name: 'Spieler 2',
+    playerNames: DEFAULT_PLAYER_NAME_SET,
     team: [],
     box: [],
     graveyard: [],
     rules: DEFAULT_RULES,
     levelCaps: [],
     rivalCaps: [],
-    stats: {
-        runs: 1,
-        best: 0,
-        top4Items: {
-            player1: 0,
-            player2: 0,
-        },
-        deaths: {
-            player1: 0,
-            player2: 0,
-        },
-        sumDeaths: {
-            player1: 0,
-            player2: 0,
-        },
-        legendaryEncounters: 0,
-    },
+    stats: ensureStatsForPlayers(undefined, DEFAULT_PLAYER_NAME_SET.length),
     legendaryTrackerEnabled: true,
     rivalCensorEnabled: true,
     hardcoreModeEnabled: true,
     runStartedAt: Date.now(),
 };
 
-export const createInitialState = (gameVersionId: string = DEFAULT_GAME_VERSION_ID): AppState => {
+export const createInitialState = (gameVersionId: string = DEFAULT_GAME_VERSION_ID, playerNames?: string[]): AppState => {
     const gameVersion = GAME_VERSIONS[gameVersionId] || GAME_VERSIONS[DEFAULT_GAME_VERSION_ID];
     const base = JSON.parse(JSON.stringify(INITIAL_STATE)) as AppState;
+    const normalizedNames = sanitizePlayerNames(playerNames);
 
+    base.playerNames = normalizedNames;
+    base.stats = ensureStatsForPlayers(base.stats, normalizedNames.length);
     base.levelCaps = gameVersion.levelCaps.map(cap => ({...cap, done: false}));
     base.rivalCaps = gameVersion.rivalCaps.map(cap => ({...cap, done: false, revealed: false}));
     base.runStartedAt = Date.now();
