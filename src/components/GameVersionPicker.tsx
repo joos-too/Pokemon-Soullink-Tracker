@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import {GAME_VERSIONS} from '@/src/data/game-versions';
+import { focusRingClasses } from '@/src/styles/focusRing';
 
 export type TileDef = { key: string; label: string; versionId: string };
 
@@ -37,10 +38,11 @@ function buildGroupsFromGameVersions(): Group[] {
 export interface GameVersionPickerProps {
     value: string;
     onSelect: (versionId: string) => void;
+    isInteractive?: boolean;
 }
 
-const GameVersionPicker: React.FC<GameVersionPickerProps> = ({value, onSelect}) => {
-    const groups = buildGroupsFromGameVersions();
+const GameVersionPicker: React.FC<GameVersionPickerProps> = ({value, onSelect, isInteractive = true}) => {
+    const groups = useMemo(() => buildGroupsFromGameVersions(), []);
 
     return (
         <div>
@@ -66,17 +68,21 @@ const GameVersionPicker: React.FC<GameVersionPickerProps> = ({value, onSelect}) 
                                                 onSelect(rowVersionId);
                                             }
                                         }}
+                                        tabIndex={isInteractive ? 0 : -1}
+                                        disabled={!isInteractive}
+                                        aria-hidden={!isInteractive}
                                         className={`
-                                          group flex gap-1 w-full items-stretch
-                                          rounded-md overflow-hidden
+                                          group w-full rounded-md
                                           ring-2 ${rowSelected ? 'ring-green-500' : 'ring-transparent hover:ring-gray-300 hover:shadow-sm'}
-                                          focus:outline-none
+                                          disabled:opacity-100 disabled:ring-transparent
                                           transition-shadow transition-colors
+                                          ${focusRingClasses}
                                         `}
                                         aria-pressed={rowSelected}
                                         title={row.map(t => t.label).join(' | ')}
                                     >
-                                        {row.map((tile, tileIdx) => {
+                                        <span className="flex gap-1 w-full items-stretch rounded-md overflow-hidden">
+                                          {row.map((tile, tileIdx) => {
                                             const version = GAME_VERSIONS[tile.versionId];
                                             const sc = (version as any)?.selectionColors?.[tile.label];
                                             const bgColor = sc?.bgColor || '#ffffff';
@@ -111,6 +117,7 @@ const GameVersionPicker: React.FC<GameVersionPickerProps> = ({value, onSelect}) 
                                                 </div>
                                             );
                                         })}
+                                        </span>
                                     </button>
                                 );
                             })}

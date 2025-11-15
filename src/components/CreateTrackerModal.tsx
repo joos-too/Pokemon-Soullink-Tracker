@@ -2,6 +2,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {FiPlus, FiX, FiUsers} from 'react-icons/fi';
 import { GAME_VERSIONS } from '@/src/data/game-versions';
 import { PLAYER_COLORS } from '@/constants';
+import { focusRingClasses, focusRingInsetClasses } from '@/src/styles/focusRing';
 import GameVersionPicker from './GameVersionPicker';
 
 
@@ -87,7 +88,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
             <button
               type="button"
               onClick={handleClose}
-              className="rounded-full p-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+              className={`rounded-full p-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white ${focusRingClasses}`}
               aria-label="Schließen"
               disabled={isSubmitting}
             >
@@ -105,7 +106,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
                 onClick={() => setShowVersionPicker((v) => !v)}
                 aria-expanded={showVersionPicker}
                 aria-controls="game-version-picker-panel"
-                className="w-full inline-flex items-center justify-between rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-sm font-semibold text-gray-800 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-600"
+                className={`w-full inline-flex items-center justify-between rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-sm font-semibold text-gray-800 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-600 ${focusRingClasses}`}
                 title="Spielversion auswählen"
               >
                 <span>Spielversion auswählen</span>
@@ -115,10 +116,12 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
               <div
                 id="game-version-picker-panel"
                 aria-hidden={!showVersionPicker}
+                inert={!showVersionPicker}
                 className={`transform-gpu ${showVersionPicker ? 'mt-3 max-h-72 opacity-100' : 'max-h-0 opacity-0 pointer-events-none'} transition-all duration-300 ease-in-out overflow-hidden`}
               >
                 <GameVersionPicker
                   value={gameVersionId}
+                  isInteractive={showVersionPicker}
                   onSelect={(versionId) => {
                     setGameVersionId(versionId);
                     setShowVersionPicker(false)
@@ -146,7 +149,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
                 <label className="text-sm font-semibold text-gray-700 dark:text-gray-200">
                   Spieleranzahl wählen
                 </label>
-                <div className="inline-flex rounded-md border border-gray-300 dark:border-gray-600 overflow-hidden">
+                <div className="inline-flex rounded-md border border-gray-300 dark:border-gray-600 overflow-hidden focus-within:border-green-500 transition-colors">
                   {[1, 2, 3].map((count) => {
                     const active = playerCount === count;
                     return (
@@ -158,7 +161,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
                           active
                             ? 'bg-green-600 text-white'
                             : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600'
-                        } ${count !== 3 ? 'border-r border-gray-300 dark:border-gray-600' : ''}`}
+                        } ${count !== 3 ? 'border-r border-gray-300 dark:border-gray-600' : ''} ${focusRingInsetClasses}`}
                       >
                         {count} Spieler
                       </button>
@@ -201,7 +204,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
                 <button
                   type="button"
                   onClick={handleAddMemberRow}
-                  className="inline-flex items-center gap-2 rounded-md border border-gray-300 dark:border-gray-600 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  className={`inline-flex items-center gap-2 rounded-md border border-gray-300 dark:border-gray-600 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 ${focusRingClasses}`}
                 >
                   <FiPlus /> E-Mail
                 </button>
@@ -220,7 +223,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
                       <button
                         type="button"
                         onClick={() => handleRemoveMemberRow(index)}
-                        className="rounded-md border border-gray-300 dark:border-gray-600 px-3 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                        className={`rounded-md border border-gray-300 dark:border-gray-600 px-3 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white ${focusRingClasses}`}
                         aria-label="E-Mail entfernen"
                       >
                         <FiX />
@@ -243,7 +246,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
               type="button"
               onClick={handleClose}
               disabled={isSubmitting}
-              className="inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-600 px-4 py-2 text-sm font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-60"
+              className={`inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-600 px-4 py-2 text-sm font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-60 ${focusRingClasses}`}
             >
               Abbrechen
             </button>
