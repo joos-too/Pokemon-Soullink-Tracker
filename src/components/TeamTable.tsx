@@ -92,57 +92,60 @@ const TeamTable: React.FC<TeamTableProps> = ({
                 </button>
             </div>
             <div className="w-full overflow-x-auto">
-                <table className="w-full border-collapse min-w-[700px]">
+                <table className="w-full border-collapse min-w-[900px]">
                     <thead>
                     <tr>
-                        <th className="p-2 text-xs font-bold text-gray-700 dark:text-gray-300 border-t border-gray-300 dark:border-gray-700">#</th>
-                        <th className="p-2 text-xs font-bold text-gray-700 dark:text-gray-300 border-t border-gray-300 dark:border-gray-700">Gebiet</th>
+                        <th rowSpan={2} className="p-2 text-xs font-bold text-gray-700 dark:text-gray-300 border-t border-b border-gray-300 dark:border-gray-700">#</th>
+                        <th rowSpan={2} className="p-2 text-center text-xs font-bold text-gray-700 dark:text-gray-300 border-t border-b border-l border-gray-300 dark:border-gray-700">Gebiet</th>
                         {normalizedPlayerNames.map((name, index) => (
-                            <th key={`player-header-${index}`} colSpan={2} className="p-2 text-xs font-bold text-center text-gray-700 dark:text-gray-300 border-t border-gray-300 dark:border-gray-700" style={{color: playerColors[index] ?? undefined}}>
+                            <th
+                                key={`player-header-${index}`}
+                                colSpan={3}
+                                className="p-2 text-xs font-press-start text-white text-center border-t border-b border-l border-gray-300 dark:border-gray-700"
+                                style={{backgroundColor: playerColors[index] ?? '#4b5563'}}
+                            >
                                 {name}
                             </th>
                         ))}
-                        <th className="p-2 text-xs font-bold text-gray-700 dark:text-gray-300 border-t border-gray-300 dark:border-gray-700">Aktionen</th>
+                        <th rowSpan={2} className="p-2 text-xs font-bold text-gray-700 dark:text-gray-300 border-t border-b border-l border-gray-300 dark:border-gray-700">Aktionen</th>
                     </tr>
                     <tr>
-                        <th></th>
-                        <th></th>
                         {normalizedPlayerNames.map((_, index) => (
                             <React.Fragment key={`player-subheader-${index}`}>
-                                <th className="p-1 text-[11px] text-gray-600 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700">Pokemon</th>
-                                <th className="p-1 text-[11px] text-gray-600 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700">Spitzname</th>
+                                <th className="p-1 text-[11px] text-gray-600 dark:text-gray-400 border-b border-l border-gray-200 dark:border-gray-700 text-center">
+                                    Pokémon
+                                </th>
+                                <th className="p-1 text-[11px] text-gray-600 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700 text-center">Name</th>
+                                <th className="p-1 text-[11px] text-gray-600 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700 text-center">Spitzname</th>
                             </React.Fragment>
                         ))}
-                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
                     {rows.length === 0 && (
                         <tr>
-                            <td className="p-3 text-center text-sm text-gray-500 dark:text-gray-400" colSpan={2 + normalizedPlayerNames.length * 2 + 1}>{emptyMessage}</td>
+                            <td className="p-3 text-center text-sm text-gray-500 dark:text-gray-400" colSpan={2 + normalizedPlayerNames.length * 3 + 1}>{emptyMessage}</td>
                         </tr>
                     )}
                     {rows.map(({pair, originalIndex}, displayIndex) => (
                         <tr key={pair.id}
                             className="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50">
                             <td className="p-2 text-center text-sm font-semibold text-gray-800 dark:text-gray-200">{displayIndex + 1}</td>
-                            <td className="p-2 text-sm text-gray-800 dark:text-gray-200">{pair.route || '-'}</td>
+                            <td className="p-2 text-sm text-center text-gray-800 dark:text-gray-200 border-l border-gray-200 dark:border-gray-700">{pair.route || '-'}</td>
                             {normalizedPlayerNames.map((_, playerIndex) => {
                                 const member = pair.members?.[playerIndex] ?? { name: '', nickname: '' };
                                 const sprite = member.name ? getOfficialArtworkUrlForGermanName(member.name) : null;
                                 return (
                                     <React.Fragment key={`player-cell-${pair.id}-${playerIndex}`}>
-                                        <td className="p-2 text-sm text-gray-800 dark:text-gray-300">
-                                            <div className="flex items-center gap-2">
-                                                {sprite ? <img src={sprite} alt="" className="w-12 h-12" loading="lazy"/> : null}
-                                                <span>{member.name || '-'}</span>
-                                            </div>
-                                        </td>
-                                        <td className="p-2 text-sm text-gray-800 dark:text-gray-300">{member.nickname || '-'}</td>
+                            <td className="p-2 text-center border-l border-gray-200 dark:border-gray-700">
+                                {sprite ? <img src={sprite} alt="" className="w-20 h-20 mx-auto" loading="lazy"/> : <span className="text-gray-400 dark:text-gray-500">-</span>}
+                            </td>
+                                        <td className="p-2 text-sm text-gray-800 dark:text-gray-300 text-center">{member.name || '-'}</td>
+                                        <td className="p-2 text-sm text-gray-800 dark:text-gray-300 text-center">{member.nickname || '-'}</td>
                                     </React.Fragment>
                                 );
                             })}
-                            <td className="p-2 text-center">
+                            <td className="p-2 text-center border-l border-gray-200 dark:border-gray-700">
                                 <div className="inline-flex items-center gap-1.5">
                                     {(pair.members.some(m => m?.name) || pair.route) && (
                                         <button
