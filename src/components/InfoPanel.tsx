@@ -69,6 +69,18 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
     const completedMilestones = Math.min(doneArenas + doneRivals, totalMilestones);
     const progressPct = totalMilestones > 0 ? Math.round((completedMilestones / totalMilestones) * 100) : 0;
 
+    const deathStats = normalizedPlayerNames.map((name, index) => {
+        const deaths = stats.deaths?.[index] ?? 0;
+        const historic = stats.sumDeaths?.[index] ?? 0;
+        return {
+            name,
+            color: getPlayerColor(index),
+            deaths,
+            total: historic + deaths,
+            borderClass: index < normalizedPlayerNames.length - 1 ? 'border-r border-gray-300 dark:border-gray-700' : '',
+        };
+    });
+
     const startEditRules = () => {
         setDraftRules(rules);
         setIsEditingRules(true);
@@ -350,21 +362,22 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                 <div
                     className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700 overflow-hidden">
                     <h2 className="text-center p-2 bg-gray-800 dark:bg-gray-900 text-white font-press-start text-sm">Tode</h2>
-                    <div className="grid gap-2" style={{gridTemplateColumns: `repeat(${normalizedPlayerNames.length}, minmax(0, 1fr))`}}>
-                        {normalizedPlayerNames.map((name, index) => {
-                            const deaths = stats.deaths?.[index] ?? 0;
-                            const historic = stats.sumDeaths?.[index] ?? 0;
-                            const color = getPlayerColor(index);
-                            return (
-                                <div key={`deaths-${index}`} className={`text-center p-2 ${index < normalizedPlayerNames.length - 1 ? 'border-r border-gray-300 dark:border-gray-700' : ''}`}>
-                                    <h3 className="font-press-start text-xs" style={{color}}>{name}</h3>
-                                    <div
-                                        className="text-4xl font-press-start text-center bg-transparent w-full outline-none mt-2 text-gray-800 dark:text-gray-200">{deaths}</div>
-                                    <div
-                                        className="text-xs text-gray-600 dark:text-gray-400 mt-1">Gesamt: {historic + deaths}</div>
-                                </div>
-                            );
-                        })}
+                    <div className="grid gap-y-1" style={{gridTemplateColumns: `repeat(${normalizedPlayerNames.length}, minmax(0, 1fr))`}}>
+                        {deathStats.map((entry, index) => (
+                            <div key={`death-name-${index}`} className={`px-2 pt-2 pb-1 text-center ${entry.borderClass}`}>
+                                <h3 className="font-press-start text-xs whitespace-normal break-words leading-tight" style={{color: entry.color}}>{entry.name}</h3>
+                            </div>
+                        ))}
+                        {deathStats.map((entry, index) => (
+                            <div key={`death-count-${index}`} className={`px-2 py-2 text-center ${entry.borderClass}`}>
+                                <div className="text-4xl font-press-start text-gray-800 dark:text-gray-200">{entry.deaths}</div>
+                            </div>
+                        ))}
+                        {deathStats.map((entry, index) => (
+                            <div key={`death-total-${index}`} className={`px-2 pb-2 text-center ${entry.borderClass}`}>
+                                <div className="text-xs text-gray-600 dark:text-gray-400">Gesamt: {entry.total}</div>
+                            </div>
+                        ))}
                     </div>
                 </div>
 
@@ -372,7 +385,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                     <div
                         className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300
                         dark:border-gray-700 overflow-hidden hover:bg-gray-100 active:bg-gray-200
-                        dark:hover:bg-gray-700 dark:active:bg-gray-600 duration-200 cursor-pointer select-none"
+                        dark:hover:bg-gray-700 dark:active:bg-gray-600 duration-200 cursor-pointer select-none flex flex-col h-full"
                         onClick={onlegendaryIncrement}
                     >
                         <h2 className="text-center p-2 text-black font-press-start text-[13.5px]"
@@ -380,9 +393,20 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                             Legendären begegnet
                         </h2>
                         <div className="p-3 flex items-center justify-center flex-grow">
-                            <div className="flex items-center justify-center gap-2">
-                                <LegendaryImage pokemonName={randomLegendary} />
-                                <div className="text-3xl font-press-start text-gray-800 dark:text-gray-200">
+                            <div className="flex items-center justify-center gap-4 w-full max-w-md">
+                                <div
+                                    className="flex-shrink-0"
+                                    style={{width: 'clamp(3rem, 10vw, 5.5rem)', height: 'clamp(3rem, 10vw, 5.5rem)'}}
+                                >
+                                    <LegendaryImage
+                                        pokemonName={randomLegendary}
+                                        className="w-full h-full object-contain"
+                                    />
+                                </div>
+                                <div
+                                    className="font-press-start text-gray-800 dark:text-gray-200 leading-none"
+                                    style={{fontSize: 'clamp(2rem, 9vw, 3.5rem)'}}
+                                >
                                     {stats.legendaryEncounters ?? 0}
                                 </div>
                             </div>
