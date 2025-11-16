@@ -8,20 +8,14 @@ export const PLAYER_COLORS = [PLAYER1_COLOR, PLAYER2_COLOR, PLAYER3_COLOR];
 
 export const MIN_PLAYER_COUNT = 1;
 export const MAX_PLAYER_COUNT = 3;
-export const DEFAULT_PLAYER_NAMES = ['Spieler 1', 'Spieler 2', 'Spieler 3'];
 
 export const sanitizePlayerNames = (names?: string[]): string[] => {
-    const source = Array.isArray(names) && names.length > 0 ? names : DEFAULT_PLAYER_NAMES;
-    const cleaned = source
-        .map((name, index) => {
-            const fallback = `Spieler ${index + 1}`;
-            return typeof name === 'string' && name.trim().length > 0 ? name.trim() : fallback;
-        })
-        .slice(0, MAX_PLAYER_COUNT);
-    while (cleaned.length < MIN_PLAYER_COUNT) {
-        cleaned.push(`Spieler ${cleaned.length + 1}`);
+    if (!Array.isArray(names)) {
+        return [];
     }
-    return cleaned;
+    return names
+        .slice(0, MAX_PLAYER_COUNT)
+        .map((name) => (typeof name === 'string' ? name : ''));
 };
 
 export const ensureStatsForPlayers = (stats: Stats | undefined, playerCount: number): Stats => {
@@ -83,7 +77,7 @@ export const LEGENDARY_POKEMON_NAMES: string[] = [
 
 const DEFAULT_GAME_VERSION_ID = 'gen5_sw';
 
-const DEFAULT_PLAYER_NAME_SET = sanitizePlayerNames();
+const DEFAULT_PLAYER_NAME_SET: string[] = [];
 
 export const INITIAL_STATE: AppState = {
     playerNames: DEFAULT_PLAYER_NAME_SET,

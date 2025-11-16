@@ -1,4 +1,4 @@
-import React, {useState, useMemo} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 import {PLAYER_COLORS, MAX_PLAYER_COUNT, MIN_PLAYER_COUNT} from '@/constants';
 import type {TrackerMember, GameVersion, VariableRival, UserSettings, RivalGender} from '@/types';
 import {FiShield, FiUserPlus, FiX, FiTrash2, FiLogOut, FiInfo} from 'react-icons/fi';
@@ -58,7 +58,21 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
     const [memberActionError, setMemberActionError] = useState<string | null>(null);
     const [removingMemberId, setRemovingMemberId] = useState<string | null>(null);
     const [memberPendingRemoval, setMemberPendingRemoval] = useState<TrackerMember | null>(null);
-    const safePlayerCount = Math.min(Math.max(playerNames.length, MIN_PLAYER_COUNT), MAX_PLAYER_COUNT);
+    const playerCount = Math.min(Math.max(playerNames.length, MIN_PLAYER_COUNT), MAX_PLAYER_COUNT);
+    const normalizedPlayerNames = useMemo(() => {
+        return Array.from({length: playerCount}, (_, index) => playerNames[index] ?? '');
+    }, [playerNames, playerCount]);
+    const [localPlayerNames, setLocalPlayerNames] = useState<string[]>(normalizedPlayerNames);
+
+    useEffect(() => {
+        setLocalPlayerNames(prev => {
+            if (prev.length === normalizedPlayerNames.length &&
+                prev.every((name, index) => name === normalizedPlayerNames[index])) {
+                return prev;
+            }
+            return normalizedPlayerNames;
+        });
+    }, [normalizedPlayerNames]);
 
     const variableRivals = useMemo(() => {
         if (!gameVersion) return [];
@@ -174,8 +188,8 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                             </div>
                             <div className="space-y-2">
                                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                                    {Array.from({length: safePlayerCount}, (_, index) => {
-                                        const fullWidth = (safePlayerCount === 3 && index === 2) || safePlayerCount === 1;
+                                    {Array.from({length: playerCount}, (_, index) => {
+                                        const fullWidth = (playerCount === 3 && index === 2) || playerCount === 1;
                                         return (
                                             <div key={`player-${index}`} className={fullWidth ? 'sm:col-span-2' : undefined}>
                                                 <label className="block text-sm font-bold mb-2"
@@ -184,8 +198,16 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                                                 </label>
                                                 <input
                                                     type="text"
-                                                    value={playerNames[index] ?? ''}
-                                                    onChange={(e) => onPlayerNameChange(index, e.target.value)}
+                                                    value={localPlayerNames[index] ?? ''}
+                                                    onChange={(e) => {
+                                                        const value = e.target.value;
+                                                        setLocalPlayerNames(prev => {
+                                                            const next = [...prev];
+                                                            next[index] = value;
+                                                            return next;
+                                                        });
+                                                        onPlayerNameChange(index, value);
+                                                    }}
                                                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
                                                 />
                                             </div>

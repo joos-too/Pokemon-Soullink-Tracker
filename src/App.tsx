@@ -744,17 +744,11 @@ const App: React.FC = () => {
                 [activeTrackerId]: {
                     ...existing,
                     playerNames: names,
-                    player1Name: names[0],
-                    player2Name: names[1],
-                    player3Name: names[2],
                 },
             };
         });
         update(ref(db, `trackers/${activeTrackerId}/meta`), {
             playerNames: names,
-            player1Name: names[0],
-            player2Name: names[1] ?? null,
-            player3Name: names[2] ?? null,
         }).catch(() => {});
     }, [activeTrackerId]);
 
@@ -972,11 +966,14 @@ const App: React.FC = () => {
     const trackerMembers = activeTrackerMeta ? Object.values(activeTrackerMeta.members ?? {}) : [];
     const canManageMembers = Boolean(user && activeTrackerMeta?.members?.[user.uid]?.role === 'owner');
     const resolvedPlayerNames = useMemo(() => {
+        if (Array.isArray(data.playerNames) && data.playerNames.length > 0) {
+            return data.playerNames;
+        }
         if (Array.isArray(activeTrackerMeta?.playerNames) && activeTrackerMeta.playerNames.length > 0) {
             return sanitizePlayerNames(activeTrackerMeta.playerNames);
         }
-        return data.playerNames;
-    }, [activeTrackerMeta?.playerNames, data.playerNames]);
+        return [];
+    }, [data.playerNames, activeTrackerMeta?.playerNames]);
     const playerColors = useMemo(() => resolvedPlayerNames.map((_, index) => PLAYER_COLORS[index]), [resolvedPlayerNames]);
 
     // Backfill runStartedAt for legacy trackers once
