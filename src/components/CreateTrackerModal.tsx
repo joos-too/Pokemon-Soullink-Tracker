@@ -185,6 +185,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
                       </label>
                       <input
                         type="text"
+                        required
                         value={value}
                         onChange={(e) => setPlayerNames((prev) => prev.map((entry, i) => (i === index ? e.target.value : entry)))}
                         className="w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500"
