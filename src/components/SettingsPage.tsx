@@ -175,7 +175,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                             <div className="space-y-2">
                                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                                     {Array.from({length: safePlayerCount}, (_, index) => {
-                                        const fullWidth = safePlayerCount === 3 && index === 2;
+                                        const fullWidth = (safePlayerCount === 3 && index === 2) || safePlayerCount === 1;
                                         return (
                                             <div key={`player-${index}`} className={fullWidth ? 'sm:col-span-2' : undefined}>
                                                 <label className="block text-sm font-bold mb-2"

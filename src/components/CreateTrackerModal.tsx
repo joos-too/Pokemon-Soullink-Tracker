@@ -174,7 +174,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
 
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {playerNames.map((value, index) => {
-                  const fullWidth = playerNames.length === 3 && index === 2;
+                  const fullWidth = (playerNames.length === 3 && index === 2) || playerNames.length === 1;
                   return (
                     <div key={`player-name-${index}`} className={fullWidth ? 'sm:col-span-2' : undefined}>
                       <label
