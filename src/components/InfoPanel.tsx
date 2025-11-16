@@ -21,6 +21,7 @@ interface InfoPanelProps {
     rivalCensorEnabled: boolean;
     hardcoreModeEnabled?: boolean;
     onlegendaryIncrement: () => void;
+    onlegendaryDecrement: () => void;
     runStartedAt?: number;
     gameVersion?: GameVersion;
     rivalPreferences: UserSettings['rivalPreferences'];
@@ -43,6 +44,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                                  rivalCensorEnabled,
                                                  hardcoreModeEnabled,
                                                  onlegendaryIncrement,
+                                                 onlegendaryDecrement,
                                                  runStartedAt,
                                                  gameVersion,
                                                  rivalPreferences,
@@ -387,6 +389,8 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                         dark:border-gray-700 overflow-hidden hover:bg-gray-100 active:bg-gray-200
                         dark:hover:bg-gray-700 dark:active:bg-gray-600 duration-200 cursor-pointer select-none flex flex-col h-full"
                         onClick={onlegendaryIncrement}
+                        onContextMenu={(e) => { e.preventDefault(); e.stopPropagation(); onlegendaryDecrement(); }}
+                        title="Linksklick: erhöhen · Rechtsklick: verringern"
                     >
                         <h2 className="text-center p-2 text-black font-press-start text-[13.5px]"
                             style={{backgroundColor: '#cfcfc3'}}>
