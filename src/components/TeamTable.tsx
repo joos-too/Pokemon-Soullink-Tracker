@@ -86,7 +86,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                             ? 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed'
                             : 'bg-green-600 text-white hover:bg-green-700 dark:hover:bg-green-500'
                     }`}
-                    title={addDisabled ? (addDisabledReason || 'Hinzufügen deaktiviert') : 'Link hinzufügen'}
+                    title={addDisabled ? (addDisabledReason || 'Hinzufügen deaktiviert') : 'Pokémon hinzufügen'}
                 >
                     <FiPlus size={18}/> Hinzufügen
                 </button>
