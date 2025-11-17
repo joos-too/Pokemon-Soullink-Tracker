@@ -1,13 +1,13 @@
 import React, {useState, useMemo, useEffect} from 'react';
 import type {LevelCap, RivalCap, Stats, GameVersion, UserSettings} from '@/types';
-import {PLAYER1_COLOR, PLAYER2_COLOR, LEGENDARY_POKEMON_NAMES} from '@/constants';
+import {PLAYER_COLORS, LEGENDARY_POKEMON_NAMES} from '@/constants';
 import {FiMinus, FiPlus, FiEdit, FiX, FiSave, FiEye, FiEyeOff, FiRefreshCw} from 'react-icons/fi';
 import {RivalImage, BadgeImage, LegendaryImage} from './GameImages';
 import {useSearchParams} from 'react-router-dom';
 
 interface InfoPanelProps {
-    player1Name: string;
-    player2Name: string;
+    playerNames: string[];
+    playerColors: string[];
     levelCaps: LevelCap[];
     rivalCaps: RivalCap[];
     stats: Stats;
@@ -15,7 +15,7 @@ interface InfoPanelProps {
     onRivalCapToggleDone: (index: number) => void;
     onRivalCapReveal: (index: number) => void;
     onStatChange: (stat: keyof Stats, value: string) => void;
-    onNestedStatChange: (group: keyof Stats, key: string, value: string) => void;
+    onPlayerStatChange: (group: keyof Stats, playerIndex: number, value: string) => void;
     rules: string[];
     onRulesChange: (rules: string[]) => void;
     legendaryTrackerEnabled: boolean;
@@ -30,15 +30,15 @@ interface InfoPanelProps {
 
 
 const InfoPanel: React.FC<InfoPanelProps> = ({
-                                                 player1Name,
-                                                 player2Name,
+                                                 playerNames,
+                                                 playerColors,
                                                  levelCaps,
                                                  rivalCaps,
                                                  stats,
                                                  onLevelCapToggle,
                                                  onRivalCapToggleDone,
                                                  onRivalCapReveal,
-                                                 onNestedStatChange,
+                                                 onPlayerStatChange,
                                                  rules,
                                                  onRulesChange,
                                                  legendaryTrackerEnabled,
@@ -55,6 +55,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
     const [searchParams, setSearchParams] = useSearchParams();
     const showRivalCaps = searchParams.get('caps') === 'rivals';
     const [isMobile, setIsMobile] = useState(false);
+    const getPlayerColor = (index: number) => playerColors[index] ?? PLAYER_COLORS[index] ?? '#4b5563';
 
     const toggleCapsView = () => {
         const nextParams = new URLSearchParams(searchParams);
@@ -93,6 +94,18 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
     const totalMilestones = (levelCaps.length || 0) + (rivalCaps.length || 0);
     const completedMilestones = Math.min(doneArenas + doneRivals, totalMilestones);
     const progressPct = totalMilestones > 0 ? Math.round((completedMilestones / totalMilestones) * 100) : 0;
+
+    const deathStats = playerNames.map((name, index) => {
+        const deaths = stats.deaths?.[index] ?? 0;
+        const historic = stats.sumDeaths?.[index] ?? 0;
+        return {
+            name,
+            color: getPlayerColor(index),
+            deaths,
+            total: historic + deaths,
+            borderClass: index < playerNames.length - 1 ? 'border-r border-gray-300 dark:border-gray-700' : '',
+        };
+    });
 
     const startEditRules = () => {
         setDraftRules(rules);
@@ -305,48 +318,36 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                             Items</h2>
                         <table className="w-full">
                             <tbody>
-                            <tr className="border-t border-gray-200 dark:border-gray-700">
-                                <td className="px-2 py-1.5 text-xs font-bold"
-                                    style={{color: PLAYER1_COLOR}}>{player1Name}</td>
-                                <td className="px-2 py-1.5 text-right">
-                                    <div className="inline-flex items-center gap-1">
-                                        <button type="button"
-                                                onClick={() => onNestedStatChange('top4Items', 'player1', String(Math.max(0, (stats.top4Items.player1 || 0) - 1)))}
-                                                className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300"
-                                                aria-label="Items verringern" title="Items verringern"><FiMinus
-                                            size={16}/></button>
-                                        <input type="number" value={stats.top4Items.player1}
-                                               onChange={(e) => onNestedStatChange('top4Items', 'player1', e.target.value)}
-                                               className="w-16 text-right bg-transparent border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-sm"/>
-                                        <button type="button"
-                                                onClick={() => onNestedStatChange('top4Items', 'player1', String((stats.top4Items.player1 || 0) + 1))}
-                                                className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300"
-                                                aria-label="Items erhöhen" title="Items erhöhen"><FiPlus size={16}/>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr className="border-t border-gray-200 dark:border-gray-700">
-                                <td className="px-2 py-1.5 text-xs font-bold"
-                                    style={{color: PLAYER2_COLOR}}>{player2Name}</td>
-                                <td className="px-2 py-1.5 text-right">
-                                    <div className="inline-flex items-center gap-1">
-                                        <button type="button"
-                                                onClick={() => onNestedStatChange('top4Items', 'player2', String(Math.max(0, (stats.top4Items.player2 || 0) - 1)))}
-                                                className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300"
-                                                aria-label="Items verringern" title="Items verringern"><FiMinus
-                                            size={16}/></button>
-                                        <input type="number" value={stats.top4Items.player2}
-                                               onChange={(e) => onNestedStatChange('top4Items', 'player2', e.target.value)}
-                                               className="w-16 text-right bg-transparent border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-sm"/>
-                                        <button type="button"
-                                                onClick={() => onNestedStatChange('top4Items', 'player2', String((stats.top4Items.player2 || 0) + 1))}
-                                                className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300"
-                                                aria-label="Items erhöhen" title="Items erhöhen"><FiPlus size={16}/>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
+                            {playerNames.map((name, index) => {
+                                const value = stats.top4Items?.[index] ?? 0;
+                                return (
+                                    <tr key={`top4-${index}`} className="border-t border-gray-200 dark:border-gray-700">
+                                        <td className="px-2 py-1.5 text-xs font-bold" style={{color: getPlayerColor(index)}}>
+                                            {name}
+                                        </td>
+                                        <td className="px-2 py-1.5 text-right">
+                                            <div className="inline-flex items-center gap-1">
+                                                <button type="button"
+                                                        onClick={() => onPlayerStatChange('top4Items', index, String(Math.max(0, value - 1)))}
+                                                        className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300"
+                                                        aria-label="Items verringern" title="Items verringern"><FiMinus
+                                                    size={16}/>
+                                                </button>
+                                                <input type="number"
+                                                       value={value}
+                                                       onChange={(e) => onPlayerStatChange('top4Items', index, e.target.value)}
+                                                       className="w-16 text-right bg-transparent border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-sm"/>
+                                                <button type="button"
+                                                        onClick={() => onPlayerStatChange('top4Items', index, String(value + 1))}
+                                                        className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300"
+                                                        aria-label="Items erhöhen" title="Items erhöhen"><FiPlus
+                                                    size={16}/>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
                             </tbody>
                         </table>
                     </div>
@@ -402,21 +403,22 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                 <div
                     className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700 overflow-hidden">
                     <h2 className="text-center p-2 bg-gray-800 dark:bg-gray-900 text-white font-press-start text-sm">Tode</h2>
-                    <div className="grid grid-cols-2">
-                        <div className="text-center border-r border-gray-300 dark:border-gray-700 p-2">
-                            <h3 className="font-press-start text-xs" style={{color: PLAYER1_COLOR}}>{player1Name}</h3>
-                            <div
-                                className="text-4xl font-press-start text-center bg-transparent w-full outline-none mt-2 text-gray-800 dark:text-gray-200">{stats.deaths.player1}</div>
-                            <div
-                                className="text-xs text-gray-600 dark:text-gray-400 mt-1">Gesamt: {(stats.sumDeaths?.player1 ?? 0) + (stats.deaths.player1 ?? 0)}</div>
-                        </div>
-                        <div className="text-center p-2">
-                            <h3 className="font-press-start text-xs" style={{color: PLAYER2_COLOR}}>{player2Name}</h3>
-                            <div
-                                className="text-4xl font-press-start text-center bg-transparent w-full outline-none mt-2 text-gray-800 dark:text-gray-200">{stats.deaths.player2}</div>
-                            <div
-                                className="text-xs text-gray-600 dark:text-gray-400 mt-1">Gesamt: {(stats.sumDeaths?.player2 ?? 0) + (stats.deaths.player2 ?? 0)}</div>
-                        </div>
+                    <div className="grid gap-y-1" style={{gridTemplateColumns: `repeat(${playerNames.length}, minmax(0, 1fr))`}}>
+                        {deathStats.map((entry, index) => (
+                            <div key={`death-name-${index}`} className={`px-2 pt-2 pb-1 text-center ${entry.borderClass}`}>
+                                <h3 className="font-press-start text-xs whitespace-normal break-words leading-tight" style={{color: entry.color}}>{entry.name}</h3>
+                            </div>
+                        ))}
+                        {deathStats.map((entry, index) => (
+                            <div key={`death-count-${index}`} className={`px-2 py-2 text-center ${entry.borderClass}`}>
+                                <div className="text-4xl font-press-start text-gray-800 dark:text-gray-200">{entry.deaths}</div>
+                            </div>
+                        ))}
+                        {deathStats.map((entry, index) => (
+                            <div key={`death-total-${index}`} className={`px-2 pb-2 text-center ${entry.borderClass}`}>
+                                <div className="text-xs text-gray-600 dark:text-gray-400">Gesamt: {entry.total}</div>
+                            </div>
+                        ))}
                     </div>
                 </div>
 
@@ -424,7 +426,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                     <div
                         className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300
                         dark:border-gray-700 overflow-hidden hover:bg-gray-100 active:bg-gray-200
-                        dark:hover:bg-gray-700 dark:active:bg-gray-600 duration-200 cursor-pointer select-none"
+                        dark:hover:bg-gray-700 dark:active:bg-gray-600 duration-200 cursor-pointer select-none flex flex-col h-full"
                         onClick={onlegendaryIncrement}
                         onContextMenu={(e) => { e.preventDefault(); e.stopPropagation(); onlegendaryDecrement(); }}
                         title="Linksklick: erhöhen · Rechtsklick: verringern"
@@ -434,9 +436,20 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                             Legendären begegnet
                         </h2>
                         <div className="p-3 flex items-center justify-center flex-grow">
-                            <div className="flex items-center justify-center gap-2">
-                                <LegendaryImage pokemonName={randomLegendary} />
-                                <div className="text-3xl font-press-start text-gray-800 dark:text-gray-200">
+                            <div className="flex items-center justify-center gap-4 w-full max-w-md">
+                                <div
+                                    className="flex-shrink-0"
+                                    style={{width: 'clamp(3rem, 10vw, 5.5rem)', height: 'clamp(3rem, 10vw, 5.5rem)'}}
+                                >
+                                    <LegendaryImage
+                                        pokemonName={randomLegendary}
+                                        className="w-full h-full object-contain"
+                                    />
+                                </div>
+                                <div
+                                    className="font-press-start text-gray-800 dark:text-gray-200 leading-none"
+                                    style={{fontSize: 'clamp(2rem, 9vw, 3.5rem)'}}
+                                >
                                     {stats.legendaryEncounters ?? 0}
                                 </div>
                             </div>

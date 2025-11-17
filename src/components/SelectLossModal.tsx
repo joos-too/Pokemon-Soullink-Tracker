@@ -1,35 +1,36 @@
 import React, { useEffect, useState } from 'react';
-import type { PokemonPair } from '@/types';
+import type { PokemonLink } from '@/types';
 
 interface SelectLossModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: (player: 'player1' | 'player2') => void;
-  pair: PokemonPair | null;
-  player1Name: string;
-  player2Name: string;
+  onConfirm: (playerIndex: number) => void;
+  pair: PokemonLink | null;
+  playerNames: string[];
 }
 
-const SelectLossModal: React.FC<SelectLossModalProps> = ({ isOpen, onClose, onConfirm, pair, player1Name, player2Name }) => {
-  const [selected, setSelected] = useState<'player1' | 'player2' | ''>('');
+const SelectLossModal: React.FC<SelectLossModalProps> = ({ isOpen, onClose, onConfirm, pair, playerNames }) => {
+  const [selected, setSelected] = useState<number | null>(null);
 
   useEffect(() => {
-    if (isOpen) setSelected('');
-  }, [isOpen]);
+    if (isOpen) {
+      setSelected(playerNames.length === 1 ? 0 : null);
+    }
+  }, [isOpen, playerNames.length]);
 
   if (!isOpen) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (selected === '') return;
-    onConfirm(selected as 'player1' | 'player2');
+    if (selected === null) return;
+    onConfirm(selected);
   };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-md">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-lg font-bold dark:text-gray-100">Wer hat den Seelenlink getötet?</h2>
+          <h2 className="text-lg font-bold dark:text-gray-100">Wer hat das Pokémon getötet?</h2>
           <button onClick={onClose} className="text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200" aria-label="Schließen">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -39,15 +40,16 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({ isOpen, onClose, onCo
 
         {pair && (
           <div className="mb-4 text-sm text-gray-700 dark:text-gray-300">
-            <div className="flex justify-between">
-              <div>
-                <div className="font-semibold">{player1Name}</div>
-                <div>{pair.player1.name || '—'}{pair.player1.nickname ? ` (${pair.player1.nickname})` : ''}</div>
-              </div>
-              <div className="text-right">
-                <div className="font-semibold">{player2Name}</div>
-                <div>{pair.player2.name || '—'}{pair.player2.nickname ? ` (${pair.player2.nickname})` : ''}</div>
-              </div>
+            <div className="flex flex-col gap-2">
+              {playerNames.map((name, index) => {
+                const member = pair.members?.[index] ?? { name: '', nickname: '' };
+                return (
+                  <div key={`loss-preview-${index}`} className="flex justify-between text-xs">
+                    <div className="font-semibold">{name}</div>
+                    <div className="text-right">{member.name || '—'}{member.nickname ? ` (${member.nickname})` : ''}</div>
+                  </div>
+                );
+              })}
             </div>
             {pair.route && (
               <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">Gebiet: {pair.route}</div>
@@ -56,20 +58,24 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({ isOpen, onClose, onCo
         )}
 
         <form onSubmit={handleSubmit}>
-          <div className="space-y-3">
-            <label className="flex items-center gap-2 cursor-pointer dark:text-gray-200">
-              <input type="radio" name="lostPlayer" value="player1" checked={selected === 'player1'} onChange={() => setSelected('player1')} className="h-4 w-4 accent-red-600"/>
-              <span>{player1Name}</span>
-            </label>
-            <label className="flex items-center gap-2 cursor-pointer dark:text-gray-200">
-              <input type="radio" name="lostPlayer" value="player2" checked={selected === 'player2'} onChange={() => setSelected('player2')} className="h-4 w-4 accent-red-600"/>
-              <span>{player2Name}</span>
-            </label>
-          </div>
+          {playerNames.length === 1 ? (
+            <div className="text-sm text-gray-700 dark:text-gray-300 border border-red-200 dark:border-red-500 rounded-md p-3 bg-red-50 dark:bg-red-900/30">
+              Der Verlust wird automatisch <span className="font-semibold">{playerNames[0]}</span> zugewiesen.
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {playerNames.map((name, index) => (
+                <label key={`lost-player-${index}`} className="flex items-center gap-2 cursor-pointer dark:text-gray-200">
+                  <input type="radio" name="lostPlayer" value={index} checked={selected === index} onChange={() => setSelected(index)} className="h-4 w-4 accent-red-600"/>
+                  <span>{name}</span>
+                </label>
+              ))}
+            </div>
+          )}
 
           <div className="mt-6 flex justify-end gap-2">
             <button type="button" onClick={onClose} className="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700">Abbrechen</button>
-            <button type="submit" disabled={selected === ''} className={`px-4 py-2 rounded-md font-semibold shadow ${selected ? 'bg-red-600 text-white hover:bg-red-700' : 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed'}`}>
+            <button type="submit" disabled={selected === null} className={`px-4 py-2 rounded-md font-semibold shadow ${selected !== null ? 'bg-red-600 text-white hover:bg-red-700' : 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed'}`}>
               Bestätigen
             </button>
           </div>

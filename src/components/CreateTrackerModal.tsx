@@ -1,29 +1,43 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {FiPlus, FiX, FiUsers} from 'react-icons/fi';
 import { GAME_VERSIONS } from '@/src/data/game-versions';
+import { PLAYER_COLORS } from '@/constants';
+import { focusRingClasses, focusRingInsetClasses } from '@/src/styles/focusRing';
 import GameVersionPicker from './GameVersionPicker';
+
+const PLAYER_COUNT_LABELS: Record<number, string> = { 1: 'Solo', 2: 'Duo', 3: 'Trio' };
 
 
 interface CreateTrackerModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (payload: { title: string; player1Name: string; player2Name: string; memberEmails: string[], gameVersionId: string; }) => Promise<void>;
+  onSubmit: (payload: { title: string; playerNames: string[]; memberEmails: string[], gameVersionId: string; }) => Promise<void>;
   isSubmitting: boolean;
   error?: string | null;
 }
 
 const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose, onSubmit, isSubmitting, error }) => {
   const [title, setTitle] = useState('');
-  const [player1Name, setPlayer1Name] = useState('');
-  const [player2Name, setPlayer2Name] = useState('');
+  const [playerCount, setPlayerCount] = useState(2);
+  const [playerNames, setPlayerNames] = useState<string[]>(['', '']);
   const [memberInputs, setMemberInputs] = useState<string[]>(['']);
   const [gameVersionId, setGameVersionId] = useState('gen5_sw');
   const [showVersionPicker, setShowVersionPicker] = useState(false);
 
+  useEffect(() => {
+    setPlayerNames((prev) => {
+      const next = prev.slice(0, playerCount);
+      while (next.length < playerCount) {
+        next.push('');
+      }
+      return next;
+    });
+  }, [playerCount]);
+
   const resetForm = useCallback(() => {
     setTitle('');
-    setPlayer1Name('');
-    setPlayer2Name('');
+    setPlayerCount(2);
+    setPlayerNames(['', '']);
     setMemberInputs(['']);
     setGameVersionId('gen5_sw');
     setShowVersionPicker(false);
@@ -49,10 +63,10 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    const trimmedPlayerNames = playerNames.map((name) => name.trim());
     await onSubmit({
       title,
-      player1Name,
-      player2Name,
+      playerNames: trimmedPlayerNames,
       memberEmails: memberInputs.map((entry) => entry.trim()).filter(Boolean),
       gameVersionId: gameVersionId,
     });
@@ -76,7 +90,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
             <button
               type="button"
               onClick={handleClose}
-              className="rounded-full p-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+              className={`rounded-full p-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white ${focusRingClasses}`}
               aria-label="Schließen"
               disabled={isSubmitting}
             >
@@ -94,7 +108,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
                 onClick={() => setShowVersionPicker((v) => !v)}
                 aria-expanded={showVersionPicker}
                 aria-controls="game-version-picker-panel"
-                className="w-full inline-flex items-center justify-between rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-sm font-semibold text-gray-800 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-600"
+                className={`w-full inline-flex items-center justify-between rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-sm font-semibold text-gray-800 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-600 ${focusRingClasses}`}
                 title="Spielversion auswählen"
               >
                 <span>Spielversion auswählen</span>
@@ -104,10 +118,12 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
               <div
                 id="game-version-picker-panel"
                 aria-hidden={!showVersionPicker}
+                inert={!showVersionPicker}
                 className={`transform-gpu ${showVersionPicker ? 'mt-3 max-h-72 opacity-100' : 'max-h-0 opacity-0 pointer-events-none'} transition-all duration-300 ease-in-out overflow-hidden`}
               >
                 <GameVersionPicker
                   value={gameVersionId}
+                  isInteractive={showVersionPicker}
                   onSelect={(versionId) => {
                     setGameVersionId(versionId);
                     setShowVersionPicker(false)
@@ -130,26 +146,54 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
               />
             </div>
 
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-              <div>
-                <label className="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-1 block">Spieler 1</label>
-                <input
-                  type="text"
-                  value={player1Name}
-                  onChange={(e) => setPlayer1Name(e.target.value)}
-                  className="w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500"
-                  placeholder="Name"
-                />
+            <div className="space-y-3">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <label className="text-sm font-semibold text-gray-700 dark:text-gray-200">
+                  Spieleranzahl wählen
+                </label>
+                <div className="inline-flex rounded-md border border-gray-300 dark:border-gray-600 overflow-hidden focus-within:border-green-500 transition-colors">
+                  {[1, 2, 3].map((count) => {
+                    const active = playerCount === count;
+                    return (
+                      <button
+                        key={`player-count-${count}`}
+                        type="button"
+                        onClick={() => setPlayerCount(count)}
+                        className={`px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] transition ${
+                          active
+                            ? 'bg-green-600 text-white'
+                            : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600'
+                        } ${count !== 3 ? 'border-r border-gray-300 dark:border-gray-600' : ''} ${focusRingInsetClasses}`}
+                      >
+                        {PLAYER_COUNT_LABELS[count]}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
-              <div>
-                <label className="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-1 block">Spieler 2</label>
-                <input
-                  type="text"
-                  value={player2Name}
-                  onChange={(e) => setPlayer2Name(e.target.value)}
-                  className="w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500"
-                  placeholder="Name"
-                />
+
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                {playerNames.map((value, index) => {
+                  const fullWidth = (playerNames.length === 3 && index === 2) || playerNames.length === 1;
+                  return (
+                    <div key={`player-name-${index}`} className={fullWidth ? 'sm:col-span-2' : undefined}>
+                      <label
+                        className="text-sm font-semibold mb-1 block"
+                        style={{color: PLAYER_COLORS[index] ?? '#4b5563'}}
+                      >
+                        Spieler {index + 1}
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={value}
+                        onChange={(e) => setPlayerNames((prev) => prev.map((entry, i) => (i === index ? e.target.value : entry)))}
+                        className="w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500"
+                        placeholder="Name"
+                      />
+                    </div>
+                  );
+                })}
               </div>
             </div>
 
@@ -166,7 +210,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
                 <button
                   type="button"
                   onClick={handleAddMemberRow}
-                  className="inline-flex items-center gap-2 rounded-md border border-gray-300 dark:border-gray-600 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  className={`inline-flex items-center gap-2 rounded-md border border-gray-300 dark:border-gray-600 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 ${focusRingClasses}`}
                 >
                   <FiPlus /> E-Mail
                 </button>
@@ -185,7 +229,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
                       <button
                         type="button"
                         onClick={() => handleRemoveMemberRow(index)}
-                        className="rounded-md border border-gray-300 dark:border-gray-600 px-3 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                        className={`rounded-md border border-gray-300 dark:border-gray-600 px-3 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white ${focusRingClasses}`}
                         aria-label="E-Mail entfernen"
                       >
                         <FiX />
@@ -208,7 +252,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
               type="button"
               onClick={handleClose}
               disabled={isSubmitting}
-              className="inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-600 px-4 py-2 text-sm font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-60"
+              className={`inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-600 px-4 py-2 text-sm font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-60 ${focusRingClasses}`}
             >
               Abbrechen
             </button>

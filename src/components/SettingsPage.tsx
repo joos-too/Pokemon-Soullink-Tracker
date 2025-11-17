@@ -1,15 +1,14 @@
 import React, {useState, useMemo} from 'react';
-import {PLAYER1_COLOR, PLAYER2_COLOR} from '@/constants';
+import {PLAYER_COLORS, MAX_PLAYER_COUNT, MIN_PLAYER_COUNT} from '@/constants';
 import type {TrackerMember, GameVersion, VariableRival, UserSettings, RivalGender} from '@/types';
 import {FiShield, FiUserPlus, FiX, FiTrash2, FiLogOut, FiInfo} from 'react-icons/fi';
 import Tooltip from './Tooltip';
 
 interface SettingsPageProps {
     trackerTitle: string;
-    player1Name: string;
-    player2Name: string;
+    playerNames: string[];
     onTitleChange: (title: string) => void;
-    onNameChange: (player: 'player1Name' | 'player2Name', name: string) => void;
+    onPlayerNameChange: (index: number, name: string) => void;
     onBack: () => void;
     legendaryTrackerEnabled: boolean;
     onlegendaryTrackerToggle: (enabled: boolean) => void;
@@ -31,10 +30,9 @@ interface SettingsPageProps {
 
 const SettingsPage: React.FC<SettingsPageProps> = ({
                                                        trackerTitle,
-                                                       player1Name,
-                                                       player2Name,
+                                                       playerNames,
                                                        onTitleChange,
-                                                       onNameChange,
+                                                       onPlayerNameChange,
                                                        onBack,
                                                        legendaryTrackerEnabled,
                                                        onlegendaryTrackerToggle,
@@ -60,6 +58,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
     const [memberActionError, setMemberActionError] = useState<string | null>(null);
     const [removingMemberId, setRemovingMemberId] = useState<string | null>(null);
     const [memberPendingRemoval, setMemberPendingRemoval] = useState<TrackerMember | null>(null);
+    const playerCount = Math.min(Math.max(playerNames.length, MIN_PLAYER_COUNT), MAX_PLAYER_COUNT);
 
     const variableRivals = useMemo(() => {
         if (!gameVersion) return [];
@@ -158,8 +157,8 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
 
                 <main className="mt-6 space-y-8">
                     <section>
-                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                            <div className="sm:col-span-2">
+                        <div className="space-y-4">
+                            <div>
                                 <label htmlFor="trackerTitle"
                                        className="block text-sm font-bold mb-2 text-gray-800 dark:text-gray-200">
                                     Tracker Titel
@@ -173,31 +172,27 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                                     placeholder="z. B. Schwarz 2 Soullink"
                                 />
                             </div>
-                            <div>
-                                <label htmlFor="player1Name" className="block text-sm font-bold mb-2"
-                                       style={{color: PLAYER1_COLOR}}>
-                                    Name Spieler 1
-                                </label>
-                                <input
-                                    id="player1Name"
-                                    type="text"
-                                    value={player1Name}
-                                    onChange={(e) => onNameChange('player1Name', e.target.value)}
-                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-                                />
-                            </div>
-                            <div>
-                                <label htmlFor="player2Name" className="block text-sm font-bold mb-2"
-                                       style={{color: PLAYER2_COLOR}}>
-                                    Name Spieler 2
-                                </label>
-                                <input
-                                    id="player2Name"
-                                    type="text"
-                                    value={player2Name}
-                                    onChange={(e) => onNameChange('player2Name', e.target.value)}
-                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-                                />
+                            <div className="space-y-2">
+                                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                                    {Array.from({length: playerCount}, (_, index) => {
+                                        const fullWidth = (playerCount === 3 && index === 2) || playerCount === 1;
+                                        return (
+                                            <div key={`player-${index}`}
+                                                 className={fullWidth ? 'sm:col-span-2' : undefined}>
+                                                <label className="block text-sm font-bold mb-2"
+                                                       style={{color: PLAYER_COLORS[index] ?? '#4b5563'}}>
+                                                    Name Spieler {index + 1}
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    value={playerNames[index]}
+                                                    onChange={(e) => onPlayerNameChange(index, e.target.value)}
+                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+                                                />
+                                            </div>
+                                        );
+                                    })}
+                                </div>
                             </div>
                         </div>
                     </section>
@@ -213,7 +208,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                                         `Standardmäßig orientiert sich die Level-Cap am hösten Pokémon eines Trainers, im Hardcore modus wird jedoch eine weitere Level-Cap hinzugefügt, welche sich am zweithöchsten Pokémon eines Trainers orientiert.
                                         
                                         Es darf nun lediglich ein Pokémon bis zur oberen Level-Cap gelevelt werden, der Rest des Teams darf die untere Level-Cap nicht überschreiten.`
-                                        }>
+                                    }>
                                         <span
                                             className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-help"
                                             aria-label="Info Hardcore Modus">
@@ -244,7 +239,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                                         `Um Spoiler zu vermeiden und die Story besser genießen zu können, werden Rivalenkämpfe zensiert und müssen händisch aufgedeckt werden.
                                         
                                         Nach einmaligem aufdecken und auch in folgenden Runs, bleiben sie dann aufgedeckt.`
-                                        }>
+                                    }>
                                         <span
                                             className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-help"
                                             aria-label="Info Rivalenkämpfe zensieren">
@@ -272,7 +267,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                                     </div>
                                     <Tooltip side="top" content={
                                         `Aktiviert einen Tracker, welcher es ermöglicht die Encounter mit Legendären Pokémon nachzuvollziehen, um eine eigene Statistik zu führen.`
-                                        }>
+                                    }>
                                         <span
                                             className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-help"
                                             aria-label="Info Legendary Tracker">

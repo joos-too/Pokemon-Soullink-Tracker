@@ -1,15 +1,21 @@
-import React from 'react';
-import type { PokemonPair } from '@/types';
+import React, { useMemo } from 'react';
+import type { PokemonLink } from '@/types';
 import { getSpriteUrlForGermanName } from '@/src/services/sprites';
+import { PLAYER_COLORS } from '@/constants';
 
 interface GraveyardProps {
-  graveyard?: PokemonPair[];
-  player1Name?: string;
-  player2Name?: string;
+  graveyard?: PokemonLink[];
+  playerNames: string[];
+  playerColors?: string[];
   onManualAddClick?: () => void;
 }
 
-const Graveyard: React.FC<GraveyardProps> = ({ graveyard = [], player1Name = 'Player 1', player2Name = 'Player 2', onManualAddClick }) => {
+const Graveyard: React.FC<GraveyardProps> = ({ graveyard = [], playerNames, playerColors, onManualAddClick }) => {
+  const names = useMemo(() => {
+    const list = playerNames.length ? playerNames : ['Spieler 1'];
+    return list.map((name, index) => (name?.trim().length ? name : `Spieler ${index + 1}`));
+  }, [playerNames]);
+  const colorForIndex = (index: number) => playerColors?.[index] ?? PLAYER_COLORS[index] ?? '#4b5563';
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700 overflow-hidden custom-scrollbar">
       <div className="flex justify-center items-center p-2 bg-gray-800 dark:bg-gray-900">
@@ -34,27 +40,22 @@ const Graveyard: React.FC<GraveyardProps> = ({ graveyard = [], player1Name = 'Pl
             {graveyard.map((pair) => (
               <div key={pair.id} className="p-2 border border-gray-200 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 text-xs">
                 <p className="text-center font-bold text-gray-600 dark:text-gray-300 mb-1">Gebiet: {pair.route || 'Unbekannte Route'}</p>
-                <div className="grid grid-cols-2 gap-2">
-                  <div>
-                    <p className="font-bold text-red-600 flex items-center gap-2">
-                      {(() => {
-                        const url = getSpriteUrlForGermanName(pair.player1.name);
-                        return url ? <img src={url} alt={pair.player1.name || 'Pokémon'} className="w-8 h-8" loading="lazy" style={{ imageRendering: 'pixelated' }}/> : null;
-                      })()}
-                      <span>{player1Name}'s {pair.player1.name || 'Pokémon'}</span>
-                    </p>
-                    <p className="text-gray-700 dark:text-gray-400">Spitzname: {pair.player1.nickname || 'N/A'}</p>
-                  </div>
-                   <div>
-                    <p className="font-bold text-purple-700 flex items-center gap-2">
-                      {(() => {
-                        const url = getSpriteUrlForGermanName(pair.player2.name);
-                        return url ? <img src={url} alt={pair.player2.name || 'Pokémon'} className="w-8 h-8" loading="lazy" style={{ imageRendering: 'pixelated' }}/> : null;
-                      })()}
-                      <span>{player2Name}'s {pair.player2.name || 'Pokémon'}</span>
-                    </p>
-                    <p className="text-gray-700 dark:text-gray-400">Spitzname: {pair.player2.nickname || 'N/A'}</p>
-                  </div>
+                <div className="grid gap-2" style={{gridTemplateColumns: `repeat(${names.length}, minmax(0, 1fr))`}}>
+                  {names.map((name, index) => {
+                    const member = pair.members?.[index] ?? { name: '', nickname: '' };
+                    const spriteUrl = getSpriteUrlForGermanName(member.name);
+                    return (
+                      <div key={`${pair.id}-player-${index}`}>
+                        <p className="font-bold flex items-center gap-2" style={{color: colorForIndex(index)}}>
+                          {spriteUrl ? (
+                            <img src={spriteUrl} alt={member.name || 'Pokémon'} className="w-8 h-8" loading="lazy" style={{ imageRendering: 'pixelated' }}/>
+                          ) : null}
+                          <span>{name}'s {member.name || 'Pokémon'}</span>
+                        </p>
+                        <p className="text-gray-700 dark:text-gray-400">Spitzname: {member.nickname || 'N/A'}</p>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             ))}
