@@ -98,7 +98,8 @@ const App: React.FC = () => {
     const [deleteTrackerError, setDeleteTrackerError] = useState<string | null>(null);
 
     const activeTrackerMeta = activeTrackerId ? trackerMetas[activeTrackerId] : undefined;
-    const activeGameVersion = activeTrackerMeta ? GAME_VERSIONS[activeTrackerMeta.gameVersionId] : undefined;
+    const activeGameVersionId = activeTrackerMeta?.gameVersionId;
+    const activeGameVersion = activeGameVersionId ? GAME_VERSIONS[activeGameVersionId] : undefined;
 
     const currentUserRivalPreferences = useMemo(() => {
         if (!user || !activeTrackerMeta) return {};
@@ -415,7 +416,7 @@ const App: React.FC = () => {
 
     useEffect(() => {
         isHydratingRef.current = true;
-        const gameVersionId = activeTrackerId ? trackerMetas[activeTrackerId]?.gameVersionId : undefined;
+        const gameVersionId = activeGameVersionId;
         if (!user) {
             setData(createInitialState());
             setDataLoaded(false);
@@ -492,7 +493,7 @@ const App: React.FC = () => {
             isHydratingRef.current = true;
             setDataLoaded(false);
         };
-    }, [user, activeTrackerId, coerceAppState, routeTrackerPendingSelection, routeTrackerKnownMissing, trackerMetas]);
+    }, [user, activeTrackerId, activeGameVersionId, coerceAppState, routeTrackerPendingSelection, routeTrackerKnownMissing]);
 
     useEffect(() => {
         if (!user || !dataLoaded || !activeTrackerId || isHydratingRef.current) return;
@@ -520,7 +521,7 @@ const App: React.FC = () => {
     };
 
     const handleConfirmReset = () => {
-        const gameVersionId = activeTrackerId ? trackerMetas[activeTrackerId]?.gameVersionId : undefined;
+        const gameVersionId = activeGameVersionId;
         setData(prev => {
             const base = createInitialState(gameVersionId);
             const playerCount = prev.playerNames.length;
