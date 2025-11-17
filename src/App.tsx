@@ -785,7 +785,7 @@ const App: React.FC = () => {
         update(ref(db, `trackers/${activeTrackerId}/meta`), {title});
     };
 
-    const handlelegendaryTrackerToggle = (enabled: boolean) => {
+    const handleLegendaryTrackerToggle = (enabled: boolean) => {
         setData(prev => ({...prev, legendaryTrackerEnabled: enabled}));
     };
 
@@ -797,7 +797,7 @@ const App: React.FC = () => {
         setData(prev => ({...prev, hardcoreModeEnabled: enabled}));
     };
 
-    const handlelegendaryIncrement = () => {
+    const handleLegendaryIncrement = () => {
         setData(prev => ({
             ...prev,
             stats: {
@@ -807,7 +807,7 @@ const App: React.FC = () => {
         }));
     };
 
-    const handlelegendaryDecrement = () => {
+    const handleLegendaryDecrement = () => {
         setData(prev => ({
             ...prev,
             stats: {
@@ -1052,7 +1052,7 @@ const App: React.FC = () => {
             onPlayerNameChange={handlePlayerNameChange}
             onBack={closeSettingsPanel}
             legendaryTrackerEnabled={data.legendaryTrackerEnabled ?? true}
-            onlegendaryTrackerToggle={handlelegendaryTrackerToggle}
+            onlegendaryTrackerToggle={handleLegendaryTrackerToggle}
             rivalCensorEnabled={data.rivalCensorEnabled ?? true}
             onRivalCensorToggle={handleRivalCensorToggle}
             hardcoreModeEnabled={data.hardcoreModeEnabled ?? true}
@@ -1277,8 +1277,8 @@ const App: React.FC = () => {
                             legendaryTrackerEnabled={data.legendaryTrackerEnabled ?? true}
                             rivalCensorEnabled={data.rivalCensorEnabled ?? true}
                             hardcoreModeEnabled={data.hardcoreModeEnabled ?? true}
-                            onlegendaryIncrement={handlelegendaryIncrement}
-                            onlegendaryDecrement={handlelegendaryDecrement}
+                            onlegendaryIncrement={handleLegendaryIncrement}
+                            onlegendaryDecrement={handleLegendaryDecrement}
                             runStartedAt={data.runStartedAt ?? activeTrackerMeta?.createdAt}
                             gameVersion={activeGameVersion}
                             rivalPreferences={currentUserRivalPreferences}
