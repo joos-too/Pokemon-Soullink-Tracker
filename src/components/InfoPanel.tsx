@@ -3,6 +3,7 @@ import type {LevelCap, RivalCap, Stats, GameVersion, UserSettings} from '@/types
 import {PLAYER1_COLOR, PLAYER2_COLOR, LEGENDARY_POKEMON_NAMES} from '@/constants';
 import {FiMinus, FiPlus, FiEdit, FiX, FiSave, FiEye, FiEyeOff, FiRefreshCw} from 'react-icons/fi';
 import {RivalImage, BadgeImage, LegendaryImage} from './GameImages';
+import {useSearchParams} from 'react-router-dom';
 
 interface InfoPanelProps {
     player1Name: string;
@@ -51,7 +52,18 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                              }) => {
     const [isEditingRules, setIsEditingRules] = useState(false);
     const [draftRules, setDraftRules] = useState<string[]>(rules);
-    const [showRivalCaps, setShowRivalCaps] = useState(false);
+    const [searchParams, setSearchParams] = useSearchParams();
+    const showRivalCaps = searchParams.get('caps') === 'rivals';
+
+    const toggleCapsView = () => {
+        const nextParams = new URLSearchParams(searchParams);
+        if (showRivalCaps) {
+            nextParams.delete('caps');
+        } else {
+            nextParams.set('caps', 'rivals');
+        }
+        setSearchParams(nextParams, {replace: true});
+    };
 
     const randomLegendary = useMemo(() => {
         const randomIndex = Math.floor(Math.random() * LEGENDARY_POKEMON_NAMES.length);
@@ -262,7 +274,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                             style={{backgroundColor: showRivalCaps ? '#693992' : '#cf5930'}}>
                             {showRivalCaps ? 'Rivalenkämpfe' : 'Arenen'}
                         </h2>
-                        <button onClick={() => setShowRivalCaps(prev => !prev)}
+                        <button onClick={toggleCapsView}
                                 className="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-full text-white/70 hover:text-white hover:bg-black/20 ring-2 ring-white/25"
                                 title="Ansicht wechseln">
                             <FiRefreshCw size={14}
