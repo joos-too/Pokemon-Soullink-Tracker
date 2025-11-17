@@ -68,7 +68,7 @@ const HomePage: React.FC<HomePageProps> = ({
                     <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                         <div>
                             <p className="text-xs uppercase tracking-[0.3em] text-green-600">Deine Tracker</p>
-                            <h2 className="text-xl font-semibold mt-1">Alle Sessions auf einen Blick</h2>
+                            <h2 className="text-xl font-semibold mt-1">Alle Tracker auf einen Blick</h2>
                         </div>
                         <div className="flex flex-col items-start gap-2 sm:items-end sm:flex-row sm:gap-3">
                             <button

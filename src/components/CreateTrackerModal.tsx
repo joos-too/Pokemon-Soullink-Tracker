@@ -85,7 +85,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
           <header className="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 px-5 py-4">
             <div>
               <p className="text-xs uppercase tracking-[0.3em] text-green-600">Neuer Tracker</p>
-              <h2 className="text-xl font-semibold mt-1 text-gray-900 dark:text-gray-100">Erstelle deine Session</h2>
+              <h2 className="text-xl font-semibold mt-1 text-gray-900 dark:text-gray-100">Erstelle deinen Tracker</h2>
             </div>
             <button
               type="button"
