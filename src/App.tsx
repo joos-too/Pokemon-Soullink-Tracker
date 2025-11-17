@@ -140,13 +140,41 @@ const App: React.FC = () => {
         const normalizedNames = sanitizePlayerNames(Array.isArray(safe.playerNames) ? safe.playerNames : (legacyNames.length > 0 ? legacyNames : base.playerNames));
         const playerCount = normalizedNames.length;
 
+        const sanitizePokemon = (pokemon: any): Pokemon => ({
+            name: typeof pokemon?.name === 'string' ? pokemon.name : '',
+            nickname: typeof pokemon?.nickname === 'string' ? pokemon.nickname : '',
+        });
+
+        const sanitizeMembers = (link: any): Pokemon[] => {
+            const members = Array.isArray(link?.members) ? link.members.map(sanitizePokemon) : [];
+            if (members.length === 0) {
+                ['player1', 'player2', 'player3'].forEach((key) => {
+                    if (link?.[key]) {
+                        members.push(sanitizePokemon(link[key]));
+                    }
+                });
+            }
+            return members;
+        };
+
+        const sanitizeLink = (p: any, fallbackId: number): PokemonLink => ({
+            id: Number.isFinite(Number(p?.id)) && Number(p?.id) > 0 ? Number(p?.id) : fallbackId,
+            route: typeof p?.route === 'string' ? p.route : '',
+            members: sanitizeMembers(p),
+        });
+
+        const sanitizeArray = (arr: any): PokemonLink[] => {
+            const list = Array.isArray(arr) ? arr : [];
+            return list.map((p, index) => sanitizeLink(p, index + 1));
+        };
+
         const stats = ensureStatsForPlayers(safe.stats, playerCount);
 
         return {
             playerNames: normalizedNames,
-            team: safe.team,
-            box: safe.box,
-            graveyard: safe.graveyard,
+            team: sanitizeArray(safe.team),
+            box: sanitizeArray(safe.box),
+            graveyard: sanitizeArray(safe.graveyard),
             rules: Array.isArray(safe.rules) ? safe.rules.map((r: any) => (typeof r === 'string' ? r : '')).filter((r: string) => r.trim().length > 0) : base.rules ?? DEFAULT_RULES,
             levelCaps: finalLevelCaps,
             rivalCaps: finalRivalCaps,
@@ -934,7 +962,7 @@ const App: React.FC = () => {
 
     const trackerMembers = activeTrackerMeta ? Object.values(activeTrackerMeta.members ?? {}) : [];
     const canManageMembers = Boolean(user && activeTrackerMeta?.members?.[user.uid]?.role === 'owner');
-    const resolvedPlayerNames = useMemo(() => { // TODO review?
+    const resolvedPlayerNames = useMemo(() => { // TODO review
         if (Array.isArray(data.playerNames) && data.playerNames.length > 0) {
             return data.playerNames;
         }
