@@ -44,8 +44,6 @@ const TeamTable: React.FC<TeamTableProps> = ({
     const [addOpen, setAddOpen] = useState(false);
     const [evolveIndex, setEvolveIndex] = useState<number | null>(null);
 
-    const normalizedPlayerNames = useMemo(() => playerNames.length ? playerNames : ['Spieler 1'], [playerNames]);
-
     const rows = useMemo(() => (
         data
             .map((pair, i) => ({pair, originalIndex: i}))
@@ -67,9 +65,9 @@ const TeamTable: React.FC<TeamTableProps> = ({
         const current = data[editIndex];
         return {
             route: current?.route ?? '',
-            members: normalizedPlayerNames.map((_, index) => current?.members?.[index] ?? { name: '', nickname: '' }),
+            members: playerNames.map((_, index) => current?.members?.[index] ?? { name: '', nickname: '' }),
         };
-    }, [editIndex, data, normalizedPlayerNames]);
+    }, [editIndex, data, playerNames]);
 
     return (
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700">
@@ -96,7 +94,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                     <thead>
                     <tr>
                         <th rowSpan={2} className="p-2 text-xs font-bold text-gray-700 dark:text-gray-300 border-t border-b border-gray-300 dark:border-gray-700">#</th>
-                        {normalizedPlayerNames.map((name, index) => (
+                        {playerNames.map((name, index) => (
                             <th
                                 key={`player-header-${index}`}
                                 colSpan={3}
@@ -116,7 +114,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                         </th>
                     </tr>
                     <tr>
-                        {normalizedPlayerNames.map((_, index) => (
+                        {playerNames.map((_, index) => (
                             <React.Fragment key={`player-subheader-${index}`}>
                                 <th className="p-1 text-[11px] text-gray-600 dark:text-gray-400 border-b border-l border-gray-200 dark:border-gray-700 text-center">
                                     Pokémon
@@ -130,14 +128,14 @@ const TeamTable: React.FC<TeamTableProps> = ({
                     <tbody>
                     {rows.length === 0 && (
                         <tr>
-                            <td className="p-3 text-center text-sm text-gray-500 dark:text-gray-400" colSpan={2 + normalizedPlayerNames.length * 3 + 1}>{emptyMessage}</td>
+                            <td className="p-3 text-center text-sm text-gray-500 dark:text-gray-400" colSpan={2 + playerNames.length * 3 + 1}>{emptyMessage}</td>
                         </tr>
                     )}
                     {rows.map(({pair, originalIndex}, displayIndex) => (
                         <tr key={pair.id}
                             className="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50">
                             <td className="p-2 text-center text-sm font-semibold text-gray-800 dark:text-gray-200">{displayIndex + 1}</td>
-                            {normalizedPlayerNames.map((_, playerIndex) => {
+                            {playerNames.map((_, playerIndex) => {
                                 const member = pair.members?.[playerIndex] ?? { name: '', nickname: '' };
                                 const sprite = member.name ? getOfficialArtworkUrlForGermanName(member.name) : null;
                                 return (
@@ -217,9 +215,9 @@ const TeamTable: React.FC<TeamTableProps> = ({
                 isOpen={editIndex !== null}
                 onClose={() => setEditIndex(null)}
                 onSave={handleSave}
-                playerLabels={normalizedPlayerNames}
+                playerLabels={playerNames}
                 mode="edit"
-                initial={editInitial || {route: '', members: normalizedPlayerNames.map(() => ({name: '', nickname: ''}))}}
+                initial={editInitial || {route: '', members: playerNames.map(() => ({name: '', nickname: ''}))}}
             />
             <SelectEvolveModal
                 isOpen={evolveIndex !== null}
@@ -230,7 +228,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                     setEvolveIndex(null);
                 }}
                 pair={evolveIndex !== null ? data[evolveIndex] : null}
-                playerLabels={normalizedPlayerNames}
+                playerLabels={playerNames}
             />
             <EditPairModal
                 isOpen={addOpen}
@@ -239,9 +237,9 @@ const TeamTable: React.FC<TeamTableProps> = ({
                     onAddLink(payload);
                     setAddOpen(false);
                 }}
-                playerLabels={normalizedPlayerNames}
+                playerLabels={playerNames}
                 mode="create"
-                initial={{route: '', members: normalizedPlayerNames.map(() => ({name: '', nickname: ''}))}}
+                initial={{route: '', members: playerNames.map(() => ({name: '', nickname: ''}))}}
             />
         </div>
     );
