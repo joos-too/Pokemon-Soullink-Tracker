@@ -96,7 +96,6 @@ const TeamTable: React.FC<TeamTableProps> = ({
                     <thead>
                     <tr>
                         <th rowSpan={2} className="p-2 text-xs font-bold text-gray-700 dark:text-gray-300 border-t border-b border-gray-300 dark:border-gray-700">#</th>
-                        <th rowSpan={2} className="p-2 text-center text-xs font-bold text-gray-700 dark:text-gray-300 border-t border-b border-l border-gray-300 dark:border-gray-700">Gebiet</th>
                         {normalizedPlayerNames.map((name, index) => (
                             <th
                                 key={`player-header-${index}`}
@@ -107,7 +106,14 @@ const TeamTable: React.FC<TeamTableProps> = ({
                                 {name}
                             </th>
                         ))}
-                        <th rowSpan={2} className="p-2 text-xs font-bold text-gray-700 dark:text-gray-300 border-t border-b border-l border-gray-300 dark:border-gray-700">Aktionen</th>
+                        <th rowSpan={2} className="p-2 text-center text-xs font-bold text-gray-700 dark:text-gray-300 border-t border-b border-l border-gray-300 dark:border-gray-700">Gebiet</th>
+                        <th
+                            rowSpan={2}
+                            className="p-2 text-xs font-bold text-gray-700 dark:text-gray-300 border-t border-b border-l border-gray-300 dark:border-gray-700"
+                            style={{width: '28px'}}
+                        >
+                            Aktionen
+                        </th>
                     </tr>
                     <tr>
                         {normalizedPlayerNames.map((_, index) => (
@@ -131,7 +137,6 @@ const TeamTable: React.FC<TeamTableProps> = ({
                         <tr key={pair.id}
                             className="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50">
                             <td className="p-2 text-center text-sm font-semibold text-gray-800 dark:text-gray-200">{displayIndex + 1}</td>
-                            <td className="p-2 text-sm text-center text-gray-800 dark:text-gray-200 border-l border-gray-200 dark:border-gray-700">{pair.route || '-'}</td>
                             {normalizedPlayerNames.map((_, playerIndex) => {
                                 const member = pair.members?.[playerIndex] ?? { name: '', nickname: '' };
                                 const sprite = member.name ? getOfficialArtworkUrlForGermanName(member.name) : null;
@@ -145,8 +150,9 @@ const TeamTable: React.FC<TeamTableProps> = ({
                                     </React.Fragment>
                                 );
                             })}
-                            <td className="p-2 text-center border-l border-gray-200 dark:border-gray-700">
-                                <div className="inline-flex items-center gap-1.5">
+                            <td className="p-2 text-sm text-center text-gray-800 dark:text-gray-200 border-l border-gray-200 dark:border-gray-700">{pair.route || '-'}</td>
+                            <td className="p-2 text-center border-l border-gray-200 dark:border-gray-700" style={{width: '28px'}}>
+                                <div className="inline-flex items-center gap-1.5 justify-center">
                                     {(pair.members.some(m => m?.name) || pair.route) && (
                                         <button
                                             type="button"
