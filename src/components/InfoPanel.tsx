@@ -95,7 +95,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
     const completedMilestones = Math.min(doneArenas + doneRivals, totalMilestones);
     const progressPct = totalMilestones > 0 ? Math.round((completedMilestones / totalMilestones) * 100) : 0;
 
-    const deathStats = normalizedPlayerNames.map((name, index) => {
+    const deathStats = playerNames.map((name, index) => {
         const deaths = stats.deaths?.[index] ?? 0;
         const historic = stats.sumDeaths?.[index] ?? 0;
         return {
@@ -103,7 +103,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
             color: getPlayerColor(index),
             deaths,
             total: historic + deaths,
-            borderClass: index < normalizedPlayerNames.length - 1 ? 'border-r border-gray-300 dark:border-gray-700' : '',
+            borderClass: index < playerNames.length - 1 ? 'border-r border-gray-300 dark:border-gray-700' : '',
         };
     });
 
@@ -318,7 +318,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                             Items</h2>
                         <table className="w-full">
                             <tbody>
-                            {normalizedPlayerNames.map((name, index) => {
+                            {playerNames.map((name, index) => {
                                 const value = stats.top4Items?.[index] ?? 0;
                                 return (
                                     <tr key={`top4-${index}`} className="border-t border-gray-200 dark:border-gray-700">
@@ -403,7 +403,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                 <div
                     className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700 overflow-hidden">
                     <h2 className="text-center p-2 bg-gray-800 dark:bg-gray-900 text-white font-press-start text-sm">Tode</h2>
-                    <div className="grid gap-y-1" style={{gridTemplateColumns: `repeat(${normalizedPlayerNames.length}, minmax(0, 1fr))`}}>
+                    <div className="grid gap-y-1" style={{gridTemplateColumns: `repeat(${playerNames.length}, minmax(0, 1fr))`}}>
                         {deathStats.map((entry, index) => (
                             <div key={`death-name-${index}`} className={`px-2 pt-2 pb-1 text-center ${entry.borderClass}`}>
                                 <h3 className="font-press-start text-xs whitespace-normal break-words leading-tight" style={{color: entry.color}}>{entry.name}</h3>
