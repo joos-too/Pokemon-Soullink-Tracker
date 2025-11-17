@@ -435,11 +435,11 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                             style={{backgroundColor: '#cfcfc3'}}>
                             Legendären begegnet
                         </h2>
-                        <div className="p-3 flex items-center justify-center flex-grow">
-                            <div className="flex items-center justify-center gap-4 w-full max-w-md">
+                        <div className="p-4 flex items-center justify-center flex-grow">
+                            <div className="flex items-center justify-center gap-3 w-full max-w-sm">
                                 <div
                                     className="flex-shrink-0"
-                                    style={{width: 'clamp(3rem, 10vw, 5.5rem)', height: 'clamp(3rem, 10vw, 5.5rem)'}}
+                                    style={{width: '4.5rem', height: '4.5rem'}}
                                 >
                                     <LegendaryImage
                                         pokemonName={randomLegendary}
@@ -447,8 +447,8 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                     />
                                 </div>
                                 <div
-                                    className="font-press-start text-gray-800 dark:text-gray-200 leading-none"
-                                    style={{fontSize: 'clamp(2rem, 9vw, 3.5rem)'}}
+                                    className="font-press-start text-gray-800 dark:text-gray-200 leading-none text-right"
+                                    style={{fontSize: '2.5rem'}}
                                 >
                                     {stats.legendaryEncounters ?? 0}
                                 </div>
