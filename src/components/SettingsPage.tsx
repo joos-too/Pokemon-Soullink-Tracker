@@ -174,7 +174,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                             </div>
                             <div className="space-y-2">
                                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                                    {Array.from({length: playerCount}, (_, index) => { // TODO: create UI from playerNames Array instead?
+                                    {Array.from({length: playerCount}, (_, index) => {
                                         const fullWidth = (playerCount === 3 && index === 2) || playerCount === 1;
                                         return (
                                             <div key={`player-${index}`}

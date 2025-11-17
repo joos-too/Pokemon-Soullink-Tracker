@@ -116,7 +116,6 @@ const App: React.FC = () => {
     }, [activeTrackerId, user]);
 
     const coerceAppState = useCallback((incoming: any, base: AppState): AppState => {
-        // TODO review thoroughly
         const gameVersionForDefaults = activeGameVersion ?? GAME_VERSIONS['gen5_sw'];
         const savedLevelCaps = Array.isArray(incoming?.levelCaps) ? incoming.levelCaps : [];
         const finalLevelCaps = gameVersionForDefaults.levelCaps.map((levelCapTemplate) => {
@@ -963,7 +962,7 @@ const App: React.FC = () => {
 
     const trackerMembers = activeTrackerMeta ? Object.values(activeTrackerMeta.members ?? {}) : [];
     const canManageMembers = Boolean(user && activeTrackerMeta?.members?.[user.uid]?.role === 'owner');
-    const resolvedPlayerNames = useMemo(() => { // TODO review
+    const resolvedPlayerNames = useMemo(() => {
         if (Array.isArray(data.playerNames) && data.playerNames.length > 0) {
             return data.playerNames;
         }
