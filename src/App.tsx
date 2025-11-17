@@ -17,7 +17,7 @@ import DarkModeToggle, {getDarkMode, setDarkMode} from '@/src/components/DarkMod
 import HomePage from '@/src/components/HomePage';
 import CreateTrackerModal from '@/src/components/CreateTrackerModal';
 import DeleteTrackerModal from '@/src/components/DeleteTrackerModal';
-import {Routes, Route, Navigate, useNavigate, useLocation, useMatch} from 'react-router-dom';
+import {Routes, Route, Navigate, useNavigate, useLocation, useMatch, useSearchParams} from 'react-router-dom';
 import {db, auth} from '@/src/firebaseConfig';
 import {ref, onValue, set, get, update} from "firebase/database";
 import {onAuthStateChanged, User, signOut} from "firebase/auth";
@@ -63,6 +63,7 @@ const computeTrackerSummary = (state?: Partial<AppState> | null): TrackerSummary
 const App: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
+    const [searchParams, setSearchParams] = useSearchParams();
     const trackerRouteMatch = useMatch('/tracker/:trackerId');
     const routeTrackerId = trackerRouteMatch?.params?.trackerId ?? null;
     const [data, setData] = useState<AppState>(createInitialState());
@@ -77,7 +78,17 @@ const App: React.FC = () => {
     const [trackerSummaries, setTrackerSummaries] = useState<Record<string, TrackerSummary>>({});
     const [userTrackersLoading, setUserTrackersLoading] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [showSettings, setShowSettings] = useState(false);
+    const showSettings = searchParams.get('panel') === 'settings';
+    const openSettingsPanel = useCallback(() => {
+        const next = new URLSearchParams(searchParams);
+        next.set('panel', 'settings');
+        setSearchParams(next, {replace: true});
+    }, [searchParams, setSearchParams]);
+    const closeSettingsPanel = useCallback(() => {
+        const next = new URLSearchParams(searchParams);
+        next.delete('panel');
+        setSearchParams(next, {replace: true});
+    }, [searchParams, setSearchParams]);
     const [showResetModal, setShowResetModal] = useState(false);
     const [dataLoaded, setDataLoaded] = useState(false);
     const skipNextWriteRef = useRef(false);
@@ -212,9 +223,9 @@ const App: React.FC = () => {
 
     useEffect(() => {
         if (!location.pathname.startsWith('/tracker') && showSettings) {
-            setShowSettings(false);
+            closeSettingsPanel();
         }
-    }, [location.pathname, showSettings]);
+    }, [location.pathname, showSettings, closeSettingsPanel]);
 
     useEffect(() => {
         if (!user) {
@@ -543,7 +554,7 @@ const App: React.FC = () => {
 
     const handleLogout = () => {
         setMobileMenuOpen(false);
-        setShowSettings(false);
+        closeSettingsPanel();
         setActiveTrackerId(null);
         if (typeof window !== 'undefined') {
             window.localStorage.removeItem(LAST_TRACKER_STORAGE_KEY);
@@ -896,7 +907,7 @@ const App: React.FC = () => {
         try {
             await removeMemberFromTracker(activeTrackerId, memberUid);
             if (user && memberUid === user.uid) {
-                setShowSettings(false);
+                closeSettingsPanel();
                 setActiveTrackerId(null);
                 setData(createInitialState());
                 if (typeof window !== 'undefined') {
@@ -910,7 +921,7 @@ const App: React.FC = () => {
             }
             throw new Error('Mitglied konnte nicht entfernt werden.');
         }
-    }, [activeTrackerId, user, navigate]);
+    }, [activeTrackerId, user, navigate, closeSettingsPanel]);
 
     const clearedRoutes = useMemo(() => {
         const routes: string[] = [];
@@ -1029,7 +1040,7 @@ const App: React.FC = () => {
             player1Name={player1Name}
             player2Name={player2Name}
             onNameChange={handleNameChange}
-            onBack={() => setShowSettings(false)}
+            onBack={closeSettingsPanel}
             legendaryTrackerEnabled={data.legendaryTrackerEnabled ?? true}
             onlegendaryTrackerToggle={handlelegendaryTrackerToggle}
             rivalCensorEnabled={data.rivalCensorEnabled ?? true}
@@ -1104,7 +1115,7 @@ const App: React.FC = () => {
                                 <FiRotateCw size={28}/>
                             </button>
                             <button
-                                onClick={() => setShowSettings(true)}
+                                onClick={openSettingsPanel}
                                 className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white focus:outline-none"
                                 aria-label="Einstellungen"
                                 title="Einstellungen"
@@ -1182,7 +1193,7 @@ const App: React.FC = () => {
                             <button
                                 onClick={() => {
                                     setMobileMenuOpen(false);
-                                    setShowSettings(true);
+                                    openSettingsPanel();
                                 }}
                                 className="w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2"
                                 title="Einstellungen"
