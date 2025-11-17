@@ -1,4 +1,4 @@
-import React, {useState, useMemo} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 import type {LevelCap, RivalCap, Stats, GameVersion, UserSettings} from '@/types';
 import {PLAYER1_COLOR, PLAYER2_COLOR, LEGENDARY_POKEMON_NAMES} from '@/constants';
 import {FiMinus, FiPlus, FiEdit, FiX, FiSave, FiEye, FiEyeOff, FiRefreshCw} from 'react-icons/fi';
@@ -54,6 +54,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
     const [draftRules, setDraftRules] = useState<string[]>(rules);
     const [searchParams, setSearchParams] = useSearchParams();
     const showRivalCaps = searchParams.get('caps') === 'rivals';
+    const [isMobile, setIsMobile] = useState(false);
 
     const toggleCapsView = () => {
         const nextParams = new URLSearchParams(searchParams);
@@ -71,6 +72,21 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
     }, []);
 
     const nextRivalToRevealIndex = rivalCensorEnabled ? rivalCaps.findIndex(rc => !rc.revealed) : -1;
+
+    useEffect(() => {
+        if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
+            return;
+        }
+        const mediaQuery = window.matchMedia('(max-width: 767px)');
+        const handleChange = (event: MediaQueryListEvent) => setIsMobile(event.matches);
+        setIsMobile(mediaQuery.matches);
+        if (typeof mediaQuery.addEventListener === 'function') {
+            mediaQuery.addEventListener('change', handleChange);
+            return () => mediaQuery.removeEventListener('change', handleChange);
+        }
+        mediaQuery.addListener(handleChange);
+        return () => mediaQuery.removeListener(handleChange);
+    }, []);
 
     const doneArenas = levelCaps.filter(c => c.done).length;
     const doneRivals = rivalCaps.filter(r => r.done).length;
@@ -126,6 +142,76 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
             </div>
         );
     };
+
+    const renderLevelCapList = (wrapperClasses: string) => (
+        <div className={wrapperClasses}>
+            {levelCaps.map((cap, index) => (
+                <div key={cap.id}
+                     className={`flex items-center justify-between pl-2 py-1.5 border rounded-md ${cap.done ? 'bg-green-100 dark:bg-green-900/50 border-green-200 dark:border-green-800' : 'bg-gray-50 dark:bg-gray-700/50 border-gray-200 dark:border-gray-600'}`}>
+                    <div className="flex items-center gap-3 flex-grow min-w-0">
+                        <input id={`levelcap-done-${cap.id}`} type="checkbox"
+                               checked={!!cap.done}
+                               onChange={() => onLevelCapToggle(index)}
+                               aria-label={`Erledigt: ${cap.arena}`}
+                               className="h-5 w-5 accent-green-600 cursor-pointer flex-shrink-0"/>
+                        <span className="text-sm text-gray-800 dark:text-gray-300 break-words">{cap.arena}</span>
+                    </div>
+                    <div className="flex items-center justify-end flex-shrink-0 px-3">
+                        <BadgeImage
+                            arenaLabel={cap.arena}
+                            posIndex={index}
+                            badgeSet={gameVersion?.badgeSet}
+                        />
+                        <span
+                            className="font-bold text-lg text-gray-800 dark:text-gray-200 text-center">{renderLevelCaps(cap.level)}</span>
+                    </div>
+                </div>
+            ))}
+        </div>
+    );
+
+    const renderRivalCapList = (wrapperClasses: string) => (
+        <div className={wrapperClasses}>
+            {rivalCaps.map((rc, index) => (
+                <div key={rc.id}>
+                    {rivalCensorEnabled && !rc.revealed ? (
+                        <>
+                            {index === nextRivalToRevealIndex ? (
+                                <button onClick={() => onRivalCapReveal(index)}
+                                        className="w-full flex items-center justify-center gap-2 text-sm p-3 rounded-md bg-gray-100 dark:bg-gray-700/50 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600">
+                                    <FiEye size={16}/> Nächsten Rivalen aufdecken
+                                </button>
+                            ) : (
+                                <div
+                                    className="w-full flex items-center justify-center gap-2 text-sm p-3 rounded-md bg-gray-50 dark:bg-gray-800 text-gray-400 dark:text-gray-500 cursor-not-allowed border border-dashed border-gray-300 dark:border-gray-600">
+                                    <FiEyeOff size={16}/> Zukünftiger Kampf
+                                </div>
+                            )}
+                        </>
+                    ) : (
+                        <div
+                            className={`flex items-center justify-between pl-2 py-1.5 border rounded-md ${rc.done ? 'bg-green-100 dark:bg-green-900/50 border-green-200 dark:border-green-800' : 'bg-gray-50 dark:bg-gray-700/50 border-gray-200 dark:border-gray-600'}`}>
+                            <div className="flex items-center gap-3 flex-grow min-w-0">
+                                <input id={`rivalcap-done-${rc.id}`} type="checkbox"
+                                       checked={!!rc.done}
+                                       onChange={() => onRivalCapToggleDone(index)}
+                                       aria-label={`Erledigt: ${typeof rc.rival === 'object' ? rc.rival.name : rc.rival}`}
+                                       className="h-5 w-5 accent-green-600 cursor-pointer flex-shrink-0"/>
+                                <span
+                                    onClick={(e) => e.stopPropagation()}
+                                    className="text-sm text-gray-800 dark:text-gray-300 break-words">{rc.location}</span>
+                            </div>
+                            <div className="flex items-center justify-end flex-shrink-0 px-3">
+                                <RivalImage rival={rc.rival} preferences={rivalPreferences}/>
+                                <span
+                                    className="font-bold text-lg text-gray-800 dark:text-gray-200 text-center">{renderLevelCaps(rc.level)}</span>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            ))}
+        </div>
+    );
 
 
     return (
@@ -282,88 +368,33 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                         </button>
                     </div>
 
-                    <div className={`relative flex-grow min-h-0 transition-transform duration-700`}
-                         style={{
-                             transformStyle: 'preserve-3d',
-                             transform: showRivalCaps ? 'rotateY(180deg)' : 'rotateY(0deg)'
-                         }}>
-                        <div className={`absolute w-full h-full ${showRivalCaps ? 'pointer-events-none' : 'pointer-events-auto'}`}
+                    {isMobile ? (
+                        showRivalCaps
+                            ? renderRivalCapList('p-2 space-y-1 max-h-[50vh] overflow-y-auto overscroll-contain custom-scrollbar')
+                            : renderLevelCapList('p-2 space-y-1 max-h-[50vh] overflow-y-auto overscroll-contain custom-scrollbar')
+                    ) : (
+                        <div className={`relative flex-grow min-h-0 transition-transform duration-700`}
                              style={{
-                                 backfaceVisibility: 'hidden',
-                                 transform: 'rotateY(0deg)'
+                                 transformStyle: 'preserve-3d',
+                                 transform: showRivalCaps ? 'rotateY(180deg)' : 'rotateY(0deg)'
                              }}>
-                            <div className="p-2 h-full overflow-y-auto space-y-1 overscroll-contain custom-scrollbar">
-                                {levelCaps.map((cap, index) => (
-                                    <div key={cap.id}
-                                         className={`flex items-center justify-between pl-2 py-1.5 border rounded-md ${cap.done ? 'bg-green-100 dark:bg-green-900/50 border-green-200 dark:border-green-800' : 'bg-gray-50 dark:bg-gray-700/50 border-gray-200 dark:border-gray-600'}`}>
-                                        <div className="flex items-center gap-3 flex-grow min-w-0">
-                                            <input id={`levelcap-done-${cap.id}`} type="checkbox"
-                                                   checked={!!cap.done}
-                                                   onChange={() => onLevelCapToggle(index)}
-                                                   aria-label={`Erledigt: ${cap.arena}`}
-                                                   className="h-5 w-5 accent-green-600 cursor-pointer flex-shrink-0"/>
-                                            <span className="text-sm text-gray-800 dark:text-gray-300 break-words">{cap.arena}</span>
-                                        </div>
-                                        <div className="flex items-center justify-end flex-shrink-0 px-3">
-                                            <BadgeImage
-                                                arenaLabel={cap.arena}
-                                                posIndex={index}
-                                                badgeSet={gameVersion?.badgeSet}
-                                            />
-                                            <span className="font-bold text-lg text-gray-800 dark:text-gray-200 text-center">{renderLevelCaps(cap.level)}</span>
-                                        </div>
-                                    </div>
-                                ))}
+                            <div className={`absolute w-full h-full ${showRivalCaps ? 'pointer-events-none' : 'pointer-events-auto'}`}
+                                 style={{
+                                     backfaceVisibility: 'hidden',
+                                     transform: 'rotateY(0deg)'
+                                 }}>
+                                {renderLevelCapList('p-2 h-full overflow-y-auto space-y-1 overscroll-contain custom-scrollbar')}
                             </div>
-                        </div>
 
-                        <div className={`absolute w-full h-full ${showRivalCaps ? 'pointer-events-auto' : 'pointer-events-none'}`}
-                             style={{
-                                 backfaceVisibility: 'hidden',
-                                 transform: 'rotateY(180deg)'
-                             }}>
-                            <div className="p-2 h-full overflow-y-auto space-y-1 overscroll-contain custom-scrollbar">
-                                {rivalCaps.map((rc, index) => (
-                                    <div key={rc.id}>
-                                        {rivalCensorEnabled && !rc.revealed ? (
-                                            <>
-                                                {index === nextRivalToRevealIndex ? (
-                                                    <button onClick={() => onRivalCapReveal(index)}
-                                                            className="w-full flex items-center justify-center gap-2 text-sm p-3 rounded-md bg-gray-100 dark:bg-gray-700/50 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600">
-                                                        <FiEye size={16}/> Nächsten Rivalen aufdecken
-                                                    </button>
-                                                ) : (
-                                                    <div
-                                                        className="w-full flex items-center justify-center gap-2 text-sm p-3 rounded-md bg-gray-50 dark:bg-gray-800 text-gray-400 dark:text-gray-500 cursor-not-allowed border border-dashed border-gray-300 dark:border-gray-600">
-                                                        <FiEyeOff size={16}/> Zukünftiger Kampf
-                                                    </div>
-                                                )}
-                                            </>
-                                        ) : (
-                                            <div
-                                                className={`flex items-center justify-between pl-2 py-1.5 border rounded-md ${rc.done ? 'bg-green-100 dark:bg-green-900/50 border-green-200 dark:border-green-800' : 'bg-gray-50 dark:bg-gray-700/50 border-gray-200 dark:border-gray-600'}`}>
-                                                <div className="flex items-center gap-3 flex-grow min-w-0">
-                                                    <input id={`rivalcap-done-${rc.id}`} type="checkbox"
-                                                           checked={!!rc.done}
-                                                           onChange={() => onRivalCapToggleDone(index)}
-                                                           aria-label={`Erledigt: ${typeof rc.rival === 'object' ? rc.rival.name : rc.rival}`}
-                                                           className="h-5 w-5 accent-green-600 cursor-pointer flex-shrink-0"/>
-                                                    <span
-                                                        onClick={(e) => e.stopPropagation()}
-                                                        className="text-sm text-gray-800 dark:text-gray-300 break-words">{rc.location}</span>
-                                                </div>
-                                                <div className="flex items-center justify-end flex-shrink-0 px-3">
-                                                    <RivalImage rival={rc.rival} preferences={rivalPreferences}/>
-                                                    <span
-                                                        className="font-bold text-lg text-gray-800 dark:text-gray-200 text-center">{renderLevelCaps(rc.level)}</span>
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-                                ))}
+                            <div className={`absolute w-full h-full ${showRivalCaps ? 'pointer-events-auto' : 'pointer-events-none'}`}
+                                 style={{
+                                     backfaceVisibility: 'hidden',
+                                     transform: 'rotateY(180deg)'
+                                 }}>
+                                {renderRivalCapList('p-2 h-full overflow-y-auto space-y-1 overscroll-contain custom-scrollbar')}
                             </div>
                         </div>
-                    </div>
+                    )}
                 </div>
             </div>
 
