@@ -177,18 +177,16 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                                     {Array.from({length: playerCount}, (_, index) => { // TODO: create UI from playerNames Array instead?
                                         const fullWidth = (playerCount === 3 && index === 2) || playerCount === 1;
                                         return (
-                                            <div key={`player-${index}`} className={fullWidth ? 'sm:col-span-2' : undefined}>
+                                            <div key={`player-${index}`}
+                                                 className={fullWidth ? 'sm:col-span-2' : undefined}>
                                                 <label className="block text-sm font-bold mb-2"
                                                        style={{color: PLAYER_COLORS[index] ?? '#4b5563'}}>
                                                     Name Spieler {index + 1}
                                                 </label>
                                                 <input
                                                     type="text"
-                                                    value={playerNames[index] ?? ''}
-                                                    onChange={(e) => {
-                                                        const value = e.target.value;
-                                                        onPlayerNameChange(index, value);
-                                                    }}
+                                                    value={playerNames[index]}
+                                                    onChange={(e) => onPlayerNameChange(index, e.target.value)}
                                                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
                                                 />
                                             </div>
@@ -210,7 +208,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                                         `Standardmäßig orientiert sich die Level-Cap am hösten Pokémon eines Trainers, im Hardcore modus wird jedoch eine weitere Level-Cap hinzugefügt, welche sich am zweithöchsten Pokémon eines Trainers orientiert.
                                         
                                         Es darf nun lediglich ein Pokémon bis zur oberen Level-Cap gelevelt werden, der Rest des Teams darf die untere Level-Cap nicht überschreiten.`
-                                        }>
+                                    }>
                                         <span
                                             className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-help"
                                             aria-label="Info Hardcore Modus">
@@ -241,7 +239,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                                         `Um Spoiler zu vermeiden und die Story besser genießen zu können, werden Rivalenkämpfe zensiert und müssen händisch aufgedeckt werden.
                                         
                                         Nach einmaligem aufdecken und auch in folgenden Runs, bleiben sie dann aufgedeckt.`
-                                        }>
+                                    }>
                                         <span
                                             className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-help"
                                             aria-label="Info Rivalenkämpfe zensieren">
@@ -269,7 +267,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                                     </div>
                                     <Tooltip side="top" content={
                                         `Aktiviert einen Tracker, welcher es ermöglicht die Encounter mit Legendären Pokémon nachzuvollziehen, um eine eigene Statistik zu führen.`
-                                        }>
+                                    }>
                                         <span
                                             className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-help"
                                             aria-label="Info Legendary Tracker">
