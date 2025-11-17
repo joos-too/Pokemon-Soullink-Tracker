@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { searchGermanPokemonNames } from '@/src/services/pokemonSearch';
 import { getSpriteUrlForGermanName } from '@/src/services/sprites';
-import { focusRingClasses } from '@/src/styles/focusRing';
+import { focusRingClasses, focusRingInputClasses } from '@/src/styles/focusRing';
 import type { Pokemon } from '@/types';
 
 interface AddLostPokemonModalProps {
@@ -95,7 +95,7 @@ const PokemonNameField: React.FC<PokemonNameFieldProps> = ({ label, value, onCha
           onFocus={() => setFocused(true)}
           onBlur={() => setTimeout(() => { setFocused(false); setOpen(false); }, 150)}
           onKeyDown={handleKeyDown}
-          className={`w-full pr-14 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${focusRingClasses}`}
+          className={`w-full pr-14 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
           placeholder="Pokémon"
           required
           aria-expanded={open}
@@ -176,7 +176,7 @@ const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({ isOpen, onClo
                 type="text"
                 value={route}
                 onChange={(e) => setRoute(e.target.value)}
-                className={`w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${focusRingClasses}`}
+                className={`w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
                 placeholder="z.B. Route 1"
                 required
               />

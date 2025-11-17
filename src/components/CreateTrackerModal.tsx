@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {FiPlus, FiX, FiUsers} from 'react-icons/fi';
 import { GAME_VERSIONS } from '@/src/data/game-versions';
 import { PLAYER_COLORS } from '@/constants';
-import { focusRingClasses, focusRingInsetClasses } from '@/src/styles/focusRing';
+import { focusRingClasses, focusRingInsetClasses, focusRingInputClasses } from '@/src/styles/focusRing';
 import GameVersionPicker from './GameVersionPicker';
 
 const PLAYER_COUNT_LABELS: Record<number, string> = { 1: 'Solo', 2: 'Duo', 3: 'Trio' };
@@ -141,7 +141,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
                 required
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500"
+                className={`w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
                 placeholder="z. B. Schwarz 2 Soullink"
               />
             </div>
@@ -188,7 +188,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
                         required
                         value={value}
                         onChange={(e) => setPlayerNames((prev) => prev.map((entry, i) => (i === index ? e.target.value : entry)))}
-                        className="w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500"
+                        className={`w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
                         placeholder="Name"
                       />
                     </div>
@@ -223,7 +223,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
                       value={value}
                       onChange={(e) => handleMemberChange(index, e.target.value)}
                       placeholder="trainer@example.com"
-                      className="flex-1 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500"
+                      className={`flex-1 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
                     />
                     {memberInputs.length > 1 && (
                       <button

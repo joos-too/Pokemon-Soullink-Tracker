@@ -2,6 +2,7 @@ import React, {useState, useMemo} from 'react';
 import {PLAYER_COLORS, MAX_PLAYER_COUNT, MIN_PLAYER_COUNT} from '@/constants';
 import type {TrackerMember, GameVersion, VariableRival, UserSettings, RivalGender} from '@/types';
 import {FiShield, FiUserPlus, FiX, FiTrash2, FiLogOut, FiInfo} from 'react-icons/fi';
+import { focusRingInputClasses } from '@/src/styles/focusRing';
 import Tooltip from './Tooltip';
 
 interface SettingsPageProps {
@@ -168,7 +169,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                                     type="text"
                                     value={trackerTitle}
                                     onChange={(e) => onTitleChange(e.target.value)}
-                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+                                    className={`w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
                                     placeholder="z. B. Schwarz 2 Soullink"
                                 />
                             </div>
@@ -187,7 +188,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                                                     type="text"
                                                     value={playerNames[index]}
                                                     onChange={(e) => onPlayerNameChange(index, e.target.value)}
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+                                                    className={`w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
                                                 />
                                             </div>
                                         );
@@ -389,7 +390,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                                         onChange={(e) => setInviteEmail(e.target.value)}
                                         required
                                         placeholder="trainer@example.com"
-                                        className="flex-1 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500"
+                                        className={`flex-1 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
                                     />
                                     <button
                                         type="submit"
