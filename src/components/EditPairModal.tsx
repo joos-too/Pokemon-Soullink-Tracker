@@ -99,9 +99,11 @@ const PokemonField: React.FC<PokemonFieldProps> = ({ label, value, nickname, onN
 
   return (
     <div className="space-y-2">
-      <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">
-        {label} – Pokémon <span className="text-red-500">*</span>
-      </label>
+      <div className="mb-1 min-h-[2.5rem] flex items-end">
+        <label className="w-full text-sm font-bold text-gray-700 dark:text-gray-300 leading-tight whitespace-normal break-words">
+          {label} – Pokémon <span className="text-red-500">*</span>
+        </label>
+      </div>
       <div className="relative">
         <input
           type="text"
