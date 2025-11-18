@@ -84,13 +84,11 @@ The same `database.rules.json` file is loaded automatically when you run the loc
 
 ## Autocomplete for German Pokémon names 
 
-- The app ships with a preloaded list file at `src/data/pokemon-de.ts` used for zero‑latency suggestions in search fields.
+- The app ships with a preloaded list file at `src/data/pokemon-de.ts` used for zero‑latency suggestions in search fields and suggestions for evolutions.
 - To (re)generate this list from PokeAPI, run:
 
 ```
 npm run build:names
 ```
 
-This fetches all Pokémon species, extracts the german names and writes them back into `src/data/pokemon-de.ts`.
-
-- At runtime, the app also refreshes this list in the background from time to time and caches it in `localStorage` without blocking the UI.
+This fetches all Pokémon species and evolutions (incl. evolution trigger), translates it to german and writes them back into `src/data/pokemon-de.ts`.

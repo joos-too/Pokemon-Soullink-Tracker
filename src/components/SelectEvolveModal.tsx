@@ -16,7 +16,25 @@ interface SelectEvolveModalProps {
 interface EvoInfo {
   id: number;
   name: string; // German name if available, otherwise fallback from API
+  methods: string[];
   artworkUrl?: string | null;
+}
+
+function mergeLocationMethods(methods: string[] | undefined): string[] {
+  if (!methods || methods.length === 0) return [];
+  const LOCATION_PREFIX = 'Level-Up – Ort: ';
+  const locations: string[] = [];
+  const others: string[] = [];
+  methods.forEach((method) => {
+    if (method.startsWith(LOCATION_PREFIX)) {
+      locations.push(method.slice(LOCATION_PREFIX.length));
+    } else {
+      others.push(method);
+    }
+  });
+  if (locations.length === 0) return others;
+  if (locations.length === 1) return [...others, `${LOCATION_PREFIX}${locations[0]}`];
+  return [...others, `${LOCATION_PREFIX}${locations.join(', ')}`];
 }
 
 // Build reverse map id -> german name
@@ -73,25 +91,36 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({isOpen, onClose, o
         return;
       }
 
-      const evoIds = EVOLUTIONS[String(numericId)];
-      if (!evoIds || evoIds.length === 0) {
+      const evoEntries = EVOLUTIONS[numericId] || [];
+      if (evoEntries.length === 0) {
         setAvailableEvos([]);
         return;
       }
 
       setLoading(true);
       try {
-        const infos: EvoInfo[] = await Promise.all(evoIds.map(async (eid) => {
+        const infos: EvoInfo[] = await Promise.all(evoEntries.map(async (entry) => {
+          const eid = entry.id;
           try {
             const res = await P.getPokemonByName(String(eid));
             const art = res.sprites?.other?.['official-artwork']?.front_default || null;
             const german = ID_TO_GERMAN[eid] || '';
-            return {id: eid, name: german ? prettyName(german) : (res.name ? prettyName(res.name) : String(eid)), artworkUrl: art};
+            return {
+              id: eid,
+              name: german ? prettyName(german) : (res.name ? prettyName(res.name) : String(eid)),
+              artworkUrl: art,
+              methods: entry.methods?.length ? entry.methods : ['Bedingung unbekannt'],
+            };
           } catch (e) {
             // fallback to constructed artwork url and id-to-german map
             const art = getOfficialArtworkUrlById(eid);
             const german = ID_TO_GERMAN[eid] || '';
-            return {id: eid, name: german ? prettyName(german) : String(eid), artworkUrl: art};
+            return {
+              id: eid,
+              name: german ? prettyName(german) : String(eid),
+              artworkUrl: art,
+              methods: entry.methods?.length ? entry.methods : ['Bedingung unbekannt'],
+            };
           }
         }));
         setAvailableEvos(infos);
@@ -160,13 +189,20 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({isOpen, onClose, o
 
                 {!loading && availableEvos && availableEvos.length > 0 && (
                   <div className="space-y-3">
-                    {availableEvos.map((ev) => (
-                      <label key={ev.id} className="flex items-center gap-3 cursor-pointer dark:text-gray-200">
-                        <input type="radio" name="evo" value={ev.id} checked={selectedEvoId === ev.id} onChange={() => setSelectedEvoId(ev.id)} className="h-4 w-4 accent-green-600"/>
-                        <img src={ev.artworkUrl || getOfficialArtworkUrlById(ev.id)} alt="" className="w-16 h-16 object-contain"/>
-                        <div className="text-sm">{ev.name}</div>
-                      </label>
-                    ))}
+                    {availableEvos.map((ev) => {
+                      const formattedMethods = mergeLocationMethods(ev.methods);
+                      const methodText = formattedMethods.length ? formattedMethods.join(' · ') : 'Bedingung unbekannt';
+                      return (
+                        <label key={ev.id} className="flex items-center gap-3 cursor-pointer dark:text-gray-200">
+                          <input type="radio" name="evo" value={ev.id} checked={selectedEvoId === ev.id} onChange={() => setSelectedEvoId(ev.id)} className="h-4 w-4 accent-green-600"/>
+                          <img src={ev.artworkUrl || getOfficialArtworkUrlById(ev.id)} alt="" className="w-16 h-16 object-contain"/>
+                          <div className="text-sm">
+                            <div>{ev.name}</div>
+                            <div className="text-xs text-gray-500 dark:text-gray-400">{methodText}</div>
+                          </div>
+                        </label>
+                      );
+                    })}
                   </div>
                 )}
               </div>
