@@ -1348,7 +1348,6 @@ const App: React.FC = () => {
                         <HomePage
                             trackers={trackerList}
                             onOpenTracker={handleOpenTracker}
-                            onLogout={handleLogout}
                             onCreateTracker={openCreateTrackerModal}
                             onOpenUserSettings={handleOpenUserSettings}
                             isLoading={trackerListLoading}
@@ -1370,7 +1369,7 @@ const App: React.FC = () => {
                 />
                 <Route
                     path="/account"
-                    element={<UserSettingsPage email={user.email} onBack={handleNavigateHome}/>}
+                    element={<UserSettingsPage email={user.email} onBack={handleNavigateHome} onLogout={handleLogout}/>}
                 />
                 <Route path="*" element={<Navigate to="/" replace/>}/>
             </Routes>

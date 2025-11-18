@@ -1,14 +1,15 @@
 import React, {useState} from 'react';
-import {FiArrowLeft, FiMail, FiRefreshCw, FiCheckCircle, FiAlertTriangle} from 'react-icons/fi';
+import {FiArrowLeft, FiMail, FiRefreshCw, FiCheckCircle, FiAlertTriangle, FiLogOut} from 'react-icons/fi';
 import {focusRingClasses} from '@/src/styles/focusRing';
 import {requestPasswordReset} from '@/src/services/auth';
 
 interface UserSettingsPageProps {
     email?: string | null;
     onBack: () => void;
+    onLogout: () => void;
 }
 
-const UserSettingsPage: React.FC<UserSettingsPageProps> = ({email, onBack}) => {
+const UserSettingsPage: React.FC<UserSettingsPageProps> = ({email, onBack, onLogout}) => {
     const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
     const [message, setMessage] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
@@ -51,7 +52,7 @@ const UserSettingsPage: React.FC<UserSettingsPageProps> = ({email, onBack}) => {
                 <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-6 py-8 shadow-[6px_6px_0_0_rgba(31,41,55,0.25)]">
                     <header className="mb-6">
                         <p className="text-xs uppercase tracking-[0.3em] text-green-600">Account</p>
-                        <h1 className="text-2xl font-bold font-press-start text-gray-900 dark:text-gray-100 mt-3">Nutzer-Einstellungen</h1>
+                        <h1 className="text-2xl font-bold font-press-start text-gray-900 dark:text-gray-100 mt-3">Einstellungen</h1>
                         <p className="text-sm text-gray-500 dark:text-gray-400 mt-3">
                             Hier findest du deine Anmeldedaten und kannst dein Passwort per Email zurücksetzen.
                         </p>
@@ -98,6 +99,19 @@ const UserSettingsPage: React.FC<UserSettingsPageProps> = ({email, onBack}) => {
                                 <span>{message}</span>
                             </div>
                         )}
+                    </section>
+
+                    <section className="pt-6 border-t border-gray-200 dark:border-gray-700 mt-6">
+                        <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
+                            Du willst dich abmelden? Das beendet die Sitzung auf all deinen Geräten.
+                        </p>
+                        <button
+                            type="button"
+                            onClick={onLogout}
+                            className={`inline-flex items-center gap-2 rounded-md border border-red-200 dark:border-red-700 px-4 py-2 text-sm font-semibold text-red-700 dark:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/30 ${focusRingClasses}`}
+                        >
+                            <FiLogOut/> Logout
+                        </button>
                     </section>
                 </div>
             </div>

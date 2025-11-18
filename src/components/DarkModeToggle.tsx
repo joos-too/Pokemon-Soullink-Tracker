@@ -34,7 +34,11 @@ export function setDarkMode(enabled: boolean) {
     } catch {}
 }
 
-const DarkModeToggle: React.FC = () => {
+interface DarkModeToggleProps {
+    size?: number;
+}
+
+const DarkModeToggle: React.FC<DarkModeToggleProps> = ({size = 28}) => {
     const [isDarkMode, setIsDarkMode] = useState(getDarkMode());
 
     useEffect(() => {
@@ -69,7 +73,7 @@ const DarkModeToggle: React.FC = () => {
             aria-label="Toggle dark mode"
             title="Toggle dark mode"
         >
-            {isDarkMode ? <FiSun size={28} /> : <FiMoon size={28} />}
+            {isDarkMode ? <FiSun size={size} /> : <FiMoon size={size} />}
         </button>
     );
 };
