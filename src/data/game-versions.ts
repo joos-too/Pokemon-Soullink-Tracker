@@ -28,7 +28,7 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
             {id: 10, arena: 'Top 4 | Bruno', level: '58/56'},
             {id: 11, arena: 'Top 4 | Agathe', level: '60/58'},
             {id: 12, arena: 'Top 4 | Siegfried', level: '62/60'},
-            {id: 10, arena: 'Champ | Blau', level: '65/63'},
+            {id: 13, arena: 'Champ | Blau', level: '65/63'},
         ],
         rivalCaps: [
             {id: 1, location: 'Route 22', rival: 'Blau', level: '9/8'},
@@ -64,7 +64,7 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
             {id: 10, arena: 'Top 4 | Bruno', level: '58/56'},
             {id: 11, arena: 'Top 4 | Agathe', level: '60/58'},
             {id: 12, arena: 'Top 4 | Siegfried', level: '62/60'},
-            {id: 10, arena: 'Champ | Blau', level: '65/63'},
+            {id: 13, arena: 'Champ | Blau', level: '65/63'},
         ],
         rivalCaps: [
             {id: 1, location: 'Route 22', rival: 'Blau', level: '9/8'},
@@ -174,7 +174,7 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
             {id: 10, arena: 'Top 4 | Antonia', level: '51/50'},
             {id: 11, arena: 'Top 4 | Frosina', level: '53/52'},
             {id: 12, arena: 'Top 4 | Dragan', level: '55/54'},
-            {id: 10, arena: 'Champ | Troy', level: '58/56'},
+            {id: 13, arena: 'Champ | Troy', level: '58/56'},
         ],
         rivalCaps: [
             {id: 1, location: 'Malvenfroh City', rival: 'Heiko', level: '16'},
