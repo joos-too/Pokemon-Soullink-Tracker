@@ -1295,6 +1295,7 @@ const App: React.FC = () => {
                             runStartedAt={data.runStartedAt ?? activeTrackerMeta?.createdAt}
                             gameVersion={activeGameVersion}
                             rivalPreferences={currentUserRivalPreferences}
+                            activeTrackerId={activeTrackerId}
                         />
                         <Graveyard
                             graveyard={data.graveyard}
