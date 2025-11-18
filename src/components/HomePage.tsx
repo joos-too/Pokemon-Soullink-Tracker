@@ -1,5 +1,5 @@
 import React from 'react';
-import {FiLogOut, FiPlus, FiUsers} from 'react-icons/fi';
+import {FiLogOut, FiPlus, FiUsers, FiSettings} from 'react-icons/fi';
 import DarkModeToggle from '@/src/components/DarkModeToggle';
 import type {TrackerMeta, TrackerSummary} from '@/types';
 import GameVersionBadge from './GameVersionBadge';
@@ -10,6 +10,7 @@ interface HomePageProps {
     onOpenTracker: (trackerId: string) => void;
     onLogout: () => void;
     onCreateTracker: () => void;
+    onOpenUserSettings: () => void;
     isLoading: boolean;
     activeTrackerId: string | null;
     userEmail?: string | null;
@@ -23,6 +24,7 @@ const HomePage: React.FC<HomePageProps> = ({
                                                onLogout,
                                                onCreateTracker,
                                                isLoading,
+                                               onOpenUserSettings,
                                                activeTrackerId,
                                                trackerSummaries,
                                            }) => {
@@ -52,6 +54,15 @@ const HomePage: React.FC<HomePageProps> = ({
                         <div className="flex flex-col items-end gap-3 sm:gap-4">
                             <div className="flex items-center gap-2">
                                 <DarkModeToggle/>
+                                <button
+                                    type="button"
+                                    onClick={onOpenUserSettings}
+                                    className={`inline-flex items-center justify-center rounded-md border border-gray-300 dark:border-gray-600 p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 ${focusRingClasses}`}
+                                    title="Nutzer-Einstellungen"
+                                >
+                                    <FiSettings/>
+                                    <span className="sr-only">Nutzer-Einstellungen</span>
+                                </button>
                                 <button
                                     onClick={onLogout}
                                     className={`inline-flex items-center gap-2 rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 ${focusRingClasses}`}
