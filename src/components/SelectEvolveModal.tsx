@@ -20,6 +20,23 @@ interface EvoInfo {
   artworkUrl?: string | null;
 }
 
+function mergeLocationMethods(methods: string[] | undefined): string[] {
+  if (!methods || methods.length === 0) return [];
+  const LOCATION_PREFIX = 'Level-Up – Ort: ';
+  const locations: string[] = [];
+  const others: string[] = [];
+  methods.forEach((method) => {
+    if (method.startsWith(LOCATION_PREFIX)) {
+      locations.push(method.slice(LOCATION_PREFIX.length));
+    } else {
+      others.push(method);
+    }
+  });
+  if (locations.length === 0) return others;
+  if (locations.length === 1) return [...others, `${LOCATION_PREFIX}${locations[0]}`];
+  return [...others, `${LOCATION_PREFIX}${locations.join(', ')}`];
+}
+
 // Build reverse map id -> german name
 const ID_TO_GERMAN: Record<number, string> = (() => {
   const out: Record<number, string> = {};
@@ -173,7 +190,8 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({isOpen, onClose, o
                 {!loading && availableEvos && availableEvos.length > 0 && (
                   <div className="space-y-3">
                     {availableEvos.map((ev) => {
-                      const methodText = ev.methods?.length ? ev.methods.join(' · ') : 'Bedingung unbekannt';
+                      const formattedMethods = mergeLocationMethods(ev.methods);
+                      const methodText = formattedMethods.length ? formattedMethods.join(' · ') : 'Bedingung unbekannt';
                       return (
                         <label key={ev.id} className="flex items-center gap-3 cursor-pointer dark:text-gray-200">
                           <input type="radio" name="evo" value={ev.id} checked={selectedEvoId === ev.id} onChange={() => setSelectedEvoId(ev.id)} className="h-4 w-4 accent-green-600"/>

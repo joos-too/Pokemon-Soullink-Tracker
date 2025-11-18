@@ -21,7 +21,6 @@ import {Routes, Route, Navigate, useNavigate, useLocation, useMatch, useSearchPa
 import {db, auth} from '@/src/firebaseConfig';
 import {ref, onValue, set, get, update} from "firebase/database";
 import {onAuthStateChanged, User, signOut} from "firebase/auth";
-import {initPokemonGermanNamesBackgroundRefresh} from '@/src/services/pokemonSearch';
 import {
     addMemberByEmail,
     createTracker,
@@ -395,11 +394,6 @@ const App: React.FC = () => {
             window.localStorage.removeItem(LAST_TRACKER_STORAGE_KEY);
         }
     }, [activeTrackerId, user]);
-
-    // Preload/refresh German Pokémon names in the background (non-blocking)
-    useEffect(() => {
-        initPokemonGermanNamesBackgroundRefresh();
-    }, []);
 
     // Keep local isDark in sync with document class/localStorage
     useEffect(() => {
