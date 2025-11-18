@@ -23,7 +23,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onSwitchToLogin }) => {
         case "auth/invalid-email":
           return "Bitte gib eine gültige Email-Adresse ein.";
         case "auth/weak-password":
-          return "Das Passwort muss mindestens 6 Zeichen lang sein.";
+          return "Das Passwort muss mindestens 8 Zeichen lang sein.";
         default:
           break;
       }
@@ -34,6 +34,11 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onSwitchToLogin }) => {
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+
+    if (password.length < 8) {
+      setError("Das Passwort muss mindestens 8 Zeichen lang sein.");
+      return;
+    }
 
     if (password !== confirmPassword) {
       setError("Die Passwörter stimmen nicht überein.");
