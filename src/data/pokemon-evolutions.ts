@@ -692,8 +692,8 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 700,
       "methods": [
-        "Level-Up – Freundschaft ≥ 160, Attackentyp Fee",
-        "Level-Up – Zuneigung ≥ 2, Attackentyp Fee"
+        "Level-Up – Freundschaft ≥ 160, Kennt Attacke vom Typ Fee",
+        "Level-Up – Zuneigung ≥ 2, Kennt Attacke vom Typ Fee"
       ]
     }
   ],
@@ -2700,7 +2700,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 675,
       "methods": [
-        "Level-Up – Level 32, Team-Typ: Unlicht"
+        "Level-Up – Level 32, Pokémon von Typ Unlicht im Team"
       ]
     }
   ],

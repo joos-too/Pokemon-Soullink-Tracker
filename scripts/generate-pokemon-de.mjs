@@ -242,10 +242,10 @@ function describeEvolutionDetail(detail, translators = {}) {
     }
     if (detail.held_item?.name) add(`Trägt ${translateItem(detail.held_item.name)}`);
     if (detail.known_move?.name) add(`Kennt ${translateMove(detail.known_move.name)}`);
-    if (detail.known_move_type?.name) add(`Attackentyp ${translateType(detail.known_move_type.name)}`);
+    if (detail.known_move_type?.name) add(`Kennt Attacke vom Typ ${translateType(detail.known_move_type.name)}`);
     if (detail.location?.name) add(`Ort: ${translateLocation(detail.location.name)}`);
     if (detail.party_species?.name) add(`Team: ${translateSpecies(detail.party_species.name)}`);
-    if (detail.party_type?.name) add(`Team-Typ: ${translateType(detail.party_type.name)}`);
+    if (detail.party_type?.name) add(`Pokémon von Typ ${translateType(detail.party_type.name)} im Team`);
     if (typeof detail.relative_physical_stats === 'number') {
         if (detail.relative_physical_stats === -1) add('Angriff < Verteidigung');
         else if (detail.relative_physical_stats === 0) add('Angriff = Verteidigung');
