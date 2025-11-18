@@ -11,9 +11,10 @@ const projectId = import.meta.env.VITE_FIREBASE_PROJECT_ID as string | undefined
 const storageBucket = import.meta.env.VITE_FIREBASE_STORAGE_BUCKET as string | undefined;
 const messagingSenderId = import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID as string | undefined;
 const appId = import.meta.env.VITE_FIREBASE_APP_ID as string | undefined;
+const useEmulator = import.meta.env.VITE_USE_FIREBASE_EMULATOR as string | undefined;
 
 // Emulator env toggles (optional). Vite injects import.meta.env.MODE and DEV.
-const USE_EMULATORS = (import.meta.env.VITE_USE_FIREBASE_EMULATOR as string | undefined)?.toLowerCase() === 'true' || import.meta.env.DEV;
+const USE_EMULATORS = (useEmulator)?.toLowerCase() === 'true';
 const EMULATOR_HOST = import.meta.env.VITE_FIREBASE_EMULATOR_HOST as string | undefined;
 const AUTH_EMULATOR_PORT = Number(import.meta.env.VITE_FIREBASE_AUTH_EMULATOR_PORT ?? 9099);
 const DB_EMULATOR_PORT = Number(import.meta.env.VITE_FIREBASE_DB_EMULATOR_PORT ?? 9000);

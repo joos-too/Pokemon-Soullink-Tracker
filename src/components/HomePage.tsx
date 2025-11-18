@@ -1,5 +1,5 @@
 import React from 'react';
-import {FiLogOut, FiPlus, FiUsers} from 'react-icons/fi';
+import {FiPlus, FiUsers, FiSettings} from 'react-icons/fi';
 import DarkModeToggle from '@/src/components/DarkModeToggle';
 import type {TrackerMeta, TrackerSummary} from '@/types';
 import GameVersionBadge from './GameVersionBadge';
@@ -8,8 +8,8 @@ import { focusRingClasses } from '@/src/styles/focusRing';
 interface HomePageProps {
     trackers: TrackerMeta[];
     onOpenTracker: (trackerId: string) => void;
-    onLogout: () => void;
     onCreateTracker: () => void;
+    onOpenUserSettings: () => void;
     isLoading: boolean;
     activeTrackerId: string | null;
     userEmail?: string | null;
@@ -20,9 +20,9 @@ interface HomePageProps {
 const HomePage: React.FC<HomePageProps> = ({
                                                trackers,
                                                onOpenTracker,
-                                               onLogout,
                                                onCreateTracker,
                                                isLoading,
+                                               onOpenUserSettings,
                                                activeTrackerId,
                                                trackerSummaries,
                                            }) => {
@@ -33,8 +33,8 @@ const HomePage: React.FC<HomePageProps> = ({
             <div className="max-w-5xl mx-auto space-y-6">
                 <header
                     className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-4 py-5 sm:px-6 shadow-[6px_6px_0_0_rgba(31,41,55,0.25)]">
-                    <div className="flex flex-wrap items-start justify-between gap-4">
-                        <div className="flex items-center gap-4">
+                    <div className="flex flex-wrap items-center justify-between gap-4">
+                        <div className="flex items-center gap-4 flex-1">
                             <img
                                 src="/Soullinktracker-Logo - cropped.png"
                                 alt="Soullink Tracker Logo"
@@ -49,16 +49,18 @@ const HomePage: React.FC<HomePageProps> = ({
                                 </p>
                             </div>
                         </div>
-                        <div className="flex flex-col items-end gap-3 sm:gap-4">
-                            <div className="flex items-center gap-2">
-                                <DarkModeToggle/>
-                                <button
-                                    onClick={onLogout}
-                                    className={`inline-flex items-center gap-2 rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 ${focusRingClasses}`}
-                                >
-                                    <FiLogOut/> Logout
-                                </button>
-                            </div>
+                        <div className="flex items-center justify-center gap-3 flex-shrink-0 w-full sm:w-auto">
+                            <DarkModeToggle size={30}/>
+                            <button
+                                type="button"
+                                onClick={onOpenUserSettings}
+                                className={`p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white ${focusRingClasses}`}
+                                aria-label="Account-Einstellungen"
+                                title="Account-Einstellungen"
+                            >
+                                <FiSettings size={30}/>
+                                <span className="sr-only">Einstellungen</span>
+                            </button>
                         </div>
                     </div>
                 </header>

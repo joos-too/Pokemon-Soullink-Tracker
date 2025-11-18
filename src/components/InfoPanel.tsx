@@ -3,7 +3,6 @@ import type {LevelCap, RivalCap, Stats, GameVersion, UserSettings} from '@/types
 import {PLAYER_COLORS, LEGENDARY_POKEMON_NAMES} from '@/constants';
 import {FiMinus, FiPlus, FiEdit, FiX, FiSave, FiEye, FiEyeOff, FiRefreshCw} from 'react-icons/fi';
 import {RivalImage, BadgeImage, LegendaryImage} from './GameImages';
-import {useSearchParams} from 'react-router-dom';
 
 interface InfoPanelProps {
     playerNames: string[];
@@ -26,6 +25,7 @@ interface InfoPanelProps {
     runStartedAt?: number;
     gameVersion?: GameVersion;
     rivalPreferences: UserSettings['rivalPreferences'];
+    activeTrackerId?: string | null;
 }
 
 
@@ -49,22 +49,39 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                                  runStartedAt,
                                                  gameVersion,
                                                  rivalPreferences,
+                                                 activeTrackerId,
                                              }) => {
     const [isEditingRules, setIsEditingRules] = useState(false);
     const [draftRules, setDraftRules] = useState<string[]>(rules);
-    const [searchParams, setSearchParams] = useSearchParams();
-    const showRivalCaps = searchParams.get('caps') === 'rivals';
+    const trackerViewStorageKey = activeTrackerId ? `soullink:tracker:${activeTrackerId}:caps-view` : null;
+    const readStoredCapsView = (key: string | null): boolean => {
+        if (!key || typeof window === 'undefined') return false;
+        try {
+            return window.localStorage.getItem(key) === 'rivals';
+        } catch {
+            return false;
+        }
+    };
+    const [showRivalCaps, setShowRivalCaps] = useState<boolean>(() => readStoredCapsView(trackerViewStorageKey));
     const [isMobile, setIsMobile] = useState(false);
     const getPlayerColor = (index: number) => playerColors[index] ?? PLAYER_COLORS[index] ?? '#4b5563';
 
+    useEffect(() => {
+        setShowRivalCaps(readStoredCapsView(trackerViewStorageKey));
+    }, [trackerViewStorageKey]);
+
     const toggleCapsView = () => {
-        const nextParams = new URLSearchParams(searchParams);
-        if (showRivalCaps) {
-            nextParams.delete('caps');
-        } else {
-            nextParams.set('caps', 'rivals');
-        }
-        setSearchParams(nextParams, {replace: true});
+        setShowRivalCaps(prev => {
+            const next = !prev;
+            if (trackerViewStorageKey && typeof window !== 'undefined') {
+                try {
+                    window.localStorage.setItem(trackerViewStorageKey, next ? 'rivals' : 'levels');
+                } catch {
+                    // ignore storage errors
+                }
+            }
+            return next;
+        });
     };
 
     const randomLegendary = useMemo(() => {

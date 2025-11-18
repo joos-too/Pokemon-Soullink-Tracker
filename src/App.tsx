@@ -12,6 +12,8 @@ import SelectLossModal from '@/src/components/SelectLossModal';
 import LoginPage from '@/src/components/LoginPage';
 import RegisterPage from '@/src/components/RegisterPage';
 import SettingsPage from '@/src/components/SettingsPage';
+import UserSettingsPage from '@/src/components/UserSettingsPage';
+import PasswordResetPage from '@/src/components/PasswordResetPage';
 import ResetModal from '@/src/components/ResetModal';
 import DarkModeToggle, {getDarkMode, setDarkMode} from '@/src/components/DarkModeToggle';
 import HomePage from '@/src/components/HomePage';
@@ -65,6 +67,8 @@ const App: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [searchParams, setSearchParams] = useSearchParams();
+    const isPasswordResetRoute = location.pathname === '/reset';
+    const passwordResetOobCode = isPasswordResetRoute ? searchParams.get('oobCode') : null;
     const trackerRouteMatch = useMatch('/tracker/:trackerId');
     const routeTrackerId = trackerRouteMatch?.params?.trackerId ?? null;
     const [data, setData] = useState<AppState>(createInitialState());
@@ -566,6 +570,11 @@ const App: React.FC = () => {
         signOut(auth);
     };
 
+    const handleOpenUserSettings = useCallback(() => {
+        setMobileMenuOpen(false);
+        navigate('/account');
+    }, [navigate]);
+
     const handleNavigateHome = () => {
         setMobileMenuOpen(false);
         navigate('/');
@@ -990,6 +999,10 @@ const App: React.FC = () => {
     const nameTitleFallback = resolvedPlayerNames.map((n) => n?.trim()).filter(Boolean).join(' • ');
     const trackerTitleDisplay = activeTrackerMeta?.title?.trim() || nameTitleFallback || 'Soullink Tracker';
 
+    if (isPasswordResetRoute) {
+        return <PasswordResetPage oobCode={passwordResetOobCode}/>;
+    }
+
     // Show loading while auth is initializing, or while the target tracker is still resolving/loading
     if (loading || (user && (!dataLoaded || routeTrackerPendingSelection))) {
         return (
@@ -1276,6 +1289,7 @@ const App: React.FC = () => {
                             runStartedAt={data.runStartedAt ?? activeTrackerMeta?.createdAt}
                             gameVersion={activeGameVersion}
                             rivalPreferences={currentUserRivalPreferences}
+                            activeTrackerId={activeTrackerId}
                         />
                         <Graveyard
                             graveyard={data.graveyard}
@@ -1329,8 +1343,8 @@ const App: React.FC = () => {
                         <HomePage
                             trackers={trackerList}
                             onOpenTracker={handleOpenTracker}
-                            onLogout={handleLogout}
                             onCreateTracker={openCreateTrackerModal}
+                            onOpenUserSettings={handleOpenUserSettings}
                             isLoading={trackerListLoading}
                             activeTrackerId={activeTrackerId}
                             userEmail={user?.email ?? undefined}
@@ -1347,6 +1361,10 @@ const App: React.FC = () => {
                             ? <Navigate to={`/tracker/${activeTrackerId}`} replace/>
                             : <Navigate to="/" replace/>
                     }
+                />
+                <Route
+                    path="/account"
+                    element={<UserSettingsPage email={user.email} onBack={handleNavigateHome} onLogout={handleLogout}/>}
                 />
                 <Route path="*" element={<Navigate to="/" replace/>}/>
             </Routes>

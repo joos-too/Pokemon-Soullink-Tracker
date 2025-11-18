@@ -1,8 +1,8 @@
 import React, {useState, useMemo} from 'react';
 import {PLAYER_COLORS, MAX_PLAYER_COUNT, MIN_PLAYER_COUNT} from '@/constants';
 import type {TrackerMember, GameVersion, VariableRival, UserSettings, RivalGender} from '@/types';
-import {FiShield, FiUserPlus, FiX, FiTrash2, FiLogOut, FiInfo} from 'react-icons/fi';
-import { focusRingInputClasses } from '@/src/styles/focusRing';
+import {FiShield, FiUserPlus, FiX, FiTrash2, FiLogOut, FiInfo, FiArrowLeft} from 'react-icons/fi';
+import { focusRingInputClasses, focusRingClasses } from '@/src/styles/focusRing';
 import Tooltip from './Tooltip';
 
 interface SettingsPageProps {
@@ -125,38 +125,46 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
     };
 
     return (
-        <div className="bg-[#f0f0f0] dark:bg-gray-900 min-h-screen flex items-center justify-center p-4">
-            <div className="w-full max-w-2xl mx-auto bg-white dark:bg-gray-800 shadow-lg p-6 rounded-lg">
-                <header className="pb-4 border-b border-gray-200 dark:border-gray-700">
-                    <div className="flex justify-between items-center">
-                        <div>
-                            <p className="text-xs uppercase tracking-[0.3em] text-green-600">Tracker</p>
-                            <h1 className="text-2xl font-bold font-press-start dark:text-gray-100 mt-2">Einstellungen</h1>
-                        </div>
-                        {canManageMembers ? (
-                            <button
-                                type="button"
-                                onClick={onRequestDeleteTracker}
-                                className="text-red-600 hover:text-red-800 p-2"
-                                title="Tracker löschen"
-                            >
-                                <FiTrash2 size={24}/>
-                            </button>
-                        ) : currentMember ? (
-                            <button
-                                type="button"
-                                onClick={() => setMemberPendingRemoval(currentMember)}
-                                disabled={removingMemberId === currentMember.uid}
-                                className="text-red-600 hover:text-red-800 p-2 disabled:opacity-60"
-                                title="Tracker verlassen"
-                            >
-                                <FiLogOut size={24}/>
-                            </button>
-                        ) : null}
-                    </div>
-                </header>
+        <div className="bg-[#f0f0f0] dark:bg-gray-900 min-h-screen text-gray-800 dark:text-gray-100 px-3 py-6 sm:py-10">
+            <div className="max-w-2xl mx-auto space-y-4">
+                <button
+                    onClick={onBack}
+                    className={`inline-flex items-center gap-2 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white ${focusRingClasses}`}
+                >
+                    <FiArrowLeft/> Zurück
+                </button>
 
-                <main className="mt-6 space-y-8">
+                <div className="w-full bg-white dark:bg-gray-800 shadow-lg p-6 rounded-lg">
+                    <header className="pb-4 border-b border-gray-200 dark:border-gray-700">
+                        <div className="flex justify-between items-center">
+                            <div>
+                                <p className="text-xs uppercase tracking-[0.3em] text-green-600">Tracker</p>
+                                <h1 className="text-2xl font-bold font-press-start dark:text-gray-100 mt-2">Einstellungen</h1>
+                            </div>
+                            {canManageMembers ? (
+                                <button
+                                    type="button"
+                                    onClick={onRequestDeleteTracker}
+                                    className="text-red-600 hover:text-red-800 p-2"
+                                    title="Tracker löschen"
+                                >
+                                    <FiTrash2 size={24}/>
+                                </button>
+                            ) : currentMember ? (
+                                <button
+                                    type="button"
+                                    onClick={() => setMemberPendingRemoval(currentMember)}
+                                    disabled={removingMemberId === currentMember.uid}
+                                    className="text-red-600 hover:text-red-800 p-2 disabled:opacity-60"
+                                    title="Tracker verlassen"
+                                >
+                                    <FiLogOut size={24}/>
+                                </button>
+                            ) : null}
+                        </div>
+                    </header>
+
+                    <main className="mt-6 space-y-8">
                     <section>
                         <div className="space-y-4">
                             <div>
@@ -407,15 +415,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                         )}
                     </section>
                 </main>
-
-                <footer className="mt-8 text-center">
-                    <button
-                        onClick={onBack}
-                        className="bg-gray-600 text-white font-bold py-2 px-8 rounded-lg hover:bg-gray-700 transition-colors shadow-md focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
-                    >
-                        Zurück zum Tracker
-                    </button>
-                </footer>
+                </div>
             </div>
             {memberPendingRemoval && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
