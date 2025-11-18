@@ -96,7 +96,7 @@ export const LegendaryImage: React.FC<{
     return (
         <img
             src={getSpriteUrlForGermanName(pokemonName) || ""}
-            alt={pokemonName}
+            alt=""
             className={className}
         />
     );
