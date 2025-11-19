@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FiSun, FiMoon } from 'react-icons/fi';
+import { useTranslation } from 'react-i18next';
 
 export function getSystemPrefersDark(): boolean {
     if (typeof window === 'undefined') return false;
@@ -36,6 +37,7 @@ export function setDarkMode(enabled: boolean) {
 
 const DarkModeToggle: React.FC = () => {
     const [isDarkMode, setIsDarkMode] = useState(getDarkMode());
+    const { t } = useTranslation();
 
     useEffect(() => {
         setDarkMode(isDarkMode);
@@ -66,8 +68,8 @@ const DarkModeToggle: React.FC = () => {
         <button
             onClick={toggleDarkMode}
             className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white focus:outline-none"
-            aria-label="Toggle dark mode"
-            title="Toggle dark mode"
+            aria-label={t('common.darkModeToggleLabel')}
+            title={t('common.darkModeToggleTitle')}
         >
             {isDarkMode ? <FiSun size={28} /> : <FiMoon size={28} />}
         </button>

@@ -32,6 +32,7 @@ import {
     updateRivalPreference
 } from '@/src/services/trackers';
 import {GAME_VERSIONS} from '@/src/data/game-versions';
+import { useTranslation } from 'react-i18next';
 
 const LAST_TRACKER_STORAGE_KEY = 'soullink:lastTrackerId';
 
@@ -78,6 +79,7 @@ const App: React.FC = () => {
     const metaListenersRef = useRef<Map<string, () => void>>(new Map());
     const trackerStateListenersRef = useRef<Map<string, () => void>>(new Map());
     const [trackerSummaries, setTrackerSummaries] = useState<Record<string, TrackerSummary>>({});
+    const { t } = useTranslation();
     const [userTrackersLoading, setUserTrackersLoading] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const showSettings = searchParams.get('panel') === 'settings';
@@ -994,7 +996,7 @@ const App: React.FC = () => {
         }
     }, [user, dataLoaded, activeTrackerId, data.runStartedAt, activeTrackerMeta?.createdAt]);
     const nameTitleFallback = resolvedPlayerNames.map((n) => n?.trim()).filter(Boolean).join(' • ');
-    const trackerTitleDisplay = activeTrackerMeta?.title?.trim() || nameTitleFallback || 'Soullink Tracker';
+    const trackerTitleDisplay = activeTrackerMeta?.title?.trim() || nameTitleFallback || t('common.appName');
 
     // Show loading while auth is initializing, or while the target tracker is still resolving/loading
     if (loading || (user && (!dataLoaded || routeTrackerPendingSelection))) {
@@ -1003,7 +1005,7 @@ const App: React.FC = () => {
                 <div className="flex flex-col items-center gap-3" role="status" aria-live="polite">
                     <div
                         className="h-10 w-10 border-4 border-gray-300 dark:border-gray-600 dark:border-t-blue-600 border-t-blue-600 rounded-full animate-spin"/>
-                    <span className="text-gray-600 dark:text-gray-300 text-sm">Laden…</span>
+                    <span className="text-gray-600 dark:text-gray-300 text-sm">{t('common.loading')}</span>
                 </div>
             </div>
         );
@@ -1019,34 +1021,33 @@ const App: React.FC = () => {
         routeTrackerKnownMissing ? (
             <div
                 className="min-h-screen flex flex-col items-center justify-center bg-[#f0f0f0] dark:bg-gray-900 text-gray-700 dark:text-gray-200 px-6 text-center">
-                <p className="text-lg font-semibold">Tracker nicht gefunden.</p>
+                <p className="text-lg font-semibold">{t('app.trackerNotFound.title')}</p>
                 <p className="text-sm text-gray-500 mt-2">
-                    Prüfe, ob du die richtige URL verwendest oder ob du Zugriff auf diesen Tracker hast.
+                    {t('app.trackerNotFound.description')}
                 </p>
                 <button
                     onClick={handleNavigateHome}
                     className="mt-6 inline-flex items-center gap-2 rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700"
                 >
-                    Zur Übersicht
+                    {t('common.overview')}
                 </button>
             </div>
         ) : (
             <div
                 className="min-h-screen flex flex-col items-center justify-center bg-[#f0f0f0] dark:bg-gray-900 text-gray-700 dark:text-gray-200">
-                <p className="text-lg font-semibold">Kein Tracker ausgewählt.</p>
-                <p className="text-sm text-gray-500 mt-2">Bitte wähle einen Tracker auf der Startseite aus oder erstelle
-                    einen neuen.</p>
+                <p className="text-lg font-semibold">{t('app.noTrackerSelected.title')}</p>
+                <p className="text-sm text-gray-500 mt-2">{t('app.noTrackerSelected.description')}</p>
                 <button
                     onClick={handleNavigateHome}
                     className="mt-6 inline-flex items-center gap-2 rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700"
                 >
-                    Zur Übersicht
+                    {t('common.overview')}
                 </button>
             </div>
         )
     ) : showSettings ? (
         <SettingsPage
-            trackerTitle={activeTrackerMeta?.title ?? 'Tracker'}
+            trackerTitle={activeTrackerMeta?.title ?? t('tracker.defaultTitle')}
             onTitleChange={handleTitleChange}
             playerNames={resolvedPlayerNames}
             onPlayerNameChange={handlePlayerNameChange}
@@ -1100,8 +1101,7 @@ const App: React.FC = () => {
                     <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-3xl 2xl:text-4xl font-bold font-press-start tracking-tighter dark:text-gray-100">
                         {trackerTitleDisplay}
                     </h1>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Pokémon Soullink - Challenge
-                        Tracker</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{t('tracker.header.subtitle')}</p>
                     <div className="absolute right-2 sm:right-4 top-2 sm:top-3 flex items-center gap-1 sm:gap-2 z-30">
                         {/* Desktop icons (>=xl) */}
                         <div className="hidden xl:flex items-center gap-1 sm:gap-2">
@@ -1109,24 +1109,24 @@ const App: React.FC = () => {
                             <button
                                 onClick={handleNavigateHome}
                                 className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white focus:outline-none"
-                                aria-label="Zur Übersicht"
-                                title="Zur Übersicht"
+                                aria-label={t('common.overview')}
+                                title={t('common.overview')}
                             >
                                 <FiHome size={28}/>
                             </button>
                             <button
                                 onClick={handleReset}
                                 className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white focus:outline-none"
-                                aria-label="Run zurücksetzen"
-                                title="Run zurücksetzen"
+                                aria-label={t('tracker.actions.resetRun')}
+                                title={t('tracker.actions.resetRun')}
                             >
                                 <FiRotateCw size={28}/>
                             </button>
                             <button
                                 onClick={openSettingsPanel}
                                 className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white focus:outline-none"
-                                aria-label="Einstellungen"
-                                title="Einstellungen"
+                                aria-label={t('tracker.actions.settings')}
+                                title={t('tracker.actions.settings')}
                             >
                                 <FiSettings size={28}/>
                             </button>
@@ -1134,7 +1134,7 @@ const App: React.FC = () => {
                         {/* Mobile burger (<xl) */}
                         <button
                             className="xl:hidden p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 focus:outline-none"
-                            aria-label="Menü"
+                            aria-label={t('tracker.menu.open')}
                             aria-expanded={mobileMenuOpen}
                             onClick={() => setMobileMenuOpen(v => !v)}
                         >
@@ -1155,15 +1155,15 @@ const App: React.FC = () => {
                     <div
                         className={`fixed top-0 right-0 h-full w-64 bg-white dark:bg-gray-800 border-l border-gray-200 dark:border-gray-700 shadow-xl transform transition-transform duration-300 ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'} z-50`}
                         role="dialog"
-                        aria-label="Mobile Menü"
+                        aria-label={t('tracker.menu.dialog')}
                     >
                         <div
                             className="p-3 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
-                            <span className="text-sm font-semibold text-gray-800 dark:text-gray-200">Menü</span>
+                            <span className="text-sm font-semibold text-gray-800 dark:text-gray-200">{t('tracker.menu.title')}</span>
                             <button
                                 onClick={() => setMobileMenuOpen(false)}
                                 className="p-1 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200"
-                                aria-label="Menü schließen"
+                                aria-label={t('tracker.menu.close')}
                             >
                                 ✕
                             </button>
@@ -1176,17 +1176,17 @@ const App: React.FC = () => {
                                     setIsDark(next);
                                 }}
                                 className="w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2"
-                                title={isDark ? 'Lightmode' : 'Darkmode'}
+                                title={isDark ? t('tracker.menu.lightMode') : t('tracker.menu.darkMode')}
                             >
                                 {isDark ? <FiSun size={18}/> : <FiMoon size={18}/>}
-                                {isDark ? 'Lightmode' : 'Darkmode'}
+                                {isDark ? t('tracker.menu.lightMode') : t('tracker.menu.darkMode')}
                             </button>
                             <button
                                 onClick={handleNavigateHome}
                                 className="w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2"
-                                title="Zur Übersicht"
+                                title={t('common.overview')}
                             >
-                                <FiHome size={18}/> Übersicht
+                                <FiHome size={18}/> {t('tracker.menu.overview')}
                             </button>
                             <button
                                 onClick={() => {
@@ -1194,9 +1194,9 @@ const App: React.FC = () => {
                                     handleReset();
                                 }}
                                 className="w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2"
-                                title="Run zurücksetzen"
+                                title={t('tracker.menu.resetRun')}
                             >
-                                <FiRotateCw size={18}/> Run zurücksetzen
+                                <FiRotateCw size={18}/> {t('tracker.menu.resetRun')}
                             </button>
                             <button
                                 onClick={() => {
@@ -1204,9 +1204,9 @@ const App: React.FC = () => {
                                     openSettingsPanel();
                                 }}
                                 className="w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2"
-                                title="Einstellungen"
+                                title={t('tracker.menu.settings')}
                             >
-                                <FiSettings size={18}/> Einstellungen
+                                <FiSettings size={18}/> {t('tracker.menu.settings')}
                             </button>
                         </div>
                     </div>
@@ -1215,7 +1215,7 @@ const App: React.FC = () => {
                 <main className="grid grid-cols-1 xl:grid-cols-[64fr_36fr] gap-6 mt-6">
                     <div className="space-y-8">
                         <TeamTable
-                            title="Team"
+                            title={t('team.teamTitle')}
                             data={data.team}
                             playerNames={resolvedPlayerNames}
                             playerColors={playerColors}
@@ -1223,9 +1223,9 @@ const App: React.FC = () => {
                             onRouteChange={handleRouteChange}
                             onAddToGraveyard={handleAddToGraveyard}
                             onAddLink={handleAddTeamPair}
-                            emptyMessage="Noch keine Pokemon im Team"
+                            emptyMessage={t('team.teamEmpty')}
                             addDisabled={data.team.length >= 6}
-                            addDisabledReason="Team ist voll (max 6)"
+                            addDisabledReason={t('team.teamFull')}
                             context="team"
                             onMoveToTeam={() => {
                             }}
@@ -1236,7 +1236,7 @@ const App: React.FC = () => {
                             }))}
                         />
                         <TeamTable
-                            title="Box"
+                            title={t('team.boxTitle')}
                             data={data.box}
                             playerNames={resolvedPlayerNames}
                             playerColors={playerColors}
@@ -1244,7 +1244,7 @@ const App: React.FC = () => {
                             onRouteChange={handleBoxRouteChange}
                             onAddToGraveyard={handleAddToGraveyard}
                             onAddLink={handleAddBoxPair}
-                            emptyMessage="Noch keine Pokemon in der Box"
+                            emptyMessage={t('team.boxEmpty')}
                             context="box"
                             onMoveToTeam={(pair) => setData(prev => {
                                 if (prev.team.length >= 6) return prev;
@@ -1298,7 +1298,7 @@ const App: React.FC = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
-                        title="View on GitHub"
+                        title={t('tracker.footer.github')}
                     >
                         <FaGithub size={18} aria-hidden="true"/>
                         <span className="text-sm">vibecoded by joos-too & FreakMediaLP</span>
