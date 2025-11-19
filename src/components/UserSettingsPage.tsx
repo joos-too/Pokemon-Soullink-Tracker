@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import {FiArrowLeft, FiMail, FiRefreshCw, FiCheckCircle, FiAlertTriangle, FiLogOut} from 'react-icons/fi';
 import {focusRingClasses} from '@/src/styles/focusRing';
 import {requestPasswordReset} from '@/src/services/auth';
+import { useTranslation } from 'react-i18next';
+import LanguageToggle from './LanguageToggle';
 
 interface UserSettingsPageProps {
     email?: string | null;
@@ -13,11 +15,12 @@ const UserSettingsPage: React.FC<UserSettingsPageProps> = ({email, onBack, onLog
     const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
     const [message, setMessage] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
+    const { t } = useTranslation();
 
     const handlePasswordReset = async () => {
         if (!email) {
             setStatus('error');
-            setMessage('Für deinen Account ist keine Email hinterlegt.');
+            setMessage(t('userSettings.errors.noEmail'));
             return;
         }
 
@@ -27,9 +30,9 @@ const UserSettingsPage: React.FC<UserSettingsPageProps> = ({email, onBack, onLog
         try {
             await requestPasswordReset(email);
             setStatus('success');
-            setMessage('Wir haben dir eine Email mit einem Link zum Zurücksetzen deines Passworts geschickt.');
+            setMessage(t('userSettings.messages.resetEmailSent'));
         } catch (error) {
-            const fallback = error instanceof Error ? error.message : 'Das Zurücksetzen ist fehlgeschlagen.';
+            const fallback = error instanceof Error ? error.message : t('userSettings.errors.resetFailed');
             setStatus('error');
             setMessage(fallback);
         } finally {
@@ -46,15 +49,15 @@ const UserSettingsPage: React.FC<UserSettingsPageProps> = ({email, onBack, onLog
                     onClick={onBack}
                     className={`inline-flex items-center gap-2 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white ${focusRingClasses}`}
                 >
-                    <FiArrowLeft/> Zurück
+                    <FiArrowLeft/> {t('userSettings.buttons.back')}
                 </button>
 
                 <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-6 py-8 shadow-[6px_6px_0_0_rgba(31,41,55,0.25)]">
                     <header className="mb-6">
-                        <p className="text-xs uppercase tracking-[0.3em] text-green-600">Account</p>
-                        <h1 className="text-2xl font-bold font-press-start text-gray-900 dark:text-gray-100 mt-3">Einstellungen</h1>
+                        <p className="text-xs uppercase tracking-[0.3em] text-green-600">{t('userSettings.header.badge')}</p>
+                        <h1 className="text-2xl font-bold font-press-start text-gray-900 dark:text-gray-100 mt-3">{t('userSettings.header.title')}</h1>
                         <p className="text-sm text-gray-500 dark:text-gray-400 mt-3">
-                            Hier findest du deine Anmeldedaten und kannst dein Passwort per Email zurücksetzen.
+                            {t('userSettings.header.subtitle')}
                         </p>
                     </header>
 
@@ -62,10 +65,10 @@ const UserSettingsPage: React.FC<UserSettingsPageProps> = ({email, onBack, onLog
                         <div className="flex items-start gap-3 p-4 rounded-lg bg-gray-50 dark:bg-gray-900/40 border border-gray-200 dark:border-gray-700">
                             <FiMail className="mt-1" size={20}/>
                             <div>
-                                <p className="text-xs uppercase tracking-[0.2em] text-gray-500">Email</p>
+                                <p className="text-xs uppercase tracking-[0.2em] text-gray-500">{t('userSettings.emailLabel')}</p>
                                 <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">{email || '—'}</p>
                                 <p className="text-sm text-gray-500 mt-1">
-                                    Wir senden den Reset-Link an diese Adresse.
+                                    {t('userSettings.emailInfo')}
                                 </p>
                             </div>
                         </div>
@@ -78,10 +81,10 @@ const UserSettingsPage: React.FC<UserSettingsPageProps> = ({email, onBack, onLog
                                 className={`inline-flex items-center gap-2 rounded-md bg-green-600 px-4 py-2 text-sm font-semibold uppercase tracking-[0.2em] text-white shadow-sm transition hover:bg-green-700 disabled:opacity-60 disabled:cursor-not-allowed ${focusRingClasses}`}
                             >
                                 {loading ? <FiRefreshCw className="animate-spin"/> : <FiRefreshCw/>}
-                                Passwort zurücksetzen
+                                {t('userSettings.actions.resetPassword')}
                             </button>
                             <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
-                                Du erhältst eine Email mit einem Bestätigungslink. Klicke ihn innerhalb von 60 Minuten, um ein neues Passwort zu vergeben.
+                                {t('userSettings.resetDetails')}
                             </p>
                         </div>
 
@@ -101,16 +104,26 @@ const UserSettingsPage: React.FC<UserSettingsPageProps> = ({email, onBack, onLog
                         )}
                     </section>
 
+                    <section className="pt-6 border-t border-gray-200 dark:border-gray-700 mt-6 space-y-3">
+                        <p className="text-sm font-semibold uppercase tracking-[0.3em] text-gray-500">{t('userSettings.language.title')}</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                            {t('userSettings.language.description')}
+                        </p>
+                        <div className="flex justify-center">
+                            <LanguageToggle size="large" />
+                        </div>
+                    </section>
+
                     <section className="pt-6 border-t border-gray-200 dark:border-gray-700 mt-6">
                         <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
-                            Du willst dich abmelden? Das beendet die Sitzung auf all deinen Geräten.
+                            {t('userSettings.logoutPrompt')}
                         </p>
                         <button
                             type="button"
                             onClick={onLogout}
                             className={`inline-flex items-center gap-2 rounded-md border border-red-200 dark:border-red-700 px-4 py-2 text-sm font-semibold text-red-700 dark:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/30 ${focusRingClasses}`}
                         >
-                            <FiLogOut/> Logout
+                            <FiLogOut/> {t('common.logout')}
                         </button>
                     </section>
                 </div>

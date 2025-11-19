@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
-import {FiLogOut, FiPlus, FiUser, FiSettings} from 'react-icons/fi';
+import {FiPlus, FiUsers, FiSettings} from 'react-icons/fi';
 import DarkModeToggle from '@/src/components/DarkModeToggle';
-import LanguageToggle from '@/src/components/LanguageToggle';
 import type {TrackerMeta, TrackerSummary} from '@/types';
 import GameVersionBadge from './GameVersionBadge';
 import { focusRingClasses } from '@/src/styles/focusRing';
@@ -55,7 +54,6 @@ const HomePage: React.FC<HomePageProps> = ({
                         </div>
                         <div className="flex flex-col items-end gap-3 sm:gap-4">
                             <div className="flex items-center gap-2">
-                                <LanguageToggle/>
                                 <DarkModeToggle/>
                                 <button
                                     type="button"

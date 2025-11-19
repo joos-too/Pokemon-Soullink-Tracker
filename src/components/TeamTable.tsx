@@ -4,6 +4,7 @@ import EditPairModal from './EditPairModal.tsx';
 import SelectEvolveModal from './SelectEvolveModal';
 import {FiEdit, FiPlus, FiTrash, FiArrowUp, FiArrowDown, FiChevronsUp} from 'react-icons/fi';
 import {getOfficialArtworkUrlForGermanName} from '@/src/services/sprites';
+import { useTranslation } from 'react-i18next';
 
 interface TeamTableProps {
     title: string;
@@ -42,8 +43,9 @@ const TeamTable: React.FC<TeamTableProps> = ({
                                                  onMoveToBox,
                                                  teamIsFull = false,
                                                  pokemonGenerationLimit,
-                                                 gameVersionId,
-                                             }) => {
+                                            gameVersionId,
+                                        }) => {
+    const { t } = useTranslation();
     const [editIndex, setEditIndex] = useState<number | null>(null);
     const [addOpen, setAddOpen] = useState(false);
     const [evolveIndex, setEvolveIndex] = useState<number | null>(null);
@@ -88,9 +90,9 @@ const TeamTable: React.FC<TeamTableProps> = ({
                             ? 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed'
                             : 'bg-green-600 text-white hover:bg-green-700 dark:hover:bg-green-500'
                     }`}
-                    title={addDisabled ? (addDisabledReason || 'Hinzufügen deaktiviert') : 'Pokémon hinzufügen'}
-                >
-                    <FiPlus size={18}/> Hinzufügen
+                title={addDisabled ? (addDisabledReason || t('team.addDisabled')) : t('team.addPokemon')}
+            >
+                    <FiPlus size={18}/> {t('team.addPokemon')}
                 </button>
             </div>
             <div className="w-full overflow-x-auto">
@@ -108,23 +110,23 @@ const TeamTable: React.FC<TeamTableProps> = ({
                                 {name}
                             </th>
                         ))}
-                        <th rowSpan={2} className="p-2 text-center text-xs font-bold text-gray-700 dark:text-gray-300 border-t border-b border-l border-gray-300 dark:border-gray-700">Gebiet</th>
+                        <th rowSpan={2} className="p-2 text-center text-xs font-bold text-gray-700 dark:text-gray-300 border-t border-b border-l border-gray-300 dark:border-gray-700">{t('team.routeColumn')}</th>
                         <th
                             rowSpan={2}
                             className="p-2 text-xs font-bold text-gray-700 dark:text-gray-300 border-t border-b border-l border-gray-300 dark:border-gray-700"
                             style={{width: '28px'}}
                         >
-                            Aktionen
+                            {t('team.actionsColumn')}
                         </th>
                     </tr>
                     <tr>
                         {playerNames.map((_, index) => (
                             <React.Fragment key={`player-subheader-${index}`}>
                                 <th className="p-1 text-[11px] text-gray-600 dark:text-gray-400 border-b border-l border-gray-200 dark:border-gray-700 text-center">
-                                    Pokémon
+                                    {t('team.pokemonColumn')}
                                 </th>
-                                <th className="p-1 text-[11px] text-gray-600 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700 text-center">Name</th>
-                                <th className="p-1 text-[11px] text-gray-600 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700 text-center">Spitzname</th>
+                                <th className="p-1 text-[11px] text-gray-600 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700 text-center">{t('team.nameColumn')}</th>
+                                <th className="p-1 text-[11px] text-gray-600 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700 text-center">{t('team.nicknameColumn')}</th>
                             </React.Fragment>
                         ))}
                     </tr>
@@ -156,12 +158,12 @@ const TeamTable: React.FC<TeamTableProps> = ({
                             <td className="p-2 text-center border-l border-gray-200 dark:border-gray-700" style={{width: '28px'}}>
                                 <div className="inline-flex items-center gap-1.5 justify-center">
                                     {(pair.members.some(m => m?.name) || pair.route) && (
-                                        <button
-                                            type="button"
-                                            onClick={() => setEditIndex(originalIndex)}
-                                            className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 inline-flex items-center justify-center text-gray-700 dark:text-gray-300"
-                                            title="Bearbeiten"
-                                        >
+                                            <button
+                                                type="button"
+                                                onClick={() => setEditIndex(originalIndex)}
+                                                className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 inline-flex items-center justify-center text-gray-700 dark:text-gray-300"
+                                                title={t('team.titleEdit')}
+                                            >
                                             <FiEdit size={18}/>
                                         </button>
                                     )}
@@ -170,7 +172,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                                             type="button"
                                             onClick={() => onMoveToBox(pair)}
                                             className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 inline-flex items-center justify-center text-gray-700 dark:text-gray-300"
-                                            title="In die Box verschieben"
+                                            title={t('team.titleMoveToBox')}
                                         >
                                             <FiArrowDown size={18}/>
                                         </button>
@@ -192,7 +194,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                                             type="button"
                                             onClick={() => setEvolveIndex(originalIndex)}
                                             className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 inline-flex items-center justify-center text-gray-700 dark:text-gray-300"
-                                            title="Entwickeln"
+                                            title={t('team.titleEvolve')}
                                         >
                                             <FiChevronsUp size={18}/>
                                         </button>
@@ -202,7 +204,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                                             type="button"
                                             onClick={() => onAddToGraveyard(pair)}
                                             className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 inline-flex items-center justify-center text-red-600 hover:text-red-700 dark:text-red-500 dark:hover:text-red-400"
-                                            title="In den Friedhof verschieben"
+                                            title={t('team.titleSendToGraveyard')}
                                         >
                                             <FiTrash size={18}/>
                                         </button>

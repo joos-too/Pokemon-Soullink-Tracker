@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import type { PokemonLink } from '@/types';
+import { Trans, useTranslation } from 'react-i18next';
 
 interface SelectLossModalProps {
   isOpen: boolean;
@@ -11,6 +12,7 @@ interface SelectLossModalProps {
 
 const SelectLossModal: React.FC<SelectLossModalProps> = ({ isOpen, onClose, onConfirm, pair, playerNames }) => {
   const [selected, setSelected] = useState<number | null>(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (isOpen) {
@@ -29,9 +31,9 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({ isOpen, onClose, onCo
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-md">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-lg font-bold dark:text-gray-100">Wer hat das Pokémon getötet?</h2>
-          <button onClick={onClose} className="text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200" aria-label="Schließen">
+          <div className="flex justify-between items-center mb-4">
+          <h2 className="text-lg font-bold dark:text-gray-100">{t('modals.selectLoss.title')}</h2>
+          <button onClick={onClose} className="text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200" aria-label={t('common.close')}>
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -52,15 +54,19 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({ isOpen, onClose, onCo
               })}
             </div>
             {pair.route && (
-              <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">Gebiet: {pair.route}</div>
+              <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">{t('modals.selectLoss.routeLabel', { route: pair.route })}</div>
             )}
           </div>
         )}
 
         <form onSubmit={handleSubmit}>
-          {playerNames.length === 1 ? (
+            {playerNames.length === 1 ? (
             <div className="text-sm text-gray-700 dark:text-gray-300 border border-red-200 dark:border-red-500 rounded-md p-3 bg-red-50 dark:bg-red-900/30">
-              Der Verlust wird automatisch <span className="font-semibold">{playerNames[0]}</span> zugewiesen.
+              <Trans
+                i18nKey="modals.selectLoss.autoAssign"
+                values={{ player: playerNames[0] }}
+                components={{ strong: <span className="font-semibold" /> }}
+              />
             </div>
           ) : (
             <div className="space-y-3">
@@ -74,9 +80,9 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({ isOpen, onClose, onCo
           )}
 
           <div className="mt-6 flex justify-end gap-2">
-            <button type="button" onClick={onClose} className="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700">Abbrechen</button>
+            <button type="button" onClick={onClose} className="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700">{t('common.cancel')}</button>
             <button type="submit" disabled={selected === null} className={`px-4 py-2 rounded-md font-semibold shadow ${selected !== null ? 'bg-red-600 text-white hover:bg-red-700' : 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed'}`}>
-              Bestätigen
+              {t('modals.selectLoss.confirm')}
             </button>
           </div>
         </form>

@@ -2,6 +2,7 @@ import React, {useEffect, useState, useRef, useCallback} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {verifyPasswordResetCode, confirmPasswordReset, signOut} from 'firebase/auth';
 import {auth} from '@/src/firebaseConfig';
+import { useTranslation } from 'react-i18next';
 
 interface PasswordResetPageProps {
     oobCode: string | null;
@@ -17,12 +18,13 @@ const PasswordResetPage: React.FC<PasswordResetPageProps> = ({oobCode}) => {
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState(false);
     const submittingRef = useRef(false);
+    const { t } = useTranslation();
 
     useEffect(() => {
         let active = true;
         const verify = async () => {
             if (!oobCode) {
-                setError('Der Reset-Link ist ungültig oder abgelaufen.');
+                setError(t('auth.passwordReset.invalidLink'));
                 setLoading(false);
                 return;
             }
@@ -33,7 +35,7 @@ const PasswordResetPage: React.FC<PasswordResetPageProps> = ({oobCode}) => {
             } catch (err) {
                 console.error('verifyPasswordResetCode failed', err);
                 if (!active) return;
-                setError('Der Reset-Link ist ungültig oder abgelaufen.');
+                setError(t('auth.passwordReset.invalidLink'));
             } finally {
                 if (active) {
                     setLoading(false);
@@ -50,15 +52,15 @@ const PasswordResetPage: React.FC<PasswordResetPageProps> = ({oobCode}) => {
         event.preventDefault();
         if (submittingRef.current || success) return;
         if (!oobCode) {
-            setError('Es fehlt ein gültiger Reset-Code.');
+            setError(t('auth.passwordReset.missingCode'));
             return;
         }
         if (password.length < 8) {
-            setError('Das neue Passwort muss mindestens 8 Zeichen besitzen.');
+            setError(t('auth.passwordReset.passwordTooShort'));
             return;
         }
         if (password !== confirmPassword) {
-            setError('Die Passwörter stimmen nicht überein.');
+            setError(t('auth.passwordReset.passwordMismatch'));
             return;
         }
         setError(null);
@@ -70,7 +72,7 @@ const PasswordResetPage: React.FC<PasswordResetPageProps> = ({oobCode}) => {
             setError(null);
         } catch (err) {
             console.error('confirmPasswordReset failed', err);
-            setError('Das Ändern des Passworts ist fehlgeschlagen. Versuche es erneut oder fordere einen neuen Link an.');
+            setError(t('auth.passwordReset.resetFailed'));
         } finally {
             setSubmitting(false);
             submittingRef.current = false;
@@ -113,70 +115,70 @@ const PasswordResetPage: React.FC<PasswordResetPageProps> = ({oobCode}) => {
                             className="mx-auto mb-3 w-40 h-40 object-contain"
                         />
                         <h1 className="text-2xl sm:text-3xl font-bold font-press-start tracking-tighter dark:text-gray-100">
-                            Passwort zurücksetzen
+                            {t('auth.passwordReset.title')}
                         </h1>
                         <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-                            Wähle ein neues Passwort für deinen Soullink Tracker Account.
+                            {t('auth.passwordReset.successHeadline')}
                         </p>
                     </header>
 
                     {loading ? (
                         <div className="flex flex-col items-center justify-center py-10 gap-3 text-gray-500 dark:text-gray-400">
                             <div className="h-10 w-10 border-4 border-gray-200 dark:border-gray-600 border-t-green-600 rounded-full animate-spin"/>
-                            <p className="text-sm font-medium">Reset-Link wird geprüft…</p>
+                            <p className="text-sm font-medium">{t('auth.passwordReset.checkingLink')}</p>
                         </div>
                     ) : success ? (
                         <div className="py-8 text-center space-y-4">
-                            <p className="text-lg font-semibold text-green-600">Passwort aktualisiert!</p>
-                            <p className="text-sm text-gray-600 dark:text-gray-300">Du wirst gleich weitergeleitet.</p>
+                            <p className="text-lg font-semibold text-green-600">{t('auth.passwordReset.successMessage')}</p>
+                            <p className="text-sm text-gray-600 dark:text-gray-300">{t('auth.passwordReset.successHint')}</p>
                             <button
                                 type="button"
                                 onClick={handleBackToLogin}
                                 className="inline-flex justify-center w-full bg-green-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-green-700 transition-colors shadow-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
                             >
-                                Zurück zur Anmeldung
+                                {t('auth.passwordReset.backToLogin')}
                             </button>
                         </div>
                     ) : error && !email ? (
                         <div className="py-8 text-center space-y-4 text-red-600 dark:text-red-400">
-                            <p className="text-lg font-semibold">Link ungültig</p>
-                            <p className="text-sm">Bitte fordere über die Einstellungen eine neue Reset-Mail an.</p>
+                            <p className="text-lg font-semibold">{t('auth.passwordReset.invalidLinkTitle')}</p>
+                            <p className="text-sm">{t('auth.passwordReset.invalidLinkDescription')}</p>
                             <button
                                 type="button"
                                 onClick={handleBackToLogin}
                                 className="inline-flex justify-center w-full bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
                             >
-                                Zurück
+                                {t('auth.passwordReset.buttonBack')}
                             </button>
                         </div>
                     ) : (
                         <form onSubmit={handleSubmit} className="mt-6 space-y-5">
                             <div className="bg-gray-50 dark:bg-gray-900/40 border border-gray-200 dark:border-gray-700 rounded-lg px-4 py-3 text-sm text-gray-600 dark:text-gray-300">
-                                <p className="font-semibold text-gray-800 dark:text-gray-100">Account</p>
+                                <p className="font-semibold text-gray-800 dark:text-gray-100">{t('auth.passwordReset.accountLabel')}</p>
                                 <p>{email}</p>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Neues Passwort</label>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('auth.passwordReset.newPasswordLabel')}</label>
                                 <input
                                     type="password"
                                     autoComplete="new-password"
                                     required
                                     minLength={8}
                                     className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-                                    placeholder="Mindestens 8 Zeichen"
+                                    placeholder={t('auth.passwordReset.passwordTooShort')}
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     disabled={actionDisabled}
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Passwort bestätigen</label>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('auth.passwordReset.confirmPasswordLabel')}</label>
                                 <input
                                     type="password"
                                     autoComplete="new-password"
                                     required
                                     className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-                                    placeholder="Nochmals eingeben"
+                                    placeholder={t('auth.passwordReset.confirmPasswordLabel')}
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
                                     disabled={actionDisabled}
@@ -190,7 +192,7 @@ const PasswordResetPage: React.FC<PasswordResetPageProps> = ({oobCode}) => {
                                 disabled={actionDisabled}
                                 className="w-full bg-green-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-green-700 transition-colors shadow-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 disabled:opacity-70"
                             >
-                                {submitting ? 'Speichern…' : 'Passwort setzen'}
+                                {submitting ? `${t('auth.passwordReset.buttonSave')}…` : t('auth.passwordReset.buttonSave')}
                             </button>
                         </form>
                     )}

@@ -34,6 +34,7 @@ import {
 } from '@/src/services/trackers';
 import {GAME_VERSIONS} from '@/src/data/game-versions';
 import { useTranslation } from 'react-i18next';
+import {t} from "i18next";
 
 const LAST_TRACKER_STORAGE_KEY = 'soullink:lastTrackerId';
 
@@ -55,7 +56,7 @@ const computeTrackerSummary = (state?: Partial<AppState> | null): TrackerSummary
     const levelCaps = Array.isArray(state?.levelCaps) ? (state.levelCaps as LevelCap[]) : [];
     const championCap = levelCaps.find((cap) => cap?.arena?.toLowerCase().includes('champ')) ?? levelCaps[levelCaps.length - 1];
     const championDone = Boolean(championCap?.done);
-    let bestLabel = 'Noch keine Arena';
+    let bestLabel = t('home.progressFallback');
     const doneCaps = levelCaps.filter((cap) => cap?.done);
     if (doneCaps.length > 0) {
         bestLabel = doneCaps[doneCaps.length - 1]?.arena || bestLabel;

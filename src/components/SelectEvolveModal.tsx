@@ -4,6 +4,7 @@ import {EVOLUTIONS} from '@/src/data/pokemon-evolutions';
 import {GERMAN_TO_ID as GERMAN_TO_ID_PRELOAD, POKEMON_ID_TO_GENERATION} from '@/src/data/pokemon-de-map';
 import {getOfficialArtworkUrlById} from '@/src/services/sprites';
 import type {PokemonLink} from '@/types';
+import { useTranslation } from 'react-i18next';
 
 interface SelectEvolveModalProps {
     isOpen: boolean;
@@ -156,6 +157,7 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
     const [availableEvos, setAvailableEvos] = useState<EvoInfo[] | null>(null);
     const [selectedEvoId, setSelectedEvoId] = useState<number | null>(null);
     const [loading, setLoading] = useState(false);
+    const { t } = useTranslation();
 
     useEffect(() => {
         if (isOpen) {
@@ -210,7 +212,7 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
                     const eid = entry.id;
                     const baseMethods = entry.methods && entry.methods.length ? entry.methods : ['Bedingung unbekannt'];
                     const methodsForConstraints = filterMethodsForConstraints(eid, baseMethods, maxGeneration, gameVersionId);
-                    const displayMethods = methodsForConstraints.length ? methodsForConstraints : ['In dieser Version nicht verfügbar'];
+                    const displayMethods = methodsForConstraints.length ? methodsForConstraints : [t('tracker.evolveModal.unavailable')];
                     try {
                         const res = await P.getPokemonByName(String(eid));
                         const art = res.sprites?.other?.['official-artwork']?.front_default || null;
@@ -260,10 +262,10 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
                 {/* header */}
                 <div
                     className="px-6 py-4 flex justify-between items-center border-b border-gray-100 dark:border-gray-700">
-                    <h2 className="text-lg font-bold dark:text-gray-100">Entwickeln</h2>
+                    <h2 className="text-lg font-bold dark:text-gray-100">{t('tracker.evolveModal.title')}</h2>
                     <button onClick={onClose}
                             className="text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
-                            aria-label="Schließen">
+                            aria-label={t('common.close')}>
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24"
                              stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
@@ -277,7 +279,7 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
                     <div className="overflow-auto max-h-[60vh] pr-2 pt-4">
                         {selectedPlayer === null && (
                             <div className="mb-4 text-sm text-gray-700 dark:text-gray-300">
-                                <div className="mb-2">Welches Pok&eacute;mon soll entwickelt werden?</div>
+                                <div className="mb-2">{t('tracker.evolveModal.prompt')}</div>
                                 {playerLabels.map((label, index) => {
                                     const member = pair?.members?.[index];
                                     return (
@@ -300,20 +302,19 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
 
                         {selectedPlayer !== null && (
                             <div className="mb-4">
-                                <div className="font-semibold mb-2">{currentName} entwickeln?</div>
+                                <div className="font-semibold mb-2">{t('tracker.evolveModal.evolveQuestion', { name: currentName })}</div>
 
-                                {loading && <div className="text-sm text-gray-500">Lade Entwicklungen…</div>}
+                                {loading && <div className="text-sm text-gray-500">{t('tracker.evolveModal.loading')}</div>}
 
                                 {!loading && availableEvos && availableEvos.length === 0 && (
-                                    <div className="text-sm text-gray-600 dark:text-gray-300">Für dieses Pokémon sind
-                                        keine Entwicklungen verfügbar.</div>
+                                    <div className="text-sm text-gray-600 dark:text-gray-300">{t('tracker.evolveModal.noneAvailable')}</div>
                                 )}
 
                                 {!loading && availableEvos && availableEvos.length > 0 && (
                                     <div className="space-y-3">
                                         {availableEvos.map((ev) => {
                                             const formattedMethods = mergeLocationMethods(ev.methods);
-                                            const methodText = formattedMethods.length ? formattedMethods.join(' · ') : 'Bedingung unbekannt';
+                                            const methodText = formattedMethods.length ? formattedMethods.join(' · ') : t('tracker.evolveModal.methodUnknown');
                                             return (
                                                 <label key={ev.id}
                                                        className="flex items-center gap-3 cursor-pointer dark:text-gray-200">
@@ -340,11 +341,11 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
                     {/* footer buttons (kept visible) */}
                     <div className="mt-4 flex justify-end gap-2">
                         <button type="button" onClick={onClose}
-                                className="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700">Abbrechen
+                                className="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700">{t('tracker.evolveModal.buttonCancel')}
                         </button>
                         <button type="submit" disabled={selectedPlayer === null || selectedEvoId === null}
                                 className={`px-4 py-2 rounded-md font-semibold shadow ${selectedEvoId ? 'bg-green-600 text-white hover:bg-green-700' : 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed'}`}>
-                            Bestätigen
+                            {t('tracker.evolveModal.buttonConfirm')}
                         </button>
                     </div>
                 </form>

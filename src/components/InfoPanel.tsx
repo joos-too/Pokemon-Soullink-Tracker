@@ -3,6 +3,7 @@ import type {LevelCap, RivalCap, Stats, GameVersion, UserSettings} from '@/types
 import {PLAYER_COLORS, LEGENDARY_POKEMON_NAMES} from '@/constants';
 import {FiMinus, FiPlus, FiEdit, FiX, FiSave, FiEye, FiEyeOff, FiRefreshCw} from 'react-icons/fi';
 import {RivalImage, BadgeImage, LegendaryImage} from './GameImages';
+import { useTranslation } from 'react-i18next';
 
 interface InfoPanelProps {
     playerNames: string[];
@@ -65,6 +66,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
     const [showRivalCaps, setShowRivalCaps] = useState<boolean>(() => readStoredCapsView(trackerViewStorageKey));
     const [isMobile, setIsMobile] = useState(false);
     const getPlayerColor = (index: number) => playerColors[index] ?? PLAYER_COLORS[index] ?? '#4b5563';
+    const { t } = useTranslation();
 
     useEffect(() => {
         setShowRivalCaps(readStoredCapsView(trackerViewStorageKey));
@@ -207,16 +209,16 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                     {rivalCensorEnabled && !rc.revealed ? (
                         <>
                             {index === nextRivalToRevealIndex ? (
-                                <button onClick={() => onRivalCapReveal(index)}
-                                        className="w-full flex items-center justify-center gap-2 text-sm p-3 rounded-md bg-gray-100 dark:bg-gray-700/50 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600">
-                                    <FiEye size={16}/> Nächsten Rivalen aufdecken
-                                </button>
-                            ) : (
-                                <div
-                                    className="w-full flex items-center justify-center gap-2 text-sm p-3 rounded-md bg-gray-50 dark:bg-gray-800 text-gray-400 dark:text-gray-500 cursor-not-allowed border border-dashed border-gray-300 dark:border-gray-600">
-                                    <FiEyeOff size={16}/> Zukünftiger Kampf
-                                </div>
-                            )}
+                            <button onClick={() => onRivalCapReveal(index)}
+                                    className="w-full flex items-center justify-center gap-2 text-sm p-3 rounded-md bg-gray-100 dark:bg-gray-700/50 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600">
+                                <FiEye size={16}/> {t('tracker.infoPanel.nextRival')}
+                            </button>
+                        ) : (
+                            <div
+                                className="w-full flex items-center justify-center gap-2 text-sm p-3 rounded-md bg-gray-50 dark:bg-gray-800 text-gray-400 dark:text-gray-500 cursor-not-allowed border border-dashed border-gray-300 dark:border-gray-600">
+                                <FiEyeOff size={16}/> {t('tracker.infoPanel.futureBattle')}
+                            </div>
+                        )}
                         </>
                     ) : (
                         <div
@@ -250,13 +252,14 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                 <div className="space-y-4">
                     <div
                         className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700 overflow-hidden">
-                        <h2 className="text-center p-2 bg-blue-600 text-white font-press-start text-[10px]">Aktueller
-                            Level Cap</h2>
+                        <h2 className="text-center p-2 bg-blue-600 text-white font-press-start text-[10px]">
+                          {t('tracker.infoPanel.currentLevelCap')}
+                        </h2>
                         <div className="p-1 text-l text-gray-800 dark:text-gray-200 text-center space-y-1">
                             <div className="min-h-20 flex flex-col items-center justify-center">
                                 {(() => {
                                     const next = levelCaps.find((c) => !c.done);
-                                    if (!next) return <span className="text-xl font-bold">Challenge geschafft!</span>;
+                                    if (!next) return <span className="text-xl font-bold">{t('tracker.infoPanel.challengeComplete')}</span>;
                                     return (
                                         <div className="flex items-center justify-center px-3 gap-x-4">
                                             <BadgeImage
@@ -267,10 +270,10 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                             />
                                             <div className="flex flex-col items-center">
                                                 <div className="flex flex-wrap justify-center items-baseline gap-x-1">
-                                                    <span>Aktuell:</span>
+                                                    <span>{t('tracker.infoPanel.activeLabel')}</span>
                                                     <strong>{next.arena}</strong>
                                                 </div>
-                                                <div>Level Cap: <strong>{next.level}</strong></div>
+                                                <div>{t('tracker.infoPanel.levelCapLabel')} <strong>{next.level}</strong></div>
                                             </div>
                                         </div>
                                     );
@@ -278,7 +281,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                             </div>
                             {typeof runStartedAt === 'number' && runStartedAt > 0 && (
                                 <div className="text-xs text-gray-600 dark:text-gray-400 mt-">
-                                    Run Gestartet: {new Date(runStartedAt).toLocaleString('de-DE', {
+                                    {t('tracker.infoPanel.runStartedLabel')} {new Date(runStartedAt).toLocaleString('de-DE', {
                                     dateStyle: 'short',
                                     timeStyle: 'short'
                                 })} Uhr
@@ -288,12 +291,12 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                         <div className="p-3">
                             <div
                                 className="flex items-center justify-between text-xs text-gray-600 dark:text-gray-300 mb-2">
-                                <span>Fortschritt</span>
+                                <span>{t('tracker.infoPanel.progressLabel')}</span>
                                 <span
                                     className="font-semibold">{completedMilestones}/{totalMilestones} · {progressPct}%</span>
                             </div>
                             <div className="relative h-4 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden"
-                                 aria-label="Fortschritt" role="progressbar" aria-valuenow={progressPct}
+                                 aria-label={t('tracker.infoPanel.progressLabel')} role="progressbar" aria-valuenow={progressPct}
                                  aria-valuemin={0} aria-valuemax={100}>
                                 <div
                                     className="h-full transition-all duration-700 ease-out bg-gradient-to-r from-green-400 via-emerald-500 to-teal-500 shadow-[inset_0_0_6px_rgba(0,0,0,0.25)]"
@@ -307,13 +310,14 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
 
                     <div
                         className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700 overflow-hidden">
-                        <h2 className="text-center p-2 bg-blue-600 text-white font-press-start text-[10px]">Run
-                            Stats</h2>
+                        <h2 className="text-center p-2 bg-blue-600 text-white font-press-start text-[10px]">
+                          {t('tracker.infoPanel.runStats')}
+                        </h2>
                         <table className="w-full">
                             <tbody>
                             <tr className="border-t border-gray-200 dark:border-gray-700">
-                                <td className="px-2 py-1.5 text-xs font-bold text-gray-800 dark:text-gray-300">Aktueller
-                                    Run
+                                <td className="px-2 py-1.5 text-xs font-bold text-gray-800 dark:text-gray-300">
+                                    {t('tracker.infoPanel.currentRun')}
                                 </td>
                                 <td className="px-2 py-1.5 text-right"><span
                                     className="inline-block min-w-[2ch] text-sm font-bold">Run {stats.runs}</span></td>
@@ -331,8 +335,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                     </div>
                     <div
                         className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700 overflow-hidden">
-                        <h2 className="text-center p-2 bg-blue-600 text-white font-press-start text-[10px]">Top 4
-                            Items</h2>
+                        <h2 className="text-center p-2 bg-blue-600 text-white font-press-start text-[10px]">{t('tracker.infoPanel.itemsHeading')}</h2>
                         <table className="w-full">
                             <tbody>
                             {playerNames.map((name, index) => {
@@ -347,7 +350,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                                 <button type="button"
                                                         onClick={() => onPlayerStatChange('top4Items', index, String(Math.max(0, value - 1)))}
                                                         className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300"
-                                                        aria-label="Items verringern" title="Items verringern"><FiMinus
+                                                        aria-label={t('tracker.infoPanel.itemsDecrease')} title={t('tracker.infoPanel.itemsDecrease')}><FiMinus
                                                     size={16}/>
                                                 </button>
                                                 <input type="number"
@@ -357,7 +360,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                                 <button type="button"
                                                         onClick={() => onPlayerStatChange('top4Items', index, String(value + 1))}
                                                         className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300"
-                                                        aria-label="Items erhöhen" title="Items erhöhen"><FiPlus
+                                                        aria-label={t('tracker.infoPanel.itemsIncrease')} title={t('tracker.infoPanel.itemsIncrease')}><FiPlus
                                                     size={16}/>
                                                 </button>
                                             </div>
@@ -376,7 +379,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                     <div className="relative flex-shrink-0">
                         <h2 className="text-center p-2 text-white font-press-start text-[10px] transition-colors duration-500"
                             style={{backgroundColor: showRivalCaps ? '#693992' : '#cf5930'}}>
-                            {showRivalCaps ? 'Rivalenkämpfe' : 'Arenen'}
+                            {showRivalCaps ? t('tracker.infoPanel.rivalCapsLabel.rivals') : t('tracker.infoPanel.rivalCapsLabel.arenas')}
                         </h2>
                         <button onClick={toggleCapsView}
                                 className="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-full text-white/70 hover:text-white hover:bg-black/20 ring-2 ring-white/25"
@@ -446,11 +449,11 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                         dark:hover:bg-gray-700 dark:active:bg-gray-600 duration-200 cursor-pointer select-none flex flex-col h-full"
                         onClick={onlegendaryIncrement}
                         onContextMenu={(e) => { e.preventDefault(); e.stopPropagation(); onlegendaryDecrement(); }}
-                        title="Linksklick: erhöhen · Rechtsklick: verringern"
+                        title={t('tracker.infoPanel.legendaryHint')}
                     >
                         <h2 className="text-center p-2 text-black font-press-start text-[13.5px]"
                             style={{backgroundColor: '#cfcfc3'}}>
-                            Legendären begegnet
+                            {t('tracker.infoPanel.legendaryTitle')}
                         </h2>
                         <div className="p-4 flex items-center justify-center flex-grow">
                             <div className="flex items-center justify-center gap-3 w-full max-w-sm">
@@ -479,21 +482,21 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                 className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700 overflow-hidden">
                 <div className="relative">
                     <h2 className="text-center p-2 text-white font-press-start text-sm"
-                        style={{backgroundColor: '#34a853'}}>Regeln</h2>
-                    <div className="absolute right-2 top-1.5 flex items-center gap-2">
+                        style={{backgroundColor: '#34a853'}}>{t('tracker.infoPanel.rules')}</h2>
+                        <div className="absolute right-2 top-1.5 flex items-center gap-2">
                         {!isEditingRules ? (
                             <button type="button" onClick={startEditRules}
                                     className="px-2 py-1 rounded-md text-xs font-semibold bg-green-600 text-white hover:bg-green-700 inline-flex items-center gap-1 shadow"
-                                    title="Regeln bearbeiten"><FiEdit size={14}/> Bearbeiten</button>
+                                    title={t('tracker.infoPanel.editRules')}><FiEdit size={14}/> {t('tracker.infoPanel.editRules')}</button>
                         ) : (
                             <div className="flex items-center gap-2">
                                 <button type="button" onClick={cancelEditRules}
                                         className="px-2 py-1 rounded-md text-xs font-semibold bg-red-600 text-white hover:bg-red-700 inline-flex items-center gap-1 shadow"
-                                        title="Abbrechen"><FiX size={14}/> Abbrechen
+                                        title={t('tracker.infoPanel.cancelRules')}><FiX size={14}/> {t('tracker.infoPanel.cancelRules')}
                                 </button>
                                 <button type="button" onClick={saveEditRules}
                                         className="px-2 py-1 rounded-md text-xs font-semibold bg-green-600 text-white hover:bg-green-700 inline-flex items-center gap-1 shadow"
-                                        title="Speichern"><FiSave size={14}/> Speichern
+                                        title={t('tracker.infoPanel.saveRules')}><FiSave size={14}/> {t('tracker.infoPanel.saveRules')}
                                 </button>
                             </div>
                         )}
@@ -511,15 +514,15 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                     className="mt-2 text-xs text-gray-500 dark:text-gray-400 w-4 text-right">{index + 1}.</span>
                                 <input type="text" value={rule}
                                        onChange={(e) => setDraftRules(prev => prev.map((r, i) => i === index ? e.target.value : r))}
-                                       placeholder={`Regel ${index + 1}`}
+                                       placeholder={t('tracker.infoPanel.rulePlaceholder', { index: index + 1 })}
                                        className="flex-1 px-2 py-1.5 border border-gray-300 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"/>
                             </div>
                         ))}
                         <div className="pt-2">
                             <button type="button" onClick={addNewRule}
                                     className="inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-semibold border border-gray-300 dark:border-gray-500 text-gray-800 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700"
-                                    title="Neue Regel hinzufügen"><FiPlus size={14}/> Neue Regel
-                            </button>
+                                    title={t('tracker.infoPanel.newRule')}><FiPlus size={14}/> {t('tracker.infoPanel.newRule')}
+                                </button>
                         </div>
                     </div>
                 )}
