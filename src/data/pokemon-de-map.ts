@@ -654,6 +654,7 @@ export const GERMAN_TO_ID: Record<string, number> = {
   "unratütox": 568,
   "ursaring": 217,
   "vegichita": 512,
+  "vegimak": 511,
   "venuflibis": 455,
   "vesprit": 481,
   "vibrava": 329,
