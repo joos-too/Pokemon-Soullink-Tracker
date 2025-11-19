@@ -219,7 +219,7 @@ export const en = {
         moveToTeam: 'Move to team',
     },
     graveyard: {
-        title: 'Fallen / lost Pokémon',
+        title: 'Dead / lost Pokémon',
         manualAddTitle: 'Manually add pair',
         areaLabel: 'Area: {{route}}',
         memberTitle: '{{name}}’s {{pokemon}}',

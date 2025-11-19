@@ -171,9 +171,6 @@ const HomePage: React.FC<HomePageProps> = ({
                                                         </div>
                                                         <div className="relative group">
                                                             <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">{progressLabel}</p>
-                                                            <div className="absolute left-0 top-full mt-1 hidden group-hover:block z-10 bg-white dark:bg-gray-800 p-2 rounded-md shadow-lg border border-gray-200 dark:border-gray-700 max-w-[200px] text-xs">
-                                                                {progressLabel}
-                                                            </div>
                                                         </div>
                                                     </div>
 
