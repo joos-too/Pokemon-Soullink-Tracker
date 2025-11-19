@@ -7,12 +7,13 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "build:names": "node scripts/generate-pokemon-de.mjs",
+    "generate-pokemon": "node scripts/generate-pokemon-de.mjs",
     "emulators": "firebase emulators:start"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.17",
     "firebase": "^12.2.1",
+    "lightningcss-linux-x64-gnu": "^1.30.2",
     "pokeapi-js-wrapper": "^1.2.8",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",

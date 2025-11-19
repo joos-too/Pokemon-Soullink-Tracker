@@ -36,6 +36,16 @@ import {GAME_VERSIONS} from '@/src/data/game-versions';
 
 const LAST_TRACKER_STORAGE_KEY = 'soullink:lastTrackerId';
 
+const MAX_DATA_GENERATION = 6;
+const resolveGenerationFromVersionId = (versionId?: string | null): number => {
+    if (!versionId) return MAX_DATA_GENERATION;
+    const match = /^gen(\d+)/i.exec(versionId);
+    if (!match) return MAX_DATA_GENERATION;
+    const parsed = Number(match[1]);
+    if (!Number.isFinite(parsed) || parsed <= 0) return MAX_DATA_GENERATION;
+    return parsed;
+};
+
 const computeTrackerSummary = (state?: Partial<AppState> | null): TrackerSummary => {
     const teamCount = Array.isArray(state?.team) ? state.team.length : 0;
     const boxCount = Array.isArray(state?.box) ? state.box.length : 0;
@@ -114,6 +124,7 @@ const App: React.FC = () => {
     const activeTrackerMeta = activeTrackerId ? trackerMetas[activeTrackerId] : undefined;
     const activeGameVersionId = activeTrackerMeta?.gameVersionId;
     const activeGameVersion = activeGameVersionId ? GAME_VERSIONS[activeGameVersionId] : undefined;
+    const pokemonGenerationLimit = useMemo(() => resolveGenerationFromVersionId(activeGameVersionId), [activeGameVersionId]);
 
     const currentUserRivalPreferences = useMemo(() => {
         if (!user || !activeTrackerMeta) return {};
@@ -1086,6 +1097,7 @@ const App: React.FC = () => {
                 onClose={() => setIsModalOpen(false)}
                 onAdd={handleManualAddFromModal}
                 playerNames={resolvedPlayerNames}
+                generationLimit={pokemonGenerationLimit}
             />
             <SelectLossModal
                 isOpen={showLossModal}
@@ -1241,6 +1253,8 @@ const App: React.FC = () => {
                                 team: prev.team.filter(p => p.id !== pair.id),
                                 box: [...prev.box, pair],
                             }))}
+                            pokemonGenerationLimit={pokemonGenerationLimit}
+                            gameVersionId={activeGameVersionId || undefined}
                         />
                         <TeamTable
                             title="Box"
@@ -1264,6 +1278,8 @@ const App: React.FC = () => {
                             onMoveToBox={() => {
                             }}
                             teamIsFull={data.team.length >= 6}
+                            pokemonGenerationLimit={pokemonGenerationLimit}
+                            gameVersionId={activeGameVersionId || undefined}
                         />
                     </div>
 
