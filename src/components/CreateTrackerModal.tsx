@@ -265,7 +265,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
             <button
               type="submit"
               disabled={isSubmitting}
-              className="inline-flex justify-center rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-500 disabled:opacity-60"
+              className="inline-flex justify-center rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-500 disabled:opacity-60"
             >
               {isSubmitting ? t('modals.createTracker.submitting') : t('modals.createTracker.submit')}
             </button>
