@@ -233,9 +233,9 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                             <input id={`levelcap-done-${cap.id}`} type="checkbox"
                                    checked={!!cap.done}
                                    onChange={() => attemptLevelToggle(index)}
-                                   aria-label={t('tracker.infoPanel.completedArena', { target: arenaLabel })}
+                                   aria-label={t('tracker.infoPanel.completedArena', {target: arenaLabel})}
                                    className="h-5 w-5 accent-green-600 cursor-pointer flex-shrink-0"/>
-                            <span className="text-sm text-gray-800 dark:text-gray-300 break-words">{cap.arena}</span>
+                            <span className="text-sm text-gray-800 dark:text-gray-300 break-words">{arenaLabel}</span>
                         </div>
                         <div className="flex items-center justify-end flex-shrink-0 px-3">
                             <BadgeImage
@@ -326,8 +326,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                                     <span>{t('tracker.infoPanel.activeLabel')}</span>
                                                     <strong>{getLocalizedArenaLabel(t, versionId, next.id, next.arena)}</strong>
                                                 </div>
-                                                <div>{t('tracker.infoPanel.levelCapLabel')}
-                                                    <strong>{next.level}</strong></div>
+                                                <div>{t('tracker.infoPanel.levelCapLabel')} <strong>{next.level}</strong></div>
                                             </div>
                                         </div>
                                     );

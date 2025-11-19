@@ -111,6 +111,9 @@ export const en = {
         header: {
             subtitle: 'Pokémon Soullink – Challenge Tracker',
         },
+        progress: {
+            eliteFour: 'Elite 4 | {{count}}/4',
+        },
         actions: {
             resetRun: 'Reset run',
             settings: 'Settings',
