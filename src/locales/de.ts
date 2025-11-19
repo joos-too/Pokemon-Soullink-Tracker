@@ -335,7 +335,8 @@ export const de = {
             invalidEmail: 'Bitte gib eine gültige Email-Adresse ein.',
             submit: 'Registrieren',
             error: 'Registrierung fehlgeschlagen. Bitte versuche es später erneut.',
-            haveAccount: 'Schon einen Account? Hier anmelden',
+            haveAccount: 'Schon einen Account?',
+            toLogin: 'Hier anmelden',
             errors: {
                 emailInUse: 'Diese Email wird bereits verwendet.',
                 invalidEmail: 'Bitte gib eine gültige Email-Adresse ein.',

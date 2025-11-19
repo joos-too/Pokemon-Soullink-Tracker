@@ -335,7 +335,8 @@ export const en = {
             invalidEmail: 'Please provide a valid email address.',
             submit: 'Register',
             error: 'Registration failed. Please try again later.',
-            haveAccount: 'Already have an account? Sign in',
+            haveAccount: 'Already have an account?',
+            toLogin: 'Sign in',
             errors: {
                 emailInUse: 'This email is already in use.',
                 invalidEmail: 'Please provide a valid email address.',

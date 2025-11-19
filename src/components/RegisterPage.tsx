@@ -81,7 +81,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onSwitchToLogin }) => {
                   onClick={onSwitchToLogin}
                   className={`font-semibold text-blue-600 hover:text-blue-700 dark:text-blue-400 hover:underline focus-visible:underline ${focusRingBlueClasses}`}
                 >
-                  {t('auth.login.submit')}
+                  {t('auth.register.toLogin')}
                 </button>
               </span>
             </p>
