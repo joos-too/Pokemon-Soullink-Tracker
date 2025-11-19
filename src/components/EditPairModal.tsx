@@ -18,6 +18,7 @@ interface EditPairModalProps {
     route: string;
     members: Pokemon[];
   };
+  generationLimit?: number;
 }
 
 interface PokemonFieldProps {
@@ -27,9 +28,10 @@ interface PokemonFieldProps {
   onNameChange: (value: string) => void;
   onNicknameChange: (value: string) => void;
   isOpen: boolean;
+  generationLimit?: number;
 }
 
-const PokemonField: React.FC<PokemonFieldProps> = ({ label, value, nickname, onNameChange, onNicknameChange, isOpen }) => {
+const PokemonField: React.FC<PokemonFieldProps> = ({ label, value, nickname, onNameChange, onNicknameChange, isOpen, generationLimit }) => {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -65,7 +67,7 @@ const PokemonField: React.FC<PokemonFieldProps> = ({ label, value, nickname, onN
     setLoading(true);
     setOpen(true);
     const timer = setTimeout(async () => {
-      const res = await searchGermanPokemonNames(term, 10);
+      const res = await searchGermanPokemonNames(term, 10, { maxGeneration: generationLimit });
       if (seq === searchSeq.current) {
         setSuggestions(res);
         setLoading(false);
@@ -74,7 +76,7 @@ const PokemonField: React.FC<PokemonFieldProps> = ({ label, value, nickname, onN
       }
     }, 250);
     return () => clearTimeout(timer);
-  }, [value, focused, isOpen]);
+  }, [value, focused, isOpen, generationLimit]);
 
   const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
     if (e.key === 'Tab') {
@@ -167,6 +169,7 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
   playerLabels,
   initial,
   mode = 'edit',
+  generationLimit,
 }) => {
   const { t } = useTranslation();
   const [route, setRoute] = useState(initial.route || '');
@@ -254,6 +257,7 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
                       return next;
                     })}
                     isOpen={isOpen}
+                    generationLimit={generationLimit}
                   />
                 </div>
               );

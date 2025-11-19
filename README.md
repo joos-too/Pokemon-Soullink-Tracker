@@ -82,15 +82,13 @@ The Realtime Database rules live in `database.rules.json`. To upload the current
 
 The same `database.rules.json` file is loaded automatically when you run the local emulators via `npm run emulators`.
 
-## Autocomplete for German Pokémon names 
+## Pokémon data cache (names + evolutions)
 
-- The app ships with a preloaded list file at `src/data/pokemon-de.ts` used for zero‑latency suggestions in search fields.
-- To (re)generate this list from PokeAPI, run:
+- The app ships with generated datasets under `src/data/` (`pokemon-de.ts`, `pokemon-de-map.ts`, `pokemon-evolutions.ts`) that power German autocomplete and evolution filtering (generation + version-aware).
+- To refresh these datasets from PokeAPI, run:
 
 ```
-npm run build:names
+npm run generate-pokemon
 ```
 
-This fetches all Pokémon species, extracts the german names and writes them back into `src/data/pokemon-de.ts`.
-
-- At runtime, the app also refreshes this list in the background from time to time and caches it in `localStorage` without blocking the UI.
+The script fetches all supported Pokémon species and evolution chains (up to Gen 6), translates the names, stores IDs/generation metadata, and persists the evolutions so the app can apply generation/version filters offline.

@@ -50,7 +50,7 @@ Aktueller Überblick für Coding-Agents, die am Pokémon Soullink Tracker arbeit
 
 ## Datenpflege & Skripte
 - Änderungen in `src/data/` möglichst über vorhandene Skripte erzeugen; im PR vermerken, dass Daten regeneriert wurden.
-- `metadata.json` beschreibt App für externe Integrationen – bei Produktänderungen aktualisieren.
+- `metadata.json` beschreibt App für externe Integrationen - bei Produktänderungen aktualisieren.
 
 ## Sicherheit & Konfiguration
 - `.env.example` → `.env` für lokale Dev-Umgebung (keine Secrets committed). Production-Werte in `.env.production` pflegen.

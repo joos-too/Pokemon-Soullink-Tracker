@@ -12,6 +12,8 @@ import SelectLossModal from '@/src/components/SelectLossModal';
 import LoginPage from '@/src/components/LoginPage';
 import RegisterPage from '@/src/components/RegisterPage';
 import SettingsPage from '@/src/components/SettingsPage';
+import UserSettingsPage from '@/src/components/UserSettingsPage';
+import PasswordResetPage from '@/src/components/PasswordResetPage';
 import ResetModal from '@/src/components/ResetModal';
 import DarkModeToggle, {getDarkMode, setDarkMode} from '@/src/components/DarkModeToggle';
 import HomePage from '@/src/components/HomePage';
@@ -21,7 +23,6 @@ import {Routes, Route, Navigate, useNavigate, useLocation, useMatch, useSearchPa
 import {db, auth} from '@/src/firebaseConfig';
 import {ref, onValue, set, get, update} from "firebase/database";
 import {onAuthStateChanged, User, signOut} from "firebase/auth";
-import {initPokemonGermanNamesBackgroundRefresh} from '@/src/services/pokemonSearch';
 import {
     addMemberByEmail,
     createTracker,
@@ -35,6 +36,16 @@ import {GAME_VERSIONS} from '@/src/data/game-versions';
 import { useTranslation } from 'react-i18next';
 
 const LAST_TRACKER_STORAGE_KEY = 'soullink:lastTrackerId';
+
+const MAX_DATA_GENERATION = 6;
+const resolveGenerationFromVersionId = (versionId?: string | null): number => {
+    if (!versionId) return MAX_DATA_GENERATION;
+    const match = /^gen(\d+)/i.exec(versionId);
+    if (!match) return MAX_DATA_GENERATION;
+    const parsed = Number(match[1]);
+    if (!Number.isFinite(parsed) || parsed <= 0) return MAX_DATA_GENERATION;
+    return parsed;
+};
 
 const computeTrackerSummary = (state?: Partial<AppState> | null): TrackerSummary => {
     const teamCount = Array.isArray(state?.team) ? state.team.length : 0;
@@ -67,6 +78,8 @@ const App: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [searchParams, setSearchParams] = useSearchParams();
+    const isPasswordResetRoute = location.pathname === '/reset';
+    const passwordResetOobCode = isPasswordResetRoute ? searchParams.get('oobCode') : null;
     const trackerRouteMatch = useMatch('/tracker/:trackerId');
     const routeTrackerId = trackerRouteMatch?.params?.trackerId ?? null;
     const [data, setData] = useState<AppState>(createInitialState());
@@ -113,6 +126,7 @@ const App: React.FC = () => {
     const activeTrackerMeta = activeTrackerId ? trackerMetas[activeTrackerId] : undefined;
     const activeGameVersionId = activeTrackerMeta?.gameVersionId;
     const activeGameVersion = activeGameVersionId ? GAME_VERSIONS[activeGameVersionId] : undefined;
+    const pokemonGenerationLimit = useMemo(() => resolveGenerationFromVersionId(activeGameVersionId), [activeGameVersionId]);
 
     const currentUserRivalPreferences = useMemo(() => {
         if (!user || !activeTrackerMeta) return {};
@@ -398,11 +412,6 @@ const App: React.FC = () => {
         }
     }, [activeTrackerId, user]);
 
-    // Preload/refresh German Pokémon names in the background (non-blocking)
-    useEffect(() => {
-        initPokemonGermanNamesBackgroundRefresh();
-    }, []);
-
     // Keep local isDark in sync with document class/localStorage
     useEffect(() => {
         const target = document.documentElement;
@@ -573,6 +582,11 @@ const App: React.FC = () => {
         navigate('/');
         signOut(auth);
     };
+
+    const handleOpenUserSettings = useCallback(() => {
+        setMobileMenuOpen(false);
+        navigate('/account');
+    }, [navigate]);
 
     const handleNavigateHome = () => {
         setMobileMenuOpen(false);
@@ -998,6 +1012,10 @@ const App: React.FC = () => {
     const nameTitleFallback = resolvedPlayerNames.map((n) => n?.trim()).filter(Boolean).join(' • ');
     const trackerTitleDisplay = activeTrackerMeta?.title?.trim() || nameTitleFallback || t('common.appName');
 
+    if (isPasswordResetRoute) {
+        return <PasswordResetPage oobCode={passwordResetOobCode}/>;
+    }
+
     // Show loading while auth is initializing, or while the target tracker is still resolving/loading
     if (loading || (user && (!dataLoaded || routeTrackerPendingSelection))) {
         return (
@@ -1080,6 +1098,7 @@ const App: React.FC = () => {
                 onClose={() => setIsModalOpen(false)}
                 onAdd={handleManualAddFromModal}
                 playerNames={resolvedPlayerNames}
+                generationLimit={pokemonGenerationLimit}
             />
             <SelectLossModal
                 isOpen={showLossModal}
@@ -1234,6 +1253,8 @@ const App: React.FC = () => {
                                 team: prev.team.filter(p => p.id !== pair.id),
                                 box: [...prev.box, pair],
                             }))}
+                            pokemonGenerationLimit={pokemonGenerationLimit}
+                            gameVersionId={activeGameVersionId || undefined}
                         />
                         <TeamTable
                             title={t('team.boxTitle')}
@@ -1257,6 +1278,8 @@ const App: React.FC = () => {
                             onMoveToBox={() => {
                             }}
                             teamIsFull={data.team.length >= 6}
+                            pokemonGenerationLimit={pokemonGenerationLimit}
+                            gameVersionId={activeGameVersionId || undefined}
                         />
                     </div>
 
@@ -1282,6 +1305,7 @@ const App: React.FC = () => {
                             runStartedAt={data.runStartedAt ?? activeTrackerMeta?.createdAt}
                             gameVersion={activeGameVersion}
                             rivalPreferences={currentUserRivalPreferences}
+                            activeTrackerId={activeTrackerId}
                         />
                         <Graveyard
                             graveyard={data.graveyard}
@@ -1335,8 +1359,8 @@ const App: React.FC = () => {
                         <HomePage
                             trackers={trackerList}
                             onOpenTracker={handleOpenTracker}
-                            onLogout={handleLogout}
                             onCreateTracker={openCreateTrackerModal}
+                            onOpenUserSettings={handleOpenUserSettings}
                             isLoading={trackerListLoading}
                             activeTrackerId={activeTrackerId}
                             userEmail={user?.email ?? undefined}
@@ -1353,6 +1377,10 @@ const App: React.FC = () => {
                             ? <Navigate to={`/tracker/${activeTrackerId}`} replace/>
                             : <Navigate to="/" replace/>
                     }
+                />
+                <Route
+                    path="/account"
+                    element={<UserSettingsPage email={user.email} onBack={handleNavigateHome} onLogout={handleLogout}/>}
                 />
                 <Route path="*" element={<Navigate to="/" replace/>}/>
             </Routes>

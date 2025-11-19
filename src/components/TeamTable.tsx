@@ -21,6 +21,8 @@ interface TeamTableProps {
     onMoveToTeam: (pair: PokemonLink) => void;
     onMoveToBox: (pair: PokemonLink) => void;
     teamIsFull?: boolean;
+    pokemonGenerationLimit?: number;
+    gameVersionId?: string;
 }
 
 const TeamTable: React.FC<TeamTableProps> = ({
@@ -39,6 +41,8 @@ const TeamTable: React.FC<TeamTableProps> = ({
                                                  onMoveToTeam,
                                                  onMoveToBox,
                                                  teamIsFull = false,
+                                                 pokemonGenerationLimit,
+                                                 gameVersionId,
                                              }) => {
     const [editIndex, setEditIndex] = useState<number | null>(null);
     const [addOpen, setAddOpen] = useState(false);
@@ -183,7 +187,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                                             <FiArrowUp size={18}/>
                                         </button>
                                     )}
-                                    {context === 'team' && pair.members.some(member => member?.name) && (
+                                    {pair.members.some(member => member?.name) && (
                                         <button
                                             type="button"
                                             onClick={() => setEvolveIndex(originalIndex)}
@@ -218,6 +222,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                 playerLabels={playerNames}
                 mode="edit"
                 initial={editInitial || {route: '', members: playerNames.map(() => ({name: '', nickname: ''}))}}
+                generationLimit={pokemonGenerationLimit}
             />
             <SelectEvolveModal
                 isOpen={evolveIndex !== null}
@@ -229,6 +234,8 @@ const TeamTable: React.FC<TeamTableProps> = ({
                 }}
                 pair={evolveIndex !== null ? data[evolveIndex] : null}
                 playerLabels={playerNames}
+                maxGeneration={pokemonGenerationLimit}
+                gameVersionId={gameVersionId}
             />
             <EditPairModal
                 isOpen={addOpen}
@@ -240,6 +247,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                 playerLabels={playerNames}
                 mode="create"
                 initial={{route: '', members: playerNames.map(() => ({name: '', nickname: ''}))}}
+                generationLimit={pokemonGenerationLimit}
             />
         </div>
     );
