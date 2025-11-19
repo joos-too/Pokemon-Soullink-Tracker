@@ -180,7 +180,7 @@ export const de = {
         evolveModal: {
             title: 'Entwickeln',
             prompt: 'Welches Pokémon soll entwickelt werden?',
-            evolveQuestion: '{name} entwickeln?',
+            evolveQuestion: '{{name}} entwickeln?',
             loading: 'Lade Entwicklungen…',
             noneAvailable: 'Für dieses Pokémon sind keine Entwicklungen verfügbar.',
             methodUnknown: 'Bedingung unbekannt',
