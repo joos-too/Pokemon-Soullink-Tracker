@@ -3,6 +3,7 @@ import type {LevelCap, RivalCap, Stats, GameVersion, UserSettings} from '@/types
 import {PLAYER_COLORS, LEGENDARY_POKEMON_NAMES} from '@/constants';
 import {FiMinus, FiPlus, FiEdit, FiX, FiSave, FiEye, FiEyeOff, FiRefreshCw} from 'react-icons/fi';
 import {RivalImage, BadgeImage, LegendaryImage} from './GameImages';
+import { formatBestLabel, canToggleLevelAtIndex, canToggleRivalAtIndex } from '@/src/utils/bestRun';
 
 interface InfoPanelProps {
     playerNames: string[];
@@ -106,10 +107,12 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
         return () => mediaQuery.removeListener(handleChange);
     }, []);
 
-    const doneArenas = levelCaps.filter(c => c.done).length;
-    const doneRivals = rivalCaps.filter(r => r.done).length;
+    // Live computed progress
+    const liveDoneArenas = levelCaps.filter(c => c.done).length;
+    const liveDoneRivals = rivalCaps.filter(r => r.done).length;
+
     const totalMilestones = (levelCaps.length || 0) + (rivalCaps.length || 0);
-    const completedMilestones = Math.min(doneArenas + doneRivals, totalMilestones);
+    const completedMilestones = Math.min(liveDoneArenas + liveDoneRivals, totalMilestones);
     const progressPct = totalMilestones > 0 ? Math.round((completedMilestones / totalMilestones) * 100) : 0;
 
     const deathStats = playerNames.map((name, index) => {
@@ -173,6 +176,18 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
         );
     };
 
+    const attemptLevelToggle = (index: number) => {
+        if (canToggleLevelAtIndex(levelCaps, index)) {
+            onLevelCapToggle(index);
+        }
+    };
+
+    const attemptRivalToggle = (index: number) => {
+        if (canToggleRivalAtIndex(rivalCaps, index)) {
+            onRivalCapToggleDone(index);
+        }
+    };
+
     const renderLevelCapList = (wrapperClasses: string) => (
         <div className={wrapperClasses}>
             {levelCaps.map((cap, index) => (
@@ -181,7 +196,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                     <div className="flex items-center gap-3 flex-grow min-w-0">
                         <input id={`levelcap-done-${cap.id}`} type="checkbox"
                                checked={!!cap.done}
-                               onChange={() => onLevelCapToggle(index)}
+                               onChange={() => attemptLevelToggle(index)}
                                aria-label={`Erledigt: ${cap.arena}`}
                                className="h-5 w-5 accent-green-600 cursor-pointer flex-shrink-0"/>
                         <span className="text-sm text-gray-800 dark:text-gray-300 break-words">{cap.arena}</span>
@@ -224,7 +239,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                             <div className="flex items-center gap-3 flex-grow min-w-0">
                                 <input id={`rivalcap-done-${rc.id}`} type="checkbox"
                                        checked={!!rc.done}
-                                       onChange={() => onRivalCapToggleDone(index)}
+                                       onChange={() => attemptRivalToggle(index)}
                                        aria-label={`Erledigt: ${typeof rc.rival === 'object' ? rc.rival.name : rc.rival}`}
                                        className="h-5 w-5 accent-green-600 cursor-pointer flex-shrink-0"/>
                                 <span
@@ -322,8 +337,10 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                 <td className="px-2 py-1.5 text-xs font-bold text-gray-800 dark:text-gray-300">Bester
                                     Run
                                 </td>
-                                <td className="px-2 py-1.5 text-right"><span
-                                    className="inline-block min-w-[2ch] text-sm font-bold">Arena {stats.best}</span>
+                                <td className="px-2 py-1.5 text-right">
+                                    <span className="inline-block min-w-[2ch] text-sm font-bold">
+                                        {formatBestLabel(liveDoneArenas > (stats.best ?? 0) ? liveDoneArenas : stats.best, levelCaps, gameVersion)}
+                                    </span>
                                 </td>
                             </tr>
                             </tbody>
