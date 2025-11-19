@@ -184,7 +184,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                                             }}
                                             disabled={teamIsFull}
                                             className={`p-1 rounded-full inline-flex items-center justify-center ${teamIsFull ? 'text-gray-400 dark:text-gray-500 cursor-not-allowed' : 'hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300'}`}
-                                            title={teamIsFull ? 'Team voll' : 'Ins Team verschieben'}
+                                            title={teamIsFull ? t('team.teamFull') : t('team.moveToTeam')}
                                         >
                                             <FiArrowUp size={18}/>
                                         </button>

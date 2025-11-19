@@ -4,6 +4,7 @@ import {PLAYER_COLORS, LEGENDARY_POKEMON_NAMES} from '@/constants';
 import {FiMinus, FiPlus, FiEdit, FiX, FiSave, FiEye, FiEyeOff, FiRefreshCw} from 'react-icons/fi';
 import {RivalImage, BadgeImage, LegendaryImage} from './GameImages';
 import { useTranslation } from 'react-i18next';
+import { getLocalizedArenaLabel, getLocalizedRivalLocation, resolveRivalDisplayName } from '@/src/services/gameLocalization';
 
 interface InfoPanelProps {
     playerNames: string[];
@@ -175,30 +176,35 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
         );
     };
 
+    const versionId = gameVersion?.id;
+
     const renderLevelCapList = (wrapperClasses: string) => (
         <div className={wrapperClasses}>
-            {levelCaps.map((cap, index) => (
-                <div key={cap.id}
-                     className={`flex items-center justify-between pl-2 py-1.5 border rounded-md ${cap.done ? 'bg-green-100 dark:bg-green-900/50 border-green-200 dark:border-green-800' : 'bg-gray-50 dark:bg-gray-700/50 border-gray-200 dark:border-gray-600'}`}>
-                    <div className="flex items-center gap-3 flex-grow min-w-0">
-                        <input id={`levelcap-done-${cap.id}`} type="checkbox"
-                               checked={!!cap.done}
-                               onChange={() => onLevelCapToggle(index)}
-                               aria-label={`Erledigt: ${cap.arena}`}
-                               className="h-5 w-5 accent-green-600 cursor-pointer flex-shrink-0"/>
-                        <span className="text-sm text-gray-800 dark:text-gray-300 break-words">{cap.arena}</span>
+            {levelCaps.map((cap, index) => {
+                const arenaLabel = getLocalizedArenaLabel(t, versionId, cap.id, cap.arena);
+                return (
+                    <div key={cap.id}
+                         className={`flex items-center justify-between pl-2 py-1.5 border rounded-md ${cap.done ? 'bg-green-100 dark:bg-green-900/50 border-green-200 dark:border-green-800' : 'bg-gray-50 dark:bg-gray-700/50 border-gray-200 dark:border-gray-600'}`}>
+                        <div className="flex items-center gap-3 flex-grow min-w-0">
+                            <input id={`levelcap-done-${cap.id}`} type="checkbox"
+                                   checked={!!cap.done}
+                                   onChange={() => onLevelCapToggle(index)}
+                                   aria-label={t('tracker.infoPanel.completedArena', { target: arenaLabel })}
+                                   className="h-5 w-5 accent-green-600 cursor-pointer flex-shrink-0"/>
+                            <span className="text-sm text-gray-800 dark:text-gray-300 break-words">{arenaLabel}</span>
+                        </div>
+                        <div className="flex items-center justify-end flex-shrink-0 px-3">
+                            <BadgeImage
+                                arenaLabel={cap.arena}
+                                posIndex={index}
+                                badgeSet={gameVersion?.badgeSet}
+                            />
+                            <span
+                                className="font-bold text-lg text-gray-800 dark:text-gray-200 text-center">{renderLevelCaps(cap.level)}</span>
+                        </div>
                     </div>
-                    <div className="flex items-center justify-end flex-shrink-0 px-3">
-                        <BadgeImage
-                            arenaLabel={cap.arena}
-                            posIndex={index}
-                            badgeSet={gameVersion?.badgeSet}
-                        />
-                        <span
-                            className="font-bold text-lg text-gray-800 dark:text-gray-200 text-center">{renderLevelCaps(cap.level)}</span>
-                    </div>
-                </div>
-            ))}
+                );
+            })}
         </div>
     );
 
@@ -227,14 +233,14 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                 <input id={`rivalcap-done-${rc.id}`} type="checkbox"
                                        checked={!!rc.done}
                                        onChange={() => onRivalCapToggleDone(index)}
-                                       aria-label={`Erledigt: ${typeof rc.rival === 'object' ? rc.rival.name : rc.rival}`}
+                                       aria-label={t('tracker.infoPanel.completedArena', { target: resolveRivalDisplayName(t, versionId, rc.id, rc.rival) })}
                                        className="h-5 w-5 accent-green-600 cursor-pointer flex-shrink-0"/>
                                 <span
                                     onClick={(e) => e.stopPropagation()}
-                                    className="text-sm text-gray-800 dark:text-gray-300 break-words">{rc.location}</span>
+                                    className="text-sm text-gray-800 dark:text-gray-300 break-words">{getLocalizedRivalLocation(t, versionId, rc.id, rc.location)}</span>
                             </div>
                             <div className="flex items-center justify-end flex-shrink-0 px-3">
-                                <RivalImage rival={rc.rival} preferences={rivalPreferences}/>
+                                <RivalImage rival={rc.rival} preferences={rivalPreferences} displayName={resolveRivalDisplayName(t, versionId, rc.id, rc.rival)}/>
                                 <span
                                     className="font-bold text-lg text-gray-800 dark:text-gray-200 text-center">{renderLevelCaps(rc.level)}</span>
                             </div>
@@ -323,11 +329,11 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                     className="inline-block min-w-[2ch] text-sm font-bold">Run {stats.runs}</span></td>
                             </tr>
                             <tr className="border-t border-gray-200 dark:border-gray-700">
-                                <td className="px-2 py-1.5 text-xs font-bold text-gray-800 dark:text-gray-300">Bester
-                                    Run
+                                <td className="px-2 py-1.5 text-xs font-bold text-gray-800 dark:text-gray-300">
+                                    {t('tracker.infoPanel.bestRunLabel')}
                                 </td>
                                 <td className="px-2 py-1.5 text-right"><span
-                                    className="inline-block min-w-[2ch] text-sm font-bold">{t('common.gym')} {stats.best}</span>
+                                    className="inline-block min-w-[2ch] text-sm font-bold">{t('tracker.infoPanel.levelCapLabel')} {stats.best}</span>
                                 </td>
                             </tr>
                             </tbody>
@@ -436,7 +442,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                         ))}
                         {deathStats.map((entry, index) => (
                             <div key={`death-total-${index}`} className={`px-2 pb-2 text-center ${entry.borderClass}`}>
-                                <div className="text-xs text-gray-600 dark:text-gray-400">Gesamt: {entry.total}</div>
+                                <div className="text-xs text-gray-600 dark:text-gray-400">{t('tracker.infoPanel.totalLabel')} {entry.total}</div>
                             </div>
                         ))}
                     </div>
