@@ -5,6 +5,7 @@ import { PLAYER_COLORS } from '@/constants';
 import { focusRingClasses, focusRingInsetClasses, focusRingInputClasses } from '@/src/styles/focusRing';
 import GameVersionPicker from './GameVersionPicker';
 import { useTranslation } from 'react-i18next';
+import {getLocalizedGameName} from "@/src/services/gameLocalization.ts";
 
 interface CreateTrackerModalProps {
   isOpen: boolean;
@@ -116,7 +117,8 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
                 title={t('modals.createTracker.versionButton')}
               >
                 <span>{t('modals.createTracker.versionButton')}</span>
-                <span className="text-xs text-gray-600 dark:text-gray-300">{GAME_VERSIONS[gameVersionId]?.name ?? gameVersionId}</span>
+                <span className="text-xs text-gray-600 dark:text-gray-300">
+                    {getLocalizedGameName(t, gameVersionId, GAME_VERSIONS[gameVersionId]?.name ?? gameVersionId)}</span>
               </button>
 
               <div

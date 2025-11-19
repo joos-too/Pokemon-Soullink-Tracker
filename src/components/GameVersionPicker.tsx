@@ -2,7 +2,7 @@ import React, {useMemo} from 'react';
 import {GAME_VERSIONS} from '@/src/data/game-versions';
 import { focusRingClasses } from '@/src/styles/focusRing';
 import { useTranslation } from 'react-i18next';
-import { getLocalizedGameName } from '@/src/services/gameLocalization';
+import { getLocalizedGameName, getLocalizedSelectionLabel } from '@/src/services/gameLocalization';
 
 export type TileDef = { key: string; label: string; versionId: string };
 
@@ -93,6 +93,7 @@ const GameVersionPicker: React.FC<GameVersionPickerProps> = ({value, onSelect, i
                                             const bgColor = sc?.bgColor || '#ffffff';
                                             const textColor = sc?.textColor || '#111827';
                                             const borderColor = sc?.borderColor || '#d1d5db';
+                                            const localizedLabel = getLocalizedSelectionLabel(t, rowVersionId, tile.label);
 
                                             const isOnlyOne = row.length === 1;
                                             const isFirst = tileIdx === 0;
@@ -118,7 +119,7 @@ const GameVersionPicker: React.FC<GameVersionPickerProps> = ({value, onSelect, i
                                                         borderColor: borderColor
                                                     }}
                                                 >
-                                                    {tile.label}
+                                                    {localizedLabel}
                                                 </div>
                                             );
                                         })}
