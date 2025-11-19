@@ -35,6 +35,7 @@ import {
 import {GAME_VERSIONS} from '@/src/data/game-versions';
 import { useTranslation } from 'react-i18next';
 import {t} from "i18next";
+import {formatBestLabel} from "@/src/utils/bestRun";
 
 const LAST_TRACKER_STORAGE_KEY = 'soullink:lastTrackerId';
 
@@ -54,13 +55,9 @@ const computeTrackerSummary = (state?: Partial<AppState> | null): TrackerSummary
     const graveyardCount = Array.isArray(state?.graveyard) ? state.graveyard.length : 0;
     const runs = Number(state?.stats?.runs ?? 0) || 0;
     const levelCaps = Array.isArray(state?.levelCaps) ? (state.levelCaps as LevelCap[]) : [];
-    const championCap = levelCaps.find((cap) => cap?.arena?.toLowerCase().includes('champ')) ?? levelCaps[levelCaps.length - 1];
-    const championDone = Boolean(championCap?.done);
-    let bestLabel = t('home.progressFallback');
-    const doneCaps = levelCaps.filter((cap) => cap?.done);
-    if (doneCaps.length > 0) {
-        bestLabel = doneCaps[doneCaps.length - 1]?.arena || bestLabel;
-    }
+    const doneCapsCount = levelCaps.filter((cap) => cap?.done).length;
+    const progressLabel = formatBestLabel(doneCapsCount, levelCaps);
+
     const deathCount = Array.isArray(state?.stats?.deaths)
         ? state!.stats!.deaths.reduce((sum, value) => sum + Number(value || 0), 0)
         : 0;
@@ -70,8 +67,8 @@ const computeTrackerSummary = (state?: Partial<AppState> | null): TrackerSummary
         graveyardCount,
         deathCount,
         runs,
-        championDone,
-        progressLabel: championDone ? 'Challenge geschafft!' : bestLabel,
+        championDone: doneCapsCount > 12,
+        progressLabel,
     };
 };
 
@@ -552,6 +549,11 @@ const App: React.FC = () => {
                 { length: playerCount },
                 (_, index) => (prev.stats.sumDeaths?.[index] ?? 0) + (prev.stats.deaths?.[index] ?? 0)
             );
+            const prevCurrentBest = Array.isArray(prev.levelCaps)
+                ? prev.levelCaps.filter((c) => c && (c as any).done).length
+                : 0;
+            const newBest = Math.max(prev.stats.best ?? 0, prevCurrentBest);
+
             return {
                 ...base,
                 rules: prev.rules, // keep rule changes
@@ -561,7 +563,7 @@ const App: React.FC = () => {
                 hardcoreModeEnabled: prev.hardcoreModeEnabled,
                 stats: {
                     runs: prev.stats.runs + 1, // increase run number by 1
-                    best: prev.stats.best, // keep persisted best
+                    best: newBest, // persistiertes best
                     top4Items: makeZeroArray(),
                     deaths: makeZeroArray(),
                     sumDeaths: summedDeaths,
@@ -959,27 +961,6 @@ const App: React.FC = () => {
         return Array.from(new Set(routes)).sort((a, b) => a.localeCompare(b));
     }, [data]);
 
-    // Compute current best from completed arenas
-    const currentBest = useMemo(() => {
-        // Count only the first 8 arenas (exclude Top 4 and Champion)
-        return Array.isArray(data.levelCaps)
-            ? data.levelCaps.slice(0, 8).filter((c) => c && (c as any).done).length
-            : 0;
-    }, [data.levelCaps]);
-
-    // Persist best if current progress exceeds stored best
-    useEffect(() => {
-        if (currentBest > (data.stats?.best ?? 0)) {
-            setData(prev => ({
-                ...prev,
-                stats: {
-                    ...prev.stats,
-                    best: currentBest,
-                }
-            }));
-        }
-    }, [currentBest]);
-
     const trackerList = useMemo(
         () => userTrackerIds
             .map((id) => trackerMetas[id])
@@ -1288,7 +1269,7 @@ const App: React.FC = () => {
                         <InfoPanel
                             levelCaps={data.levelCaps}
                             rivalCaps={data.rivalCaps}
-                            stats={{...data.stats, best: Math.max(data.stats.best, currentBest)}}
+                            stats={data.stats}
                             playerNames={resolvedPlayerNames}
                             playerColors={playerColors}
                             onLevelCapToggle={handleLevelCapToggle}
