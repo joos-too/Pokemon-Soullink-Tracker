@@ -4,7 +4,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 2,
       "methods": [
-        "Level-Up – Level 16"
+        "Level-Up - Level 16"
       ]
     }
   ],
@@ -12,7 +12,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 3,
       "methods": [
-        "Level-Up – Level 32"
+        "Level-Up - Level 32"
       ]
     }
   ],
@@ -20,7 +20,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 5,
       "methods": [
-        "Level-Up – Level 16"
+        "Level-Up - Level 16"
       ]
     }
   ],
@@ -28,7 +28,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 6,
       "methods": [
-        "Level-Up – Level 36"
+        "Level-Up - Level 36"
       ]
     }
   ],
@@ -36,7 +36,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 8,
       "methods": [
-        "Level-Up – Level 16"
+        "Level-Up - Level 16"
       ]
     }
   ],
@@ -44,7 +44,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 9,
       "methods": [
-        "Level-Up – Level 36"
+        "Level-Up - Level 36"
       ]
     }
   ],
@@ -52,7 +52,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 11,
       "methods": [
-        "Level-Up – Level 7"
+        "Level-Up - Level 7"
       ]
     }
   ],
@@ -60,7 +60,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 12,
       "methods": [
-        "Level-Up – Level 10"
+        "Level-Up - Level 10"
       ]
     }
   ],
@@ -68,7 +68,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 14,
       "methods": [
-        "Level-Up – Level 7"
+        "Level-Up - Level 7"
       ]
     }
   ],
@@ -76,7 +76,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 15,
       "methods": [
-        "Level-Up – Level 10"
+        "Level-Up - Level 10"
       ]
     }
   ],
@@ -84,7 +84,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 17,
       "methods": [
-        "Level-Up – Level 18"
+        "Level-Up - Level 18"
       ]
     }
   ],
@@ -92,7 +92,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 18,
       "methods": [
-        "Level-Up – Level 36"
+        "Level-Up - Level 36"
       ]
     }
   ],
@@ -100,8 +100,8 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 20,
       "methods": [
-        "Level-Up – Level 20",
-        "Level-Up – Level 20, Tageszeit: Nacht"
+        "Level-Up - Level 20",
+        "Level-Up - Level 20, Tageszeit: Nacht"
       ]
     }
   ],
@@ -109,7 +109,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 22,
       "methods": [
-        "Level-Up – Level 20"
+        "Level-Up - Level 20"
       ]
     }
   ],
@@ -117,7 +117,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 24,
       "methods": [
-        "Level-Up – Level 22"
+        "Level-Up - Level 22"
       ]
     }
   ],
@@ -134,7 +134,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
       "id": 28,
       "methods": [
         "Item: Eisstein",
-        "Level-Up – Level 22"
+        "Level-Up - Level 22"
       ]
     }
   ],
@@ -142,7 +142,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 30,
       "methods": [
-        "Level-Up – Level 16"
+        "Level-Up - Level 16"
       ]
     }
   ],
@@ -158,7 +158,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 33,
       "methods": [
-        "Level-Up – Level 16"
+        "Level-Up - Level 16"
       ]
     }
   ],
@@ -199,7 +199,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 42,
       "methods": [
-        "Level-Up – Level 22"
+        "Level-Up - Level 22"
       ]
     }
   ],
@@ -207,7 +207,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 169,
       "methods": [
-        "Level-Up – Freundschaft ≥ 160"
+        "Level-Up - Freundschaft ≥ 160"
       ]
     }
   ],
@@ -215,7 +215,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 44,
       "methods": [
-        "Level-Up – Level 21"
+        "Level-Up - Level 21"
       ]
     }
   ],
@@ -237,7 +237,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 47,
       "methods": [
-        "Level-Up – Level 24"
+        "Level-Up - Level 24"
       ]
     }
   ],
@@ -245,7 +245,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 49,
       "methods": [
-        "Level-Up – Level 31"
+        "Level-Up - Level 31"
       ]
     }
   ],
@@ -253,7 +253,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 51,
       "methods": [
-        "Level-Up – Level 26"
+        "Level-Up - Level 26"
       ]
     }
   ],
@@ -261,8 +261,8 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 53,
       "methods": [
-        "Level-Up – Freundschaft ≥ 160",
-        "Level-Up – Level 28"
+        "Level-Up - Freundschaft ≥ 160",
+        "Level-Up - Level 28"
       ]
     }
   ],
@@ -270,7 +270,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 55,
       "methods": [
-        "Level-Up – Level 33"
+        "Level-Up - Level 33"
       ]
     }
   ],
@@ -278,7 +278,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 57,
       "methods": [
-        "Level-Up – Level 28"
+        "Level-Up - Level 28"
       ]
     }
   ],
@@ -295,7 +295,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 61,
       "methods": [
-        "Level-Up – Level 25"
+        "Level-Up - Level 25"
       ]
     }
   ],
@@ -309,7 +309,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 186,
       "methods": [
-        "Tausch – Trägt King-Stein"
+        "Tausch - Trägt King-Stein"
       ]
     }
   ],
@@ -317,7 +317,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 64,
       "methods": [
-        "Level-Up – Level 16"
+        "Level-Up - Level 16"
       ]
     }
   ],
@@ -333,7 +333,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 67,
       "methods": [
-        "Level-Up – Level 28"
+        "Level-Up - Level 28"
       ]
     }
   ],
@@ -349,7 +349,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 70,
       "methods": [
-        "Level-Up – Level 21"
+        "Level-Up - Level 21"
       ]
     }
   ],
@@ -365,7 +365,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 73,
       "methods": [
-        "Level-Up – Level 30"
+        "Level-Up - Level 30"
       ]
     }
   ],
@@ -373,7 +373,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 75,
       "methods": [
-        "Level-Up – Level 25"
+        "Level-Up - Level 25"
       ]
     }
   ],
@@ -389,7 +389,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 78,
       "methods": [
-        "Level-Up – Level 40"
+        "Level-Up - Level 40"
       ]
     }
   ],
@@ -398,14 +398,14 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
       "id": 80,
       "methods": [
         "Item: Galarnuss-Reif",
-        "Level-Up – Level 37"
+        "Level-Up - Level 37"
       ]
     },
     {
       "id": 199,
       "methods": [
         "Item: Galarnuss-Kranz",
-        "Tausch – Trägt King-Stein"
+        "Tausch - Trägt King-Stein"
       ]
     }
   ],
@@ -413,7 +413,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 82,
       "methods": [
-        "Level-Up – Level 30"
+        "Level-Up - Level 30"
       ]
     }
   ],
@@ -423,9 +423,9 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
       "methods": [
         "Item: Donnerstein",
         "Level-Up",
-        "Level-Up – Ort: Elektrolithhöhle",
-        "Level-Up – Ort: Kraterberg",
-        "Level-Up – Ort: Route 13"
+        "Level-Up - Ort: Elektrolithhöhle",
+        "Level-Up - Ort: Kraterberg",
+        "Level-Up - Ort: Route 13"
       ]
     }
   ],
@@ -434,7 +434,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 85,
       "methods": [
-        "Level-Up – Level 31"
+        "Level-Up - Level 31"
       ]
     }
   ],
@@ -442,7 +442,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 87,
       "methods": [
-        "Level-Up – Level 34"
+        "Level-Up - Level 34"
       ]
     }
   ],
@@ -450,7 +450,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 89,
       "methods": [
-        "Level-Up – Level 38"
+        "Level-Up - Level 38"
       ]
     }
   ],
@@ -466,7 +466,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 93,
       "methods": [
-        "Level-Up – Level 25"
+        "Level-Up - Level 25"
       ]
     }
   ],
@@ -482,7 +482,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 208,
       "methods": [
-        "Tausch – Trägt Metallmantel"
+        "Tausch - Trägt Metallmantel"
       ]
     }
   ],
@@ -490,7 +490,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 97,
       "methods": [
-        "Level-Up – Level 26"
+        "Level-Up - Level 26"
       ]
     }
   ],
@@ -498,7 +498,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 99,
       "methods": [
-        "Level-Up – Level 28"
+        "Level-Up - Level 28"
       ]
     }
   ],
@@ -506,7 +506,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 101,
       "methods": [
-        "Level-Up – Level 30"
+        "Level-Up - Level 30"
       ]
     }
   ],
@@ -522,8 +522,8 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 105,
       "methods": [
-        "Level-Up – Level 28",
-        "Level-Up – Level 28, Tageszeit: Nacht"
+        "Level-Up - Level 28",
+        "Level-Up - Level 28, Tageszeit: Nacht"
       ]
     }
   ],
@@ -531,7 +531,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 463,
       "methods": [
-        "Level-Up – Kennt Walzer"
+        "Level-Up - Kennt Walzer"
       ]
     }
   ],
@@ -539,7 +539,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 110,
       "methods": [
-        "Level-Up – Level 35"
+        "Level-Up - Level 35"
       ]
     }
   ],
@@ -547,7 +547,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 112,
       "methods": [
-        "Level-Up – Level 42"
+        "Level-Up - Level 42"
       ]
     }
   ],
@@ -555,7 +555,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 464,
       "methods": [
-        "Tausch – Trägt Schützer"
+        "Tausch - Trägt Schützer"
       ]
     }
   ],
@@ -563,7 +563,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 242,
       "methods": [
-        "Level-Up – Freundschaft ≥ 160"
+        "Level-Up - Freundschaft ≥ 160"
       ]
     }
   ],
@@ -571,7 +571,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 465,
       "methods": [
-        "Level-Up – Kennt Antik-Kraft"
+        "Level-Up - Kennt Antik-Kraft"
       ]
     }
   ],
@@ -579,7 +579,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 117,
       "methods": [
-        "Level-Up – Level 32"
+        "Level-Up - Level 32"
       ]
     }
   ],
@@ -587,7 +587,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 230,
       "methods": [
-        "Tausch – Trägt Drachenhaut"
+        "Tausch - Trägt Drachenhaut"
       ]
     }
   ],
@@ -595,7 +595,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 119,
       "methods": [
-        "Level-Up – Level 33"
+        "Level-Up - Level 33"
       ]
     }
   ],
@@ -612,7 +612,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 212,
       "methods": [
-        "Tausch – Trägt Metallmantel"
+        "Tausch - Trägt Metallmantel"
       ]
     }
   ],
@@ -620,7 +620,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 466,
       "methods": [
-        "Tausch – Trägt Stromisierer"
+        "Tausch - Trägt Stromisierer"
       ]
     }
   ],
@@ -628,7 +628,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 467,
       "methods": [
-        "Tausch – Trägt Magmaisierer"
+        "Tausch - Trägt Magmaisierer"
       ]
     }
   ],
@@ -636,7 +636,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 130,
       "methods": [
-        "Level-Up – Level 20"
+        "Level-Up - Level 20"
       ]
     }
   ],
@@ -662,38 +662,38 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 196,
       "methods": [
-        "Level-Up – Freundschaft ≥ 160, Tageszeit: Tag"
+        "Level-Up - Freundschaft ≥ 160, Tageszeit: Tag"
       ]
     },
     {
       "id": 197,
       "methods": [
-        "Level-Up – Freundschaft ≥ 160, Tageszeit: Nacht"
+        "Level-Up - Freundschaft ≥ 160, Tageszeit: Nacht"
       ]
     },
     {
       "id": 470,
       "methods": [
         "Item: Blattstein",
-        "Level-Up – Ort: Ewigenwald",
-        "Level-Up – Ort: Ewigwald",
-        "Level-Up – Ort: Route 20"
+        "Level-Up - Ort: Ewigenwald",
+        "Level-Up - Ort: Ewigwald",
+        "Level-Up - Ort: Route 20"
       ]
     },
     {
       "id": 471,
       "methods": [
         "Item: Eisstein",
-        "Level-Up – Ort: Frosthöhle",
-        "Level-Up – Ort: Route 217",
-        "Level-Up – Ort: Wendelberg"
+        "Level-Up - Ort: Frosthöhle",
+        "Level-Up - Ort: Route 217",
+        "Level-Up - Ort: Wendelberg"
       ]
     },
     {
       "id": 700,
       "methods": [
-        "Level-Up – Freundschaft ≥ 160, Kennt Attacke vom Typ Fee",
-        "Level-Up – Zuneigung ≥ 2, Kennt Attacke vom Typ Fee"
+        "Level-Up - Freundschaft ≥ 160, Kennt Attacke vom Typ Fee",
+        "Level-Up - Zutrauen ≥ 2, Kennt Attacke vom Typ Fee"
       ]
     }
   ],
@@ -701,7 +701,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 233,
       "methods": [
-        "Tausch – Trägt Up-Grade"
+        "Tausch - Trägt Up-Grade"
       ]
     }
   ],
@@ -709,7 +709,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 139,
       "methods": [
-        "Level-Up – Level 40"
+        "Level-Up - Level 40"
       ]
     }
   ],
@@ -717,7 +717,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 141,
       "methods": [
-        "Level-Up – Level 40"
+        "Level-Up - Level 40"
       ]
     }
   ],
@@ -725,7 +725,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 148,
       "methods": [
-        "Level-Up – Level 30"
+        "Level-Up - Level 30"
       ]
     }
   ],
@@ -733,7 +733,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 149,
       "methods": [
-        "Level-Up – Level 55"
+        "Level-Up - Level 55"
       ]
     }
   ],
@@ -741,7 +741,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 153,
       "methods": [
-        "Level-Up – Level 16"
+        "Level-Up - Level 16"
       ]
     }
   ],
@@ -749,7 +749,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 154,
       "methods": [
-        "Level-Up – Level 32"
+        "Level-Up - Level 32"
       ]
     }
   ],
@@ -757,7 +757,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 156,
       "methods": [
-        "Level-Up – Level 14"
+        "Level-Up - Level 14"
       ]
     }
   ],
@@ -765,7 +765,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 157,
       "methods": [
-        "Level-Up – Level 36"
+        "Level-Up - Level 36"
       ]
     }
   ],
@@ -773,7 +773,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 159,
       "methods": [
-        "Level-Up – Level 18"
+        "Level-Up - Level 18"
       ]
     }
   ],
@@ -781,7 +781,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 160,
       "methods": [
-        "Level-Up – Level 30"
+        "Level-Up - Level 30"
       ]
     }
   ],
@@ -789,7 +789,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 162,
       "methods": [
-        "Level-Up – Level 15"
+        "Level-Up - Level 15"
       ]
     }
   ],
@@ -797,7 +797,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 164,
       "methods": [
-        "Level-Up – Level 20"
+        "Level-Up - Level 20"
       ]
     }
   ],
@@ -805,7 +805,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 166,
       "methods": [
-        "Level-Up – Level 18"
+        "Level-Up - Level 18"
       ]
     }
   ],
@@ -813,7 +813,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 168,
       "methods": [
-        "Level-Up – Level 22"
+        "Level-Up - Level 22"
       ]
     }
   ],
@@ -821,7 +821,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 171,
       "methods": [
-        "Level-Up – Level 27"
+        "Level-Up - Level 27"
       ]
     }
   ],
@@ -829,7 +829,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 25,
       "methods": [
-        "Level-Up – Freundschaft ≥ 220"
+        "Level-Up - Freundschaft ≥ 220"
       ]
     }
   ],
@@ -837,7 +837,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 35,
       "methods": [
-        "Level-Up – Freundschaft ≥ 160"
+        "Level-Up - Freundschaft ≥ 160"
       ]
     }
   ],
@@ -845,7 +845,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 39,
       "methods": [
-        "Level-Up – Freundschaft ≥ 160"
+        "Level-Up - Freundschaft ≥ 160"
       ]
     }
   ],
@@ -853,7 +853,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 176,
       "methods": [
-        "Level-Up – Freundschaft ≥ 160"
+        "Level-Up - Freundschaft ≥ 160"
       ]
     }
   ],
@@ -869,7 +869,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 178,
       "methods": [
-        "Level-Up – Level 25"
+        "Level-Up - Level 25"
       ]
     }
   ],
@@ -877,7 +877,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 180,
       "methods": [
-        "Level-Up – Level 15"
+        "Level-Up - Level 15"
       ]
     }
   ],
@@ -885,7 +885,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 181,
       "methods": [
-        "Level-Up – Level 30"
+        "Level-Up - Level 30"
       ]
     }
   ],
@@ -893,7 +893,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 184,
       "methods": [
-        "Level-Up – Level 18"
+        "Level-Up - Level 18"
       ]
     }
   ],
@@ -901,7 +901,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 188,
       "methods": [
-        "Level-Up – Level 18"
+        "Level-Up - Level 18"
       ]
     }
   ],
@@ -909,7 +909,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 189,
       "methods": [
-        "Level-Up – Level 27"
+        "Level-Up - Level 27"
       ]
     }
   ],
@@ -917,7 +917,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 424,
       "methods": [
-        "Level-Up – Kennt Doppelschlag"
+        "Level-Up - Kennt Doppelschlag"
       ]
     }
   ],
@@ -933,7 +933,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 469,
       "methods": [
-        "Level-Up – Kennt Antik-Kraft"
+        "Level-Up - Kennt Antik-Kraft"
       ]
     }
   ],
@@ -941,7 +941,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 195,
       "methods": [
-        "Level-Up – Level 20"
+        "Level-Up - Level 20"
       ]
     }
   ],
@@ -966,7 +966,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 205,
       "methods": [
-        "Level-Up – Level 31"
+        "Level-Up - Level 31"
       ]
     }
   ],
@@ -975,7 +975,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 472,
       "methods": [
-        "Level-Up – Tageszeit: Nacht, Trägt Scharfzahn"
+        "Level-Up - Tageszeit: Nacht, Trägt Scharfzahn"
       ]
     }
   ],
@@ -983,7 +983,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 210,
       "methods": [
-        "Level-Up – Level 23"
+        "Level-Up - Level 23"
       ]
     }
   ],
@@ -992,7 +992,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 461,
       "methods": [
-        "Level-Up – Tageszeit: Nacht, Trägt Scharfklaue"
+        "Level-Up - Tageszeit: Nacht, Trägt Scharfklaue"
       ]
     }
   ],
@@ -1000,7 +1000,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 217,
       "methods": [
-        "Level-Up – Level 30"
+        "Level-Up - Level 30"
       ]
     }
   ],
@@ -1009,7 +1009,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 219,
       "methods": [
-        "Level-Up – Level 38"
+        "Level-Up - Level 38"
       ]
     }
   ],
@@ -1017,7 +1017,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 221,
       "methods": [
-        "Level-Up – Level 33"
+        "Level-Up - Level 33"
       ]
     }
   ],
@@ -1025,7 +1025,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 473,
       "methods": [
-        "Level-Up – Kennt Antik-Kraft"
+        "Level-Up - Kennt Antik-Kraft"
       ]
     }
   ],
@@ -1034,7 +1034,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 224,
       "methods": [
-        "Level-Up – Level 25"
+        "Level-Up - Level 25"
       ]
     }
   ],
@@ -1042,7 +1042,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 229,
       "methods": [
-        "Level-Up – Level 24"
+        "Level-Up - Level 24"
       ]
     }
   ],
@@ -1050,7 +1050,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 232,
       "methods": [
-        "Level-Up – Level 25"
+        "Level-Up - Level 25"
       ]
     }
   ],
@@ -1058,7 +1058,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 474,
       "methods": [
-        "Tausch – Trägt Dubiosdisc"
+        "Tausch - Trägt Dubiosdisc"
       ]
     }
   ],
@@ -1067,19 +1067,19 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 106,
       "methods": [
-        "Level-Up – Level 20, Angriff > Verteidigung"
+        "Level-Up - Level 20, Angriff > Verteidigung"
       ]
     },
     {
       "id": 107,
       "methods": [
-        "Level-Up – Level 20, Angriff < Verteidigung"
+        "Level-Up - Level 20, Angriff < Verteidigung"
       ]
     },
     {
       "id": 237,
       "methods": [
-        "Level-Up – Level 20, Angriff = Verteidigung"
+        "Level-Up - Level 20, Angriff = Verteidigung"
       ]
     }
   ],
@@ -1087,7 +1087,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 124,
       "methods": [
-        "Level-Up – Level 30"
+        "Level-Up - Level 30"
       ]
     }
   ],
@@ -1095,7 +1095,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 125,
       "methods": [
-        "Level-Up – Level 30"
+        "Level-Up - Level 30"
       ]
     }
   ],
@@ -1103,7 +1103,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 126,
       "methods": [
-        "Level-Up – Level 30"
+        "Level-Up - Level 30"
       ]
     }
   ],
@@ -1111,7 +1111,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 247,
       "methods": [
-        "Level-Up – Level 30"
+        "Level-Up - Level 30"
       ]
     }
   ],
@@ -1119,7 +1119,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 248,
       "methods": [
-        "Level-Up – Level 55"
+        "Level-Up - Level 55"
       ]
     }
   ],
@@ -1127,7 +1127,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 253,
       "methods": [
-        "Level-Up – Level 16"
+        "Level-Up - Level 16"
       ]
     }
   ],
@@ -1135,7 +1135,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 254,
       "methods": [
-        "Level-Up – Level 36"
+        "Level-Up - Level 36"
       ]
     }
   ],
@@ -1143,7 +1143,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 256,
       "methods": [
-        "Level-Up – Level 16"
+        "Level-Up - Level 16"
       ]
     }
   ],
@@ -1151,7 +1151,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 257,
       "methods": [
-        "Level-Up – Level 36"
+        "Level-Up - Level 36"
       ]
     }
   ],
@@ -1159,7 +1159,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 259,
       "methods": [
-        "Level-Up – Level 16"
+        "Level-Up - Level 16"
       ]
     }
   ],
@@ -1167,7 +1167,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 260,
       "methods": [
-        "Level-Up – Level 36"
+        "Level-Up - Level 36"
       ]
     }
   ],
@@ -1175,7 +1175,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 262,
       "methods": [
-        "Level-Up – Level 18"
+        "Level-Up - Level 18"
       ]
     }
   ],
@@ -1183,7 +1183,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 264,
       "methods": [
-        "Level-Up – Level 20"
+        "Level-Up - Level 20"
       ]
     }
   ],
@@ -1192,13 +1192,13 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 266,
       "methods": [
-        "Level-Up – Level 7"
+        "Level-Up - Level 7"
       ]
     },
     {
       "id": 268,
       "methods": [
-        "Level-Up – Level 7"
+        "Level-Up - Level 7"
       ]
     }
   ],
@@ -1206,7 +1206,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 267,
       "methods": [
-        "Level-Up – Level 10"
+        "Level-Up - Level 10"
       ]
     }
   ],
@@ -1214,7 +1214,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 269,
       "methods": [
-        "Level-Up – Level 10"
+        "Level-Up - Level 10"
       ]
     }
   ],
@@ -1222,7 +1222,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 271,
       "methods": [
-        "Level-Up – Level 14"
+        "Level-Up - Level 14"
       ]
     }
   ],
@@ -1238,7 +1238,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 274,
       "methods": [
-        "Level-Up – Level 14"
+        "Level-Up - Level 14"
       ]
     }
   ],
@@ -1254,7 +1254,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 277,
       "methods": [
-        "Level-Up – Level 22"
+        "Level-Up - Level 22"
       ]
     }
   ],
@@ -1262,7 +1262,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 279,
       "methods": [
-        "Level-Up – Level 25"
+        "Level-Up - Level 25"
       ]
     }
   ],
@@ -1270,7 +1270,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 281,
       "methods": [
-        "Level-Up – Level 20"
+        "Level-Up - Level 20"
       ]
     }
   ],
@@ -1278,13 +1278,13 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 282,
       "methods": [
-        "Level-Up – Level 30"
+        "Level-Up - Level 30"
       ]
     },
     {
       "id": 475,
       "methods": [
-        "Item: Funkelstein – Nur männlich"
+        "Item: Funkelstein - Nur männlich"
       ]
     }
   ],
@@ -1292,7 +1292,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 284,
       "methods": [
-        "Level-Up – Level 22"
+        "Level-Up - Level 22"
       ]
     }
   ],
@@ -1300,7 +1300,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 286,
       "methods": [
-        "Level-Up – Level 23"
+        "Level-Up - Level 23"
       ]
     }
   ],
@@ -1308,7 +1308,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 288,
       "methods": [
-        "Level-Up – Level 18"
+        "Level-Up - Level 18"
       ]
     }
   ],
@@ -1316,7 +1316,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 289,
       "methods": [
-        "Level-Up – Level 36"
+        "Level-Up - Level 36"
       ]
     }
   ],
@@ -1324,7 +1324,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 291,
       "methods": [
-        "Level-Up – Level 20"
+        "Level-Up - Level 20"
       ]
     },
     {
@@ -1338,7 +1338,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 294,
       "methods": [
-        "Level-Up – Level 20"
+        "Level-Up - Level 20"
       ]
     }
   ],
@@ -1346,7 +1346,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 295,
       "methods": [
-        "Level-Up – Level 40"
+        "Level-Up - Level 40"
       ]
     }
   ],
@@ -1354,7 +1354,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 297,
       "methods": [
-        "Level-Up – Level 24"
+        "Level-Up - Level 24"
       ]
     }
   ],
@@ -1362,7 +1362,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 183,
       "methods": [
-        "Level-Up – Freundschaft ≥ 160"
+        "Level-Up - Freundschaft ≥ 160"
       ]
     }
   ],
@@ -1371,9 +1371,9 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
       "id": 476,
       "methods": [
         "Level-Up",
-        "Level-Up – Ort: Elektrolithhöhle",
-        "Level-Up – Ort: Kraterberg",
-        "Level-Up – Ort: Route 13"
+        "Level-Up - Ort: Elektrolithhöhle",
+        "Level-Up - Ort: Kraterberg",
+        "Level-Up - Ort: Route 13"
       ]
     }
   ],
@@ -1389,7 +1389,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 305,
       "methods": [
-        "Level-Up – Level 32"
+        "Level-Up - Level 32"
       ]
     }
   ],
@@ -1397,7 +1397,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 306,
       "methods": [
-        "Level-Up – Level 42"
+        "Level-Up - Level 42"
       ]
     }
   ],
@@ -1405,7 +1405,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 308,
       "methods": [
-        "Level-Up – Level 37"
+        "Level-Up - Level 37"
       ]
     }
   ],
@@ -1413,7 +1413,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 310,
       "methods": [
-        "Level-Up – Level 26"
+        "Level-Up - Level 26"
       ]
     }
   ],
@@ -1429,7 +1429,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 317,
       "methods": [
-        "Level-Up – Level 26"
+        "Level-Up - Level 26"
       ]
     }
   ],
@@ -1437,7 +1437,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 319,
       "methods": [
-        "Level-Up – Level 30"
+        "Level-Up - Level 30"
       ]
     }
   ],
@@ -1445,7 +1445,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 321,
       "methods": [
-        "Level-Up – Level 40"
+        "Level-Up - Level 40"
       ]
     }
   ],
@@ -1453,7 +1453,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 323,
       "methods": [
-        "Level-Up – Level 33"
+        "Level-Up - Level 33"
       ]
     }
   ],
@@ -1461,7 +1461,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 326,
       "methods": [
-        "Level-Up – Level 32"
+        "Level-Up - Level 32"
       ]
     }
   ],
@@ -1469,7 +1469,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 329,
       "methods": [
-        "Level-Up – Level 35"
+        "Level-Up - Level 35"
       ]
     }
   ],
@@ -1477,7 +1477,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 330,
       "methods": [
-        "Level-Up – Level 45"
+        "Level-Up - Level 45"
       ]
     }
   ],
@@ -1485,7 +1485,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 332,
       "methods": [
-        "Level-Up – Level 32"
+        "Level-Up - Level 32"
       ]
     }
   ],
@@ -1493,7 +1493,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 334,
       "methods": [
-        "Level-Up – Level 35"
+        "Level-Up - Level 35"
       ]
     }
   ],
@@ -1501,7 +1501,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 340,
       "methods": [
-        "Level-Up – Level 30"
+        "Level-Up - Level 30"
       ]
     }
   ],
@@ -1509,7 +1509,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 342,
       "methods": [
-        "Level-Up – Level 30"
+        "Level-Up - Level 30"
       ]
     }
   ],
@@ -1517,7 +1517,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 344,
       "methods": [
-        "Level-Up – Level 36"
+        "Level-Up - Level 36"
       ]
     }
   ],
@@ -1525,7 +1525,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 346,
       "methods": [
-        "Level-Up – Level 40"
+        "Level-Up - Level 40"
       ]
     }
   ],
@@ -1533,7 +1533,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 348,
       "methods": [
-        "Level-Up – Level 40"
+        "Level-Up - Level 40"
       ]
     }
   ],
@@ -1541,9 +1541,9 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 350,
       "methods": [
-        "Level-Up – Schönheit ≥ 170",
-        "Level-Up – Schönheit ≥ 171",
-        "Tausch – Trägt Schönschuppe"
+        "Level-Up - Schönheit ≥ 170",
+        "Level-Up - Schönheit ≥ 171",
+        "Tausch - Trägt Schönschuppe"
       ]
     }
   ],
@@ -1551,7 +1551,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 354,
       "methods": [
-        "Level-Up – Level 37"
+        "Level-Up - Level 37"
       ]
     }
   ],
@@ -1559,7 +1559,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 356,
       "methods": [
-        "Level-Up – Level 37"
+        "Level-Up - Level 37"
       ]
     }
   ],
@@ -1567,7 +1567,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 477,
       "methods": [
-        "Tausch – Trägt Düsterumhang"
+        "Tausch - Trägt Düsterumhang"
       ]
     }
   ],
@@ -1575,7 +1575,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 202,
       "methods": [
-        "Level-Up – Level 15"
+        "Level-Up - Level 15"
       ]
     }
   ],
@@ -1583,13 +1583,13 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 362,
       "methods": [
-        "Level-Up – Level 42"
+        "Level-Up - Level 42"
       ]
     },
     {
       "id": 478,
       "methods": [
-        "Item: Funkelstein – Nur weiblich"
+        "Item: Funkelstein - Nur weiblich"
       ]
     }
   ],
@@ -1597,7 +1597,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 364,
       "methods": [
-        "Level-Up – Level 32"
+        "Level-Up - Level 32"
       ]
     }
   ],
@@ -1605,7 +1605,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 365,
       "methods": [
-        "Level-Up – Level 44"
+        "Level-Up - Level 44"
       ]
     }
   ],
@@ -1613,13 +1613,13 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 367,
       "methods": [
-        "Tausch – Trägt Abysszahn"
+        "Tausch - Trägt Abysszahn"
       ]
     },
     {
       "id": 368,
       "methods": [
-        "Tausch – Trägt Abyssplatte"
+        "Tausch - Trägt Abyssplatte"
       ]
     }
   ],
@@ -1627,7 +1627,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 372,
       "methods": [
-        "Level-Up – Level 30"
+        "Level-Up - Level 30"
       ]
     }
   ],
@@ -1635,7 +1635,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 373,
       "methods": [
-        "Level-Up – Level 50"
+        "Level-Up - Level 50"
       ]
     }
   ],
@@ -1643,7 +1643,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 375,
       "methods": [
-        "Level-Up – Level 20"
+        "Level-Up - Level 20"
       ]
     }
   ],
@@ -1651,7 +1651,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 376,
       "methods": [
-        "Level-Up – Level 45"
+        "Level-Up - Level 45"
       ]
     }
   ],
@@ -1659,7 +1659,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 388,
       "methods": [
-        "Level-Up – Level 18"
+        "Level-Up - Level 18"
       ]
     }
   ],
@@ -1667,7 +1667,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 389,
       "methods": [
-        "Level-Up – Level 32"
+        "Level-Up - Level 32"
       ]
     }
   ],
@@ -1675,7 +1675,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 391,
       "methods": [
-        "Level-Up – Level 14"
+        "Level-Up - Level 14"
       ]
     }
   ],
@@ -1683,7 +1683,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 392,
       "methods": [
-        "Level-Up – Level 36"
+        "Level-Up - Level 36"
       ]
     }
   ],
@@ -1691,7 +1691,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 394,
       "methods": [
-        "Level-Up – Level 16"
+        "Level-Up - Level 16"
       ]
     }
   ],
@@ -1699,7 +1699,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 395,
       "methods": [
-        "Level-Up – Level 36"
+        "Level-Up - Level 36"
       ]
     }
   ],
@@ -1707,7 +1707,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 397,
       "methods": [
-        "Level-Up – Level 14"
+        "Level-Up - Level 14"
       ]
     }
   ],
@@ -1715,7 +1715,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 398,
       "methods": [
-        "Level-Up – Level 34"
+        "Level-Up - Level 34"
       ]
     }
   ],
@@ -1723,7 +1723,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 400,
       "methods": [
-        "Level-Up – Level 15"
+        "Level-Up - Level 15"
       ]
     }
   ],
@@ -1731,7 +1731,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 402,
       "methods": [
-        "Level-Up – Level 10"
+        "Level-Up - Level 10"
       ]
     }
   ],
@@ -1739,7 +1739,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 404,
       "methods": [
-        "Level-Up – Level 15"
+        "Level-Up - Level 15"
       ]
     }
   ],
@@ -1747,7 +1747,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 405,
       "methods": [
-        "Level-Up – Level 30"
+        "Level-Up - Level 30"
       ]
     }
   ],
@@ -1755,7 +1755,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 315,
       "methods": [
-        "Level-Up – Freundschaft ≥ 160, Tageszeit: Tag"
+        "Level-Up - Freundschaft ≥ 160, Tageszeit: Tag"
       ]
     }
   ],
@@ -1763,7 +1763,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 409,
       "methods": [
-        "Level-Up – Level 30"
+        "Level-Up - Level 30"
       ]
     }
   ],
@@ -1771,7 +1771,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 411,
       "methods": [
-        "Level-Up – Level 30"
+        "Level-Up - Level 30"
       ]
     }
   ],
@@ -1779,13 +1779,13 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 413,
       "methods": [
-        "Level-Up – Level 20, Nur weiblich"
+        "Level-Up - Level 20, Nur weiblich"
       ]
     },
     {
       "id": 414,
       "methods": [
-        "Level-Up – Level 20, Nur männlich"
+        "Level-Up - Level 20, Nur männlich"
       ]
     }
   ],
@@ -1793,7 +1793,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 416,
       "methods": [
-        "Level-Up – Level 21, Nur weiblich"
+        "Level-Up - Level 21, Nur weiblich"
       ]
     }
   ],
@@ -1801,7 +1801,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 419,
       "methods": [
-        "Level-Up – Level 26"
+        "Level-Up - Level 26"
       ]
     }
   ],
@@ -1809,7 +1809,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 421,
       "methods": [
-        "Level-Up – Level 25"
+        "Level-Up - Level 25"
       ]
     }
   ],
@@ -1817,7 +1817,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 423,
       "methods": [
-        "Level-Up – Level 30"
+        "Level-Up - Level 30"
       ]
     }
   ],
@@ -1825,7 +1825,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 426,
       "methods": [
-        "Level-Up – Level 28"
+        "Level-Up - Level 28"
       ]
     }
   ],
@@ -1833,7 +1833,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 428,
       "methods": [
-        "Level-Up – Freundschaft ≥ 160"
+        "Level-Up - Freundschaft ≥ 160"
       ]
     }
   ],
@@ -1841,7 +1841,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 432,
       "methods": [
-        "Level-Up – Level 38"
+        "Level-Up - Level 38"
       ]
     }
   ],
@@ -1849,7 +1849,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 358,
       "methods": [
-        "Level-Up – Freundschaft ≥ 220, Tageszeit: Nacht"
+        "Level-Up - Freundschaft ≥ 220, Tageszeit: Nacht"
       ]
     }
   ],
@@ -1857,7 +1857,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 435,
       "methods": [
-        "Level-Up – Level 34"
+        "Level-Up - Level 34"
       ]
     }
   ],
@@ -1865,7 +1865,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 437,
       "methods": [
-        "Level-Up – Level 33"
+        "Level-Up - Level 33"
       ]
     }
   ],
@@ -1873,7 +1873,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 185,
       "methods": [
-        "Level-Up – Kennt Mimikry"
+        "Level-Up - Kennt Mimikry"
       ]
     }
   ],
@@ -1881,7 +1881,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 122,
       "methods": [
-        "Level-Up – Kennt Mimikry"
+        "Level-Up - Kennt Mimikry"
       ]
     }
   ],
@@ -1889,7 +1889,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 113,
       "methods": [
-        "Level-Up – Tageszeit: Tag, Trägt Ovaler Stein"
+        "Level-Up - Tageszeit: Tag, Trägt Ovaler Stein"
       ]
     }
   ],
@@ -1897,7 +1897,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 444,
       "methods": [
-        "Level-Up – Level 24"
+        "Level-Up - Level 24"
       ]
     }
   ],
@@ -1905,7 +1905,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 445,
       "methods": [
-        "Level-Up – Level 48"
+        "Level-Up - Level 48"
       ]
     }
   ],
@@ -1913,7 +1913,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 143,
       "methods": [
-        "Level-Up – Freundschaft ≥ 160"
+        "Level-Up - Freundschaft ≥ 160"
       ]
     }
   ],
@@ -1921,7 +1921,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 448,
       "methods": [
-        "Level-Up – Freundschaft ≥ 160, Tageszeit: Tag"
+        "Level-Up - Freundschaft ≥ 160, Tageszeit: Tag"
       ]
     }
   ],
@@ -1929,7 +1929,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 450,
       "methods": [
-        "Level-Up – Level 34"
+        "Level-Up - Level 34"
       ]
     }
   ],
@@ -1937,7 +1937,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 452,
       "methods": [
-        "Level-Up – Level 40"
+        "Level-Up - Level 40"
       ]
     }
   ],
@@ -1945,7 +1945,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 454,
       "methods": [
-        "Level-Up – Level 37"
+        "Level-Up - Level 37"
       ]
     }
   ],
@@ -1953,7 +1953,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 457,
       "methods": [
-        "Level-Up – Level 31"
+        "Level-Up - Level 31"
       ]
     }
   ],
@@ -1961,7 +1961,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 226,
       "methods": [
-        "Level-Up – Team: Remoraid"
+        "Level-Up - Team: Remoraid"
       ]
     }
   ],
@@ -1969,15 +1969,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 460,
       "methods": [
-        "Level-Up – Level 40"
-      ]
-    }
-  ],
-  "489": [
-    {
-      "id": 490,
-      "methods": [
-        "Bedingung unbekannt"
+        "Level-Up - Level 40"
       ]
     }
   ],
@@ -1985,7 +1977,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 496,
       "methods": [
-        "Level-Up – Level 17"
+        "Level-Up - Level 17"
       ]
     }
   ],
@@ -1993,7 +1985,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 497,
       "methods": [
-        "Level-Up – Level 36"
+        "Level-Up - Level 36"
       ]
     }
   ],
@@ -2001,7 +1993,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 499,
       "methods": [
-        "Level-Up – Level 17"
+        "Level-Up - Level 17"
       ]
     }
   ],
@@ -2009,7 +2001,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 500,
       "methods": [
-        "Level-Up – Level 36"
+        "Level-Up - Level 36"
       ]
     }
   ],
@@ -2017,7 +2009,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 502,
       "methods": [
-        "Level-Up – Level 17"
+        "Level-Up - Level 17"
       ]
     }
   ],
@@ -2025,7 +2017,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 503,
       "methods": [
-        "Level-Up – Level 36"
+        "Level-Up - Level 36"
       ]
     }
   ],
@@ -2033,7 +2025,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 505,
       "methods": [
-        "Level-Up – Level 20"
+        "Level-Up - Level 20"
       ]
     }
   ],
@@ -2041,7 +2033,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 507,
       "methods": [
-        "Level-Up – Level 16"
+        "Level-Up - Level 16"
       ]
     }
   ],
@@ -2049,7 +2041,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 508,
       "methods": [
-        "Level-Up – Level 32"
+        "Level-Up - Level 32"
       ]
     }
   ],
@@ -2057,7 +2049,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 510,
       "methods": [
-        "Level-Up – Level 20"
+        "Level-Up - Level 20"
       ]
     }
   ],
@@ -2097,7 +2089,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 520,
       "methods": [
-        "Level-Up – Level 21"
+        "Level-Up - Level 21"
       ]
     }
   ],
@@ -2105,7 +2097,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 521,
       "methods": [
-        "Level-Up – Level 32"
+        "Level-Up - Level 32"
       ]
     }
   ],
@@ -2113,7 +2105,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 523,
       "methods": [
-        "Level-Up – Level 27"
+        "Level-Up - Level 27"
       ]
     }
   ],
@@ -2121,7 +2113,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 525,
       "methods": [
-        "Level-Up – Level 25"
+        "Level-Up - Level 25"
       ]
     }
   ],
@@ -2137,7 +2129,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 528,
       "methods": [
-        "Level-Up – Freundschaft ≥ 160"
+        "Level-Up - Freundschaft ≥ 160"
       ]
     }
   ],
@@ -2145,7 +2137,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 530,
       "methods": [
-        "Level-Up – Level 31"
+        "Level-Up - Level 31"
       ]
     }
   ],
@@ -2153,7 +2145,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 533,
       "methods": [
-        "Level-Up – Level 25"
+        "Level-Up - Level 25"
       ]
     }
   ],
@@ -2169,7 +2161,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 536,
       "methods": [
-        "Level-Up – Level 25"
+        "Level-Up - Level 25"
       ]
     }
   ],
@@ -2177,7 +2169,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 537,
       "methods": [
-        "Level-Up – Level 36"
+        "Level-Up - Level 36"
       ]
     }
   ],
@@ -2185,7 +2177,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 541,
       "methods": [
-        "Level-Up – Level 20"
+        "Level-Up - Level 20"
       ]
     }
   ],
@@ -2193,7 +2185,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 542,
       "methods": [
-        "Level-Up – Freundschaft ≥ 220"
+        "Level-Up - Freundschaft ≥ 220"
       ]
     }
   ],
@@ -2201,7 +2193,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 544,
       "methods": [
-        "Level-Up – Level 22"
+        "Level-Up - Level 22"
       ]
     }
   ],
@@ -2209,7 +2201,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 545,
       "methods": [
-        "Level-Up – Level 30"
+        "Level-Up - Level 30"
       ]
     }
   ],
@@ -2234,7 +2226,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 552,
       "methods": [
-        "Level-Up – Level 29"
+        "Level-Up - Level 29"
       ]
     }
   ],
@@ -2242,7 +2234,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 553,
       "methods": [
-        "Level-Up – Level 40"
+        "Level-Up - Level 40"
       ]
     }
   ],
@@ -2251,7 +2243,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
       "id": 555,
       "methods": [
         "Item: Eisstein",
-        "Level-Up – Level 35"
+        "Level-Up - Level 35"
       ]
     }
   ],
@@ -2259,7 +2251,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 558,
       "methods": [
-        "Level-Up – Level 34"
+        "Level-Up - Level 34"
       ]
     }
   ],
@@ -2267,7 +2259,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 560,
       "methods": [
-        "Level-Up – Level 39"
+        "Level-Up - Level 39"
       ]
     }
   ],
@@ -2275,7 +2267,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 563,
       "methods": [
-        "Level-Up – Level 34"
+        "Level-Up - Level 34"
       ]
     }
   ],
@@ -2283,7 +2275,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 565,
       "methods": [
-        "Level-Up – Level 37"
+        "Level-Up - Level 37"
       ]
     }
   ],
@@ -2291,7 +2283,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 567,
       "methods": [
-        "Level-Up – Level 37"
+        "Level-Up - Level 37"
       ]
     }
   ],
@@ -2299,7 +2291,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 569,
       "methods": [
-        "Level-Up – Level 36"
+        "Level-Up - Level 36"
       ]
     }
   ],
@@ -2307,7 +2299,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 571,
       "methods": [
-        "Level-Up – Level 30"
+        "Level-Up - Level 30"
       ]
     }
   ],
@@ -2323,7 +2315,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 575,
       "methods": [
-        "Level-Up – Level 32"
+        "Level-Up - Level 32"
       ]
     }
   ],
@@ -2331,7 +2323,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 576,
       "methods": [
-        "Level-Up – Level 41"
+        "Level-Up - Level 41"
       ]
     }
   ],
@@ -2339,7 +2331,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 578,
       "methods": [
-        "Level-Up – Level 32"
+        "Level-Up - Level 32"
       ]
     }
   ],
@@ -2347,7 +2339,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 579,
       "methods": [
-        "Level-Up – Level 41"
+        "Level-Up - Level 41"
       ]
     }
   ],
@@ -2355,7 +2347,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 581,
       "methods": [
-        "Level-Up – Level 35"
+        "Level-Up - Level 35"
       ]
     }
   ],
@@ -2363,7 +2355,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 583,
       "methods": [
-        "Level-Up – Level 35"
+        "Level-Up - Level 35"
       ]
     }
   ],
@@ -2371,7 +2363,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 584,
       "methods": [
-        "Level-Up – Level 47"
+        "Level-Up - Level 47"
       ]
     }
   ],
@@ -2379,7 +2371,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 586,
       "methods": [
-        "Level-Up – Level 34"
+        "Level-Up - Level 34"
       ]
     }
   ],
@@ -2395,7 +2387,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 591,
       "methods": [
-        "Level-Up – Level 39"
+        "Level-Up - Level 39"
       ]
     }
   ],
@@ -2403,7 +2395,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 593,
       "methods": [
-        "Level-Up – Level 40"
+        "Level-Up - Level 40"
       ]
     }
   ],
@@ -2411,7 +2403,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 596,
       "methods": [
-        "Level-Up – Level 36"
+        "Level-Up - Level 36"
       ]
     }
   ],
@@ -2419,7 +2411,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 598,
       "methods": [
-        "Level-Up – Level 40"
+        "Level-Up - Level 40"
       ]
     }
   ],
@@ -2427,7 +2419,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 600,
       "methods": [
-        "Level-Up – Level 38"
+        "Level-Up - Level 38"
       ]
     }
   ],
@@ -2435,7 +2427,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 601,
       "methods": [
-        "Level-Up – Level 49"
+        "Level-Up - Level 49"
       ]
     }
   ],
@@ -2443,7 +2435,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 603,
       "methods": [
-        "Level-Up – Level 39"
+        "Level-Up - Level 39"
       ]
     }
   ],
@@ -2459,7 +2451,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 606,
       "methods": [
-        "Level-Up – Level 42"
+        "Level-Up - Level 42"
       ]
     }
   ],
@@ -2467,7 +2459,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 608,
       "methods": [
-        "Level-Up – Level 41"
+        "Level-Up - Level 41"
       ]
     }
   ],
@@ -2483,7 +2475,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 611,
       "methods": [
-        "Level-Up – Level 38"
+        "Level-Up - Level 38"
       ]
     }
   ],
@@ -2491,7 +2483,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 612,
       "methods": [
-        "Level-Up – Level 48"
+        "Level-Up - Level 48"
       ]
     }
   ],
@@ -2499,7 +2491,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 614,
       "methods": [
-        "Level-Up – Level 37"
+        "Level-Up - Level 37"
       ]
     }
   ],
@@ -2515,7 +2507,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 620,
       "methods": [
-        "Level-Up – Level 50"
+        "Level-Up - Level 50"
       ]
     }
   ],
@@ -2523,7 +2515,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 623,
       "methods": [
-        "Level-Up – Level 43"
+        "Level-Up - Level 43"
       ]
     }
   ],
@@ -2531,7 +2523,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 625,
       "methods": [
-        "Level-Up – Level 52"
+        "Level-Up - Level 52"
       ]
     }
   ],
@@ -2540,7 +2532,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 628,
       "methods": [
-        "Level-Up – Level 54"
+        "Level-Up - Level 54"
       ]
     }
   ],
@@ -2548,7 +2540,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 630,
       "methods": [
-        "Level-Up – Level 54"
+        "Level-Up - Level 54"
       ]
     }
   ],
@@ -2556,7 +2548,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 634,
       "methods": [
-        "Level-Up – Level 50"
+        "Level-Up - Level 50"
       ]
     }
   ],
@@ -2564,7 +2556,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 635,
       "methods": [
-        "Level-Up – Level 64"
+        "Level-Up - Level 64"
       ]
     }
   ],
@@ -2572,7 +2564,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 637,
       "methods": [
-        "Level-Up – Level 59"
+        "Level-Up - Level 59"
       ]
     }
   ],
@@ -2580,7 +2572,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 651,
       "methods": [
-        "Level-Up – Level 16"
+        "Level-Up - Level 16"
       ]
     }
   ],
@@ -2588,7 +2580,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 652,
       "methods": [
-        "Level-Up – Level 36"
+        "Level-Up - Level 36"
       ]
     }
   ],
@@ -2596,7 +2588,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 654,
       "methods": [
-        "Level-Up – Level 16"
+        "Level-Up - Level 16"
       ]
     }
   ],
@@ -2604,7 +2596,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 655,
       "methods": [
-        "Level-Up – Level 36"
+        "Level-Up - Level 36"
       ]
     }
   ],
@@ -2612,7 +2604,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 657,
       "methods": [
-        "Level-Up – Level 16"
+        "Level-Up - Level 16"
       ]
     }
   ],
@@ -2620,7 +2612,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 658,
       "methods": [
-        "Level-Up – Level 36"
+        "Level-Up - Level 36"
       ]
     }
   ],
@@ -2628,7 +2620,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 660,
       "methods": [
-        "Level-Up – Level 20"
+        "Level-Up - Level 20"
       ]
     }
   ],
@@ -2636,7 +2628,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 662,
       "methods": [
-        "Level-Up – Level 17"
+        "Level-Up - Level 17"
       ]
     }
   ],
@@ -2644,7 +2636,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 663,
       "methods": [
-        "Level-Up – Level 35"
+        "Level-Up - Level 35"
       ]
     }
   ],
@@ -2652,7 +2644,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 665,
       "methods": [
-        "Level-Up – Level 9"
+        "Level-Up - Level 9"
       ]
     }
   ],
@@ -2660,7 +2652,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 666,
       "methods": [
-        "Level-Up – Level 12"
+        "Level-Up - Level 12"
       ]
     }
   ],
@@ -2668,7 +2660,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 668,
       "methods": [
-        "Level-Up – Level 35"
+        "Level-Up - Level 35"
       ]
     }
   ],
@@ -2676,7 +2668,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 670,
       "methods": [
-        "Level-Up – Level 19"
+        "Level-Up - Level 19"
       ]
     }
   ],
@@ -2692,7 +2684,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 673,
       "methods": [
-        "Level-Up – Level 32"
+        "Level-Up - Level 32"
       ]
     }
   ],
@@ -2700,7 +2692,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 675,
       "methods": [
-        "Level-Up – Level 32, Pokémon von Typ Unlicht im Team"
+        "Level-Up - Level 32, Pokémon von Typ Unlicht im Team"
       ]
     }
   ],
@@ -2708,7 +2700,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 678,
       "methods": [
-        "Level-Up – Level 25"
+        "Level-Up - Level 25"
       ]
     }
   ],
@@ -2716,7 +2708,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 680,
       "methods": [
-        "Level-Up – Level 35"
+        "Level-Up - Level 35"
       ]
     }
   ],
@@ -2732,7 +2724,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 683,
       "methods": [
-        "Tausch – Trägt Duftbeutel"
+        "Tausch - Trägt Duftbeutel"
       ]
     }
   ],
@@ -2740,7 +2732,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 685,
       "methods": [
-        "Tausch – Trägt Sahnehäubchen"
+        "Tausch - Trägt Sahnehäubchen"
       ]
     }
   ],
@@ -2748,7 +2740,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 687,
       "methods": [
-        "Level-Up – Level 30, Konsole umdrehen"
+        "Level-Up - Level 30, Konsole umdrehen"
       ]
     }
   ],
@@ -2756,7 +2748,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 689,
       "methods": [
-        "Level-Up – Level 39"
+        "Level-Up - Level 39"
       ]
     }
   ],
@@ -2764,7 +2756,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 691,
       "methods": [
-        "Level-Up – Level 48"
+        "Level-Up - Level 48"
       ]
     }
   ],
@@ -2772,7 +2764,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 693,
       "methods": [
-        "Level-Up – Level 37"
+        "Level-Up - Level 37"
       ]
     }
   ],
@@ -2788,7 +2780,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 697,
       "methods": [
-        "Level-Up – Level 39, Tageszeit: Tag"
+        "Level-Up - Level 39, Tageszeit: Tag"
       ]
     }
   ],
@@ -2796,7 +2788,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 699,
       "methods": [
-        "Level-Up – Level 39, Tageszeit: Nacht"
+        "Level-Up - Level 39, Tageszeit: Nacht"
       ]
     }
   ],
@@ -2804,7 +2796,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 705,
       "methods": [
-        "Level-Up – Level 40"
+        "Level-Up - Level 40"
       ]
     }
   ],
@@ -2812,7 +2804,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 706,
       "methods": [
-        "Level-Up – Level 50, Regen in der Oberwelt"
+        "Level-Up - Level 50, Regen in der Oberwelt"
       ]
     }
   ],
@@ -2836,7 +2828,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 713,
       "methods": [
-        "Level-Up – Level 37"
+        "Level-Up - Level 37"
       ]
     }
   ],
@@ -2844,7 +2836,7 @@ export const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = {
     {
       "id": 715,
       "methods": [
-        "Level-Up – Level 48"
+        "Level-Up - Level 48"
       ]
     }
   ]

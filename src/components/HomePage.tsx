@@ -45,7 +45,7 @@ const HomePage: React.FC<HomePageProps> = ({
                                     Soullink Tracker
                                 </h1>
                                 <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-                                    Willkommen Trainer – verwalte hier deine Abenteuer
+                                    Willkommen Trainer - verwalte hier deine Abenteuer
                                 </p>
                             </div>
                         </div>

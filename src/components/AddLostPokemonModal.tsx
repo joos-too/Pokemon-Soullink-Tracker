@@ -9,6 +9,7 @@ interface AddLostPokemonModalProps {
   onClose: () => void;
   onAdd: (route: string, members: Pokemon[]) => void;
   playerNames: string[];
+  generationLimit?: number;
 }
 
 interface PokemonNameFieldProps {
@@ -16,9 +17,10 @@ interface PokemonNameFieldProps {
   value: string;
   onChange: (value: string) => void;
   isOpen: boolean;
+  generationLimit?: number;
 }
 
-const PokemonNameField: React.FC<PokemonNameFieldProps> = ({ label, value, onChange, isOpen }) => {
+const PokemonNameField: React.FC<PokemonNameFieldProps> = ({ label, value, onChange, isOpen, generationLimit }) => {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -52,7 +54,7 @@ const PokemonNameField: React.FC<PokemonNameFieldProps> = ({ label, value, onCha
     }
     setLoading(true);
     const timer = setTimeout(async () => {
-      const res = await searchGermanPokemonNames(term, 10);
+      const res = await searchGermanPokemonNames(term, 10, { maxGeneration: generationLimit });
       if (seq === searchSeq.current) {
         setSuggestions(res);
         setLoading(false);
@@ -61,7 +63,7 @@ const PokemonNameField: React.FC<PokemonNameFieldProps> = ({ label, value, onCha
       }
     }, 250);
     return () => clearTimeout(timer);
-  }, [value, focused, isOpen]);
+  }, [value, focused, isOpen, generationLimit]);
 
   const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
     if (!open || loading || suggestions.length === 0) return;
@@ -128,7 +130,7 @@ const PokemonNameField: React.FC<PokemonNameFieldProps> = ({ label, value, onCha
   );
 };
 
-const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({ isOpen, onClose, onAdd, playerNames }) => {
+const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({ isOpen, onClose, onAdd, playerNames, generationLimit }) => {
   const [route, setRoute] = useState('');
   const [pokemonNames, setPokemonNames] = useState<string[]>(() => playerNames.map(() => ''));
 
@@ -192,6 +194,7 @@ const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({ isOpen, onClo
                   return next;
                 })}
                 isOpen={isOpen}
+                generationLimit={generationLimit}
               />
             ))}
           </div>
