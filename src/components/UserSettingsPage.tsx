@@ -109,8 +109,8 @@ const UserSettingsPage: React.FC<UserSettingsPageProps> = ({email, onBack, onLog
                         <p className="text-sm text-gray-500 dark:text-gray-400">
                             {t('userSettings.language.description')}
                         </p>
-                        <div className="flex justify-center">
-                            <LanguageToggle size="large" />
+                        <div className="flex justify-start">
+                            <LanguageToggle/>
                         </div>
                     </section>
 

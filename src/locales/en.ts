@@ -18,6 +18,10 @@ export const en = {
         routePlaceholder: 'e.g. Route 1',
         logout: 'Logout',
         languageToggleLabel: 'Change language',
+        languageNames: {
+            de: 'German',
+            en: 'English',
+        },
         darkModeToggleLabel: 'Toggle dark mode',
         darkModeToggleTitle: 'Toggle dark mode',
         gym: 'Gym',
@@ -25,7 +29,7 @@ export const en = {
     home: {
         logoAlt: 'Soullink Tracker logo',
         heroTitle: 'Soullink Tracker',
-        heroSubtitle: 'Welcome trainer – manage your adventures here',
+        heroSubtitle: 'Hi Trainer – keep track of your adventures here',
         trackersBadge: 'Your trackers',
         trackersTitle: 'All trackers at a glance',
         createTracker: 'New tracker',
@@ -38,7 +42,7 @@ export const en = {
         runCount: 'Run {{count}}',
         activePokemon: 'Active',
         fallenPokemon: 'Lost',
-        progressFallback: 'No gyms cleared yet',
+        progressFallback: 'No gyms cleared',
     },
     modals: {
         common: {
@@ -70,6 +74,8 @@ export const en = {
             title: 'Create your tracker',
             versionLabel: 'Game version',
             versionButton: 'Select game version',
+            versionPlaceholder: 'No version selected',
+            versionRequired: 'Please select a game version.',
             titleLabel: 'Title',
             titlePlaceholder: 'e.g. Black 2 Soullink',
             playerCountLabel: 'Choose number of players',

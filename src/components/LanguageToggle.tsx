@@ -1,19 +1,16 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { focusRingClasses } from '@/src/styles/focusRing';
-import { normalizeLanguage } from '@/src/utils/language';
+import {FiChevronDown} from 'react-icons/fi';
+import {useTranslation} from 'react-i18next';
+import {focusRingClasses} from '@/src/styles/focusRing';
+import {normalizeLanguage} from '@/src/utils/language';
 
 const languages = [
-  { code: 'de', label: 'DE' },
-  { code: 'en', label: 'EN' },
+  { code: 'de', labelKey: 'common.languageNames.de' },
+  { code: 'en', labelKey: 'common.languageNames.en' },
 ];
 
-interface LanguageToggleProps {
-  size?: 'standard' | 'large';
-}
-
-const LanguageToggle: React.FC<LanguageToggleProps> = ({ size = 'standard' }) => {
-  const { i18n, t } = useTranslation();
+const LanguageToggle: React.FC = () => {
+  const {i18n, t} = useTranslation();
   const activeLanguage = normalizeLanguage(i18n.language);
 
   const handleChange = async (code: string) => {
@@ -25,41 +22,34 @@ const LanguageToggle: React.FC<LanguageToggleProps> = ({ size = 'standard' }) =>
     }
   };
 
+  const fontFamily = "'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif";
+
   return (
-      <div
-        className="inline-flex rounded-full border border-gray-300 dark:border-gray-600 overflow-hidden"
-        role="group"
+    <label className="relative inline-flex w-full max-w-sm">
+      <span className="sr-only">{t('common.languageToggleLabel')}</span>
+      <select
         aria-label={t('common.languageToggleLabel')}
+        value={activeLanguage}
+        onChange={(event) => {
+          void handleChange(event.target.value);
+        }}
+        className={`appearance-none w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 font-roboto font-semibold pr-12 text-base px-4 py-2 ${focusRingClasses}`}
+        style={{fontFamily}}
       >
-        {languages.map((language, index) => {
-          const isActive = language.code === activeLanguage;
-          const roundedClass =
-            index === 0
-              ? 'rounded-l-full'
-              : index === languages.length - 1
-                ? 'rounded-r-full'
-                : '';
-          return (
-            <button
-              key={language.code}
-              type="button"
-              onClick={() => handleChange(language.code)}
-              className={`${
-                size === 'large'
-                  ? 'px-4 py-2 text-sm'
-                  : 'px-3 py-1 text-xs'
-              } font-semibold tracking-[0.2em] ${
-                isActive
-                  ? 'bg-green-600 text-white'
-                  : 'bg-transparent text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700'
-              } ${roundedClass} ${focusRingClasses}`}
-            aria-pressed={isActive}
+        {languages.map((language) => (
+          <option
+            key={language.code}
+            value={language.code}
+            style={{fontFamily}}
           >
-            {language.label}
-          </button>
-        );
-      })}
-    </div>
+            {t(language.labelKey)}
+          </option>
+        ))}
+      </select>
+      <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-gray-500 dark:text-gray-400">
+        <FiChevronDown aria-hidden="true" className="text-lg"/>
+      </span>
+    </label>
   );
 };
 

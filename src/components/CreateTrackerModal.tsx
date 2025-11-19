@@ -20,7 +20,8 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
   const [playerCount, setPlayerCount] = useState(2);
   const [playerNames, setPlayerNames] = useState<string[]>(['', '']);
   const [memberInputs, setMemberInputs] = useState<string[]>(['']);
-  const [gameVersionId, setGameVersionId] = useState('gen5_sw');
+  const [gameVersionId, setGameVersionId] = useState('');
+  const [versionError, setVersionError] = useState(false);
   const [showVersionPicker, setShowVersionPicker] = useState(false);
   const { t } = useTranslation();
   const playerCountLabels = useMemo(() => ({
@@ -44,7 +45,8 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
     setPlayerCount(2);
     setPlayerNames(['', '']);
     setMemberInputs(['']);
-    setGameVersionId('gen5_sw');
+    setGameVersionId('');
+    setVersionError(false);
     setShowVersionPicker(false);
   }, []);
 
@@ -68,6 +70,11 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    if (!gameVersionId) {
+      setVersionError(true);
+      setShowVersionPicker(true);
+      return;
+    }
     const trimmedPlayerNames = playerNames.map((name) => name.trim());
     await onSubmit({
       title,
@@ -113,12 +120,16 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
                 onClick={() => setShowVersionPicker((v) => !v)}
                 aria-expanded={showVersionPicker}
                 aria-controls="game-version-picker-panel"
-                className={`w-full inline-flex items-center justify-between rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-sm font-semibold text-gray-800 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-600 ${focusRingClasses}`}
+                className={`w-full inline-flex items-center justify-between rounded-md border ${versionError ? 'border-red-500 dark:border-red-400' : 'border-gray-300 dark:border-gray-600'} bg-white dark:bg-gray-700 px-3 py-2 text-sm font-semibold text-gray-800 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-600 ${focusRingClasses}`}
                 title={t('modals.createTracker.versionButton')}
+                aria-invalid={versionError}
+                aria-describedby={versionError ? 'game-version-error' : undefined}
               >
                 <span>{t('modals.createTracker.versionButton')}</span>
-                <span className="text-xs text-gray-600 dark:text-gray-300">
-                    {getLocalizedGameName(t, gameVersionId, GAME_VERSIONS[gameVersionId]?.name ?? gameVersionId)}</span>
+                <span className={`text-xs ${gameVersionId ? 'text-gray-600 dark:text-gray-300' : 'text-gray-400 dark:text-gray-500'}`}>
+                    {gameVersionId
+                      ? getLocalizedGameName(t, gameVersionId, GAME_VERSIONS[gameVersionId]?.name ?? gameVersionId)
+                      : t('modals.createTracker.versionPlaceholder')}</span>
               </button>
 
               <div
@@ -132,10 +143,16 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
                   isInteractive={showVersionPicker}
                   onSelect={(versionId) => {
                     setGameVersionId(versionId);
+                    setVersionError(false);
                     setShowVersionPicker(false)
                   }}
                 />
               </div>
+              {versionError && (
+                <p id="game-version-error" className="mt-2 text-sm text-red-600 dark:text-red-400">
+                  {t('modals.createTracker.versionRequired')}
+                </p>
+              )}
             </div>
             <div>
               <label className="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-1 block" htmlFor="trackerTitle">
@@ -264,7 +281,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
             </button>
             <button
               type="submit"
-              disabled={isSubmitting}
+              disabled={isSubmitting || !gameVersionId}
               className="inline-flex justify-center rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-500 disabled:opacity-60"
             >
               {isSubmitting ? t('modals.createTracker.submitting') : t('modals.createTracker.submit')}
