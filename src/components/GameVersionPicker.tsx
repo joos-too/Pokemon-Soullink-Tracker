@@ -1,6 +1,8 @@
 import React, {useMemo} from 'react';
 import {GAME_VERSIONS} from '@/src/data/game-versions';
 import { focusRingClasses } from '@/src/styles/focusRing';
+import { useTranslation } from 'react-i18next';
+import { getLocalizedGameName, getLocalizedSelectionLabel } from '@/src/services/gameLocalization';
 
 export type TileDef = { key: string; label: string; versionId: string };
 
@@ -42,6 +44,7 @@ export interface GameVersionPickerProps {
 }
 
 const GameVersionPicker: React.FC<GameVersionPickerProps> = ({value, onSelect, isInteractive = true}) => {
+    const { t } = useTranslation();
     const groups = useMemo(() => buildGroupsFromGameVersions(), []);
 
     return (
@@ -59,6 +62,7 @@ const GameVersionPicker: React.FC<GameVersionPickerProps> = ({value, onSelect, i
                             {group.rows.map((row, rowIdx) => {
                                 const rowVersionId = row[0]?.versionId;
                                 const rowSelected = rowVersionId === value;
+                                const versionName = rowVersionId ? getLocalizedGameName(t, rowVersionId, GAME_VERSIONS[rowVersionId]?.name ?? rowVersionId) : '';
                                 return (
                                     <button
                                         key={rowIdx}
@@ -79,7 +83,8 @@ const GameVersionPicker: React.FC<GameVersionPickerProps> = ({value, onSelect, i
                                           ${focusRingClasses}
                                         `}
                                         aria-pressed={rowSelected}
-                                        title={row.map(t => t.label).join(' | ')}
+                                        title={versionName}
+                                        aria-label={versionName}
                                     >
                                         <span className="flex gap-1 w-full items-stretch rounded-md overflow-hidden">
                                           {row.map((tile, tileIdx) => {
@@ -88,6 +93,7 @@ const GameVersionPicker: React.FC<GameVersionPickerProps> = ({value, onSelect, i
                                             const bgColor = sc?.bgColor || '#ffffff';
                                             const textColor = sc?.textColor || '#111827';
                                             const borderColor = sc?.borderColor || '#d1d5db';
+                                            const localizedLabel = getLocalizedSelectionLabel(t, rowVersionId, tile.label);
 
                                             const isOnlyOne = row.length === 1;
                                             const isFirst = tileIdx === 0;
@@ -113,7 +119,7 @@ const GameVersionPicker: React.FC<GameVersionPickerProps> = ({value, onSelect, i
                                                         borderColor: borderColor
                                                     }}
                                                 >
-                                                    {tile.label}
+                                                    {localizedLabel}
                                                 </div>
                                             );
                                         })}

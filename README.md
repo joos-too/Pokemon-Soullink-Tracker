@@ -84,7 +84,7 @@ The same `database.rules.json` file is loaded automatically when you run the loc
 
 ## Pokémon data cache (names + evolutions)
 
-- The app ships with generated datasets under `src/data/` (`pokemon-de.ts`, `pokemon-de-map.ts`, `pokemon-evolutions.ts`) that power German autocomplete and evolution filtering (generation + version-aware).
+- The app ships with generated datasets under `src/data/` (`pokemon-de.ts`, `pokemon-en.ts`, `pokemon-map.ts`, `pokemon-evolutions.ts`) that power localized autocomplete and evolution filtering (generation + version-aware).
 - To refresh these datasets from PokeAPI, run:
 
 ```

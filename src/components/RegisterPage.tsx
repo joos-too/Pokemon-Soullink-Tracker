@@ -3,6 +3,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import type { FirebaseError } from "firebase/app";
 import { auth } from "../firebaseConfig";
 import { focusRingClasses, focusRingInputClasses, focusRingBlueClasses } from "@/src/styles/focusRing";
+import { useTranslation } from "react-i18next";
 
 type RegisterPageProps = {
   onSwitchToLogin: () => void;
@@ -14,22 +15,23 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onSwitchToLogin }) => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const { t } = useTranslation();
 
   const resolveErrorMessage = (err: unknown): string => {
     if (typeof err === "object" && err !== null && "code" in err) {
       const code = (err as FirebaseError).code;
       switch (code) {
         case "auth/email-already-in-use":
-          return "Diese Email wird bereits verwendet.";
+          return t('auth.register.errors.emailInUse');
         case "auth/invalid-email":
-          return "Bitte gib eine gültige Email-Adresse ein.";
+          return t('auth.register.errors.invalidEmail');
         case "auth/weak-password":
-          return "Das Passwort muss mindestens 8 Zeichen lang sein.";
+          return t('auth.register.errors.weakPassword');
         default:
           break;
       }
     }
-    return "Registrierung fehlgeschlagen. Bitte versuche es später erneut.";
+    return t('auth.register.errors.general');
   };
 
   const handleRegister = async (e: React.FormEvent) => {
@@ -37,12 +39,12 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onSwitchToLogin }) => {
     setError(null);
 
     if (password.length < 8) {
-      setError("Das Passwort muss mindestens 8 Zeichen lang sein.");
+      setError(t('auth.register.errors.weakPassword'));
       return;
     }
 
     if (password !== confirmPassword) {
-      setError("Die Passwörter stimmen nicht überein.");
+      setError(t('auth.register.passwordMismatch'));
       return;
     }
 
@@ -68,18 +70,18 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onSwitchToLogin }) => {
               className="mx-auto mb-3 w-40 h-40 object-contain"
             />
             <h1 className="text-2xl sm:text-3xl font-bold font-press-start tracking-tighter dark:text-gray-100">
-              Account erstellen
+              {t('auth.register.title')}
             </h1>
             <p className="text-sm text-gray-500 dark:text-gray-400 mt-2 text-center">
-              <span className="block">Starte dein Soullink Abenteuer</span>
+              <span className="block">{t('auth.register.headline')}</span>
               <span className="block mt-1">
-                Schon ein Account?{" "}
+                {t('auth.register.haveAccount')}{" "}
                 <button
                   type="button"
                   onClick={onSwitchToLogin}
                   className={`font-semibold text-blue-600 hover:text-blue-700 dark:text-blue-400 hover:underline focus-visible:underline ${focusRingBlueClasses}`}
                 >
-                  Hier anmelden
+                  {t('auth.register.toLogin')}
                 </button>
               </span>
             </p>
@@ -87,23 +89,23 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onSwitchToLogin }) => {
 
           <form onSubmit={handleRegister} className="mt-6 space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Email
-              </label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              {t('auth.register.emailLabel')}
+            </label>
               <input
                 type="email"
                 autoComplete="email"
                 required
                 className={`w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
-                placeholder="you@example.com"
+                placeholder={t('auth.login.emailPlaceholder')}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Passwort
-              </label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              {t('auth.register.passwordLabel')}
+            </label>
               <input
                 type="password"
                 autoComplete="new-password"
@@ -115,9 +117,9 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onSwitchToLogin }) => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Passwort bestätigen
-              </label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              {t('auth.register.confirmPasswordLabel')}
+            </label>
               <input
                 type="password"
                 autoComplete="new-password"
@@ -136,7 +138,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onSwitchToLogin }) => {
               disabled={loading}
               className={`w-full bg-green-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-green-700 transition-colors shadow-md disabled:opacity-70 ${focusRingClasses}`}
             >
-              {loading ? "Registriere…" : "Registrieren"}
+              {loading ? `${t('auth.register.submit')}…` : t('auth.register.submit')}
             </button>
           </form>
         </div>

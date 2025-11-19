@@ -1,8 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import type { Pokemon } from '@/types';
-import { searchGermanPokemonNames } from '@/src/services/pokemonSearch';
-import { getSpriteUrlForGermanName } from '@/src/services/sprites';
+import { searchPokemonNames } from '@/src/services/pokemonSearch';
+import { getSpriteUrlForPokemonName } from '@/src/services/sprites';
 import { focusRingClasses, focusRingInputClasses } from '@/src/styles/focusRing';
+import { useTranslation } from 'react-i18next';
+import { normalizeLanguage, type SupportedLanguage } from '@/src/utils/language';
 
 interface EditPairModalProps {
   isOpen: boolean;
@@ -28,15 +30,17 @@ interface PokemonFieldProps {
   onNicknameChange: (value: string) => void;
   isOpen: boolean;
   generationLimit?: number;
+  language: SupportedLanguage;
 }
 
-const PokemonField: React.FC<PokemonFieldProps> = ({ label, value, nickname, onNameChange, onNicknameChange, isOpen, generationLimit }) => {
+const PokemonField: React.FC<PokemonFieldProps> = ({ label, value, nickname, onNameChange, onNicknameChange, isOpen, generationLimit, language }) => {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [focused, setFocused] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
   const searchSeq = useRef(0);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!isOpen) {
@@ -65,7 +69,7 @@ const PokemonField: React.FC<PokemonFieldProps> = ({ label, value, nickname, onN
     setLoading(true);
     setOpen(true);
     const timer = setTimeout(async () => {
-      const res = await searchGermanPokemonNames(term, 10, { maxGeneration: generationLimit });
+      const res = await searchPokemonNames(term, 10, { maxGeneration: generationLimit, locale: language });
       if (seq === searchSeq.current) {
         setSuggestions(res);
         setLoading(false);
@@ -74,7 +78,7 @@ const PokemonField: React.FC<PokemonFieldProps> = ({ label, value, nickname, onN
       }
     }, 250);
     return () => clearTimeout(timer);
-  }, [value, focused, isOpen, generationLimit]);
+  }, [value, focused, isOpen, generationLimit, language]);
 
   const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
     if (e.key === 'Tab') {
@@ -97,13 +101,13 @@ const PokemonField: React.FC<PokemonFieldProps> = ({ label, value, nickname, onN
     }
   };
 
-  const spriteUrl = getSpriteUrlForGermanName(value);
+  const spriteUrl = getSpriteUrlForPokemonName(value);
 
   return (
     <div className="space-y-2">
       <div className="mb-1 min-h-[2.5rem] flex items-end">
         <label className="w-full text-sm font-bold text-gray-700 dark:text-gray-300 leading-tight whitespace-normal break-words">
-          {label} - Pokémon <span className="text-red-500">*</span>
+          {label} – {t('modals.editPair.pokemonLabel')} <span className="text-red-500">*</span>
         </label>
       </div>
       <div className="relative">
@@ -115,7 +119,7 @@ const PokemonField: React.FC<PokemonFieldProps> = ({ label, value, nickname, onN
           onBlur={() => setTimeout(() => { setFocused(false); setOpen(false); }, 150)}
           onKeyDown={handleKeyDown}
           className={`w-full pr-14 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
-          placeholder="Pokémon"
+          placeholder={t('common.pokemonPlaceholder')}
           required
           aria-autocomplete="list"
           aria-expanded={open}
@@ -126,7 +130,7 @@ const PokemonField: React.FC<PokemonFieldProps> = ({ label, value, nickname, onN
         {open && (
           <div className="absolute z-10 mt-1 w-full max-h-56 overflow-auto rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-lg">
             {loading && (
-              <div className="px-3 py-2 text-sm text-gray-500 dark:text-gray-400">Lade Vorschläge...</div>
+              <div className="px-3 py-2 text-sm text-gray-500 dark:text-gray-400">{t('modals.common.loadingSuggestions')}</div>
             )}
             {!loading && suggestions.map((s, idx) => (
               <div
@@ -142,18 +146,18 @@ const PokemonField: React.FC<PokemonFieldProps> = ({ label, value, nickname, onN
               </div>
             ))}
             {!loading && suggestions.length === 0 && (
-              <div className="px-3 py-2 text-sm text-gray-500 dark:text-gray-400">Keine Treffer</div>
+              <div className="px-3 py-2 text-sm text-gray-500 dark:text-gray-400">{t('modals.common.noMatches')}</div>
             )}
           </div>
         )}
       </div>
-      <label className="block text-xs text-gray-600 dark:text-gray-400">Spitzname <span className="text-red-500">*</span></label>
+      <label className="block text-xs text-gray-600 dark:text-gray-400">{t('modals.editPair.nicknameLabel')} <span className="text-red-500">*</span></label>
       <input
         type="text"
         value={nickname}
         onChange={(e) => onNicknameChange(e.target.value)}
         className={`w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
-        placeholder="Spitzname"
+        placeholder={t('modals.editPair.nicknamePlaceholder')}
         required
       />
     </div>
@@ -169,6 +173,8 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
   mode = 'edit',
   generationLimit,
 }) => {
+  const { t, i18n } = useTranslation();
+  const language = useMemo(() => normalizeLanguage(i18n.language), [i18n.language]);
   const [route, setRoute] = useState(initial.route || '');
   const [members, setMembers] = useState<Pokemon[]>(() => playerLabels.map((_, index) => initial.members?.[index] ?? { name: '', nickname: '' }));
 
@@ -195,9 +201,9 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
     });
   };
 
-  const title = mode === 'create' ? 'Pokémon hinzufügen' : 'Pokémon bearbeiten';
-  const cancelLabel = mode === 'create' ? 'Zurück' : 'Abbrechen';
-  const submitLabel = mode === 'create' ? 'Hinzufügen' : 'Speichern';
+  const title = mode === 'create' ? t('modals.editPair.addTitle') : t('modals.editPair.editTitle');
+  const cancelLabel = mode === 'create' ? t('common.back') : t('common.cancel');
+  const submitLabel = mode === 'create' ? t('common.add') : t('common.save');
   const isValid = route.trim().length > 0 && playerLabels.every((_, index) => {
     const member = members[index];
     return Boolean(member?.name.trim()) && Boolean(member?.nickname.trim());
@@ -221,7 +227,7 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label htmlFor="route" className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">
-              Gebiet <span className="text-red-500">*</span>
+              {t('modals.addLost.routeLabel')} <span className="text-red-500">*</span>
             </label>
             <input
               id="route"
@@ -229,7 +235,7 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
               value={route}
               onChange={(e) => setRoute(e.target.value)}
               className={`w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
-              placeholder="z.B. Route 1"
+              placeholder={t('common.routePlaceholder')}
               required
             />
           </div>
@@ -255,6 +261,7 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
                     })}
                     isOpen={isOpen}
                     generationLimit={generationLimit}
+                    language={language}
                   />
                 </div>
               );

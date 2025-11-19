@@ -1,12 +1,11 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {FiPlus, FiX, FiUsers} from 'react-icons/fi';
 import { GAME_VERSIONS } from '@/src/data/game-versions';
 import { PLAYER_COLORS } from '@/constants';
 import { focusRingClasses, focusRingInsetClasses, focusRingInputClasses } from '@/src/styles/focusRing';
 import GameVersionPicker from './GameVersionPicker';
-
-const PLAYER_COUNT_LABELS: Record<number, string> = { 1: 'Solo', 2: 'Duo', 3: 'Trio' };
-
+import { useTranslation } from 'react-i18next';
+import {getLocalizedGameName} from "@/src/services/gameLocalization.ts";
 
 interface CreateTrackerModalProps {
   isOpen: boolean;
@@ -21,8 +20,15 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
   const [playerCount, setPlayerCount] = useState(2);
   const [playerNames, setPlayerNames] = useState<string[]>(['', '']);
   const [memberInputs, setMemberInputs] = useState<string[]>(['']);
-  const [gameVersionId, setGameVersionId] = useState('gen5_sw');
+  const [gameVersionId, setGameVersionId] = useState('');
+  const [versionError, setVersionError] = useState(false);
   const [showVersionPicker, setShowVersionPicker] = useState(false);
+  const { t } = useTranslation();
+  const playerCountLabels = useMemo(() => ({
+    1: t('modals.createTracker.playerCounts.solo'),
+    2: t('modals.createTracker.playerCounts.duo'),
+    3: t('modals.createTracker.playerCounts.trio'),
+  }), [t]);
 
   useEffect(() => {
     setPlayerNames((prev) => {
@@ -39,7 +45,8 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
     setPlayerCount(2);
     setPlayerNames(['', '']);
     setMemberInputs(['']);
-    setGameVersionId('gen5_sw');
+    setGameVersionId('');
+    setVersionError(false);
     setShowVersionPicker(false);
   }, []);
 
@@ -63,6 +70,11 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    if (!gameVersionId) {
+      setVersionError(true);
+      setShowVersionPicker(true);
+      return;
+    }
     const trimmedPlayerNames = playerNames.map((name) => name.trim());
     await onSubmit({
       title,
@@ -84,14 +96,14 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
         <form onSubmit={handleSubmit}>
           <header className="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 px-5 py-4">
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-green-600">Neuer Tracker</p>
-              <h2 className="text-xl font-semibold mt-1 text-gray-900 dark:text-gray-100">Erstelle deinen Tracker</h2>
+              <p className="text-xs uppercase tracking-[0.3em] text-green-600">{t('modals.createTracker.badge')}</p>
+              <h2 className="text-xl font-semibold mt-1 text-gray-900 dark:text-gray-100">{t('modals.createTracker.title')}</h2>
             </div>
             <button
               type="button"
               onClick={handleClose}
               className={`rounded-full p-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white ${focusRingClasses}`}
-              aria-label="Schließen"
+              aria-label={t('common.close')}
               disabled={isSubmitting}
             >
               <FiX size={20} />
@@ -101,18 +113,23 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
           <div className="px-5 py-4 space-y-4 max-h-[60vh] overflow-y-auto custom-scrollbar">
             <div>
               <label className="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2 block">
-                Spielversion
+                {t('modals.createTracker.versionLabel')}
               </label>
               <button
                 type="button"
                 onClick={() => setShowVersionPicker((v) => !v)}
                 aria-expanded={showVersionPicker}
                 aria-controls="game-version-picker-panel"
-                className={`w-full inline-flex items-center justify-between rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-sm font-semibold text-gray-800 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-600 ${focusRingClasses}`}
-                title="Spielversion auswählen"
+                className={`w-full inline-flex items-center justify-between rounded-md border ${versionError ? 'border-red-500 dark:border-red-400' : 'border-gray-300 dark:border-gray-600'} bg-white dark:bg-gray-700 px-3 py-2 text-sm font-semibold text-gray-800 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-600 ${focusRingClasses}`}
+                title={t('modals.createTracker.versionButton')}
+                aria-invalid={versionError}
+                aria-describedby={versionError ? 'game-version-error' : undefined}
               >
-                <span>Spielversion auswählen</span>
-                <span className="text-xs text-gray-600 dark:text-gray-300">{GAME_VERSIONS[gameVersionId]?.name ?? gameVersionId}</span>
+                <span>{t('modals.createTracker.versionButton')}</span>
+                <span className={`text-xs ${gameVersionId ? 'text-gray-600 dark:text-gray-300' : 'text-gray-400 dark:text-gray-500'}`}>
+                    {gameVersionId
+                      ? getLocalizedGameName(t, gameVersionId, GAME_VERSIONS[gameVersionId]?.name ?? gameVersionId)
+                      : t('modals.createTracker.versionPlaceholder')}</span>
               </button>
 
               <div
@@ -126,14 +143,20 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
                   isInteractive={showVersionPicker}
                   onSelect={(versionId) => {
                     setGameVersionId(versionId);
+                    setVersionError(false);
                     setShowVersionPicker(false)
                   }}
                 />
               </div>
+              {versionError && (
+                <p id="game-version-error" className="mt-2 text-sm text-red-600 dark:text-red-400">
+                  {t('modals.createTracker.versionRequired')}
+                </p>
+              )}
             </div>
             <div>
               <label className="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-1 block" htmlFor="trackerTitle">
-                Titel
+                {t('modals.createTracker.titleLabel')}
               </label>
               <input
                 id="trackerTitle"
@@ -142,14 +165,14 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 className={`w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
-                placeholder="z. B. Schwarz 2 Soullink"
+                placeholder={t('modals.createTracker.titlePlaceholder')}
               />
             </div>
 
             <div className="space-y-3">
               <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                 <label className="text-sm font-semibold text-gray-700 dark:text-gray-200">
-                  Spieleranzahl wählen
+                  {t('modals.createTracker.playerCountLabel')}
                 </label>
                 <div className="inline-flex rounded-md border border-gray-300 dark:border-gray-600 overflow-hidden focus-within:border-green-500 transition-colors">
                   {[1, 2, 3].map((count) => {
@@ -165,7 +188,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
                             : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600'
                         } ${count !== 3 ? 'border-r border-gray-300 dark:border-gray-600' : ''} ${focusRingInsetClasses}`}
                       >
-                        {PLAYER_COUNT_LABELS[count]}
+                        {playerCountLabels[count as 1 | 2 | 3]}
                       </button>
                     );
                   })}
@@ -181,7 +204,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
                         className="text-sm font-semibold mb-1 block"
                         style={{color: PLAYER_COLORS[index] ?? '#4b5563'}}
                       >
-                        Spieler {index + 1}
+                        {t('modals.createTracker.playerLabel', { index: index + 1 })}
                       </label>
                       <input
                         type="text"
@@ -189,7 +212,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
                         value={value}
                         onChange={(e) => setPlayerNames((prev) => prev.map((entry, i) => (i === index ? e.target.value : entry)))}
                         className={`w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
-                        placeholder="Name"
+                        placeholder={t('modals.createTracker.playerPlaceholder')}
                       />
                     </div>
                   );
@@ -201,10 +224,10 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
               <div className="flex items-center justify-between mb-3">
                 <div>
                   <p className="text-sm font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
-                    <FiUsers /> Mitglieder (optional)
+                    <FiUsers /> {t('modals.createTracker.membersLabel')}
                   </p>
                   <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                    Füge Emails hinzu, die auf diesen Tracker zugreifen dürfen.
+                    {t('modals.createTracker.membersDescription')}
                   </p>
                 </div>
                 <button
@@ -212,7 +235,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
                   onClick={handleAddMemberRow}
                   className={`inline-flex items-center gap-2 rounded-md border border-gray-300 dark:border-gray-600 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 ${focusRingClasses}`}
                 >
-                  <FiPlus /> E-Mail
+                  <FiPlus /> {t('modals.createTracker.addMember')}
                 </button>
               </div>
               <div className="space-y-2 max-h-44 overflow-y-auto px-1 py-1 custom-scrollbar">
@@ -230,7 +253,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
                         type="button"
                         onClick={() => handleRemoveMemberRow(index)}
                         className={`rounded-md border border-gray-300 dark:border-gray-600 px-3 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white ${focusRingClasses}`}
-                        aria-label="E-Mail entfernen"
+                        aria-label={t('modals.createTracker.removeMember')}
                       >
                         <FiX />
                       </button>
@@ -254,14 +277,14 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
               disabled={isSubmitting}
               className={`inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-600 px-4 py-2 text-sm font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-60 ${focusRingClasses}`}
             >
-              Abbrechen
+              {t('common.cancel')}
             </button>
             <button
               type="submit"
-              disabled={isSubmitting}
-              className="inline-flex justify-center rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-500 disabled:opacity-60"
+              disabled={isSubmitting || !gameVersionId}
+              className="inline-flex justify-center rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-500 disabled:opacity-60"
             >
-              {isSubmitting ? 'Erstelle…' : 'Tracker erstellen'}
+              {isSubmitting ? t('modals.createTracker.submitting') : t('modals.createTracker.submit')}
             </button>
           </footer>
         </form>

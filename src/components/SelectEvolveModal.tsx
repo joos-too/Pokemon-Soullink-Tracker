@@ -1,9 +1,12 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import P from '@/src/pokeapi';
-import {EVOLUTIONS} from '@/src/data/pokemon-evolutions';
-import {GERMAN_TO_ID as GERMAN_TO_ID_PRELOAD, POKEMON_ID_TO_GENERATION} from '@/src/data/pokemon-de-map';
+import {EVOLUTIONS_DE, EVOLUTIONS_EN} from '@/src/data/pokemon-evolutions';
+import {POKEMON_ID_TO_GENERATION} from '@/src/data/pokemon-map';
 import {getOfficialArtworkUrlById} from '@/src/services/sprites';
+import {findPokemonIdByName, getPokemonNameById} from '@/src/services/pokemonSearch';
 import type {PokemonLink} from '@/types';
+import { useTranslation } from 'react-i18next';
+import {normalizeLanguage, type SupportedLanguage} from '@/src/utils/language';
 
 interface SelectEvolveModalProps {
     isOpen: boolean;
@@ -22,14 +25,18 @@ interface EvoInfo {
     artworkUrl?: string | null;
 }
 
-function mergeLocationMethods(methods: string[] | undefined): string[] {
+const EVOLUTION_TABLES: Record<SupportedLanguage, Record<number, { id: number; methods: string[] }[]>> = {
+    de: EVOLUTIONS_DE,
+    en: EVOLUTIONS_EN,
+};
+
+function mergeLocationMethods(methods: string[] | undefined, locationPrefix: string): string[] {
     if (!methods || methods.length === 0) return [];
-    const LOCATION_PREFIX = 'Level-Up - Ort: ';
     const locations: string[] = [];
     const others: string[] = [];
     methods.forEach((method) => {
-        if (method.startsWith(LOCATION_PREFIX)) {
-            locations.push(method.slice(LOCATION_PREFIX.length));
+        if (method.startsWith(locationPrefix)) {
+            locations.push(method.slice(locationPrefix.length));
         } else {
             others.push(method);
         }
@@ -38,21 +45,12 @@ function mergeLocationMethods(methods: string[] | undefined): string[] {
         ? others.filter((method) => method !== 'Level-Up')
         : others;
     if (locations.length === 0) return withoutPlainLevelUp;
-    if (locations.length === 1) return [...withoutPlainLevelUp, `${LOCATION_PREFIX}${locations[0]}`];
-    return [...withoutPlainLevelUp, `${LOCATION_PREFIX}${locations.join(', ')}`];
+    if (locations.length === 1) return [...withoutPlainLevelUp, `${locationPrefix}${locations[0]}`];
+    return [...withoutPlainLevelUp, `${locationPrefix}${locations.join(', ')}`];
 }
 
-// Build reverse map id -> german name
-const ID_TO_GERMAN: Record<number, string> = (() => {
-    const out: Record<number, string> = {};
-    Object.entries(GERMAN_TO_ID_PRELOAD).forEach(([k, v]) => {
-        out[v] = k;
-    });
-    return out;
-})();
-
 interface MethodGenerationRule {
-    method: string;
+    methods: string[];
     minGeneration?: number;
     maxGeneration?: number;
 }
@@ -60,48 +58,57 @@ interface MethodGenerationRule {
 const METHOD_GENERATION_RULES: Record<number, MethodGenerationRule[]> = {
     28: [
         {
-            method: 'Item: Eisstein',
+            methods: ['Item: Eisstein', 'Item: Ice Stone'],
             minGeneration: 7,
         },
     ],
     38: [
         {
-            method: 'Item: Eisstein',
+            methods: ['Item: Eisstein', 'Item: Ice Stone'],
             minGeneration: 7,
         },
     ],
     20: [
         {
-            method: 'Level-Up - Level 20, Tageszeit: Nacht',
+            methods: ['Level-Up - Level 20, Tageszeit: Nacht', 'Level-Up - Level 20, Time of day: Night'],
             minGeneration: 7,
         },
     ],
     700: [
         {
-            method: 'Level-Up - Freundschaft ≥ 160, Kennt Attacke vom Typ Fee',
+            methods: ['Level-Up - Freundschaft ≥ 160, Kennt Attacke vom Typ Fee', 'Level-Up - Friendship ≥ 160, Knows move of type Fairy'],
             minGeneration: 8,
         },
     ],
     80: [{
-        method: "Item: Galarnuss-Reif",
+        methods: ['Item: Galarnuss-Reif', 'Item: Galarica Cuff'],
         minGeneration: 7,
     }],
     199: [{
-        method: "Item: Galarnuss-Kranz",
+        methods: ['Item: Galarnuss-Kranz', 'Item: Galarica Wreath'],
         minGeneration: 7,
     }]
 };
 
 const LOCATION_METHOD_VERSION_RULES: Record<string, string[]> = {
     'Level-Up - Ort: Kraterberg': ['gen4_dp', 'gen4_pt'],
+    'Level-Up - Location: Mt. Coronet': ['gen4_dp', 'gen4_pt'],
     'Level-Up - Ort: Elektrolithhöhle': ['gen5_sw', 'gen5_s2w2'],
+    'Level-Up - Location: Chargestone Cave': ['gen5_sw', 'gen5_s2w2'],
     'Level-Up - Ort: Route 13': ['gen6_xy'],
+    'Level-Up - Location: Route 13': ['gen6_xy'],
     'Level-Up - Ort: Ewigenwald': ['gen5_sw', 'gen5_s2w2'],
+    'Level-Up - Location: Pinwheel Forest': ['gen5_sw', 'gen5_s2w2'],
     'Level-Up - Ort: Ewigwald': ['gen4_dp', 'gen4_pt'],
+    'Level-Up - Location: Eterna Forest': ['gen4_dp', 'gen4_pt'],
     'Level-Up - Ort: Route 20': ['gen6_xy'],
+    'Level-Up - Location: Route 20': ['gen6_xy'],
     'Level-Up - Ort: Route 217': ['gen4_dp', 'gen4_pt'],
+    'Level-Up - Location: Route 217': ['gen4_dp', 'gen4_pt'],
     'Level-Up - Ort: Wendelberg': ['gen5_sw', 'gen5_s2w2'],
+    'Level-Up - Location: Twist Mountain': ['gen5_sw', 'gen5_s2w2'],
     'Level-Up - Ort: Frosthöhle': ['gen6_xy'],
+    'Level-Up - Location: Frost Cavern': ['gen6_xy'],
 };
 
 function methodAllowedForVersion(method: string, gameVersionId?: string) {
@@ -123,7 +130,7 @@ function filterMethodsForConstraints(
         const rules = METHOD_GENERATION_RULES[pokemonId];
         if (rules && rules.length) {
             filtered = filtered.filter((method) => {
-                const rule = rules.find((r) => r.method === method);
+                const rule = rules.find((r) => r.methods?.includes(method));
                 if (!rule) return true;
                 if (typeof rule.minGeneration === 'number' && maxGeneration < rule.minGeneration) return false;
                 if (typeof rule.maxGeneration === 'number' && maxGeneration > rule.maxGeneration) return false;
@@ -139,7 +146,7 @@ function filterMethodsForConstraints(
 
 function prettyName(raw: string) {
     if (!raw) return raw;
-    // raw from GERMAN map is already lowercase; capitalize first letter
+    // fallback slug formatting when localized names are unavailable
     return raw.charAt(0).toUpperCase() + raw.slice(1);
 }
 
@@ -156,6 +163,9 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
     const [availableEvos, setAvailableEvos] = useState<EvoInfo[] | null>(null);
     const [selectedEvoId, setSelectedEvoId] = useState<number | null>(null);
     const [loading, setLoading] = useState(false);
+    const { t, i18n } = useTranslation();
+    const language = useMemo(() => normalizeLanguage(i18n.language), [i18n.language]);
+    const [nameLanguage, setNameLanguage] = useState<SupportedLanguage>('de');
 
     useEffect(() => {
         if (isOpen) {
@@ -164,6 +174,7 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
             setAvailableEvos(null);
             setSelectedEvoId(null);
             setLoading(false);
+            setNameLanguage('de');
         }
     }, [isOpen, playerLabels.length]);
 
@@ -183,14 +194,16 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
                 setAvailableEvos([]);
                 return;
             }
-            const key = String(name).trim().toLowerCase();
-            const numericId = (GERMAN_TO_ID_PRELOAD as Record<string, number>)[key];
-            if (!numericId) {
+            const match = findPokemonIdByName(name);
+            if (!match) {
                 setAvailableEvos([]);
                 return;
             }
+            setNameLanguage(match.language);
+            const numericId = match.id;
 
-            const evoEntries = EVOLUTIONS[numericId] || [];
+            const evoTable = EVOLUTION_TABLES[language] || EVOLUTION_TABLES.de;
+            const evoEntries = evoTable[numericId] || [];
             const generationLimit = typeof maxGeneration === 'number' ? maxGeneration : null;
             const filteredEntries = generationLimit === null
                 ? evoEntries
@@ -206,28 +219,35 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
 
             setLoading(true);
             try {
+                const defaultUnknown = language === 'de' ? 'Bedingung unbekannt' : 'Requirement unknown';
                 const infos: EvoInfo[] = await Promise.all(filteredEntries.map(async (entry) => {
                     const eid = entry.id;
-                    const baseMethods = entry.methods && entry.methods.length ? entry.methods : ['Bedingung unbekannt'];
+                    const baseMethods = entry.methods && entry.methods.length ? entry.methods : [defaultUnknown];
                     const methodsForConstraints = filterMethodsForConstraints(eid, baseMethods, maxGeneration, gameVersionId);
-                    const displayMethods = methodsForConstraints.length ? methodsForConstraints : ['In dieser Version nicht verfügbar'];
+                    const displayMethods = methodsForConstraints.length ? methodsForConstraints : [t('tracker.evolveModal.unavailable')];
                     try {
                         const res = await P.getPokemonByName(String(eid));
                         const art = res.sprites?.other?.['official-artwork']?.front_default || null;
-                        const german = ID_TO_GERMAN[eid] || '';
+                        const localizedName = getPokemonNameById(eid, language)
+                            || getPokemonNameById(eid, nameLanguage)
+                            || getPokemonNameById(eid, language === 'de' ? 'en' : 'de')
+                            || (res.name ? prettyName(res.name) : String(eid));
                         return {
                             id: eid,
-                            name: german ? prettyName(german) : (res.name ? prettyName(res.name) : String(eid)),
+                            name: localizedName,
                             artworkUrl: art,
                             methods: displayMethods,
                         };
                     } catch (e) {
                         // fallback to constructed artwork url and id-to-german map
                         const art = getOfficialArtworkUrlById(eid);
-                        const german = ID_TO_GERMAN[eid] || '';
+                        const localizedName = getPokemonNameById(eid, language)
+                            || getPokemonNameById(eid, nameLanguage)
+                            || getPokemonNameById(eid, language === 'de' ? 'en' : 'de')
+                            || String(eid);
                         return {
                             id: eid,
-                            name: german ? prettyName(german) : String(eid),
+                            name: localizedName,
                             artworkUrl: art,
                             methods: displayMethods,
                         };
@@ -240,16 +260,18 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
         }
 
         if (selectedPlayer !== null) loadEvos();
-    }, [selectedPlayer, pair, maxGeneration, gameVersionId]);
+    }, [selectedPlayer, pair, maxGeneration, gameVersionId, language]);
 
     if (!isOpen) return null;
 
     const handleConfirm = (e: React.FormEvent) => {
         e.preventDefault();
         if (selectedPlayer === null || selectedEvoId === null) return;
-        const germanNameRaw = ID_TO_GERMAN[selectedEvoId] || '';
-        const germanName = germanNameRaw ? prettyName(germanNameRaw) : String(selectedEvoId);
-        onConfirm(selectedPlayer, germanName, selectedEvoId);
+        const targetName = getPokemonNameById(selectedEvoId, nameLanguage)
+            || getPokemonNameById(selectedEvoId, language)
+            || getPokemonNameById(selectedEvoId, language === 'de' ? 'en' : 'de')
+            || prettyName(String(selectedEvoId));
+        onConfirm(selectedPlayer, targetName, selectedEvoId);
     };
 
     return (
@@ -260,10 +282,10 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
                 {/* header */}
                 <div
                     className="px-6 py-4 flex justify-between items-center border-b border-gray-100 dark:border-gray-700">
-                    <h2 className="text-lg font-bold dark:text-gray-100">Entwickeln</h2>
+                    <h2 className="text-lg font-bold dark:text-gray-100">{t('tracker.evolveModal.title')}</h2>
                     <button onClick={onClose}
                             className="text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
-                            aria-label="Schließen">
+                            aria-label={t('common.close')}>
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24"
                              stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
@@ -277,7 +299,7 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
                     <div className="overflow-auto max-h-[60vh] pr-2 pt-4">
                         {selectedPlayer === null && (
                             <div className="mb-4 text-sm text-gray-700 dark:text-gray-300">
-                                <div className="mb-2">Welches Pok&eacute;mon soll entwickelt werden?</div>
+                                <div className="mb-2">{t('tracker.evolveModal.prompt')}</div>
                                 {playerLabels.map((label, index) => {
                                     const member = pair?.members?.[index];
                                     return (
@@ -300,20 +322,20 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
 
                         {selectedPlayer !== null && (
                             <div className="mb-4">
-                                <div className="font-semibold mb-2">{currentName} entwickeln?</div>
+                                <div className="font-semibold mb-2">{t('tracker.evolveModal.evolveQuestion', { name: currentName })}</div>
 
-                                {loading && <div className="text-sm text-gray-500">Lade Entwicklungen…</div>}
+                                {loading && <div className="text-sm text-gray-500">{t('tracker.evolveModal.loading')}</div>}
 
                                 {!loading && availableEvos && availableEvos.length === 0 && (
-                                    <div className="text-sm text-gray-600 dark:text-gray-300">Für dieses Pokémon sind
-                                        keine Entwicklungen verfügbar.</div>
+                                    <div className="text-sm text-gray-600 dark:text-gray-300">{t('tracker.evolveModal.noneAvailable')}</div>
                                 )}
 
                                 {!loading && availableEvos && availableEvos.length > 0 && (
                                     <div className="space-y-3">
                                         {availableEvos.map((ev) => {
-                                            const formattedMethods = mergeLocationMethods(ev.methods);
-                                            const methodText = formattedMethods.length ? formattedMethods.join(' · ') : 'Bedingung unbekannt';
+                                            const locationPrefix = language === 'de' ? 'Level-Up - Ort: ' : 'Level-Up - Location: ';
+                                            const formattedMethods = mergeLocationMethods(ev.methods, locationPrefix);
+                                            const methodText = formattedMethods.length ? formattedMethods.join(' · ') : t('tracker.evolveModal.methodUnknown');
                                             return (
                                                 <label key={ev.id}
                                                        className="flex items-center gap-3 cursor-pointer dark:text-gray-200">
@@ -340,11 +362,11 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
                     {/* footer buttons (kept visible) */}
                     <div className="mt-4 flex justify-end gap-2">
                         <button type="button" onClick={onClose}
-                                className="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700">Abbrechen
+                                className="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700">{t('tracker.evolveModal.buttonCancel')}
                         </button>
                         <button type="submit" disabled={selectedPlayer === null || selectedEvoId === null}
                                 className={`px-4 py-2 rounded-md font-semibold shadow ${selectedEvoId ? 'bg-green-600 text-white hover:bg-green-700' : 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed'}`}>
-                            Bestätigen
+                            {t('tracker.evolveModal.buttonConfirm')}
                         </button>
                     </div>
                 </form>

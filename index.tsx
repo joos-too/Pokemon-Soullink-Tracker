@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import App from '@/src/App';
+import '@/src/i18n';
 
 // Ensure initial theme is applied before React mounts so login/early pages render with correct theme
 (function initTheme() {

@@ -1,7 +1,4 @@
-import { GERMAN_TO_ID as PRELOAD_GERMAN_TO_ID } from '@/src/data/pokemon-de-map';
-
-// Static in-memory mapping generated at build time
-const germanToId: Record<string, number> = { ...PRELOAD_GERMAN_TO_ID };
+import { findPokemonIdByName } from '@/src/services/pokemonSearch';
 
 // Official artwork (high-res) by numeric id
 export function getOfficialArtworkUrlById(id: number): string {
@@ -13,22 +10,16 @@ export function getSpriteUrlById(id: number): string {
   return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
 }
 
-// Resolve official artwork by German name
-export function getOfficialArtworkUrlForGermanName(name: string | undefined | null): string | null {
-  if (!name) return null;
-  const key = String(name).trim().toLowerCase();
-  if (!key) return null;
-  const id = germanToId[key];
-  if (!id) return null;
-  return getOfficialArtworkUrlById(id);
+// Resolve official artwork by localized name
+export function getOfficialArtworkUrlForPokemonName(name: string | undefined | null): string | null {
+  const match = findPokemonIdByName(name);
+  if (!match) return null;
+  return getOfficialArtworkUrlById(match.id);
 }
 
-// Resolve classic sprite by German name
-export function getSpriteUrlForGermanName(name: string | undefined | null): string | null {
-  if (!name) return null;
-  const key = String(name).trim().toLowerCase();
-  if (!key) return null;
-  const id = germanToId[key];
-  if (!id) return null;
-  return getSpriteUrlById(id);
+// Resolve classic sprite by localized name
+export function getSpriteUrlForPokemonName(name: string | undefined | null): string | null {
+  const match = findPokemonIdByName(name);
+  if (!match) return null;
+  return getSpriteUrlById(match.id);
 }

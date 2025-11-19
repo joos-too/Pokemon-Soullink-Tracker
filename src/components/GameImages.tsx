@@ -1,29 +1,31 @@
 import React from 'react';
 import type {VariableRival, UserSettings} from '@/types';
-import {getSpriteUrlForGermanName} from '@/src/services/sprites';
+import {getSpriteUrlForPokemonName} from '@/src/services/sprites';
 
 // RivalImage component for displaying rival sprites
 export const RivalImage: React.FC<{
     rival: string | VariableRival,
-    preferences: UserSettings['rivalPreferences']
-}> = ({rival, preferences}) => {
+    preferences: UserSettings['rivalPreferences'],
+    displayName?: string
+}> = ({rival, preferences, displayName}) => {
     let spriteName: string;
-    let displayName: string;
+    let fallbackDisplayName: string;
 
     if (typeof rival === 'string') {
         spriteName = rival.toLowerCase().replace(/ & /g, '_').replace(/ /g, '_').replace(/[^a-z0-9_]/g, '');
-        displayName = rival;
+        fallbackDisplayName = rival;
     } else {
         const preference = preferences?.[rival.key] || 'male';
         spriteName = rival.options[preference];
-        displayName = rival.name;
+        fallbackDisplayName = rival.name;
     }
+    const resolvedDisplayName = displayName || fallbackDisplayName;
 
     const imagePath = `/rival-sprites/${spriteName}.png`;
     return <img
         src={imagePath}
-        alt={displayName}
-        title={displayName}
+        alt={resolvedDisplayName}
+        title={resolvedDisplayName}
         className="w-8 h-8 object-contain mx-auto"
         style={{imageRendering: 'pixelated'}}
     />;
@@ -95,7 +97,7 @@ export const LegendaryImage: React.FC<{
 }> = ({pokemonName, className = "w-16 h-16"}) => {
     return (
         <img
-            src={getSpriteUrlForGermanName(pokemonName) || ""}
+            src={getSpriteUrlForPokemonName(pokemonName) || ""}
             alt=""
             className={className}
         />

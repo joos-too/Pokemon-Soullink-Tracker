@@ -7,30 +7,47 @@ import path from 'node:path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const outNamesPath = path.resolve(__dirname, '../src/data/pokemon-de.ts');
-const outMapPath = path.resolve(__dirname, '../src/data/pokemon-de-map.ts');
+const outGermanNamesPath = path.resolve(__dirname, '../src/data/pokemon-de.ts');
+const outEnglishNamesPath = path.resolve(__dirname, '../src/data/pokemon-en.ts');
+const outMapPath = path.resolve(__dirname, '../src/data/pokemon-map.ts');
 const outEvoPath = path.resolve(__dirname, '../src/data/pokemon-evolutions.ts');
 
 const API_BASE = 'https://pokeapi.co/api/v2';
 const MAX_GENERATION = 6;
 
+const SUPPORTED_LANGUAGES = ['de', 'en'];
+
 const MANUAL_TRANSLATIONS = {
-  location: {
-    'chargestone-cave': 'Elektrolithhöhle',
-    'mt-coronet': 'Kraterberg',
-    'eterna-forest': 'Ewigwald',
-    'pinwheel-forest': 'Ewigenwald',
-    'twist-mountain': 'Wendelberg',
+  de: {
+    location: {
+      'chargestone-cave': 'Elektrolithhöhle',
+      'mt-coronet': 'Kraterberg',
+      'eterna-forest': 'Ewigwald',
+      'pinwheel-forest': 'Ewigenwald',
+      'twist-mountain': 'Wendelberg',
+    },
+    species: {
+      shedinja: 'Ninjatom',
+    },
+    trigger: {
+      'three-critical-hits': '3 Kritische Treffer',
+    },
+    item: {
+      'dusk-stone': 'Finsterstein',
+      'thunder-stone': 'Donnerstein',
+    },
+    move: {},
+    type: {},
   },
-  species: {
-    shedinja: 'Ninjatom',
-  },
-  trigger: {
-    'three-critical-hits': '3 Kritische Treffer',
-  },
-  item: {
-    'dusk-stone': 'Finsterstein',
-    'thunder-stone': 'Donnerstein',
+  en: {
+    location: {},
+    species: {},
+    trigger: {
+      'three-critical-hits': '3 Critical Hits',
+    },
+    item: {},
+    move: {},
+    type: {},
   },
 };
 
@@ -82,6 +99,74 @@ function formatSlugName(slug) {
         .join(' ');
 }
 
+function getManualTranslation(locale, category, key) {
+    return MANUAL_TRANSLATIONS?.[locale]?.[category]?.[key] || null;
+}
+
+function buildLocalizedRecord(slug, names = [], category) {
+    const record = {};
+    SUPPORTED_LANGUAGES.forEach((locale) => {
+        const manual = getManualTranslation(locale, category, slug);
+        if (manual) {
+            record[locale] = manual;
+            return;
+        }
+        const preferredLanguageCode = locale === 'en' ? 'en' : 'de';
+        const preferred = names.find((n) => n.language?.name === preferredLanguageCode)?.name;
+        if (preferred) {
+            record[locale] = preferred;
+            return;
+        }
+        if (locale === 'de') {
+            const fallbackEn = names.find((n) => n.language?.name === 'en')?.name;
+            if (fallbackEn) {
+                record[locale] = fallbackEn;
+                return;
+            }
+        }
+        record[locale] = formatSlugName(slug);
+    });
+    return record;
+}
+
+function resolveTranslationFromRecord(recordMap, slug, locale, category) {
+    if (!slug) return '';
+    const manual = getManualTranslation(locale, category, slug);
+    if (manual) return manual;
+    const record = recordMap.get(slug);
+    if (record?.[locale]) return record[locale];
+    const fallbackLocale = locale === 'de' ? 'en' : 'de';
+    if (record?.[fallbackLocale]) return record[fallbackLocale];
+    return formatSlugName(slug);
+}
+
+function createTranslators(locale, resources) {
+    const {
+        itemTranslations,
+        moveTranslations,
+        typeTranslations,
+        locationTranslations,
+        speciesSlugToName,
+    } = resources;
+    return {
+        item: (slug) => resolveTranslationFromRecord(itemTranslations, slug, locale, 'item'),
+        move: (slug) => resolveTranslationFromRecord(moveTranslations, slug, locale, 'move'),
+        type: (slug) => resolveTranslationFromRecord(typeTranslations, slug, locale, 'type'),
+        location: (slug) => resolveTranslationFromRecord(locationTranslations, slug, locale, 'location'),
+        species: (slug) => {
+            if (!slug) return '';
+            const manual = getManualTranslation(locale, 'species', slug);
+            if (manual) return manual;
+            const primary = speciesSlugToName[locale]?.get(slug);
+            if (primary) return primary;
+            const fallbackLocale = locale === 'de' ? 'en' : 'de';
+            const fallback = speciesSlugToName[fallbackLocale]?.get(slug);
+            if (fallback) return fallback;
+            return formatSlugName(slug);
+        },
+    };
+}
+
 async function loadItemTranslations(P, slugs) {
     const result = new Map();
     if (!slugs || slugs.size === 0) return result;
@@ -97,14 +182,8 @@ async function loadItemTranslations(P, slugs) {
         items.forEach((item, idx) => {
             const slug = slice[idx];
             if (!slug) return;
-            if (MANUAL_TRANSLATIONS.item?.[slug]) {
-                result.set(slug, MANUAL_TRANSLATIONS.item[slug]);
-                return;
-            }
             const names = item?.names || [];
-            const de = names.find((n) => n.language?.name === 'de');
-            const en = names.find((n) => n.language?.name === 'en');
-            result.set(slug, de?.name || en?.name || formatSlugName(slug));
+            result.set(slug, buildLocalizedRecord(slug, names, 'item'));
         });
     }
     return result;
@@ -126,9 +205,7 @@ async function loadMoveTranslations(P, slugs) {
             const slug = slice[idx];
             if (!slug) return;
             const names = move?.names || [];
-            const de = names.find((n) => n.language?.name === 'de');
-            const en = names.find((n) => n.language?.name === 'en');
-            result.set(slug, de?.name || en?.name || formatSlugName(slug));
+            result.set(slug, buildLocalizedRecord(slug, names, 'move'));
         });
     }
     return result;
@@ -150,9 +227,7 @@ async function loadTypeTranslations(P, slugs) {
             const slug = slice[idx];
             if (!slug) return;
             const names = type?.names || [];
-            const de = names.find((n) => n.language?.name === 'de');
-            const en = names.find((n) => n.language?.name === 'en');
-            result.set(slug, de?.name || en?.name || formatSlugName(slug));
+            result.set(slug, buildLocalizedRecord(slug, names, 'type'));
         });
     }
     return result;
@@ -173,21 +248,85 @@ async function loadLocationTranslations(P, slugs) {
         locations.forEach((loc, idx) => {
             const slug = slice[idx];
             if (!slug) return;
-            if (MANUAL_TRANSLATIONS.location?.[slug]) {
-                result.set(slug, MANUAL_TRANSLATIONS.location[slug]);
-                return;
-            }
             const names = loc?.names || [];
-            const de = names.find((n) => n.language?.name === 'de');
-            const en = names.find((n) => n.language?.name === 'en');
-            result.set(slug, de?.name || en?.name || formatSlugName(slug));
+            result.set(slug, buildLocalizedRecord(slug, names, 'location'));
         });
     }
     return result;
 }
 
-function describeEvolutionDetail(detail, translators = {}) {
-    if (!detail) return 'Bedingung unbekannt';
+const LANGUAGE_TEXT = {
+    de: {
+        unknownRequirement: 'Bedingung unbekannt',
+        unknownCondition: 'Unbekannte Bedingung',
+        locationPrefix: 'Level-Up - Ort: ',
+        baseLevelUp: 'Level-Up',
+        baseTrade: 'Tausch',
+        baseTradeWith: (name) => `Tausch mit ${name}`,
+        baseUseItem: 'Item verwenden',
+        baseItemWithName: (name) => `Item: ${name}`,
+        baseSpecial: 'Spezial',
+        baseSpecialSpecies: (name) => `Spezial: ${name}`,
+        level: (value) => `Level ${value}`,
+        friendship: (value) => `Freundschaft ≥ ${value}`,
+        affection: (value) => `Zutrauen ≥ ${value}`,
+        beauty: (value) => `Schönheit ≥ ${value}`,
+        timeOfDayMap: {day: 'Tag', night: 'Nacht', dusk: 'Abend'},
+        timeOfDay: (value) => `Tageszeit: ${value}`,
+        overworldRain: 'Regen in der Oberwelt',
+        genderFemale: 'Nur weiblich',
+        genderMale: 'Nur männlich',
+        criticalHitsExact: '3 Kritische Treffer',
+        criticalHits: (value) => `Kritische Treffer ≥ ${value}`,
+        heldItem: (name) => `Trägt ${name}`,
+        knownMove: (name) => `Kennt ${name}`,
+        knownMoveType: (name) => `Kennt Attacke vom Typ ${name}`,
+        location: (name) => `Ort: ${name}`,
+        partySpecies: (name) => `Team: ${name}`,
+        partyType: (type) => `Pokémon von Typ ${type} im Team`,
+        statsLess: 'Angriff < Verteidigung',
+        statsEqual: 'Angriff = Verteidigung',
+        statsGreater: 'Angriff > Verteidigung',
+        upsideDown: 'Konsole umdrehen',
+    },
+    en: {
+        unknownRequirement: 'Requirement unknown',
+        unknownCondition: 'Unknown condition',
+        locationPrefix: 'Level-Up - Location: ',
+        baseLevelUp: 'Level-Up',
+        baseTrade: 'Trade',
+        baseTradeWith: (name) => `Trade with ${name}`,
+        baseUseItem: 'Use item',
+        baseItemWithName: (name) => `Item: ${name}`,
+        baseSpecial: 'Special',
+        baseSpecialSpecies: (name) => `Special: ${name}`,
+        level: (value) => `Level ${value}`,
+        friendship: (value) => `Friendship ≥ ${value}`,
+        affection: (value) => `Affection ≥ ${value}`,
+        beauty: (value) => `Beauty ≥ ${value}`,
+        timeOfDayMap: {day: 'Day', night: 'Night', dusk: 'Dusk'},
+        timeOfDay: (value) => `Time of day: ${value}`,
+        overworldRain: 'Overworld rain',
+        genderFemale: 'Only female',
+        genderMale: 'Only male',
+        criticalHitsExact: '3 Critical Hits',
+        criticalHits: (value) => `Critical hits ≥ ${value}`,
+        heldItem: (name) => `Holds ${name}`,
+        knownMove: (name) => `Knows ${name}`,
+        knownMoveType: (name) => `Knows move of type ${name}`,
+        location: (name) => `Location: ${name}`,
+        partySpecies: (name) => `Party: ${name}`,
+        partyType: (type) => `Pokémon of type ${type} in party`,
+        statsLess: 'Attack < Defense',
+        statsEqual: 'Attack = Defense',
+        statsGreater: 'Attack > Defense',
+        upsideDown: 'Turn console upside down',
+    },
+};
+
+function describeEvolutionDetail(detail, translators = {}, locale = 'de') {
+    const langText = LANGUAGE_TEXT[locale] || LANGUAGE_TEXT.de;
+    if (!detail) return langText.unknownRequirement;
     const translateItem = (slug) => {
         if (!slug) return '';
         const fn = translators.item;
@@ -223,67 +362,70 @@ function describeEvolutionDetail(detail, translators = {}) {
         if (value && !extras.includes(value)) extras.push(value);
     };
 
-    if (typeof detail.min_level === 'number') add(`Level ${detail.min_level}`);
-    if (typeof detail.min_happiness === 'number') add(`Freundschaft ≥ ${detail.min_happiness}`);
-    if (typeof detail.min_affection === 'number') add(`Zutrauen ≥ ${detail.min_affection}`);
-    if (typeof detail.min_beauty === 'number') add(`Schönheit ≥ ${detail.min_beauty}`);
+    if (typeof detail.min_level === 'number') add(langText.level(detail.min_level));
+    if (typeof detail.min_happiness === 'number') add(langText.friendship(detail.min_happiness));
+    if (typeof detail.min_affection === 'number') add(langText.affection(detail.min_affection));
+    if (typeof detail.min_beauty === 'number') add(langText.beauty(detail.min_beauty));
     if (detail.time_of_day) {
-        const map = {day: 'Tag', night: 'Nacht', dusk: 'Abend'};
         const key = detail.time_of_day.trim().toLowerCase();
-        add(`Tageszeit: ${map[key] || formatSlugName(detail.time_of_day)}`);
+        const map = langText.timeOfDayMap || {};
+        const mapped = map[key] || formatSlugName(detail.time_of_day);
+        add(langText.timeOfDay(mapped));
     }
-    if (detail.needs_overworld_rain) add('Regen in der Oberwelt');
+    if (detail.needs_overworld_rain) add(langText.overworldRain);
     if (typeof detail.gender === 'number') {
-        if (detail.gender === 1) add('Nur weiblich');
-        else if (detail.gender === 2) add('Nur männlich');
+        if (detail.gender === 1) add(langText.genderFemale);
+        else if (detail.gender === 2) add(langText.genderMale);
     }
     if (typeof detail.min_critical_hits === 'number') {
-        if (detail.min_critical_hits === 3) add('3 Kritische Treffer');
-        else add(`Kritische Treffer ≥ ${detail.min_critical_hits}`);
+        if (detail.min_critical_hits === 3) add(langText.criticalHitsExact);
+        else add(langText.criticalHits(detail.min_critical_hits));
     }
-    if (detail.held_item?.name) add(`Trägt ${translateItem(detail.held_item.name)}`);
-    if (detail.known_move?.name) add(`Kennt ${translateMove(detail.known_move.name)}`);
-    if (detail.known_move_type?.name) add(`Kennt Attacke vom Typ ${translateType(detail.known_move_type.name)}`);
-    if (detail.location?.name) add(`Ort: ${translateLocation(detail.location.name)}`);
-    if (detail.party_species?.name) add(`Team: ${translateSpecies(detail.party_species.name)}`);
-    if (detail.party_type?.name) add(`Pokémon von Typ ${translateType(detail.party_type.name)} im Team`);
+    if (detail.held_item?.name) add(langText.heldItem(translateItem(detail.held_item.name)));
+    if (detail.known_move?.name) add(langText.knownMove(translateMove(detail.known_move.name)));
+    if (detail.known_move_type?.name) add(langText.knownMoveType(translateType(detail.known_move_type.name)));
+    if (detail.location?.name) add(langText.location(translateLocation(detail.location.name)));
+    if (detail.party_species?.name) add(langText.partySpecies(translateSpecies(detail.party_species.name)));
+    if (detail.party_type?.name) add(langText.partyType(translateType(detail.party_type.name)));
     if (typeof detail.relative_physical_stats === 'number') {
-        if (detail.relative_physical_stats === -1) add('Angriff < Verteidigung');
-        else if (detail.relative_physical_stats === 0) add('Angriff = Verteidigung');
-        else if (detail.relative_physical_stats === 1) add('Angriff > Verteidigung');
+        if (detail.relative_physical_stats === -1) add(langText.statsLess);
+        else if (detail.relative_physical_stats === 0) add(langText.statsEqual);
+        else if (detail.relative_physical_stats === 1) add(langText.statsGreater);
     }
-    if (detail.turn_upside_down) add('Konsole umdrehen');
+    if (detail.turn_upside_down) add(langText.upsideDown);
     let base = '';
     const trigger = detail.trigger?.name || '';
     switch (trigger) {
         case 'level-up':
-            base = 'Level-Up';
+            base = langText.baseLevelUp;
             break;
         case 'trade':
             base = detail.trade_species?.name
-                ? `Tausch mit ${translateSpecies(detail.trade_species.name)}`
-                : 'Tausch';
+                ? langText.baseTradeWith(translateSpecies(detail.trade_species.name))
+                : langText.baseTrade;
             break;
         case 'use-item':
-            base = detail.item?.name ? `Item: ${translateItem(detail.item.name)}` : 'Item verwenden';
+            base = detail.item?.name
+                ? langText.baseItemWithName(translateItem(detail.item.name))
+                : langText.baseUseItem;
             break;
         case 'shed':
-            base = `Spezial: ${translateSpecies('shedinja') || 'Shedinja'}`;
+            base = langText.baseSpecialSpecies(translateSpecies('shedinja') || formatSlugName('shedinja'));
             break;
         case 'three-critical-hits':
-            base = MANUAL_TRANSLATIONS.trigger?.[trigger] || '3 Kritische Treffer';
+            base = getManualTranslation(locale, 'trigger', trigger) || langText.criticalHitsExact;
             break;
         case 'other':
-            base = 'Spezial';
+            base = langText.baseSpecial;
             break;
         default:
             base = trigger
-                ? MANUAL_TRANSLATIONS.trigger?.[trigger] || formatSlugName(trigger)
-                : 'Spezial';
+                ? getManualTranslation(locale, 'trigger', trigger) || formatSlugName(trigger)
+                : langText.baseSpecial;
     }
-    if (!base) base = 'Spezial';
+    if (!base) base = langText.baseSpecial;
     if (extras.length === 0 && base.startsWith('Item:') && !detail.item?.name) {
-        extras.push('Unbekannte Bedingung');
+        extras.push(langText.unknownCondition);
     }
     return extras.length ? `${base} - ${extras.join(', ')}` : base;
 }
@@ -302,14 +444,31 @@ async function main() {
         })
         .filter((x) => !!x);
 
-    const germanNameEntries = new Map(); // Map<lowerName, { name: string; id: number; generation: number }>
-    const deToId = new Map(); // lower-case German name -> species id
+    const nameEntriesByLocale = {
+        de: new Map(),
+        en: new Map(),
+    }; // Record<locale, Map<lowerName, { name: string; id: number; generation: number }>>
+    const nameToIdByLocale = {
+        de: new Map(),
+        en: new Map(),
+    }; // Record<locale, Map<lowerCaseName, id>>
     const chainIds = new Set();
     const itemSlugs = new Set();
     const moveSlugs = new Set();
     const typeSlugs = new Set();
     const locationSlugs = new Set();
-    const speciesSlugToGerman = new Map();
+    const speciesSlugToName = {
+        de: new Map(),
+        en: new Map(),
+    };
+    const ensureSpeciesEntry = (slug) => {
+        if (!slug) return;
+        SUPPORTED_LANGUAGES.forEach((locale) => {
+            if (!speciesSlugToName[locale].has(slug)) {
+                speciesSlugToName[locale].set(slug, formatSlugName(slug));
+            }
+        });
+    };
     const allowedSpeciesIds = new Set();
     const idToGeneration = new Map();
     const CHUNK = 50;
@@ -330,26 +489,27 @@ async function main() {
             const namesField = sp.names || [];
             const de = namesField.find((n) => n.language?.name === 'de');
             const en = namesField.find((n) => n.language?.name === 'en');
-            const nm = (de?.name || en?.name || sp.name || '').trim();
-            if (sp.name && nm) {
-                speciesSlugToGerman.set(String(sp.name), nm);
-            }
-            if (nm) {
-                const lowerName = nm.toLowerCase();
-                if (!germanNameEntries.has(lowerName)) {
-                    germanNameEntries.set(lowerName, {
-                        name: nm,
+            const fallbackSlugName = sp.name ? formatSlugName(sp.name) : '';
+            const germanName = (de?.name || en?.name || fallbackSlugName || '').trim();
+            const englishName = (en?.name || fallbackSlugName || germanName || '').trim();
+            const addNameForLocale = (locale, value) => {
+                if (!value) return;
+                const lower = value.toLowerCase();
+                const entries = nameEntriesByLocale[locale];
+                if (!entries.has(lower)) {
+                    entries.set(lower, {
+                        name: value,
                         id: sp.id,
                         generation: genNumber,
                     });
                 }
-            }
-            if (de?.name) {
-                deToId.set(String(de.name).toLowerCase(), sp.id);
-            } else if (sp.name) {
-                // fallback: map english to id if no de
-                deToId.set(String(sp.name).toLowerCase(), sp.id);
-            }
+                nameToIdByLocale[locale].set(lower, sp.id);
+                if (sp.name) {
+                    speciesSlugToName[locale].set(String(sp.name), value);
+                }
+            };
+            addNameForLocale('de', germanName);
+            addNameForLocale('en', englishName);
             allowedSpeciesIds.add(sp.id);
             idToGeneration.set(sp.id, genNumber);
             const chainUrl = sp.evolution_chain?.url || '';
@@ -358,12 +518,16 @@ async function main() {
         }
     }
 
-    const germanNameList = [...germanNameEntries.values()].sort((a, b) => a.name.localeCompare(b.name, 'de'));
-    const namesFile = `// Generated by scripts/generate-pokemon-de.mjs\nexport const GERMAN_POKEMON_NAMES: { name: string; id: number; generation: number }[] = ${JSON.stringify(germanNameList, null, 2)};\n`;
-    await writeFile(outNamesPath, namesFile, 'utf8');
-    const obj = Object.fromEntries([...deToId.entries()].sort(([a], [b]) => a.localeCompare(b, 'de')));
+    const germanNameList = [...nameEntriesByLocale.de.values()].sort((a, b) => a.name.localeCompare(b.name, 'de'));
+    const englishNameList = [...nameEntriesByLocale.en.values()].sort((a, b) => a.name.localeCompare(b.name, 'en'));
+    const germanNamesFile = `// Generated by scripts/generate-pokemon-de.mjs\nexport const GERMAN_POKEMON_NAMES: { name: string; id: number; generation: number }[] = ${JSON.stringify(germanNameList, null, 2)};\n`;
+    const englishNamesFile = `// Generated by scripts/generate-pokemon-de.mjs\nexport const ENGLISH_POKEMON_NAMES: { name: string; id: number; generation: number }[] = ${JSON.stringify(englishNameList, null, 2)};\n`;
+    await writeFile(outGermanNamesPath, germanNamesFile, 'utf8');
+    await writeFile(outEnglishNamesPath, englishNamesFile, 'utf8');
+    const germanMap = Object.fromEntries([...nameToIdByLocale.de.entries()].sort(([a], [b]) => a.localeCompare(b, 'de')));
+    const englishMap = Object.fromEntries([...nameToIdByLocale.en.entries()].sort(([a], [b]) => a.localeCompare(b, 'en')));
     const idToGenerationObj = Object.fromEntries([...idToGeneration.entries()].sort(([a], [b]) => Number(a) - Number(b)));
-    const mapFile = `// Generated by scripts/generate-pokemon-de.mjs\nexport const GERMAN_TO_ID: Record<string, number> = ${JSON.stringify(obj, null, 2)};\n\nexport const POKEMON_ID_TO_GENERATION: Record<number, number> = ${JSON.stringify(idToGenerationObj, null, 2)};\n`;
+    const mapFile = `// Generated by scripts/generate-pokemon-de.mjs\nexport const GERMAN_TO_ID: Record<string, number> = ${JSON.stringify(germanMap, null, 2)};\n\nexport const ENGLISH_TO_ID: Record<string, number> = ${JSON.stringify(englishMap, null, 2)};\n\nexport const POKEMON_ID_TO_GENERATION: Record<number, number> = ${JSON.stringify(idToGenerationObj, null, 2)};\n`;
     await writeFile(outMapPath, mapFile, 'utf8');
 
     // Build evolutions map from evolution chains
@@ -411,11 +575,11 @@ async function main() {
                                     if (detail?.known_move_type?.name) typeSlugs.add(detail.known_move_type.name);
                                     if (detail?.party_type?.name) typeSlugs.add(detail.party_type.name);
                                     if (detail?.location?.name) locationSlugs.add(detail.location.name);
-                                    if (detail?.party_species?.name && !speciesSlugToGerman.has(detail.party_species.name)) {
-                                        speciesSlugToGerman.set(detail.party_species.name, formatSlugName(detail.party_species.name));
+                                    if (detail?.party_species?.name) {
+                                        ensureSpeciesEntry(detail.party_species.name);
                                     }
-                                    if (detail?.trade_species?.name && !speciesSlugToGerman.has(detail.trade_species.name)) {
-                                        speciesSlugToGerman.set(detail.trade_species.name, formatSlugName(detail.trade_species.name));
+                                    if (detail?.trade_species?.name) {
+                                        ensureSpeciesEntry(detail.trade_species.name);
                                     }
                                     store.push(detail || null);
                                 }
@@ -434,72 +598,51 @@ async function main() {
         loadTypeTranslations(P, typeSlugs),
         loadLocationTranslations(P, locationSlugs),
     ]);
-    const translateItemName = (slug) => {
-        if (!slug) return '';
-        return (
-            itemTranslations.get(slug) ||
-            MANUAL_TRANSLATIONS.item?.[slug] ||
-            formatSlugName(slug)
-        );
-    };
-    const translateMoveName = (slug) => {
-        if (!slug) return '';
-        return moveTranslations.get(slug) || formatSlugName(slug);
-    };
-    const translateTypeName = (slug) => {
-        if (!slug) return '';
-        return typeTranslations.get(slug) || formatSlugName(slug);
-    };
-    const translateLocationName = (slug) => {
-        if (!slug) return '';
-        return (
-            locationTranslations.get(slug) ||
-            MANUAL_TRANSLATIONS.location?.[slug] ||
-            formatSlugName(slug)
-        );
-    };
-    const translateSpeciesName = (slug) => {
-        if (!slug) return '';
-        if (speciesSlugToGerman.has(slug)) return speciesSlugToGerman.get(slug);
-        if (MANUAL_TRANSLATIONS.species?.[slug]) return MANUAL_TRANSLATIONS.species[slug];
-        return formatSlugName(slug);
-    };
-    const translators = {
-        item: translateItemName,
-        move: translateMoveName,
-        type: translateTypeName,
-        location: translateLocationName,
-        species: translateSpeciesName,
+    const translatorResources = {
+        itemTranslations,
+        moveTranslations,
+        typeTranslations,
+        locationTranslations,
+        speciesSlugToName,
     };
 
-    const evoObj = Object.fromEntries(
-        [...evoMap.entries()]
-            .sort(([a], [b]) => Number(a) - Number(b))
-            .map(([fromId, toMap]) => [
-                fromId,
-                [...toMap.entries()]
-                    .map(([toId, detailList]) => {
-                        const methodSet = new Set();
-                        const normalized = detailList && detailList.length ? detailList : [null];
-                        normalized.forEach((detail) => {
-                            const text = describeEvolutionDetail(detail, translators);
-                            if (text) methodSet.add(text);
-                        });
-                        if (!methodSet.size) methodSet.add('Bedingung unbekannt');
-                        return {
-                            id: Number(toId),
-                            methods: Array.from(methodSet).sort((a, b) => a.localeCompare(b, 'de')),
-                        };
-                    })
-                    .sort((a, b) => a.id - b.id),
-            ])
-    );
-    const evoFile = `// Generated by scripts/generate-pokemon-de.mjs\nexport const EVOLUTIONS: Record<number, { id: number; methods: string[] }[]> = ${JSON.stringify(evoObj, null, 2)};\n`;
+    const buildEvolutionTable = (locale) => {
+        const translators = createTranslators(locale, translatorResources);
+        return Object.fromEntries(
+            [...evoMap.entries()]
+                .sort(([a], [b]) => Number(a) - Number(b))
+                .map(([fromId, toMap]) => [
+                    fromId,
+                    [...toMap.entries()]
+                        .map(([toId, detailList]) => {
+                            const methodSet = new Set();
+                            const normalized = detailList && detailList.length ? detailList : [null];
+                            normalized.forEach((detail) => {
+                                const text = describeEvolutionDetail(detail, translators, locale);
+                                if (text) methodSet.add(text);
+                            });
+                            if (!methodSet.size) methodSet.add(LANGUAGE_TEXT[locale]?.unknownRequirement || LANGUAGE_TEXT.de.unknownRequirement);
+                            return {
+                                id: Number(toId),
+                                methods: Array.from(methodSet).sort((a, b) => a.localeCompare(b, locale === 'en' ? 'en' : 'de')),
+                            };
+                        })
+                        .sort((a, b) => a.id - b.id),
+                ])
+        );
+    };
+
+    const evolutionTables = {
+        de: buildEvolutionTable('de'),
+        en: buildEvolutionTable('en'),
+    };
+    const evoFile = `// Generated by scripts/generate-pokemon-de.mjs\nexport const EVOLUTIONS_DE: Record<number, { id: number; methods: string[] }[]> = ${JSON.stringify(evolutionTables.de, null, 2)};\n\nexport const EVOLUTIONS_EN: Record<number, { id: number; methods: string[] }[]> = ${JSON.stringify(evolutionTables.en, null, 2)};\n`;
     await writeFile(outEvoPath, evoFile, 'utf8');
 
-    console.log(`\nWrote ${germanNameList.length} names to ${outNamesPath}`);
-    console.log(`Wrote ${Object.keys(obj).length} mappings to ${outMapPath}`);
-    console.log(`Wrote ${Object.keys(evoObj).length} evolution entries to ${outEvoPath}`);
+    console.log(`\nWrote ${germanNameList.length} German names to ${outGermanNamesPath}`);
+    console.log(`Wrote ${englishNameList.length} English names to ${outEnglishNamesPath}`);
+    console.log(`Wrote ${Object.keys(germanMap).length + Object.keys(englishMap).length} name mappings to ${outMapPath}`);
+    console.log(`Wrote ${Object.keys(evolutionTables.de).length} evolution entries per locale to ${outEvoPath}`);
 }
 
 main().catch((err) => {
