@@ -14,6 +14,9 @@ export const formatBestLabel = (bestCount: number | undefined, levelCaps: LevelC
         return `Top 4 | ${top4Defeated}/4`;
     }
     // Champion or beyond
+    if (count > 12) {
+        return 'Challenge geschafft!';
+    }
     return (caps[caps.length - 1]?.arena) ?? 'Champion';
 };
 
@@ -38,4 +41,3 @@ export const canToggleRivalAtIndex = (rivalCaps: RivalCap[], index: number): boo
     }
     return firstUndone === index;
 };
-

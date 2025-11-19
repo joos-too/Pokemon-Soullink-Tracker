@@ -33,6 +33,7 @@ import {
     updateRivalPreference
 } from '@/src/services/trackers';
 import {GAME_VERSIONS} from '@/src/data/game-versions';
+import {formatBestLabel} from "@/src/utils/bestRun";
 
 const LAST_TRACKER_STORAGE_KEY = 'soullink:lastTrackerId';
 
@@ -42,13 +43,9 @@ const computeTrackerSummary = (state?: Partial<AppState> | null): TrackerSummary
     const graveyardCount = Array.isArray(state?.graveyard) ? state.graveyard.length : 0;
     const runs = Number(state?.stats?.runs ?? 0) || 0;
     const levelCaps = Array.isArray(state?.levelCaps) ? (state.levelCaps as LevelCap[]) : [];
-    const championCap = levelCaps.find((cap) => cap?.arena?.toLowerCase().includes('champ')) ?? levelCaps[levelCaps.length - 1];
-    const championDone = Boolean(championCap?.done);
-    let bestLabel = 'Noch keine Arena';
-    const doneCaps = levelCaps.filter((cap) => cap?.done);
-    if (doneCaps.length > 0) {
-        bestLabel = doneCaps[doneCaps.length - 1]?.arena || bestLabel;
-    }
+    const doneCapsCount = levelCaps.filter((cap) => cap?.done).length;
+    const progressLabel = formatBestLabel(doneCapsCount, levelCaps);
+
     const deathCount = Array.isArray(state?.stats?.deaths)
         ? state!.stats!.deaths.reduce((sum, value) => sum + Number(value || 0), 0)
         : 0;
@@ -58,8 +55,8 @@ const computeTrackerSummary = (state?: Partial<AppState> | null): TrackerSummary
         graveyardCount,
         deathCount,
         runs,
-        championDone,
-        progressLabel: championDone ? 'Challenge geschafft!' : bestLabel,
+        championDone: doneCapsCount > 12,
+        progressLabel,
     };
 };
 
