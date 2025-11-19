@@ -1,9 +1,10 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {searchGermanPokemonNames} from '@/src/services/pokemonSearch';
-import {getSpriteUrlForGermanName} from '@/src/services/sprites';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
+import {searchPokemonNames} from '@/src/services/pokemonSearch';
+import {getSpriteUrlForPokemonName} from '@/src/services/sprites';
 import {focusRingClasses, focusRingInputClasses} from '@/src/styles/focusRing';
 import type {Pokemon} from '@/types';
 import {useTranslation} from 'react-i18next';
+import {normalizeLanguage} from '@/src/utils/language';
 
 interface AddLostPokemonModalProps {
     isOpen: boolean;
@@ -28,7 +29,8 @@ const PokemonNameField: React.FC<PokemonNameFieldProps> = ({label, value, onChan
     const [focused, setFocused] = useState(false);
     const [activeIndex, setActiveIndex] = useState(-1);
     const searchSeq = useRef(0);
-    const {t} = useTranslation();
+    const {t, i18n} = useTranslation();
+    const language = useMemo(() => normalizeLanguage(i18n.language), [i18n.language]);
 
     useEffect(() => {
         if (!isOpen) {
@@ -56,7 +58,7 @@ const PokemonNameField: React.FC<PokemonNameFieldProps> = ({label, value, onChan
         }
         setLoading(true);
         const timer = setTimeout(async () => {
-            const res = await searchGermanPokemonNames(term, 10, {maxGeneration: generationLimit});
+            const res = await searchPokemonNames(term, 10, {maxGeneration: generationLimit, locale: language});
             if (seq === searchSeq.current) {
                 setSuggestions(res);
                 setLoading(false);
@@ -65,7 +67,7 @@ const PokemonNameField: React.FC<PokemonNameFieldProps> = ({label, value, onChan
             }
         }, 250);
         return () => clearTimeout(timer);
-    }, [value, focused, isOpen, generationLimit]);
+    }, [value, focused, isOpen, generationLimit, language]);
 
     const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
         if (!open || loading || suggestions.length === 0) return;
@@ -84,7 +86,7 @@ const PokemonNameField: React.FC<PokemonNameFieldProps> = ({label, value, onChan
         }
     };
 
-    const spriteUrl = getSpriteUrlForGermanName(value);
+    const spriteUrl = getSpriteUrlForPokemonName(value);
 
     return (
         <div>

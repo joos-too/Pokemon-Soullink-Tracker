@@ -1,18 +1,12 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { focusRingClasses } from '@/src/styles/focusRing';
+import { normalizeLanguage } from '@/src/utils/language';
 
 const languages = [
   { code: 'de', label: 'DE' },
   { code: 'en', label: 'EN' },
 ];
-
-const normalizeLanguage = (lng?: string) => {
-  if (!lng) return 'de';
-  if (lng.startsWith('de')) return 'de';
-  if (lng.startsWith('en')) return 'en';
-  return 'de';
-};
 
 interface LanguageToggleProps {
   size?: 'standard' | 'large';

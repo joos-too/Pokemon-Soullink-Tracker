@@ -128,6 +128,7 @@ export const en = {
             empty: 'No routes have been logged yet.',
         },
         infoPanel: {
+            deathLabel: 'Deaths',
             runStats: 'Run stats',
             currentRun: 'Current run',
             bestRunLabel: 'Best run',
@@ -154,7 +155,8 @@ export const en = {
             itemsTooltip: 'Increase items',
             siblingItems: 'Items',
             rivalCapsLabel: {
-                rivals: 'Rival fights',
+                changeView: "Change view",
+                rivals: 'Rival battles',
                 arenas: 'Gyms',
             },
             updateLegendary: 'Legendary encounters',
@@ -236,7 +238,7 @@ export const en = {
         sections: {
             options: 'Tracker options',
             variableRivals: 'Rival selector',
-            variableRivalsDescription: 'Choose your antagonist for the correct presentation in the rival fights.',
+            variableRivalsDescription: 'Choose your antagonist for the correct presentation in the rival battles.',
         },
         features: {
             hardcore: {
@@ -246,10 +248,10 @@ export const en = {
                 description: 'Raises the difficulty by enforcing tighter level caps.',
             },
             rivalCensor: {
-                title: 'Censor rival fights',
+                title: 'Censor rival battles',
                 tooltipLabel: 'Rival info',
-                tooltip: `To avoid spoilers and keep the story fresh, rival fights are hidden and must be revealed manually.\n\nOnce uncovered they stay visible, even on future runs.`,
-                description: 'Hides rival fights until you reveal them manually.',
+                tooltip: `To avoid spoilers and keep the story fresh, rival battkes are hidden and must be revealed manually.\n\nOnce uncovered they stay visible, even on future runs.`,
+                description: 'Hides rival battles until you reveal them manually.',
             },
             legendary: {
                 title: 'Legendary tracker',
@@ -446,8 +448,17 @@ export const en = {
                 6: {arena: '6. Gym'},
                 7: {arena: '7. Gym'},
                 8: {arena: '8. Gym'},
+                9: {arena: 'Elite 4 | Will'},
+                10: {arena: 'Elite 4 | Koga'},
+                11: {arena: 'Elite 4 | Bruno'},
+                12: {arena: 'Elite 4 | Karen'},
+                13: {arena: 'Champion | Lance'},
             },
             rivalCaps: {
+                1: {location: 'Azalea Town', rival: 'Silver'},
+                2: {location: 'Burned Tower', rival: 'Silver'},
+                3: {location: 'Goldenrod Tunnel', rival: 'Silver'},
+                4: {location: 'Victory Road', rival: 'Silver'},
             },
         },
         gen2_k: {
@@ -464,8 +475,17 @@ export const en = {
                 6: {arena: '6. Gym'},
                 7: {arena: '7. Gym'},
                 8: {arena: '8. Gym'},
+                9: {arena: 'Elite 4 | Will'},
+                10: {arena: 'Elite 4 | Koga'},
+                11: {arena: 'Elite 4 | Bruno'},
+                12: {arena: 'Elite 4 | Karen'},
+                13: {arena: 'Champion | Lance'},
             },
             rivalCaps: {
+                1: {location: 'Azalea Town', rival: 'Silver'},
+                2: {location: 'Burned Tower', rival: 'Silver'},
+                3: {location: 'Goldenrod Tunnel', rival: 'Silver'},
+                4: {location: 'Victory Road', rival: 'Silver'},
             },
         },
         gen3_rusa: {
@@ -483,8 +503,27 @@ export const en = {
                 6: {arena: '6. Gym'},
                 7: {arena: '7. Gym'},
                 8: {arena: '8. Gym'},
+                9: {arena: 'Elite 4 | Sidney'},
+                10: {arena: 'Elite 4 | Phoebe'},
+                11: {arena: 'Elite 4 | Glacia'},
+                12: {arena: 'Elite 4 | Drake'},
+                13: {arena: 'Champion | Steven'},
             },
             rivalCaps: {
+                1: {location: 'Mauville City', rival: 'Wally'},
+                2: {
+                    location: 'Route 110',
+                    rival: {name: 'Brendan / May', key: 'brix_maike', options: {male: 'Brendan', female: 'May'}}
+                },
+                3: {
+                    location: 'Route 119',
+                    rival: {name: 'Brendan / May', key: 'brix_maike', options: {male: 'Brendan', female: 'May'}}
+                },
+                4: {
+                    location: 'Lilycove City',
+                    rival: {name: 'Brendan / May', key: 'brix_maike', options: {male: 'Brendan', female: 'May'}}
+                },
+                5: {location: 'Victory Road', rival: 'Wally', level: '45/41'},
             },
         },
         gen3_sm: {
@@ -501,8 +540,32 @@ export const en = {
                 6: {arena: '6. Gym'},
                 7: {arena: '7. Gym'},
                 8: {arena: '8. Gym'},
+                9: {arena: 'Elite 4 | Sidney'},
+                10: {arena: 'Elite 4 | Phoebe'},
+                11: {arena: 'Elite 4 | Glacia'},
+                12: {arena: 'Elite 4 | Drake'},
+                13: {arena: 'Champion | Wallace'},
             },
             rivalCaps: {
+
+                1: {location: 'Mauville City', rival: 'Wally'},
+                2: {
+                    location: 'Rustboro City',
+                    rival: {name: 'Brendan / May', key: 'brix_maike', options: {male: 'Brendan', female: 'May'}},
+                },
+                3: {
+                    location: 'Route 110',
+                    rival: {name: 'Brendan / May', key: 'brix_maike', options: {male: 'Brendan', female: 'May'}},
+                },
+                4: {
+                    location: 'Route 119',
+                    rival: {name: 'Brendan / May', key: 'brix_maike', options: {male: 'Brendan', female: 'May'}},
+                },
+                5: {
+                    location: 'Lilycove City',
+                    rival: {name: 'Brendan / May', key: 'brix_maike', options: {male: 'Brendan', female: 'May'}},
+                },
+                6: {location: 'Victory Road', rival: 'Wally'},
             },
         },
         gen3_frbg: {
@@ -520,8 +583,19 @@ export const en = {
                 6: {arena: '6. Gym'},
                 7: {arena: '7. Gym'},
                 8: {arena: '8. Gym'},
+                9: {arena: 'Elite 4 | Lorelei'},
+                10: {arena: 'Elite 4 | Bruno'},
+                11: {arena: 'Elite 4 | Agatha'},
+                12: {arena: 'Elite 4 | Lance'},
+                13: {arena: 'Champion | Blue'},
             },
             rivalCaps: {
+                1: {location: 'Route 22', rival: 'Blue'},
+                2: {location: 'Cerulean City', rival: 'Blue'},
+                3: {location: 'S.S. Anne', rival: 'Blue'},
+                4: {location: 'Pokémon Tower', rival: 'Blue'},
+                5: {location: 'Silph Co.', rival: 'Blue'},
+                6: {location: 'Route 22', rival: 'Blue'},
             },
         },
         gen4_dp: {
@@ -539,8 +613,18 @@ export const en = {
                 6: {arena: '6. Gym'},
                 7: {arena: '7. Gym'},
                 8: {arena: '8. Gym'},
+                9: {arena: 'Elite 4 | Aaron'},
+                10: {arena: 'Elite 4 | Bertha'},
+                11: {arena: 'Elite 4 | Flint'},
+                12: {arena: 'Elite 4 | Lucian'},
+                13: {arena: 'Champion | Cynthia'},
             },
             rivalCaps: {
+                1: {location: 'Route 209', rival: 'Barry'},
+                2: {location: 'Hearthome City', rival: 'Barry'},
+                3: {location: 'Pastoria City', rival: 'Barry'},
+                4: {location: 'Canalive City', rival: 'Barry'},
+                5: {location: 'Pokémon League', rival: 'Barry'},
             },
         },
         gen4_pt: {
@@ -557,8 +641,18 @@ export const en = {
                 6: {arena: '6. Gym'},
                 7: {arena: '7. Gym'},
                 8: {arena: '8. Gym'},
+                9: {arena: 'Elite 4 | Aaron'},
+                10: {arena: 'Elite 4 | Bertha'},
+                11: {arena: 'Elite 4 | Flint'},
+                12: {arena: 'Elite 4 | Lucian'},
+                13: {arena: 'Champion | Cynthia'},
             },
             rivalCaps: {
+                1: {location: 'Route 209', rival: 'Barry'},
+                2: {location: 'Hearthome City', rival: 'Barry'},
+                3: {location: 'Pastoria City', rival: 'Barry'},
+                4: {location: 'Canalive City', rival: 'Barry'},
+                5: {location: 'Pokémon League', rival: 'Barry'},
             },
         },
         gen4_hgss: {
@@ -575,8 +669,17 @@ export const en = {
                 6: {arena: '6. Gym'},
                 7: {arena: '7. Gym'},
                 8: {arena: '8. Gym'},
+                9: {arena: 'Elite 4 | Will'},
+                10: {arena: 'Elite 4 | Koga'},
+                11: {arena: 'Elite 4 | Bruno'},
+                12: {arena: 'Elite 4 | Karen'},
+                13: {arena: 'Champion | Lance'},
             },
             rivalCaps: {
+                1: {location: 'Azalea Town', rival: 'Silver'},
+                2: {location: 'Burned Tower', rival: 'Silver'},
+                3: {location: 'Goldenrod Tunnel', rival: 'Silver'},
+                4: {location: 'Victory Road', rival: 'Silver'},
             },
         },
         gen5_sw: {
@@ -594,8 +697,27 @@ export const en = {
                 6: {arena: '6. Gym'},
                 7: {arena: '7. Gym'},
                 8: {arena: '8. Gym'},
+                9: {arena: 'Elite 4 | Shauntal'},
+                10: {arena: 'Elite 4 | Grimsley'},
+                11: {arena: 'Elite 4 | Caitlin'},
+                12: {arena: 'Elite 4 | Marshal'},
+                13: {arena: 'Champion | Alder'},
             },
             rivalCaps: {
+                1: {location: 'Accumula Town', rival: 'N'},
+                2: {location: 'Route 2', rival: 'Bianca'},
+                3: {location: 'Striation City', rival: 'Cheren'},
+                5: {location: 'Route 3', rival: 'Cheren'},
+                4: {location: 'Nacrene City', rival: 'N'},
+                6: {location: 'Route 4', rival: 'Bianca'},
+                7: {location: 'Route 4', rival: 'Cheren'},
+                8: {location: 'Nimbasa City', rival: 'N'},
+                9: {location: 'Route 5', rival: 'Cheren'},
+                10: {location: 'Driftveil City', rival: 'Bianca'},
+                11: {location: 'Chargestone Cave', rival: 'N'},
+                12: {location: 'Twist Mountain', rival: 'Cheren'},
+                13: {location: 'Route 8', rival: 'Bianca'},
+                14: {location: 'Route 10', rival: 'Cheren'},
             },
         },
         gen5_s2w2: {
@@ -613,8 +735,16 @@ export const en = {
                 6: {arena: '6. Gym'},
                 7: {arena: '7. Gym'},
                 8: {arena: '8. Gym'},
+                9: {arena: 'Elite 4 | Shauntal'},
+                10: {arena: 'Elite 4 | Grimsley'},
+                11: {arena: 'Elite 4 | Caitlin'},
+                12: {arena: 'Elite 4 | Marshal'},
+                13: {arena: 'Champion | Iris'},
             },
             rivalCaps: {
+                1: {location: 'Floccesy Ranch', rival: 'Hugh'},
+                2: {location: 'Undella Town', rival: 'Hugh'},
+                3: {location: 'Victory Road', rival: 'Hugh'},
             },
         },
         gen6_xy: {
@@ -631,8 +761,39 @@ export const en = {
                 6: {arena: '6. Gym'},
                 7: {arena: '7. Gym'},
                 8: {arena: '8. Gym'},
+                9: {arena: 'Elite 4 | Wikstrom'},
+                10: {arena: 'Elite 4 | Malva'},
+                11: {arena: 'Elite 4 | Drasna'},
+                12: {arena: 'Elite 4 | Siebold'},
+                13: {arena: 'Champion | Diantha'},
             },
             rivalCaps: {
+                1: {location: 'Route 5', rival: 'Tierno'},
+                2: {location: 'Route 7', rival: 'Tierno'},
+                3: {location: 'Route 7', rival: 'Trevor'},
+                6: {
+                    location: 'Tower of Mastery',
+                    rival: {name: 'Calem / Serena', key: 'kalem_serena', options: {male: 'Calem', female: 'Serena'}}
+                },
+                7: {
+                    location: 'Coumarine City',
+                    rival: {name: 'Calem / Serena', key: 'kalem_serena', options: {male: 'Calem', female: 'Serena'}}
+                },
+                8: {
+                    location: 'Route 14',
+                    rival: {name: 'Calem / Serena', key: 'kalem_serena', options: {male: 'Calem', female: 'Serena'}}
+                },
+                9: {
+                    location: 'Anistar City',
+                    rival: {name: 'Calem / Serena', key: 'kalem_serena', options: {male: 'Calem', female: 'Serena'}}
+                },
+                10: {location: 'Route 19', rival: 'Shauna'},
+                11: {location: 'Route 19', rival: 'Trevor'},
+                12: {location: 'Route 19', rival: 'Tierno'},
+                13: {
+                    location: 'Victory Road',
+                    rival: {name: 'Calem / Serena', key: 'Calem_serena', options: {male: 'Calem', female: 'serena'}}
+                },
             },
         },
         gen6_oras: {
@@ -650,8 +811,31 @@ export const en = {
                 6: {arena: '6. Gym'},
                 7: {arena: '7. Gym'},
                 8: {arena: '8. Gym'},
+                9: {arena: 'Elite 4 | Sidney'},
+                10: {arena: 'Elite 4 | Phoebe'},
+                11: {arena: 'Elite 4 | Glacia'},
+                12: {arena: 'Elite 4 | Drake'},
+                13: {arena: 'Champion | Steven'},
             },
             rivalCaps: {
+                1: {
+                    location: 'Route 110',
+                    rival: {name: 'Brendan / May', key: 'brix_maike', options: {male: 'Brendan', female: 'May'}}
+                },
+                2: {location: 'Mauville City', rival: 'Wally'},
+                3: {
+                    location: 'Route 119',
+                    rival: {name: 'Brendan / May', key: 'brix_maike', options: {male: 'Brendan', female: 'May'}}
+                },
+                4: {
+                    location: 'Lilycove City',
+                    rival: {name: 'Brendan / May', key: 'brix_maike', options: {male: 'Brendan', female: 'May'}}
+                },
+                5: {location: 'Victory Road', rival: 'Wally'},
+                6: {
+                    location: 'Route 103',
+                    rival: {name: 'Brendan / May', key: 'brix_maike', options: {male: 'Brendan', female: 'May'}}
+                },
             },
         },
     },

@@ -3,7 +3,7 @@ import type {Pokemon, PokemonLink} from '@/types';
 import EditPairModal from './EditPairModal.tsx';
 import SelectEvolveModal from './SelectEvolveModal';
 import {FiEdit, FiPlus, FiTrash, FiArrowUp, FiArrowDown, FiChevronsUp} from 'react-icons/fi';
-import {getOfficialArtworkUrlForGermanName} from '@/src/services/sprites';
+import {getOfficialArtworkUrlForPokemonName} from '@/src/services/sprites';
 import { useTranslation } from 'react-i18next';
 
 interface TeamTableProps {
@@ -143,7 +143,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                             <td className="p-2 text-center text-sm font-semibold text-gray-800 dark:text-gray-200">{displayIndex + 1}</td>
                             {playerNames.map((_, playerIndex) => {
                                 const member = pair.members?.[playerIndex] ?? { name: '', nickname: '' };
-                                const sprite = member.name ? getOfficialArtworkUrlForGermanName(member.name) : null;
+                                const sprite = member.name ? getOfficialArtworkUrlForPokemonName(member.name) : null;
                                 return (
                                     <React.Fragment key={`player-cell-${pair.id}-${playerIndex}`}>
                             <td className="p-2 text-center border-l border-gray-200 dark:border-gray-700">

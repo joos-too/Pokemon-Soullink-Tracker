@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import type { Pokemon } from '@/types';
-import { searchGermanPokemonNames } from '@/src/services/pokemonSearch';
-import { getSpriteUrlForGermanName } from '@/src/services/sprites';
+import { searchPokemonNames } from '@/src/services/pokemonSearch';
+import { getSpriteUrlForPokemonName } from '@/src/services/sprites';
 import { focusRingClasses, focusRingInputClasses } from '@/src/styles/focusRing';
 import { useTranslation } from 'react-i18next';
+import { normalizeLanguage, type SupportedLanguage } from '@/src/utils/language';
 
 interface EditPairModalProps {
   isOpen: boolean;
@@ -29,9 +30,10 @@ interface PokemonFieldProps {
   onNicknameChange: (value: string) => void;
   isOpen: boolean;
   generationLimit?: number;
+  language: SupportedLanguage;
 }
 
-const PokemonField: React.FC<PokemonFieldProps> = ({ label, value, nickname, onNameChange, onNicknameChange, isOpen, generationLimit }) => {
+const PokemonField: React.FC<PokemonFieldProps> = ({ label, value, nickname, onNameChange, onNicknameChange, isOpen, generationLimit, language }) => {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -67,7 +69,7 @@ const PokemonField: React.FC<PokemonFieldProps> = ({ label, value, nickname, onN
     setLoading(true);
     setOpen(true);
     const timer = setTimeout(async () => {
-      const res = await searchGermanPokemonNames(term, 10, { maxGeneration: generationLimit });
+      const res = await searchPokemonNames(term, 10, { maxGeneration: generationLimit, locale: language });
       if (seq === searchSeq.current) {
         setSuggestions(res);
         setLoading(false);
@@ -76,7 +78,7 @@ const PokemonField: React.FC<PokemonFieldProps> = ({ label, value, nickname, onN
       }
     }, 250);
     return () => clearTimeout(timer);
-  }, [value, focused, isOpen, generationLimit]);
+  }, [value, focused, isOpen, generationLimit, language]);
 
   const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
     if (e.key === 'Tab') {
@@ -99,7 +101,7 @@ const PokemonField: React.FC<PokemonFieldProps> = ({ label, value, nickname, onN
     }
   };
 
-  const spriteUrl = getSpriteUrlForGermanName(value);
+  const spriteUrl = getSpriteUrlForPokemonName(value);
 
   return (
     <div className="space-y-2">
@@ -171,7 +173,8 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
   mode = 'edit',
   generationLimit,
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const language = useMemo(() => normalizeLanguage(i18n.language), [i18n.language]);
   const [route, setRoute] = useState(initial.route || '');
   const [members, setMembers] = useState<Pokemon[]>(() => playerLabels.map((_, index) => initial.members?.[index] ?? { name: '', nickname: '' }));
 
@@ -258,6 +261,7 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
                     })}
                     isOpen={isOpen}
                     generationLimit={generationLimit}
+                    language={language}
                   />
                 </div>
               );

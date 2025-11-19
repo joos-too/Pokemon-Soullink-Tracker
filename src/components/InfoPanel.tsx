@@ -4,7 +4,7 @@ import {PLAYER_COLORS, LEGENDARY_POKEMON_NAMES} from '@/constants';
 import {FiMinus, FiPlus, FiEdit, FiX, FiSave, FiEye, FiEyeOff, FiRefreshCw} from 'react-icons/fi';
 import {RivalImage, BadgeImage, LegendaryImage} from './GameImages';
 import { useTranslation } from 'react-i18next';
-import { getLocalizedArenaLabel, getLocalizedRivalLocation, resolveRivalDisplayName } from '@/src/services/gameLocalization';
+import { getLocalizedArenaLabel, getLocalizedRivalLocation, getLocalizedRivalEntry, resolveRivalDisplayName } from '@/src/services/gameLocalization';
 
 interface InfoPanelProps {
     playerNames: string[];
@@ -93,6 +93,29 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
     }, []);
 
     const nextRivalToRevealIndex = rivalCensorEnabled ? rivalCaps.findIndex(rc => !rc.revealed) : -1;
+    const versionId = gameVersion?.id;
+
+    const formatRivalSlug = (value: string) =>
+        value.split('_').map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
+
+    const resolvePreferredRivalName = (cap: RivalCap) => {
+        const baseName = resolveRivalDisplayName(t, versionId, cap.id, cap.rival);
+        if (typeof cap.rival !== 'object') {
+            return baseName;
+        }
+        const preference = rivalPreferences?.[cap.rival.key] || 'male';
+        const localizedEntry = getLocalizedRivalEntry(t, versionId, cap.id);
+        const localizedOptions: Record<'male' | 'female', string> | undefined =
+            localizedEntry && typeof localizedEntry === 'object' && (localizedEntry as any).options
+                ? (localizedEntry as { options?: Record<'male' | 'female', string> }).options
+                : undefined;
+        const localizedName = localizedOptions?.[preference];
+        if (localizedName && localizedName.trim().length > 0) {
+            return localizedName;
+        }
+        const fallbackSlug = cap.rival.options?.[preference];
+        return fallbackSlug ? formatRivalSlug(fallbackSlug) : baseName;
+    };
 
     useEffect(() => {
         if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
@@ -176,8 +199,6 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
         );
     };
 
-    const versionId = gameVersion?.id;
-
     const renderLevelCapList = (wrapperClasses: string) => (
         <div className={wrapperClasses}>
             {levelCaps.map((cap, index) => {
@@ -233,14 +254,14 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                 <input id={`rivalcap-done-${rc.id}`} type="checkbox"
                                        checked={!!rc.done}
                                        onChange={() => onRivalCapToggleDone(index)}
-                                       aria-label={t('tracker.infoPanel.completedArena', { target: resolveRivalDisplayName(t, versionId, rc.id, rc.rival) })}
+                                       aria-label={t('tracker.infoPanel.completedArena', { target: resolvePreferredRivalName(rc) })}
                                        className="h-5 w-5 accent-green-600 cursor-pointer flex-shrink-0"/>
                                 <span
                                     onClick={(e) => e.stopPropagation()}
                                     className="text-sm text-gray-800 dark:text-gray-300 break-words">{getLocalizedRivalLocation(t, versionId, rc.id, rc.location)}</span>
                             </div>
                             <div className="flex items-center justify-end flex-shrink-0 px-3">
-                                <RivalImage rival={rc.rival} preferences={rivalPreferences} displayName={resolveRivalDisplayName(t, versionId, rc.id, rc.rival)}/>
+                                <RivalImage rival={rc.rival} preferences={rivalPreferences} displayName={resolvePreferredRivalName(rc)}/>
                                 <span
                                     className="font-bold text-lg text-gray-800 dark:text-gray-200 text-center">{renderLevelCaps(rc.level)}</span>
                             </div>
@@ -389,7 +410,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                         </h2>
                         <button onClick={toggleCapsView}
                                 className="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-full text-white/70 hover:text-white hover:bg-black/20 ring-2 ring-white/25"
-                                title="Ansicht wechseln">
+                                title={t('tracker.infoPanel.rivalCapsLabel.changeView')}>
                             <FiRefreshCw size={14}
                                          className={`transition-transform duration-500 ${showRivalCaps ? 'rotate-180' : ''}`}/>
                         </button>
@@ -428,7 +449,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
             <div className={`grid grid-cols-1 ${legendaryTrackerEnabled ? 'md:grid-cols-2' : ''} gap-6`}>
                 <div
                     className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700 overflow-hidden">
-                    <h2 className="text-center p-2 bg-gray-800 dark:bg-gray-900 text-white font-press-start text-sm">Tode</h2>
+                    <h2 className="text-center p-2 bg-gray-800 dark:bg-gray-900 text-white font-press-start text-sm">{t('tracker.infoPanel.deathLabel')}</h2>
                     <div className="grid gap-y-1" style={{gridTemplateColumns: `repeat(${playerNames.length}, minmax(0, 1fr))`}}>
                         {deathStats.map((entry, index) => (
                             <div key={`death-name-${index}`} className={`px-2 pt-2 pb-1 text-center ${entry.borderClass}`}>

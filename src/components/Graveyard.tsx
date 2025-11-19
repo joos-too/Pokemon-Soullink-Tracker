@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import type { PokemonLink } from '@/types';
-import { getSpriteUrlForGermanName } from '@/src/services/sprites';
+import { getSpriteUrlForPokemonName } from '@/src/services/sprites';
 import { PLAYER_COLORS } from '@/constants';
 import { useTranslation } from 'react-i18next';
 
@@ -45,7 +45,7 @@ const Graveyard: React.FC<GraveyardProps> = ({ graveyard = [], playerNames, play
                 <div className="grid gap-2" style={{gridTemplateColumns: `repeat(${names.length}, minmax(0, 1fr))`}}>
                   {names.map((name, index) => {
                     const member = pair.members?.[index] ?? { name: '', nickname: '' };
-                    const spriteUrl = getSpriteUrlForGermanName(member.name);
+                    const spriteUrl = getSpriteUrlForPokemonName(member.name);
                     return (
                       <div key={`${pair.id}-player-${index}`}>
                         <p className="font-bold flex items-center gap-2" style={{color: colorForIndex(index)}}>

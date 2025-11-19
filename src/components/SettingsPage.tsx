@@ -5,6 +5,7 @@ import {FiShield, FiUserPlus, FiX, FiTrash2, FiLogOut, FiInfo, FiArrowLeft} from
 import { focusRingInputClasses, focusRingClasses } from '@/src/styles/focusRing';
 import Tooltip from './Tooltip';
 import { useTranslation } from 'react-i18next';
+import { getLocalizedRivalEntry } from '@/src/services/gameLocalization';
 
 interface SettingsPageProps {
     trackerTitle: string;
@@ -63,18 +64,37 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
     const [memberPendingRemoval, setMemberPendingRemoval] = useState<TrackerMember | null>(null);
     const playerCount = Math.min(Math.max(playerNames.length, MIN_PLAYER_COUNT), MAX_PLAYER_COUNT);
 
-    const variableRivals = useMemo(() => {
-        if (!gameVersion) return [];
+    const { variableRivals, rivalKeyToCapId } = useMemo(() => {
+        if (!gameVersion) {
+            return { variableRivals: [], rivalKeyToCapId: {} as Record<string, number | string> };
+        }
         const seen = new Set<string>();
         const result: VariableRival[] = [];
+        const keyMap: Record<string, number | string> = {};
         for (const cap of gameVersion.rivalCaps) {
-            if (typeof cap.rival === 'object' && !seen.has(cap.rival.key)) {
-                result.push(cap.rival);
-                seen.add(cap.rival.key);
+            if (typeof cap.rival === 'object' && cap.rival.key) {
+                if (!seen.has(cap.rival.key)) {
+                    result.push(cap.rival);
+                    seen.add(cap.rival.key);
+                    keyMap[cap.rival.key] = cap.id;
+                }
             }
         }
-        return result;
+        return { variableRivals: result, rivalKeyToCapId: keyMap };
     }, [gameVersion]);
+
+    const versionId = gameVersion?.id;
+    const localizedRivalOptions = useMemo(() => {
+        if (!versionId) return {} as Record<string, Record<string, string>>;
+        const out: Record<string, Record<string, string>> = {};
+        Object.entries(rivalKeyToCapId).forEach(([key, capId]) => {
+            const localized = getLocalizedRivalEntry(t, versionId, capId);
+            if (localized && typeof localized === 'object' && (localized as any).options && (localized as any).key === key) {
+                out[key] = {...(localized as any).options};
+            }
+        });
+        return out;
+    }, [rivalKeyToCapId, versionId, t]);
 
     const handleInvite = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -122,8 +142,13 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
     const currentMember = currentUserId ? members.find((member) => member.uid === currentUserId) : undefined;
     const pendingRemovalIsSelf = memberPendingRemoval && memberPendingRemoval.uid === currentUserId;
 
-    const getRivalNameFromOption = (option: string): string => {
-        return option.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+    const formatSlug = (slug: string): string => slug.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+    const getRivalOptionLabel = (rivalKey: string, gender: 'male' | 'female', fallbackSlug: string): string => {
+        const localized = localizedRivalOptions[rivalKey]?.[gender];
+        if (typeof localized === 'string' && localized.trim().length > 0) {
+            return localized;
+        }
+        return formatSlug(fallbackSlug);
     };
 
     return (
@@ -293,13 +318,13 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                                             <input type="radio" name={`rival-${rival.key}`} value="male"
                                                    checked={(rivalPreferences?.[rival.key] || 'male') === 'male'}
                                                    onChange={() => onRivalPreferenceChange(rival.key, 'male')}
-                                                   className="h-4 w-4 accent-green-600"/> {getRivalNameFromOption(rival.options.male)}
+                                                   className="h-4 w-4 accent-green-600"/> {getRivalOptionLabel(rival.key, 'male', rival.options.male)}
                                         </label>
                                         <label className="flex items-center gap-2 cursor-pointer">
                                             <input type="radio" name={`rival-${rival.key}`} value="female"
                                                    checked={rivalPreferences?.[rival.key] === 'female'}
                                                    onChange={() => onRivalPreferenceChange(rival.key, 'female')}
-                                                   className="h-4 w-4 accent-green-600"/> {getRivalNameFromOption(rival.options.female)}
+                                                   className="h-4 w-4 accent-green-600"/> {getRivalOptionLabel(rival.key, 'female', rival.options.female)}
                                         </label>
                                     </div>
                                     <div className="text-xs text-gray-500 dark:text-gray-400 mb-2">

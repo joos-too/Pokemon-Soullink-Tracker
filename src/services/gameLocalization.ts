@@ -18,6 +18,19 @@ const normalizeLabel = (label: string) => {
   return normalized || 'default';
 };
 
+const NO_TRANSLATION = '__soullink_no_translation__';
+
+export const getLocalizedRivalEntry = (
+  t: TFunction,
+  versionId: string | undefined,
+  capId: number | string
+) => {
+  const key = toKey(versionId, `rivalCaps.${ensureId(capId)}.rival`);
+  if (!key) return undefined;
+  const value = t(key, { defaultValue: NO_TRANSLATION, returnObjects: true });
+  return value === NO_TRANSLATION ? undefined : value;
+};
+
 export const getLocalizedGameName = (
   t: TFunction,
   versionId?: string | null,
@@ -53,8 +66,14 @@ export const getLocalizedRivalName = (
   capId: number | string,
   fallback: string
 ) => {
-  const key = toKey(versionId, `rivalCaps.${ensureId(capId)}.rival`);
-  return key ? t(key, { defaultValue: fallback }) : fallback;
+  const localized = getLocalizedRivalEntry(t, versionId, capId);
+  if (typeof localized === 'string') {
+    return localized;
+  }
+  if (localized && typeof localized === 'object' && typeof (localized as any).name === 'string') {
+    return (localized as { name: string }).name;
+  }
+  return fallback;
 };
 
 export const resolveRivalDisplayName = (
@@ -64,7 +83,14 @@ export const resolveRivalDisplayName = (
   rival: string | VariableRival
 ) => {
   const baseName = typeof rival === 'string' ? rival : rival.name;
-  return getLocalizedRivalName(t, versionId, capId, baseName);
+  const localized = getLocalizedRivalEntry(t, versionId, capId);
+  if (typeof localized === 'string') {
+    return localized;
+  }
+  if (localized && typeof localized === 'object' && typeof (localized as any).name === 'string') {
+    return (localized as { name: string }).name;
+  }
+  return baseName;
 };
 
 export const getLocalizedSelectionLabel = (
