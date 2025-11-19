@@ -20,6 +20,7 @@ export const de = {
         languageToggleLabel: 'Sprache wechseln',
         darkModeToggleLabel: 'Darkmode umschalten',
         darkModeToggleTitle: 'Darkmode umschalten',
+        gym: 'Arena',
     },
     home: {
         logoAlt: 'Soullink Tracker Logo',

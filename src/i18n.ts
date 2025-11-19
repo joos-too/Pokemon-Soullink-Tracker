@@ -7,7 +7,7 @@ export const LANGUAGE_STORAGE_KEY = 'soullink:language';
 
 const getInitialLanguage = () => {
   if (typeof window === 'undefined') {
-    return 'de';
+    return 'en';
   }
   const stored = window.localStorage?.getItem(LANGUAGE_STORAGE_KEY);
   if (stored === 'de' || stored === 'en') {

@@ -20,6 +20,7 @@ export const en = {
         languageToggleLabel: 'Change language',
         darkModeToggleLabel: 'Toggle dark mode',
         darkModeToggleTitle: 'Toggle dark mode',
+        gym: 'Gym',
     },
     home: {
         logoAlt: 'Soullink Tracker logo',

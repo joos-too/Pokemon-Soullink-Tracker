@@ -327,7 +327,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                     Run
                                 </td>
                                 <td className="px-2 py-1.5 text-right"><span
-                                    className="inline-block min-w-[2ch] text-sm font-bold">Arena {stats.best}</span>
+                                    className="inline-block min-w-[2ch] text-sm font-bold">{t('common.gym')} {stats.best}</span>
                                 </td>
                             </tr>
                             </tbody>
