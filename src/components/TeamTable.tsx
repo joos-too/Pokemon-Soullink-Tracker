@@ -247,6 +247,8 @@ const TeamTable: React.FC<TeamTableProps> = ({
                 playerLabels={playerNames}
                 maxGeneration={pokemonGenerationLimit}
                 gameVersionId={gameVersionId}
+                generationSpritePath={generationSpritePath}
+                useSpritesEverywhere={useSpritesInTeamTable}
             />
             <EditPairModal
                 isOpen={addOpen}

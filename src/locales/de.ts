@@ -275,10 +275,10 @@ export const de = {
                 description: 'Zeige Pokémon-Sprites im Stil der jeweiligen Generation an.',
             },
             spritesInTeamTable: {
-                title: 'Sprites in Team-Tabelle',
-                tooltipLabel: 'Info Sprites in Team-Tabelle',
-                tooltip: 'Verwende Sprites statt offizieller Artworks in der Team- und Box-Tabelle. Respektiert die anderen Sprite-Einstellungen.',
-                description: 'Zeige kleine Sprites statt großer Artworks in Team und Box an.',
+                title: 'Sprites überall verwenden',
+                tooltipLabel: 'Info Sprites überall',
+                tooltip: 'Verwende Sprites statt offizieller Artworks überall in der App. Respektiert die anderen Sprite-Einstellungen.',
+                description: 'Zeige Sprites statt Artworks in allen Ansichten an.',
             },
         },
         members: {
