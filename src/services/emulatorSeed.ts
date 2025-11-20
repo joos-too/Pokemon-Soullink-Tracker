@@ -73,17 +73,28 @@ async function createTestUser(): Promise<string> {
 }
 
 /**
- * Creates sample tracker data for the test user
+ * Creates a single tracker with sample data
  */
-async function createSampleTrackerData(userId: string): Promise<void> {
+async function createTracker(
+  userId: string,
+  config: {
+    title: string;
+    gameVersionId: string;
+    playerNames: string[];
+    teamPokemon: Array<{ id: number; route: string; members: Array<{ name: string; nickname: string }> }>;
+    boxPokemon: Array<{ id: number; route: string; members: Array<{ name: string; nickname: string }> }>;
+    graveyardPokemon: Array<{ id: number; route: string; members: Array<{ name: string; nickname: string }> }>;
+    checkedLevelCaps: number[]; // Array of level cap indices to mark as done
+  }
+): Promise<Record<string, any>> {
   const now = Date.now();
-  const trackerId = `test-tracker-${now}`;
+  const trackerId = `test-tracker-${config.gameVersionId}-${now}`;
   
   // Create tracker metadata
   const trackerMeta = {
     id: trackerId,
-    title: 'Test Tracker - Sample Run',
-    playerNames: ['Spieler 1', 'Spieler 2'],
+    title: config.title,
+    playerNames: config.playerNames,
     createdAt: now,
     createdBy: userId,
     members: {
@@ -94,66 +105,147 @@ async function createSampleTrackerData(userId: string): Promise<void> {
         addedAt: now,
       },
     },
-    gameVersionId: 'gen5_sw',
+    gameVersionId: config.gameVersionId,
   };
 
   // Create initial state with sample data
-  const initialState = createInitialState('gen5_sw', ['Spieler 1', 'Spieler 2']);
+  const initialState = createInitialState(config.gameVersionId, config.playerNames);
   
-  // Add some sample team members to demonstrate functionality
-  initialState.team = [
-    {
-      id: 1,
-      route: 'Route 1',
-      members: [
-        { name: 'Pikachu', nickname: 'Sparky' },
-        { name: 'Evoli', nickname: 'Flausch' },
-      ],
-    },
-    {
-      id: 2,
-      route: 'Route 2',
-      members: [
-        { name: 'Glumanda', nickname: 'Flame' },
-        { name: 'Schiggy', nickname: 'Splash' },
-      ],
-    },
-  ];
+  // Add sample data
+  initialState.team = config.teamPokemon;
+  initialState.box = config.boxPokemon;
+  initialState.graveyard = config.graveyardPokemon;
 
-  // Add some sample box members
-  initialState.box = [
-    {
-      id: 3,
-      route: 'Route 3',
-      members: [
-        { name: 'Bisasam', nickname: 'Grün' },
-        { name: 'Taubsi', nickname: 'Wings' },
-      ],
-    },
-  ];
+  // Update stats to show progress
+  const deathCount = config.graveyardPokemon.length;
+  initialState.stats.deaths = config.playerNames.map(() => deathCount);
+  initialState.stats.sumDeaths = config.playerNames.map(() => deathCount);
+  
+  // Mark specified level caps as done
+  config.checkedLevelCaps.forEach((index) => {
+    if (initialState.levelCaps[index]) {
+      initialState.levelCaps[index].done = true;
+    }
+  });
 
-  // Add a sample graveyard entry
-  initialState.graveyard = [
-    {
-      id: 4,
-      route: 'Arena 1',
-      members: [
-        { name: 'Rattfratz', nickname: 'Speed' },
-        { name: 'Tauboga', nickname: 'Flyer' },
-      ],
-    },
-  ];
-
-  // Update some stats to show progress
-  initialState.stats.deaths = [1, 1];
-  initialState.stats.sumDeaths = [1, 1];
-  initialState.levelCaps[0].done = true; // Mark first level cap as done
-
-  // Write data to database
-  const updates: Record<string, any> = {
+  // Return updates object for this tracker
+  return {
     [`trackers/${trackerId}/meta`]: trackerMeta,
     [`trackers/${trackerId}/state`]: initialState,
     [`userTrackers/${userId}/${trackerId}`]: true,
+  };
+}
+
+/**
+ * Creates sample tracker data for the test user
+ */
+async function createSampleTrackerData(userId: string): Promise<void> {
+  const now = Date.now();
+
+  // Create Gen 5 tracker
+  const gen5Updates = await createTracker(userId, {
+    title: 'Test Tracker - Gen 5 Sample',
+    gameVersionId: 'gen5_sw',
+    playerNames: ['Spieler 1', 'Spieler 2'],
+    teamPokemon: [
+      {
+        id: 1,
+        route: 'Route 1',
+        members: [
+          { name: 'Pikachu', nickname: 'Sparky' },
+          { name: 'Evoli', nickname: 'Flausch' },
+        ],
+      },
+      {
+        id: 2,
+        route: 'Route 2',
+        members: [
+          { name: 'Glumanda', nickname: 'Flame' },
+          { name: 'Schiggy', nickname: 'Splash' },
+        ],
+      },
+    ],
+    boxPokemon: [
+      {
+        id: 3,
+        route: 'Route 3',
+        members: [
+          { name: 'Bisasam', nickname: 'Grün' },
+          { name: 'Taubsi', nickname: 'Wings' },
+        ],
+      },
+    ],
+    graveyardPokemon: [
+      {
+        id: 4,
+        route: 'Arena 1',
+        members: [
+          { name: 'Rattfratz', nickname: 'Speed' },
+          { name: 'Tauboga', nickname: 'Flyer' },
+        ],
+      },
+    ],
+    checkedLevelCaps: [0], // Mark first level cap as done
+  });
+
+  // Create Gen 1 Red/Blue tracker
+  const gen1Updates = await createTracker(userId, {
+    title: 'Test Tracker - Gen 1 Rot/Blau',
+    gameVersionId: 'gen1_rb',
+    playerNames: ['Ash', 'Gary'],
+    teamPokemon: [
+      {
+        id: 1,
+        route: 'Route 1',
+        members: [
+          { name: 'Taubsi', nickname: 'Pidgy' },
+          { name: 'Rattfratz', nickname: 'Ratty' },
+        ],
+      },
+      {
+        id: 2,
+        route: 'Route 2',
+        members: [
+          { name: 'Raupy', nickname: 'Wurm' },
+          { name: 'Hornliu', nickname: 'Stinger' },
+        ],
+      },
+      {
+        id: 3,
+        route: 'Vertania-Wald',
+        members: [
+          { name: 'Pikachu', nickname: 'Blitz' },
+          { name: 'Sandan', nickname: 'Sandy' },
+        ],
+      },
+    ],
+    boxPokemon: [
+      {
+        id: 4,
+        route: 'Route 3',
+        members: [
+          { name: 'Smettbo', nickname: 'Butterfly' },
+          { name: 'Kokuna', nickname: 'Kokon' },
+        ],
+      },
+    ],
+    graveyardPokemon: [
+      {
+        id: 5,
+        route: 'Marmoria City',
+        members: [
+          { name: 'Tauboga', nickname: 'Wings' },
+          { name: 'Rattikarl', nickname: 'Speedy' },
+        ],
+      },
+    ],
+    checkedLevelCaps: [0, 1, 2], // Mark first three level caps as done
+  });
+
+  // Combine all updates
+  const allUpdates: Record<string, any> = {
+    ...gen5Updates,
+    ...gen1Updates,
     [`users/${userId}`]: {
       uid: userId,
       email: TEST_USER_EMAIL,
@@ -169,8 +261,8 @@ async function createSampleTrackerData(userId: string): Promise<void> {
     },
   };
 
-  await update(ref(db), updates);
-  console.log('Sample tracker data created successfully');
+  await update(ref(db), allUpdates);
+  console.log('Sample tracker data created successfully (Gen 5 and Gen 1 trackers)');
 }
 
 /**
