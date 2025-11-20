@@ -127,7 +127,7 @@ const PokemonField: React.FC<PokemonFieldProps> = ({ label, value, nickname, onN
           aria-expanded={open}
         />
         {spriteUrl ? (
-          <img src={spriteUrl} alt="" aria-hidden="true" className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 pointer-events-none select-none" loading="lazy" />
+          <img src={spriteUrl} alt="" aria-hidden="true" className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none select-none" loading="lazy" />
         ) : null}
         {open && (
           <div className="absolute z-10 mt-1 w-full max-h-56 overflow-auto rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-lg">

@@ -51,7 +51,7 @@ const Graveyard: React.FC<GraveyardProps> = ({ graveyard = [], playerNames, play
                       <div key={`${pair.id}-player-${index}`}>
                         <p className="font-bold flex items-center gap-2" style={{color: colorForIndex(index)}}>
                           {spriteUrl ? (
-                            <img src={spriteUrl} alt={member.name || 'Pokémon'} className="w-8 h-8" loading="lazy" style={{ imageRendering: 'pixelated' }}/>
+                            <img src={spriteUrl} alt={member.name || 'Pokémon'} className="w-12 h-12" loading="lazy"/>
                           ) : null}
                           <span>{t('graveyard.memberTitle', { name, pokemon: member.name || t('graveyard.unknownPokemon') })}</span>
                         </p>
