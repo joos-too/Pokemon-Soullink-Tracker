@@ -222,7 +222,7 @@ export const de = {
         title: 'Tote / verlorene Pokémon',
         manualAddTitle: 'Paar manuell hinzufügen',
         areaLabel: 'Gebiet: {{route}}',
-        memberTitle: '{{name}}s {{pokemon}}',
+        memberTitle: "{{name}}'s {{pokemon}}",
         nicknameLabel: 'Spitzname: {{nickname}}',
         noNickname: '—',
         unknownPokemon: 'Pokémon',
