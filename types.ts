@@ -130,4 +130,6 @@ export interface UserProfile {
   createdAt: number;
   lastLoginAt: number;
   useGenerationSprites?: boolean;
+  useSpritesInTeamTable?: boolean;
+  useAnimatedSprites?: boolean;
 }

@@ -52,3 +52,15 @@ export function getSpriteUrlForPokemonName(name: string | undefined | null, gene
   if (!match) return null;
   return getSpriteUrlById(match.id, generationPath);
 }
+
+// Get animated sprite from Gen V (GIF)
+export function getAnimatedSpriteUrlById(id: number): string {
+  return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/${id}.gif`;
+}
+
+// Resolve animated sprite by localized name
+export function getAnimatedSpriteUrlForPokemonName(name: string | undefined | null): string | null {
+  const match = findPokemonIdByName(name);
+  if (!match) return null;
+  return getAnimatedSpriteUrlById(match.id);
+}

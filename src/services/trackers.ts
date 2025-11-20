@@ -279,3 +279,35 @@ export const getUserGenerationSpritePreference = async (
     const snapshot = await get(ref(db, userPath));
     return snapshot.exists() ? snapshot.val() : false;
 };
+
+export const updateUserSpritesInTeamTablePreference = async (
+    userId: string,
+    useSpritesInTeamTable: boolean
+): Promise<void> => {
+    const userPath = `users/${userId}/useSpritesInTeamTable`;
+    await set(ref(db, userPath), useSpritesInTeamTable);
+};
+
+export const getUserSpritesInTeamTablePreference = async (
+    userId: string
+): Promise<boolean> => {
+    const userPath = `users/${userId}/useSpritesInTeamTable`;
+    const snapshot = await get(ref(db, userPath));
+    return snapshot.exists() ? snapshot.val() : false;
+};
+
+export const updateUserAnimatedSpritesPreference = async (
+    userId: string,
+    useAnimatedSprites: boolean
+): Promise<void> => {
+    const userPath = `users/${userId}/useAnimatedSprites`;
+    await set(ref(db, userPath), useAnimatedSprites);
+};
+
+export const getUserAnimatedSpritesPreference = async (
+    userId: string
+): Promise<boolean> => {
+    const userPath = `users/${userId}/useAnimatedSprites`;
+    const snapshot = await get(ref(db, userPath));
+    return snapshot.exists() ? snapshot.val() : false;
+};
