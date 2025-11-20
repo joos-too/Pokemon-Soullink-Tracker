@@ -32,7 +32,8 @@ import {
     removeMemberFromTracker,
     TrackerOperationError,
     updateRivalPreference,
-    updateGenerationSpritePreference
+    updateUserGenerationSpritePreference,
+    getUserGenerationSpritePreference
 } from '@/src/services/trackers';
 import {GAME_VERSIONS} from '@/src/data/game-versions';
 import { useTranslation } from 'react-i18next';
@@ -94,6 +95,7 @@ const App: React.FC = () => {
     const { t } = useTranslation();
     const [userTrackersLoading, setUserTrackersLoading] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [userUseGenerationSprites, setUserUseGenerationSprites] = useState(false);
     const showSettings = searchParams.get('panel') === 'settings';
     const openSettingsPanel = useCallback(() => {
         const next = new URLSearchParams(searchParams);
@@ -132,15 +134,10 @@ const App: React.FC = () => {
         return activeTrackerMeta.userSettings?.[user.uid]?.rivalPreferences ?? {};
     }, [user, activeTrackerMeta]);
 
-    const currentUserUseGenerationSprites = useMemo(() => {
-        if (!user || !activeTrackerMeta) return false;
-        return activeTrackerMeta.userSettings?.[user.uid]?.useGenerationSprites ?? false;
-    }, [user, activeTrackerMeta]);
-
     const generationSpritePath = useMemo(() => {
-        if (!currentUserUseGenerationSprites || !activeGameVersionId) return null;
+        if (!userUseGenerationSprites || !activeGameVersionId) return null;
         return getGenerationSpritePath(activeGameVersionId);
-    }, [currentUserUseGenerationSprites, activeGameVersionId]);
+    }, [userUseGenerationSprites, activeGameVersionId]);
 
     const handleRivalPreferenceChange = useCallback(async (key: string, gender: RivalGender) => {
         if (!activeTrackerId || !user) return;
@@ -152,13 +149,14 @@ const App: React.FC = () => {
     }, [activeTrackerId, user]);
 
     const handleGenerationSpritesToggle = useCallback(async (enabled: boolean) => {
-        if (!activeTrackerId || !user) return;
+        if (!user) return;
         try {
-            await updateGenerationSpritePreference(activeTrackerId, user.uid, enabled);
+            await updateUserGenerationSpritePreference(user.uid, enabled);
+            setUserUseGenerationSprites(enabled);
         } catch (error) {
             console.error("Failed to update generation sprites preference:", error);
         }
-    }, [activeTrackerId, user]);
+    }, [user]);
 
     const coerceAppState = useCallback((incoming: any, base: AppState): AppState => {
         const gameVersionForDefaults = activeGameVersion ?? GAME_VERSIONS['gen5_sw'];
@@ -252,6 +250,12 @@ const App: React.FC = () => {
     useEffect(() => {
         if (!user) return;
         ensureUserProfile(user).catch(() => {
+        });
+        // Load user's sprite preference
+        getUserGenerationSpritePreference(user.uid).then(preference => {
+            setUserUseGenerationSprites(preference);
+        }).catch(() => {
+            setUserUseGenerationSprites(false);
         });
     }, [user]);
 
@@ -1092,8 +1096,6 @@ const App: React.FC = () => {
             gameVersion={activeGameVersion}
             rivalPreferences={currentUserRivalPreferences}
             onRivalPreferenceChange={handleRivalPreferenceChange}
-            useGenerationSprites={currentUserUseGenerationSprites}
-            onGenerationSpritesToggle={handleGenerationSpritesToggle}
         />
     ) : (
         <div className="bg-[#f0f0f0] dark:bg-gray-900 min-h-screen p-2 sm:p-4 md:p-8 text-gray-800 dark:text-gray-200">
@@ -1389,7 +1391,7 @@ const App: React.FC = () => {
                 />
                 <Route
                     path="/account"
-                    element={<UserSettingsPage email={user.email} onBack={handleNavigateHome} onLogout={handleLogout}/>}
+                    element={<UserSettingsPage email={user.email} onBack={handleNavigateHome} onLogout={handleLogout} useGenerationSprites={userUseGenerationSprites} onGenerationSpritesToggle={handleGenerationSpritesToggle}/>}
                 />
                 <Route path="*" element={<Navigate to="/" replace/>}/>
             </Routes>

@@ -1,17 +1,20 @@
 import React, {useState} from 'react';
-import {FiArrowLeft, FiMail, FiRefreshCw, FiCheckCircle, FiAlertTriangle, FiLogOut} from 'react-icons/fi';
+import {FiArrowLeft, FiMail, FiRefreshCw, FiCheckCircle, FiAlertTriangle, FiLogOut, FiInfo} from 'react-icons/fi';
 import {focusRingClasses} from '@/src/styles/focusRing';
 import {requestPasswordReset} from '@/src/services/auth';
 import { useTranslation } from 'react-i18next';
 import LanguageToggle from './LanguageToggle';
+import Tooltip from './Tooltip';
 
 interface UserSettingsPageProps {
     email?: string | null;
     onBack: () => void;
     onLogout: () => void;
+    useGenerationSprites?: boolean;
+    onGenerationSpritesToggle: (enabled: boolean) => void;
 }
 
-const UserSettingsPage: React.FC<UserSettingsPageProps> = ({email, onBack, onLogout}) => {
+const UserSettingsPage: React.FC<UserSettingsPageProps> = ({email, onBack, onLogout, useGenerationSprites, onGenerationSpritesToggle}) => {
     const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
     const [message, setMessage] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
@@ -111,6 +114,46 @@ const UserSettingsPage: React.FC<UserSettingsPageProps> = ({email, onBack, onLog
                         </p>
                         <div className="flex justify-start">
                             <LanguageToggle/>
+                        </div>
+                    </section>
+
+                    <section className="pt-6 border-t border-gray-200 dark:border-gray-700 mt-6 space-y-4">
+                        <p className="text-sm font-semibold uppercase tracking-[0.3em] text-gray-500">{t('userSettings.sprites.title')}</p>
+                        <div className="flex items-center justify-between">
+                            <div className="flex-1">
+                                <div className="flex items-center gap-2">
+                                    <div className="font-medium text-gray-800 dark:text-gray-200">{t('settings.features.generationSprites.title')}</div>
+                                    <Tooltip side="top" content={t('settings.features.generationSprites.tooltip')}>
+                                        <span
+                                            className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-help"
+                                            aria-label={t('settings.features.generationSprites.tooltipLabel')}>
+                                            <FiInfo size={16}/>
+                                        </span>
+                                    </Tooltip>
+                                </div>
+                                <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">{t('settings.features.generationSprites.description')}</div>
+                            </div>
+                            <label
+                                htmlFor="generation-sprites-toggle"
+                                className="inline-flex items-center cursor-pointer rounded-full"
+                            >
+                                <input
+                                    type="checkbox"
+                                    id="generation-sprites-toggle"
+                                    checked={useGenerationSprites ?? false}
+                                    onChange={(e) => onGenerationSpritesToggle(e.target.checked)}
+                                    className="sr-only"
+                                    tabIndex={-1}
+                                    aria-label={t('settings.features.generationSprites.title')}
+                                />
+                                <span aria-hidden="true" className={`relative block w-11 h-6 rounded-full transition-colors duration-200 ease-out pointer-events-none ${
+                                    useGenerationSprites ? 'bg-green-500' : 'bg-gray-200 dark:bg-gray-700'
+                                }`}>
+                                    <span className={`absolute top-[2px] left-[2px] h-5 w-5 transform rounded-full bg-white shadow transition duration-200 ease-out pointer-events-none ${
+                                        useGenerationSprites ? 'translate-x-5' : ''
+                                    }`}/>
+                                </span>
+                            </label>
                         </div>
                     </section>
 

@@ -332,6 +332,9 @@ export const en = {
             title: 'Language',
             description: 'Choose your preferred interface language below.',
         },
+        sprites: {
+            title: 'Sprite Display',
+        },
     },
     auth: {
         login: {

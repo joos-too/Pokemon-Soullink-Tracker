@@ -129,4 +129,5 @@ export interface UserProfile {
   emailLowerCase: string;
   createdAt: number;
   lastLoginAt: number;
+  useGenerationSprites?: boolean;
 }

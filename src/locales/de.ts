@@ -332,6 +332,9 @@ export const de = {
             title: 'Sprache',
             description: 'Hier kannst du die Sprache der Benutzeroberfläche wechseln.',
         },
+        sprites: {
+            title: 'Sprite-Anzeige',
+        },
     },
     auth: {
         login: {

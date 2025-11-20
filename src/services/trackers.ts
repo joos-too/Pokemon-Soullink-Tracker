@@ -264,11 +264,18 @@ export const updateRivalPreference = async (
     await set(ref(db, prefPath), gender);
 };
 
-export const updateGenerationSpritePreference = async (
-    trackerId: string,
+export const updateUserGenerationSpritePreference = async (
     userId: string,
     useGenerationSprites: boolean
 ): Promise<void> => {
-    const prefPath = `trackers/${trackerId}/meta/userSettings/${userId}/useGenerationSprites`;
-    await set(ref(db, prefPath), useGenerationSprites);
+    const userPath = `users/${userId}/useGenerationSprites`;
+    await set(ref(db, userPath), useGenerationSprites);
+};
+
+export const getUserGenerationSpritePreference = async (
+    userId: string
+): Promise<boolean> => {
+    const userPath = `users/${userId}/useGenerationSprites`;
+    const snapshot = await get(ref(db, userPath));
+    return snapshot.exists() ? snapshot.val() : false;
 };
