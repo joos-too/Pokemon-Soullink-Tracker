@@ -1316,6 +1316,7 @@ const App: React.FC = () => {
                             rivalPreferences={currentUserRivalPreferences}
                             activeTrackerId={activeTrackerId}
                             generationSpritePath={generationSpritePath}
+                            pokemonGenerationLimit={pokemonGenerationLimit}
                         />
                         <Graveyard
                             graveyard={data.graveyard}
