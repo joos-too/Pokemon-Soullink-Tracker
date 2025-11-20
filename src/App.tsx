@@ -224,7 +224,13 @@ const App: React.FC = () => {
         return () => unsubscribe();
     }, []);
 
-    // Seed emulator with test data when running in emulator mode
+    /**
+     * Seed emulator with test data when running in emulator mode
+     * This effect runs after Firebase initialization and creates:
+     * - A test user (test@example.com)
+     * - A sample tracker with pre-populated team, box, and graveyard data
+     * The seeding is idempotent and checks for existing data to prevent duplication
+     */
     useEffect(() => {
         if (USE_EMULATORS && !loading) {
             seedEmulatorData().catch((error) => {

@@ -1,13 +1,27 @@
+/**
+ * Emulator Seeding Service
+ * 
+ * This module provides functionality to automatically seed the Firebase emulator
+ * with test data when running in development mode. This allows developers to
+ * quickly start development and testing without manually creating users and trackers.
+ * 
+ * Features:
+ * - Creates a test user with predefined credentials
+ * - Seeds a sample tracker with team, box, and graveyard data
+ * - Prevents duplicate seeding on hot reloads
+ * - Checks for existing data before seeding
+ */
+
 import { auth, db } from '@/src/firebaseConfig';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { ref, get, set } from 'firebase/database';
 import { createInitialState } from '@/constants';
 
-// Test user credentials
+// Test user credentials for emulator mode
 const TEST_USER_EMAIL = 'test@example.com';
 const TEST_USER_PASSWORD = 'testpassword123';
 
-// Flag to track if seeding has been attempted
+// Flag to track if seeding has been attempted (prevents duplicate seeding during hot reloads)
 let seedingAttempted = false;
 
 /**
