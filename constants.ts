@@ -75,17 +75,6 @@ const LEGENDARY_POKEMON_BY_GENERATION: Record<number, string[]> = {
     6: ['Xerneas', 'Yveltal', 'Zygarde', 'Diancie', 'Hoopa', 'Volcanion'],
 };
 
-// All legendary Pokémon (for backwards compatibility)
-export const LEGENDARY_POKEMON_NAMES: string[] = [
-    'Arktos', 'Zapdos', 'Lavados', 'Mewtu', 'Mew',
-    'Raikou', 'Entei', 'Suicune', 'Lugia', 'Ho-Oh', 'Celebi',
-    'Regirock', 'Regice', 'Registeel', 'Latias', 'Latios', 'Kyogre', 'Groudon', 'Rayquaza', 'Jirachi', 'Deoxys',
-    'Selfe', 'Vesprit', 'Tobutz', 'Dialga', 'Palkia', 'Heatran', 'Regigigas', 'Giratina', 'Cresselia',
-    'Phione', 'Manaphy', 'Darkrai', 'Shaymin', 'Arceus',
-    'Victini', 'Kobalium', 'Terrakium', 'Viridium', 'Boreos', 'Voltolos', 'Reshiram', 'Zekrom', 'Demeteros', 'Kyurem', 'Keldeo', 'Meloetta', 'Genesect',
-    'Xerneas', 'Yveltal', 'Zygarde', 'Diancie', 'Hoopa', 'Volcanion'
-];
-
 // Filter legendary Pokémon up to and including the specified generation
 export const getLegendariesUpToGeneration = (maxGeneration: number): string[] => {
     const result: string[] = [];
