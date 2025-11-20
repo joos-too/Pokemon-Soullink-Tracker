@@ -1,8 +1,11 @@
 #!/usr/bin/env node
+import axios from 'axios';
 import {Pokedex} from 'pokeapi-js-wrapper';
 import {writeFile} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 import path from 'node:path';
+import {ProxyAgent as HttpProxyAgent} from 'proxy-agent';
+import {ProxyAgent as UndiciProxyAgent, setGlobalDispatcher} from 'undici';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -11,11 +14,38 @@ const outGermanNamesPath = path.resolve(__dirname, '../src/data/pokemon-de.ts');
 const outEnglishNamesPath = path.resolve(__dirname, '../src/data/pokemon-en.ts');
 const outMapPath = path.resolve(__dirname, '../src/data/pokemon-map.ts');
 const outEvoPath = path.resolve(__dirname, '../src/data/pokemon-evolutions.ts');
+const outLocationsPath = path.resolve(__dirname, '../src/data/location-suggestions.ts');
 
 const API_BASE = 'https://pokeapi.co/api/v2';
 const MAX_GENERATION = 6;
 
+const proxyUrl =
+    process.env.HTTPS_PROXY || process.env.https_proxy || process.env.HTTP_PROXY || process.env.http_proxy || '';
+
+if (proxyUrl) {
+    try {
+        const undiciAgent = new UndiciProxyAgent(proxyUrl);
+        setGlobalDispatcher(undiciAgent);
+        const nodeAgent = new HttpProxyAgent(proxyUrl);
+        axios.defaults.proxy = false;
+        axios.defaults.httpAgent = nodeAgent;
+        axios.defaults.httpsAgent = nodeAgent;
+        console.log(`Using proxy for PokeAPI requests: ${proxyUrl}`);
+    } catch (err) {
+        console.warn('Failed to configure proxy for PokeAPI access', err);
+    }
+}
+
 const SUPPORTED_LANGUAGES = ['de', 'en'];
+
+const REGION_TO_GENERATION = {
+  kanto: 1,
+  johto: 2,
+  hoenn: 3,
+  sinnoh: 4,
+  unova: 5,
+  kalos: 6,
+};
 
 const MANUAL_TRANSLATIONS = {
   de: {
@@ -167,6 +197,29 @@ function createTranslators(locale, resources) {
     };
 }
 
+function parseGenerationFromSlug(genSlug) {
+    if (!genSlug) return null;
+    const match = /generation-([a-z0-9]+)/i.exec(genSlug);
+    if (!match) return null;
+    const key = match[1].toLowerCase();
+    const romanMap = {
+        i: 1,
+        ii: 2,
+        iii: 3,
+        iv: 4,
+        v: 5,
+        vi: 6,
+        vii: 7,
+        viii: 8,
+        ix: 9,
+    };
+    const fromRoman = romanMap[key];
+    if (fromRoman) return fromRoman;
+    const asNumber = Number(key);
+    if (Number.isFinite(asNumber)) return asNumber;
+    return null;
+}
+
 async function loadItemTranslations(P, slugs) {
     const result = new Map();
     if (!slugs || slugs.size === 0) return result;
@@ -233,13 +286,14 @@ async function loadTypeTranslations(P, slugs) {
     return result;
 }
 
-async function loadLocationTranslations(P, slugs) {
-    const result = new Map();
-    if (!slugs || slugs.size === 0) return result;
-    const arr = Array.from(slugs);
+async function loadAllLocations(P) {
+    const translations = new Map();
+    const generations = new Map();
+    const list = await fetchJson('/location?limit=2000');
+    const slugs = Array.isArray(list?.results) ? list.results.map((it) => it?.name).filter(Boolean) : [];
     const LOC_CHUNK = 40;
-    for (let i = 0; i < arr.length; i += LOC_CHUNK) {
-        const slice = arr.slice(i, i + LOC_CHUNK);
+    for (let i = 0; i < slugs.length; i += LOC_CHUNK) {
+        const slice = slugs.slice(i, i + LOC_CHUNK);
         const locations = await Promise.all(
             slice.map((slug) =>
                 fetchWithFallback(() => P.getLocationByName(slug), `/location/${slug}`).catch(() => null)
@@ -249,10 +303,24 @@ async function loadLocationTranslations(P, slugs) {
             const slug = slice[idx];
             if (!slug) return;
             const names = loc?.names || [];
-            result.set(slug, buildLocalizedRecord(slug, names, 'location'));
+            translations.set(slug, buildLocalizedRecord(slug, names, 'location'));
+            const genSet = new Set();
+            const indices = Array.isArray(loc?.game_indices) ? loc.game_indices : [];
+            indices.forEach((gi) => {
+                const genNum = parseGenerationFromSlug(gi?.generation?.name || '');
+                if (genNum) genSet.add(Math.min(genNum, MAX_GENERATION));
+            });
+            if (!genSet.size && loc?.region?.name) {
+                const mapped = REGION_TO_GENERATION[loc.region.name];
+                if (mapped) genSet.add(Math.min(mapped, MAX_GENERATION));
+            }
+            const normalized = Array.from(genSet)
+                .filter((num) => Number.isFinite(num) && num > 0)
+                .sort((a, b) => a - b);
+            generations.set(slug, normalized.length ? normalized : [MAX_GENERATION]);
         });
     }
-    return result;
+    return { translations, generations };
 }
 
 const LANGUAGE_TEXT = {
@@ -456,7 +524,6 @@ async function main() {
     const itemSlugs = new Set();
     const moveSlugs = new Set();
     const typeSlugs = new Set();
-    const locationSlugs = new Set();
     const speciesSlugToName = {
         de: new Map(),
         en: new Map(),
@@ -574,7 +641,6 @@ async function main() {
                                     if (detail?.known_move?.name) moveSlugs.add(detail.known_move.name);
                                     if (detail?.known_move_type?.name) typeSlugs.add(detail.known_move_type.name);
                                     if (detail?.party_type?.name) typeSlugs.add(detail.party_type.name);
-                                    if (detail?.location?.name) locationSlugs.add(detail.location.name);
                                     if (detail?.party_species?.name) {
                                         ensureSpeciesEntry(detail.party_species.name);
                                     }
@@ -592,11 +658,11 @@ async function main() {
             walk(ch.chain);
         }
     }
-    const [itemTranslations, moveTranslations, typeTranslations, locationTranslations] = await Promise.all([
+    const [{ translations: locationTranslations, generations: locationGenerations }, itemTranslations, moveTranslations, typeTranslations] = await Promise.all([
+        loadAllLocations(P),
         loadItemTranslations(P, itemSlugs),
         loadMoveTranslations(P, moveSlugs),
         loadTypeTranslations(P, typeSlugs),
-        loadLocationTranslations(P, locationSlugs),
     ]);
     const translatorResources = {
         itemTranslations,
@@ -604,6 +670,25 @@ async function main() {
         typeTranslations,
         locationTranslations,
         speciesSlugToName,
+    };
+
+    const buildLocationSuggestions = () => {
+        const entriesByLocale = {
+            de: [],
+            en: [],
+        };
+        locationTranslations.forEach((record, slug) => {
+            const gens = locationGenerations.get(slug) || [MAX_GENERATION];
+            SUPPORTED_LANGUAGES.forEach((locale) => {
+                const name = record?.[locale] || formatSlugName(slug);
+                if (!name) return;
+                entriesByLocale[locale].push({ name, slug, generations: gens });
+            });
+        });
+        SUPPORTED_LANGUAGES.forEach((locale) => {
+            entriesByLocale[locale] = entriesByLocale[locale].sort((a, b) => a.name.localeCompare(b.name, locale === 'en' ? 'en' : 'de'));
+        });
+        return entriesByLocale;
     };
 
     const buildEvolutionTable = (locale) => {
@@ -639,10 +724,15 @@ async function main() {
     const evoFile = `// Generated by scripts/generate-pokemon-de.mjs\nexport const EVOLUTIONS_DE: Record<number, { id: number; methods: string[] }[]> = ${JSON.stringify(evolutionTables.de, null, 2)};\n\nexport const EVOLUTIONS_EN: Record<number, { id: number; methods: string[] }[]> = ${JSON.stringify(evolutionTables.en, null, 2)};\n`;
     await writeFile(outEvoPath, evoFile, 'utf8');
 
+    const locationSuggestions = buildLocationSuggestions();
+    const locFile = `// Generated by scripts/generate-pokemon-de.mjs\nexport const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; generations: number[] }[]> = ${JSON.stringify(locationSuggestions, null, 2)};\n`;
+    await writeFile(outLocationsPath, locFile, 'utf8');
+
     console.log(`\nWrote ${germanNameList.length} German names to ${outGermanNamesPath}`);
     console.log(`Wrote ${englishNameList.length} English names to ${outEnglishNamesPath}`);
     console.log(`Wrote ${Object.keys(germanMap).length + Object.keys(englishMap).length} name mappings to ${outMapPath}`);
     console.log(`Wrote ${Object.keys(evolutionTables.de).length} evolution entries per locale to ${outEvoPath}`);
+    console.log(`Wrote ${locationTranslations.size} location entries to ${outLocationsPath}`);
 }
 
 main().catch((err) => {
