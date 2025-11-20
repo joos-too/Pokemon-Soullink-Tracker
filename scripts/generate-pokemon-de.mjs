@@ -1,11 +1,8 @@
 #!/usr/bin/env node
-import axios from 'axios';
 import {Pokedex} from 'pokeapi-js-wrapper';
 import {writeFile} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 import path from 'node:path';
-import {ProxyAgent as HttpProxyAgent} from 'proxy-agent';
-import {ProxyAgent as UndiciProxyAgent, setGlobalDispatcher} from 'undici';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -18,24 +15,6 @@ const outLocationsPath = path.resolve(__dirname, '../src/data/location-suggestio
 
 const API_BASE = 'https://pokeapi.co/api/v2';
 const MAX_GENERATION = 6;
-
-const proxyUrl =
-    process.env.HTTPS_PROXY || process.env.https_proxy || process.env.HTTP_PROXY || process.env.http_proxy || '';
-
-if (proxyUrl) {
-    try {
-        const undiciAgent = new UndiciProxyAgent(proxyUrl);
-        setGlobalDispatcher(undiciAgent);
-        const nodeAgent = new HttpProxyAgent(proxyUrl);
-        axios.defaults.proxy = false;
-        axios.defaults.httpAgent = nodeAgent;
-        axios.defaults.httpsAgent = nodeAgent;
-        console.log(`Using proxy for PokeAPI requests: ${proxyUrl}`);
-    } catch (err) {
-        console.warn('Failed to configure proxy for PokeAPI access', err);
-    }
-}
-
 const SUPPORTED_LANGUAGES = ['de', 'en'];
 
 const REGION_TO_GENERATION = {
