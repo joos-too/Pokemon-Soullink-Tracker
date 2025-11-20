@@ -8,6 +8,7 @@ import InfoPanel from '@/src/components/InfoPanel';
 import Graveyard from '@/src/components/Graveyard';
 import ClearedRoutes from '@/src/components/ClearedRoutes';
 import AddLostPokemonModal from '@/src/components/AddLostPokemonModal';
+import {getGenerationSpritePath} from '@/src/services/sprites';
 import SelectLossModal from '@/src/components/SelectLossModal';
 import LoginPage from '@/src/components/LoginPage';
 import RegisterPage from '@/src/components/RegisterPage';
@@ -35,7 +36,6 @@ import {
 } from '@/src/services/trackers';
 import {GAME_VERSIONS} from '@/src/data/game-versions';
 import { useTranslation } from 'react-i18next';
-import {t} from "i18next";
 import {formatBestLabel} from "@/src/utils/bestRun";
 
 const LAST_TRACKER_STORAGE_KEY = 'soullink:lastTrackerId';
@@ -139,7 +139,6 @@ const App: React.FC = () => {
 
     const generationSpritePath = useMemo(() => {
         if (!currentUserUseGenerationSprites || !activeGameVersionId) return null;
-        const {getGenerationSpritePath} = require('@/src/services/sprites');
         return getGenerationSpritePath(activeGameVersionId);
     }, [currentUserUseGenerationSprites, activeGameVersionId]);
 
