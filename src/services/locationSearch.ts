@@ -1,163 +1,128 @@
-import { LOCATION_SUGGESTIONS } from '@/src/data/location-suggestions';
-import { SupportedLanguage, SUPPORTED_LANGUAGES } from '@/src/utils/language';
+import {LOCATION_SUGGESTIONS} from '@/src/data/location-suggestions';
+import {SupportedLanguage} from '@/src/utils/language';
+
+const DEFAULT_GAME_VERSION_ID = 'gen5_sw';
 
 interface SearchOptions {
-  maxGeneration?: number;
-  locale?: SupportedLanguage;
+    locale?: SupportedLanguage;
+    gameVersionId?: string;
 }
 
 interface LocationEntry {
-  name: string;
-  slug: string;
-  generations: number[];
-  lower: string;
+    name: string;
+    slug: string;
+    lower: string;
+    region: string | null;
 }
 
-const API_BASE = 'https://pokeapi.co/api/v2';
+const DEFAULT_LOCATION_LOCALE: SupportedLanguage = 'en';
 
-const formatSlugName = (slug: string): string =>
-  slug
-    .split(/[-\s]+/)
-    .filter(Boolean)
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(' ');
+const ROUTE_NUMBER_NAME_REGEX = /\broute[\s-]*(\d+)\b/i;
+const ROUTE_NUMBER_SLUG_REGEX = /route-(\d+)/i;
 
-const buildEntries = (items: { name: string; slug: string; generations: number[] }[]): LocationEntry[] =>
-  items.map((entry) => ({
+const SEA_ROUTE_PREFIX_REGEX = /^Sea\s+(?=Route\b)/i;
+
+const normalizeRouteDisplayName = (name: string): string => name.replace(SEA_ROUTE_PREFIX_REGEX, '');
+
+const VERSION_REGION_MAP: Record<string, string[]> = {
+    gen1_rb: ['kanto'],
+    gen1_g: ['kanto'],
+    gen3_frbg: ['kanto'],
+    gen2_gs: ['johto', 'kanto'],
+    gen2_k: ['johto', 'kanto'],
+    gen4_hgss: ['johto', 'kanto'],
+    gen3_rusa: ['hoenn'],
+    gen3_sm: ['hoenn'],
+    gen6_oras: ['hoenn'],
+    gen5_sw: ['unova'],
+    gen5_s2w2: ['unova'],
+    gen6_xy: ['kalos'],
+    gen4_dp: ['sinnoh'],
+    gen4_pt: ['sinnoh'],
+};
+
+const getRegionsForVersion = (versionId?: string): Set<string> => {
+    const key = versionId && VERSION_REGION_MAP[versionId] ? versionId : DEFAULT_GAME_VERSION_ID;
+    const regions = VERSION_REGION_MAP[key] || [];
+    return new Set(regions.map((region) => region.toLowerCase()));
+};
+
+const parseRouteNumberFromName = (name: string): number | null => {
+    if (!name) return null;
+    const match = ROUTE_NUMBER_NAME_REGEX.exec(name);
+    if (!match) return null;
+    const value = Number(match[1]);
+    return Number.isFinite(value) ? value : null;
+};
+
+const parseRouteNumberFromSlug = (slug: string): number | null => {
+    if (!slug) return null;
+    const match = ROUTE_NUMBER_SLUG_REGEX.exec(slug);
+    if (!match) return null;
+    const value = Number(match[1]);
+    return Number.isFinite(value) ? value : null;
+};
+
+const getRouteNumberForEntry = (entry: LocationEntry): number | null => parseRouteNumberFromName(entry.name) ?? parseRouteNumberFromSlug(entry.slug);
+
+const buildEntries = (items: { name: string; slug: string; region: string }[]): LocationEntry[] =>
+    items.map((entry) => {
+        const normalizedName = normalizeRouteDisplayName(entry.name);
+        return {
+            ...entry,
+            name: normalizedName,
+            lower: normalizedName.toLowerCase(),
+        };
+    });
+
+const staticEntries = buildEntries((LOCATION_SUGGESTIONS.en || []).map((entry) => ({
     ...entry,
-    lower: entry.name.toLowerCase(),
-  }));
+})));
 
 const LOCATION_LISTS: Record<SupportedLanguage, LocationEntry[]> = {
-  de: buildEntries(LOCATION_SUGGESTIONS.de || []),
-  en: buildEntries(LOCATION_SUGGESTIONS.en || []),
-};
-
-SUPPORTED_LANGUAGES.forEach((locale) => {
-  if (!LOCATION_LISTS[locale]) {
-    LOCATION_LISTS[locale] = LOCATION_LISTS.de;
-  }
-});
-
-const parseGenerationFromSlug = (genSlug: string | undefined | null): number | null => {
-  if (!genSlug) return null;
-  const match = /generation-([a-z0-9]+)/i.exec(genSlug);
-  if (!match) return null;
-  const key = match[1].toLowerCase();
-  const roman: Record<string, number> = {
-    i: 1,
-    ii: 2,
-    iii: 3,
-    iv: 4,
-    v: 5,
-    vi: 6,
-    vii: 7,
-    viii: 8,
-    ix: 9,
-  };
-  if (roman[key]) return roman[key];
-  const asNumber = Number(key);
-  return Number.isFinite(asNumber) ? asNumber : null;
-};
-
-let remoteLoadPromise: Promise<void> | null = null;
-
-const fetchRemoteLocations = async () => {
-  try {
-    const res = await fetch(`${API_BASE}/location?limit=2000`);
-    if (!res.ok) return;
-    const json = await res.json();
-    const slugs: string[] = Array.isArray(json?.results)
-      ? json.results.map((it: any) => it?.name).filter(Boolean)
-      : [];
-    if (!slugs.length) return;
-    const translations = new Map<string, Record<SupportedLanguage, string>>();
-    const generations = new Map<string, number[]>();
-    const CHUNK = 40;
-    for (let i = 0; i < slugs.length; i += CHUNK) {
-      const slice = slugs.slice(i, i + CHUNK);
-      const details = await Promise.all(
-        slice.map(async (slug) => {
-          try {
-            const detailRes = await fetch(`${API_BASE}/location/${slug}`);
-            if (!detailRes.ok) return null;
-            return detailRes.json();
-          } catch {
-            return null;
-          }
-        }),
-      );
-      details.forEach((loc, idx) => {
-        const slug = slice[idx];
-        if (!slug) return;
-        const names = Array.isArray(loc?.names) ? loc.names : [];
-        const record: Record<SupportedLanguage, string> = {
-          de: formatSlugName(slug),
-          en: formatSlugName(slug),
-        };
-        names.forEach((entry: any) => {
-          if (entry?.language?.name === 'de' && entry?.name) record.de = entry.name;
-          if (entry?.language?.name === 'en' && entry?.name) record.en = entry.name;
-        });
-        translations.set(slug, record);
-        const genSet = new Set<number>();
-        const indices = Array.isArray(loc?.game_indices) ? loc.game_indices : [];
-        indices.forEach((gi: any) => {
-          const parsed = parseGenerationFromSlug(gi?.generation?.name || '');
-          if (parsed) genSet.add(parsed);
-        });
-        const normalized = Array.from(genSet).filter((num) => Number.isFinite(num) && num > 0).sort((a, b) => a - b);
-        generations.set(slug, normalized.length ? normalized : [6]);
-      });
-    }
-
-    const nextLists: Record<SupportedLanguage, LocationEntry[]> = {
-      de: [],
-      en: [],
-    };
-    translations.forEach((record, slug) => {
-      const gens = generations.get(slug) || [6];
-      SUPPORTED_LANGUAGES.forEach((locale) => {
-        const name = record[locale] || formatSlugName(slug);
-        nextLists[locale].push({ name, slug, generations: gens, lower: name.toLowerCase() });
-      });
-    });
-    SUPPORTED_LANGUAGES.forEach((locale) => {
-      if (nextLists[locale].length) {
-        nextLists[locale] = nextLists[locale].sort((a, b) => a.name.localeCompare(b.name, locale === 'en' ? 'en' : 'de'));
-        LOCATION_LISTS[locale] = nextLists[locale];
-      }
-    });
-  } catch (err) {
-    console.error('Failed to load remote locations', err);
-  }
-};
-
-const ensureLocations = async (locale: SupportedLanguage) => {
-  if (LOCATION_LISTS[locale]?.length) return;
-  if (!remoteLoadPromise) {
-    remoteLoadPromise = fetchRemoteLocations();
-  }
-  await remoteLoadPromise;
+    en: staticEntries,
+    de: staticEntries,
 };
 
 export async function searchLocations(
-  query: string,
-  max = 10,
-  options: SearchOptions = {},
+    query: string,
+    max = 10,
+    options: SearchOptions = {},
 ): Promise<string[]> {
-  const q = query.trim().toLowerCase();
-  if (q.length < 2) return [];
-  const { maxGeneration, locale = 'de' } = options;
-  await ensureLocations(locale);
-  const list = LOCATION_LISTS[locale] || LOCATION_LISTS.de;
-  return list
-    .filter((entry) => {
-      const matchesTerm = entry.lower.includes(q);
-      if (!matchesTerm) return false;
-      if (typeof maxGeneration !== 'number') return true;
-      return entry.generations.some((gen) => gen <= maxGeneration);
-    })
-    .slice(0, max)
-    .map((entry) => entry.name);
+    const q = query.trim().toLowerCase();
+    if (q.length < 2) return [];
+    const {locale = 'en', gameVersionId} = options;
+    const allowedRegions = getRegionsForVersion(gameVersionId);
+    if (!allowedRegions.size) return [];
+    const fallbackList = LOCATION_LISTS[DEFAULT_LOCATION_LOCALE] ?? [];
+    const list = LOCATION_LISTS[locale]?.length ? LOCATION_LISTS[locale] : fallbackList;
+    const localeForCompare = DEFAULT_LOCATION_LOCALE;
+    const filtered = list.filter((entry) => {
+        const matchesTerm = entry.lower.includes(q);
+        if (!matchesTerm) return false;
+        if (!entry.region || !allowedRegions.has(entry.region)) return false;
+        return getRouteNumberForEntry(entry) !== null;
+
+    });
+    filtered.sort((a, b) => {
+        const aRoute = getRouteNumberForEntry(a);
+        const bRoute = getRouteNumberForEntry(b);
+        if (aRoute !== null && bRoute !== null) {
+            if (aRoute !== bRoute) return aRoute - bRoute;
+            const nameCompare = a.name.localeCompare(b.name, localeForCompare, {sensitivity: 'base'});
+            if (nameCompare !== 0) return nameCompare;
+            return a.slug.localeCompare(b.slug);
+        }
+        return a.name.localeCompare(b.name, localeForCompare, {sensitivity: 'base'});
+    });
+    const unique: LocationEntry[] = [];
+    const seenNames = new Set<string>();
+    filtered.forEach((entry) => {
+        const normalized = entry.name.toLowerCase();
+        if (!seenNames.has(normalized)) {
+            seenNames.add(normalized);
+            unique.push(entry);
+        }
+    });
+    return unique.slice(0, max).map((entry) => entry.name);
 }
