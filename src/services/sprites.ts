@@ -3,17 +3,25 @@ import { findPokemonIdByName } from '@/src/services/pokemonSearch';
 // Map game version IDs to PokeAPI sprite generation paths
 export function getGenerationSpritePath(gameVersionId: string): string | null {
   const mapping: Record<string, string> = {
+    // Generation I
     'gen1_rb': 'versions/generation-i/red-blue',
     'gen1_g': 'versions/generation-i/yellow',
+    // Generation II
     'gen2_gs': 'versions/generation-ii/gold',
     'gen2_k': 'versions/generation-ii/crystal',
-    'gen3_rs': 'versions/generation-iii/ruby-sapphire',
-    'gen3_e': 'versions/generation-iii/emerald',
+    // Generation III
+    'gen3_rusa': 'versions/generation-iii/ruby-sapphire',
+    'gen3_sm': 'versions/generation-iii/emerald',
     'gen3_frbg': 'versions/generation-iii/firered-leafgreen',
+    // Generation IV
     'gen4_dp': 'versions/generation-iv/diamond-pearl',
     'gen4_pt': 'versions/generation-iv/platinum',
     'gen4_hgss': 'versions/generation-iv/heartgold-soulsilver',
+    // Generation V
     'gen5_sw': 'versions/generation-v/black-white',
+    'gen5_s2w2': 'versions/generation-v/black-white', // Gen 5 only has black-white sprites
+    // Generation VI and later don't have version-specific sprites in PokeAPI
+    // They use the modern unified sprites, so return null
   };
   return mapping[gameVersionId] || null;
 }
