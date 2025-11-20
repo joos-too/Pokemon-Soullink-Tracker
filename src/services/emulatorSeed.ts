@@ -14,7 +14,7 @@
 
 import { auth, db } from '@/src/firebaseConfig';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import { ref, get, set } from 'firebase/database';
+import { ref, get, update } from 'firebase/database';
 import { createInitialState } from '@/constants';
 
 // Test user credentials for emulator mode
@@ -169,7 +169,7 @@ async function createSampleTrackerData(userId: string): Promise<void> {
     },
   };
 
-  await set(ref(db), updates);
+  await update(ref(db), updates);
   console.log('Sample tracker data created successfully');
 }
 
