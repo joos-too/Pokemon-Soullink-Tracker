@@ -1571,6 +1571,14 @@ export const EVOLUTIONS_DE: Record<number, { id: number; methods: string[] }[]> 
       ]
     }
   ],
+  "360": [
+    {
+      "id": 202,
+      "methods": [
+        "Level-Up - Level 15"
+      ]
+    }
+  ],
   "361": [
     {
       "id": 362,
@@ -4396,6 +4404,14 @@ export const EVOLUTIONS_EN: Record<number, { id: number; methods: string[] }[]> 
       "id": 477,
       "methods": [
         "Trade - Holds Reaper Cloth"
+      ]
+    }
+  ],
+  "360": [
+    {
+      "id": 202,
+      "methods": [
+        "Level-Up - Level 15"
       ]
     }
   ],
