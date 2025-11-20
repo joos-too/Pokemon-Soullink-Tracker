@@ -1,6 +1,6 @@
 import React, {useState, useMemo, useEffect} from 'react';
 import type {LevelCap, RivalCap, Stats, GameVersion, UserSettings} from '@/types';
-import {PLAYER_COLORS, LEGENDARY_POKEMON_NAMES} from '@/constants';
+import {PLAYER_COLORS, getLegendariesUpToGeneration} from '@/constants';
 import {FiMinus, FiPlus, FiEdit, FiX, FiSave, FiEye, FiEyeOff, FiRefreshCw} from 'react-icons/fi';
 import {RivalImage, BadgeImage, LegendaryImage} from './GameImages';
 import {useTranslation} from 'react-i18next';
@@ -35,6 +35,7 @@ interface InfoPanelProps {
     rivalPreferences: UserSettings['rivalPreferences'];
     activeTrackerId?: string | null;
     generationSpritePath?: string | null;
+    pokemonGenerationLimit?: number;
 }
 
 
@@ -60,6 +61,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                                  rivalPreferences,
                                                  activeTrackerId,
                                                  generationSpritePath,
+                                                 pokemonGenerationLimit,
                                              }) => {
     const [isEditingRules, setIsEditingRules] = useState(false);
     const [draftRules, setDraftRules] = useState<string[]>(rules);
@@ -95,10 +97,14 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
         });
     };
 
+    const availableLegendaries = useMemo(() => {
+        return getLegendariesUpToGeneration(pokemonGenerationLimit || 6);
+    }, [pokemonGenerationLimit]);
+
     const randomLegendary = useMemo(() => {
-        const randomIndex = Math.floor(Math.random() * LEGENDARY_POKEMON_NAMES.length);
-        return LEGENDARY_POKEMON_NAMES[randomIndex];
-    }, []);
+        const randomIndex = Math.floor(Math.random() * availableLegendaries.length);
+        return availableLegendaries[randomIndex];
+    }, [availableLegendaries]);
 
     const nextRivalToRevealIndex = rivalCensorEnabled ? rivalCaps.findIndex(rc => !rc.revealed) : -1;
     const versionId = gameVersion?.id;
