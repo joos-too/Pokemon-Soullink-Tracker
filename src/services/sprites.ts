@@ -50,6 +50,10 @@ export function getOfficialArtworkUrlForPokemonName(name: string | undefined | n
 export function getSpriteUrlForPokemonName(name: string | undefined | null, generationPath?: string | null): string | null {
   const match = findPokemonIdByName(name);
   if (!match) return null;
+  // Check if this is a request for animated sprites (special path indicator)
+  if (generationPath === 'versions/generation-v/black-white/animated') {
+    return getAnimatedSpriteUrlById(match.id);
+  }
   return getSpriteUrlById(match.id, generationPath);
 }
 
