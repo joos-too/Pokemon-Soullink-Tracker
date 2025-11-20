@@ -61,4 +61,4 @@ if (USE_EMULATORS) {
     } catch {}
 }
 
-export {db, auth};
+export {db, auth, USE_EMULATORS};

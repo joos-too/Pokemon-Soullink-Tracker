@@ -20,9 +20,10 @@ import HomePage from '@/src/components/HomePage';
 import CreateTrackerModal from '@/src/components/CreateTrackerModal';
 import DeleteTrackerModal from '@/src/components/DeleteTrackerModal';
 import {Routes, Route, Navigate, useNavigate, useLocation, useMatch, useSearchParams} from 'react-router-dom';
-import {db, auth} from '@/src/firebaseConfig';
+import {db, auth, USE_EMULATORS} from '@/src/firebaseConfig';
 import {ref, onValue, set, get, update} from "firebase/database";
 import {onAuthStateChanged, User, signOut} from "firebase/auth";
+import {seedEmulatorData} from '@/src/services/emulatorSeed';
 import {
     addMemberByEmail,
     createTracker,
@@ -222,6 +223,15 @@ const App: React.FC = () => {
         });
         return () => unsubscribe();
     }, []);
+
+    // Seed emulator with test data when running in emulator mode
+    useEffect(() => {
+        if (USE_EMULATORS && !loading) {
+            seedEmulatorData().catch((error) => {
+                console.error('Failed to seed emulator data:', error);
+            });
+        }
+    }, [loading]);
 
     useEffect(() => {
         if (!user) {
