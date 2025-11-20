@@ -268,6 +268,12 @@ export const en = {
                 tooltip: 'Enables tracking of legendary encounters so you can keep your own statistics.',
                 description: 'Track how many legendaries you encounter during the challenge.',
             },
+            generationSprites: {
+                title: 'Generation-specific sprites',
+                tooltipLabel: 'Generation sprites info',
+                tooltip: 'Use sprite graphics that match your selected game version (e.g., Gen 1 sprites for Red/Blue).',
+                description: 'Display Pokémon sprites in the style of the respective generation.',
+            },
         },
         members: {
             title: 'Members',

@@ -263,3 +263,12 @@ export const updateRivalPreference = async (
     const prefPath = `trackers/${trackerId}/meta/userSettings/${userId}/rivalPreferences/${rivalKey}`;
     await set(ref(db, prefPath), gender);
 };
+
+export const updateGenerationSpritePreference = async (
+    trackerId: string,
+    userId: string,
+    useGenerationSprites: boolean
+): Promise<void> => {
+    const prefPath = `trackers/${trackerId}/meta/userSettings/${userId}/useGenerationSprites`;
+    await set(ref(db, prefPath), useGenerationSprites);
+};

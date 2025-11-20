@@ -34,6 +34,7 @@ interface InfoPanelProps {
     gameVersion?: GameVersion;
     rivalPreferences: UserSettings['rivalPreferences'];
     activeTrackerId?: string | null;
+    generationSpritePath?: string | null;
 }
 
 
@@ -58,6 +59,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                                  gameVersion,
                                                  rivalPreferences,
                                                  activeTrackerId,
+                                                 generationSpritePath,
                                              }) => {
     const [isEditingRules, setIsEditingRules] = useState(false);
     const [draftRules, setDraftRules] = useState<string[]>(rules);
@@ -534,6 +536,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                     <LegendaryImage
                                         pokemonName={randomLegendary}
                                         className="w-full h-full object-contain"
+                                        generationSpritePath={generationSpritePath}
                                     />
                                 </div>
                                 <div

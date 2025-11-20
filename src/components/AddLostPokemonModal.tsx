@@ -12,6 +12,7 @@ interface AddLostPokemonModalProps {
     onAdd: (route: string, members: Pokemon[]) => void;
     playerNames: string[];
     generationLimit?: number;
+    generationSpritePath?: string | null;
 }
 
 interface PokemonNameFieldProps {
@@ -20,9 +21,10 @@ interface PokemonNameFieldProps {
     onChange: (value: string) => void;
     isOpen: boolean;
     generationLimit?: number;
+    generationSpritePath?: string | null;
 }
 
-const PokemonNameField: React.FC<PokemonNameFieldProps> = ({label, value, onChange, isOpen, generationLimit}) => {
+const PokemonNameField: React.FC<PokemonNameFieldProps> = ({label, value, onChange, isOpen, generationLimit, generationSpritePath}) => {
     const [suggestions, setSuggestions] = useState<string[]>([]);
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false);
@@ -86,7 +88,7 @@ const PokemonNameField: React.FC<PokemonNameFieldProps> = ({label, value, onChan
         }
     };
 
-    const spriteUrl = getSpriteUrlForPokemonName(value);
+    const spriteUrl = getSpriteUrlForPokemonName(value, generationSpritePath);
 
     return (
         <div>
@@ -149,7 +151,8 @@ const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({
                                                                      onClose,
                                                                      onAdd,
                                                                      playerNames,
-                                                                     generationLimit
+                                                                     generationLimit,
+                                                                     generationSpritePath
                                                                  }) => {
     const {t} = useTranslation();
     const [route, setRoute] = useState('');
@@ -220,6 +223,7 @@ const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({
                                 })}
                                 isOpen={isOpen}
                                 generationLimit={generationLimit}
+                                generationSpritePath={generationSpritePath}
                             />
                         ))}
                     </div>

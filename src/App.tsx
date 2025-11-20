@@ -30,7 +30,8 @@ import {
     ensureUserProfile,
     removeMemberFromTracker,
     TrackerOperationError,
-    updateRivalPreference
+    updateRivalPreference,
+    updateGenerationSpritePreference
 } from '@/src/services/trackers';
 import {GAME_VERSIONS} from '@/src/data/game-versions';
 import { useTranslation } from 'react-i18next';
@@ -131,12 +132,32 @@ const App: React.FC = () => {
         return activeTrackerMeta.userSettings?.[user.uid]?.rivalPreferences ?? {};
     }, [user, activeTrackerMeta]);
 
+    const currentUserUseGenerationSprites = useMemo(() => {
+        if (!user || !activeTrackerMeta) return false;
+        return activeTrackerMeta.userSettings?.[user.uid]?.useGenerationSprites ?? false;
+    }, [user, activeTrackerMeta]);
+
+    const generationSpritePath = useMemo(() => {
+        if (!currentUserUseGenerationSprites || !activeGameVersionId) return null;
+        const {getGenerationSpritePath} = require('@/src/services/sprites');
+        return getGenerationSpritePath(activeGameVersionId);
+    }, [currentUserUseGenerationSprites, activeGameVersionId]);
+
     const handleRivalPreferenceChange = useCallback(async (key: string, gender: RivalGender) => {
         if (!activeTrackerId || !user) return;
         try {
             await updateRivalPreference(activeTrackerId, user.uid, key, gender);
         } catch (error) {
             console.error("Failed to update rival preference:", error);
+        }
+    }, [activeTrackerId, user]);
+
+    const handleGenerationSpritesToggle = useCallback(async (enabled: boolean) => {
+        if (!activeTrackerId || !user) return;
+        try {
+            await updateGenerationSpritePreference(activeTrackerId, user.uid, enabled);
+        } catch (error) {
+            console.error("Failed to update generation sprites preference:", error);
         }
     }, [activeTrackerId, user]);
 
@@ -1072,6 +1093,8 @@ const App: React.FC = () => {
             gameVersion={activeGameVersion}
             rivalPreferences={currentUserRivalPreferences}
             onRivalPreferenceChange={handleRivalPreferenceChange}
+            useGenerationSprites={currentUserUseGenerationSprites}
+            onGenerationSpritesToggle={handleGenerationSpritesToggle}
         />
     ) : (
         <div className="bg-[#f0f0f0] dark:bg-gray-900 min-h-screen p-2 sm:p-4 md:p-8 text-gray-800 dark:text-gray-200">
@@ -1081,6 +1104,7 @@ const App: React.FC = () => {
                 onAdd={handleManualAddFromModal}
                 playerNames={resolvedPlayerNames}
                 generationLimit={pokemonGenerationLimit}
+                generationSpritePath={generationSpritePath}
             />
             <SelectLossModal
                 isOpen={showLossModal}
@@ -1237,6 +1261,7 @@ const App: React.FC = () => {
                             }))}
                             pokemonGenerationLimit={pokemonGenerationLimit}
                             gameVersionId={activeGameVersionId || undefined}
+                            generationSpritePath={generationSpritePath}
                         />
                         <TeamTable
                             title={t('team.boxTitle')}
@@ -1262,6 +1287,7 @@ const App: React.FC = () => {
                             teamIsFull={data.team.length >= 6}
                             pokemonGenerationLimit={pokemonGenerationLimit}
                             gameVersionId={activeGameVersionId || undefined}
+                            generationSpritePath={generationSpritePath}
                         />
                     </div>
 
@@ -1288,12 +1314,14 @@ const App: React.FC = () => {
                             gameVersion={activeGameVersion}
                             rivalPreferences={currentUserRivalPreferences}
                             activeTrackerId={activeTrackerId}
+                            generationSpritePath={generationSpritePath}
                         />
                         <Graveyard
                             graveyard={data.graveyard}
                             playerNames={resolvedPlayerNames}
                             playerColors={playerColors}
                             onManualAddClick={() => setIsModalOpen(true)}
+                            generationSpritePath={generationSpritePath}
                         />
                         <ClearedRoutes routes={clearedRoutes}/>
                     </div>

@@ -268,6 +268,12 @@ export const de = {
                 tooltip: 'Aktiviert einen Tracker, welcher es ermöglicht die Encounter mit legendären Pokémon nachzuvollziehen, um eine eigene Statistik zu führen.',
                 description: 'Tracke die Anzahl der Legendaries, welchen man während der Challenge begegnet.',
             },
+            generationSprites: {
+                title: 'Generationsspezifische Sprites',
+                tooltipLabel: 'Info Generationsspezifische Sprites',
+                tooltip: 'Verwende Sprite-Grafiken, die der ausgewählten Spielversion entsprechen (z. B. Gen 1 Sprites für Rot/Blau).',
+                description: 'Zeige Pokémon-Sprites im Stil der jeweiligen Generation an.',
+            },
         },
         members: {
             title: 'Mitglieder',

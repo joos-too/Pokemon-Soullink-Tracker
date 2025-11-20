@@ -9,9 +9,10 @@ interface GraveyardProps {
   playerNames: string[];
   playerColors?: string[];
   onManualAddClick?: () => void;
+  generationSpritePath?: string | null;
 }
 
-const Graveyard: React.FC<GraveyardProps> = ({ graveyard = [], playerNames, playerColors, onManualAddClick }) => {
+const Graveyard: React.FC<GraveyardProps> = ({ graveyard = [], playerNames, playerColors, onManualAddClick, generationSpritePath }) => {
   const { t } = useTranslation();
   const names = useMemo(() => {
     const list = playerNames.length ? playerNames : [t('graveyard.defaultPlayer', { index: 1 })];
@@ -45,7 +46,7 @@ const Graveyard: React.FC<GraveyardProps> = ({ graveyard = [], playerNames, play
                 <div className="grid gap-2" style={{gridTemplateColumns: `repeat(${names.length}, minmax(0, 1fr))`}}>
                   {names.map((name, index) => {
                     const member = pair.members?.[index] ?? { name: '', nickname: '' };
-                    const spriteUrl = getSpriteUrlForPokemonName(member.name);
+                    const spriteUrl = getSpriteUrlForPokemonName(member.name, generationSpritePath);
                     return (
                       <div key={`${pair.id}-player-${index}`}>
                         <p className="font-bold flex items-center gap-2" style={{color: colorForIndex(index)}}>

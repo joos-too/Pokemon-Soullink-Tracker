@@ -29,6 +29,8 @@ interface SettingsPageProps {
     gameVersion?: GameVersion;
     rivalPreferences?: UserSettings['rivalPreferences'];
     onRivalPreferenceChange: (key: string, gender: RivalGender) => void;
+    useGenerationSprites?: boolean;
+    onGenerationSpritesToggle: (enabled: boolean) => void;
 }
 
 interface ToggleSwitchProps {
@@ -89,6 +91,8 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                                                    gameVersion,
                                                    rivalPreferences,
                                                    onRivalPreferenceChange,
+                                                   useGenerationSprites,
+                                                   onGenerationSpritesToggle,
                                                }) => {
     const { t } = useTranslation();
     const [inviteEmail, setInviteEmail] = useState('');
@@ -313,7 +317,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                                 ariaLabel={t('settings.features.rivalCensor.title')}
                             />
                         </div>
-                        <div className="flex items-center justify-between">
+                        <div className="flex items-center justify-between mb-4">
                             <div>
                                 <div className="flex items-center gap-2">
                                     <div className="font-medium text-gray-800 dark:text-gray-200">{t('settings.features.legendary.title')}</div>
@@ -332,6 +336,27 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                                 checked={legendaryTrackerEnabled}
                                 onChange={onlegendaryTrackerToggle}
                                 ariaLabel={t('settings.features.legendary.title')}
+                            />
+                        </div>
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <div className="flex items-center gap-2">
+                                    <div className="font-medium text-gray-800 dark:text-gray-200">{t('settings.features.generationSprites.title')}</div>
+                                    <Tooltip side="top" content={t('settings.features.generationSprites.tooltip')}>
+                                        <span
+                                            className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-help"
+                                            aria-label={t('settings.features.generationSprites.tooltipLabel')}>
+                                            <FiInfo size={16}/>
+                                        </span>
+                                    </Tooltip>
+                                </div>
+                                <div className="text-xs text-gray-500 dark:text-gray-400">{t('settings.features.generationSprites.description')}</div>
+                            </div>
+                            <ToggleSwitch
+                                id="generation-sprites-toggle"
+                                checked={useGenerationSprites ?? false}
+                                onChange={onGenerationSpritesToggle}
+                                ariaLabel={t('settings.features.generationSprites.title')}
                             />
                         </div>
                     </section>

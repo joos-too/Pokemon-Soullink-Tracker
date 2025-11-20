@@ -24,6 +24,7 @@ interface TeamTableProps {
     teamIsFull?: boolean;
     pokemonGenerationLimit?: number;
     gameVersionId?: string;
+    generationSpritePath?: string | null;
 }
 
 const TeamTable: React.FC<TeamTableProps> = ({
@@ -44,6 +45,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                                                  teamIsFull = false,
                                                  pokemonGenerationLimit,
                                             gameVersionId,
+                                            generationSpritePath,
                                         }) => {
     const { t } = useTranslation();
     const [editIndex, setEditIndex] = useState<number | null>(null);
@@ -225,6 +227,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                 mode="edit"
                 initial={editInitial || {route: '', members: playerNames.map(() => ({name: '', nickname: ''}))}}
                 generationLimit={pokemonGenerationLimit}
+                generationSpritePath={generationSpritePath}
             />
             <SelectEvolveModal
                 isOpen={evolveIndex !== null}
@@ -250,6 +253,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                 mode="create"
                 initial={{route: '', members: playerNames.map(() => ({name: '', nickname: ''}))}}
                 generationLimit={pokemonGenerationLimit}
+                generationSpritePath={generationSpritePath}
             />
         </div>
     );
