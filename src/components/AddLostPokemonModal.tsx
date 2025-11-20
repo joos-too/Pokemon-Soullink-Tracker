@@ -113,7 +113,7 @@ const PokemonNameField: React.FC<PokemonNameFieldProps> = ({label, value, onChan
                 />
                 {spriteUrl ? (
                     <img src={spriteUrl} alt="" aria-hidden="true"
-                         className="pointer-events-none absolute inset-y-0 right-2 my-auto select-none"
+                         className="pointer-events-none absolute inset-y-0 right-2 my-auto h-12 w-12 select-none"
                          loading="lazy"/>
                 ) : null}
                 {open && suggestions.length > 0 && (
