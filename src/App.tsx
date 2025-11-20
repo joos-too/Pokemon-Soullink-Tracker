@@ -35,9 +35,7 @@ import {
     updateUserGenerationSpritePreference,
     getUserGenerationSpritePreference,
     updateUserSpritesInTeamTablePreference,
-    getUserSpritesInTeamTablePreference,
-    updateUserAnimatedSpritesPreference,
-    getUserAnimatedSpritesPreference
+    getUserSpritesInTeamTablePreference
 } from '@/src/services/trackers';
 import {GAME_VERSIONS} from '@/src/data/game-versions';
 import { useTranslation } from 'react-i18next';
@@ -101,7 +99,6 @@ const App: React.FC = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [userUseGenerationSprites, setUserUseGenerationSprites] = useState(false);
     const [userUseSpritesInTeamTable, setUserUseSpritesInTeamTable] = useState(false);
-    const [userUseAnimatedSprites, setUserUseAnimatedSprites] = useState(false);
     const showSettings = searchParams.get('panel') === 'settings';
     const openSettingsPanel = useCallback(() => {
         const next = new URLSearchParams(searchParams);
@@ -141,14 +138,12 @@ const App: React.FC = () => {
     }, [user, activeTrackerMeta]);
 
     const generationSpritePath = useMemo(() => {
-        // Animated sprites take precedence (mutually exclusive with generation sprites)
-        if (userUseAnimatedSprites) return 'versions/generation-v/black-white/animated';
         // Use generation-specific sprites if enabled
         if (userUseGenerationSprites && activeGameVersionId) {
             return getGenerationSpritePath(activeGameVersionId);
         }
         return null;
-    }, [userUseGenerationSprites, userUseAnimatedSprites, activeGameVersionId]);
+    }, [userUseGenerationSprites, activeGameVersionId]);
 
     const handleRivalPreferenceChange = useCallback(async (key: string, gender: RivalGender) => {
         if (!activeTrackerId || !user) return;
@@ -164,15 +159,10 @@ const App: React.FC = () => {
         try {
             await updateUserGenerationSpritePreference(user.uid, enabled);
             setUserUseGenerationSprites(enabled);
-            // If enabling generation sprites, disable animated sprites (mutually exclusive)
-            if (enabled && userUseAnimatedSprites) {
-                await updateUserAnimatedSpritesPreference(user.uid, false);
-                setUserUseAnimatedSprites(false);
-            }
         } catch (error) {
             console.error("Failed to update generation sprites preference:", error);
         }
-    }, [user, userUseAnimatedSprites]);
+    }, [user]);
 
     const handleSpritesInTeamTableToggle = useCallback(async (enabled: boolean) => {
         if (!user) return;
@@ -183,21 +173,6 @@ const App: React.FC = () => {
             console.error("Failed to update sprites in team table preference:", error);
         }
     }, [user]);
-
-    const handleAnimatedSpritesToggle = useCallback(async (enabled: boolean) => {
-        if (!user) return;
-        try {
-            await updateUserAnimatedSpritesPreference(user.uid, enabled);
-            setUserUseAnimatedSprites(enabled);
-            // If enabling animated sprites, disable generation sprites (mutually exclusive)
-            if (enabled && userUseGenerationSprites) {
-                await updateUserGenerationSpritePreference(user.uid, false);
-                setUserUseGenerationSprites(false);
-            }
-        } catch (error) {
-            console.error("Failed to update animated sprites preference:", error);
-        }
-    }, [user, userUseGenerationSprites]);
 
     const coerceAppState = useCallback((incoming: any, base: AppState): AppState => {
         const gameVersionForDefaults = activeGameVersion ?? GAME_VERSIONS['gen5_sw'];
@@ -295,16 +270,13 @@ const App: React.FC = () => {
         // Load user's sprite preferences
         Promise.all([
             getUserGenerationSpritePreference(user.uid),
-            getUserSpritesInTeamTablePreference(user.uid),
-            getUserAnimatedSpritesPreference(user.uid)
-        ]).then(([genSprites, teamTableSprites, animated]) => {
+            getUserSpritesInTeamTablePreference(user.uid)
+        ]).then(([genSprites, teamTableSprites]) => {
             setUserUseGenerationSprites(genSprites);
             setUserUseSpritesInTeamTable(teamTableSprites);
-            setUserUseAnimatedSprites(animated);
         }).catch(() => {
             setUserUseGenerationSprites(false);
             setUserUseSpritesInTeamTable(false);
-            setUserUseAnimatedSprites(false);
         });
     }, [user]);
 
@@ -1443,7 +1415,7 @@ const App: React.FC = () => {
                 />
                 <Route
                     path="/account"
-                    element={<UserSettingsPage email={user.email} onBack={handleNavigateHome} onLogout={handleLogout} useGenerationSprites={userUseGenerationSprites} onGenerationSpritesToggle={handleGenerationSpritesToggle} useSpritesInTeamTable={userUseSpritesInTeamTable} onSpritesInTeamTableToggle={handleSpritesInTeamTableToggle} useAnimatedSprites={userUseAnimatedSprites} onAnimatedSpritesToggle={handleAnimatedSpritesToggle}/>}
+                    element={<UserSettingsPage email={user.email} onBack={handleNavigateHome} onLogout={handleLogout} useGenerationSprites={userUseGenerationSprites} onGenerationSpritesToggle={handleGenerationSpritesToggle} useSpritesInTeamTable={userUseSpritesInTeamTable} onSpritesInTeamTableToggle={handleSpritesInTeamTableToggle}/>}
                 />
                 <Route path="*" element={<Navigate to="/" replace/>}/>
             </Routes>

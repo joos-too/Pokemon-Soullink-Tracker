@@ -271,7 +271,7 @@ export const de = {
             generationSprites: {
                 title: 'Generationsspezifische Sprites',
                 tooltipLabel: 'Info Generationsspezifische Sprites',
-                tooltip: 'Verwende Sprite-Grafiken, die der ausgewählten Spielversion entsprechen (z. B. Gen 1 Sprites für Rot/Blau). Nicht kompatibel mit animierten Sprites.',
+                tooltip: 'Verwende Sprite-Grafiken, die der ausgewählten Spielversion entsprechen (z. B. Gen 1 Sprites für Rot/Blau).',
                 description: 'Zeige Pokémon-Sprites im Stil der jeweiligen Generation an.',
             },
             spritesInTeamTable: {
@@ -279,12 +279,6 @@ export const de = {
                 tooltipLabel: 'Info Sprites in Team-Tabelle',
                 tooltip: 'Verwende Sprites statt offizieller Artworks in der Team- und Box-Tabelle. Respektiert die anderen Sprite-Einstellungen.',
                 description: 'Zeige kleine Sprites statt großer Artworks in Team und Box an.',
-            },
-            animatedSprites: {
-                title: 'Animierte Sprites',
-                tooltipLabel: 'Info Animierte Sprites',
-                tooltip: 'Verwende animierte GIF-Sprites aus Generation 5 überall. Nicht kompatibel mit generationsspezifischen Sprites.',
-                description: 'Zeige animierte Pokémon-Sprites (Gen 5) statt statischer Bilder.',
             },
         },
         members: {

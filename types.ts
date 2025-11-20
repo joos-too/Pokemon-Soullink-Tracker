@@ -131,5 +131,4 @@ export interface UserProfile {
   lastLoginAt: number;
   useGenerationSprites?: boolean;
   useSpritesInTeamTable?: boolean;
-  useAnimatedSprites?: boolean;
 }

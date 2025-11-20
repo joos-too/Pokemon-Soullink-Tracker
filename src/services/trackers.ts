@@ -295,19 +295,3 @@ export const getUserSpritesInTeamTablePreference = async (
     const snapshot = await get(ref(db, userPath));
     return snapshot.exists() ? snapshot.val() : false;
 };
-
-export const updateUserAnimatedSpritesPreference = async (
-    userId: string,
-    useAnimatedSprites: boolean
-): Promise<void> => {
-    const userPath = `users/${userId}/useAnimatedSprites`;
-    await set(ref(db, userPath), useAnimatedSprites);
-};
-
-export const getUserAnimatedSpritesPreference = async (
-    userId: string
-): Promise<boolean> => {
-    const userPath = `users/${userId}/useAnimatedSprites`;
-    const snapshot = await get(ref(db, userPath));
-    return snapshot.exists() ? snapshot.val() : false;
-};

@@ -50,21 +50,5 @@ export function getOfficialArtworkUrlForPokemonName(name: string | undefined | n
 export function getSpriteUrlForPokemonName(name: string | undefined | null, generationPath?: string | null): string | null {
   const match = findPokemonIdByName(name);
   if (!match) return null;
-  // Check if this is a request for animated sprites (special path indicator)
-  if (generationPath === 'versions/generation-v/black-white/animated') {
-    return getAnimatedSpriteUrlById(match.id);
-  }
   return getSpriteUrlById(match.id, generationPath);
-}
-
-// Get animated sprite from Gen V (GIF)
-export function getAnimatedSpriteUrlById(id: number): string {
-  return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/${id}.gif`;
-}
-
-// Resolve animated sprite by localized name
-export function getAnimatedSpriteUrlForPokemonName(name: string | undefined | null): string | null {
-  const match = findPokemonIdByName(name);
-  if (!match) return null;
-  return getAnimatedSpriteUrlById(match.id);
 }
