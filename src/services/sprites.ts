@@ -3,12 +3,12 @@ import { findPokemonIdByName } from '@/src/services/pokemonSearch';
 // Map game version IDs to PokeAPI sprite generation paths
 export function getGenerationSpritePath(gameVersionId: string): string | null {
   const mapping: Record<string, string> = {
-    // Generation I
-    'gen1_rb': 'versions/generation-i/red-blue',
-    'gen1_g': 'versions/generation-i/yellow',
-    // Generation II
-    'gen2_gs': 'versions/generation-ii/gold',
-    'gen2_k': 'versions/generation-ii/crystal',
+    // Generation I - using transparent variants
+    'gen1_rb': 'versions/generation-i/red-blue/transparent',
+    'gen1_g': 'versions/generation-i/yellow/transparent',
+    // Generation II - using transparent variants
+    'gen2_gs': 'versions/generation-ii/gold/transparent',
+    'gen2_k': 'versions/generation-ii/crystal/transparent',
     // Generation III
     'gen3_rusa': 'versions/generation-iii/ruby-sapphire',
     'gen3_sm': 'versions/generation-iii/emerald',
