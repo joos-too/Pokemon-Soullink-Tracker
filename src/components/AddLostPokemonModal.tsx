@@ -13,6 +13,7 @@ interface AddLostPokemonModalProps {
     onAdd: (route: string, members: Pokemon[]) => void;
     playerNames: string[];
     generationLimit?: number;
+    gameVersionId?: string;
 }
 
 interface PokemonNameFieldProps {
@@ -150,7 +151,8 @@ const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({
                                                                      onClose,
                                                                      onAdd,
                                                                      playerNames,
-                                                                     generationLimit
+                                                                     generationLimit,
+                                                                     gameVersionId,
                                                                  }) => {
     const {t} = useTranslation();
     const [route, setRoute] = useState('');
@@ -200,7 +202,7 @@ const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({
                                 value={route}
                                 onChange={setRoute}
                                 isOpen={isOpen}
-                                generationLimit={generationLimit}
+                                gameVersionId={gameVersionId}
                             />
                         </div>
                         {playerNames.map((name, index) => (

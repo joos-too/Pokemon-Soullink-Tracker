@@ -9,7 +9,7 @@ interface LocationSuggestionInputProps {
   value: string;
   onChange: (value: string) => void;
   isOpen: boolean;
-  generationLimit?: number;
+  gameVersionId?: string;
   placeholder?: string;
 }
 
@@ -18,7 +18,7 @@ const LocationSuggestionInput: React.FC<LocationSuggestionInputProps> = ({
   value,
   onChange,
   isOpen,
-  generationLimit,
+  gameVersionId,
   placeholder,
 }) => {
   const [suggestions, setSuggestions] = useState<string[]>([]);
@@ -57,7 +57,7 @@ const LocationSuggestionInput: React.FC<LocationSuggestionInputProps> = ({
     setLoading(true);
     setOpen(true);
     const timer = setTimeout(async () => {
-      const res = await searchLocations(term, 10, { maxGeneration: generationLimit, locale: language });
+      const res = await searchLocations(term, 1000, { locale: language, gameVersionId });
       if (seq === searchSeq.current) {
         setSuggestions(res);
         setLoading(false);
@@ -66,7 +66,7 @@ const LocationSuggestionInput: React.FC<LocationSuggestionInputProps> = ({
       }
     }, 250);
     return () => clearTimeout(timer);
-  }, [value, focused, isOpen, generationLimit, language]);
+  }, [value, focused, isOpen, language, gameVersionId]);
 
   const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
     if (e.key === 'Tab') {

@@ -34,7 +34,6 @@ import {
 } from '@/src/services/trackers';
 import {GAME_VERSIONS} from '@/src/data/game-versions';
 import { useTranslation } from 'react-i18next';
-import {t} from "i18next";
 import {formatBestLabel} from "@/src/utils/bestRun";
 
 const LAST_TRACKER_STORAGE_KEY = 'soullink:lastTrackerId';
@@ -1081,6 +1080,7 @@ const App: React.FC = () => {
                 onAdd={handleManualAddFromModal}
                 playerNames={resolvedPlayerNames}
                 generationLimit={pokemonGenerationLimit}
+                gameVersionId={activeGameVersionId || undefined}
             />
             <SelectLossModal
                 isOpen={showLossModal}

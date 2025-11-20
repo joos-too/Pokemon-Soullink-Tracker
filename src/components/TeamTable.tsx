@@ -225,6 +225,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                 mode="edit"
                 initial={editInitial || {route: '', members: playerNames.map(() => ({name: '', nickname: ''}))}}
                 generationLimit={pokemonGenerationLimit}
+                gameVersionId={gameVersionId}
             />
             <SelectEvolveModal
                 isOpen={evolveIndex !== null}
@@ -250,6 +251,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                 mode="create"
                 initial={{route: '', members: playerNames.map(() => ({name: '', nickname: ''}))}}
                 generationLimit={pokemonGenerationLimit}
+                gameVersionId={gameVersionId}
             />
         </div>
     );

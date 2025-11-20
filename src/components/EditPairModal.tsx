@@ -21,6 +21,7 @@ interface EditPairModalProps {
     members: Pokemon[];
   };
   generationLimit?: number;
+  gameVersionId?: string;
 }
 
 interface PokemonFieldProps {
@@ -173,6 +174,7 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
   initial,
   mode = 'edit',
   generationLimit,
+  gameVersionId,
 }) => {
   const { t, i18n } = useTranslation();
   const language = useMemo(() => normalizeLanguage(i18n.language), [i18n.language]);
@@ -232,7 +234,7 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
               value={route}
               onChange={setRoute}
               isOpen={isOpen}
-              generationLimit={generationLimit}
+              gameVersionId={gameVersionId}
             />
           </div>
 
