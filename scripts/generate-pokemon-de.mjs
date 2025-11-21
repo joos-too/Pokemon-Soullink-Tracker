@@ -417,7 +417,7 @@ function describeEvolutionDetail(detail, translators = {}, locale = 'de') {
         else if (detail.relative_physical_stats === 1) add(langText.statsGreater);
     }
     if (detail.turn_upside_down) add(langText.upsideDown);
-    let base = '';
+    let base;
     const trigger = detail.trigger?.name || '';
     switch (trigger) {
         case 'level-up':
