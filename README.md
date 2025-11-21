@@ -92,3 +92,12 @@ npm run generate-pokemon
 ```
 
 The script fetches all supported Pokémon species and evolution chains (up to Gen 6), translates the names, stores IDs/generation metadata, and persists the evolutions so the app can apply generation/version filters offline.
+
+## Image caching
+
+The app uses a service worker to cache Pokémon sprite images from the PokeAPI GitHub repository. This improves performance by:
+- Reducing network requests for frequently viewed Pokémon
+- Enabling offline access to previously loaded images
+- Speeding up page load times
+
+The service worker (`public/pokeapi-js-wrapper-sw.js`) is automatically registered when the app loads and intercepts requests to `https://raw.githubusercontent.com/PokeAPI/sprites/`. Images are cached in the browser's Cache Storage and served from cache on subsequent requests.
