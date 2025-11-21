@@ -15,6 +15,18 @@ const outLocationsPath = path.resolve(__dirname, '../src/data/location-suggestio
 
 const API_BASE = 'https://pokeapi.co/api/v2';
 const MAX_GENERATION = 6;
+const REGION_TO_GENERATION = {
+  kanto: 1,
+  johto: 2,
+  hoenn: 3,
+  sinnoh: 4,
+  unova: 5,
+  kalos: 6,
+  alola: 7,
+  galar: 8,
+  hisui: 8,
+  paldea: 9,
+};
 const SUPPORTED_LANGUAGES = ['de', 'en'];
 
 const MANUAL_TRANSLATIONS = {
@@ -249,9 +261,12 @@ async function loadAllLocations(P) {
         locations.forEach((loc, idx) => {
             const slug = slice[idx];
             if (!slug) return;
+            const region = loc?.region?.name || '';
+            const regionGeneration = REGION_TO_GENERATION[region] || Infinity;
+            if (regionGeneration > MAX_GENERATION) return;
             const names = loc?.names || [];
             translations.set(slug, buildLocalizedRecord(slug, names, 'location'));
-            regions.set(slug, loc?.region?.name);
+            regions.set(slug, region);
         });
     }
     return { translations, regions };

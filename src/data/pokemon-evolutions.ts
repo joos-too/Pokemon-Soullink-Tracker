@@ -4889,7 +4889,14 @@ export const EVOLUTIONS_EN: Record<number, { id: number; methods: string[] }[]> 
       ]
     }
   ],
-  "511": [],
+  "511": [
+    {
+      "id": 512,
+      "methods": [
+        "Item: Leaf Stone"
+      ]
+    }
+  ],
   "513": [
     {
       "id": 514,

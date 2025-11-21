@@ -42,46 +42,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "sinnoh"
     },
     {
-      "name": "Aether Paradise",
-      "slug": "aether-paradise",
-      "region": "alola"
-    },
-    {
-      "name": "Aipom Hill",
-      "slug": "aipom-hill",
-      "region": "hisui"
-    },
-    {
-      "name": "Akala Meadow",
-      "slug": "akala-meadow",
-      "region": "alola"
-    },
-    {
-      "name": "Akala Outskirts",
-      "slug": "akala-outskirts",
-      "region": "alola"
-    },
-    {
-      "name": "Alfornada",
-      "slug": "alfornada",
-      "region": "paldea"
-    },
-    {
-      "name": "Alfornada Cavern",
-      "slug": "alfornada-cavern",
-      "region": "paldea"
-    },
-    {
-      "name": "Altar of the Moone",
-      "slug": "altar-of-the-moone",
-      "region": "alola"
-    },
-    {
-      "name": "Altar of the Sunne",
-      "slug": "altar-of-the-sunne",
-      "region": "alola"
-    },
-    {
       "name": "Altering Cave",
       "slug": "hoenn-altering-cave",
       "region": "hoenn"
@@ -112,16 +72,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "sinnoh"
     },
     {
-      "name": "Ancient Poni Path",
-      "slug": "ancient-poni-path",
-      "region": "alola"
-    },
-    {
-      "name": "Ancient Quarry",
-      "slug": "ancient-quarry",
-      "region": "hisui"
-    },
-    {
       "name": "Ancient Tomb",
       "slug": "ancient-tomb",
       "region": "hoenn"
@@ -142,39 +92,14 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "unova"
     },
     {
-      "name": "Apple Hills",
-      "slug": "apple-hills",
-      "region": "paldea"
-    },
-    {
       "name": "Aquacorde Town",
       "slug": "aquacorde-town",
       "region": "kalos"
     },
     {
-      "name": "Area Zero",
-      "slug": "area-zero",
-      "region": "paldea"
-    },
-    {
-      "name": "Arena's Approach",
-      "slug": "arenas-approach",
-      "region": "hisui"
-    },
-    {
-      "name": "Artazon",
-      "slug": "artazon",
-      "region": "paldea"
-    },
-    {
       "name": "Artisan Cave",
       "slug": "artisan-cave",
       "region": "hoenn"
-    },
-    {
-      "name": "Asado Desert",
-      "slug": "asado-desert",
-      "region": "paldea"
     },
     {
       "name": "Aspertia City",
@@ -187,29 +112,9 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "unova"
     },
     {
-      "name": "Aspiration Hill",
-      "slug": "aspiration-hill",
-      "region": "hisui"
-    },
-    {
-      "name": "Avalanche Slopes",
-      "slug": "avalanche-slopes",
-      "region": "hisui"
-    },
-    {
-      "name": "Avalugg's Legacy",
-      "slug": "avaluggs-legacy",
-      "region": "hisui"
-    },
-    {
       "name": "Avance Trail",
       "slug": "avance-trail",
       "region": "kalos"
-    },
-    {
-      "name": "Axew's Eye",
-      "slug": "axews-eye",
-      "region": "galar"
     },
     {
       "name": "Azalea Town",
@@ -220,21 +125,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "name": "Azure Bay",
       "slug": "azure-bay",
       "region": "kalos"
-    },
-    {
-      "name": "Ballimere Lake",
-      "slug": "ballimere-lake",
-      "region": "galar"
-    },
-    {
-      "name": "Ballonlea",
-      "slug": "ballonlea",
-      "region": "galar"
-    },
-    {
-      "name": "Bathers' Lagoon",
-      "slug": "bathers-lagoon",
-      "region": "hisui"
     },
     {
       "name": "Battle Arcade",
@@ -282,11 +172,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "hoenn"
     },
     {
-      "name": "Battle Royal Dome",
-      "slug": "battle-royal-dome",
-      "region": "alola"
-    },
-    {
       "name": "Battle Subway",
       "slug": "battle-subway",
       "region": "unova"
@@ -302,16 +187,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "hoenn"
     },
     {
-      "name": "Battle Tower",
-      "slug": "battle-tower",
-      "region": "galar"
-    },
-    {
-      "name": "Battle Tree",
-      "slug": "battle-tree",
-      "region": "alola"
-    },
-    {
       "name": "Battleground",
       "slug": "battleground",
       "region": "sinnoh"
@@ -325,11 +200,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "name": "Bellchime Trail",
       "slug": "bellchime-trail",
       "region": "johto"
-    },
-    {
-      "name": "Berry Fields",
-      "slug": "berry-fields",
-      "region": "alola"
     },
     {
       "name": "Berry Forest",
@@ -367,59 +237,14 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "kalos"
     },
     {
-      "name": "Blush Mountain",
-      "slug": "blush-mountain",
-      "region": "alola"
-    },
-    {
-      "name": "Bolderoll Ravine",
-      "slug": "bolderoll-ravine",
-      "region": "hisui"
-    },
-    {
-      "name": "Bolderoll Slope",
-      "slug": "bolderoll-slope",
-      "region": "hisui"
-    },
-    {
       "name": "Bond Bridge",
       "slug": "bond-bridge",
       "region": "kanto"
     },
     {
-      "name": "Bonechill Wastes",
-      "slug": "bonechill-wastes",
-      "region": "hisui"
-    },
-    {
-      "name": "Brava Arena",
-      "slug": "brava-arena",
-      "region": "hisui"
-    },
-    {
-      "name": "Brawlers' Cave",
-      "slug": "brawlers-cave",
-      "region": "galar"
-    },
-    {
-      "name": "Bridge Field",
-      "slug": "bridge-field",
-      "region": "galar"
-    },
-    {
       "name": "Bridge Gate",
       "slug": "bridge-gate",
       "region": "unova"
-    },
-    {
-      "name": "Brooklet Hill",
-      "slug": "brooklet-hill",
-      "region": "alola"
-    },
-    {
-      "name": "Brooklet Hill",
-      "slug": "brooklet-hill--totems-den",
-      "region": "alola"
     },
     {
       "name": "Brun Way",
@@ -430,11 +255,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "name": "Burned Tower",
       "slug": "burned-tower",
       "region": "johto"
-    },
-    {
-      "name": "Cabo Poco",
-      "slug": "cabo-poco",
-      "region": "paldea"
     },
     {
       "name": "Café",
@@ -457,44 +277,14 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "sinnoh"
     },
     {
-      "name": "Canyon Biome",
-      "slug": "canyon-biome",
-      "region": "paldea"
-    },
-    {
       "name": "Canyon Entrance",
       "slug": "canyon-entrance",
       "region": "kanto"
     },
     {
-      "name": "Canyon Plaza",
-      "slug": "canyon-plaza",
-      "region": "paldea"
-    },
-    {
       "name": "Cape Brink",
       "slug": "cape-brink",
       "region": "kanto"
-    },
-    {
-      "name": "Caph Squad's Base",
-      "slug": "caph-squads-base",
-      "region": "paldea"
-    },
-    {
-      "name": "Cascarrafa",
-      "slug": "cascarrafa",
-      "region": "paldea"
-    },
-    {
-      "name": "Casseroya Lake",
-      "slug": "casseroya-lake",
-      "region": "paldea"
-    },
-    {
-      "name": "Castaway Shore",
-      "slug": "castaway-shore",
-      "region": "hisui"
     },
     {
       "name": "Castelia City",
@@ -537,21 +327,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "sinnoh"
     },
     {
-      "name": "Celestica Ruins",
-      "slug": "celestica-ruins",
-      "region": "hisui"
-    },
-    {
-      "name": "Celestica Trail",
-      "slug": "celestica-trail",
-      "region": "hisui"
-    },
-    {
-      "name": "Central Plaza",
-      "slug": "central-plaza",
-      "region": "paldea"
-    },
-    {
       "name": "Cerulean Cave",
       "slug": "cerulean-cave",
       "region": "kanto"
@@ -560,16 +335,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "name": "Cerulean City",
       "slug": "cerulean-city",
       "region": "kanto"
-    },
-    {
-      "name": "Challenge Beach",
-      "slug": "challenge-beach",
-      "region": "galar"
-    },
-    {
-      "name": "Challenge Road",
-      "slug": "challenge-road",
-      "region": "galar"
     },
     {
       "name": "Challenger's Cave",
@@ -587,19 +352,9 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "unova"
     },
     {
-      "name": "Chargestone Cavern",
-      "slug": "chargestone-cavern",
-      "region": "paldea"
-    },
-    {
       "name": "Cherrygrove City",
       "slug": "cherrygrove-city",
       "region": "johto"
-    },
-    {
-      "name": "Chilling Waterhead",
-      "slug": "chilling-waterhead",
-      "region": "paldea"
     },
     {
       "name": "Cianwood City",
@@ -610,16 +365,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "name": "Cinnabar Island",
       "slug": "cinnabar-island",
       "region": "kanto"
-    },
-    {
-      "name": "Circhester",
-      "slug": "circhester",
-      "region": "galar"
-    },
-    {
-      "name": "Clamberclaw Cliffs",
-      "slug": "clamberclaw-cliffs",
-      "region": "hisui"
     },
     {
       "name": "Clay Tunnel",
@@ -637,39 +382,9 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "johto"
     },
     {
-      "name": "Cloudcap Pass",
-      "slug": "cloudcap-pass",
-      "region": "hisui"
-    },
-    {
-      "name": "Cloudpool Ridge",
-      "slug": "cloudpool-ridge",
-      "region": "hisui"
-    },
-    {
-      "name": "Coastal Biome",
-      "slug": "coastal-biome",
-      "region": "paldea"
-    },
-    {
-      "name": "Coastal Plaza",
-      "slug": "coastal-plaza",
-      "region": "paldea"
-    },
-    {
-      "name": "Coastlands Base Camp",
-      "slug": "coastlands-camp",
-      "region": "hisui"
-    },
-    {
       "name": "Cold Storage",
       "slug": "cold-storage",
       "region": "unova"
-    },
-    {
-      "name": "Concert Event",
-      "slug": "concert-event",
-      "region": ""
     },
     {
       "name": "Connecting Cave",
@@ -682,16 +397,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "sinnoh"
     },
     {
-      "name": "Cortondo",
-      "slug": "cortondo",
-      "region": "paldea"
-    },
-    {
-      "name": "Cottonsedge Prairie",
-      "slug": "cottonsedge-prairie",
-      "region": "hisui"
-    },
-    {
       "name": "Coumarine City",
       "slug": "coumarine-city",
       "region": "kalos"
@@ -700,11 +405,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "name": "Coumarine Gate",
       "slug": "coumarine-gate",
       "region": "kalos"
-    },
-    {
-      "name": "Courageous Cavern",
-      "slug": "courageous-cavern",
-      "region": "galar"
     },
     {
       "name": "Couriway Gate",
@@ -722,21 +422,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "hoenn"
     },
     {
-      "name": "Crossing Slope",
-      "slug": "crossing-slope",
-      "region": "hisui"
-    },
-    {
-      "name": "Crown Shrine",
-      "slug": "crown-shrine",
-      "region": "galar"
-    },
-    {
-      "name": "Crystal Pool",
-      "slug": "crystal-pool",
-      "region": "paldea"
-    },
-    {
       "name": "Cycle Shop",
       "slug": "sinnoh-cycle-shop",
       "region": "sinnoh"
@@ -747,44 +432,9 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "kalos"
     },
     {
-      "name": "Cynthia",
-      "slug": "cynthia",
-      "region": ""
-    },
-    {
-      "name": "Dalizapa Passage",
-      "slug": "dalizapa-passage",
-      "region": "paldea"
-    },
-    {
-      "name": "Dappled Grove",
-      "slug": "dappled-grove",
-      "region": "galar"
-    },
-    {
       "name": "Dark Cave",
       "slug": "dark-cave",
       "region": "johto"
-    },
-    {
-      "name": "Day-Care Couple",
-      "slug": "day-care-couple",
-      "region": ""
-    },
-    {
-      "name": "Deadwood Haunt",
-      "slug": "deadwood-haunt",
-      "region": "hisui"
-    },
-    {
-      "name": "Deertrack Heights",
-      "slug": "deertrack-heights",
-      "region": "hisui"
-    },
-    {
-      "name": "Deertrack Path",
-      "slug": "deertrack-path",
-      "region": "hisui"
     },
     {
       "name": "Dendemille Gate",
@@ -795,11 +445,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "name": "Dendemille Town",
       "slug": "dendemille-town",
       "region": "kalos"
-    },
-    {
-      "name": "Dernière Way",
-      "slug": "dernière-way",
-      "region": ""
     },
     {
       "name": "Desert Resort",
@@ -827,24 +472,9 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "hoenn"
     },
     {
-      "name": "Diamond Heath",
-      "slug": "diamond-heath",
-      "region": "hisui"
-    },
-    {
-      "name": "Diamond Settlement",
-      "slug": "diamond-settlement",
-      "region": "hisui"
-    },
-    {
       "name": "Diglett's Cave",
       "slug": "digletts-cave",
       "region": "kanto"
-    },
-    {
-      "name": "Diglett’s Tunnel",
-      "slug": "digletts-tunnel",
-      "region": "alola"
     },
     {
       "name": "Dilford Chamber",
@@ -852,19 +482,9 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "kanto"
     },
     {
-      "name": "Distant land",
-      "slug": "distant-land",
-      "region": ""
-    },
-    {
       "name": "Distortion World",
       "slug": "distortion-world",
       "region": "sinnoh"
-    },
-    {
-      "name": "Dividing Peak Tunnel",
-      "slug": "dividing-peak-tunnel",
-      "region": "alola"
     },
     {
       "name": "Dragon's Den",
@@ -882,11 +502,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "unova"
     },
     {
-      "name": "Dreaded Den",
-      "slug": "dreaded-den",
-      "region": "paldea"
-    },
-    {
       "name": "Dreamyard",
       "slug": "dreamyard",
       "region": "unova"
@@ -900,46 +515,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "name": "Driftveil Drawbridge",
       "slug": "driftveil-drawbridge",
       "region": "unova"
-    },
-    {
-      "name": "Droning Meadow",
-      "slug": "droning-meadow",
-      "region": "hisui"
-    },
-    {
-      "name": "Dusty Bowl",
-      "slug": "dusty-bowl",
-      "region": "galar"
-    },
-    {
-      "name": "Dyna Tree Hill",
-      "slug": "dyna-tree-hill",
-      "region": "galar"
-    },
-    {
-      "name": "East Lake Axewell",
-      "slug": "east-lake-axewell",
-      "region": "galar"
-    },
-    {
-      "name": "East Paldean Sea",
-      "slug": "east-paldean-sea",
-      "region": "paldea"
-    },
-    {
-      "name": "East Province (Area One)",
-      "slug": "paldea-east-province-area-one",
-      "region": "paldea"
-    },
-    {
-      "name": "East Province (Area Three)",
-      "slug": "paldea-east-province-area-three",
-      "region": "paldea"
-    },
-    {
-      "name": "East Province (Area Two)",
-      "slug": "paldea-east-province-area-two",
-      "region": "paldea"
     },
     {
       "name": "Ecruteak City",
@@ -972,29 +547,14 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "sinnoh"
     },
     {
-      "name": "Event Site",
-      "slug": "event-site",
-      "region": ""
-    },
-    {
       "name": "Ever Grande City",
       "slug": "ever-grande-city",
       "region": "hoenn"
     },
     {
-      "name": "Exeggutor Island",
-      "slug": "exeggutor-island",
-      "region": "alola"
-    },
-    {
       "name": "Fabled Cave",
       "slug": "fabled-cave",
       "region": "hoenn"
-    },
-    {
-      "name": "Fabled Spring",
-      "slug": "fabled-spring",
-      "region": "hisui"
     },
     {
       "name": "Fallarbor Town",
@@ -1008,23 +568,8 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
     },
     {
       "name": "Faraway place",
-      "slug": "faraway-place",
-      "region": ""
-    },
-    {
-      "name": "Faraway place",
       "slug": "unova-faraway-place",
       "region": "unova"
-    },
-    {
-      "name": "Fellhorn Gorge",
-      "slug": "fellhorn-gorge",
-      "region": "paldea"
-    },
-    {
-      "name": "Fields of Honor",
-      "slug": "fields-of-honor",
-      "region": "galar"
     },
     {
       "name": "Fiery Path",
@@ -1037,16 +582,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "sinnoh"
     },
     {
-      "name": "Firescourge Shrine",
-      "slug": "firescourge-shrine",
-      "region": "paldea"
-    },
-    {
-      "name": "Firespit Island",
-      "slug": "firespit-island",
-      "region": "hisui"
-    },
-    {
       "name": "Five Island",
       "slug": "five-island",
       "region": "kanto"
@@ -1055,11 +590,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "name": "Five Isle Meadow",
       "slug": "five-isle-meadow",
       "region": "kanto"
-    },
-    {
-      "name": "Floaro Gardens",
-      "slug": "floaro-gardens",
-      "region": "hisui"
     },
     {
       "name": "Floaroma Meadow",
@@ -1107,11 +637,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "sinnoh"
     },
     {
-      "name": "Forest of Focus",
-      "slug": "forest-of-focus",
-      "region": "galar"
-    },
-    {
       "name": "Fortree City",
       "slug": "fortree-city",
       "region": "hoenn"
@@ -1127,19 +652,9 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "kalos"
     },
     {
-      "name": "Freezington",
-      "slug": "freezington",
-      "region": "galar"
-    },
-    {
       "name": "Friend Safari",
       "slug": "friend-safari",
       "region": "kalos"
-    },
-    {
-      "name": "Frigid Sea",
-      "slug": "frigid-sea",
-      "region": "galar"
     },
     {
       "name": "Frontier Access",
@@ -1150,11 +665,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "name": "Frost Cavern",
       "slug": "frost-cavern",
       "region": "kalos"
-    },
-    {
-      "name": "Frostpoint Field",
-      "slug": "frostpoint-field",
-      "region": "galar"
     },
     {
       "name": "Fuchsia City",
@@ -1177,24 +687,9 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "sinnoh"
     },
     {
-      "name": "Galar Mine",
-      "slug": "galar-mine",
-      "region": "galar"
-    },
-    {
-      "name": "Galar Mine No. 2",
-      "slug": "galar-mine-no-2",
-      "region": "galar"
-    },
-    {
       "name": "Game Corner",
       "slug": "sinnoh-game-corner",
       "region": "sinnoh"
-    },
-    {
-      "name": "Gapejaw Bog",
-      "slug": "gapejaw-bog",
-      "region": "hisui"
     },
     {
       "name": "Gear Station",
@@ -1212,54 +707,9 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "unova"
     },
     {
-      "name": "Giant's Bed",
-      "slug": "giants-bed",
-      "region": "galar"
-    },
-    {
-      "name": "Giant's Cap",
-      "slug": "giants-cap",
-      "region": "galar"
-    },
-    {
-      "name": "Giant's Foot",
-      "slug": "giants-foot",
-      "region": "galar"
-    },
-    {
-      "name": "Giant's Mirror",
-      "slug": "giants-mirror",
-      "region": "galar"
-    },
-    {
-      "name": "Giant's Seat",
-      "slug": "giants-seat",
-      "region": "galar"
-    },
-    {
-      "name": "Ginkgo Landing",
-      "slug": "ginkgo-landing",
-      "region": "hisui"
-    },
-    {
       "name": "Glacier Room",
       "slug": "glacier-room",
       "region": "unova"
-    },
-    {
-      "name": "Glacier Terrace",
-      "slug": "glacier-terrace",
-      "region": "hisui"
-    },
-    {
-      "name": "Glaseado Mountain",
-      "slug": "glaseado-mountain",
-      "region": "paldea"
-    },
-    {
-      "name": "Glimwood Tangle",
-      "slug": "glimwood-tangle",
-      "region": "galar"
     },
     {
       "name": "Glittering Cave",
@@ -1275,11 +725,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "name": "Gnarled Den",
       "slug": "gnarled-den",
       "region": "hoenn"
-    },
-    {
-      "name": "Golden Lowlands",
-      "slug": "golden-lowlands",
-      "region": "hisui"
     },
     {
       "name": "Goldenrod City",
@@ -1302,19 +747,9 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "kalos"
     },
     {
-      "name": "Grandtree Arena",
-      "slug": "grandtree-arena",
-      "region": "hisui"
-    },
-    {
       "name": "Granite Cave",
       "slug": "granite-cave",
       "region": "hoenn"
-    },
-    {
-      "name": "Grasswither Shrine",
-      "slug": "grasswither-shrine",
-      "region": "paldea"
     },
     {
       "name": "Great Marsh",
@@ -1327,16 +762,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "kanto"
     },
     {
-      "name": "Groundblight Shrine",
-      "slug": "groundblight-shrine",
-      "region": "paldea"
-    },
-    {
-      "name": "Grueling Grove",
-      "slug": "grueling-grove",
-      "region": "hisui"
-    },
-    {
       "name": "GTS",
       "slug": "gts",
       "region": "sinnoh"
@@ -1345,11 +770,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "name": "Guidance Chamber",
       "slug": "guidance-chamber",
       "region": "unova"
-    },
-    {
-      "name": "Haina Desert",
-      "slug": "haina-desert",
-      "region": "alola"
     },
     {
       "name": "Hall of Origin",
@@ -1362,79 +782,9 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "sinnoh"
     },
     {
-      "name": "Hammerlocke",
-      "slug": "hammerlocke",
-      "region": "galar"
-    },
-    {
-      "name": "Hammerlocke Hills",
-      "slug": "hammerlocke-hills",
-      "region": "galar"
-    },
-    {
-      "name": "Hano Beach",
-      "slug": "hano-beach",
-      "region": "alola"
-    },
-    {
-      "name": "Hano Grand Resort",
-      "slug": "hano-grand-resort",
-      "region": "alola"
-    },
-    {
-      "name": "Hau’oli Cemetery",
-      "slug": "hauoli-cemetery",
-      "region": "alola"
-    },
-    {
-      "name": "Hau'oli City",
-      "slug": "hauoli-city",
-      "region": "alola"
-    },
-    {
-      "name": "Hau’oli City",
-      "slug": "hauoli-city--beachfront",
-      "region": "alola"
-    },
-    {
-      "name": "Hau’oli City",
-      "slug": "hauoli-city--shopping-district",
-      "region": "alola"
-    },
-    {
-      "name": "Hau’oli City",
-      "slug": "hauoli-city--marina",
-      "region": "alola"
-    },
-    {
-      "name": "Heahea Beach",
-      "slug": "heahea-beach",
-      "region": "alola"
-    },
-    {
-      "name": "Heahea City",
-      "slug": "heahea-city",
-      "region": "alola"
-    },
-    {
-      "name": "Heart's Crag",
-      "slug": "hearts-crag",
-      "region": "hisui"
-    },
-    {
       "name": "Hearthome City",
       "slug": "hearthome-city",
       "region": "sinnoh"
-    },
-    {
-      "name": "Heavenward Lookout",
-      "slug": "heavenward-lookout",
-      "region": "hisui"
-    },
-    {
-      "name": "Heights Base Camp",
-      "slug": "heights-camp",
-      "region": "hisui"
     },
     {
       "name": "Hidden Grotto",
@@ -1442,59 +792,14 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "unova"
     },
     {
-      "name": "Hideaway Bay",
-      "slug": "hideaway-bay",
-      "region": "hisui"
-    },
-    {
-      "name": "Hoenn",
-      "slug": "hoenn",
-      "region": ""
-    },
-    {
       "name": "Hoenn Battle Frontier",
       "slug": "hoenn-battle-frontier",
       "region": "hoenn"
     },
     {
-      "name": "Hokulani Observatory",
-      "slug": "hokulani-observatory",
-      "region": "alola"
-    },
-    {
-      "name": "Holm of Trials",
-      "slug": "holm-of-trials",
-      "region": "hisui"
-    },
-    {
-      "name": "Honeycalm Island",
-      "slug": "honeycalm-island",
-      "region": "galar"
-    },
-    {
-      "name": "Honeycalm Sea",
-      "slug": "honeycalm-sea",
-      "region": "galar"
-    },
-    {
-      "name": "Horseshoe Plains",
-      "slug": "horseshoe-plains",
-      "region": "hisui"
-    },
-    {
-      "name": "Hulbury",
-      "slug": "hulbury",
-      "region": "galar"
-    },
-    {
       "name": "Humilau City",
       "slug": "humilau-city",
       "region": "unova"
-    },
-    {
-      "name": "Ice Column Chamber",
-      "slug": "ice-column-chamber",
-      "region": "hisui"
     },
     {
       "name": "Ice Path",
@@ -1507,44 +812,14 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "sinnoh"
     },
     {
-      "name": "Iceberg Ruins",
-      "slug": "galar-iceberg-ruins",
-      "region": "galar"
-    },
-    {
-      "name": "Icebound Falls",
-      "slug": "icebound-falls",
-      "region": "hisui"
-    },
-    {
       "name": "Icefall Cave",
       "slug": "icefall-cave",
       "region": "kanto"
     },
     {
-      "name": "Icepeak Arena",
-      "slug": "icepeak-arena",
-      "region": "hisui"
-    },
-    {
-      "name": "Icepeak Cavern",
-      "slug": "icepeak-cavern",
-      "region": "hisui"
-    },
-    {
-      "name": "Icerend Shrine",
-      "slug": "icerend-shrine",
-      "region": "paldea"
-    },
-    {
       "name": "Icirrus City",
       "slug": "icirrus-city",
       "region": "unova"
-    },
-    {
-      "name": "Iki Town",
-      "slug": "iki-town",
-      "region": "alola"
     },
     {
       "name": "Ilex Forest",
@@ -1555,21 +830,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "name": "Indigo Plateau",
       "slug": "indigo-plateau",
       "region": "kanto"
-    },
-    {
-      "name": "Infernal Pass",
-      "slug": "infernal-pass",
-      "region": "paldea"
-    },
-    {
-      "name": "Inlet Grotto",
-      "slug": "inlet-grotto",
-      "region": "paldea"
-    },
-    {
-      "name": "Insular Sea",
-      "slug": "insular-sea",
-      "region": "galar"
     },
     {
       "name": "Iron Island",
@@ -1587,11 +847,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "sinnoh"
     },
     {
-      "name": "Iron Ruins",
-      "slug": "galar-iron-ruins",
-      "region": "galar"
-    },
-    {
       "name": "Ironworks Chamber",
       "slug": "ironworks-chamber",
       "region": "kalos"
@@ -1602,19 +857,9 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "hoenn"
     },
     {
-      "name": "Islespy Shore",
-      "slug": "islespy-shore",
-      "region": "hisui"
-    },
-    {
       "name": "Jagged Pass",
       "slug": "jagged-pass",
       "region": "hoenn"
-    },
-    {
-      "name": "Johto",
-      "slug": "johto",
-      "region": ""
     },
     {
       "name": "Johto Safari Zone",
@@ -1637,16 +882,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "sinnoh"
     },
     {
-      "name": "Jubilife Village",
-      "slug": "jubilife-village",
-      "region": "hisui"
-    },
-    {
-      "name": "Kala’e Bay",
-      "slug": "kalae-bay",
-      "region": "alola"
-    },
-    {
       "name": "Kalos (Roaming)",
       "slug": "roaming-kalos",
       "region": "kalos"
@@ -1655,11 +890,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "name": "Kalos Power Plant",
       "slug": "kalos-power-plant",
       "region": "kalos"
-    },
-    {
-      "name": "Kanto",
-      "slug": "kanto",
-      "region": ""
     },
     {
       "name": "Kiloude City",
@@ -1677,26 +907,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "kanto"
     },
     {
-      "name": "Kitakami Hall",
-      "slug": "kitakami-hall",
-      "region": "paldea"
-    },
-    {
-      "name": "Kitakami Road",
-      "slug": "kitakami-road",
-      "region": "paldea"
-    },
-    {
-      "name": "Kitakami Wilds",
-      "slug": "kitakami-wilds",
-      "region": "paldea"
-    },
-    {
-      "name": "Konikoni City",
-      "slug": "konikoni-city",
-      "region": "alola"
-    },
-    {
       "name": "Lacunosa Town",
       "slug": "lacunosa-town",
       "region": "unova"
@@ -1707,29 +917,9 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "sinnoh"
     },
     {
-      "name": "Lake Acuity",
-      "slug": "hisui-lake-acuity",
-      "region": "hisui"
-    },
-    {
-      "name": "Lake of Outrage",
-      "slug": "lake-of-outrage",
-      "region": "galar"
-    },
-    {
       "name": "Lake of Rage",
       "slug": "lake-of-rage",
       "region": "johto"
-    },
-    {
-      "name": "Lake of the Moone",
-      "slug": "lake-of-the-moone",
-      "region": "alola"
-    },
-    {
-      "name": "Lake of the Sunne",
-      "slug": "lake-of-the-sunne",
-      "region": "alola"
     },
     {
       "name": "Lake Valor",
@@ -1737,24 +927,9 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "sinnoh"
     },
     {
-      "name": "Lake Valor",
-      "slug": "hisui-lake-valor",
-      "region": "hisui"
-    },
-    {
       "name": "Lake Verity",
       "slug": "lake-verity",
       "region": "sinnoh"
-    },
-    {
-      "name": "Lake Verity",
-      "slug": "hisui-lake-verity",
-      "region": "hisui"
-    },
-    {
-      "name": "Lakeside Cave",
-      "slug": "lakeside-cave",
-      "region": "galar"
     },
     {
       "name": "Lavaridge Town",
@@ -1782,19 +957,9 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "kalos"
     },
     {
-      "name": "League Club Room",
-      "slug": "league-club-room",
-      "region": "paldea"
-    },
-    {
       "name": "Lentimas Town",
       "slug": "lentimas-town",
       "region": "unova"
-    },
-    {
-      "name": "Levincia",
-      "slug": "levincia",
-      "region": "paldea"
     },
     {
       "name": "Liberty Garden",
@@ -1812,16 +977,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "hoenn"
     },
     {
-      "name": "Link trade (arrive)",
-      "slug": "link-trade-arrive",
-      "region": ""
-    },
-    {
-      "name": "Link trade (met)",
-      "slug": "link-trade-met",
-      "region": ""
-    },
-    {
       "name": "Liptoo Chamber",
       "slug": "liptoo-chamber",
       "region": "kanto"
@@ -1830,21 +985,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "name": "Littleroot Town",
       "slug": "littleroot-town",
       "region": "hoenn"
-    },
-    {
-      "name": "Lonely Spring",
-      "slug": "lonely-spring",
-      "region": "hisui"
-    },
-    {
-      "name": "Loop Lagoon",
-      "slug": "loop-lagoon",
-      "region": "galar"
-    },
-    {
-      "name": "Los Platos",
-      "slug": "los-platos",
-      "region": "paldea"
     },
     {
       "name": "Lost Cave",
@@ -1867,16 +1007,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "unova"
     },
     {
-      "name": "Lovely place",
-      "slug": "lovely-place",
-      "region": ""
-    },
-    {
-      "name": "Loyalty Plaza",
-      "slug": "loyalty-plaza",
-      "region": "paldea"
-    },
-    {
       "name": "Lumiose Badlands",
       "slug": "lumiose-badlands",
       "region": "kalos"
@@ -1897,16 +1027,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "kalos"
     },
     {
-      "name": "Lunker's Lair",
-      "slug": "lunkers-lair",
-      "region": "hisui"
-    },
-    {
-      "name": "Lush Jungle",
-      "slug": "lush-jungle",
-      "region": "alola"
-    },
-    {
       "name": "Lysandre Labs",
       "slug": "lysandre-labs",
       "region": "kalos"
@@ -1917,39 +1037,9 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "hoenn"
     },
     {
-      "name": "Mahalo Trail",
-      "slug": "mahalo-trail",
-      "region": "alola"
-    },
-    {
-      "name": "Mahalo Trail",
-      "slug": "mahalo-trail--plank-bridge",
-      "region": "alola"
-    },
-    {
       "name": "Mahogany Town",
       "slug": "mahogany-town",
       "region": "johto"
-    },
-    {
-      "name": "Malie City",
-      "slug": "malie-city-proper",
-      "region": "alola"
-    },
-    {
-      "name": "Malie City",
-      "slug": "malie-city--outer-cape",
-      "region": "alola"
-    },
-    {
-      "name": "Malie City",
-      "slug": "malie-city",
-      "region": "alola"
-    },
-    {
-      "name": "Malie Garden",
-      "slug": "malie-garden",
-      "region": "alola"
     },
     {
       "name": "Mamoswine Road",
@@ -1977,19 +1067,9 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "unova"
     },
     {
-      "name": "Master Dojo",
-      "slug": "master-dojo",
-      "region": "galar"
-    },
-    {
       "name": "Mauville City",
       "slug": "mauville-city",
       "region": "hoenn"
-    },
-    {
-      "name": "Max Lair",
-      "slug": "max-lair",
-      "region": "galar"
     },
     {
       "name": "Medal Secretariat",
@@ -1997,29 +1077,9 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "unova"
     },
     {
-      "name": "Medali",
-      "slug": "medali",
-      "region": "paldea"
-    },
-    {
       "name": "Mélancolie Path",
       "slug": "melancolie-path",
       "region": "kalos"
-    },
-    {
-      "name": "Melemele Meadow",
-      "slug": "melemele-meadow",
-      "region": "alola"
-    },
-    {
-      "name": "Melemele Sea",
-      "slug": "melemele-sea",
-      "region": "alola"
-    },
-    {
-      "name": "Memorial Hill",
-      "slug": "memorial-hill",
-      "region": "alola"
     },
     {
       "name": "Memorial Pillar",
@@ -2030,11 +1090,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "name": "Menhir Trail",
       "slug": "menhir-trail",
       "region": "kalos"
-    },
-    {
-      "name": "Mesagoza",
-      "slug": "mesagoza",
-      "region": "paldea"
     },
     {
       "name": "Meteor Falls",
@@ -2087,24 +1142,9 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "unova"
     },
     {
-      "name": "Molten Arena",
-      "slug": "molten-arena",
-      "region": "hisui"
-    },
-    {
       "name": "Monean Chamber",
       "slug": "monean-chamber",
       "region": "kanto"
-    },
-    {
-      "name": "Montenevera",
-      "slug": "montenevera",
-      "region": "paldea"
-    },
-    {
-      "name": "Moonview Arena",
-      "slug": "moonview-arena",
-      "region": "hisui"
     },
     {
       "name": "Moor of Icirrus",
@@ -2120,46 +1160,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "name": "Mossdeep Space Center",
       "slug": "mossdeep-space-center",
       "region": "hoenn"
-    },
-    {
-      "name": "Mossfell Confluence",
-      "slug": "mossfell-confluence",
-      "region": "paldea"
-    },
-    {
-      "name": "Mossui Town",
-      "slug": "mossui-town",
-      "region": "paldea"
-    },
-    {
-      "name": "Motostoke",
-      "slug": "motostoke",
-      "region": "galar"
-    },
-    {
-      "name": "Motostoke Outskirts",
-      "slug": "motostoke-outskirts",
-      "region": "galar"
-    },
-    {
-      "name": "Motostoke Riverbank",
-      "slug": "motostoke-riverbank",
-      "region": "galar"
-    },
-    {
-      "name": "Mount Hokulani",
-      "slug": "mount-hokulani",
-      "region": "alola"
-    },
-    {
-      "name": "Mount Lanakila",
-      "slug": "mount-lanakila",
-      "region": "alola"
-    },
-    {
-      "name": "Mr. Pokémon",
-      "slug": "mr-pokemon",
-      "region": ""
     },
     {
       "name": "Mt. Chimney",
@@ -2213,11 +1213,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
     },
     {
       "name": "Mystery Zone",
-      "slug": "mystery-zone",
-      "region": ""
-    },
-    {
-      "name": "Mystery Zone",
       "slug": "unova-mystery-zone",
       "region": "unova"
     },
@@ -2242,11 +1237,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "hoenn"
     },
     {
-      "name": "Naranja Academy",
-      "slug": "naranja-academy",
-      "region": "paldea"
-    },
-    {
       "name": "National Park",
       "slug": "national-park",
       "region": "johto"
@@ -2257,19 +1247,9 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "unova"
     },
     {
-      "name": "Nature's Pantry",
-      "slug": "natures-pantry",
-      "region": "hisui"
-    },
-    {
       "name": "Navel Rock",
       "slug": "navel-rock",
       "region": "kanto"
-    },
-    {
-      "name": "Navi Squad's Base",
-      "slug": "navi-squads-base",
-      "region": "paldea"
     },
     {
       "name": "New Bark Town",
@@ -2297,49 +1277,9 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "unova"
     },
     {
-      "name": "Nintendo World",
-      "slug": "nintendo-world",
-      "region": ""
-    },
-    {
-      "name": "North Lake Miloch",
-      "slug": "north-lake-miloch",
-      "region": "galar"
-    },
-    {
-      "name": "North Paldean Sea",
-      "slug": "north-paldean-sea",
-      "region": "paldea"
-    },
-    {
-      "name": "North Province (Area One)",
-      "slug": "paldea-north-province-area-one",
-      "region": "paldea"
-    },
-    {
-      "name": "North Province (Area Three)",
-      "slug": "paldea-north-province-area-three",
-      "region": "paldea"
-    },
-    {
-      "name": "North Province (Area Two)",
-      "slug": "paldea-north-province-area-two",
-      "region": "paldea"
-    },
-    {
       "name": "Nuvema Town",
       "slug": "nuvema-town",
       "region": "unova"
-    },
-    {
-      "name": "Obsidian Falls",
-      "slug": "obsidian-falls",
-      "region": "hisui"
-    },
-    {
-      "name": "Old Cemetery",
-      "slug": "old-cemetery",
-      "region": "galar"
     },
     {
       "name": "Old Chateau",
@@ -2360,16 +1300,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "name": "One Island",
       "slug": "one-island",
       "region": "kanto"
-    },
-    {
-      "name": "Oni Mountain",
-      "slug": "oni-mountain",
-      "region": "paldea"
-    },
-    {
-      "name": "Oni's Maw",
-      "slug": "onis-maw",
-      "region": "paldea"
     },
     {
       "name": "Opelucid City",
@@ -2395,11 +1325,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "name": "Oreburgh Mine",
       "slug": "oreburgh-mine",
       "region": "sinnoh"
-    },
-    {
-      "name": "Oreburrow Tunnel",
-      "slug": "oreburrow-tunnel",
-      "region": "hisui"
     },
     {
       "name": "Outcast Island",
@@ -2437,21 +1362,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "kanto"
     },
     {
-      "name": "Paniola Ranch",
-      "slug": "paniola-ranch",
-      "region": "alola"
-    },
-    {
-      "name": "Paniola Town",
-      "slug": "paniola-town",
-      "region": "alola"
-    },
-    {
-      "name": "Paradise Barrens",
-      "slug": "paradise-barrens",
-      "region": "paldea"
-    },
-    {
       "name": "Parfum Palace",
       "slug": "parfum-palace",
       "region": "kalos"
@@ -2467,11 +1377,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "sinnoh"
     },
     {
-      "name": "Path to the Peak",
-      "slug": "path-to-the-peak",
-      "region": "galar"
-    },
-    {
       "name": "Pathless Plain",
       "slug": "pathless-plain",
       "region": "hoenn"
@@ -2480,41 +1385,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "name": "Pattern Bush",
       "slug": "pattern-bush",
       "region": "kanto"
-    },
-    {
-      "name": "PC Fukuoka",
-      "slug": "pc-fukuoka",
-      "region": ""
-    },
-    {
-      "name": "PC Nagoya",
-      "slug": "pc-nagoya",
-      "region": ""
-    },
-    {
-      "name": "PC Osaka",
-      "slug": "pc-osaka",
-      "region": ""
-    },
-    {
-      "name": "PC Sapporo",
-      "slug": "pc-sapporo",
-      "region": ""
-    },
-    {
-      "name": "PC Tokyo",
-      "slug": "pc-tokyo",
-      "region": ""
-    },
-    {
-      "name": "PC Yokohama",
-      "slug": "pc-yokohama",
-      "region": ""
-    },
-    {
-      "name": "Pearl Settlement",
-      "slug": "pearl-settlement",
-      "region": "hisui"
     },
     {
       "name": "Petalburg City",
@@ -2547,16 +1417,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "unova"
     },
     {
-      "name": "Po Town",
-      "slug": "po-town",
-      "region": "alola"
-    },
-    {
-      "name": "Poco Path",
-      "slug": "poco-path",
-      "region": "paldea"
-    },
-    {
       "name": "Poffin House",
       "slug": "poffin-house",
       "region": "sinnoh"
@@ -2565,11 +1425,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "name": "Poké Ball Factory",
       "slug": "poke-ball-factory",
       "region": "kalos"
-    },
-    {
-      "name": "Poké Pelago",
-      "slug": "poke-pelago",
-      "region": "alola"
     },
     {
       "name": "Poké Transfer Lab",
@@ -2582,144 +1437,9 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "johto"
     },
     {
-      "name": "Pokémon Cartoon",
-      "slug": "pokemon-cartoon",
-      "region": ""
-    },
-    {
-      "name": "Pokémon Center",
-      "slug": "pokemon-center",
-      "region": ""
-    },
-    {
       "name": "Pokémon Day Care",
       "slug": "pokemon-day-care",
       "region": "sinnoh"
-    },
-    {
-      "name": "Pokémon Event",
-      "slug": "pokemon-event",
-      "region": ""
-    },
-    {
-      "name": "Pokémon Event 06",
-      "slug": "pokemon-event-06",
-      "region": ""
-    },
-    {
-      "name": "Pokémon Event 07",
-      "slug": "pokemon-event-07",
-      "region": ""
-    },
-    {
-      "name": "Pokémon Event 08",
-      "slug": "pokemon-event-08",
-      "region": ""
-    },
-    {
-      "name": "Pokémon Event 09",
-      "slug": "pokemon-event-09",
-      "region": ""
-    },
-    {
-      "name": "Pokémon Event 10",
-      "slug": "pokemon-event-10",
-      "region": ""
-    },
-    {
-      "name": "Pokémon Event 11",
-      "slug": "pokemon-event-11",
-      "region": ""
-    },
-    {
-      "name": "Pokémon Event 12",
-      "slug": "pokemon-event-12",
-      "region": ""
-    },
-    {
-      "name": "Pokémon Event 13",
-      "slug": "pokemon-event-13",
-      "region": ""
-    },
-    {
-      "name": "Pokémon Event 14",
-      "slug": "pokemon-event-14",
-      "region": ""
-    },
-    {
-      "name": "Pokémon Event 15",
-      "slug": "pokemon-event-15",
-      "region": ""
-    },
-    {
-      "name": "Pokémon Event 16",
-      "slug": "pokemon-event-16",
-      "region": ""
-    },
-    {
-      "name": "Pokémon Fan Club",
-      "slug": "pokemon-fan-club",
-      "region": ""
-    },
-    {
-      "name": "Pokémon Festa",
-      "slug": "pokemon-festa",
-      "region": ""
-    },
-    {
-      "name": "Pokémon Festa 06",
-      "slug": "pokemon-festa-06",
-      "region": ""
-    },
-    {
-      "name": "Pokémon Festa 07",
-      "slug": "pokemon-festa-07",
-      "region": ""
-    },
-    {
-      "name": "Pokémon Festa 08",
-      "slug": "pokemon-festa-08",
-      "region": ""
-    },
-    {
-      "name": "Pokémon Festa 09",
-      "slug": "pokemon-festa-09",
-      "region": ""
-    },
-    {
-      "name": "Pokémon Festa 10",
-      "slug": "pokemon-festa-10",
-      "region": ""
-    },
-    {
-      "name": "Pokémon Festa 11",
-      "slug": "pokemon-festa-11",
-      "region": ""
-    },
-    {
-      "name": "Pokémon Festa 12",
-      "slug": "pokemon-festa-12",
-      "region": ""
-    },
-    {
-      "name": "Pokémon Festa 13",
-      "slug": "pokemon-festa-13",
-      "region": ""
-    },
-    {
-      "name": "Pokémon Festa 14",
-      "slug": "pokemon-festa-14",
-      "region": ""
-    },
-    {
-      "name": "Pokémon Festa 15",
-      "slug": "pokemon-festa-15",
-      "region": ""
-    },
-    {
-      "name": "Pokémon Festa 16",
-      "slug": "pokemon-festa-16",
-      "region": ""
     },
     {
       "name": "Pokémon League",
@@ -2742,16 +1462,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "hoenn"
     },
     {
-      "name": "Pokémon League",
-      "slug": "alola-pokemon-league",
-      "region": "alola"
-    },
-    {
-      "name": "Pokémon League",
-      "slug": "pokemon-league",
-      "region": "paldea"
-    },
-    {
       "name": "Pokémon League Gate",
       "slug": "pokemon-league-gate",
       "region": "kalos"
@@ -2762,71 +1472,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "kanto"
     },
     {
-      "name": "Pokémon Movie",
-      "slug": "pokemon-movie",
-      "region": ""
-    },
-    {
-      "name": "Pokémon Movie 06",
-      "slug": "pokemon-movie-06",
-      "region": ""
-    },
-    {
-      "name": "Pokémon Movie 07",
-      "slug": "pokemon-movie-07",
-      "region": ""
-    },
-    {
-      "name": "Pokémon Movie 08",
-      "slug": "pokemon-movie-08",
-      "region": ""
-    },
-    {
-      "name": "Pokémon Movie 09",
-      "slug": "pokemon-movie-09",
-      "region": ""
-    },
-    {
-      "name": "Pokémon Movie 10",
-      "slug": "pokemon-movie-10",
-      "region": ""
-    },
-    {
-      "name": "Pokémon Movie 11",
-      "slug": "pokemon-movie-11",
-      "region": ""
-    },
-    {
-      "name": "Pokémon Movie 12",
-      "slug": "pokemon-movie-12",
-      "region": ""
-    },
-    {
-      "name": "Pokémon Movie 13",
-      "slug": "pokemon-movie-13",
-      "region": ""
-    },
-    {
-      "name": "Pokémon Movie 14",
-      "slug": "pokemon-movie-14",
-      "region": ""
-    },
-    {
-      "name": "Pokémon Movie 15",
-      "slug": "pokemon-movie-15",
-      "region": ""
-    },
-    {
-      "name": "Pokémon Movie 16",
-      "slug": "pokemon-movie-16",
-      "region": ""
-    },
-    {
-      "name": "Pokémon Ranger",
-      "slug": "pokemon-ranger",
-      "region": ""
-    },
-    {
       "name": "Pokémon Tower",
       "slug": "pokemon-tower",
       "region": "kanto"
@@ -2835,66 +1480,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "name": "Pokémon Village",
       "slug": "pokemon-village",
       "region": "kalos"
-    },
-    {
-      "name": "POKéPARK",
-      "slug": "pokepark",
-      "region": ""
-    },
-    {
-      "name": "POKéPARK 06",
-      "slug": "pokepark-06",
-      "region": ""
-    },
-    {
-      "name": "POKéPARK 07",
-      "slug": "pokepark-07",
-      "region": ""
-    },
-    {
-      "name": "POKéPARK 08",
-      "slug": "pokepark-08",
-      "region": ""
-    },
-    {
-      "name": "POKéPARK 09",
-      "slug": "pokepark-09",
-      "region": ""
-    },
-    {
-      "name": "POKéPARK 10",
-      "slug": "pokepark-10",
-      "region": ""
-    },
-    {
-      "name": "POKéPARK 11",
-      "slug": "pokepark-11",
-      "region": ""
-    },
-    {
-      "name": "POKéPARK 12",
-      "slug": "pokepark-12",
-      "region": ""
-    },
-    {
-      "name": "POKéPARK 13",
-      "slug": "pokepark-13",
-      "region": ""
-    },
-    {
-      "name": "POKéPARK 14",
-      "slug": "pokepark-14",
-      "region": ""
-    },
-    {
-      "name": "POKéPARK 15",
-      "slug": "pokepark-15",
-      "region": ""
-    },
-    {
-      "name": "POKéPARK 16",
-      "slug": "pokepark-16",
-      "region": ""
     },
     {
       "name": "PokéStar Studios",
@@ -2912,79 +1497,9 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "johto"
     },
     {
-      "name": "Polar Biome",
-      "slug": "polar-biome",
-      "region": "paldea"
-    },
-    {
-      "name": "Polar Plaza",
-      "slug": "polar-plaza",
-      "region": "paldea"
-    },
-    {
-      "name": "Poni Breaker Coast",
-      "slug": "poni-breaker-coast",
-      "region": "alola"
-    },
-    {
-      "name": "Poni Coast",
-      "slug": "poni-coast",
-      "region": "alola"
-    },
-    {
-      "name": "Poni Gauntlet",
-      "slug": "poni-gauntlet",
-      "region": "alola"
-    },
-    {
-      "name": "Poni Grove",
-      "slug": "poni-grove",
-      "region": "alola"
-    },
-    {
-      "name": "Poni Meadow",
-      "slug": "poni-meadow",
-      "region": "alola"
-    },
-    {
-      "name": "Poni Plains",
-      "slug": "poni-plains",
-      "region": "alola"
-    },
-    {
-      "name": "Poni Wilds",
-      "slug": "poni-wilds",
-      "region": "alola"
-    },
-    {
-      "name": "Porto Marinada",
-      "slug": "porto-marinada",
-      "region": "paldea"
-    },
-    {
-      "name": "Postwick",
-      "slug": "postwick",
-      "region": "galar"
-    },
-    {
-      "name": "Potbottom Desert",
-      "slug": "potbottom-desert",
-      "region": "galar"
-    },
-    {
       "name": "Power Plant",
       "slug": "power-plant",
       "region": "kanto"
-    },
-    {
-      "name": "Primeval Grotto",
-      "slug": "primeval-grotto",
-      "region": "hisui"
-    },
-    {
-      "name": "Primo",
-      "slug": "primo",
-      "region": ""
     },
     {
       "name": "Prism Tower",
@@ -3000,11 +1515,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "name": "Radio Tower",
       "slug": "radio-tower",
       "region": "johto"
-    },
-    {
-      "name": "Ramanas Island",
-      "slug": "ramanas-island",
-      "region": "hisui"
     },
     {
       "name": "Ravaged Path",
@@ -3027,11 +1537,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "unova"
     },
     {
-      "name": "Resolution Cave",
-      "slug": "resolution-cave",
-      "region": "alola"
-    },
-    {
       "name": "Resort Area",
       "slug": "resort-area",
       "region": "sinnoh"
@@ -3047,24 +1552,9 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "sinnoh"
     },
     {
-      "name": "Reveler's Road",
-      "slug": "revelers-road",
-      "region": "paldea"
-    },
-    {
       "name": "Reversal Mountain",
       "slug": "reversal-mountain",
       "region": "unova"
-    },
-    {
-      "name": "Riley",
-      "slug": "riley",
-      "region": ""
-    },
-    {
-      "name": "Rivière Walk",
-      "slug": "rivière-walk",
-      "region": ""
     },
     {
       "name": "Rixy Chamber",
@@ -3092,19 +1582,9 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "sinnoh"
     },
     {
-      "name": "Roaring-Sea Caves",
-      "slug": "roaring-sea-caves",
-      "region": "galar"
-    },
-    {
       "name": "Rock Peak Ruins",
       "slug": "rock-peak-ruins",
       "region": "sinnoh"
-    },
-    {
-      "name": "Rock Peak Ruins",
-      "slug": "galar-rock-peak-ruins",
-      "region": "galar"
     },
     {
       "name": "Rock Tunnel",
@@ -3115,11 +1595,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "name": "Rocky Mountain Room",
       "slug": "rocky-mountain-room",
       "region": "unova"
-    },
-    {
-      "name": "Rolling Fields",
-      "slug": "rolling-fields",
-      "region": "galar"
     },
     {
       "name": "ROTOM's Room",
@@ -3142,21 +1617,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "kalos"
     },
     {
-      "name": "Route 1",
-      "slug": "alola-route-1--hauoli-outskirts",
-      "region": "alola"
-    },
-    {
-      "name": "Route 1",
-      "slug": "alola-route-1",
-      "region": "alola"
-    },
-    {
-      "name": "Route 1",
-      "slug": "galar-route-1",
-      "region": "galar"
-    },
-    {
       "name": "Route 10",
       "slug": "kanto-route-10",
       "region": "kanto"
@@ -3170,16 +1630,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "name": "Route 10",
       "slug": "kalos-route-10",
       "region": "kalos"
-    },
-    {
-      "name": "Route 10",
-      "slug": "alola-route-10",
-      "region": "alola"
-    },
-    {
-      "name": "Route 10",
-      "slug": "galar-route-10",
-      "region": "galar"
     },
     {
       "name": "Route 101",
@@ -3240,11 +1690,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "name": "Route 11",
       "slug": "kalos-route-11",
       "region": "kalos"
-    },
-    {
-      "name": "Route 11",
-      "slug": "alola-route-11",
-      "region": "alola"
     },
     {
       "name": "Route 110",
@@ -3312,11 +1757,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "kalos"
     },
     {
-      "name": "Route 12",
-      "slug": "alola-route-12",
-      "region": "alola"
-    },
-    {
       "name": "Route 120",
       "slug": "hoenn-route-120",
       "region": "hoenn"
@@ -3382,11 +1822,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "kalos"
     },
     {
-      "name": "Route 13",
-      "slug": "alola-route-13",
-      "region": "alola"
-    },
-    {
       "name": "Route 130",
       "slug": "hoenn-route-130",
       "region": "hoenn"
@@ -3427,11 +1862,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "kalos"
     },
     {
-      "name": "Route 14",
-      "slug": "alola-route-14",
-      "region": "alola"
-    },
-    {
       "name": "Route 15",
       "slug": "kanto-route-15",
       "region": "kanto"
@@ -3445,11 +1875,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "name": "Route 15",
       "slug": "kalos-route-15",
       "region": "kalos"
-    },
-    {
-      "name": "Route 15",
-      "slug": "alola-route-15",
-      "region": "alola"
     },
     {
       "name": "Route 16",
@@ -3467,11 +1892,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "kalos"
     },
     {
-      "name": "Route 16",
-      "slug": "alola-route-16",
-      "region": "alola"
-    },
-    {
       "name": "Route 17",
       "slug": "kanto-route-17",
       "region": "kanto"
@@ -3485,11 +1905,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "name": "Route 17",
       "slug": "kalos-route-17",
       "region": "kalos"
-    },
-    {
-      "name": "Route 17",
-      "slug": "alola-route-17",
-      "region": "alola"
     },
     {
       "name": "Route 18",
@@ -3530,16 +1945,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "name": "Route 2",
       "slug": "kalos-route-2",
       "region": "kalos"
-    },
-    {
-      "name": "Route 2",
-      "slug": "alola-route-2",
-      "region": "alola"
-    },
-    {
-      "name": "Route 2",
-      "slug": "galar-route-2",
-      "region": "galar"
     },
     {
       "name": "Route 20",
@@ -3762,16 +2167,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "kalos"
     },
     {
-      "name": "Route 3",
-      "slug": "alola-route-3",
-      "region": "alola"
-    },
-    {
-      "name": "Route 3",
-      "slug": "galar-route-3",
-      "region": "galar"
-    },
-    {
       "name": "Route 30",
       "slug": "johto-route-30",
       "region": "johto"
@@ -3837,16 +2232,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "kalos"
     },
     {
-      "name": "Route 4",
-      "slug": "alola-route-4",
-      "region": "alola"
-    },
-    {
-      "name": "Route 4",
-      "slug": "galar-route-4",
-      "region": "galar"
-    },
-    {
       "name": "Route 42",
       "slug": "johto-route-42",
       "region": "johto"
@@ -3897,16 +2282,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "kalos"
     },
     {
-      "name": "Route 5",
-      "slug": "alola-route-5",
-      "region": "alola"
-    },
-    {
-      "name": "Route 5",
-      "slug": "galar-route-5",
-      "region": "galar"
-    },
-    {
       "name": "Route 6",
       "slug": "kanto-route-6",
       "region": "kanto"
@@ -3920,16 +2295,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "name": "Route 6",
       "slug": "kalos-route-6",
       "region": "kalos"
-    },
-    {
-      "name": "Route 6",
-      "slug": "alola-route-6",
-      "region": "alola"
-    },
-    {
-      "name": "Route 6",
-      "slug": "galar-route-6",
-      "region": "galar"
     },
     {
       "name": "Route 7",
@@ -3947,16 +2312,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "kalos"
     },
     {
-      "name": "Route 7",
-      "slug": "alola-route-7",
-      "region": "alola"
-    },
-    {
-      "name": "Route 7",
-      "slug": "galar-route-7",
-      "region": "galar"
-    },
-    {
       "name": "Route 8",
       "slug": "kanto-route-8",
       "region": "kanto"
@@ -3970,21 +2325,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "name": "Route 8",
       "slug": "kalos-route-8",
       "region": "kalos"
-    },
-    {
-      "name": "Route 8",
-      "slug": "alola-route-8",
-      "region": "alola"
-    },
-    {
-      "name": "Route 8",
-      "slug": "galar-route-8",
-      "region": "galar"
-    },
-    {
-      "name": "Route 8",
-      "slug": "steamdrift-way",
-      "region": "galar"
     },
     {
       "name": "Route 9",
@@ -4002,39 +2342,14 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "kalos"
     },
     {
-      "name": "Route 9",
-      "slug": "alola-route-9",
-      "region": "alola"
-    },
-    {
-      "name": "Route 9",
-      "slug": "galar-route-9",
-      "region": "galar"
-    },
-    {
       "name": "Route Gate",
       "slug": "route-gate",
       "region": "unova"
     },
     {
-      "name": "Royal Avenue",
-      "slug": "royal-avenue",
-      "region": "alola"
-    },
-    {
-      "name": "Royal Avenue",
-      "slug": "thrifty-megamart",
-      "region": "alola"
-    },
-    {
       "name": "Royal Unova",
       "slug": "royal-unova",
       "region": "unova"
-    },
-    {
-      "name": "Ruchbah Squad's Base",
-      "slug": "ruchbah-squads-base",
-      "region": "paldea"
     },
     {
       "name": "Ruin Maniac Cave",
@@ -4047,29 +2362,9 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "kanto"
     },
     {
-      "name": "Ruins of Abundance",
-      "slug": "ruins-of-abundance",
-      "region": "alola"
-    },
-    {
       "name": "Ruins of Alph",
       "slug": "ruins-of-alph",
       "region": "johto"
-    },
-    {
-      "name": "Ruins of Conflict",
-      "slug": "ruins-of-conflict",
-      "region": "alola"
-    },
-    {
-      "name": "Ruins of Hope",
-      "slug": "ruins-of-hope",
-      "region": "alola"
-    },
-    {
-      "name": "Ruins of Life",
-      "slug": "ruins-of-life",
-      "region": "alola"
     },
     {
       "name": "Rumination Field",
@@ -4102,11 +2397,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "hoenn"
     },
     {
-      "name": "Sacred Plaza",
-      "slug": "sacred-plaza",
-      "region": "hisui"
-    },
-    {
       "name": "Safari Zone",
       "slug": "kanto-safari-zone",
       "region": "kanto"
@@ -4127,24 +2417,9 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "kanto"
     },
     {
-      "name": "Sand's Reach",
-      "slug": "sands-reach",
-      "region": "hisui"
-    },
-    {
-      "name": "Sandgem Flats",
-      "slug": "sandgem-flats",
-      "region": "hisui"
-    },
-    {
       "name": "Sandgem Town",
       "slug": "sandgem-town",
       "region": "sinnoh"
-    },
-    {
-      "name": "Sandy Cave",
-      "slug": "sandy-cave",
-      "region": "alola"
     },
     {
       "name": "Santalune City",
@@ -4155,26 +2430,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "name": "Santalune Forest",
       "slug": "santalune-forest",
       "region": "kalos"
-    },
-    {
-      "name": "Savanna Biome",
-      "slug": "savanna-biome",
-      "region": "paldea"
-    },
-    {
-      "name": "Savanna Plaza",
-      "slug": "savanna-plaza",
-      "region": "paldea"
-    },
-    {
-      "name": "Scarlet Bog",
-      "slug": "scarlet-bog",
-      "region": "hisui"
-    },
-    {
-      "name": "Schedar Squad's Base",
-      "slug": "schedar-squads-base",
-      "region": "paldea"
     },
     {
       "name": "Scorched Slab",
@@ -4257,16 +2512,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "kanto"
     },
     {
-      "name": "Seafolk Village",
-      "slug": "seafolk-village",
-      "region": "alola"
-    },
-    {
-      "name": "Seagrass Haven",
-      "slug": "seagrass-haven",
-      "region": "hisui"
-    },
-    {
       "name": "Sealed Chamber",
       "slug": "sealed-chamber",
       "region": "hoenn"
@@ -4275,21 +2520,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "name": "Seaside Cave",
       "slug": "seaside-cave",
       "region": "unova"
-    },
-    {
-      "name": "Seaside Hollow",
-      "slug": "seaside-hollow",
-      "region": "hisui"
-    },
-    {
-      "name": "Seaward Cave",
-      "slug": "seaward-cave",
-      "region": "alola"
-    },
-    {
-      "name": "Secluded Shore",
-      "slug": "secluded-shore",
-      "region": "alola"
     },
     {
       "name": "Secret Base",
@@ -4312,11 +2542,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "hoenn"
     },
     {
-      "name": "Segin Squad's Base",
-      "slug": "segin-squads-base",
-      "region": "paldea"
-    },
-    {
       "name": "Sendoff Spring",
       "slug": "sendoff-spring",
       "region": "sinnoh"
@@ -4335,11 +2560,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "name": "Shabboneau Castle",
       "slug": "shabboneau-castle",
       "region": "kalos"
-    },
-    {
-      "name": "Shady House",
-      "slug": "shady-house",
-      "region": "alola"
     },
     {
       "name": "Shalour City",
@@ -4362,19 +2582,9 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "unova"
     },
     {
-      "name": "Shrouded Ruins",
-      "slug": "shrouded-ruins",
-      "region": "hisui"
-    },
-    {
       "name": "Sinjoh Ruins",
       "slug": "sinjoh-ruins",
       "region": "johto"
-    },
-    {
-      "name": "Sinnoh",
-      "slug": "sinnoh",
-      "region": ""
     },
     {
       "name": "Six Island",
@@ -4397,24 +2607,9 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "hoenn"
     },
     {
-      "name": "Slippery Slope",
-      "slug": "slippery-slope",
-      "region": "galar"
-    },
-    {
       "name": "Slowpoke Well",
       "slug": "slowpoke-well",
       "region": "johto"
-    },
-    {
-      "name": "Sludge Mound",
-      "slug": "sludge-mound",
-      "region": "hisui"
-    },
-    {
-      "name": "Slumbering Weald",
-      "slug": "slumbering-weald",
-      "region": "galar"
     },
     {
       "name": "Snowbelle City",
@@ -4427,11 +2622,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "kalos"
     },
     {
-      "name": "Snowfall Hot Spring",
-      "slug": "snowfall-hot-spring",
-      "region": "hisui"
-    },
-    {
       "name": "Snowpoint City",
       "slug": "snowpoint-city",
       "region": "sinnoh"
@@ -4442,24 +2632,9 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "sinnoh"
     },
     {
-      "name": "Snowpoint Temple",
-      "slug": "hisui-snowpoint-temple",
-      "region": "hisui"
-    },
-    {
-      "name": "Snowslide Slope",
-      "slug": "snowslide-slope",
-      "region": "galar"
-    },
-    {
       "name": "Soaring in the sky",
       "slug": "soaring-in-the-sky",
       "region": "hoenn"
-    },
-    {
-      "name": "Socarrat Trail",
-      "slug": "socarrat-trail",
-      "region": "paldea"
     },
     {
       "name": "Solaceon Ruins",
@@ -4467,24 +2642,9 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "sinnoh"
     },
     {
-      "name": "Solaceon Ruins",
-      "slug": "hisui-solaceon-ruins",
-      "region": "hisui"
-    },
-    {
       "name": "Solaceon Town",
       "slug": "solaceon-town",
       "region": "sinnoh"
-    },
-    {
-      "name": "Sonorous Path",
-      "slug": "sonorous-path",
-      "region": "hisui"
-    },
-    {
-      "name": "Soothing Wetlands",
-      "slug": "soothing-wetlands",
-      "region": "galar"
     },
     {
       "name": "Sootopolis City",
@@ -4492,114 +2652,9 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "hoenn"
     },
     {
-      "name": "South Lake Miloch",
-      "slug": "south-lake-miloch",
-      "region": "galar"
-    },
-    {
-      "name": "South Paldean Sea",
-      "slug": "south-paldean-sea",
-      "region": "paldea"
-    },
-    {
-      "name": "South Province (Area Five)",
-      "slug": "paldea-south-province-area-five",
-      "region": "paldea"
-    },
-    {
-      "name": "South Province (Area Four)",
-      "slug": "paldea-south-province-area-four",
-      "region": "paldea"
-    },
-    {
-      "name": "South Province (Area One)",
-      "slug": "paldea-south-province-area-one",
-      "region": "paldea"
-    },
-    {
-      "name": "South Province (Area Six)",
-      "slug": "paldea-south-province-area-six",
-      "region": "paldea"
-    },
-    {
-      "name": "South Province (Area Three)",
-      "slug": "paldea-south-province-area-three",
-      "region": "paldea"
-    },
-    {
-      "name": "South Province (Area Two)",
-      "slug": "paldea-south-province-area-two",
-      "region": "paldea"
-    },
-    {
       "name": "Southern Island",
       "slug": "southern-island",
       "region": "hoenn"
-    },
-    {
-      "name": "Space World",
-      "slug": "space-world",
-      "region": ""
-    },
-    {
-      "name": "Space World 06",
-      "slug": "space-world-06",
-      "region": ""
-    },
-    {
-      "name": "Space World 07",
-      "slug": "space-world-07",
-      "region": ""
-    },
-    {
-      "name": "Space World 08",
-      "slug": "space-world-08",
-      "region": ""
-    },
-    {
-      "name": "Space World 09",
-      "slug": "space-world-09",
-      "region": ""
-    },
-    {
-      "name": "Space World 10",
-      "slug": "space-world-10",
-      "region": ""
-    },
-    {
-      "name": "Space World 11",
-      "slug": "space-world-11",
-      "region": ""
-    },
-    {
-      "name": "Space World 12",
-      "slug": "space-world-12",
-      "region": ""
-    },
-    {
-      "name": "Space World 13",
-      "slug": "space-world-13",
-      "region": ""
-    },
-    {
-      "name": "Space World 14",
-      "slug": "space-world-14",
-      "region": ""
-    },
-    {
-      "name": "Space World 15",
-      "slug": "space-world-15",
-      "region": ""
-    },
-    {
-      "name": "Space World 16",
-      "slug": "space-world-16",
-      "region": ""
-    },
-    {
-      "name": "Space-time distortion",
-      "slug": "space-time-distortion",
-      "region": "hisui"
     },
     {
       "name": "Spear Pillar",
@@ -4607,29 +2662,14 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "sinnoh"
     },
     {
-      "name": "Spikemuth",
-      "slug": "spikemuth",
-      "region": "galar"
-    },
-    {
       "name": "Spikes Passage",
       "slug": "spikes-passage",
       "region": "kalos"
     },
     {
-      "name": "Split-Decision Ruins",
-      "slug": "split-decision-ruins",
-      "region": "galar"
-    },
-    {
       "name": "Spring Path",
       "slug": "spring-path",
       "region": "sinnoh"
-    },
-    {
-      "name": "Spring Path",
-      "slug": "hisui-spring-path",
-      "region": "hisui"
     },
     {
       "name": "Sprout Tower",
@@ -4640,26 +2680,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "name": "Stark Mountain",
       "slug": "stark-mountain",
       "region": "sinnoh"
-    },
-    {
-      "name": "Stepping-Stone Sea",
-      "slug": "stepping-stone-sea",
-      "region": "galar"
-    },
-    {
-      "name": "Stonetooth Rows",
-      "slug": "stonetooth-rows",
-      "region": "hisui"
-    },
-    {
-      "name": "Stony Wilderness",
-      "slug": "stony-wilderness",
-      "region": "galar"
-    },
-    {
-      "name": "Stow-on-Side",
-      "slug": "stow-on-side",
-      "region": "galar"
     },
     {
       "name": "Strange House",
@@ -4692,19 +2712,9 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "sinnoh"
     },
     {
-      "name": "Tagtree Thicket",
-      "slug": "tagtree-thicket",
-      "region": "paldea"
-    },
-    {
       "name": "Tanoby Ruins",
       "slug": "tanoby-ruins",
       "region": "kanto"
-    },
-    {
-      "name": "Tapu Village",
-      "slug": "tapu-village",
-      "region": "alola"
     },
     {
       "name": "Team Aqua Hideout",
@@ -4727,26 +2737,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "johto"
     },
     {
-      "name": "Team Rocket's Castle",
-      "slug": "team-rockets-castle",
-      "region": "alola"
-    },
-    {
-      "name": "Temple of Sinnoh",
-      "slug": "temple-of-sinnoh",
-      "region": "hisui"
-    },
-    {
-      "name": "Ten Carat Hill",
-      "slug": "ten-carat-hill",
-      "region": "alola"
-    },
-    {
-      "name": "Ten Carat Hill",
-      "slug": "ten-carat-hill--farthest-hollow",
-      "region": "alola"
-    },
-    {
       "name": "Terminus Cave",
       "slug": "terminus-cave",
       "region": "kalos"
@@ -4755,11 +2745,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "name": "Terra Cave",
       "slug": "terra-cave",
       "region": "hoenn"
-    },
-    {
-      "name": "The Heartwood",
-      "slug": "the-heartwood",
-      "region": "hisui"
     },
     {
       "name": "Three Island",
@@ -4777,54 +2762,14 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "kanto"
     },
     {
-      "name": "Three-Point Pass",
-      "slug": "three-point-pass",
-      "region": "galar"
-    },
-    {
-      "name": "Thrifty Megamart",
-      "slug": "thrifty-megamart--abandoned-site",
-      "region": "alola"
-    },
-    {
-      "name": "Tidewater Dam",
-      "slug": "tidewater-dam",
-      "region": "hisui"
-    },
-    {
-      "name": "Timeless Woods",
-      "slug": "timeless-woods",
-      "region": "paldea"
-    },
-    {
       "name": "Tohjo Falls",
       "slug": "tohjo-falls",
       "region": "johto"
     },
     {
-      "name": "Tombolo Walk",
-      "slug": "tombolo-walk",
-      "region": "hisui"
-    },
-    {
-      "name": "Torchlit Labyrinth",
-      "slug": "torchlit-labyrinth",
-      "region": "paldea"
-    },
-    {
-      "name": "Tower of Darkness",
-      "slug": "tower-of-darkness",
-      "region": "galar"
-    },
-    {
       "name": "Tower of Mastery",
       "slug": "tower-of-mastery",
       "region": "kalos"
-    },
-    {
-      "name": "Tower of Waters",
-      "slug": "tower-of-waters",
-      "region": "galar"
     },
     {
       "name": "Trackless Forest",
@@ -4840,21 +2785,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "name": "Trainers’ School",
       "slug": "trainers-school",
       "region": "sinnoh"
-    },
-    {
-      "name": "Training Lowlands",
-      "slug": "training-lowlands",
-      "region": "galar"
-    },
-    {
-      "name": "Tranquility Cove",
-      "slug": "tranquility-cove",
-      "region": "hisui"
-    },
-    {
-      "name": "Traveling Man",
-      "slug": "traveling-man",
-      "region": ""
     },
     {
       "name": "Treasure Beach",
@@ -4877,24 +2807,9 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "unova"
     },
     {
-      "name": "Tunnel to the Top",
-      "slug": "tunnel-to-the-top",
-      "region": "galar"
-    },
-    {
-      "name": "Turffield",
-      "slug": "turffield",
-      "region": "galar"
-    },
-    {
       "name": "Turnback Cave",
       "slug": "turnback-cave",
       "region": "sinnoh"
-    },
-    {
-      "name": "Turnback Cave",
-      "slug": "hisui-turnback-cave",
-      "region": "hisui"
     },
     {
       "name": "Twinleaf Town",
@@ -4910,31 +2825,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "name": "Two Island",
       "slug": "two-island",
       "region": "kanto"
-    },
-    {
-      "name": "Ula'ula Beach",
-      "slug": "ulaula-beach",
-      "region": "alola"
-    },
-    {
-      "name": "Ula’ula Meadow",
-      "slug": "ulaula-meadow",
-      "region": "alola"
-    },
-    {
-      "name": "Ultra Megalopolis",
-      "slug": "ultra-megalopolis",
-      "region": "alola"
-    },
-    {
-      "name": "Ultra Space",
-      "slug": "ultra-space",
-      "region": "alola"
-    },
-    {
-      "name": "Ultra Space Wilds",
-      "slug": "ultra-space-wilds",
-      "region": "alola"
     },
     {
       "name": "Undella Bay",
@@ -4997,16 +2887,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "unova"
     },
     {
-      "name": "Ursa's Ring",
-      "slug": "ursas-ring",
-      "region": "hisui"
-    },
-    {
-      "name": "Uva Academy",
-      "slug": "uva-academy",
-      "region": "paldea"
-    },
-    {
       "name": "Vallée Étroite Way",
       "slug": "vallee-etroite-way",
       "region": "kalos"
@@ -5037,16 +2917,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "kalos"
     },
     {
-      "name": "Vast Poni Canyon",
-      "slug": "vast-poni-canyon",
-      "region": "alola"
-    },
-    {
-      "name": "Veilstone Cape",
-      "slug": "veilstone-cape",
-      "region": "hisui"
-    },
-    {
       "name": "Veilstone City",
       "slug": "veilstone-city",
       "region": "sinnoh"
@@ -5055,21 +2925,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "name": "Veilstone Store",
       "slug": "veilstone-store",
       "region": "sinnoh"
-    },
-    {
-      "name": "Verdant Cavern",
-      "slug": "verdant-cavern--trial-site",
-      "region": "alola"
-    },
-    {
-      "name": "Verdant Cavern",
-      "slug": "verdant-cavern--totems-den",
-      "region": "alola"
-    },
-    {
-      "name": "Verdant Cavern",
-      "slug": "verdant-cavern",
-      "region": "alola"
     },
     {
       "name": "Verdanturf Town",
@@ -5182,16 +3037,6 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "sinnoh"
     },
     {
-      "name": "Warm-Up Tunnel",
-      "slug": "warm-up-tunnel",
-      "region": "galar"
-    },
-    {
-      "name": "Watchtower Ruins",
-      "slug": "watchtower-ruins",
-      "region": "galar"
-    },
-    {
       "name": "Water Labyrinth",
       "slug": "water-labyrinth",
       "region": "kanto"
@@ -5207,64 +3052,14 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "sinnoh"
     },
     {
-      "name": "Wayward Cave",
-      "slug": "hisui-wayward-cave",
-      "region": "hisui"
-    },
-    {
-      "name": "Wayward Wood",
-      "slug": "wayward-wood",
-      "region": "hisui"
-    },
-    {
-      "name": "Wedgehurst",
-      "slug": "wedgehurst",
-      "region": "galar"
-    },
-    {
       "name": "Weepth Chamber",
       "slug": "weepth-chamber",
       "region": "kanto"
     },
     {
-      "name": "Wela Volcano Park",
-      "slug": "wela-volcano-park",
-      "region": "alola"
-    },
-    {
-      "name": "Wela Volcano Park",
-      "slug": "wela-volcano-park--totems-den",
-      "region": "alola"
-    },
-    {
       "name": "Wellspring Cave",
       "slug": "wellspring-cave",
       "region": "unova"
-    },
-    {
-      "name": "West Lake Axewell",
-      "slug": "west-lake-axewell",
-      "region": "galar"
-    },
-    {
-      "name": "West Paldean Sea",
-      "slug": "west-paldean-sea",
-      "region": "paldea"
-    },
-    {
-      "name": "West Province (Area One)",
-      "slug": "paldea-west-province-area-one",
-      "region": "paldea"
-    },
-    {
-      "name": "West Province (Area Three)",
-      "slug": "paldea-west-province-area-three",
-      "region": "paldea"
-    },
-    {
-      "name": "West Province (Area Two)",
-      "slug": "paldea-west-province-area-two",
-      "region": "paldea"
     },
     {
       "name": "Whirl Islands",
@@ -5287,64 +3082,9 @@ export const LOCATION_SUGGESTIONS: Record<string, { name: string; slug: string; 
       "region": "unova"
     },
     {
-      "name": "Whiteout Valley",
-      "slug": "whiteout-valley",
-      "region": "hisui"
-    },
-    {
-      "name": "Wi-Fi Event",
-      "slug": "wi-fi-event",
-      "region": ""
-    },
-    {
-      "name": "Wi-Fi Gift",
-      "slug": "wi-fi-gift",
-      "region": ""
-    },
-    {
-      "name": "Windbreak Stand",
-      "slug": "windbreak-stand",
-      "region": "hisui"
-    },
-    {
       "name": "Winding Woods",
       "slug": "winding-woods",
       "region": "kalos"
-    },
-    {
-      "name": "Windswept Run",
-      "slug": "windswept-run",
-      "region": "hisui"
-    },
-    {
-      "name": "Wistful Fields",
-      "slug": "wistful-fields",
-      "region": "paldea"
-    },
-    {
-      "name": "Workout Sea",
-      "slug": "workout-sea",
-      "region": "galar"
-    },
-    {
-      "name": "Worn Bridge",
-      "slug": "worn-bridge",
-      "region": "hisui"
-    },
-    {
-      "name": "Wyndon",
-      "slug": "wyndon",
-      "region": "galar"
-    },
-    {
-      "name": "Zapapico",
-      "slug": "zapapico",
-      "region": "paldea"
-    },
-    {
-      "name": "Zero Lab",
-      "slug": "zero-lab",
-      "region": "paldea"
     },
     {
       "name": "Zubat Roost",
