@@ -50,6 +50,16 @@ VITE_FIREBASE_DB_EMULATOR_PORT=9000
 
 Install firebase tools via `npm install -g firebase-tools`
 
+#### Automatic Test Data Seeding
+
+When running in emulator mode (`VITE_USE_FIREBASE_EMULATOR=true`), the application automatically seeds test data on startup:
+
+- **Test User**: `test@example.com` / `testpassword123`
+- **Sample Tracker**: Pre-populated with team, box, and graveyard Pokémon
+- **Idempotent**: Checks for existing data to prevent duplication during hot reloads
+
+This allows developers to immediately start testing features without manually creating users and trackers. The seeding logic is implemented in `src/services/emulatorSeed.ts` and triggered from `App.tsx` after Firebase initialization.
+
 ### 2. Production (real Firebase project)
 
 Create a .env.production file using the template:
@@ -92,3 +102,12 @@ npm run generate-pokemon
 ```
 
 The script fetches all supported Pokémon species and evolution chains (up to Gen 6), translates the names, stores IDs/generation metadata, and persists the evolutions so the app can apply generation/version filters offline.
+
+## Image caching
+
+The app uses a service worker to cache Pokémon sprite images from the PokeAPI GitHub repository. This improves performance by:
+- Reducing network requests for frequently viewed Pokémon
+- Enabling offline access to previously loaded images
+- Speeding up page load times
+
+The service worker (`public/pokeapi-js-wrapper-sw.js`) is automatically registered when the app loads and intercepts requests to `https://raw.githubusercontent.com/PokeAPI/sprites/`. Images are cached in the browser's Cache Storage and served from cache on subsequent requests.
