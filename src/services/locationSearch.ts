@@ -97,12 +97,13 @@ export async function searchLocations(
     const fallbackList = LOCATION_LISTS[DEFAULT_LOCATION_LOCALE] ?? [];
     const list = LOCATION_LISTS[locale]?.length ? LOCATION_LISTS[locale] : fallbackList;
     const localeForCompare = DEFAULT_LOCATION_LOCALE;
+    const requireRouteNumber = locale === 'de';
     const filtered = list.filter((entry) => {
         const matchesTerm = entry.lower.includes(q);
         if (!matchesTerm) return false;
         if (!entry.region || !allowedRegions.has(entry.region)) return false;
+        if (!requireRouteNumber) return true;
         return getRouteNumberForEntry(entry) !== null;
-
     });
     filtered.sort((a, b) => {
         const aRoute = getRouteNumberForEntry(a);
