@@ -98,6 +98,10 @@ const PokemonNameField: React.FC<PokemonNameFieldProps> = ({label, value, onChan
             <div className="relative">
                 <input
                     type="text"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    autoCapitalize="off"
+                    spellCheck={false}
                     value={value}
                     onChange={(e) => onChange(e.target.value)}
                     onFocus={() => setFocused(true)}

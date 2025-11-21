@@ -98,6 +98,10 @@ const LocationSuggestionInput: React.FC<LocationSuggestionInputProps> = ({
         <input
           id="route"
           type="text"
+          autoComplete="off"
+          autoCorrect="off"
+          autoCapitalize="off"
+          spellCheck={false}
           value={value}
           onChange={(e) => onChange(e.target.value)}
           onFocus={() => setFocused(true)}
