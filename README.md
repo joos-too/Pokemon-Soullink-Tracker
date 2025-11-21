@@ -50,6 +50,16 @@ VITE_FIREBASE_DB_EMULATOR_PORT=9000
 
 Install firebase tools via `npm install -g firebase-tools`
 
+#### Automatic Test Data Seeding
+
+When running in emulator mode (`VITE_USE_FIREBASE_EMULATOR=true`), the application automatically seeds test data on startup:
+
+- **Test User**: `test@example.com` / `testpassword123`
+- **Sample Tracker**: Pre-populated with team, box, and graveyard Pokémon
+- **Idempotent**: Checks for existing data to prevent duplication during hot reloads
+
+This allows developers to immediately start testing features without manually creating users and trackers. The seeding logic is implemented in `src/services/emulatorSeed.ts` and triggered from `App.tsx` after Firebase initialization.
+
 ### 2. Production (real Firebase project)
 
 Create a .env.production file using the template:
