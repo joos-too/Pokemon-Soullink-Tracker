@@ -1571,6 +1571,14 @@ export const EVOLUTIONS_DE: Record<number, { id: number; methods: string[] }[]> 
       ]
     }
   ],
+  "360": [
+    {
+      "id": 202,
+      "methods": [
+        "Level-Up - Level 15"
+      ]
+    }
+  ],
   "361": [
     {
       "id": 362,
@@ -4399,6 +4407,14 @@ export const EVOLUTIONS_EN: Record<number, { id: number; methods: string[] }[]> 
       ]
     }
   ],
+  "360": [
+    {
+      "id": 202,
+      "methods": [
+        "Level-Up - Level 15"
+      ]
+    }
+  ],
   "361": [
     {
       "id": 362,
@@ -4873,7 +4889,14 @@ export const EVOLUTIONS_EN: Record<number, { id: number; methods: string[] }[]> 
       ]
     }
   ],
-  "511": [],
+  "511": [
+    {
+      "id": 512,
+      "methods": [
+        "Item: Leaf Stone"
+      ]
+    }
+  ],
   "513": [
     {
       "id": 514,
