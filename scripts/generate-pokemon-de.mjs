@@ -233,6 +233,28 @@ async function loadTypeTranslations(P, slugs) {
     return result;
 }
 
+async function loadLocationTranslations(P, slugs) {
+    const result = new Map();
+    if (!slugs || slugs.size === 0) return result;
+    const arr = Array.from(slugs);
+    const LOC_CHUNK = 40;
+    for (let i = 0; i < arr.length; i += LOC_CHUNK) {
+        const slice = arr.slice(i, i + LOC_CHUNK);
+        const locations = await Promise.all(
+            slice.map((slug) =>
+                fetchWithFallback(() => P.getLocationByName(slug), `/location/${slug}`).catch(() => null)
+            )
+        );
+        locations.forEach((loc, idx) => {
+            const slug = slice[idx];
+            if (!slug) return;
+            const names = loc?.names || [];
+            result.set(slug, buildLocalizedRecord(slug, names, 'location'));
+        });
+    }
+    return result;
+}
+
 async function loadAllLocations(P) {
     const translations = new Map();
     const regions = new Map();
@@ -458,6 +480,7 @@ async function main() {
     const itemSlugs = new Set();
     const moveSlugs = new Set();
     const typeSlugs = new Set();
+    const locationSlugs = new Set();
     const speciesSlugToName = {
         de: new Map(),
         en: new Map(),
@@ -597,6 +620,7 @@ async function main() {
         loadItemTranslations(P, itemSlugs),
         loadMoveTranslations(P, moveSlugs),
         loadTypeTranslations(P, typeSlugs),
+        loadLocationTranslations(P, locationSlugs),
     ]);
     const translatorResources = {
         itemTranslations,
