@@ -1,8 +1,26 @@
 import React, { useMemo, useState } from "react";
 import { MAX_PLAYER_COUNT, MIN_PLAYER_COUNT, PLAYER_COLORS } from "@/constants";
-import type { GameVersion, RivalGender, TrackerMember, UserSettings, VariableRival } from "@/types";
-import { FiArrowLeft, FiEye, FiInfo, FiLogOut, FiShield, FiTrash2, FiUserPlus, FiX } from "react-icons/fi";
-import { focusRingClasses, focusRingInputClasses } from "@/src/styles/focusRing";
+import type {
+  GameVersion,
+  RivalGender,
+  TrackerMember,
+  UserSettings,
+  VariableRival,
+} from "@/types";
+import {
+  FiArrowLeft,
+  FiEye,
+  FiInfo,
+  FiLogOut,
+  FiShield,
+  FiTrash2,
+  FiUserPlus,
+  FiX,
+} from "react-icons/fi";
+import {
+  focusRingClasses,
+  focusRingInputClasses,
+} from "@/src/styles/focusRing";
 import Tooltip from "./Tooltip";
 import { useTranslation } from "react-i18next";
 import { getLocalizedRivalEntry } from "@/src/services/gameLocalization";
@@ -302,15 +320,15 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                   >
                     {t("settings.inputs.trackerTitle")}
                   </label>
-                <input
-                  id="trackerTitle"
-                  type="text"
-                  value={trackerTitle}
-                  onChange={(e) => onTitleChange(e.target.value)}
-                  disabled={isGuest}
-                  className={`w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 disabled:opacity-60 disabled:cursor-not-allowed ${focusRingInputClasses}`}
-                  placeholder={t("settings.inputs.trackerTitlePlaceholder")}
-                />
+                  <input
+                    id="trackerTitle"
+                    type="text"
+                    value={trackerTitle}
+                    onChange={(e) => onTitleChange(e.target.value)}
+                    disabled={isGuest}
+                    className={`w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 disabled:opacity-60 disabled:cursor-not-allowed ${focusRingInputClasses}`}
+                    placeholder={t("settings.inputs.trackerTitlePlaceholder")}
+                  />
                 </div>
                 <div className="space-y-2">
                   <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -491,7 +509,9 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                     <div className="flex items-center gap-4 text-gray-800 dark:text-gray-200">
                       <label
                         className={`flex items-center gap-2 ${
-                          isGuest ? "cursor-not-allowed opacity-70" : "cursor-pointer"
+                          isGuest
+                            ? "cursor-not-allowed opacity-70"
+                            : "cursor-pointer"
                         }`}
                       >
                         <input
@@ -515,7 +535,9 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                       </label>
                       <label
                         className={`flex items-center gap-2 ${
-                          isGuest ? "cursor-not-allowed opacity-70" : "cursor-pointer"
+                          isGuest
+                            ? "cursor-not-allowed opacity-70"
+                            : "cursor-pointer"
                         }`}
                       >
                         <input
