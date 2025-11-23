@@ -64,6 +64,7 @@ export type RivalGender = 'male' | 'female';
 
 export interface UserSettings {
   rivalPreferences?: Record<string, RivalGender>;
+  useGenerationSprites?: boolean;
 }
 
 export interface TrackerMember {
@@ -128,4 +129,6 @@ export interface UserProfile {
   emailLowerCase: string;
   createdAt: number;
   lastLoginAt: number;
+  useGenerationSprites?: boolean;
+  useSpritesInTeamTable?: boolean;
 }

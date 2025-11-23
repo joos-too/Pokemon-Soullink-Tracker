@@ -313,7 +313,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                                 ariaLabel={t('settings.features.rivalCensor.title')}
                             />
                         </div>
-                        <div className="flex items-center justify-between">
+                        <div className="flex items-center justify-between mb-4">
                             <div>
                                 <div className="flex items-center gap-2">
                                     <div className="font-medium text-gray-800 dark:text-gray-200">{t('settings.features.legendary.title')}</div>

@@ -93,11 +93,12 @@ export const BadgeImage: React.FC<{
 // LegendaryImage component for displaying legendary Pokémon
 export const LegendaryImage: React.FC<{
     pokemonName: string,
-    className?: string
-}> = ({pokemonName, className = "w-16 h-16"}) => {
+    className?: string,
+    generationSpritePath?: string | null
+}> = ({pokemonName, className = "w-16 h-16", generationSpritePath}) => {
     return (
         <img
-            src={getSpriteUrlForPokemonName(pokemonName) || ""}
+            src={getSpriteUrlForPokemonName(pokemonName, generationSpritePath) || ""}
             alt=""
             className={className}
         />
