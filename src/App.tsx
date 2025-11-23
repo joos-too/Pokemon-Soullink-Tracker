@@ -357,6 +357,14 @@ const App: React.FC = () => {
 
       const stats = ensureStatsForPlayers(safe.stats, playerCount);
 
+      // Preserve sumDeaths from base state if not present in incoming data
+      // This prevents resetting the sum of deaths counter when loading old data
+      const preservedSumDeaths = Array.isArray(safe.stats?.sumDeaths)
+        ? stats.sumDeaths
+        : Array.isArray(base.stats?.sumDeaths)
+          ? base.stats.sumDeaths
+          : stats.sumDeaths;
+
       return {
         playerNames: normalizedNames,
         team: sanitizeArray(safe.team),
@@ -375,6 +383,7 @@ const App: React.FC = () => {
             typeof safe.stats?.runs === "number" ? safe.stats.runs : stats.runs,
           best:
             typeof safe.stats?.best === "number" ? safe.stats.best : stats.best,
+          sumDeaths: preservedSumDeaths,
         },
         legendaryTrackerEnabled:
           safe.legendaryTrackerEnabled ?? base.legendaryTrackerEnabled ?? true,
