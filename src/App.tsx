@@ -359,9 +359,12 @@ const App: React.FC = () => {
 
       // Preserve sumDeaths from base state if not present in incoming data
       // This prevents resetting the sum of deaths counter when loading old data
-      const preservedSumDeaths = Array.isArray(safe.stats?.sumDeaths)
+      // We check Array.isArray to validate that sumDeaths exists and is properly formatted
+      const hasSumDeathsInIncoming = Array.isArray(safe.stats?.sumDeaths);
+      const hasSumDeathsInBase = Array.isArray(base.stats?.sumDeaths);
+      const preservedSumDeaths = hasSumDeathsInIncoming
         ? stats.sumDeaths
-        : Array.isArray(base.stats?.sumDeaths)
+        : hasSumDeathsInBase
           ? base.stats.sumDeaths
           : stats.sumDeaths;
 
