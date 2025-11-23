@@ -268,6 +268,12 @@ export const de = {
                 tooltip: 'Aktiviert einen Tracker, welcher es ermöglicht die Encounter mit legendären Pokémon nachzuvollziehen, um eine eigene Statistik zu führen.',
                 description: 'Tracke die Anzahl der Legendaries, welchen man während der Challenge begegnet.',
             },
+            publicTracker: {
+                title: 'Öffentlicher Tracker',
+                tooltipLabel: 'Info Öffentlicher Tracker',
+                tooltip: 'Wenn aktiviert, kann jeder mit der URL diesen Tracker ansehen, auch ohne sich einzuloggen.\n\nNur Mitglieder können den Tracker weiterhin bearbeiten.',
+                description: 'Erlaube allen, diesen Tracker über die URL anzusehen.',
+            },
         },
         members: {
             title: 'Mitglieder',

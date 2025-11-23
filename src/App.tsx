@@ -832,6 +832,22 @@ const App: React.FC = () => {
         setData(prev => ({...prev, hardcoreModeEnabled: enabled}));
     };
 
+    const handlePublicToggle = (enabled: boolean) => {
+        if (!activeTrackerId) return;
+        setTrackerMetas(prev => {
+            const existing = prev[activeTrackerId];
+            if (!existing) return prev;
+            return {
+                ...prev,
+                [activeTrackerId]: {
+                    ...existing,
+                    isPublic: enabled,
+                },
+            };
+        });
+        update(ref(db, `trackers/${activeTrackerId}/meta`), {isPublic: enabled});
+    };
+
     const handleLegendaryIncrement = () => {
         setData(prev => ({
             ...prev,
@@ -1074,6 +1090,8 @@ const App: React.FC = () => {
             onRivalCensorToggle={handleRivalCensorToggle}
             hardcoreModeEnabled={data.hardcoreModeEnabled ?? true}
             onHardcoreModeToggle={handleHardcoreModeToggle}
+            isPublic={activeTrackerMeta?.isPublic ?? false}
+            onPublicToggle={handlePublicToggle}
             members={trackerMembers}
             onInviteMember={handleInviteMember}
             onRemoveMember={handleRemoveMember}

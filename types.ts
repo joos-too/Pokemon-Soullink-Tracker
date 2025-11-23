@@ -110,6 +110,7 @@ export interface TrackerMeta {
   members: Record<string, TrackerMember>;
   gameVersionId: string;
   userSettings?: Record<string, UserSettings>;
+  isPublic?: boolean;
 }
 
 export interface TrackerSummary {

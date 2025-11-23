@@ -268,6 +268,12 @@ export const en = {
                 tooltip: 'Enables tracking of legendary encounters so you can keep your own statistics.',
                 description: 'Track how many legendaries you encounter during the challenge.',
             },
+            publicTracker: {
+                title: 'Public tracker',
+                tooltipLabel: 'Public tracker info',
+                tooltip: 'When enabled, anyone with the URL can view this tracker, even without logging in.\n\nOnly members can still edit the tracker.',
+                description: 'Allow anyone to view this tracker via the URL.',
+            },
         },
         members: {
             title: 'Members',
