@@ -58,7 +58,7 @@ export interface AppState {
   runStartedAt?: number;
 }
 
-export type TrackerRole = 'owner' | 'editor';
+export type TrackerRole = 'owner' | 'editor' | 'guest';
 
 export type RivalGender = 'male' | 'female';
 
@@ -109,6 +109,7 @@ export interface TrackerMeta {
   createdBy: string;
   createdAt: number;
   members: Record<string, TrackerMember>;
+  guests?: Record<string, TrackerMember>;
   gameVersionId: string;
   userSettings?: Record<string, UserSettings>;
   isPublic?: boolean;

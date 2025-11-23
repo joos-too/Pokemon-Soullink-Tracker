@@ -112,7 +112,7 @@ const HomePage: React.FC<HomePageProps> = ({
                     ) : (
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                             {sortedTrackers.map((tracker) => {
-                                const memberCount = Object.keys(tracker.members ?? {}).length;
+                                const memberCount = Object.keys(tracker.members ?? {}).length + Object.keys(tracker.guests ?? {}).length;
                                 const isActive = tracker.id === activeTrackerId;
                                 const summary = trackerSummaries[tracker.id];
                                 const activePokemon = (summary?.teamCount ?? 0) + (summary?.boxCount ?? 0);

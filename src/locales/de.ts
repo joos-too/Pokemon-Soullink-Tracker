@@ -25,6 +25,10 @@ export const de = {
         darkModeToggleLabel: 'Darkmode umschalten',
         darkModeToggleTitle: 'Darkmode umschalten',
         gym: 'Arena',
+        roles: {
+            member: 'Mitglied',
+            guest: 'Gast',
+        },
     },
     home: {
         logoAlt: 'Soullink Tracker Logo',
@@ -89,7 +93,7 @@ export const de = {
             playerLabel: 'Spieler {{index}}',
             playerPlaceholder: 'Name',
             membersLabel: 'Mitglieder (optional)',
-            membersDescription: 'Füge Emails hinzu, die auf diesen Tracker zugreifen dürfen.',
+            membersDescription: 'Füge Emails hinzu, die als Mitglieder oder Gäste auf diesen Tracker zugreifen dürfen.',
             addMember: 'E-Mail',
             removeMember: 'E-Mail entfernen',
             submitting: 'Erstelle…',
@@ -201,6 +205,7 @@ export const de = {
             description: 'Bitte wähle auf der Startseite einen Tracker aus oder erstelle einen neuen.',
         },
         publicReadOnlyNotice: 'Öffentlicher Tracker: Änderungen sind nur nach Anmeldung und Mitgliedschaft möglich. Dieser Modus ist schreibgeschützt.',
+        guestReadOnlyNotice: 'Du wurdest als Gast eingeladen. Du kannst alles ansehen, aber keine Änderungen vornehmen.',
     },
     team: {
         teamTitle: 'Team',
@@ -299,10 +304,11 @@ export const de = {
             roles: {
                 owner: 'Owner',
                 member: 'Mitglied',
+                guest: 'Gast',
             },
             removeAriaLabel: '{{email}} entfernen',
-            inviteTitle: 'Mitglied hinzufügen',
-            inviteSuccess: 'Mitglied erfolgreich hinzugefügt.',
+            inviteTitle: 'Mitglied oder Gast hinzufügen',
+            inviteSuccess: 'Nutzer erfolgreich hinzugefügt.',
             inviteError: 'Ein unbekannter Fehler ist aufgetreten.',
             inviteButton: {
                 loading: 'Hinzufügen…',
@@ -312,9 +318,9 @@ export const de = {
         },
         removeModal: {
             badgeSelf: 'Tracker verlassen',
-            badgeMember: 'Mitglied entfernen',
+            badgeMember: 'Mitglied oder Gast entfernen',
             confirmSelf: 'Möchtest du diesen Tracker wirklich verlassen?',
-            confirmMember: 'Möchtest du dieses Mitglied wirklich entfernen?',
+            confirmMember: 'Möchtest du dieses Mitglied oder diesen Gast wirklich entfernen?',
             descriptionSelf: 'Du verlierst sofort den Zugriff auf den Tracker und musst erneut eingeladen werden, um wieder teilnehmen zu können.',
             descriptionMember: 'Die Person verliert sofort den Zugriff auf diesen Tracker und muss erneut eingeladen werden.',
             processing: 'Wird bearbeitet…',

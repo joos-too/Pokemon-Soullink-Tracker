@@ -7,6 +7,8 @@ import Tooltip from './Tooltip';
 import { useTranslation } from 'react-i18next';
 import { getLocalizedRivalEntry } from '@/src/services/gameLocalization';
 
+type InviteRoleOption = 'editor' | 'guest';
+
 interface SettingsPageProps {
     trackerTitle: string;
     playerNames: string[];
@@ -22,7 +24,8 @@ interface SettingsPageProps {
     isPublic: boolean;
     onPublicToggle: (enabled: boolean) => void;
     members: TrackerMember[];
-    onInviteMember: (email: string) => Promise<void>;
+    guests: TrackerMember[];
+    onInviteMember: (email: string, role: InviteRoleOption) => Promise<void>;
     onRemoveMember: (memberUid: string) => Promise<void>;
     onRequestDeleteTracker: () => void;
     canManageMembers: boolean;
@@ -82,13 +85,14 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                                                        hardcoreModeEnabled,
                                                        onHardcoreModeToggle,
                                                        isPublic,
-                                                       onPublicToggle,
-                                                       members,
-                                                       onInviteMember,
-                                                       onRemoveMember,
-                                                       onRequestDeleteTracker,
-                                                       canManageMembers,
-                                                       currentUserEmail,
+                                                   onPublicToggle,
+                                                   members,
+                                                   guests,
+                                                   onInviteMember,
+                                                   onRemoveMember,
+                                                   onRequestDeleteTracker,
+                                                   canManageMembers,
+                                                   currentUserEmail,
                                                        currentUserId,
                                                    gameVersion,
                                                    rivalPreferences,
@@ -96,6 +100,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                                                }) => {
     const { t } = useTranslation();
     const [inviteEmail, setInviteEmail] = useState('');
+    const [inviteRole, setInviteRole] = useState<InviteRoleOption>('editor');
     const [inviteMessage, setInviteMessage] = useState<string | null>(null);
     const [inviteError, setInviteError] = useState<string | null>(null);
     const [inviteLoading, setInviteLoading] = useState(false);
@@ -142,9 +147,10 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
         setInviteMessage(null);
         setInviteLoading(true);
         try {
-        await onInviteMember(inviteEmail);
+        await onInviteMember(inviteEmail, inviteRole);
         setInviteMessage(t('settings.members.inviteSuccess'));
         setInviteEmail('');
+        setInviteRole('editor');
       } catch (err) {
         const message = err instanceof Error ? err.message : t('settings.members.inviteError');
         setInviteError(message);
@@ -174,12 +180,22 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
         setMemberActionError(null);
     };
 
-    const sortedMembers = [...members].sort((a, b) => {
+    const participantsMap = new Map<string, TrackerMember>();
+    [...members, ...guests].forEach((participant) => {
+        if (!participantsMap.has(participant.uid)) {
+            participantsMap.set(participant.uid, participant);
+        }
+    });
+    const sortedMembers = Array.from(participantsMap.values()).sort((a, b) => {
         if (a.role === b.role) return a.email.localeCompare(b.email);
-        return a.role === 'owner' ? -1 : 1;
+        if (a.role === 'owner') return -1;
+        if (b.role === 'owner') return 1;
+        if (a.role === 'editor' && b.role === 'guest') return -1;
+        if (a.role === 'guest' && b.role === 'editor') return 1;
+        return a.email.localeCompare(b.email);
     });
 
-    const currentMember = currentUserId ? members.find((member) => member.uid === currentUserId) : undefined;
+    const currentMember = currentUserId ? sortedMembers.find((member) => member.uid === currentUserId) : undefined;
     const pendingRemovalIsSelf = memberPendingRemoval && memberPendingRemoval.uid === currentUserId;
 
     const formatSlug = (slug: string): string => slug.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
@@ -398,7 +414,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                                     {canManageMembers ? t('settings.members.managerNotice') : t('settings.members.viewerNotice')}
                                 </p>
                             </div>
-                            <span className="text-xs text-gray-500">{t('settings.members.count', {count: members.length})}</span>
+                            <span className="text-xs text-gray-500">{t('settings.members.count', {count: sortedMembers.length})}</span>
                         </div>
 
                         <ul className="space-y-3 mb-4">
@@ -430,11 +446,17 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                                         className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold ${
                                             member.role === 'owner'
                                                 ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-200'
-                                                : 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-200'
+                                                : member.role === 'guest'
+                                                    ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-200'
+                                                    : 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-200'
                                         }`}>
-                    {member.role === 'owner' && <FiShield/>}
-                                        {member.role === 'owner' ? t('settings.members.roles.owner') : t('settings.members.roles.member')}
-                  </span>
+                                        {member.role === 'owner' && <FiShield/>}
+                                        {member.role === 'owner'
+                                            ? t('settings.members.roles.owner')
+                                            : member.role === 'guest'
+                                                ? t('settings.members.roles.guest')
+                                                : t('settings.members.roles.member')}
+                                    </span>
                                 </li>
                             ))}
                             {sortedMembers.length === 0 && (
@@ -452,20 +474,28 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                                     className="flex items-center gap-2 text-sm font-semibold text-gray-800 dark:text-gray-100">
                                     <FiUserPlus/> {t('settings.members.inviteTitle')}
                                 </div>
-                                <div className="flex flex-col sm:flex-row gap-2">
-                                    <input
-                                        type="email"
-                                        value={inviteEmail}
-                                        onChange={(e) => setInviteEmail(e.target.value)}
-                                        required
-                                        placeholder="trainer@example.com"
-                                        className={`flex-1 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
-                                    />
-                                    <button
-                                        type="submit"
-                                        disabled={inviteLoading}
-                                        className="inline-flex items-center justify-center rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700 disabled:opacity-60"
-                                    >
+                                  <div className="flex flex-col sm:flex-row gap-2">
+                                      <input
+                                          type="email"
+                                          value={inviteEmail}
+                                          onChange={(e) => setInviteEmail(e.target.value)}
+                                          required
+                                          placeholder="trainer@example.com"
+                                          className={`flex-1 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
+                                      />
+                                      <select
+                                          value={inviteRole}
+                                          onChange={(e) => setInviteRole(e.target.value as InviteRoleOption)}
+                                          className={`w-32 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-2 py-2 text-sm text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
+                                      >
+                                          <option value="editor">{t('common.roles.member')}</option>
+                                          <option value="guest">{t('common.roles.guest')}</option>
+                                      </select>
+                                      <button
+                                          type="submit"
+                                          disabled={inviteLoading}
+                                          className="inline-flex items-center justify-center rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700 disabled:opacity-60"
+                                      >
                                         {inviteLoading ? t('settings.members.inviteButton.loading') : t('settings.members.inviteButton.default')}
                                     </button>
                                 </div>

@@ -144,6 +144,7 @@ const App: React.FC = () => {
     const activeGameVersion = activeGameVersionId ? GAME_VERSIONS[activeGameVersionId] : undefined;
     const pokemonGenerationLimit = useMemo(() => resolveGenerationFromVersionId(activeGameVersionId), [activeGameVersionId]);
     const isMember = Boolean(user && activeTrackerMeta?.members?.[user.uid]);
+    const isGuest = Boolean(user && activeTrackerMeta?.guests?.[user.uid]);
     const isReadOnly = !isMember;
 
     const currentUserRivalPreferences = useMemo(() => {
@@ -1018,7 +1019,7 @@ const App: React.FC = () => {
         navigate(`/tracker/${trackerId}`);
     };
 
-    const handleCreateTrackerSubmit = async (payload: { title: string; playerNames: string[]; memberEmails: string[]; gameVersionId: string; }) => {
+    const handleCreateTrackerSubmit = async (payload: { title: string; playerNames: string[]; memberInvites: Array<{ email: string; role: 'editor' | 'guest' }>; gameVersionId: string; }) => {
         if (!user) return;
         setCreateTrackerError(null);
         setCreateTrackerLoading(true);
@@ -1026,7 +1027,7 @@ const App: React.FC = () => {
             await createTracker({
                 title: payload.title,
                 playerNames: payload.playerNames,
-                memberEmails: payload.memberEmails,
+                memberInvites: payload.memberInvites,
                 owner: user,
                 gameVersionId: payload.gameVersionId,
             });
@@ -1080,12 +1081,12 @@ const App: React.FC = () => {
         }
     }, [trackerPendingDelete, activeTrackerId, navigate]);
 
-    const handleInviteMember = useCallback(async (email: string) => {
+    const handleInviteMember = useCallback(async (email: string, role: 'editor' | 'guest') => {
         if (!activeTrackerId) {
             throw new Error('Kein aktiver Tracker ausgewählt.');
         }
         try {
-            await addMemberByEmail(activeTrackerId, email);
+            await addMemberByEmail(activeTrackerId, email, role);
         } catch (error) {
             if (error instanceof TrackerOperationError) {
                 const details = Array.isArray(error.details) ? ` (${error.details.join(', ')})` : '';
@@ -1142,6 +1143,7 @@ const App: React.FC = () => {
     const trackerListLoading = userTrackersLoading || (userTrackerIds.length > 0 && trackerList.length === 0);
 
     const trackerMembers = activeTrackerMeta ? Object.values(activeTrackerMeta.members ?? {}) : [];
+    const trackerGuests = activeTrackerMeta ? Object.values(activeTrackerMeta.guests ?? {}) : [];
     const canManageMembers = Boolean(user && activeTrackerMeta?.members?.[user.uid]?.role === 'owner');
 
     useEffect(() => {
@@ -1171,6 +1173,11 @@ const App: React.FC = () => {
     }, [user, dataLoaded, activeTrackerId, data.runStartedAt, activeTrackerMeta?.createdAt]);
     const nameTitleFallback = resolvedPlayerNames.map((n) => n?.trim()).filter(Boolean).join(' • ');
     const trackerTitleDisplay = activeTrackerMeta?.title?.trim() || nameTitleFallback || t('common.appName');
+    const readOnlyNotice = isReadOnly
+        ? (isViewingPublicTracker
+            ? t('app.publicReadOnlyNotice')
+            : (isGuest ? t('app.guestReadOnlyNotice') : null))
+        : null;
 
     if (isPasswordResetRoute) {
         return <PasswordResetPage oobCode={passwordResetOobCode}/>;
@@ -1240,6 +1247,7 @@ const App: React.FC = () => {
             isPublic={activeTrackerMeta?.isPublic ?? false}
             onPublicToggle={handlePublicToggle}
             members={trackerMembers}
+            guests={trackerGuests}
             onInviteMember={handleInviteMember}
             onRemoveMember={handleRemoveMember}
             onRequestDeleteTracker={() => {
@@ -1279,9 +1287,9 @@ const App: React.FC = () => {
                         onClose={() => setShowResetModal(false)}
                         onConfirm={handleConfirmReset}
                     />
-            {isViewingPublicTracker && isReadOnly && (
+            {readOnlyNotice && (
                 <div className="max-w-[1920px] mx-auto mt-3 mb-3 bg-blue-50 border border-blue-200 text-blue-800 dark:bg-slate-800 dark:border-slate-700 dark:text-blue-100 rounded-md px-3 py-2 text-sm shadow-sm">
-                    {t('app.publicReadOnlyNotice')}
+                    {readOnlyNotice}
                 </div>
             )}
             <div className="max-w-[1920px] mx-auto bg-white dark:bg-gray-800 shadow-lg p-4 rounded-lg">

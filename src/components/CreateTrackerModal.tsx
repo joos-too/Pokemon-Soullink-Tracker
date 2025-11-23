@@ -10,7 +10,7 @@ import {getLocalizedGameName} from "@/src/services/gameLocalization.ts";
 interface CreateTrackerModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (payload: { title: string; playerNames: string[]; memberEmails: string[], gameVersionId: string; }) => Promise<void>;
+  onSubmit: (payload: { title: string; playerNames: string[]; memberInvites: Array<{ email: string; role: 'editor' | 'guest' }>, gameVersionId: string; }) => Promise<void>;
   isSubmitting: boolean;
   error?: string | null;
 }
@@ -19,7 +19,9 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
   const [title, setTitle] = useState('');
   const [playerCount, setPlayerCount] = useState(2);
   const [playerNames, setPlayerNames] = useState<string[]>(['', '']);
-  const [memberInputs, setMemberInputs] = useState<string[]>(['']);
+  const [memberInputs, setMemberInputs] = useState<Array<{ email: string; role: 'editor' | 'guest' }>>([
+    { email: '', role: 'editor' },
+  ]);
   const [gameVersionId, setGameVersionId] = useState('');
   const [versionError, setVersionError] = useState(false);
   const [showVersionPicker, setShowVersionPicker] = useState(false);
@@ -44,7 +46,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
     setTitle('');
     setPlayerCount(2);
     setPlayerNames(['', '']);
-    setMemberInputs(['']);
+    setMemberInputs([{ email: '', role: 'editor' }]);
     setGameVersionId('');
     setVersionError(false);
     setShowVersionPicker(false);
@@ -58,14 +60,18 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
 
   if (!isOpen) return null;
 
-  const handleAddMemberRow = () => setMemberInputs((prev) => [...prev, '']);
+  const handleAddMemberRow = () => setMemberInputs((prev) => [...prev, { email: '', role: 'editor' }]);
 
   const handleRemoveMemberRow = (index: number) => {
     setMemberInputs((prev) => prev.filter((_, i) => i !== index));
   };
 
   const handleMemberChange = (index: number, value: string) => {
-    setMemberInputs((prev) => prev.map((entry, i) => (i === index ? value : entry)));
+    setMemberInputs((prev) => prev.map((entry, i) => (i === index ? { ...entry, email: value } : entry)));
+  };
+
+  const handleMemberRoleChange = (index: number, role: 'editor' | 'guest') => {
+    setMemberInputs((prev) => prev.map((entry, i) => (i === index ? { ...entry, role } : entry)));
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -79,7 +85,9 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
     await onSubmit({
       title,
       playerNames: trimmedPlayerNames,
-      memberEmails: memberInputs.map((entry) => entry.trim()).filter(Boolean),
+      memberInvites: memberInputs
+        .map((entry) => ({ email: entry.email.trim(), role: entry.role }))
+        .filter((entry) => entry.email.length > 0),
       gameVersionId: gameVersionId,
     });
   };
@@ -243,11 +251,19 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({ isOpen, onClose
                   <div key={`member-${index}`} className="flex gap-2">
                     <input
                       type="email"
-                      value={value}
+                      value={value.email}
                       onChange={(e) => handleMemberChange(index, e.target.value)}
                       placeholder="trainer@example.com"
                       className={`flex-1 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
                     />
+                    <select
+                      value={value.role}
+                      onChange={(e) => handleMemberRoleChange(index, e.target.value as 'editor' | 'guest')}
+                      className={`w-28 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-2 py-2 text-sm text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
+                    >
+                      <option value="editor">{t('common.roles.member')}</option>
+                      <option value="guest">{t('common.roles.guest')}</option>
+                    </select>
                     {memberInputs.length > 1 && (
                       <button
                         type="button"
