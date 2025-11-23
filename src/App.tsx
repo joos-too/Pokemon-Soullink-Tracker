@@ -252,10 +252,12 @@ const App: React.FC = () => {
     }, [user]);
 
     useEffect(() => {
-        if (!user && !loading) {
+        // Don't redirect if viewing a public tracker
+        const isOnPublicTracker = routeTrackerId && activeTrackerMeta?.isPublic;
+        if (!user && !loading && !isOnPublicTracker) {
             navigate('/', {replace: true});
         }
-    }, [user, loading, navigate]);
+    }, [user, loading, navigate, routeTrackerId, activeTrackerMeta?.isPublic]);
 
     useEffect(() => {
         if (!location.pathname.startsWith('/tracker') && showSettings) {
@@ -384,9 +386,47 @@ const App: React.FC = () => {
         };
     }, [user, userTrackerIds]);
 
+    // Load public tracker metadata when not authenticated
+    useEffect(() => {
+        if (user) return; // Only for unauthenticated users
+        if (!routeTrackerId) return;
+
+        const metaRef = ref(db, `trackers/${routeTrackerId}/meta`);
+        const unsubscribe = onValue(metaRef, (snapshot) => {
+            const meta = snapshot.val();
+            if (meta && meta.isPublic) {
+                setTrackerMetas(prev => ({
+                    ...prev,
+                    [routeTrackerId]: {...meta, id: routeTrackerId}
+                }));
+                setActiveTrackerId(routeTrackerId);
+            } else {
+                setTrackerMetas(prev => {
+                    const next = {...prev};
+                    delete next[routeTrackerId];
+                    return next;
+                });
+                setActiveTrackerId(null);
+            }
+        }, () => {
+            // Error handling - tracker doesn't exist or can't be read
+            setTrackerMetas(prev => {
+                const next = {...prev};
+                delete next[routeTrackerId];
+                return next;
+            });
+            setActiveTrackerId(null);
+        });
+
+        return () => unsubscribe();
+    }, [user, routeTrackerId]);
+
     useEffect(() => {
         if (!user) {
-            setActiveTrackerId(null);
+            // Don't clear activeTrackerId if it's a public tracker
+            if (!activeTrackerMeta?.isPublic) {
+                setActiveTrackerId(null);
+            }
             return;
         }
         if (userTrackersLoading) return;
@@ -1031,7 +1071,9 @@ const App: React.FC = () => {
     }
 
     // Show loading while auth is initializing, or while the target tracker is still resolving/loading
-    if (loading || (user && (!dataLoaded || routeTrackerPendingSelection))) {
+    // For public trackers when not logged in, also wait for data to load
+    const isLoadingPublicTracker = !user && routeTrackerId && !activeTrackerMeta && loading;
+    if (loading || (user && (!dataLoaded || routeTrackerPendingSelection)) || isLoadingPublicTracker) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-[#f0f0f0] dark:bg-gray-900">
                 <div className="flex flex-col items-center gap-3" role="status" aria-live="polite">
@@ -1043,7 +1085,10 @@ const App: React.FC = () => {
         );
     }
 
-    if (!user) {
+    // Check if we're viewing a public tracker without authentication
+    const isViewingPublicTracker = !user && routeTrackerId && activeTrackerMeta?.isPublic;
+
+    if (!user && !isViewingPublicTracker) {
         return authScreen === 'login'
             ? <LoginPage onSwitchToRegister={() => setAuthScreen('register')}/>
             : <RegisterPage onSwitchToLogin={() => setAuthScreen('login')}/>;
