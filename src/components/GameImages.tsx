@@ -111,10 +111,11 @@ export const BadgeImage: React.FC<{
 export const LegendaryImage: React.FC<{
   pokemonName: string;
   className?: string;
-}> = ({ pokemonName, className = "w-16 h-16" }) => {
+  generationSpritePath?: string | null;
+}> = ({ pokemonName, className = "w-16 h-16", generationSpritePath }) => {
   return (
     <img
-      src={getSpriteUrlForPokemonName(pokemonName) || ""}
+      src={getSpriteUrlForPokemonName(pokemonName, generationSpritePath) || ""}
       alt=""
       className={className}
     />

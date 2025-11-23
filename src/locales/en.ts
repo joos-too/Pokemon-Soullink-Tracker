@@ -43,6 +43,8 @@ export const en = {
     activePokemon: "Active",
     fallenPokemon: "Lost",
     progressFallback: "No gyms cleared",
+    privateTracker: "Private tracker",
+    publicTracker: "Public tracker",
   },
   modals: {
     common: {
@@ -203,6 +205,8 @@ export const en = {
       title: "No tracker selected.",
       description: "Choose a tracker on the home page or create a new one.",
     },
+    publicReadOnlyNotice:
+      "Public tracker: editing is disabled unless you log in and are a member. This view is read-only.",
   },
   team: {
     teamTitle: "Team",
@@ -276,6 +280,28 @@ export const en = {
         description:
           "Track how many legendaries you encounter during the challenge.",
       },
+      publicTracker: {
+        title: "Public tracker",
+        tooltipLabel: "Public tracker info",
+        tooltip:
+          "When enabled, anyone with the URL can view this tracker, even without logging in.\n\nOnly members can still edit the tracker.",
+        description: "Allow anyone to view this tracker via the URL.",
+      },
+      generationSprites: {
+        title: "Generation-specific sprites",
+        tooltipLabel: "Generation sprites info",
+        tooltip:
+          "Use sprite graphics that match your selected game version (e.g., Gen 1 sprites for Red/Blue).",
+        description:
+          "Display Pokémon sprites in the style of the respective generation.",
+      },
+      spritesInTeamTable: {
+        title: "Use Sprites Everywhere",
+        tooltipLabel: "Sprites everywhere info",
+        tooltip:
+          "Use sprites instead of official artwork everywhere in the app. Respects other sprite settings.",
+        description: "Show sprites instead of artwork in all views.",
+      },
     },
     members: {
       title: "Members",
@@ -338,6 +364,9 @@ export const en = {
     language: {
       title: "Language",
       description: "Choose your preferred interface language below.",
+    },
+    sprites: {
+      title: "Sprite Display",
     },
   },
   auth: {

@@ -23,6 +23,7 @@ interface EditPairModalProps {
     members: Pokemon[];
   };
   generationLimit?: number;
+  generationSpritePath?: string | null;
 }
 
 interface PokemonFieldProps {
@@ -34,6 +35,7 @@ interface PokemonFieldProps {
   isOpen: boolean;
   generationLimit?: number;
   language: SupportedLanguage;
+  generationSpritePath?: string | null;
 }
 
 const PokemonField: React.FC<PokemonFieldProps> = ({
@@ -45,6 +47,7 @@ const PokemonField: React.FC<PokemonFieldProps> = ({
   isOpen,
   generationLimit,
   language,
+  generationSpritePath,
 }) => {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
@@ -118,7 +121,7 @@ const PokemonField: React.FC<PokemonFieldProps> = ({
     }
   };
 
-  const spriteUrl = getSpriteUrlForPokemonName(value);
+  const spriteUrl = getSpriteUrlForPokemonName(value, generationSpritePath);
 
   return (
     <div className="space-y-2">
@@ -152,7 +155,7 @@ const PokemonField: React.FC<PokemonFieldProps> = ({
             src={spriteUrl}
             alt=""
             aria-hidden="true"
-            className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 pointer-events-none select-none"
+            className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none select-none h-10 w-10"
             loading="lazy"
           />
         ) : null}
@@ -212,6 +215,7 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
   initial,
   mode = "edit",
   generationLimit,
+  generationSpritePath,
 }) => {
   const { t, i18n } = useTranslation();
   const language = useMemo(
@@ -356,6 +360,7 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
                     isOpen={isOpen}
                     generationLimit={generationLimit}
                     language={language}
+                    generationSpritePath={generationSpritePath}
                   />
                 </div>
               );

@@ -28,6 +28,7 @@ export const getLocalizedRivalEntry = (
   const key = toKey(versionId, `rivalCaps.${ensureId(capId)}.rival`);
   if (!key) return undefined;
   const value = t(key, { defaultValue: NO_TRANSLATION, returnObjects: true });
+  // @ts-ignore
   return value === NO_TRANSLATION ? undefined : value;
 };
 

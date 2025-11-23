@@ -35,6 +35,7 @@ import InfoPanel from "@/src/components/InfoPanel";
 import Graveyard from "@/src/components/Graveyard";
 import ClearedRoutes from "@/src/components/ClearedRoutes";
 import AddLostPokemonModal from "@/src/components/AddLostPokemonModal";
+import { getGenerationSpritePath } from "@/src/services/sprites";
 import SelectLossModal from "@/src/components/SelectLossModal";
 import LoginPage from "@/src/components/LoginPage";
 import RegisterPage from "@/src/components/RegisterPage";
@@ -70,6 +71,10 @@ import {
   removeMemberFromTracker,
   TrackerOperationError,
   updateRivalPreference,
+  updateUserGenerationSpritePreference,
+  getUserGenerationSpritePreference,
+  updateUserSpritesInTeamTablePreference,
+  getUserSpritesInTeamTablePreference,
 } from "@/src/services/trackers";
 import { GAME_VERSIONS } from "@/src/data/game-versions";
 import { useTranslation } from "react-i18next";
@@ -140,6 +145,12 @@ const App: React.FC = () => {
   const [trackerMetas, setTrackerMetas] = useState<Record<string, TrackerMeta>>(
     {},
   );
+  const isViewingPublicTracker = useMemo(
+    () =>
+      !user &&
+      Boolean(routeTrackerId && trackerMetas[routeTrackerId]?.isPublic),
+    [user, routeTrackerId, trackerMetas],
+  );
   const metaListenersRef = useRef<Map<string, () => void>>(new Map());
   const trackerStateListenersRef = useRef<Map<string, () => void>>(new Map());
   const [trackerSummaries, setTrackerSummaries] = useState<
@@ -147,7 +158,14 @@ const App: React.FC = () => {
   >({});
   const { t } = useTranslation();
   const [userTrackersLoading, setUserTrackersLoading] = useState(false);
+  const [publicTrackerLoading, setPublicTrackerLoading] = useState(() =>
+    Boolean(routeTrackerId),
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [userUseGenerationSprites, setUserUseGenerationSprites] =
+    useState(false);
+  const [userUseSpritesInTeamTable, setUserUseSpritesInTeamTable] =
+    useState(false);
   const showSettings = searchParams.get("panel") === "settings";
   const openSettingsPanel = useCallback(() => {
     const next = new URLSearchParams(searchParams);
@@ -194,11 +212,21 @@ const App: React.FC = () => {
     () => resolveGenerationFromVersionId(activeGameVersionId),
     [activeGameVersionId],
   );
+  const isMember = Boolean(user && activeTrackerMeta?.members?.[user.uid]);
+  const isReadOnly = !isMember;
 
   const currentUserRivalPreferences = useMemo(() => {
     if (!user || !activeTrackerMeta) return {};
     return activeTrackerMeta.userSettings?.[user.uid]?.rivalPreferences ?? {};
   }, [user, activeTrackerMeta]);
+
+  const generationSpritePath = useMemo(() => {
+    // Use generation-specific sprites if enabled
+    if (userUseGenerationSprites && activeGameVersionId) {
+      return getGenerationSpritePath(activeGameVersionId);
+    }
+    return null;
+  }, [userUseGenerationSprites, activeGameVersionId]);
 
   const handleRivalPreferenceChange = useCallback(
     async (key: string, gender: RivalGender) => {
@@ -210,6 +238,35 @@ const App: React.FC = () => {
       }
     },
     [activeTrackerId, user],
+  );
+
+  const handleGenerationSpritesToggle = useCallback(
+    async (enabled: boolean) => {
+      if (!user) return;
+      try {
+        await updateUserGenerationSpritePreference(user.uid, enabled);
+        setUserUseGenerationSprites(enabled);
+      } catch (error) {
+        console.error("Failed to update generation sprites preference:", error);
+      }
+    },
+    [user],
+  );
+
+  const handleSpritesInTeamTableToggle = useCallback(
+    async (enabled: boolean) => {
+      if (!user) return;
+      try {
+        await updateUserSpritesInTeamTablePreference(user.uid, enabled);
+        setUserUseSpritesInTeamTable(enabled);
+      } catch (error) {
+        console.error(
+          "Failed to update sprites in team table preference:",
+          error,
+        );
+      }
+    },
+    [user],
   );
 
   const coerceAppState = useCallback(
@@ -367,13 +424,44 @@ const App: React.FC = () => {
   useEffect(() => {
     if (!user) return;
     ensureUserProfile(user).catch(() => {});
+    // Load user's sprite preferences
+    Promise.all([
+      getUserGenerationSpritePreference(user.uid),
+      getUserSpritesInTeamTablePreference(user.uid),
+    ])
+      .then(([genSprites, teamTableSprites]) => {
+        setUserUseGenerationSprites(genSprites);
+        setUserUseSpritesInTeamTable(teamTableSprites);
+      })
+      .catch(() => {
+        setUserUseGenerationSprites(false);
+        setUserUseSpritesInTeamTable(false);
+      });
   }, [user]);
 
   useEffect(() => {
-    if (!user && !loading) {
+    // Don't redirect away from tracker route while we are still resolving whether it is public
+    if (user || loading) return;
+
+    if (!routeTrackerId) {
+      navigate("/", { replace: true });
+      return;
+    }
+
+    if (isViewingPublicTracker || publicTrackerLoading) return;
+    const routeTrackerMeta = trackerMetas[routeTrackerId];
+    if (!routeTrackerMeta || !routeTrackerMeta.isPublic) {
       navigate("/", { replace: true });
     }
-  }, [user, loading, navigate]);
+  }, [
+    user,
+    loading,
+    navigate,
+    routeTrackerId,
+    publicTrackerLoading,
+    trackerMetas,
+    isViewingPublicTracker,
+  ]);
 
   useEffect(() => {
     if (!location.pathname.startsWith("/tracker") && showSettings) {
@@ -514,9 +602,62 @@ const App: React.FC = () => {
     };
   }, [user, userTrackerIds]);
 
+  // Load public tracker metadata when not authenticated
+  useEffect(() => {
+    if (user) {
+      setPublicTrackerLoading(false);
+      return; // Only for unauthenticated users
+    }
+    if (!routeTrackerId) {
+      setPublicTrackerLoading(false);
+      return;
+    }
+
+    setPublicTrackerLoading(true);
+    const metaRef = ref(db, `trackers/${routeTrackerId}/meta`);
+    const unsubscribe = onValue(
+      metaRef,
+      (snapshot) => {
+        const meta = snapshot.val();
+        if (meta && meta.isPublic) {
+          setTrackerMetas((prev) => ({
+            ...prev,
+            [routeTrackerId]: { ...meta, id: routeTrackerId },
+          }));
+          setActiveTrackerId(routeTrackerId);
+        } else {
+          setTrackerMetas((prev) => {
+            const next = { ...prev };
+            delete next[routeTrackerId];
+            return next;
+          });
+          setActiveTrackerId(null);
+        }
+        setPublicTrackerLoading(false);
+      },
+      () => {
+        // Error handling - tracker doesn't exist or can't be read
+        setTrackerMetas((prev) => {
+          const next = { ...prev };
+          delete next[routeTrackerId];
+          return next;
+        });
+        setActiveTrackerId(null);
+        setPublicTrackerLoading(false);
+      },
+    );
+
+    return () => {
+      unsubscribe();
+    };
+  }, [user, routeTrackerId]);
+
   useEffect(() => {
     if (!user) {
-      setActiveTrackerId(null);
+      // Don't clear activeTrackerId if it's a public tracker
+      if (!activeTrackerMeta?.isPublic) {
+        setActiveTrackerId(null);
+      }
       return;
     }
     if (userTrackersLoading) return;
@@ -580,35 +721,39 @@ const App: React.FC = () => {
     };
   }, []);
 
-  const routeTrackerExistsForUser = routeTrackerId
-    ? userTrackerIds.includes(routeTrackerId)
-    : false;
+  const routeTrackerExistsForUser =
+    user && routeTrackerId ? userTrackerIds.includes(routeTrackerId) : false;
   const routeTrackerKnownMissing = Boolean(
-    routeTrackerId && !userTrackersLoading && !routeTrackerExistsForUser,
+    user &&
+      routeTrackerId &&
+      !userTrackersLoading &&
+      !routeTrackerExistsForUser,
   );
-  const routeTrackerPendingSelection = Boolean(
-    routeTrackerId &&
-      !routeTrackerKnownMissing &&
-      (userTrackersLoading || activeTrackerId !== routeTrackerId),
-  );
+  const routeTrackerPendingSelection = user
+    ? Boolean(
+        routeTrackerId &&
+          !routeTrackerKnownMissing &&
+          (userTrackersLoading || activeTrackerId !== routeTrackerId),
+      )
+    : false;
 
   useEffect(() => {
     isHydratingRef.current = true;
     const gameVersionId = activeGameVersionId;
-    if (!user) {
+    if (!user && !isViewingPublicTracker) {
       setData(createInitialState());
       setDataLoaded(false);
       isHydratingRef.current = false;
       return;
     }
 
-    if (routeTrackerPendingSelection) {
+    if (!isViewingPublicTracker && routeTrackerPendingSelection) {
       setData(createInitialState());
       setDataLoaded(false);
       return;
     }
 
-    if (routeTrackerKnownMissing) {
+    if (!isViewingPublicTracker && routeTrackerKnownMissing) {
       setData(createInitialState());
       setDataLoaded(true);
       isHydratingRef.current = false;
@@ -682,6 +827,7 @@ const App: React.FC = () => {
     coerceAppState,
     routeTrackerPendingSelection,
     routeTrackerKnownMissing,
+    isViewingPublicTracker,
   ]);
 
   useEffect(() => {
@@ -707,10 +853,12 @@ const App: React.FC = () => {
   }, [activeTrackerId, user]);
 
   const handleReset = () => {
+    if (isReadOnly) return;
     setShowResetModal(true);
   };
 
   const handleConfirmReset = () => {
+    if (isReadOnly) return;
     const gameVersionId = activeGameVersionId;
     setData((prev) => {
       const base = createInitialState(gameVersionId);
@@ -777,6 +925,7 @@ const App: React.FC = () => {
       field: keyof Pokemon,
       value: string,
     ) => {
+      if (isReadOnly) return;
       setData((prev) => {
         const list = [...prev[key]];
         const target = list[index];
@@ -795,6 +944,7 @@ const App: React.FC = () => {
 
   const updateLinkRoute = useCallback(
     (key: "team" | "box", index: number, value: string) => {
+      if (isReadOnly) return;
       setData((prev) => {
         const list = [...prev[key]];
         const target = list[index];
@@ -845,6 +995,7 @@ const App: React.FC = () => {
   );
 
   const handleLevelCapToggle = useCallback((index: number) => {
+    if (isReadOnly) return;
     setData((prev) => ({
       ...prev,
       levelCaps: prev.levelCaps.map((c, i) =>
@@ -854,6 +1005,7 @@ const App: React.FC = () => {
   }, []);
 
   const handleRivalCapToggleDone = useCallback((index: number) => {
+    if (isReadOnly) return;
     setData((prev) => ({
       ...prev,
       rivalCaps: prev.rivalCaps.map((rc, i) =>
@@ -863,6 +1015,7 @@ const App: React.FC = () => {
   }, []);
 
   const handleRivalCapReveal = useCallback((index: number) => {
+    if (isReadOnly) return;
     setData((prev) => ({
       ...prev,
       rivalCaps: prev.rivalCaps.map((rc, i) =>
@@ -872,6 +1025,7 @@ const App: React.FC = () => {
   }, []);
 
   const handleStatChange = (stat: keyof AppState["stats"], value: string) => {
+    if (isReadOnly) return;
     const numValue = Number(value);
     if (!isNaN(numValue)) {
       setData((prev) => ({
@@ -886,6 +1040,7 @@ const App: React.FC = () => {
     playerIndex: number,
     value: string,
   ) => {
+    if (isReadOnly) return;
     const numValue = Number(value);
     if (isNaN(numValue)) return;
     setData((prev) => {
@@ -905,11 +1060,13 @@ const App: React.FC = () => {
   };
 
   const handleAddToGraveyard = useCallback((pair: PokemonLink) => {
+    if (isReadOnly) return;
     setPendingLossPair(pair);
     setShowLossModal(true);
   }, []);
 
   const handleConfirmLoss = (playerIndex: number) => {
+    if (isReadOnly || !pendingLossPair) return;
     if (!pendingLossPair) return;
     const pair = pendingLossPair;
     setData((prev) => ({
@@ -929,6 +1086,7 @@ const App: React.FC = () => {
   };
 
   const handleManualAddToGraveyard = (pair: PokemonLink) => {
+    if (isReadOnly) return;
     setData((prev) => ({
       ...prev,
       graveyard: [...prev.graveyard, pair],
@@ -936,6 +1094,7 @@ const App: React.FC = () => {
   };
 
   const handleManualAddFromModal = (route: string, members: Pokemon[]) => {
+    if (isReadOnly) return;
     const newPair: PokemonLink = {
       id: Date.now(),
       route: route.trim(),
@@ -952,6 +1111,7 @@ const App: React.FC = () => {
     route: string;
     members: Pokemon[];
   }) => {
+    if (isReadOnly) return;
     setData((prev) => {
       if (prev.team.length >= 6) return prev; // enforce 6 max
       return {
@@ -972,6 +1132,7 @@ const App: React.FC = () => {
   };
 
   const handleAddBoxPair = (payload: { route: string; members: Pokemon[] }) => {
+    if (isReadOnly) return;
     setData((prev) => ({
       ...prev,
       box: [
@@ -990,7 +1151,7 @@ const App: React.FC = () => {
 
   const syncActiveMetaPlayerNames = useCallback(
     (names: string[]) => {
-      if (!activeTrackerId) return;
+      if (!activeTrackerId || isReadOnly) return;
       setTrackerMetas((prev) => {
         const existing = prev[activeTrackerId];
         if (!existing) return prev;
@@ -1006,10 +1167,11 @@ const App: React.FC = () => {
         playerNames: names,
       }).catch(() => {});
     },
-    [activeTrackerId],
+    [activeTrackerId, isReadOnly],
   );
 
   const handlePlayerNameChange = (index: number, name: string) => {
+    if (isReadOnly) return;
     setData((prev) => {
       const playerNames = [...prev.playerNames];
       playerNames[index] = name;
@@ -1019,7 +1181,7 @@ const App: React.FC = () => {
   };
 
   const handleTitleChange = (title: string) => {
-    if (!activeTrackerId) return;
+    if (!activeTrackerId || isReadOnly) return;
     setTrackerMetas((prev) => {
       const existing = prev[activeTrackerId];
       if (!existing) return prev;
@@ -1035,18 +1197,38 @@ const App: React.FC = () => {
   };
 
   const handleLegendaryTrackerToggle = (enabled: boolean) => {
+    if (isReadOnly) return;
     setData((prev) => ({ ...prev, legendaryTrackerEnabled: enabled }));
   };
 
   const handleRivalCensorToggle = (enabled: boolean) => {
+    if (isReadOnly) return;
     setData((prev) => ({ ...prev, rivalCensorEnabled: enabled }));
   };
 
   const handleHardcoreModeToggle = (enabled: boolean) => {
+    if (isReadOnly) return;
     setData((prev) => ({ ...prev, hardcoreModeEnabled: enabled }));
   };
 
+  const handlePublicToggle = (enabled: boolean) => {
+    if (!activeTrackerId || isReadOnly) return;
+    setTrackerMetas((prev) => {
+      const existing = prev[activeTrackerId];
+      if (!existing) return prev;
+      return {
+        ...prev,
+        [activeTrackerId]: {
+          ...existing,
+          isPublic: enabled,
+        },
+      };
+    });
+    update(ref(db, `trackers/${activeTrackerId}/meta`), { isPublic: enabled });
+  };
+
   const handleLegendaryIncrement = () => {
+    if (isReadOnly) return;
     setData((prev) => ({
       ...prev,
       stats: {
@@ -1057,6 +1239,7 @@ const App: React.FC = () => {
   };
 
   const handleLegendaryDecrement = () => {
+    if (isReadOnly) return;
     setData((prev) => ({
       ...prev,
       stats: {
@@ -1241,6 +1424,12 @@ const App: React.FC = () => {
   const canManageMembers = Boolean(
     user && activeTrackerMeta?.members?.[user.uid]?.role === "owner",
   );
+
+  useEffect(() => {
+    if (isReadOnly && showSettings) {
+      closeSettingsPanel();
+    }
+  }, [isReadOnly, showSettings, closeSettingsPanel]);
   const resolvedPlayerNames = useMemo(() => {
     if (Array.isArray(data.playerNames) && data.playerNames.length > 0) {
       return data.playerNames;
@@ -1291,7 +1480,13 @@ const App: React.FC = () => {
   }
 
   // Show loading while auth is initializing, or while the target tracker is still resolving/loading
-  if (loading || (user && (!dataLoaded || routeTrackerPendingSelection))) {
+  // For public trackers when not logged in, also wait for data to load
+  if (
+    loading ||
+    ((user || isViewingPublicTracker) &&
+      (!dataLoaded || routeTrackerPendingSelection)) ||
+    publicTrackerLoading
+  ) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#f0f0f0] dark:bg-gray-900">
         <div
@@ -1308,7 +1503,7 @@ const App: React.FC = () => {
     );
   }
 
-  if (!user) {
+  if (!user && !isViewingPublicTracker) {
     return authScreen === "login" ? (
       <LoginPage onSwitchToRegister={() => setAuthScreen("register")} />
     ) : (
@@ -1361,6 +1556,8 @@ const App: React.FC = () => {
       onRivalCensorToggle={handleRivalCensorToggle}
       hardcoreModeEnabled={data.hardcoreModeEnabled ?? true}
       onHardcoreModeToggle={handleHardcoreModeToggle}
+      isPublic={activeTrackerMeta?.isPublic ?? false}
+      onPublicToggle={handlePublicToggle}
       members={trackerMembers}
       onInviteMember={handleInviteMember}
       onRemoveMember={handleRemoveMember}
@@ -1384,9 +1581,10 @@ const App: React.FC = () => {
         onAdd={handleManualAddFromModal}
         playerNames={resolvedPlayerNames}
         generationLimit={pokemonGenerationLimit}
+        generationSpritePath={generationSpritePath}
       />
       <SelectLossModal
-        isOpen={showLossModal}
+        isOpen={!isReadOnly && showLossModal}
         onClose={() => {
           setShowLossModal(false);
           setPendingLossPair(null);
@@ -1396,10 +1594,15 @@ const App: React.FC = () => {
         playerNames={resolvedPlayerNames}
       />
       <ResetModal
-        isOpen={showResetModal}
+        isOpen={!isReadOnly && showResetModal}
         onClose={() => setShowResetModal(false)}
         onConfirm={handleConfirmReset}
       />
+      {isViewingPublicTracker && isReadOnly && (
+        <div className="max-w-[1920px] mx-auto mt-3 mb-3 bg-blue-50 border border-blue-200 text-blue-800 dark:bg-slate-800 dark:border-slate-700 dark:text-blue-100 rounded-md px-3 py-2 text-sm shadow-sm">
+          {t("app.publicReadOnlyNotice")}
+        </div>
+      )}
       <div className="max-w-[1920px] mx-auto bg-white dark:bg-gray-800 shadow-lg p-4 rounded-lg">
         <header className="relative text-center py-4 border-b-2 border-gray-300 dark:border-gray-700">
           <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-3xl 2xl:text-4xl font-bold font-press-start tracking-tighter dark:text-gray-100">
@@ -1422,7 +1625,8 @@ const App: React.FC = () => {
               </button>
               <button
                 onClick={handleReset}
-                className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white focus:outline-none"
+                disabled={isReadOnly}
+                className={`p-2 rounded-full focus:outline-none ${isReadOnly ? "text-gray-400 dark:text-gray-600 cursor-not-allowed" : "hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white"}`}
                 aria-label={t("tracker.actions.resetRun")}
                 title={t("tracker.actions.resetRun")}
               >
@@ -1430,7 +1634,8 @@ const App: React.FC = () => {
               </button>
               <button
                 onClick={openSettingsPanel}
-                className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white focus:outline-none"
+                disabled={isReadOnly}
+                className={`p-2 rounded-full focus:outline-none ${isReadOnly ? "text-gray-400 dark:text-gray-600 cursor-not-allowed" : "hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white"}`}
                 aria-label={t("tracker.actions.settings")}
                 title={t("tracker.actions.settings")}
               >
@@ -1506,7 +1711,8 @@ const App: React.FC = () => {
                   setMobileMenuOpen(false);
                   handleReset();
                 }}
-                className="w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2"
+                disabled={isReadOnly}
+                className={`w-full text-left px-2 py-2 rounded-md text-sm inline-flex items-center gap-2 ${isReadOnly ? "text-gray-400 dark:text-gray-500 cursor-not-allowed" : "text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"}`}
                 title={t("tracker.menu.resetRun")}
               >
                 <FiRotateCw size={18} /> {t("tracker.menu.resetRun")}
@@ -1516,7 +1722,8 @@ const App: React.FC = () => {
                   setMobileMenuOpen(false);
                   openSettingsPanel();
                 }}
-                className="w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2"
+                disabled={isReadOnly}
+                className={`w-full text-left px-2 py-2 rounded-md text-sm inline-flex items-center gap-2 ${isReadOnly ? "text-gray-400 dark:text-gray-500 cursor-not-allowed" : "text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"}`}
                 title={t("tracker.menu.settings")}
               >
                 <FiSettings size={18} /> {t("tracker.menu.settings")}
@@ -1541,15 +1748,19 @@ const App: React.FC = () => {
               addDisabledReason={t("team.teamFull")}
               context="team"
               onMoveToTeam={() => {}}
-              onMoveToBox={(pair) =>
+              onMoveToBox={(pair) => {
+                if (isReadOnly) return;
                 setData((prev) => ({
                   ...prev,
                   team: prev.team.filter((p) => p.id !== pair.id),
                   box: [...prev.box, pair],
-                }))
-              }
+                }));
+              }}
               pokemonGenerationLimit={pokemonGenerationLimit}
               gameVersionId={activeGameVersionId || undefined}
+              readOnly={isReadOnly}
+              generationSpritePath={generationSpritePath}
+              useSpritesInTeamTable={userUseSpritesInTeamTable}
             />
             <TeamTable
               title={t("team.boxTitle")}
@@ -1564,7 +1775,7 @@ const App: React.FC = () => {
               context="box"
               onMoveToTeam={(pair) =>
                 setData((prev) => {
-                  if (prev.team.length >= 6) return prev;
+                  if (isReadOnly || prev.team.length >= 6) return prev;
                   return {
                     ...prev,
                     box: prev.box.filter((p) => p.id !== pair.id),
@@ -1576,6 +1787,9 @@ const App: React.FC = () => {
               teamIsFull={data.team.length >= 6}
               pokemonGenerationLimit={pokemonGenerationLimit}
               gameVersionId={activeGameVersionId || undefined}
+              readOnly={isReadOnly}
+              generationSpritePath={generationSpritePath}
+              useSpritesInTeamTable={userUseSpritesInTeamTable}
             />
           </div>
 
@@ -1602,12 +1816,17 @@ const App: React.FC = () => {
               gameVersion={activeGameVersion}
               rivalPreferences={currentUserRivalPreferences}
               activeTrackerId={activeTrackerId}
+              readOnly={isReadOnly}
+              generationSpritePath={generationSpritePath}
+              pokemonGenerationLimit={pokemonGenerationLimit}
             />
             <Graveyard
               graveyard={data.graveyard}
               playerNames={resolvedPlayerNames}
               playerColors={playerColors}
               onManualAddClick={() => setIsModalOpen(true)}
+              readOnly={isReadOnly}
+              generationSpritePath={generationSpritePath}
             />
             <ClearedRoutes routes={clearedRoutes} />
           </div>
@@ -1681,11 +1900,19 @@ const App: React.FC = () => {
         <Route
           path="/account"
           element={
-            <UserSettingsPage
-              email={user.email}
-              onBack={handleNavigateHome}
-              onLogout={handleLogout}
-            />
+            user ? (
+              <UserSettingsPage
+                email={user.email}
+                onBack={handleNavigateHome}
+                onLogout={handleLogout}
+                useGenerationSprites={userUseGenerationSprites}
+                onGenerationSpritesToggle={handleGenerationSpritesToggle}
+                useSpritesInTeamTable={userUseSpritesInTeamTable}
+                onSpritesInTeamTableToggle={handleSpritesInTeamTableToggle}
+              />
+            ) : (
+              <Navigate to="/" replace />
+            )
           }
         />
         <Route path="*" element={<Navigate to="/" replace />} />

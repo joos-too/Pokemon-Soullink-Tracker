@@ -2,7 +2,10 @@ import React, { useEffect, useMemo, useState } from "react";
 import P from "@/src/pokeapi";
 import { EVOLUTIONS_DE, EVOLUTIONS_EN } from "@/src/data/pokemon-evolutions";
 import { POKEMON_ID_TO_GENERATION } from "@/src/data/pokemon-map";
-import { getOfficialArtworkUrlById } from "@/src/services/sprites";
+import {
+  getOfficialArtworkUrlById,
+  getSpriteUrlById,
+} from "@/src/services/sprites";
 import {
   findPokemonIdByName,
   getPokemonNameById,
@@ -22,6 +25,8 @@ interface SelectEvolveModalProps {
   playerLabels: string[];
   maxGeneration?: number;
   gameVersionId?: string;
+  generationSpritePath?: string | null;
+  useSpritesEverywhere?: boolean;
 }
 
 interface EvoInfo {
@@ -192,6 +197,8 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
   playerLabels,
   maxGeneration,
   gameVersionId,
+  generationSpritePath,
+  useSpritesEverywhere = false,
 }) => {
   const [selectedPlayer, setSelectedPlayer] = useState<number | null>(null);
   const [availableEvos, setAvailableEvos] = useState<EvoInfo[] | null>(null);
@@ -444,7 +451,15 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
                           />
                           <img
                             src={
-                              ev.artworkUrl || getOfficialArtworkUrlById(ev.id)
+                              useSpritesEverywhere
+                                ? getSpriteUrlById(
+                                    ev.id,
+                                    generationSpritePath,
+                                  ) ||
+                                  ev.artworkUrl ||
+                                  getOfficialArtworkUrlById(ev.id)
+                                : ev.artworkUrl ||
+                                  getOfficialArtworkUrlById(ev.id)
                             }
                             alt=""
                             className="w-16 h-16 object-contain"

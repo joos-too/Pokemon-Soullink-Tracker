@@ -15,6 +15,7 @@ interface AddLostPokemonModalProps {
   onAdd: (route: string, members: Pokemon[]) => void;
   playerNames: string[];
   generationLimit?: number;
+  generationSpritePath?: string | null;
 }
 
 interface PokemonNameFieldProps {
@@ -23,6 +24,7 @@ interface PokemonNameFieldProps {
   onChange: (value: string) => void;
   isOpen: boolean;
   generationLimit?: number;
+  generationSpritePath?: string | null;
 }
 
 const PokemonNameField: React.FC<PokemonNameFieldProps> = ({
@@ -31,6 +33,7 @@ const PokemonNameField: React.FC<PokemonNameFieldProps> = ({
   onChange,
   isOpen,
   generationLimit,
+  generationSpritePath,
 }) => {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
@@ -103,7 +106,7 @@ const PokemonNameField: React.FC<PokemonNameFieldProps> = ({
     }
   };
 
-  const spriteUrl = getSpriteUrlForPokemonName(value);
+  const spriteUrl = getSpriteUrlForPokemonName(value, generationSpritePath);
 
   return (
     <div>
@@ -133,7 +136,7 @@ const PokemonNameField: React.FC<PokemonNameFieldProps> = ({
             src={spriteUrl}
             alt=""
             aria-hidden="true"
-            className="pointer-events-none absolute inset-y-0 right-2 my-auto h-8 w-8 select-none"
+            className="pointer-events-none absolute inset-y-0 right-2 my-auto h-10 w-10 select-none"
             loading="lazy"
           />
         ) : null}
@@ -174,6 +177,7 @@ const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({
   onAdd,
   playerNames,
   generationLimit,
+  generationSpritePath,
 }) => {
   const { t } = useTranslation();
   const [route, setRoute] = useState("");
@@ -269,6 +273,7 @@ const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({
                 }
                 isOpen={isOpen}
                 generationLimit={generationLimit}
+                generationSpritePath={generationSpritePath}
               />
             ))}
           </div>

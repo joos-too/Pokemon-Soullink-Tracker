@@ -6,22 +6,32 @@ import {
   FiCheckCircle,
   FiAlertTriangle,
   FiLogOut,
+  FiInfo,
 } from "react-icons/fi";
 import { focusRingClasses } from "@/src/styles/focusRing";
 import { requestPasswordReset } from "@/src/services/auth";
 import { useTranslation } from "react-i18next";
 import LanguageToggle from "./LanguageToggle";
+import Tooltip from "./Tooltip";
 
 interface UserSettingsPageProps {
   email?: string | null;
   onBack: () => void;
   onLogout: () => void;
+  useGenerationSprites?: boolean;
+  onGenerationSpritesToggle: (enabled: boolean) => void;
+  useSpritesInTeamTable?: boolean;
+  onSpritesInTeamTableToggle: (enabled: boolean) => void;
 }
 
 const UserSettingsPage: React.FC<UserSettingsPageProps> = ({
   email,
   onBack,
   onLogout,
+  useGenerationSprites,
+  onGenerationSpritesToggle,
+  useSpritesInTeamTable,
+  onSpritesInTeamTableToggle,
 }) => {
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [message, setMessage] = useState<string | null>(null);
@@ -143,6 +153,120 @@ const UserSettingsPage: React.FC<UserSettingsPageProps> = ({
             </p>
             <div className="flex justify-start">
               <LanguageToggle />
+            </div>
+          </section>
+
+          <section className="pt-6 border-t border-gray-200 dark:border-gray-700 mt-6 space-y-4">
+            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-gray-500">
+              {t("userSettings.sprites.title")}
+            </p>
+
+            <div className="flex items-center justify-between">
+              <div className="flex-1">
+                <div className="flex items-center gap-2">
+                  <div className="font-medium text-gray-800 dark:text-gray-200">
+                    {t("settings.features.generationSprites.title")}
+                  </div>
+                  <Tooltip
+                    side="top"
+                    content={t("settings.features.generationSprites.tooltip")}
+                  >
+                    <span
+                      className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-help"
+                      aria-label={t(
+                        "settings.features.generationSprites.tooltipLabel",
+                      )}
+                    >
+                      <FiInfo size={16} />
+                    </span>
+                  </Tooltip>
+                </div>
+                <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                  {t("settings.features.generationSprites.description")}
+                </div>
+              </div>
+              <label
+                htmlFor="generation-sprites-toggle"
+                className="inline-flex items-center cursor-pointer rounded-full"
+              >
+                <input
+                  type="checkbox"
+                  id="generation-sprites-toggle"
+                  checked={useGenerationSprites ?? false}
+                  onChange={(e) => onGenerationSpritesToggle(e.target.checked)}
+                  className="sr-only"
+                  tabIndex={-1}
+                  aria-label={t("settings.features.generationSprites.title")}
+                />
+                <span
+                  aria-hidden="true"
+                  className={`relative block w-11 h-6 rounded-full transition-colors duration-200 ease-out pointer-events-none ${
+                    useGenerationSprites
+                      ? "bg-green-500"
+                      : "bg-gray-200 dark:bg-gray-700"
+                  }`}
+                >
+                  <span
+                    className={`absolute top-[2px] left-[2px] h-5 w-5 transform rounded-full bg-white shadow transition duration-200 ease-out pointer-events-none ${
+                      useGenerationSprites ? "translate-x-5" : ""
+                    }`}
+                  />
+                </span>
+              </label>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <div className="flex-1">
+                <div className="flex items-center gap-2">
+                  <div className="font-medium text-gray-800 dark:text-gray-200">
+                    {t("settings.features.spritesInTeamTable.title")}
+                  </div>
+                  <Tooltip
+                    side="top"
+                    content={t("settings.features.spritesInTeamTable.tooltip")}
+                  >
+                    <span
+                      className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-help"
+                      aria-label={t(
+                        "settings.features.spritesInTeamTable.tooltipLabel",
+                      )}
+                    >
+                      <FiInfo size={16} />
+                    </span>
+                  </Tooltip>
+                </div>
+                <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                  {t("settings.features.spritesInTeamTable.description")}
+                </div>
+              </div>
+              <label
+                htmlFor="sprites-in-team-table-toggle"
+                className="inline-flex items-center cursor-pointer rounded-full"
+              >
+                <input
+                  type="checkbox"
+                  id="sprites-in-team-table-toggle"
+                  checked={useSpritesInTeamTable ?? false}
+                  onChange={(e) => onSpritesInTeamTableToggle(e.target.checked)}
+                  className="sr-only"
+                  tabIndex={-1}
+                  aria-label={t("settings.features.spritesInTeamTable.title")}
+                />
+                <span
+                  aria-hidden="true"
+                  className={`relative block w-11 h-6 rounded-full transition-colors duration-200 ease-out pointer-events-none ${
+                    useSpritesInTeamTable
+                      ? "bg-green-500"
+                      : "bg-gray-200 dark:bg-gray-700"
+                  }`}
+                >
+                  <span
+                    className={`absolute top-[2px] left-[2px] h-5 w-5 transform rounded-full bg-white shadow transition duration-200 ease-out pointer-events-none ${
+                      useSpritesInTeamTable ? "translate-x-5" : ""
+                    }`}
+                  />
+                </span>
+              </label>
             </div>
           </section>
 

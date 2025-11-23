@@ -9,6 +9,8 @@ interface GraveyardProps {
   playerNames: string[];
   playerColors?: string[];
   onManualAddClick?: () => void;
+  readOnly?: boolean;
+  generationSpritePath?: string | null;
 }
 
 const Graveyard: React.FC<GraveyardProps> = ({
@@ -16,6 +18,8 @@ const Graveyard: React.FC<GraveyardProps> = ({
   playerNames,
   playerColors,
   onManualAddClick,
+  generationSpritePath,
+  readOnly = false,
 }) => {
   const { t } = useTranslation();
   const names = useMemo(() => {
@@ -38,8 +42,11 @@ const Graveyard: React.FC<GraveyardProps> = ({
         </h2>
         {onManualAddClick && (
           <button
-            onClick={onManualAddClick}
-            className="ml-4 text-white hover:text-gray-300"
+            onClick={() => {
+              if (!readOnly) onManualAddClick();
+            }}
+            disabled={readOnly}
+            className={`ml-4 text-white ${readOnly ? "text-gray-400 cursor-not-allowed" : "hover:text-gray-300"}`}
             title={t("graveyard.manualAddTitle")}
           >
             <svg
@@ -83,7 +90,10 @@ const Graveyard: React.FC<GraveyardProps> = ({
                       name: "",
                       nickname: "",
                     };
-                    const spriteUrl = getSpriteUrlForPokemonName(member.name);
+                    const spriteUrl = getSpriteUrlForPokemonName(
+                      member.name,
+                      generationSpritePath,
+                    );
                     return (
                       <div key={`${pair.id}-player-${index}`}>
                         <p
@@ -94,9 +104,8 @@ const Graveyard: React.FC<GraveyardProps> = ({
                             <img
                               src={spriteUrl}
                               alt={member.name || "Pokémon"}
-                              className="w-8 h-8"
+                              className="w-10 h-10"
                               loading="lazy"
-                              style={{ imageRendering: "pixelated" }}
                             />
                           ) : null}
                           <span>
