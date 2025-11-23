@@ -145,7 +145,11 @@ const HomePage: React.FC<HomePageProps> = ({
                                                 <span className="inline-flex items-center gap-1 rounded-full bg-gray-100 dark:bg-gray-800 px-2 py-1 text-xs font-semibold">
                                                     <FiUsers/> {t('home.memberCount', { count: memberCount })}
                                                 </span>
-                                                <span className="inline-flex items-center gap-1 rounded-full bg-gray-100 dark:bg-gray-800 px-2 py-1 text-xs font-semibold">
+                                                <span 
+                                                    className="inline-flex items-center gap-1 rounded-full bg-gray-100 dark:bg-gray-800 px-2 py-1 text-xs font-semibold"
+                                                    aria-label={tracker.isPublic ? t('home.publicTracker') : t('home.privateTracker')}
+                                                    title={tracker.isPublic ? t('home.publicTracker') : t('home.privateTracker')}
+                                                >
                                                     {tracker.isPublic ? <FiUnlock size={14}/> : <FiLock size={14}/>}
                                                 </span>
                                                 <div className="ml-auto shrink-0">

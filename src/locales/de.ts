@@ -43,6 +43,8 @@ export const de = {
         activePokemon: 'Aktiv',
         fallenPokemon: 'Tot',
         progressFallback: 'Noch keine Arena',
+        privateTracker: 'Privater Tracker',
+        publicTracker: 'Öffentlicher Tracker',
     },
     modals: {
         common: {
