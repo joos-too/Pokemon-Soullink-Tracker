@@ -1,23 +1,23 @@
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
-import { de } from '@/src/locales/de';
-import { en } from '@/src/locales/en';
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
+import { de } from "@/src/locales/de";
+import { en } from "@/src/locales/en";
 
-export const LANGUAGE_STORAGE_KEY = 'soullink:language';
+export const LANGUAGE_STORAGE_KEY = "soullink:language";
 
 const getInitialLanguage = () => {
-  if (typeof window === 'undefined') {
-    return 'en';
+  if (typeof window === "undefined") {
+    return "en";
   }
   const stored = window.localStorage?.getItem(LANGUAGE_STORAGE_KEY);
-  if (stored === 'de' || stored === 'en') {
+  if (stored === "de" || stored === "en") {
     return stored;
   }
-  const browser = window.navigator?.language ?? '';
-  if (browser.toLowerCase().startsWith('de')) {
-    return 'de';
+  const browser = window.navigator?.language ?? "";
+  if (browser.toLowerCase().startsWith("de")) {
+    return "de";
   }
-  return 'en';
+  return "en";
 };
 
 i18n
@@ -28,7 +28,7 @@ i18n
       en: { translation: en },
     },
     lng: getInitialLanguage(),
-    fallbackLng: 'de',
+    fallbackLng: "de",
     interpolation: {
       escapeValue: false,
     },
@@ -36,14 +36,14 @@ i18n
   })
   .catch((error) => {
     // eslint-disable-next-line no-console
-    console.error('i18n init failed', error);
+    console.error("i18n init failed", error);
   });
 
-i18n.on('languageChanged', (lng) => {
-  if (typeof window === 'undefined') {
+i18n.on("languageChanged", (lng) => {
+  if (typeof window === "undefined") {
     return;
   }
-  if (lng === 'de' || lng === 'en') {
+  if (lng === "de" || lng === "en") {
     window.localStorage?.setItem(LANGUAGE_STORAGE_KEY, lng);
   }
 });

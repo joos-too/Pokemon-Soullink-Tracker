@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebaseConfig";
-import { focusRingClasses, focusRingInputClasses, focusRingBlueClasses } from "@/src/styles/focusRing";
+import {
+  focusRingClasses,
+  focusRingInputClasses,
+  focusRingBlueClasses,
+} from "@/src/styles/focusRing";
 import { useTranslation } from "react-i18next";
 
 type LoginPageProps = {
@@ -23,7 +27,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onSwitchToRegister }) => {
       await signInWithEmailAndPassword(auth, email, password);
     } catch (err) {
       console.error("Error signing in", err);
-      setError(t('auth.login.error'));
+      setError(t("auth.login.error"));
     } finally {
       setLoading(false);
     }
@@ -40,18 +44,18 @@ const LoginPage: React.FC<LoginPageProps> = ({ onSwitchToRegister }) => {
               className="mx-auto mb-3 w-40 h-40 object-contain"
             />
             <h1 className="text-2xl sm:text-3xl font-bold font-press-start tracking-tighter dark:text-gray-100">
-              {t('auth.login.title')}
+              {t("auth.login.title")}
             </h1>
             <p className="text-sm text-gray-500 dark:text-gray-400 mt-2 text-center">
-              <span className="block">{t('auth.login.headline')}</span>
+              <span className="block">{t("auth.login.headline")}</span>
               <span className="block mt-1">
-                {t('auth.login.fallback')}{' '}
+                {t("auth.login.fallback")}{" "}
                 <button
                   type="button"
                   onClick={onSwitchToRegister}
                   className={`font-semibold text-blue-600 hover:text-blue-700 dark:text-blue-400 hover:underline focus-visible:underline ${focusRingBlueClasses}`}
                 >
-                  {t('auth.login.registerPrompt')}
+                  {t("auth.login.registerPrompt")}
                 </button>
               </span>
             </p>
@@ -59,19 +63,23 @@ const LoginPage: React.FC<LoginPageProps> = ({ onSwitchToRegister }) => {
 
           <form onSubmit={handleAuthAction} className="mt-6 space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('auth.login.emailLabel')}</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                {t("auth.login.emailLabel")}
+              </label>
               <input
                 type="email"
                 autoComplete="email"
                 required
                 className={`w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
-                placeholder={t('auth.login.emailPlaceholder')}
+                placeholder={t("auth.login.emailPlaceholder")}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('auth.login.passwordLabel')}</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                {t("auth.login.passwordLabel")}
+              </label>
               <input
                 type="password"
                 autoComplete="current-password"
@@ -84,7 +92,9 @@ const LoginPage: React.FC<LoginPageProps> = ({ onSwitchToRegister }) => {
             </div>
 
             {error && (
-              <div className="text-red-500 dark:text-red-400 text-sm">{error}</div>
+              <div className="text-red-500 dark:text-red-400 text-sm">
+                {error}
+              </div>
             )}
 
             <button
@@ -92,7 +102,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onSwitchToRegister }) => {
               disabled={loading}
               className={`w-full bg-green-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-green-700 transition-colors shadow-md disabled:opacity-70 ${focusRingClasses}`}
             >
-              {loading ? `${t('auth.login.submit')}…` : t('auth.login.submit')}
+              {loading ? `${t("auth.login.submit")}…` : t("auth.login.submit")}
             </button>
           </form>
         </div>
