@@ -93,6 +93,7 @@ const App: React.FC = () => {
     const [trackerSummaries, setTrackerSummaries] = useState<Record<string, TrackerSummary>>({});
     const { t } = useTranslation();
     const [userTrackersLoading, setUserTrackersLoading] = useState(false);
+    const [publicTrackerLoading, setPublicTrackerLoading] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const showSettings = searchParams.get('panel') === 'settings';
     const openSettingsPanel = useCallback(() => {
@@ -388,9 +389,16 @@ const App: React.FC = () => {
 
     // Load public tracker metadata when not authenticated
     useEffect(() => {
-        if (user) return; // Only for unauthenticated users
-        if (!routeTrackerId) return;
+        if (user) {
+            setPublicTrackerLoading(false);
+            return; // Only for unauthenticated users
+        }
+        if (!routeTrackerId) {
+            setPublicTrackerLoading(false);
+            return;
+        }
 
+        setPublicTrackerLoading(true);
         const metaRef = ref(db, `trackers/${routeTrackerId}/meta`);
         const unsubscribe = onValue(metaRef, (snapshot) => {
             const meta = snapshot.val();
@@ -408,6 +416,7 @@ const App: React.FC = () => {
                 });
                 setActiveTrackerId(null);
             }
+            setPublicTrackerLoading(false);
         }, () => {
             // Error handling - tracker doesn't exist or can't be read
             setTrackerMetas(prev => {
@@ -416,9 +425,13 @@ const App: React.FC = () => {
                 return next;
             });
             setActiveTrackerId(null);
+            setPublicTrackerLoading(false);
         });
 
-        return () => unsubscribe();
+        return () => {
+            unsubscribe();
+            setPublicTrackerLoading(false);
+        };
     }, [user, routeTrackerId]);
 
     useEffect(() => {
@@ -1072,8 +1085,7 @@ const App: React.FC = () => {
 
     // Show loading while auth is initializing, or while the target tracker is still resolving/loading
     // For public trackers when not logged in, also wait for data to load
-    const isLoadingPublicTracker = !user && routeTrackerId && !activeTrackerMeta && loading;
-    if (loading || (user && (!dataLoaded || routeTrackerPendingSelection)) || isLoadingPublicTracker) {
+    if (loading || (user && (!dataLoaded || routeTrackerPendingSelection)) || publicTrackerLoading) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-[#f0f0f0] dark:bg-gray-900">
                 <div className="flex flex-col items-center gap-3" role="status" aria-live="polite">
