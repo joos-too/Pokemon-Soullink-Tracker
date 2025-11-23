@@ -862,8 +862,12 @@ const App: React.FC = () => {
     if (isReadOnly) return;
     const gameVersionId = activeGameVersionId;
     setData((prev) => {
-      const base = createInitialState(gameVersionId);
-      const playerCount = prev.playerNames.length;
+      const playerNames =
+        prev.playerNames.length > 0
+          ? sanitizePlayerNames(prev.playerNames)
+          : sanitizePlayerNames(activeTrackerMeta?.playerNames);
+      const base = createInitialState(gameVersionId, playerNames);
+      const playerCount = playerNames.length;
       const makeZeroArray = () => Array.from({ length: playerCount }, () => 0);
       const summedDeaths = Array.from(
         { length: playerCount },
