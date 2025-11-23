@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import {FiPlus, FiUsers, FiSettings} from 'react-icons/fi';
+import {FiPlus, FiUsers, FiSettings, FiLock, FiUnlock} from 'react-icons/fi';
 import DarkModeToggle from '@/src/components/DarkModeToggle';
 import type {TrackerMeta, TrackerSummary} from '@/types';
 import GameVersionBadge from './GameVersionBadge';
@@ -144,6 +144,9 @@ const HomePage: React.FC<HomePageProps> = ({
                                                 </span>
                                                 <span className="inline-flex items-center gap-1 rounded-full bg-gray-100 dark:bg-gray-800 px-2 py-1 text-xs font-semibold">
                                                     <FiUsers/> {t('home.memberCount', { count: memberCount })}
+                                                </span>
+                                                <span className="inline-flex items-center gap-1 rounded-full bg-gray-100 dark:bg-gray-800 px-2 py-1 text-xs font-semibold">
+                                                    {tracker.isPublic ? <FiUnlock size={14}/> : <FiLock size={14}/>}
                                                 </span>
                                                 <div className="ml-auto shrink-0">
                                                     <GameVersionBadge gameVersionId={tracker.gameVersionId}/>
