@@ -25,6 +25,10 @@ export const en = {
     darkModeToggleLabel: "Toggle dark mode",
     darkModeToggleTitle: "Toggle dark mode",
     gym: "Gym",
+    roles: {
+      member: "Member",
+      guest: "Guest",
+    },
   },
   home: {
     logoAlt: "Soullink Tracker logo",
@@ -91,7 +95,7 @@ export const en = {
       playerPlaceholder: "Name",
       membersLabel: "Members (optional)",
       membersDescription:
-        "Add email addresses that should get access to this tracker.",
+        "Add email addresses that should get access to this tracker as members or guests.",
       addMember: "Email",
       removeMember: "Remove email",
       submitting: "Creating…",
@@ -207,6 +211,8 @@ export const en = {
     },
     publicReadOnlyNotice:
       "Public tracker: editing is disabled unless you log in and are a member. This view is read-only.",
+    guestReadOnlyNotice:
+      "You were invited as a guest. You can view everything, but changes are disabled.",
   },
   team: {
     teamTitle: "Team",
@@ -249,7 +255,7 @@ export const en = {
       leaveTrackerTitle: "Leave tracker",
     },
     inputs: {
-      trackerTitle: "Tracker title",
+      trackerTitle: "Tracker Title",
       trackerTitlePlaceholder: "e.g. Black 2 Soullink",
       playerLabel: "Player {{index}} name",
     },
@@ -312,11 +318,12 @@ export const en = {
       roles: {
         owner: "Owner",
         member: "Member",
+        guest: "Guest",
       },
       removeAriaLabel: "Remove {{email}}",
-      inviteTitle: "Add member",
-      inviteSuccess: "Member added successfully.",
-      inviteError: "Something went wrong while inviting the member.",
+      inviteTitle: "Add member or guest",
+      inviteSuccess: "User added successfully.",
+      inviteError: "Something went wrong while inviting the user.",
       inviteButton: {
         loading: "Adding…",
         default: "Invite",
@@ -325,9 +332,11 @@ export const en = {
     },
     removeModal: {
       badgeSelf: "Leave tracker",
-      badgeMember: "Remove member",
+      badgeMember: "Remove member or guest",
       confirmSelf: "Do you really want to leave this tracker?",
-      confirmMember: "Do you really want to remove this member?",
+      confirmSelfButton: "Leave",
+      confirmMember: "Do you really want to remove this member or guest?",
+      confirmMemberRemoval: "Remove",
       descriptionSelf:
         "You will lose access immediately and must be invited again to rejoin.",
       descriptionMember:

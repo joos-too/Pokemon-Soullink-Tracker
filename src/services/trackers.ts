@@ -1,4 +1,4 @@
-import { ref, set, update, get } from "firebase/database";
+import { get, ref, set, update } from "firebase/database";
 import type { User } from "firebase/auth";
 import { db } from "@/src/firebaseConfig";
 import {
@@ -120,10 +120,17 @@ const buildMember = (
   addedAt: Date.now(),
 });
 
+type InviteRole = Exclude<TrackerRole, "owner">;
+
+interface InviteEntry {
+  email: string;
+  role: InviteRole;
+}
+
 interface CreateTrackerPayload {
   title: string;
   playerNames: string[];
-  memberEmails: string[];
+  memberInvites: InviteEntry[];
   owner: User;
   gameVersionId: string;
 }
@@ -131,7 +138,7 @@ interface CreateTrackerPayload {
 export const createTracker = async ({
   title,
   playerNames,
-  memberEmails,
+  memberInvites,
   owner,
   gameVersionId,
 }: CreateTrackerPayload): Promise<{ trackerId: string; meta: TrackerMeta }> => {
@@ -158,9 +165,16 @@ export const createTracker = async ({
       "invalid-input",
     );
   }
-  const filteredEmails = (memberEmails ?? [])
-    .map(normalizeEmail)
-    .filter((email) => email && email !== normalizeEmail(owner.email!));
+  const inviteByEmail = new Map<string, InviteRole>();
+  (memberInvites ?? []).forEach(({ email, role }) => {
+    const normalized = normalizeEmail(email);
+    if (!normalized || normalized === normalizeEmail(owner.email!)) return;
+    if (!inviteByEmail.has(normalized)) {
+      inviteByEmail.set(normalized, role === "guest" ? "guest" : "editor");
+    }
+  });
+
+  const filteredEmails = Array.from(inviteByEmail.keys());
 
   const { found, missing } = await resolveUsersByEmails(filteredEmails);
   if (missing.length > 0) {
@@ -179,9 +193,18 @@ export const createTracker = async ({
   const members: Record<string, TrackerMember> = {
     [owner.uid]: buildMember(owner.uid, owner.email!, "owner"),
   };
+  const guests: Record<string, TrackerMember> = {};
 
   for (const entry of found) {
-    members[entry.uid] = buildMember(entry.uid, entry.email, "editor");
+    const role =
+      inviteByEmail.get(normalizeEmail(entry.email)) === "guest"
+        ? "guest"
+        : "editor";
+    if (role === "guest") {
+      guests[entry.uid] = buildMember(entry.uid, entry.email, "guest");
+    } else {
+      members[entry.uid] = buildMember(entry.uid, entry.email, "editor");
+    }
   }
 
   const meta: TrackerMeta = {
@@ -191,6 +214,7 @@ export const createTracker = async ({
     createdAt,
     createdBy: owner.uid,
     members,
+    guests,
     gameVersionId,
     isPublic: false,
   };
@@ -212,6 +236,10 @@ export const createTracker = async ({
       userTrackerUpdates[`userTrackers/${uid}/${trackerId}`] = true;
     });
 
+  Object.keys(guests).forEach((uid) => {
+    userTrackerUpdates[`userTrackers/${uid}/${trackerId}`] = true;
+  });
+
   if (Object.keys(userTrackerUpdates).length > 0) {
     await update(ref(db), userTrackerUpdates);
   }
@@ -221,7 +249,7 @@ export const createTracker = async ({
 export const addMemberByEmail = async (
   trackerId: string,
   email: string,
-  role: TrackerRole = "editor",
+  role: InviteRole = "editor",
 ): Promise<TrackerMember> => {
   const normalized = normalizeEmail(email);
   if (!normalized) {
@@ -231,14 +259,19 @@ export const addMemberByEmail = async (
     );
   }
 
-  const existingSnap = await get(ref(db, `trackers/${trackerId}/meta/members`));
-  const existingMembers = existingSnap.exists()
-    ? (existingSnap.val() as Record<string, TrackerMember>)
+  const metaSnap = await get(ref(db, `trackers/${trackerId}/meta`));
+  const existingMembers = metaSnap.child("members").exists()
+    ? (metaSnap.child("members").val() as Record<string, TrackerMember>)
     : {};
-  const alreadyMember = Object.values(existingMembers).find(
-    (member) => normalizeEmail(member.email) === normalized,
-  );
-  if (alreadyMember) {
+  const existingGuests = metaSnap.child("guests").exists()
+    ? (metaSnap.child("guests").val() as Record<string, TrackerMember>)
+    : {};
+
+  const duplicateEntry = [
+    ...Object.values(existingMembers),
+    ...Object.values(existingGuests),
+  ].find((member) => normalizeEmail(member.email) === normalized);
+  if (duplicateEntry) {
     throw new TrackerOperationError(
       "Nutzer ist bereits Mitglied des Trackers.",
       "member-exists",
@@ -253,9 +286,11 @@ export const addMemberByEmail = async (
     );
   }
 
-  const member = buildMember(lookup.uid, lookup.email, role);
+  const targetRole: InviteRole = role === "guest" ? "guest" : "editor";
+  const member = buildMember(lookup.uid, lookup.email, targetRole);
   const updates: Record<string, unknown> = {
-    [`trackers/${trackerId}/meta/members/${member.uid}`]: member,
+    [`trackers/${trackerId}/meta/${targetRole === "guest" ? "guests" : "members"}/${member.uid}`]:
+      member,
     [`userTrackers/${member.uid}/${trackerId}`]: true,
   };
 
@@ -275,16 +310,24 @@ export const removeMemberFromTracker = async (
   }
 
   const memberRef = ref(db, `trackers/${trackerId}/meta/members/${memberUid}`);
-  const snapshot = await get(memberRef);
-  if (!snapshot.exists()) {
+  const guestRef = ref(db, `trackers/${trackerId}/meta/guests/${memberUid}`);
+  const [memberSnap, guestSnap] = await Promise.all([
+    get(memberRef),
+    get(guestRef),
+  ]);
+
+  const isGuest = !memberSnap.exists() && guestSnap.exists();
+  if (!memberSnap.exists() && !guestSnap.exists()) {
     throw new TrackerOperationError(
       "Mitglied wurde nicht gefunden.",
       "invalid-input",
     );
   }
 
-  const member = snapshot.val() as TrackerMember;
-  if (member.role === "owner") {
+  const member = (
+    isGuest ? guestSnap.val() : memberSnap.val()
+  ) as TrackerMember;
+  if (!isGuest && member.role === "owner") {
     throw new TrackerOperationError(
       "Owner können nicht entfernt werden.",
       "invalid-input",
@@ -292,10 +335,15 @@ export const removeMemberFromTracker = async (
   }
 
   const updates: Record<string, unknown> = {
-    [`trackers/${trackerId}/meta/members/${memberUid}`]: null,
     [`userTrackers/${memberUid}/${trackerId}`]: null,
-    [`trackers/${trackerId}/meta/userSettings/${memberUid}`]: null,
   };
+
+  if (isGuest) {
+    updates[`trackers/${trackerId}/meta/guests/${memberUid}`] = null;
+  } else {
+    updates[`trackers/${trackerId}/meta/members/${memberUid}`] = null;
+    updates[`trackers/${trackerId}/meta/userSettings/${memberUid}`] = null;
+  }
 
   await update(ref(db), updates);
 };
@@ -312,12 +360,17 @@ export const deleteTracker = async (trackerId: string): Promise<void> => {
 
   const trackerValue = trackerSnapshot.val() as { meta?: TrackerMeta };
   const memberEntries = trackerValue?.meta?.members ?? {};
+  const guestEntries = trackerValue?.meta?.guests ?? {};
 
   const updates: Record<string, unknown> = {
     [`trackers/${trackerId}`]: null,
   };
 
   Object.keys(memberEntries).forEach((uid) => {
+    updates[`userTrackers/${uid}/${trackerId}`] = null;
+  });
+
+  Object.keys(guestEntries).forEach((uid) => {
     updates[`userTrackers/${uid}/${trackerId}`] = null;
   });
 

@@ -1,5 +1,12 @@
 import React, { useMemo } from "react";
-import { FiPlus, FiUsers, FiSettings, FiLock, FiUnlock } from "react-icons/fi";
+import {
+  FiEye,
+  FiLock,
+  FiPlus,
+  FiSettings,
+  FiUnlock,
+  FiUsers,
+} from "react-icons/fi";
 import DarkModeToggle from "@/src/components/DarkModeToggle";
 import type { TrackerMeta, TrackerSummary } from "@/types";
 import GameVersionBadge from "./GameVersionBadge";
@@ -26,6 +33,7 @@ const HomePage: React.FC<HomePageProps> = ({
   onOpenUserSettings,
   activeTrackerId,
   trackerSummaries,
+  currentUserId,
 }) => {
   const { t, i18n } = useTranslation();
   const sortedTrackers = useMemo(
@@ -120,7 +128,9 @@ const HomePage: React.FC<HomePageProps> = ({
           ) : (
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               {sortedTrackers.map((tracker) => {
-                const memberCount = Object.keys(tracker.members ?? {}).length;
+                const memberCount =
+                  Object.keys(tracker.members ?? {}).length +
+                  Object.keys(tracker.guests ?? {}).length;
                 const isActive = tracker.id === activeTrackerId;
                 const summary = trackerSummaries[tracker.id];
                 const activePokemon =
@@ -129,6 +139,11 @@ const HomePage: React.FC<HomePageProps> = ({
                 const runNumber = summary?.runs ?? 0;
                 const progressLabel =
                   summary?.progressLabel ?? t("home.progressFallback");
+                const isGuestTracker = Boolean(
+                  currentUserId &&
+                    tracker.guests?.[currentUserId] &&
+                    !tracker.members?.[currentUserId],
+                );
                 return (
                   <div
                     key={tracker.id}
@@ -158,6 +173,11 @@ const HomePage: React.FC<HomePageProps> = ({
                           <FiUsers />{" "}
                           {t("home.memberCount", { count: memberCount })}
                         </span>
+                        {isGuestTracker && (
+                          <span className="inline-flex items-center gap-1 rounded-full bg-gray-100 dark:bg-gray-800 px-2 py-1 text-xs font-semibold">
+                            <FiEye /> {t("common.roles.guest")}
+                          </span>
+                        )}
                         <span
                           className="inline-flex items-center gap-1 rounded-full bg-gray-100 dark:bg-gray-800 px-2 py-1 text-xs font-semibold"
                           aria-label={

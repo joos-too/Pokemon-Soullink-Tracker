@@ -68,13 +68,13 @@ import {
   createTracker,
   deleteTracker,
   ensureUserProfile,
+  getUserGenerationSpritePreference,
+  getUserSpritesInTeamTablePreference,
   removeMemberFromTracker,
   TrackerOperationError,
   updateRivalPreference,
   updateUserGenerationSpritePreference,
-  getUserGenerationSpritePreference,
   updateUserSpritesInTeamTablePreference,
-  getUserSpritesInTeamTablePreference,
 } from "@/src/services/trackers";
 import { GAME_VERSIONS } from "@/src/data/game-versions";
 import { useTranslation } from "react-i18next";
@@ -213,6 +213,7 @@ const App: React.FC = () => {
     [activeGameVersionId],
   );
   const isMember = Boolean(user && activeTrackerMeta?.members?.[user.uid]);
+  const isGuest = Boolean(user && activeTrackerMeta?.guests?.[user.uid]);
   const isReadOnly = !isMember;
 
   const currentUserRivalPreferences = useMemo(() => {
@@ -1265,7 +1266,7 @@ const App: React.FC = () => {
   const handleCreateTrackerSubmit = async (payload: {
     title: string;
     playerNames: string[];
-    memberEmails: string[];
+    memberInvites: Array<{ email: string; role: "editor" | "guest" }>;
     gameVersionId: string;
   }) => {
     if (!user) return;
@@ -1275,7 +1276,7 @@ const App: React.FC = () => {
       await createTracker({
         title: payload.title,
         playerNames: payload.playerNames,
-        memberEmails: payload.memberEmails,
+        memberInvites: payload.memberInvites,
         owner: user,
         gameVersionId: payload.gameVersionId,
       });
@@ -1347,12 +1348,12 @@ const App: React.FC = () => {
   }, [trackerPendingDelete, activeTrackerId, navigate]);
 
   const handleInviteMember = useCallback(
-    async (email: string) => {
+    async (email: string, role: "editor" | "guest") => {
       if (!activeTrackerId) {
         throw new Error("Kein aktiver Tracker ausgewählt.");
       }
       try {
-        await addMemberByEmail(activeTrackerId, email);
+        await addMemberByEmail(activeTrackerId, email, role);
       } catch (error) {
         if (error instanceof TrackerOperationError) {
           const details = Array.isArray(error.details)
@@ -1421,15 +1422,18 @@ const App: React.FC = () => {
   const trackerMembers = activeTrackerMeta
     ? Object.values(activeTrackerMeta.members ?? {})
     : [];
+  const trackerGuests = activeTrackerMeta
+    ? Object.values(activeTrackerMeta.guests ?? {})
+    : [];
   const canManageMembers = Boolean(
     user && activeTrackerMeta?.members?.[user.uid]?.role === "owner",
   );
 
   useEffect(() => {
-    if (isReadOnly && showSettings) {
+    if (isReadOnly && !isGuest && showSettings) {
       closeSettingsPanel();
     }
-  }, [isReadOnly, showSettings, closeSettingsPanel]);
+  }, [isReadOnly, isGuest, showSettings, closeSettingsPanel]);
   const resolvedPlayerNames = useMemo(() => {
     if (Array.isArray(data.playerNames) && data.playerNames.length > 0) {
       return data.playerNames;
@@ -1474,6 +1478,13 @@ const App: React.FC = () => {
     activeTrackerMeta?.title?.trim() ||
     nameTitleFallback ||
     t("common.appName");
+  const readOnlyNotice = isReadOnly
+    ? isViewingPublicTracker
+      ? t("app.publicReadOnlyNotice")
+      : isGuest
+        ? t("app.guestReadOnlyNotice")
+        : null
+    : null;
 
   if (isPasswordResetRoute) {
     return <PasswordResetPage oobCode={passwordResetOobCode} />;
@@ -1559,6 +1570,7 @@ const App: React.FC = () => {
       isPublic={activeTrackerMeta?.isPublic ?? false}
       onPublicToggle={handlePublicToggle}
       members={trackerMembers}
+      guests={trackerGuests}
       onInviteMember={handleInviteMember}
       onRemoveMember={handleRemoveMember}
       onRequestDeleteTracker={() => {
@@ -1572,6 +1584,7 @@ const App: React.FC = () => {
       gameVersion={activeGameVersion}
       rivalPreferences={currentUserRivalPreferences}
       onRivalPreferenceChange={handleRivalPreferenceChange}
+      isGuest={isGuest}
     />
   ) : (
     <div className="bg-[#f0f0f0] dark:bg-gray-900 min-h-screen p-2 sm:p-4 md:p-8 text-gray-800 dark:text-gray-200">
@@ -1598,9 +1611,9 @@ const App: React.FC = () => {
         onClose={() => setShowResetModal(false)}
         onConfirm={handleConfirmReset}
       />
-      {isViewingPublicTracker && isReadOnly && (
+      {readOnlyNotice && (
         <div className="max-w-[1920px] mx-auto mt-3 mb-3 bg-blue-50 border border-blue-200 text-blue-800 dark:bg-slate-800 dark:border-slate-700 dark:text-blue-100 rounded-md px-3 py-2 text-sm shadow-sm">
-          {t("app.publicReadOnlyNotice")}
+          {readOnlyNotice}
         </div>
       )}
       <div className="max-w-[1920px] mx-auto bg-white dark:bg-gray-800 shadow-lg p-4 rounded-lg">
@@ -1634,8 +1647,8 @@ const App: React.FC = () => {
               </button>
               <button
                 onClick={openSettingsPanel}
-                disabled={isReadOnly}
-                className={`p-2 rounded-full focus:outline-none ${isReadOnly ? "text-gray-400 dark:text-gray-600 cursor-not-allowed" : "hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white"}`}
+                disabled={isReadOnly && !isGuest}
+                className={`p-2 rounded-full focus:outline-none ${isReadOnly && !isGuest ? "text-gray-400 dark:text-gray-600 cursor-not-allowed" : "hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white"}`}
                 aria-label={t("tracker.actions.settings")}
                 title={t("tracker.actions.settings")}
               >
@@ -1722,8 +1735,8 @@ const App: React.FC = () => {
                   setMobileMenuOpen(false);
                   openSettingsPanel();
                 }}
-                disabled={isReadOnly}
-                className={`w-full text-left px-2 py-2 rounded-md text-sm inline-flex items-center gap-2 ${isReadOnly ? "text-gray-400 dark:text-gray-500 cursor-not-allowed" : "text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"}`}
+                disabled={isReadOnly && !isGuest}
+                className={`w-full text-left px-2 py-2 rounded-md text-sm inline-flex items-center gap-2 ${isReadOnly && !isGuest ? "text-gray-400 dark:text-gray-500 cursor-not-allowed" : "text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"}`}
                 title={t("tracker.menu.settings")}
               >
                 <FiSettings size={18} /> {t("tracker.menu.settings")}

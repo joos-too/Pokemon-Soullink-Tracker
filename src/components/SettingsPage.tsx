@@ -1,28 +1,31 @@
-import React, { useState, useMemo } from "react";
-import { PLAYER_COLORS, MAX_PLAYER_COUNT, MIN_PLAYER_COUNT } from "@/constants";
+import React, { useMemo, useState } from "react";
+import { MAX_PLAYER_COUNT, MIN_PLAYER_COUNT, PLAYER_COLORS } from "@/constants";
 import type {
-  TrackerMember,
   GameVersion,
-  VariableRival,
-  UserSettings,
   RivalGender,
+  TrackerMember,
+  UserSettings,
+  VariableRival,
 } from "@/types";
 import {
+  FiArrowLeft,
+  FiEye,
+  FiInfo,
+  FiLogOut,
   FiShield,
+  FiTrash2,
   FiUserPlus,
   FiX,
-  FiTrash2,
-  FiLogOut,
-  FiInfo,
-  FiArrowLeft,
 } from "react-icons/fi";
 import {
-  focusRingInputClasses,
   focusRingClasses,
+  focusRingInputClasses,
 } from "@/src/styles/focusRing";
 import Tooltip from "./Tooltip";
 import { useTranslation } from "react-i18next";
 import { getLocalizedRivalEntry } from "@/src/services/gameLocalization";
+
+type InviteRoleOption = "editor" | "guest";
 
 interface SettingsPageProps {
   trackerTitle: string;
@@ -39,7 +42,8 @@ interface SettingsPageProps {
   isPublic: boolean;
   onPublicToggle: (enabled: boolean) => void;
   members: TrackerMember[];
-  onInviteMember: (email: string) => Promise<void>;
+  guests: TrackerMember[];
+  onInviteMember: (email: string, role: InviteRoleOption) => Promise<void>;
   onRemoveMember: (memberUid: string) => Promise<void>;
   onRequestDeleteTracker: () => void;
   canManageMembers: boolean;
@@ -48,6 +52,7 @@ interface SettingsPageProps {
   gameVersion?: GameVersion;
   rivalPreferences?: UserSettings["rivalPreferences"];
   onRivalPreferenceChange: (key: string, gender: RivalGender) => void;
+  isGuest?: boolean;
 }
 
 interface ToggleSwitchProps {
@@ -55,6 +60,7 @@ interface ToggleSwitchProps {
   checked: boolean;
   onChange: (enabled: boolean) => void;
   ariaLabel?: string;
+  disabled?: boolean;
 }
 
 const ToggleSwitch: React.FC<ToggleSwitchProps> = ({
@@ -62,10 +68,11 @@ const ToggleSwitch: React.FC<ToggleSwitchProps> = ({
   checked,
   onChange,
   ariaLabel,
+  disabled,
 }) => {
   const trackClasses = `relative block w-11 h-6 rounded-full transition-colors duration-200 ease-out pointer-events-none ${
     checked ? "bg-green-500" : "bg-gray-200 dark:bg-gray-700"
-  }`;
+  } ${disabled ? "opacity-60" : ""}`;
   const thumbClasses = `absolute top-[2px] left-[2px] h-5 w-5 transform rounded-full bg-white shadow transition duration-200 ease-out pointer-events-none ${
     checked ? "translate-x-5" : ""
   }`;
@@ -73,13 +80,16 @@ const ToggleSwitch: React.FC<ToggleSwitchProps> = ({
   return (
     <label
       htmlFor={id}
-      className="inline-flex items-center cursor-pointer rounded-full"
+      className={`inline-flex items-center rounded-full ${
+        disabled ? "cursor-not-allowed" : "cursor-pointer"
+      }`}
     >
       <input
         type="checkbox"
         id={id}
         checked={checked}
         onChange={(event) => onChange(event.target.checked)}
+        disabled={disabled}
         className="sr-only"
         tabIndex={-1}
         aria-label={ariaLabel}
@@ -106,6 +116,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
   isPublic,
   onPublicToggle,
   members,
+  guests,
   onInviteMember,
   onRemoveMember,
   onRequestDeleteTracker,
@@ -115,9 +126,11 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
   gameVersion,
   rivalPreferences,
   onRivalPreferenceChange,
+  isGuest = false,
 }) => {
   const { t } = useTranslation();
   const [inviteEmail, setInviteEmail] = useState("");
+  const [inviteRole, setInviteRole] = useState<InviteRoleOption>("editor");
   const [inviteMessage, setInviteMessage] = useState<string | null>(null);
   const [inviteError, setInviteError] = useState<string | null>(null);
   const [inviteLoading, setInviteLoading] = useState(false);
@@ -178,9 +191,10 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
     setInviteMessage(null);
     setInviteLoading(true);
     try {
-      await onInviteMember(inviteEmail);
+      await onInviteMember(inviteEmail, inviteRole);
       setInviteMessage(t("settings.members.inviteSuccess"));
       setInviteEmail("");
+      setInviteRole("editor");
     } catch (err) {
       const message =
         err instanceof Error ? err.message : t("settings.members.inviteError");
@@ -214,13 +228,23 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
     setMemberActionError(null);
   };
 
-  const sortedMembers = [...members].sort((a, b) => {
+  const participantsMap = new Map<string, TrackerMember>();
+  [...members, ...guests].forEach((participant) => {
+    if (!participantsMap.has(participant.uid)) {
+      participantsMap.set(participant.uid, participant);
+    }
+  });
+  const sortedMembers = Array.from(participantsMap.values()).sort((a, b) => {
     if (a.role === b.role) return a.email.localeCompare(b.email);
-    return a.role === "owner" ? -1 : 1;
+    if (a.role === "owner") return -1;
+    if (b.role === "owner") return 1;
+    if (a.role === "editor" && b.role === "guest") return -1;
+    if (a.role === "guest" && b.role === "editor") return 1;
+    return a.email.localeCompare(b.email);
   });
 
   const currentMember = currentUserId
-    ? members.find((member) => member.uid === currentUserId)
+    ? sortedMembers.find((member) => member.uid === currentUserId)
     : undefined;
   const pendingRemovalIsSelf =
     memberPendingRemoval && memberPendingRemoval.uid === currentUserId;
@@ -301,7 +325,8 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                     type="text"
                     value={trackerTitle}
                     onChange={(e) => onTitleChange(e.target.value)}
-                    className={`w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
+                    disabled={isGuest}
+                    className={`w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 disabled:opacity-60 disabled:cursor-not-allowed ${focusRingInputClasses}`}
                     placeholder={t("settings.inputs.trackerTitlePlaceholder")}
                   />
                 </div>
@@ -329,7 +354,8 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                             onChange={(e) =>
                               onPlayerNameChange(index, e.target.value)
                             }
-                            className={`w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
+                            disabled={isGuest}
+                            className={`w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 disabled:opacity-60 disabled:cursor-not-allowed ${focusRingInputClasses}`}
                           />
                         </div>
                       );
@@ -372,6 +398,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                   checked={hardcoreModeEnabled}
                   onChange={onHardcoreModeToggle}
                   ariaLabel={t("settings.features.hardcore.title")}
+                  disabled={isGuest}
                 />
               </div>
               <div className="flex items-center justify-between mb-4">
@@ -403,6 +430,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                   checked={rivalCensorEnabled}
                   onChange={onRivalCensorToggle}
                   ariaLabel={t("settings.features.rivalCensor.title")}
+                  disabled={isGuest}
                 />
               </div>
               <div className="flex items-center justify-between mb-4">
@@ -434,6 +462,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                   checked={legendaryTrackerEnabled}
                   onChange={onlegendaryTrackerToggle}
                   ariaLabel={t("settings.features.legendary.title")}
+                  disabled={isGuest}
                 />
               </div>
               <div className="flex items-center justify-between">
@@ -465,6 +494,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                   checked={isPublic}
                   onChange={onPublicToggle}
                   ariaLabel={t("settings.features.publicTracker.title")}
+                  disabled={isGuest}
                 />
               </div>
             </section>
@@ -477,7 +507,13 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                 {variableRivals.map((rival) => (
                   <div key={rival.key} className="mb-4">
                     <div className="flex items-center gap-4 text-gray-800 dark:text-gray-200">
-                      <label className="flex items-center gap-2 cursor-pointer">
+                      <label
+                        className={`flex items-center gap-2 ${
+                          isGuest
+                            ? "cursor-not-allowed opacity-70"
+                            : "cursor-pointer"
+                        }`}
+                      >
                         <input
                           type="radio"
                           name={`rival-${rival.key}`}
@@ -488,7 +524,8 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                           onChange={() =>
                             onRivalPreferenceChange(rival.key, "male")
                           }
-                          className="h-4 w-4 accent-green-600"
+                          disabled={isGuest}
+                          className="h-4 w-4 accent-green-600 disabled:opacity-60"
                         />{" "}
                         {getRivalOptionLabel(
                           rival.key,
@@ -496,7 +533,13 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                           rival.options.male,
                         )}
                       </label>
-                      <label className="flex items-center gap-2 cursor-pointer">
+                      <label
+                        className={`flex items-center gap-2 ${
+                          isGuest
+                            ? "cursor-not-allowed opacity-70"
+                            : "cursor-pointer"
+                        }`}
+                      >
                         <input
                           type="radio"
                           name={`rival-${rival.key}`}
@@ -505,7 +548,8 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                           onChange={() =>
                             onRivalPreferenceChange(rival.key, "female")
                           }
-                          className="h-4 w-4 accent-green-600"
+                          disabled={isGuest}
+                          className="h-4 w-4 accent-green-600 disabled:opacity-60"
                         />{" "}
                         {getRivalOptionLabel(
                           rival.key,
@@ -535,7 +579,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                   </p>
                 </div>
                 <span className="text-xs text-gray-500">
-                  {t("settings.members.count", { count: members.length })}
+                  {t("settings.members.count", { count: sortedMembers.length })}
                 </span>
               </div>
 
@@ -578,13 +622,18 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                       className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold ${
                         member.role === "owner"
                           ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-200"
-                          : "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-200"
+                          : member.role === "guest"
+                            ? "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-200"
+                            : "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-200"
                       }`}
                     >
                       {member.role === "owner" && <FiShield />}
+                      {member.role === "guest" && <FiEye />}
                       {member.role === "owner"
                         ? t("settings.members.roles.owner")
-                        : t("settings.members.roles.member")}
+                        : member.role === "guest"
+                          ? t("settings.members.roles.guest")
+                          : t("settings.members.roles.member")}
                     </span>
                   </li>
                 ))}
@@ -617,6 +666,16 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                       placeholder="trainer@example.com"
                       className={`flex-1 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
                     />
+                    <select
+                      value={inviteRole}
+                      onChange={(e) =>
+                        setInviteRole(e.target.value as InviteRoleOption)
+                      }
+                      className={`w-32 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-2 py-2 text-sm text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
+                    >
+                      <option value="editor">{t("common.roles.member")}</option>
+                      <option value="guest">{t("common.roles.guest")}</option>
+                    </select>
                     <button
                       type="submit"
                       disabled={inviteLoading}
@@ -707,8 +766,8 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                 {removingMemberId === memberPendingRemoval.uid
                   ? t("settings.removeModal.processing")
                   : pendingRemovalIsSelf
-                    ? t("settings.removeModal.confirmSelf")
-                    : t("settings.removeModal.confirmMember")}
+                    ? t("settings.removeModal.confirmSelfButton")
+                    : t("settings.removeModal.confirmMemberRemoval")}
               </button>
             </div>
           </div>

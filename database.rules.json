@@ -23,7 +23,7 @@
     },
     "trackers": {
       "$trackerId": {
-        ".read": "(auth.uid != null && root.child('trackers').child($trackerId).child('meta').child('members').child(auth.uid).exists()) || root.child('trackers').child($trackerId).child('meta').child('isPublic').val() === true",
+        ".read": "(auth.uid != null && (root.child('trackers').child($trackerId).child('meta').child('members').child(auth.uid).exists() || root.child('trackers').child($trackerId).child('meta').child('guests').child(auth.uid).exists())) || root.child('trackers').child($trackerId).child('meta').child('isPublic').val() === true",
         ".write": "auth.uid != null && (newData.child('meta').child('members').child(auth.uid).exists() || root.child('trackers').child($trackerId).child('meta').child('members').child(auth.uid).exists())"
       }
     }
