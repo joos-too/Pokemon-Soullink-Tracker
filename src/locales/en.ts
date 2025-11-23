@@ -200,6 +200,7 @@ export const en = {
             title: 'No tracker selected.',
             description: 'Choose a tracker on the home page or create a new one.',
         },
+        publicReadOnlyNotice: 'Public tracker: editing is disabled unless you log in and are a member. This view is read-only.',
     },
     team: {
         teamTitle: 'Team',

@@ -1,17 +1,18 @@
-import React, { useMemo } from 'react';
-import type { PokemonLink } from '@/types';
-import { getSpriteUrlForPokemonName } from '@/src/services/sprites';
-import { PLAYER_COLORS } from '@/constants';
-import { useTranslation } from 'react-i18next';
+import React, {useMemo} from 'react';
+import type {PokemonLink} from '@/types';
+import {getSpriteUrlForPokemonName} from '@/src/services/sprites';
+import {PLAYER_COLORS} from '@/constants';
+import {useTranslation} from 'react-i18next';
 
 interface GraveyardProps {
   graveyard?: PokemonLink[];
   playerNames: string[];
   playerColors?: string[];
   onManualAddClick?: () => void;
+  readOnly?: boolean;
 }
 
-const Graveyard: React.FC<GraveyardProps> = ({ graveyard = [], playerNames, playerColors, onManualAddClick }) => {
+const Graveyard: React.FC<GraveyardProps> = ({ graveyard = [], playerNames, playerColors, onManualAddClick, readOnly = false }) => {
   const { t } = useTranslation();
   const names = useMemo(() => {
     const list = playerNames.length ? playerNames : [t('graveyard.defaultPlayer', { index: 1 })];
@@ -26,8 +27,11 @@ const Graveyard: React.FC<GraveyardProps> = ({ graveyard = [], playerNames, play
         </h2>
         {onManualAddClick && (
           <button 
-            onClick={onManualAddClick} 
-            className="ml-4 text-white hover:text-gray-300"
+            onClick={() => {
+              if (!readOnly) onManualAddClick();
+            }} 
+            disabled={readOnly}
+            className={`ml-4 text-white ${readOnly ? 'text-gray-400 cursor-not-allowed' : 'hover:text-gray-300'}`}
             title={t('graveyard.manualAddTitle')}
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

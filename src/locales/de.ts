@@ -200,6 +200,7 @@ export const de = {
             title: 'Kein Tracker ausgewählt.',
             description: 'Bitte wähle auf der Startseite einen Tracker aus oder erstelle einen neuen.',
         },
+        publicReadOnlyNotice: 'Öffentlicher Tracker: Änderungen sind nur nach Anmeldung und Mitgliedschaft möglich. Dieser Modus ist schreibgeschützt.',
     },
     team: {
         teamTitle: 'Team',
