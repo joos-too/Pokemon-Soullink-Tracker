@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 import {
+  focusRingBlueClasses,
   focusRingClasses,
   focusRingInputClasses,
-  focusRingBlueClasses,
 } from "@/src/styles/focusRing";
 import { useTranslation } from "react-i18next";
 

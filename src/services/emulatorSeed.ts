@@ -17,7 +17,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { ref, get, update } from "firebase/database";
+import { get, ref, update } from "firebase/database";
 import { createInitialState } from "@/constants";
 
 // Test user credentials for emulator mode

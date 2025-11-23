@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp, type FirebaseOptions } from "firebase/app";
-import { getDatabase, connectDatabaseEmulator } from "firebase/database";
-import { getAuth, connectAuthEmulator } from "firebase/auth";
+import { type FirebaseOptions, initializeApp } from "firebase/app";
+import { connectDatabaseEmulator, getDatabase } from "firebase/database";
+import { connectAuthEmulator, getAuth } from "firebase/auth";
 
 // Read Firebase config from Vite env
 const apiKey = import.meta.env.VITE_FIREBASE_API_KEY as string | undefined;

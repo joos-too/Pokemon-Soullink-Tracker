@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { FiSun, FiMoon } from "react-icons/fi";
+import React, { useEffect, useState } from "react";
+import { FiMoon, FiSun } from "react-icons/fi";
 import { useTranslation } from "react-i18next";
 
 export function getSystemPrefersDark(): boolean {

@@ -3,9 +3,9 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import type { FirebaseError } from "firebase/app";
 import { auth } from "../firebaseConfig";
 import {
+  focusRingBlueClasses,
   focusRingClasses,
   focusRingInputClasses,
-  focusRingBlueClasses,
 } from "@/src/styles/focusRing";
 import { useTranslation } from "react-i18next";
 

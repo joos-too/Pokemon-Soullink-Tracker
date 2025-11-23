@@ -1,7 +1,7 @@
 import { GERMAN_POKEMON_NAMES } from "@/src/data/pokemon-de";
 import { ENGLISH_POKEMON_NAMES } from "@/src/data/pokemon-en";
 import { ENGLISH_TO_ID, GERMAN_TO_ID } from "@/src/data/pokemon-map";
-import { SupportedLanguage, SUPPORTED_LANGUAGES } from "@/src/utils/language";
+import { SUPPORTED_LANGUAGES, SupportedLanguage } from "@/src/utils/language";
 
 interface SearchOptions {
   maxGeneration?: number;

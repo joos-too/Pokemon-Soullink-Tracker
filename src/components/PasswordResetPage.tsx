@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useRef, useCallback } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  verifyPasswordResetCode,
   confirmPasswordReset,
   signOut,
+  verifyPasswordResetCode,
 } from "firebase/auth";
 import { auth } from "@/src/firebaseConfig";
 import { useTranslation } from "react-i18next";

@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { FiPlus, FiX, FiUsers } from "react-icons/fi";
+import { FiPlus, FiUsers, FiX } from "react-icons/fi";
 import { GAME_VERSIONS } from "@/src/data/game-versions";
 import { PLAYER_COLORS } from "@/constants";
 import {
   focusRingClasses,
-  focusRingInsetClasses,
   focusRingInputClasses,
+  focusRingInsetClasses,
 } from "@/src/styles/focusRing";
 import GameVersionPicker from "./GameVersionPicker";
 import { useTranslation } from "react-i18next";
