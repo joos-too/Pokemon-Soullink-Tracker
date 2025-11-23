@@ -95,6 +95,17 @@ The Realtime Database rules live in `database.rules.json`. To upload the current
 
 The same `database.rules.json` file is loaded automatically when you run the local emulators via `npm run emulators`.
 
+## Prettier & pre-commit hooks
+
+- Format locally with Prettier: `npx prettier --write .`
+- To auto-format before each commit, Husky is configured to run Prettier pre-commit.
+
+### Prettier in your editor
+
+- Enable Prettier in your editor to format on save or via a shortcut for fastest feedback.
+- Setup guides for popular editors: https://prettier.io/docs/editors
+- If your editor lacks support, use a file watcher to run `prettier --write` on changes.
+
 ## Pokémon data cache (names + evolutions)
 
 - The app ships with generated datasets under `src/data/` (`pokemon-de.ts`, `pokemon-en.ts`, `pokemon-map.ts`, `pokemon-evolutions.ts`) that power localized autocomplete and evolution filtering (generation + version-aware).
