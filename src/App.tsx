@@ -430,7 +430,6 @@ const App: React.FC = () => {
 
         return () => {
             unsubscribe();
-            setPublicTrackerLoading(false);
         };
     }, [user, routeTrackerId]);
 
