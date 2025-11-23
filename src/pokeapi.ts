@@ -1,4 +1,4 @@
-import { Pokedex } from 'pokeapi-js-wrapper';
+import { Pokedex } from "pokeapi-js-wrapper";
 
 // Shared PokeAPI client instance
 const P = new Pokedex({

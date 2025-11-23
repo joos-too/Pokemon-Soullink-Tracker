@@ -1,7 +1,7 @@
-import { GERMAN_POKEMON_NAMES } from '@/src/data/pokemon-de';
-import { ENGLISH_POKEMON_NAMES } from '@/src/data/pokemon-en';
-import { ENGLISH_TO_ID, GERMAN_TO_ID } from '@/src/data/pokemon-map';
-import { SupportedLanguage, SUPPORTED_LANGUAGES } from '@/src/utils/language';
+import { GERMAN_POKEMON_NAMES } from "@/src/data/pokemon-de";
+import { ENGLISH_POKEMON_NAMES } from "@/src/data/pokemon-en";
+import { ENGLISH_TO_ID, GERMAN_TO_ID } from "@/src/data/pokemon-map";
+import { SUPPORTED_LANGUAGES, SupportedLanguage } from "@/src/utils/language";
 
 interface SearchOptions {
   maxGeneration?: number;
@@ -15,7 +15,9 @@ type PokemonNameEntry = {
   lower: string;
 };
 
-const buildEntries = (items: { name: string; id: number; generation: number }[]) =>
+const buildEntries = (
+  items: { name: string; id: number; generation: number }[],
+) =>
   items.map((entry) => ({
     ...entry,
     lower: entry.name.toLowerCase(),
@@ -60,30 +62,42 @@ SUPPORTED_LANGUAGES.forEach((locale) => {
 export async function searchPokemonNames(
   query: string,
   max = 10,
-  options: SearchOptions = {}
+  options: SearchOptions = {},
 ): Promise<string[]> {
   const q = query.trim().toLowerCase();
   if (q.length < 2) return [];
-  const { maxGeneration, locale = 'de' } = options;
+  const { maxGeneration, locale = "de" } = options;
   const list = NAME_LISTS[locale] || NAME_LISTS.de;
   return list
-    .filter((entry) => entry.lower.includes(q) && (typeof maxGeneration !== 'number' || entry.generation <= maxGeneration))
+    .filter(
+      (entry) =>
+        entry.lower.includes(q) &&
+        (typeof maxGeneration !== "number" ||
+          entry.generation <= maxGeneration),
+    )
     .slice(0, max)
     .map((entry) => entry.name);
 }
 
-export function findPokemonIdByName(name: string | undefined | null): PokemonNameMatch | null {
+export function findPokemonIdByName(
+  name: string | undefined | null,
+): PokemonNameMatch | null {
   if (!name) return null;
   const key = name.trim().toLowerCase();
   if (!key) return null;
   return MERGED_NAME_TO_ID[key] || null;
 }
 
-export function getPokemonIdFromName(name: string | undefined | null): number | null {
+export function getPokemonIdFromName(
+  name: string | undefined | null,
+): number | null {
   const match = findPokemonIdByName(name);
   return match ? match.id : null;
 }
 
-export function getPokemonNameById(id: number, locale: SupportedLanguage): string | undefined {
+export function getPokemonNameById(
+  id: number,
+  locale: SupportedLanguage,
+): string | undefined {
   return ID_TO_NAME[locale]?.[id];
 }
