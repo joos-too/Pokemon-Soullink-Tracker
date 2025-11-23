@@ -87,7 +87,6 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
   generationSpritePath,
   pokemonGenerationLimit,
 }) => {
-  const isReadOnly = Boolean(readOnly);
   const [isEditingRules, setIsEditingRules] = useState(false);
   const [draftRules, setDraftRules] = useState<string[]>(rules);
   const trackerViewStorageKey = activeTrackerId
@@ -114,11 +113,11 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
   }, [trackerViewStorageKey]);
 
   useEffect(() => {
-    if (isReadOnly) {
+    if (readOnly) {
       setIsEditingRules(false);
       setDraftRules(rules);
     }
-  }, [isReadOnly, rules]);
+  }, [readOnly, rules]);
 
   const toggleCapsView = () => {
     setShowRivalCaps((prev) => {
@@ -228,7 +227,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
   });
 
   const startEditRules = () => {
-    if (isReadOnly) return;
+    if (readOnly) return;
     setDraftRules(rules);
     setIsEditingRules(true);
   };
@@ -237,13 +236,13 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
     setDraftRules(rules);
   };
   const saveEditRules = () => {
-    if (isReadOnly) return;
+    if (readOnly) return;
     const cleaned = draftRules.map((r) => r.trim()).filter((r) => r.length > 0);
     onRulesChange(cleaned);
     setIsEditingRules(false);
   };
   const addNewRule = () => {
-    if (isReadOnly) return;
+    if (readOnly) return;
     setDraftRules((prev) => [...prev, ""]);
   };
 
@@ -282,14 +281,14 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
   };
 
   const attemptLevelToggle = (index: number) => {
-    if (isReadOnly) return;
+    if (readOnly) return;
     if (canToggleLevelAtIndex(levelCaps, index)) {
       onLevelCapToggle(index);
     }
   };
 
   const attemptRivalToggle = (index: number) => {
-    if (isReadOnly) return;
+    if (readOnly) return;
     if (canToggleRivalAtIndex(rivalCaps, index)) {
       onRivalCapToggleDone(index);
     }
@@ -315,11 +314,11 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                 type="checkbox"
                 checked={!!cap.done}
                 onChange={() => attemptLevelToggle(index)}
-                disabled={isReadOnly}
+                disabled={readOnly}
                 aria-label={t("tracker.infoPanel.completedArena", {
                   target: arenaLabel,
                 })}
-                className={`h-5 w-5 accent-green-600 flex-shrink-0 ${isReadOnly ? "cursor-not-allowed opacity-60" : "cursor-pointer"}`}
+                className={`h-5 w-5 accent-green-600 flex-shrink-0 ${readOnly ? "cursor-not-allowed opacity-60" : "cursor-pointer"}`}
               />
               <span className="text-sm text-gray-800 dark:text-gray-300 break-words">
                 {arenaLabel}
@@ -350,10 +349,10 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
               {index === nextRivalToRevealIndex ? (
                 <button
                   onClick={() => {
-                    if (!isReadOnly) onRivalCapReveal(index);
+                    if (!readOnly) onRivalCapReveal(index);
                   }}
-                  disabled={isReadOnly}
-                  className={`w-full flex items-center justify-center gap-2 text-sm p-3 rounded-md border ${isReadOnly ? "bg-gray-200 dark:bg-gray-800 text-gray-400 dark:text-gray-500 cursor-not-allowed border-gray-300 dark:border-gray-700" : "bg-gray-100 dark:bg-gray-700/50 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-600"}`}
+                  disabled={readOnly}
+                  className={`w-full flex items-center justify-center gap-2 text-sm p-3 rounded-md border ${readOnly ? "bg-gray-200 dark:bg-gray-800 text-gray-400 dark:text-gray-500 cursor-not-allowed border-gray-300 dark:border-gray-700" : "bg-gray-100 dark:bg-gray-700/50 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-600"}`}
                 >
                   <FiEye size={16} /> {t("tracker.infoPanel.nextRival")}
                 </button>
@@ -376,8 +375,8 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                   aria-label={t("tracker.infoPanel.completedArena", {
                     target: resolvePreferredRivalName(rc),
                   })}
-                  disabled={isReadOnly}
-                  className={`h-5 w-5 accent-green-600 flex-shrink-0 ${isReadOnly ? "cursor-not-allowed opacity-60" : "cursor-pointer"}`}
+                  disabled={readOnly}
+                  className={`h-5 w-5 accent-green-600 flex-shrink-0 ${readOnly ? "cursor-not-allowed opacity-60" : "cursor-pointer"}`}
                 />
                 <span
                   onClick={(e) => e.stopPropagation()}
@@ -547,15 +546,15 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                           <button
                             type="button"
                             onClick={() => {
-                              if (isReadOnly) return;
+                              if (readOnly) return;
                               onPlayerStatChange(
                                 "top4Items",
                                 index,
                                 String(Math.max(0, value - 1)),
                               );
                             }}
-                            disabled={isReadOnly}
-                            className={`p-1 rounded-full ${isReadOnly ? "text-gray-400 dark:text-gray-500 cursor-not-allowed" : "hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300"}`}
+                            disabled={readOnly}
+                            className={`p-1 rounded-full ${readOnly ? "text-gray-400 dark:text-gray-500 cursor-not-allowed" : "hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300"}`}
                             aria-label={t("tracker.infoPanel.itemsDecrease")}
                             title={t("tracker.infoPanel.itemsDecrease")}
                           >
@@ -565,28 +564,28 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                             type="number"
                             value={value}
                             onChange={(e) => {
-                              if (isReadOnly) return;
+                              if (readOnly) return;
                               onPlayerStatChange(
                                 "top4Items",
                                 index,
                                 e.target.value,
                               );
                             }}
-                            disabled={isReadOnly}
+                            disabled={readOnly}
                             className="w-16 text-right bg-transparent border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-sm disabled:opacity-60 disabled:cursor-not-allowed"
                           />
                           <button
                             type="button"
                             onClick={() => {
-                              if (isReadOnly) return;
+                              if (readOnly) return;
                               onPlayerStatChange(
                                 "top4Items",
                                 index,
                                 String(value + 1),
                               );
                             }}
-                            disabled={isReadOnly}
-                            className={`p-1 rounded-full ${isReadOnly ? "text-gray-400 dark:text-gray-500 cursor-not-allowed" : "hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300"}`}
+                            disabled={readOnly}
+                            className={`p-1 rounded-full ${readOnly ? "text-gray-400 dark:text-gray-500 cursor-not-allowed" : "hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300"}`}
                             aria-label={t("tracker.infoPanel.itemsIncrease")}
                             title={t("tracker.infoPanel.itemsIncrease")}
                           >
@@ -728,16 +727,16 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                         dark:border-gray-700 overflow-hidden hover:bg-gray-100 active:bg-gray-200
                         dark:hover:bg-gray-700 dark:active:bg-gray-600 duration-200 select-none flex flex-col h-full"
             onClick={() => {
-              if (!isReadOnly) onlegendaryIncrement();
+              if (!readOnly) onlegendaryIncrement();
             }}
             onContextMenu={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              if (!isReadOnly) onlegendaryDecrement();
+              if (!readOnly) onlegendaryDecrement();
             }}
             title={t("tracker.infoPanel.legendaryHint")}
-            aria-disabled={isReadOnly}
-            style={{ cursor: isReadOnly ? "not-allowed" : "pointer" }}
+            aria-disabled={readOnly}
+            style={{ cursor: readOnly ? "not-allowed" : "pointer" }}
           >
             <h2
               className="text-center p-2 text-black font-press-start text-[13.5px]"
@@ -782,8 +781,8 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
               <button
                 type="button"
                 onClick={startEditRules}
-                disabled={isReadOnly}
-                className={`px-2 py-1 rounded-md text-xs font-semibold inline-flex items-center gap-1 shadow ${isReadOnly ? "bg-gray-300 text-gray-600 cursor-not-allowed" : "bg-green-600 text-white hover:bg-green-700"}`}
+                disabled={readOnly}
+                className={`px-2 py-1 rounded-md text-xs font-semibold inline-flex items-center gap-1 shadow ${readOnly ? "bg-gray-300 text-gray-600 cursor-not-allowed" : "bg-green-600 text-white hover:bg-green-700"}`}
                 title={t("tracker.infoPanel.editRules")}
               >
                 <FiEdit size={14} /> {t("tracker.infoPanel.editRules")}
@@ -801,8 +800,8 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                 <button
                   type="button"
                   onClick={saveEditRules}
-                  disabled={isReadOnly}
-                  className={`px-2 py-1 rounded-md text-xs font-semibold inline-flex items-center gap-1 shadow ${isReadOnly ? "bg-gray-300 text-gray-600 cursor-not-allowed" : "bg-green-600 text-white hover:bg-green-700"}`}
+                  disabled={readOnly}
+                  className={`px-2 py-1 rounded-md text-xs font-semibold inline-flex items-center gap-1 shadow ${readOnly ? "bg-gray-300 text-gray-600 cursor-not-allowed" : "bg-green-600 text-white hover:bg-green-700"}`}
                   title={t("tracker.infoPanel.saveRules")}
                 >
                   <FiSave size={14} /> {t("tracker.infoPanel.saveRules")}

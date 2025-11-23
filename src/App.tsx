@@ -940,7 +940,7 @@ const App: React.FC = () => {
         return { ...prev, [key]: list };
       });
     },
-    [],
+    [isReadOnly],
   );
 
   const updateLinkRoute = useCallback(
@@ -954,7 +954,7 @@ const App: React.FC = () => {
         return { ...prev, [key]: list };
       });
     },
-    [],
+    [isReadOnly],
   );
 
   const handleTeamChange = useCallback(
@@ -995,35 +995,44 @@ const App: React.FC = () => {
     [updateLinkRoute],
   );
 
-  const handleLevelCapToggle = useCallback((index: number) => {
-    if (isReadOnly) return;
-    setData((prev) => ({
-      ...prev,
-      levelCaps: prev.levelCaps.map((c, i) =>
-        i === index ? { ...c, done: !c.done } : c,
-      ),
-    }));
-  }, []);
+  const handleLevelCapToggle = useCallback(
+    (index: number) => {
+      if (isReadOnly) return;
+      setData((prev) => ({
+        ...prev,
+        levelCaps: prev.levelCaps.map((c, i) =>
+          i === index ? { ...c, done: !c.done } : c,
+        ),
+      }));
+    },
+    [isReadOnly],
+  );
 
-  const handleRivalCapToggleDone = useCallback((index: number) => {
-    if (isReadOnly) return;
-    setData((prev) => ({
-      ...prev,
-      rivalCaps: prev.rivalCaps.map((rc, i) =>
-        i === index ? { ...rc, done: !rc.done } : rc,
-      ),
-    }));
-  }, []);
+  const handleRivalCapToggleDone = useCallback(
+    (index: number) => {
+      if (isReadOnly) return;
+      setData((prev) => ({
+        ...prev,
+        rivalCaps: prev.rivalCaps.map((rc, i) =>
+          i === index ? { ...rc, done: !rc.done } : rc,
+        ),
+      }));
+    },
+    [isReadOnly],
+  );
 
-  const handleRivalCapReveal = useCallback((index: number) => {
-    if (isReadOnly) return;
-    setData((prev) => ({
-      ...prev,
-      rivalCaps: prev.rivalCaps.map((rc, i) =>
-        i === index ? { ...rc, revealed: true } : rc,
-      ),
-    }));
-  }, []);
+  const handleRivalCapReveal = useCallback(
+    (index: number) => {
+      if (isReadOnly) return;
+      setData((prev) => ({
+        ...prev,
+        rivalCaps: prev.rivalCaps.map((rc, i) =>
+          i === index ? { ...rc, revealed: true } : rc,
+        ),
+      }));
+    },
+    [isReadOnly],
+  );
 
   const handleStatChange = (stat: keyof AppState["stats"], value: string) => {
     if (isReadOnly) return;
@@ -1060,11 +1069,14 @@ const App: React.FC = () => {
     });
   };
 
-  const handleAddToGraveyard = useCallback((pair: PokemonLink) => {
-    if (isReadOnly) return;
-    setPendingLossPair(pair);
-    setShowLossModal(true);
-  }, []);
+  const handleAddToGraveyard = useCallback(
+    (pair: PokemonLink) => {
+      if (isReadOnly) return;
+      setPendingLossPair(pair);
+      setShowLossModal(true);
+    },
+    [isReadOnly],
+  );
 
   const handleConfirmLoss = (playerIndex: number) => {
     if (isReadOnly || !pendingLossPair) return;
