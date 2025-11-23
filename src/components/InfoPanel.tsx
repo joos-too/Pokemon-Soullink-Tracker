@@ -1,6 +1,6 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import type {GameVersion, LevelCap, RivalCap, Stats, UserSettings} from '@/types';
-import {LEGENDARY_POKEMON_NAMES, PLAYER_COLORS} from '@/constants';
+import {getLegendariesUpToGeneration, PLAYER_COLORS} from '@/constants';
 import {FiEdit, FiEye, FiEyeOff, FiMinus, FiPlus, FiRefreshCw, FiSave, FiX} from 'react-icons/fi';
 import {BadgeImage, LegendaryImage, RivalImage} from './GameImages';
 import {useTranslation} from 'react-i18next';
@@ -35,6 +35,8 @@ interface InfoPanelProps {
     rivalPreferences: UserSettings['rivalPreferences'];
     activeTrackerId?: string | null;
     readOnly?: boolean;
+    generationSpritePath?: string | null;
+    pokemonGenerationLimit?: number;
 }
 
 
@@ -60,6 +62,8 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                                  rivalPreferences,
                                                  activeTrackerId,
                                                  readOnly = false,
+                                                 generationSpritePath,
+                                                 pokemonGenerationLimit,
                                              }) => {
     const isReadOnly = Boolean(readOnly);
     const [isEditingRules, setIsEditingRules] = useState(false);
@@ -103,10 +107,14 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
         });
     };
 
+    const availableLegendaries = useMemo(() => {
+        return getLegendariesUpToGeneration(pokemonGenerationLimit || 6);
+    }, [pokemonGenerationLimit]);
+
     const randomLegendary = useMemo(() => {
-        const randomIndex = Math.floor(Math.random() * LEGENDARY_POKEMON_NAMES.length);
-        return LEGENDARY_POKEMON_NAMES[randomIndex];
-    }, []);
+        const randomIndex = Math.floor(Math.random() * availableLegendaries.length);
+        return availableLegendaries[randomIndex];
+    }, [availableLegendaries]);
 
     const nextRivalToRevealIndex = rivalCensorEnabled ? rivalCaps.findIndex(rc => !rc.revealed) : -1;
     const versionId = gameVersion?.id;
@@ -571,6 +579,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                     <LegendaryImage
                                         pokemonName={randomLegendary}
                                         className="w-full h-full object-contain"
+                                        generationSpritePath={generationSpritePath}
                                     />
                                 </div>
                                 <div

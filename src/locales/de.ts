@@ -277,6 +277,18 @@ export const de = {
                 tooltip: 'Wenn aktiviert, kann jeder mit der URL diesen Tracker ansehen, auch ohne sich einzuloggen.\n\nNur Mitglieder können den Tracker weiterhin bearbeiten.',
                 description: 'Erlaube allen, diesen Tracker über die URL anzusehen.',
             },
+            generationSprites: {
+                title: 'Generationsspezifische Sprites',
+                tooltipLabel: 'Info Generationsspezifische Sprites',
+                tooltip: 'Verwende Sprite-Grafiken, die der ausgewählten Spielversion entsprechen (z. B. Gen 1 Sprites für Rot/Blau).',
+                description: 'Zeige Pokémon-Sprites im Stil der jeweiligen Generation an.',
+            },
+            spritesInTeamTable: {
+                title: 'Sprites überall verwenden',
+                tooltipLabel: 'Info Sprites überall',
+                tooltip: 'Verwende Sprites statt offizieller Artworks überall in der App. Respektiert die anderen Sprite-Einstellungen.',
+                description: 'Zeige Sprites statt Artworks in allen Ansichten an.',
+            },
         },
         members: {
             title: 'Mitglieder',
@@ -334,6 +346,9 @@ export const de = {
         language: {
             title: 'Sprache',
             description: 'Hier kannst du die Sprache der Benutzeroberfläche wechseln.',
+        },
+        sprites: {
+            title: 'Sprite-Anzeige',
         },
     },
     auth: {

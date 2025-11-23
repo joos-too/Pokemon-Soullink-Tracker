@@ -10,9 +10,10 @@ interface GraveyardProps {
   playerColors?: string[];
   onManualAddClick?: () => void;
   readOnly?: boolean;
+  generationSpritePath?: string | null;
 }
 
-const Graveyard: React.FC<GraveyardProps> = ({ graveyard = [], playerNames, playerColors, onManualAddClick, readOnly = false }) => {
+const Graveyard: React.FC<GraveyardProps> = ({ graveyard = [], playerNames, playerColors, onManualAddClick, generationSpritePath, readOnly = false }) => {
   const { t } = useTranslation();
   const names = useMemo(() => {
     const list = playerNames.length ? playerNames : [t('graveyard.defaultPlayer', { index: 1 })];
@@ -29,7 +30,7 @@ const Graveyard: React.FC<GraveyardProps> = ({ graveyard = [], playerNames, play
           <button 
             onClick={() => {
               if (!readOnly) onManualAddClick();
-            }} 
+            }}
             disabled={readOnly}
             className={`ml-4 text-white ${readOnly ? 'text-gray-400 cursor-not-allowed' : 'hover:text-gray-300'}`}
             title={t('graveyard.manualAddTitle')}
@@ -49,12 +50,12 @@ const Graveyard: React.FC<GraveyardProps> = ({ graveyard = [], playerNames, play
                 <div className="grid gap-2" style={{gridTemplateColumns: `repeat(${names.length}, minmax(0, 1fr))`}}>
                   {names.map((name, index) => {
                     const member = pair.members?.[index] ?? { name: '', nickname: '' };
-                    const spriteUrl = getSpriteUrlForPokemonName(member.name);
+                    const spriteUrl = getSpriteUrlForPokemonName(member.name, generationSpritePath);
                     return (
                       <div key={`${pair.id}-player-${index}`}>
                         <p className="font-bold flex items-center gap-2" style={{color: colorForIndex(index)}}>
                           {spriteUrl ? (
-                            <img src={spriteUrl} alt={member.name || 'Pokémon'} className="w-8 h-8" loading="lazy" style={{ imageRendering: 'pixelated' }}/>
+                            <img src={spriteUrl} alt={member.name || 'Pokémon'} className="w-10 h-10" loading="lazy"/>
                           ) : null}
                           <span>{t('graveyard.memberTitle', { name, pokemon: member.name || t('graveyard.unknownPokemon') })}</span>
                         </p>

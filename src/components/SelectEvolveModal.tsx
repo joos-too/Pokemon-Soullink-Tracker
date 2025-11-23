@@ -2,7 +2,7 @@ import React, {useEffect, useMemo, useState} from 'react';
 import P from '@/src/pokeapi';
 import {EVOLUTIONS_DE, EVOLUTIONS_EN} from '@/src/data/pokemon-evolutions';
 import {POKEMON_ID_TO_GENERATION} from '@/src/data/pokemon-map';
-import {getOfficialArtworkUrlById} from '@/src/services/sprites';
+import {getOfficialArtworkUrlById, getSpriteUrlById} from '@/src/services/sprites';
 import {findPokemonIdByName, getPokemonNameById} from '@/src/services/pokemonSearch';
 import type {PokemonLink} from '@/types';
 import { useTranslation } from 'react-i18next';
@@ -16,6 +16,8 @@ interface SelectEvolveModalProps {
     playerLabels: string[];
     maxGeneration?: number;
     gameVersionId?: string;
+    generationSpritePath?: string | null;
+    useSpritesEverywhere?: boolean;
 }
 
 interface EvoInfo {
@@ -157,7 +159,9 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
                                                                  pair,
                                                                  playerLabels,
                                                                  maxGeneration,
-                                                                 gameVersionId
+                                                                 gameVersionId,
+                                                                 generationSpritePath,
+                                                                 useSpritesEverywhere = false
                                                              }) => {
     const [selectedPlayer, setSelectedPlayer] = useState<number | null>(null);
     const [availableEvos, setAvailableEvos] = useState<EvoInfo[] | null>(null);
@@ -343,7 +347,9 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
                                                            checked={selectedEvoId === ev.id}
                                                            onChange={() => setSelectedEvoId(ev.id)}
                                                            className="h-4 w-4 accent-green-600"/>
-                                                    <img src={ev.artworkUrl || getOfficialArtworkUrlById(ev.id)} alt=""
+                                                    <img src={useSpritesEverywhere 
+                                                        ? (getSpriteUrlById(ev.id, generationSpritePath) || ev.artworkUrl || getOfficialArtworkUrlById(ev.id))
+                                                        : (ev.artworkUrl || getOfficialArtworkUrlById(ev.id))} alt=""
                                                          className="w-16 h-16 object-contain"/>
                                                     <div className="text-sm">
                                                         <div>{ev.name}</div>

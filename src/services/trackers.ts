@@ -264,3 +264,35 @@ export const updateRivalPreference = async (
     const prefPath = `trackers/${trackerId}/meta/userSettings/${userId}/rivalPreferences/${rivalKey}`;
     await set(ref(db, prefPath), gender);
 };
+
+export const updateUserGenerationSpritePreference = async (
+    userId: string,
+    useGenerationSprites: boolean
+): Promise<void> => {
+    const userPath = `users/${userId}/useGenerationSprites`;
+    await set(ref(db, userPath), useGenerationSprites);
+};
+
+export const getUserGenerationSpritePreference = async (
+    userId: string
+): Promise<boolean> => {
+    const userPath = `users/${userId}/useGenerationSprites`;
+    const snapshot = await get(ref(db, userPath));
+    return snapshot.exists() ? snapshot.val() : false;
+};
+
+export const updateUserSpritesInTeamTablePreference = async (
+    userId: string,
+    useSpritesInTeamTable: boolean
+): Promise<void> => {
+    const userPath = `users/${userId}/useSpritesInTeamTable`;
+    await set(ref(db, userPath), useSpritesInTeamTable);
+};
+
+export const getUserSpritesInTeamTablePreference = async (
+    userId: string
+): Promise<boolean> => {
+    const userPath = `users/${userId}/useSpritesInTeamTable`;
+    const snapshot = await get(ref(db, userPath));
+    return snapshot.exists() ? snapshot.val() : false;
+};

@@ -14,6 +14,7 @@ import InfoPanel from '@/src/components/InfoPanel';
 import Graveyard from '@/src/components/Graveyard';
 import ClearedRoutes from '@/src/components/ClearedRoutes';
 import AddLostPokemonModal from '@/src/components/AddLostPokemonModal';
+import {getGenerationSpritePath} from '@/src/services/sprites';
 import SelectLossModal from '@/src/components/SelectLossModal';
 import LoginPage from '@/src/components/LoginPage';
 import RegisterPage from '@/src/components/RegisterPage';
@@ -37,7 +38,11 @@ import {
     ensureUserProfile,
     removeMemberFromTracker,
     TrackerOperationError,
-    updateRivalPreference
+    updateRivalPreference,
+    updateUserGenerationSpritePreference,
+    getUserGenerationSpritePreference,
+    updateUserSpritesInTeamTablePreference,
+    getUserSpritesInTeamTablePreference
 } from '@/src/services/trackers';
 import {GAME_VERSIONS} from '@/src/data/game-versions';
 import {useTranslation} from 'react-i18next';
@@ -104,6 +109,8 @@ const App: React.FC = () => {
     const [userTrackersLoading, setUserTrackersLoading] = useState(false);
     const [publicTrackerLoading, setPublicTrackerLoading] = useState(() => Boolean(routeTrackerId));
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [userUseGenerationSprites, setUserUseGenerationSprites] = useState(false);
+    const [userUseSpritesInTeamTable, setUserUseSpritesInTeamTable] = useState(false);
     const showSettings = searchParams.get('panel') === 'settings';
     const openSettingsPanel = useCallback(() => {
         const next = new URLSearchParams(searchParams);
@@ -144,6 +151,14 @@ const App: React.FC = () => {
         return activeTrackerMeta.userSettings?.[user.uid]?.rivalPreferences ?? {};
     }, [user, activeTrackerMeta]);
 
+    const generationSpritePath = useMemo(() => {
+        // Use generation-specific sprites if enabled
+        if (userUseGenerationSprites && activeGameVersionId) {
+            return getGenerationSpritePath(activeGameVersionId);
+        }
+        return null;
+    }, [userUseGenerationSprites, activeGameVersionId]);
+
     const handleRivalPreferenceChange = useCallback(async (key: string, gender: RivalGender) => {
         if (!activeTrackerId || !user) return;
         try {
@@ -152,6 +167,26 @@ const App: React.FC = () => {
             console.error("Failed to update rival preference:", error);
         }
     }, [activeTrackerId, user]);
+
+    const handleGenerationSpritesToggle = useCallback(async (enabled: boolean) => {
+        if (!user) return;
+        try {
+            await updateUserGenerationSpritePreference(user.uid, enabled);
+            setUserUseGenerationSprites(enabled);
+        } catch (error) {
+            console.error("Failed to update generation sprites preference:", error);
+        }
+    }, [user]);
+
+    const handleSpritesInTeamTableToggle = useCallback(async (enabled: boolean) => {
+        if (!user) return;
+        try {
+            await updateUserSpritesInTeamTablePreference(user.uid, enabled);
+            setUserUseSpritesInTeamTable(enabled);
+        } catch (error) {
+            console.error("Failed to update sprites in team table preference:", error);
+        }
+    }, [user]);
 
     const coerceAppState = useCallback((incoming: any, base: AppState): AppState => {
         const gameVersionForDefaults = activeGameVersion ?? GAME_VERSIONS['gen5_sw'];
@@ -260,6 +295,17 @@ const App: React.FC = () => {
     useEffect(() => {
         if (!user) return;
         ensureUserProfile(user).catch(() => {
+        });
+        // Load user's sprite preferences
+        Promise.all([
+            getUserGenerationSpritePreference(user.uid),
+            getUserSpritesInTeamTablePreference(user.uid)
+        ]).then(([genSprites, teamTableSprites]) => {
+            setUserUseGenerationSprites(genSprites);
+            setUserUseSpritesInTeamTable(teamTableSprites);
+        }).catch(() => {
+            setUserUseGenerationSprites(false);
+            setUserUseSpritesInTeamTable(false);
         });
     }, [user]);
 
@@ -1216,6 +1262,7 @@ const App: React.FC = () => {
                 onAdd={handleManualAddFromModal}
                 playerNames={resolvedPlayerNames}
                 generationLimit={pokemonGenerationLimit}
+                generationSpritePath={generationSpritePath}
             />
             <SelectLossModal
                 isOpen={!isReadOnly && showLossModal}
@@ -1385,6 +1432,8 @@ const App: React.FC = () => {
                             pokemonGenerationLimit={pokemonGenerationLimit}
                             gameVersionId={activeGameVersionId || undefined}
                             readOnly={isReadOnly}
+                            generationSpritePath={generationSpritePath}
+                            useSpritesInTeamTable={userUseSpritesInTeamTable}
                         />
                         <TeamTable
                             title={t('team.boxTitle')}
@@ -1411,6 +1460,8 @@ const App: React.FC = () => {
                             pokemonGenerationLimit={pokemonGenerationLimit}
                             gameVersionId={activeGameVersionId || undefined}
                             readOnly={isReadOnly}
+                            generationSpritePath={generationSpritePath}
+                            useSpritesInTeamTable={userUseSpritesInTeamTable}
                         />
                     </div>
 
@@ -1438,6 +1489,8 @@ const App: React.FC = () => {
                             rivalPreferences={currentUserRivalPreferences}
                             activeTrackerId={activeTrackerId}
                             readOnly={isReadOnly}
+                            generationSpritePath={generationSpritePath}
+                            pokemonGenerationLimit={pokemonGenerationLimit}
                         />
                         <Graveyard
                             graveyard={data.graveyard}
@@ -1445,6 +1498,7 @@ const App: React.FC = () => {
                             playerColors={playerColors}
                             onManualAddClick={() => setIsModalOpen(true)}
                             readOnly={isReadOnly}
+                            generationSpritePath={generationSpritePath}
                         />
                         <ClearedRoutes routes={clearedRoutes}/>
                     </div>
@@ -1514,7 +1568,7 @@ const App: React.FC = () => {
                 <Route
                     path="/account"
                     element={user
-                        ? <UserSettingsPage email={user.email} onBack={handleNavigateHome} onLogout={handleLogout}/>
+                        ? <UserSettingsPage email={user.email} onBack={handleNavigateHome} onLogout={handleLogout} useGenerationSprites={userUseGenerationSprites} onGenerationSpritesToggle={handleGenerationSpritesToggle} useSpritesInTeamTable={userUseSpritesInTeamTable} onSpritesInTeamTableToggle={handleSpritesInTeamTableToggle}/>
                         : <Navigate to="/" replace/>
                     }
                 />

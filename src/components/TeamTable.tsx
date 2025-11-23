@@ -3,7 +3,7 @@ import type {Pokemon, PokemonLink} from '@/types';
 import EditPairModal from './EditPairModal.tsx';
 import SelectEvolveModal from './SelectEvolveModal';
 import {FiArrowDown, FiArrowUp, FiChevronsUp, FiEdit, FiPlus, FiTrash} from 'react-icons/fi';
-import {getOfficialArtworkUrlForPokemonName} from '@/src/services/sprites';
+import {getOfficialArtworkUrlForPokemonName, getSpriteUrlForPokemonName} from '@/src/services/sprites';
 import {useTranslation} from 'react-i18next';
 
 interface TeamTableProps {
@@ -25,6 +25,8 @@ interface TeamTableProps {
     pokemonGenerationLimit?: number;
     gameVersionId?: string;
     readOnly?: boolean;
+    generationSpritePath?: string | null;
+    useSpritesInTeamTable?: boolean;
 }
 
 const TeamTable: React.FC<TeamTableProps> = ({
@@ -46,6 +48,8 @@ const TeamTable: React.FC<TeamTableProps> = ({
                                                  pokemonGenerationLimit,
                                             gameVersionId,
                                             readOnly = false,
+                                            generationSpritePath,
+                                            useSpritesInTeamTable = false,
                                         }) => {
     const { t } = useTranslation();
     const [editIndex, setEditIndex] = useState<number | null>(null);
@@ -153,7 +157,11 @@ const TeamTable: React.FC<TeamTableProps> = ({
                             <td className="p-2 text-center text-sm font-semibold text-gray-800 dark:text-gray-200">{displayIndex + 1}</td>
                             {playerNames.map((_, playerIndex) => {
                                 const member = pair.members?.[playerIndex] ?? { name: '', nickname: '' };
-                                const sprite = member.name ? getOfficialArtworkUrlForPokemonName(member.name) : null;
+                                const sprite = member.name
+                                    ? (useSpritesInTeamTable
+                                        ? getSpriteUrlForPokemonName(member.name, generationSpritePath)
+                                        : getOfficialArtworkUrlForPokemonName(member.name))
+                                    : null;
                                 return (
                                     <React.Fragment key={`player-cell-${pair.id}-${playerIndex}`}>
                             <td className="p-2 text-center border-l border-gray-200 dark:border-gray-700">
@@ -247,6 +255,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                 mode="edit"
                 initial={editInitial || {route: '', members: playerNames.map(() => ({name: '', nickname: ''}))}}
                 generationLimit={pokemonGenerationLimit}
+                generationSpritePath={generationSpritePath}
             />
             <SelectEvolveModal
                 isOpen={!readOnly && evolveIndex !== null}
@@ -260,6 +269,8 @@ const TeamTable: React.FC<TeamTableProps> = ({
                 playerLabels={playerNames}
                 maxGeneration={pokemonGenerationLimit}
                 gameVersionId={gameVersionId}
+                generationSpritePath={generationSpritePath}
+                useSpritesEverywhere={useSpritesInTeamTable}
             />
             <EditPairModal
                 isOpen={!readOnly && addOpen}
@@ -272,6 +283,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                 mode="create"
                 initial={{route: '', members: playerNames.map(() => ({name: '', nickname: ''}))}}
                 generationLimit={pokemonGenerationLimit}
+                generationSpritePath={generationSpritePath}
             />
         </div>
     );
