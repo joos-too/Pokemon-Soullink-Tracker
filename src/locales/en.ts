@@ -43,6 +43,8 @@ export const en = {
         activePokemon: 'Active',
         fallenPokemon: 'Lost',
         progressFallback: 'No gyms cleared',
+        privateTracker: 'Private tracker',
+        publicTracker: 'Public tracker',
     },
     modals: {
         common: {
