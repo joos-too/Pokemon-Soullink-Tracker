@@ -148,6 +148,7 @@ export const createTracker = async ({
         createdBy: owner.uid,
         members,
         gameVersionId,
+        isPublic: false,
     };
 
     const initialState = createInitialState(gameVersionId, normalizedPlayerNames);

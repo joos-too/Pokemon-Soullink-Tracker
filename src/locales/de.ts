@@ -43,6 +43,8 @@ export const de = {
         activePokemon: 'Aktiv',
         fallenPokemon: 'Tot',
         progressFallback: 'Noch keine Arena',
+        privateTracker: 'Privater Tracker',
+        publicTracker: 'Öffentlicher Tracker',
     },
     modals: {
         common: {
@@ -198,6 +200,7 @@ export const de = {
             title: 'Kein Tracker ausgewählt.',
             description: 'Bitte wähle auf der Startseite einen Tracker aus oder erstelle einen neuen.',
         },
+        publicReadOnlyNotice: 'Öffentlicher Tracker: Änderungen sind nur nach Anmeldung und Mitgliedschaft möglich. Dieser Modus ist schreibgeschützt.',
     },
     team: {
         teamTitle: 'Team',
@@ -267,6 +270,12 @@ export const de = {
                 tooltipLabel: 'Info Legendary Tracker',
                 tooltip: 'Aktiviert einen Tracker, welcher es ermöglicht die Encounter mit legendären Pokémon nachzuvollziehen, um eine eigene Statistik zu führen.',
                 description: 'Tracke die Anzahl der Legendaries, welchen man während der Challenge begegnet.',
+            },
+            publicTracker: {
+                title: 'Öffentlicher Tracker',
+                tooltipLabel: 'Info Öffentlicher Tracker',
+                tooltip: 'Wenn aktiviert, kann jeder mit der URL diesen Tracker ansehen, auch ohne sich einzuloggen.\n\nNur Mitglieder können den Tracker weiterhin bearbeiten.',
+                description: 'Erlaube allen, diesen Tracker über die URL anzusehen.',
             },
             generationSprites: {
                 title: 'Generationsspezifische Sprites',

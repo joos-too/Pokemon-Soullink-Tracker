@@ -43,6 +43,8 @@ export const en = {
         activePokemon: 'Active',
         fallenPokemon: 'Lost',
         progressFallback: 'No gyms cleared',
+        privateTracker: 'Private tracker',
+        publicTracker: 'Public tracker',
     },
     modals: {
         common: {
@@ -198,6 +200,7 @@ export const en = {
             title: 'No tracker selected.',
             description: 'Choose a tracker on the home page or create a new one.',
         },
+        publicReadOnlyNotice: 'Public tracker: editing is disabled unless you log in and are a member. This view is read-only.',
     },
     team: {
         teamTitle: 'Team',
@@ -267,6 +270,12 @@ export const en = {
                 tooltipLabel: 'Legendary info',
                 tooltip: 'Enables tracking of legendary encounters so you can keep your own statistics.',
                 description: 'Track how many legendaries you encounter during the challenge.',
+            },
+            publicTracker: {
+                title: 'Public tracker',
+                tooltipLabel: 'Public tracker info',
+                tooltip: 'When enabled, anyone with the URL can view this tracker, even without logging in.\n\nOnly members can still edit the tracker.',
+                description: 'Allow anyone to view this tracker via the URL.',
             },
             generationSprites: {
                 title: 'Generation-specific sprites',

@@ -1,8 +1,14 @@
-import React, {useState, useEffect, useCallback, useRef, useMemo} from 'react';
-import {FiSettings, FiRotateCw, FiMenu, FiSun, FiMoon, FiHome} from 'react-icons/fi';
-import { FaGithub } from 'react-icons/fa';
-import type {AppState, PokemonLink, TrackerMeta, TrackerSummary, LevelCap, RivalGender, Pokemon} from '@/types';
-import {createInitialState, DEFAULT_RULES, PLAYER_COLORS, sanitizePlayerNames, ensureStatsForPlayers} from '@/constants';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {FiHome, FiMenu, FiMoon, FiRotateCw, FiSettings, FiSun} from 'react-icons/fi';
+import {FaGithub} from 'react-icons/fa';
+import type {AppState, LevelCap, Pokemon, PokemonLink, RivalGender, TrackerMeta, TrackerSummary} from '@/types';
+import {
+    createInitialState,
+    DEFAULT_RULES,
+    ensureStatsForPlayers,
+    PLAYER_COLORS,
+    sanitizePlayerNames
+} from '@/constants';
 import TeamTable from '@/src/components/TeamTable';
 import InfoPanel from '@/src/components/InfoPanel';
 import Graveyard from '@/src/components/Graveyard';
@@ -20,10 +26,10 @@ import DarkModeToggle, {getDarkMode, setDarkMode} from '@/src/components/DarkMod
 import HomePage from '@/src/components/HomePage';
 import CreateTrackerModal from '@/src/components/CreateTrackerModal';
 import DeleteTrackerModal from '@/src/components/DeleteTrackerModal';
-import {Routes, Route, Navigate, useNavigate, useLocation, useMatch, useSearchParams} from 'react-router-dom';
-import {db, auth, USE_EMULATORS} from '@/src/firebaseConfig';
-import {ref, onValue, set, get, update} from "firebase/database";
-import {onAuthStateChanged, User, signOut} from "firebase/auth";
+import {Navigate, Route, Routes, useLocation, useMatch, useNavigate, useSearchParams} from 'react-router-dom';
+import {auth, db, USE_EMULATORS} from '@/src/firebaseConfig';
+import {get, onValue, ref, set, update} from "firebase/database";
+import {onAuthStateChanged, signOut, User} from "firebase/auth";
 import {seedEmulatorData} from '@/src/services/emulatorSeed';
 import {
     addMemberByEmail,
@@ -39,7 +45,7 @@ import {
     getUserSpritesInTeamTablePreference
 } from '@/src/services/trackers';
 import {GAME_VERSIONS} from '@/src/data/game-versions';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 import {formatBestLabel} from "@/src/utils/bestRun";
 
 const LAST_TRACKER_STORAGE_KEY = 'soullink:lastTrackerId';
@@ -92,11 +98,16 @@ const App: React.FC = () => {
     const [activeTrackerId, setActiveTrackerId] = useState<string | null>(storedTrackerId);
     const [userTrackerIds, setUserTrackerIds] = useState<string[]>([]);
     const [trackerMetas, setTrackerMetas] = useState<Record<string, TrackerMeta>>({});
+    const isViewingPublicTracker = useMemo(
+        () => !user && Boolean(routeTrackerId && trackerMetas[routeTrackerId]?.isPublic),
+        [user, routeTrackerId, trackerMetas]
+    );
     const metaListenersRef = useRef<Map<string, () => void>>(new Map());
     const trackerStateListenersRef = useRef<Map<string, () => void>>(new Map());
     const [trackerSummaries, setTrackerSummaries] = useState<Record<string, TrackerSummary>>({});
     const { t } = useTranslation();
     const [userTrackersLoading, setUserTrackersLoading] = useState(false);
+    const [publicTrackerLoading, setPublicTrackerLoading] = useState(() => Boolean(routeTrackerId));
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [userUseGenerationSprites, setUserUseGenerationSprites] = useState(false);
     const [userUseSpritesInTeamTable, setUserUseSpritesInTeamTable] = useState(false);
@@ -132,6 +143,8 @@ const App: React.FC = () => {
     const activeGameVersionId = activeTrackerMeta?.gameVersionId;
     const activeGameVersion = activeGameVersionId ? GAME_VERSIONS[activeGameVersionId] : undefined;
     const pokemonGenerationLimit = useMemo(() => resolveGenerationFromVersionId(activeGameVersionId), [activeGameVersionId]);
+    const isMember = Boolean(user && activeTrackerMeta?.members?.[user.uid]);
+    const isReadOnly = !isMember;
 
     const currentUserRivalPreferences = useMemo(() => {
         if (!user || !activeTrackerMeta) return {};
@@ -297,10 +310,20 @@ const App: React.FC = () => {
     }, [user]);
 
     useEffect(() => {
-        if (!user && !loading) {
+        // Don't redirect away from tracker route while we are still resolving whether it is public
+        if (user || loading) return;
+
+        if (!routeTrackerId) {
+            navigate('/', {replace: true});
+            return;
+        }
+
+        if (isViewingPublicTracker || publicTrackerLoading) return;
+        const routeTrackerMeta = trackerMetas[routeTrackerId];
+        if (!routeTrackerMeta || !routeTrackerMeta.isPublic) {
             navigate('/', {replace: true});
         }
-    }, [user, loading, navigate]);
+    }, [user, loading, navigate, routeTrackerId, publicTrackerLoading, trackerMetas, isViewingPublicTracker]);
 
     useEffect(() => {
         if (!location.pathname.startsWith('/tracker') && showSettings) {
@@ -429,9 +452,58 @@ const App: React.FC = () => {
         };
     }, [user, userTrackerIds]);
 
+    // Load public tracker metadata when not authenticated
+    useEffect(() => {
+        if (user) {
+            setPublicTrackerLoading(false);
+            return; // Only for unauthenticated users
+        }
+        if (!routeTrackerId) {
+            setPublicTrackerLoading(false);
+            return;
+        }
+
+        setPublicTrackerLoading(true);
+        const metaRef = ref(db, `trackers/${routeTrackerId}/meta`);
+        const unsubscribe = onValue(metaRef, (snapshot) => {
+            const meta = snapshot.val();
+            if (meta && meta.isPublic) {
+                setTrackerMetas(prev => ({
+                    ...prev,
+                    [routeTrackerId]: {...meta, id: routeTrackerId}
+                }));
+                setActiveTrackerId(routeTrackerId);
+            } else {
+                setTrackerMetas(prev => {
+                    const next = {...prev};
+                    delete next[routeTrackerId];
+                    return next;
+                });
+                setActiveTrackerId(null);
+            }
+            setPublicTrackerLoading(false);
+        }, () => {
+            // Error handling - tracker doesn't exist or can't be read
+            setTrackerMetas(prev => {
+                const next = {...prev};
+                delete next[routeTrackerId];
+                return next;
+            });
+            setActiveTrackerId(null);
+            setPublicTrackerLoading(false);
+        });
+
+        return () => {
+            unsubscribe();
+        };
+    }, [user, routeTrackerId]);
+
     useEffect(() => {
         if (!user) {
-            setActiveTrackerId(null);
+            // Don't clear activeTrackerId if it's a public tracker
+            if (!activeTrackerMeta?.isPublic) {
+                setActiveTrackerId(null);
+            }
             return;
         }
         if (userTrackersLoading) return;
@@ -486,31 +558,33 @@ const App: React.FC = () => {
         };
     }, []);
 
-    const routeTrackerExistsForUser = routeTrackerId ? userTrackerIds.includes(routeTrackerId) : false;
-    const routeTrackerKnownMissing = Boolean(routeTrackerId && !userTrackersLoading && !routeTrackerExistsForUser);
-    const routeTrackerPendingSelection = Boolean(
-        routeTrackerId &&
-        !routeTrackerKnownMissing &&
-        (userTrackersLoading || activeTrackerId !== routeTrackerId)
-    );
+    const routeTrackerExistsForUser = user && routeTrackerId ? userTrackerIds.includes(routeTrackerId) : false;
+    const routeTrackerKnownMissing = Boolean(user && routeTrackerId && !userTrackersLoading && !routeTrackerExistsForUser);
+    const routeTrackerPendingSelection = user
+        ? Boolean(
+            routeTrackerId &&
+            !routeTrackerKnownMissing &&
+            (userTrackersLoading || activeTrackerId !== routeTrackerId)
+        )
+        : false;
 
     useEffect(() => {
         isHydratingRef.current = true;
         const gameVersionId = activeGameVersionId;
-        if (!user) {
+        if (!user && !isViewingPublicTracker) {
             setData(createInitialState());
             setDataLoaded(false);
             isHydratingRef.current = false;
             return;
         }
 
-        if (routeTrackerPendingSelection) {
+        if (!isViewingPublicTracker && routeTrackerPendingSelection) {
             setData(createInitialState());
             setDataLoaded(false);
             return;
         }
 
-        if (routeTrackerKnownMissing) {
+        if (!isViewingPublicTracker && routeTrackerKnownMissing) {
             setData(createInitialState());
             setDataLoaded(true);
             isHydratingRef.current = false;
@@ -573,7 +647,7 @@ const App: React.FC = () => {
             isHydratingRef.current = true;
             setDataLoaded(false);
         };
-    }, [user, activeTrackerId, activeGameVersionId, coerceAppState, routeTrackerPendingSelection, routeTrackerKnownMissing]);
+    }, [user, activeTrackerId, activeGameVersionId, coerceAppState, routeTrackerPendingSelection, routeTrackerKnownMissing, isViewingPublicTracker]);
 
     useEffect(() => {
         if (!user || !dataLoaded || !activeTrackerId || isHydratingRef.current) return;
@@ -597,10 +671,12 @@ const App: React.FC = () => {
     }, [activeTrackerId, user]);
 
     const handleReset = () => {
+        if (isReadOnly) return;
         setShowResetModal(true);
     };
 
     const handleConfirmReset = () => {
+        if (isReadOnly) return;
         const gameVersionId = activeGameVersionId;
         setData(prev => {
             const base = createInitialState(gameVersionId);
@@ -658,6 +734,7 @@ const App: React.FC = () => {
     };
 
     const updateLinkMember = useCallback((key: 'team' | 'box', index: number, playerIndex: number, field: keyof Pokemon, value: string) => {
+        if (isReadOnly) return;
         setData(prev => {
             const list = [...prev[key]];
             const target = list[index];
@@ -673,6 +750,7 @@ const App: React.FC = () => {
     }, []);
 
     const updateLinkRoute = useCallback((key: 'team' | 'box', index: number, value: string) => {
+        if (isReadOnly) return;
         setData(prev => {
             const list = [...prev[key]];
             const target = list[index];
@@ -699,6 +777,7 @@ const App: React.FC = () => {
     }, [updateLinkRoute]);
 
     const handleLevelCapToggle = useCallback((index: number) => {
+        if (isReadOnly) return;
         setData(prev => ({
             ...prev,
             levelCaps: prev.levelCaps.map((c, i) => i === index ? {...c, done: !c.done} : c)
@@ -706,6 +785,7 @@ const App: React.FC = () => {
     }, []);
 
     const handleRivalCapToggleDone = useCallback((index: number) => {
+        if (isReadOnly) return;
         setData(prev => ({
             ...prev,
             rivalCaps: prev.rivalCaps.map((rc, i) => i === index ? {...rc, done: !rc.done} : rc),
@@ -713,6 +793,7 @@ const App: React.FC = () => {
     }, []);
 
     const handleRivalCapReveal = useCallback((index: number) => {
+        if (isReadOnly) return;
         setData(prev => ({
             ...prev,
             rivalCaps: prev.rivalCaps.map((rc, i) => i === index ? {...rc, revealed: true} : rc),
@@ -720,6 +801,7 @@ const App: React.FC = () => {
     }, []);
 
     const handleStatChange = (stat: keyof AppState['stats'], value: string) => {
+        if (isReadOnly) return;
         const numValue = Number(value);
         if (!isNaN(numValue)) {
             setData(prev => ({...prev, stats: {...prev.stats, [stat]: numValue}}));
@@ -727,6 +809,7 @@ const App: React.FC = () => {
     };
 
     const handlePlayerStatChange = (group: keyof AppState['stats'], playerIndex: number, value: string) => {
+        if (isReadOnly) return;
         const numValue = Number(value);
         if (isNaN(numValue)) return;
         setData(prev => {
@@ -744,11 +827,13 @@ const App: React.FC = () => {
     };
 
     const handleAddToGraveyard = useCallback((pair: PokemonLink) => {
+        if (isReadOnly) return;
         setPendingLossPair(pair);
         setShowLossModal(true);
     }, []);
 
     const handleConfirmLoss = (playerIndex: number) => {
+        if (isReadOnly || !pendingLossPair) return;
         if (!pendingLossPair) return;
         const pair = pendingLossPair;
         setData(prev => ({
@@ -766,6 +851,7 @@ const App: React.FC = () => {
     };
 
     const handleManualAddToGraveyard = (pair: PokemonLink) => {
+        if (isReadOnly) return;
         setData(prev => ({
             ...prev,
             graveyard: [...prev.graveyard, pair],
@@ -773,6 +859,7 @@ const App: React.FC = () => {
     };
 
     const handleManualAddFromModal = (route: string, members: Pokemon[]) => {
+        if (isReadOnly) return;
         const newPair: PokemonLink = {
             id: Date.now(),
             route: route.trim(),
@@ -786,6 +873,7 @@ const App: React.FC = () => {
     };
 
     const handleAddTeamPair = (payload: { route: string; members: Pokemon[]; }) => {
+        if (isReadOnly) return;
         setData(prev => {
             if (prev.team.length >= 6) return prev; // enforce 6 max
             return ({
@@ -806,6 +894,7 @@ const App: React.FC = () => {
     };
 
     const handleAddBoxPair = (payload: { route: string; members: Pokemon[]; }) => {
+        if (isReadOnly) return;
         setData(prev => ({
             ...prev,
             box: [
@@ -823,7 +912,7 @@ const App: React.FC = () => {
     };
 
     const syncActiveMetaPlayerNames = useCallback((names: string[]) => {
-        if (!activeTrackerId) return;
+        if (!activeTrackerId || isReadOnly) return;
         setTrackerMetas(prev => {
             const existing = prev[activeTrackerId];
             if (!existing) return prev;
@@ -838,9 +927,10 @@ const App: React.FC = () => {
         update(ref(db, `trackers/${activeTrackerId}/meta`), {
             playerNames: names,
         }).catch(() => {});
-    }, [activeTrackerId]);
+    }, [activeTrackerId, isReadOnly]);
 
     const handlePlayerNameChange = (index: number, name: string) => {
+        if (isReadOnly) return;
         setData(prev => {
             const playerNames = [...prev.playerNames];
             playerNames[index] = name;
@@ -850,7 +940,7 @@ const App: React.FC = () => {
     };
 
     const handleTitleChange = (title: string) => {
-        if (!activeTrackerId) return;
+        if (!activeTrackerId || isReadOnly) return;
         setTrackerMetas(prev => {
             const existing = prev[activeTrackerId];
             if (!existing) return prev;
@@ -866,18 +956,38 @@ const App: React.FC = () => {
     };
 
     const handleLegendaryTrackerToggle = (enabled: boolean) => {
+        if (isReadOnly) return;
         setData(prev => ({...prev, legendaryTrackerEnabled: enabled}));
     };
 
     const handleRivalCensorToggle = (enabled: boolean) => {
+        if (isReadOnly) return;
         setData(prev => ({...prev, rivalCensorEnabled: enabled}));
     };
 
     const handleHardcoreModeToggle = (enabled: boolean) => {
+        if (isReadOnly) return;
         setData(prev => ({...prev, hardcoreModeEnabled: enabled}));
     };
 
+    const handlePublicToggle = (enabled: boolean) => {
+        if (!activeTrackerId || isReadOnly) return;
+        setTrackerMetas(prev => {
+            const existing = prev[activeTrackerId];
+            if (!existing) return prev;
+            return {
+                ...prev,
+                [activeTrackerId]: {
+                    ...existing,
+                    isPublic: enabled,
+                },
+            };
+        });
+        update(ref(db, `trackers/${activeTrackerId}/meta`), {isPublic: enabled});
+    };
+
     const handleLegendaryIncrement = () => {
+        if (isReadOnly) return;
         setData(prev => ({
             ...prev,
             stats: {
@@ -888,6 +998,7 @@ const App: React.FC = () => {
     };
 
     const handleLegendaryDecrement = () => {
+        if (isReadOnly) return;
         setData(prev => ({
             ...prev,
             stats: {
@@ -1032,6 +1143,12 @@ const App: React.FC = () => {
 
     const trackerMembers = activeTrackerMeta ? Object.values(activeTrackerMeta.members ?? {}) : [];
     const canManageMembers = Boolean(user && activeTrackerMeta?.members?.[user.uid]?.role === 'owner');
+
+    useEffect(() => {
+        if (isReadOnly && showSettings) {
+            closeSettingsPanel();
+        }
+    }, [isReadOnly, showSettings, closeSettingsPanel]);
     const resolvedPlayerNames = useMemo(() => {
         if (Array.isArray(data.playerNames) && data.playerNames.length > 0) {
             return data.playerNames;
@@ -1060,7 +1177,8 @@ const App: React.FC = () => {
     }
 
     // Show loading while auth is initializing, or while the target tracker is still resolving/loading
-    if (loading || (user && (!dataLoaded || routeTrackerPendingSelection))) {
+    // For public trackers when not logged in, also wait for data to load
+    if (loading || ((user || isViewingPublicTracker) && (!dataLoaded || routeTrackerPendingSelection)) || publicTrackerLoading) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-[#f0f0f0] dark:bg-gray-900">
                 <div className="flex flex-col items-center gap-3" role="status" aria-live="polite">
@@ -1072,7 +1190,7 @@ const App: React.FC = () => {
         );
     }
 
-    if (!user) {
+    if (!user && !isViewingPublicTracker) {
         return authScreen === 'login'
             ? <LoginPage onSwitchToRegister={() => setAuthScreen('register')}/>
             : <RegisterPage onSwitchToLogin={() => setAuthScreen('login')}/>;
@@ -1119,6 +1237,8 @@ const App: React.FC = () => {
             onRivalCensorToggle={handleRivalCensorToggle}
             hardcoreModeEnabled={data.hardcoreModeEnabled ?? true}
             onHardcoreModeToggle={handleHardcoreModeToggle}
+            isPublic={activeTrackerMeta?.isPublic ?? false}
+            onPublicToggle={handlePublicToggle}
             members={trackerMembers}
             onInviteMember={handleInviteMember}
             onRemoveMember={handleRemoveMember}
@@ -1145,7 +1265,7 @@ const App: React.FC = () => {
                 generationSpritePath={generationSpritePath}
             />
             <SelectLossModal
-                isOpen={showLossModal}
+                isOpen={!isReadOnly && showLossModal}
                 onClose={() => {
                     setShowLossModal(false);
                     setPendingLossPair(null);
@@ -1154,11 +1274,16 @@ const App: React.FC = () => {
                 pair={pendingLossPair}
                 playerNames={resolvedPlayerNames}
             />
-            <ResetModal
-                isOpen={showResetModal}
-                onClose={() => setShowResetModal(false)}
-                onConfirm={handleConfirmReset}
-            />
+                    <ResetModal
+                        isOpen={!isReadOnly && showResetModal}
+                        onClose={() => setShowResetModal(false)}
+                        onConfirm={handleConfirmReset}
+                    />
+            {isViewingPublicTracker && isReadOnly && (
+                <div className="max-w-[1920px] mx-auto mt-3 mb-3 bg-blue-50 border border-blue-200 text-blue-800 dark:bg-slate-800 dark:border-slate-700 dark:text-blue-100 rounded-md px-3 py-2 text-sm shadow-sm">
+                    {t('app.publicReadOnlyNotice')}
+                </div>
+            )}
             <div className="max-w-[1920px] mx-auto bg-white dark:bg-gray-800 shadow-lg p-4 rounded-lg">
                 <header className="relative text-center py-4 border-b-2 border-gray-300 dark:border-gray-700">
                     <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-3xl 2xl:text-4xl font-bold font-press-start tracking-tighter dark:text-gray-100">
@@ -1179,7 +1304,8 @@ const App: React.FC = () => {
                             </button>
                             <button
                                 onClick={handleReset}
-                                className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white focus:outline-none"
+                                disabled={isReadOnly}
+                                className={`p-2 rounded-full focus:outline-none ${isReadOnly ? 'text-gray-400 dark:text-gray-600 cursor-not-allowed' : 'hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white'}`}
                                 aria-label={t('tracker.actions.resetRun')}
                                 title={t('tracker.actions.resetRun')}
                             >
@@ -1187,7 +1313,8 @@ const App: React.FC = () => {
                             </button>
                             <button
                                 onClick={openSettingsPanel}
-                                className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white focus:outline-none"
+                                disabled={isReadOnly}
+                                className={`p-2 rounded-full focus:outline-none ${isReadOnly ? 'text-gray-400 dark:text-gray-600 cursor-not-allowed' : 'hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white'}`}
                                 aria-label={t('tracker.actions.settings')}
                                 title={t('tracker.actions.settings')}
                             >
@@ -1256,7 +1383,8 @@ const App: React.FC = () => {
                                     setMobileMenuOpen(false);
                                     handleReset();
                                 }}
-                                className="w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2"
+                                disabled={isReadOnly}
+                                className={`w-full text-left px-2 py-2 rounded-md text-sm inline-flex items-center gap-2 ${isReadOnly ? 'text-gray-400 dark:text-gray-500 cursor-not-allowed' : 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700'}`}
                                 title={t('tracker.menu.resetRun')}
                             >
                                 <FiRotateCw size={18}/> {t('tracker.menu.resetRun')}
@@ -1266,7 +1394,8 @@ const App: React.FC = () => {
                                     setMobileMenuOpen(false);
                                     openSettingsPanel();
                                 }}
-                                className="w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2"
+                                disabled={isReadOnly}
+                                className={`w-full text-left px-2 py-2 rounded-md text-sm inline-flex items-center gap-2 ${isReadOnly ? 'text-gray-400 dark:text-gray-500 cursor-not-allowed' : 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700'}`}
                                 title={t('tracker.menu.settings')}
                             >
                                 <FiSettings size={18}/> {t('tracker.menu.settings')}
@@ -1292,13 +1421,17 @@ const App: React.FC = () => {
                             context="team"
                             onMoveToTeam={() => {
                             }}
-                            onMoveToBox={(pair) => setData(prev => ({
-                                ...prev,
-                                team: prev.team.filter(p => p.id !== pair.id),
-                                box: [...prev.box, pair],
-                            }))}
+                            onMoveToBox={(pair) => {
+                                if (isReadOnly) return;
+                                setData(prev => ({
+                                    ...prev,
+                                    team: prev.team.filter(p => p.id !== pair.id),
+                                    box: [...prev.box, pair],
+                                }));
+                            }}
                             pokemonGenerationLimit={pokemonGenerationLimit}
                             gameVersionId={activeGameVersionId || undefined}
+                            readOnly={isReadOnly}
                             generationSpritePath={generationSpritePath}
                             useSpritesInTeamTable={userUseSpritesInTeamTable}
                         />
@@ -1314,7 +1447,7 @@ const App: React.FC = () => {
                             emptyMessage={t('team.boxEmpty')}
                             context="box"
                             onMoveToTeam={(pair) => setData(prev => {
-                                if (prev.team.length >= 6) return prev;
+                                if (isReadOnly || prev.team.length >= 6) return prev;
                                 return {
                                     ...prev,
                                     box: prev.box.filter(p => p.id !== pair.id),
@@ -1326,6 +1459,7 @@ const App: React.FC = () => {
                             teamIsFull={data.team.length >= 6}
                             pokemonGenerationLimit={pokemonGenerationLimit}
                             gameVersionId={activeGameVersionId || undefined}
+                            readOnly={isReadOnly}
                             generationSpritePath={generationSpritePath}
                             useSpritesInTeamTable={userUseSpritesInTeamTable}
                         />
@@ -1354,6 +1488,7 @@ const App: React.FC = () => {
                             gameVersion={activeGameVersion}
                             rivalPreferences={currentUserRivalPreferences}
                             activeTrackerId={activeTrackerId}
+                            readOnly={isReadOnly}
                             generationSpritePath={generationSpritePath}
                             pokemonGenerationLimit={pokemonGenerationLimit}
                         />
@@ -1362,6 +1497,7 @@ const App: React.FC = () => {
                             playerNames={resolvedPlayerNames}
                             playerColors={playerColors}
                             onManualAddClick={() => setIsModalOpen(true)}
+                            readOnly={isReadOnly}
                             generationSpritePath={generationSpritePath}
                         />
                         <ClearedRoutes routes={clearedRoutes}/>
@@ -1431,7 +1567,10 @@ const App: React.FC = () => {
                 />
                 <Route
                     path="/account"
-                    element={<UserSettingsPage email={user.email} onBack={handleNavigateHome} onLogout={handleLogout} useGenerationSprites={userUseGenerationSprites} onGenerationSpritesToggle={handleGenerationSpritesToggle} useSpritesInTeamTable={userUseSpritesInTeamTable} onSpritesInTeamTableToggle={handleSpritesInTeamTableToggle}/>}
+                    element={user
+                        ? <UserSettingsPage email={user.email} onBack={handleNavigateHome} onLogout={handleLogout} useGenerationSprites={userUseGenerationSprites} onGenerationSpritesToggle={handleGenerationSpritesToggle} useSpritesInTeamTable={userUseSpritesInTeamTable} onSpritesInTeamTableToggle={handleSpritesInTeamTableToggle}/>
+                        : <Navigate to="/" replace/>
+                    }
                 />
                 <Route path="*" element={<Navigate to="/" replace/>}/>
             </Routes>

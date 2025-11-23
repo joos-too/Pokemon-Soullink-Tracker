@@ -19,6 +19,8 @@ interface SettingsPageProps {
     onRivalCensorToggle: (enabled: boolean) => void;
     hardcoreModeEnabled: boolean;
     onHardcoreModeToggle: (enabled: boolean) => void;
+    isPublic: boolean;
+    onPublicToggle: (enabled: boolean) => void;
     members: TrackerMember[];
     onInviteMember: (email: string) => Promise<void>;
     onRemoveMember: (memberUid: string) => Promise<void>;
@@ -79,6 +81,8 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                                                        onRivalCensorToggle,
                                                        hardcoreModeEnabled,
                                                        onHardcoreModeToggle,
+                                                       isPublic,
+                                                       onPublicToggle,
                                                        members,
                                                        onInviteMember,
                                                        onRemoveMember,
@@ -332,6 +336,27 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                                 checked={legendaryTrackerEnabled}
                                 onChange={onlegendaryTrackerToggle}
                                 ariaLabel={t('settings.features.legendary.title')}
+                            />
+                        </div>
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <div className="flex items-center gap-2">
+                                    <div className="font-medium text-gray-800 dark:text-gray-200">{t('settings.features.publicTracker.title')}</div>
+                                    <Tooltip side="top" content={t('settings.features.publicTracker.tooltip')}>
+                                        <span
+                                            className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-help"
+                                            aria-label={t('settings.features.publicTracker.tooltipLabel')}>
+                                            <FiInfo size={16}/>
+                                        </span>
+                                    </Tooltip>
+                                </div>
+                                <div className="text-xs text-gray-500 dark:text-gray-400">{t('settings.features.publicTracker.description')}</div>
+                            </div>
+                            <ToggleSwitch
+                                id="public-toggle"
+                                checked={isPublic}
+                                onChange={onPublicToggle}
+                                ariaLabel={t('settings.features.publicTracker.title')}
                             />
                         </div>
                     </section>

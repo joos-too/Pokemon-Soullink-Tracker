@@ -1,10 +1,10 @@
-import React, {useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import type {Pokemon, PokemonLink} from '@/types';
 import EditPairModal from './EditPairModal.tsx';
 import SelectEvolveModal from './SelectEvolveModal';
-import {FiEdit, FiPlus, FiTrash, FiArrowUp, FiArrowDown, FiChevronsUp} from 'react-icons/fi';
+import {FiArrowDown, FiArrowUp, FiChevronsUp, FiEdit, FiPlus, FiTrash} from 'react-icons/fi';
 import {getOfficialArtworkUrlForPokemonName, getSpriteUrlForPokemonName} from '@/src/services/sprites';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 
 interface TeamTableProps {
     title: string;
@@ -24,6 +24,7 @@ interface TeamTableProps {
     teamIsFull?: boolean;
     pokemonGenerationLimit?: number;
     gameVersionId?: string;
+    readOnly?: boolean;
     generationSpritePath?: string | null;
     useSpritesInTeamTable?: boolean;
 }
@@ -46,6 +47,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                                                  teamIsFull = false,
                                                  pokemonGenerationLimit,
                                             gameVersionId,
+                                            readOnly = false,
                                             generationSpritePath,
                                             useSpritesInTeamTable = false,
                                         }) => {
@@ -54,6 +56,14 @@ const TeamTable: React.FC<TeamTableProps> = ({
     const [addOpen, setAddOpen] = useState(false);
     const [evolveIndex, setEvolveIndex] = useState<number | null>(null);
 
+    useEffect(() => {
+        if (readOnly) {
+            setEditIndex(null);
+            setAddOpen(false);
+            setEvolveIndex(null);
+        }
+    }, [readOnly]);
+
     const rows = useMemo(() => (
         data
             .map((pair, i) => ({pair, originalIndex: i}))
@@ -61,7 +71,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
     ), [data]);
 
     const handleSave = (payload: { route: string; members: Pokemon[] }) => {
-        if (editIndex === null) return;
+        if (readOnly || editIndex === null) return;
         payload.members.forEach((member, playerIndex) => {
             onPokemonChange(editIndex, playerIndex, 'name', member.name);
             onPokemonChange(editIndex, playerIndex, 'nickname', member.nickname);
@@ -86,16 +96,16 @@ const TeamTable: React.FC<TeamTableProps> = ({
                 <button
                     type="button"
                     onClick={() => {
-                        if (!addDisabled) setAddOpen(true);
+                        if (!addDisabled && !readOnly) setAddOpen(true);
                     }}
-                    disabled={addDisabled}
+                    disabled={addDisabled || readOnly}
                     className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-semibold shadow ${
-                        addDisabled
+                        addDisabled || readOnly
                             ? 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed'
                             : 'bg-green-600 text-white hover:bg-green-700 dark:hover:bg-green-500'
                     }`}
-                title={addDisabled ? (addDisabledReason || t('team.addDisabled')) : t('team.addPokemon')}
-            >
+                    title={addDisabled || readOnly ? (addDisabledReason || t('team.addDisabled')) : t('team.addPokemon')}
+                >
                     <FiPlus size={18}/> {t('team.addPokemon')}
                 </button>
             </div>
@@ -147,8 +157,8 @@ const TeamTable: React.FC<TeamTableProps> = ({
                             <td className="p-2 text-center text-sm font-semibold text-gray-800 dark:text-gray-200">{displayIndex + 1}</td>
                             {playerNames.map((_, playerIndex) => {
                                 const member = pair.members?.[playerIndex] ?? { name: '', nickname: '' };
-                                const sprite = member.name 
-                                    ? (useSpritesInTeamTable 
+                                const sprite = member.name
+                                    ? (useSpritesInTeamTable
                                         ? getSpriteUrlForPokemonName(member.name, generationSpritePath)
                                         : getOfficialArtworkUrlForPokemonName(member.name))
                                     : null;
@@ -168,8 +178,11 @@ const TeamTable: React.FC<TeamTableProps> = ({
                                     {(pair.members.some(m => m?.name) || pair.route) && (
                                             <button
                                                 type="button"
-                                                onClick={() => setEditIndex(originalIndex)}
-                                                className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 inline-flex items-center justify-center text-gray-700 dark:text-gray-300"
+                                                onClick={() => {
+                                                    if (!readOnly) setEditIndex(originalIndex);
+                                                }}
+                                                disabled={readOnly}
+                                                className={`p-1 rounded-full inline-flex items-center justify-center ${readOnly ? 'text-gray-400 dark:text-gray-500 cursor-not-allowed' : 'hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300'}`}
                                                 title={t('team.titleEdit')}
                                             >
                                             <FiEdit size={18}/>
@@ -178,8 +191,11 @@ const TeamTable: React.FC<TeamTableProps> = ({
                                     {context === 'team' ? (
                                         <button
                                             type="button"
-                                            onClick={() => onMoveToBox(pair)}
-                                            className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 inline-flex items-center justify-center text-gray-700 dark:text-gray-300"
+                                            onClick={() => {
+                                                if (!readOnly) onMoveToBox(pair);
+                                            }}
+                                            disabled={readOnly}
+                                            className={`p-1 rounded-full inline-flex items-center justify-center ${readOnly ? 'text-gray-400 dark:text-gray-500 cursor-not-allowed' : 'hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300'}`}
                                             title={t('team.titleMoveToBox')}
                                         >
                                             <FiArrowDown size={18}/>
@@ -188,11 +204,11 @@ const TeamTable: React.FC<TeamTableProps> = ({
                                         <button
                                             type="button"
                                             onClick={() => {
-                                                if (!teamIsFull) onMoveToTeam(pair);
+                                                if (!teamIsFull && !readOnly) onMoveToTeam(pair);
                                             }}
-                                            disabled={teamIsFull}
-                                            className={`p-1 rounded-full inline-flex items-center justify-center ${teamIsFull ? 'text-gray-400 dark:text-gray-500 cursor-not-allowed' : 'hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300'}`}
-                                            title={teamIsFull ? t('team.teamFull') : t('team.moveToTeam')}
+                                            disabled={teamIsFull || readOnly}
+                                            className={`p-1 rounded-full inline-flex items-center justify-center ${(teamIsFull || readOnly) ? 'text-gray-400 dark:text-gray-500 cursor-not-allowed' : 'hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300'}`}
+                                            title={teamIsFull || readOnly ? t('team.teamFull') : t('team.moveToTeam')}
                                         >
                                             <FiArrowUp size={18}/>
                                         </button>
@@ -200,8 +216,11 @@ const TeamTable: React.FC<TeamTableProps> = ({
                                     {pair.members.some(member => member?.name) && (
                                         <button
                                             type="button"
-                                            onClick={() => setEvolveIndex(originalIndex)}
-                                            className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 inline-flex items-center justify-center text-gray-700 dark:text-gray-300"
+                                            onClick={() => {
+                                                if (!readOnly) setEvolveIndex(originalIndex);
+                                            }}
+                                            disabled={readOnly}
+                                            className={`p-1 rounded-full inline-flex items-center justify-center ${readOnly ? 'text-gray-400 dark:text-gray-500 cursor-not-allowed' : 'hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300'}`}
                                             title={t('team.titleEvolve')}
                                         >
                                             <FiChevronsUp size={18}/>
@@ -210,8 +229,11 @@ const TeamTable: React.FC<TeamTableProps> = ({
                                     {context === 'team' && pair.members.some(member => member?.name) && (
                                         <button
                                             type="button"
-                                            onClick={() => onAddToGraveyard(pair)}
-                                            className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 inline-flex items-center justify-center text-red-600 hover:text-red-700 dark:text-red-500 dark:hover:text-red-400"
+                                            onClick={() => {
+                                                if (!readOnly) onAddToGraveyard(pair);
+                                            }}
+                                            disabled={readOnly}
+                                            className={`p-1 rounded-full inline-flex items-center justify-center ${readOnly ? 'text-red-300 dark:text-red-700/60 cursor-not-allowed' : 'hover:bg-gray-200 dark:hover:bg-gray-600 text-red-600 hover:text-red-700 dark:text-red-500 dark:hover:text-red-400'}`}
                                             title={t('team.titleSendToGraveyard')}
                                         >
                                             <FiTrash size={18}/>
@@ -226,7 +248,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
             </div>
 
             <EditPairModal
-                isOpen={editIndex !== null}
+                isOpen={!readOnly && editIndex !== null}
                 onClose={() => setEditIndex(null)}
                 onSave={handleSave}
                 playerLabels={playerNames}
@@ -236,7 +258,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                 generationSpritePath={generationSpritePath}
             />
             <SelectEvolveModal
-                isOpen={evolveIndex !== null}
+                isOpen={!readOnly && evolveIndex !== null}
                 onClose={() => setEvolveIndex(null)}
                 onConfirm={(playerIndex, newName) => {
                     if (evolveIndex === null) return;
@@ -251,7 +273,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                 useSpritesEverywhere={useSpritesInTeamTable}
             />
             <EditPairModal
-                isOpen={addOpen}
+                isOpen={!readOnly && addOpen}
                 onClose={() => setAddOpen(false)}
                 onSave={(payload) => {
                     onAddLink(payload);
