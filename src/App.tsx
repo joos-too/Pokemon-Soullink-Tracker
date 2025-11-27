@@ -1508,10 +1508,10 @@ const App: React.FC = () => {
     t("common.appName");
   const isPublicTracker = Boolean(activeTrackerMeta?.isPublic);
   const readOnlyNotice = isReadOnly
-    ? isPublicTracker
-      ? t("app.publicReadOnlyNotice")
-      : isGuest
-        ? t("app.guestReadOnlyNotice")
+    ? isGuest
+      ? t("app.guestReadOnlyNotice")
+      : isPublicTracker
+        ? t("app.publicReadOnlyNotice")
         : null
     : null;
 
