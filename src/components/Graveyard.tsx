@@ -40,13 +40,10 @@ const Graveyard: React.FC<GraveyardProps> = ({
         <h2 className="text-center text-white font-press-start text-sm">
           {t("graveyard.title")}
         </h2>
-        {onManualAddClick && (
+        {onManualAddClick && !readOnly && (
           <button
-            onClick={() => {
-              if (!readOnly) onManualAddClick();
-            }}
-            disabled={readOnly}
-            className={`ml-4 text-white ${readOnly ? "text-gray-400 cursor-not-allowed" : "hover:text-gray-300"}`}
+            onClick={onManualAddClick}
+            className="ml-4 text-white hover:text-gray-300"
             title={t("graveyard.manualAddTitle")}
           >
             <svg
