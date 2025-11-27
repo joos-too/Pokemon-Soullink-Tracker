@@ -117,25 +117,27 @@ const TeamTable: React.FC<TeamTableProps> = ({
         <h3 className="text-sm font-press-start text-gray-800 dark:text-gray-200">
           {title}
         </h3>
-        <button
-          type="button"
-          onClick={() => {
-            if (!addDisabled && !readOnly) setAddOpen(true);
-          }}
-          disabled={addDisabled || readOnly}
-          className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-semibold shadow ${
-            addDisabled || readOnly
-              ? "bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed"
-              : "bg-green-600 text-white hover:bg-green-700 dark:hover:bg-green-500"
-          }`}
-          title={
-            addDisabled || readOnly
-              ? addDisabledReason || t("team.addDisabled")
-              : t("team.addPokemon")
-          }
-        >
-          <FiPlus size={18} /> {t("team.addPokemon")}
-        </button>
+        {!readOnly && (
+          <button
+            type="button"
+            onClick={() => {
+              if (!addDisabled) setAddOpen(true);
+            }}
+            disabled={addDisabled}
+            className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-semibold shadow ${
+              addDisabled
+                ? "bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed"
+                : "bg-green-600 text-white hover:bg-green-700 dark:hover:bg-green-500"
+            }`}
+            title={
+              addDisabled
+                ? addDisabledReason || t("team.addDisabled")
+                : t("team.addPokemon")
+            }
+          >
+            <FiPlus size={18} /> {t("team.addPokemon")}
+          </button>
+        )}
       </div>
       <div className="w-full overflow-x-auto">
         <table className="w-full border-collapse min-w-[900px]">
@@ -163,13 +165,15 @@ const TeamTable: React.FC<TeamTableProps> = ({
               >
                 {t("team.routeColumn")}
               </th>
-              <th
-                rowSpan={2}
-                className="p-2 text-xs font-bold text-gray-700 dark:text-gray-300 border-t border-b border-l border-gray-300 dark:border-gray-700"
-                style={{ width: "28px" }}
-              >
-                {t("team.actionsColumn")}
-              </th>
+              {!readOnly && (
+                <th
+                  rowSpan={2}
+                  className="p-2 text-xs font-bold text-gray-700 dark:text-gray-300 border-t border-b border-l border-gray-300 dark:border-gray-700"
+                  style={{ width: "28px" }}
+                >
+                  {t("team.actionsColumn")}
+                </th>
+              )}
             </tr>
             <tr>
               {playerNames.map((_, index) => (
@@ -192,7 +196,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
               <tr>
                 <td
                   className="p-3 text-center text-sm text-gray-500 dark:text-gray-400"
-                  colSpan={2 + playerNames.length * 3 + 1}
+                  colSpan={2 + playerNames.length * 3 + (readOnly ? 0 : 1)}
                 >
                   {emptyMessage}
                 </td>
@@ -249,82 +253,81 @@ const TeamTable: React.FC<TeamTableProps> = ({
                 <td className="p-2 text-sm text-center text-gray-800 dark:text-gray-200 border-l border-gray-200 dark:border-gray-700">
                   {pair.route || "-"}
                 </td>
-                <td
-                  className="p-2 text-center border-l border-gray-200 dark:border-gray-700"
-                  style={{ width: "28px" }}
-                >
-                  <div className="inline-flex items-center gap-1.5 justify-center">
-                    {(pair.members.some((m) => m?.name) || pair.route) && (
-                      <button
-                        type="button"
-                        onClick={() => {
-                          if (!readOnly) setEditIndex(originalIndex);
-                        }}
-                        disabled={readOnly}
-                        className={`p-1 rounded-full inline-flex items-center justify-center ${readOnly ? "text-gray-400 dark:text-gray-500 cursor-not-allowed" : "hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300"}`}
-                        title={t("team.titleEdit")}
-                      >
-                        <FiEdit size={18} />
-                      </button>
-                    )}
-                    {context === "team" ? (
-                      <button
-                        type="button"
-                        onClick={() => {
-                          if (!readOnly) onMoveToBox(pair);
-                        }}
-                        disabled={readOnly}
-                        className={`p-1 rounded-full inline-flex items-center justify-center ${readOnly ? "text-gray-400 dark:text-gray-500 cursor-not-allowed" : "hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300"}`}
-                        title={t("team.titleMoveToBox")}
-                      >
-                        <FiArrowDown size={18} />
-                      </button>
-                    ) : (
-                      <button
-                        type="button"
-                        onClick={() => {
-                          if (!teamIsFull && !readOnly) onMoveToTeam(pair);
-                        }}
-                        disabled={teamIsFull || readOnly}
-                        className={`p-1 rounded-full inline-flex items-center justify-center ${teamIsFull || readOnly ? "text-gray-400 dark:text-gray-500 cursor-not-allowed" : "hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300"}`}
-                        title={
-                          teamIsFull || readOnly
-                            ? t("team.teamFull")
-                            : t("team.moveToTeam")
-                        }
-                      >
-                        <FiArrowUp size={18} />
-                      </button>
-                    )}
-                    {pair.members.some((member) => member?.name) && (
-                      <button
-                        type="button"
-                        onClick={() => {
-                          if (!readOnly) setEvolveIndex(originalIndex);
-                        }}
-                        disabled={readOnly}
-                        className={`p-1 rounded-full inline-flex items-center justify-center ${readOnly ? "text-gray-400 dark:text-gray-500 cursor-not-allowed" : "hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300"}`}
-                        title={t("team.titleEvolve")}
-                      >
-                        <FiChevronsUp size={18} />
-                      </button>
-                    )}
-                    {context === "team" &&
-                      pair.members.some((member) => member?.name) && (
+                {!readOnly && (
+                  <td
+                    className="p-2 text-center border-l border-gray-200 dark:border-gray-700"
+                    style={{ width: "28px" }}
+                  >
+                    <div className="inline-flex items-center gap-1.5 justify-center">
+                      {(pair.members.some((m) => m?.name) || pair.route) && (
                         <button
                           type="button"
                           onClick={() => {
-                            if (!readOnly) onAddToGraveyard(pair);
+                            setEditIndex(originalIndex);
                           }}
-                          disabled={readOnly}
-                          className={`p-1 rounded-full inline-flex items-center justify-center ${readOnly ? "text-red-300 dark:text-red-700/60 cursor-not-allowed" : "hover:bg-gray-200 dark:hover:bg-gray-600 text-red-600 hover:text-red-700 dark:text-red-500 dark:hover:text-red-400"}`}
-                          title={t("team.titleSendToGraveyard")}
+                          className="p-1 rounded-full inline-flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300"
+                          title={t("team.titleEdit")}
                         >
-                          <FiTrash size={18} />
+                          <FiEdit size={18} />
                         </button>
                       )}
-                  </div>
-                </td>
+                      {context === "team" ? (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            onMoveToBox(pair);
+                          }}
+                          className="p-1 rounded-full inline-flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300"
+                          title={t("team.titleMoveToBox")}
+                        >
+                          <FiArrowDown size={18} />
+                        </button>
+                      ) : null}
+                      {context === "box" && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (!teamIsFull) onMoveToTeam(pair);
+                          }}
+                          disabled={teamIsFull}
+                          className={`p-1 rounded-full inline-flex items-center justify-center ${teamIsFull ? "text-gray-400 dark:text-gray-500 cursor-not-allowed" : "hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300"}`}
+                          title={
+                            teamIsFull
+                              ? t("team.teamFull")
+                              : t("team.moveToTeam")
+                          }
+                        >
+                          <FiArrowUp size={18} />
+                        </button>
+                      )}
+                      {pair.members.some((member) => member?.name) && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setEvolveIndex(originalIndex);
+                          }}
+                          className="p-1 rounded-full inline-flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300"
+                          title={t("team.titleEvolve")}
+                        >
+                          <FiChevronsUp size={18} />
+                        </button>
+                      )}
+                      {context === "team" &&
+                        pair.members.some((member) => member?.name) && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              onAddToGraveyard(pair);
+                            }}
+                            className="p-1 rounded-full inline-flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-600 text-red-600 hover:text-red-700 dark:text-red-500 dark:hover:text-red-400"
+                            title={t("team.titleSendToGraveyard")}
+                          >
+                            <FiTrash size={18} />
+                          </button>
+                        )}
+                    </div>
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>
