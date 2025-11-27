@@ -269,15 +269,11 @@ async function createSampleTrackerData(userId: string): Promise<void> {
     ...gen1Updates,
     [`users/${userId}`]: {
       uid: userId,
-      email: TEST_USER_EMAIL,
-      emailLowerCase: TEST_USER_EMAIL.toLowerCase(),
       createdAt: now,
       lastLoginAt: now,
     },
     [`userEmails/test_example_com`]: {
       uid: userId,
-      email: TEST_USER_EMAIL,
-      emailLowerCase: TEST_USER_EMAIL.toLowerCase(),
       updatedAt: now,
     },
   };
