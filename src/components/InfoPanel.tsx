@@ -315,7 +315,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                 checked={!!cap.done}
                 onChange={() => attemptLevelToggle(index)}
                 onClick={(e) => {
-                  if (readOnly) {
+                  if (readOnly || !canToggleLevelAtIndex(levelCaps, index)) {
                     e.preventDefault();
                   }
                 }}
@@ -323,7 +323,9 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                   target: arenaLabel,
                 })}
                 className={`h-5 w-5 accent-green-600 flex-shrink-0 ${
-                  readOnly ? "cursor-not-allowed" : "cursor-pointer"
+                  readOnly || !canToggleLevelAtIndex(levelCaps, index)
+                    ? "cursor-not-allowed"
+                    : "cursor-pointer"
                 }`}
               />
               <span className="text-sm text-gray-800 dark:text-gray-300 break-words">
@@ -378,7 +380,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                   checked={!!rc.done}
                   onChange={() => attemptRivalToggle(index)}
                   onClick={(e) => {
-                    if (readOnly) {
+                    if (readOnly || !canToggleRivalAtIndex(rivalCaps, index)) {
                       e.preventDefault();
                     }
                   }}
@@ -386,7 +388,9 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                     target: resolvePreferredRivalName(rc),
                   })}
                   className={`h-5 w-5 accent-green-600 flex-shrink-0 ${
-                    readOnly ? "cursor-not-allowed" : "cursor-pointer"
+                    readOnly || !canToggleRivalAtIndex(rivalCaps, index)
+                      ? "cursor-not-allowed"
+                      : "cursor-pointer"
                   }`}
                 />
                 <span
