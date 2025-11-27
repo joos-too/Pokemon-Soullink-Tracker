@@ -24,6 +24,10 @@ import { createInitialState } from "@/constants";
 const TEST_USER_EMAIL = "test@example.com";
 const TEST_USER_PASSWORD = "testpassword123";
 
+const normalizeEmail = (email: string): string => email.trim().toLowerCase();
+const encodeEmailKey = (normalizedEmail: string): string =>
+  normalizedEmail.replace(/[.#$/\[\]]/g, "_");
+
 // Flag to track if seeding has been attempted (prevents duplicate seeding during hot reloads)
 let seedingAttempted = false;
 
@@ -269,15 +273,11 @@ async function createSampleTrackerData(userId: string): Promise<void> {
     ...gen1Updates,
     [`users/${userId}`]: {
       uid: userId,
-      email: TEST_USER_EMAIL,
-      emailLowerCase: TEST_USER_EMAIL.toLowerCase(),
       createdAt: now,
       lastLoginAt: now,
     },
-    [`userEmails/test_example_com`]: {
+    [`userEmails/${encodeEmailKey(normalizeEmail(TEST_USER_EMAIL))}`]: {
       uid: userId,
-      email: TEST_USER_EMAIL,
-      emailLowerCase: TEST_USER_EMAIL.toLowerCase(),
       updatedAt: now,
     },
   };
