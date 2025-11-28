@@ -26,6 +26,7 @@
     "@types/node": "^22.18.1",
     "@types/react": "^19.1.12",
     "pokedex-promise-v2": "^4.2.1",
+    "prettier": "3.7.1",
     "typescript": "~5.8.2",
     "vite": "^7.1.5"
   }
