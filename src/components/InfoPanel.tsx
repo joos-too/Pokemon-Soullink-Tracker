@@ -324,7 +324,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                 })}
                 className={`h-5 w-5 accent-green-600 flex-shrink-0 ${
                   readOnly || !canToggleLevelAtIndex(levelCaps, index)
-                    ? "cursor-not-allowed"
+                    ? "cursor opacity-70"
                     : "cursor-pointer"
                 }`}
               />
@@ -389,7 +389,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                   })}
                   className={`h-5 w-5 accent-green-600 flex-shrink-0 ${
                     readOnly || !canToggleRivalAtIndex(rivalCaps, index)
-                      ? "cursor-not-allowed"
+                      ? "cursor opacity-70"
                       : "cursor-pointer"
                   }`}
                 />
