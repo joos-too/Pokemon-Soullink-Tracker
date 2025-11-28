@@ -1700,7 +1700,7 @@ const App: React.FC = () => {
         <div className="xl:hidden">
           {/* Backdrop for outside click */}
           <div
-            className={`fixed inset-0 bg-black/40 transition-opacity duration-300 ${mobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"} z-40`}
+            className={`fixed inset-0 bg-black/50 transition-opacity duration-300 ${mobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"} z-40`}
             onClick={() => setMobileMenuOpen(false)}
             aria-hidden
           />

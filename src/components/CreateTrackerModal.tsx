@@ -124,7 +124,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
       <div className="w-full max-w-lg rounded-xl bg-white dark:bg-gray-800 shadow-2xl border border-gray-200 dark:border-gray-700">
         <form onSubmit={handleSubmit}>
           <header className="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 px-5 py-4">
