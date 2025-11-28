@@ -5,8 +5,8 @@ import { focusRingClasses } from "@/src/styles/focusRing";
 import { normalizeLanguage } from "@/src/utils/language";
 
 const languages = [
-  { code: "de", labelKey: "common.languageNames.de" },
-  { code: "en", labelKey: "common.languageNames.en" },
+  { code: "de", label: "Deutsch" },
+  { code: "en", label: "English" },
 ];
 
 const LanguageToggle: React.FC = () => {
@@ -42,7 +42,7 @@ const LanguageToggle: React.FC = () => {
             value={language.code}
             style={{ fontFamily }}
           >
-            {t(language.labelKey)}
+            {language.label}
           </option>
         ))}
       </select>

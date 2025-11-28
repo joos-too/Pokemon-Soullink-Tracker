@@ -11,6 +11,8 @@ import DarkModeToggle from "@/src/components/DarkModeToggle";
 import type { TrackerMeta, TrackerSummary } from "@/types";
 import GameVersionBadge from "./GameVersionBadge";
 import { focusRingClasses } from "@/src/styles/focusRing";
+import { GAME_VERSIONS } from "@/src/data/game-versions";
+import { formatBestLabel } from "@/src/utils/bestRun";
 import { useTranslation } from "react-i18next";
 
 interface HomePageProps {
@@ -137,8 +139,16 @@ const HomePage: React.FC<HomePageProps> = ({
                   (summary?.teamCount ?? 0) + (summary?.boxCount ?? 0);
                 const deadPokemon = summary?.deathCount ?? 0;
                 const runNumber = summary?.runs ?? 0;
+                const doneCapsCount = summary?.doneCapsCount;
+                const gameVersion = GAME_VERSIONS[tracker.gameVersionId];
                 const progressLabel =
-                  summary?.progressLabel ?? t("home.progressFallback");
+                  typeof doneCapsCount === "number"
+                    ? formatBestLabel(
+                        doneCapsCount,
+                        gameVersion?.levelCaps ?? [],
+                        gameVersion,
+                      )
+                    : t("home.progressFallback");
                 const isGuestTracker = Boolean(
                   currentUserId &&
                     tracker.guests?.[currentUserId] &&

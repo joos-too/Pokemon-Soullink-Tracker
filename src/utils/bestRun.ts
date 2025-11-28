@@ -13,7 +13,7 @@ export const formatBestLabel = (
     : levelCaps;
   // If inside first 8 arenas
   if (count >= 1 && count <= 8) {
-    return caps[count - 1]?.arena ?? `Arena ${count}`;
+    return `${count}. ${t("common.gym")}`;
   }
   // Top 4 range (assume positions 9..12)
   if (count >= 9 && count <= 12) {

@@ -18,10 +18,6 @@ export const de = {
     routePlaceholder: "z. B. Route 1",
     logout: "Logout",
     languageToggleLabel: "Sprache wechseln",
-    languageNames: {
-      de: "Deutsch",
-      en: "Englisch",
-    },
     darkModeToggleLabel: "Darkmode umschalten",
     darkModeToggleTitle: "Darkmode umschalten",
     gym: "Arena",

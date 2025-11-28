@@ -18,10 +18,6 @@ export const en = {
     routePlaceholder: "e.g. Route 1",
     logout: "Logout",
     languageToggleLabel: "Change language",
-    languageNames: {
-      de: "German",
-      en: "English",
-    },
     darkModeToggleLabel: "Toggle dark mode",
     darkModeToggleTitle: "Toggle dark mode",
     gym: "Gym",
