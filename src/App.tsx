@@ -78,7 +78,6 @@ import {
 } from "@/src/services/trackers";
 import { GAME_VERSIONS } from "@/src/data/game-versions";
 import { useTranslation } from "react-i18next";
-import { formatBestLabel } from "@/src/utils/bestRun";
 
 const LAST_TRACKER_STORAGE_KEY = "soullink:lastTrackerId";
 
@@ -105,7 +104,6 @@ const computeTrackerSummary = (
     ? (state.levelCaps as LevelCap[])
     : [];
   const doneCapsCount = levelCaps.filter((cap) => cap?.done).length;
-  const progressLabel = formatBestLabel(doneCapsCount, levelCaps);
 
   const deathCount = Array.isArray(state?.stats?.deaths)
     ? state!.stats!.deaths.reduce((sum, value) => sum + Number(value || 0), 0)
@@ -117,7 +115,7 @@ const computeTrackerSummary = (
     deathCount,
     runs,
     championDone: doneCapsCount > 12,
-    progressLabel,
+    doneCapsCount,
   };
 };
 

@@ -122,7 +122,7 @@ export interface TrackerSummary {
   deathCount: number;
   runs: number;
   championDone: boolean;
-  progressLabel: string;
+  doneCapsCount: number;
 }
 
 export interface UserProfile {
