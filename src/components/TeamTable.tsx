@@ -335,7 +335,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
       </div>
 
       <EditPairModal
-        isOpen={editIndex !== null}
+        isOpen={!readOnly && editIndex !== null}
         onClose={() => setEditIndex(null)}
         onSave={handleSave}
         playerLabels={playerNames}
@@ -351,7 +351,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
         generationSpritePath={generationSpritePath}
       />
       <SelectEvolveModal
-        isOpen={evolveIndex !== null}
+        isOpen={!readOnly && evolveIndex !== null}
         onClose={() => setEvolveIndex(null)}
         onConfirm={(playerIndex, newName) => {
           if (evolveIndex === null) return;
@@ -366,7 +366,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
         useSpritesEverywhere={useSpritesInTeamTable}
       />
       <EditPairModal
-        isOpen={addOpen}
+        isOpen={!readOnly && addOpen}
         onClose={() => setAddOpen(false)}
         onSave={(payload) => {
           onAddLink(payload);

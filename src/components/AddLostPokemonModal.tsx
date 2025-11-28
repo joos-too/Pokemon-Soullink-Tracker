@@ -271,6 +271,7 @@ const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({
                 }
                 isOpen={isOpen}
                 generationLimit={generationLimit}
+                generationSpritePath={generationSpritePath}
               />
             ))}
           </div>
