@@ -1,5 +1,5 @@
 import React from "react";
-import type { VariableRival, UserSettings } from "@/types";
+import type { UserSettings, VariableRival } from "@/types";
 import { getSpriteUrlForPokemonName } from "@/src/services/sprites";
 
 // RivalImage component for displaying rival sprites
@@ -115,7 +115,7 @@ export const LegendaryImage: React.FC<{
 }> = ({ pokemonName, className = "w-16 h-16", generationSpritePath }) => {
   return (
     <img
-      src={getSpriteUrlForPokemonName(pokemonName, generationSpritePath) || ""}
+      src={getSpriteUrlForPokemonName(pokemonName, generationSpritePath)}
       alt=""
       className={className}
     />

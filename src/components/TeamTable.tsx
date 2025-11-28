@@ -215,7 +215,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                     name: "",
                     nickname: "",
                   };
-                  const sprite = member.name
+                  const imgURL = member.name
                     ? useSpritesInTeamTable
                       ? getSpriteUrlForPokemonName(
                           member.name,
@@ -228,9 +228,9 @@ const TeamTable: React.FC<TeamTableProps> = ({
                       key={`player-cell-${pair.id}-${playerIndex}`}
                     >
                       <td className="p-2 text-center border-l border-gray-200 dark:border-gray-700">
-                        {sprite ? (
+                        {imgURL ? (
                           <img
-                            src={sprite}
+                            src={imgURL}
                             alt=""
                             className="w-20 h-20 mx-auto"
                             loading="lazy"

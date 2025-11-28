@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useState } from "react";
-import P from "@/src/pokeapi";
 import { EVOLUTIONS_DE, EVOLUTIONS_EN } from "@/src/data/pokemon-evolutions";
 import { POKEMON_ID_TO_GENERATION } from "@/src/data/pokemon-map";
 import {
@@ -183,12 +182,6 @@ function filterMethodsForConstraints(
   return filtered;
 }
 
-function prettyName(raw: string) {
-  if (!raw) return raw;
-  // fallback slug formatting when localized names are unavailable
-  return raw.charAt(0).toUpperCase() + raw.slice(1);
-}
-
 const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
   isOpen,
   onClose,
@@ -209,7 +202,7 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
     () => normalizeLanguage(i18n.language),
     [i18n.language],
   );
-  const [nameLanguage, setNameLanguage] = useState<SupportedLanguage>("de");
+  const [nameLanguage, setNameLanguage] = useState<SupportedLanguage>(language);
 
   useEffect(() => {
     if (isOpen) {
@@ -218,9 +211,9 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
       setAvailableEvos(null);
       setSelectedEvoId(null);
       setLoading(false);
-      setNameLanguage("de");
+      setNameLanguage(language);
     }
-  }, [isOpen, playerLabels.length]);
+  }, [isOpen, playerLabels.length, language]);
 
   const currentName = useMemo(() => {
     if (!pair || selectedPlayer === null) return "";
@@ -265,8 +258,7 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
 
       setLoading(true);
       try {
-        const defaultUnknown =
-          language === "de" ? "Bedingung unbekannt" : "Requirement unknown";
+        const defaultUnknown = t("tracker.evolveModal.methodUnknown");
         const infos: EvoInfo[] = await Promise.all(
           filteredEntries.map(async (entry) => {
             const eid = entry.id;
@@ -284,14 +276,8 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
               ? methodsForConstraints
               : [t("tracker.evolveModal.unavailable")];
             try {
-              const res = await P.getPokemonByName(String(eid));
-              const art =
-                res.sprites?.other?.["official-artwork"]?.front_default || null;
-              const localizedName =
-                getPokemonNameById(eid, language) ||
-                getPokemonNameById(eid, nameLanguage) ||
-                getPokemonNameById(eid, language === "de" ? "en" : "de") ||
-                (res.name ? prettyName(res.name) : String(eid));
+              const art = getOfficialArtworkUrlById(eid);
+              const localizedName = getPokemonNameById(eid, language);
               return {
                 id: eid,
                 name: localizedName,
@@ -299,19 +285,7 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
                 methods: displayMethods,
               };
             } catch (e) {
-              // fallback to constructed artwork url and id-to-german map
-              const art = getOfficialArtworkUrlById(eid);
-              const localizedName =
-                getPokemonNameById(eid, language) ||
-                getPokemonNameById(eid, nameLanguage) ||
-                getPokemonNameById(eid, language === "de" ? "en" : "de") ||
-                String(eid);
-              return {
-                id: eid,
-                name: localizedName,
-                artworkUrl: art,
-                methods: displayMethods,
-              };
+              console.warn("Data for evolution " + eid + " not found:", e);
             }
           }),
         );
@@ -329,11 +303,7 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
   const handleConfirm = (e: React.FormEvent) => {
     e.preventDefault();
     if (selectedPlayer === null || selectedEvoId === null) return;
-    const targetName =
-      getPokemonNameById(selectedEvoId, nameLanguage) ||
-      getPokemonNameById(selectedEvoId, language) ||
-      getPokemonNameById(selectedEvoId, language === "de" ? "en" : "de") ||
-      prettyName(String(selectedEvoId));
+    const targetName = getPokemonNameById(selectedEvoId, nameLanguage);
     onConfirm(selectedPlayer, targetName, selectedEvoId);
   };
 
@@ -425,10 +395,9 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
                 {!loading && availableEvos && availableEvos.length > 0 && (
                   <div className="space-y-3">
                     {availableEvos.map((ev) => {
-                      const locationPrefix =
-                        language === "de"
-                          ? "Level-Up - Ort: "
-                          : "Level-Up - Location: ";
+                      const locationPrefix = t(
+                        "tracker.evolveModal.locationPrefix",
+                      );
                       const formattedMethods = mergeLocationMethods(
                         ev.methods,
                         locationPrefix,
@@ -452,14 +421,8 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
                           <img
                             src={
                               useSpritesEverywhere
-                                ? getSpriteUrlById(
-                                    ev.id,
-                                    generationSpritePath,
-                                  ) ||
-                                  ev.artworkUrl ||
-                                  getOfficialArtworkUrlById(ev.id)
-                                : ev.artworkUrl ||
-                                  getOfficialArtworkUrlById(ev.id)
+                                ? getSpriteUrlById(ev.id, generationSpritePath)
+                                : ev.artworkUrl
                             }
                             alt=""
                             className="w-16 h-16 object-contain"

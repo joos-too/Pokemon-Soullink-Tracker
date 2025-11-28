@@ -1,6 +1,6 @@
 import { Pokedex } from "pokeapi-js-wrapper";
 
-// Shared PokeAPI client instance
+// Create a PokeAPI client instance to activate caching
 const P = new Pokedex({
   timeout: 10 * 1000,
   cacheImages: true,

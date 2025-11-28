@@ -78,7 +78,7 @@ import {
 } from "@/src/services/trackers";
 import { GAME_VERSIONS } from "@/src/data/game-versions";
 import { useTranslation } from "react-i18next";
-import { formatBestLabel } from "@/src/utils/bestRun";
+import "@/src/pokeapi"; // initialize Pokedex once so sprite caching SW gets registered
 
 const LAST_TRACKER_STORAGE_KEY = "soullink:lastTrackerId";
 
@@ -735,17 +735,17 @@ const App: React.FC = () => {
     : false;
   const routeTrackerKnownMissing = Boolean(
     user &&
-    routeTrackerId &&
-    !userTrackersLoading &&
-    !routeTrackerExistsForUser &&
-    !routeTrackerIsPublic &&
-    !publicTrackerLoading,
+      routeTrackerId &&
+      !userTrackersLoading &&
+      !routeTrackerExistsForUser &&
+      !routeTrackerIsPublic &&
+      !publicTrackerLoading,
   );
   const routeTrackerPendingSelection = user
     ? Boolean(
         routeTrackerId &&
-        !routeTrackerKnownMissing &&
-        (userTrackersLoading || activeTrackerId !== routeTrackerId),
+          !routeTrackerKnownMissing &&
+          (userTrackersLoading || activeTrackerId !== routeTrackerId),
       )
     : false;
 
