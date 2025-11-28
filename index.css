@@ -1,6 +1,21 @@
 @config "./tailwind.config.ts";
 @import "tailwindcss";
 
+@layer base {
+  button,
+  [type="button"],
+  [type="submit"],
+  [role="button"] {
+    cursor: pointer;
+  }
+
+  button:disabled,
+  [type="button"]:disabled,
+  [type="submit"]:disabled {
+    cursor: default;
+  }
+}
+
 /* Hide default number input spin buttons in WebKit browsers */
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {

@@ -1,10 +1,10 @@
 /**
  * Emulator Seeding Service
- * 
+ *
  * This module provides functionality to automatically seed the Firebase emulator
  * with test data when running in development mode. This allows developers to
  * quickly start development and testing without manually creating users and trackers.
- * 
+ *
  * Features:
  * - Creates a test user with predefined credentials
  * - Seeds a sample tracker with team, box, and graveyard data
@@ -12,14 +12,21 @@
  * - Checks for existing data before seeding
  */
 
-import { auth, db } from '@/src/firebaseConfig';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import { ref, get, update } from 'firebase/database';
-import { createInitialState } from '@/constants';
+import { auth, db } from "@/src/firebaseConfig";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { get, ref, update } from "firebase/database";
+import { createInitialState } from "@/constants";
 
 // Test user credentials for emulator mode
-const TEST_USER_EMAIL = 'test@example.com';
-const TEST_USER_PASSWORD = 'testpassword123';
+const TEST_USER_EMAIL = "test@example.com";
+const TEST_USER_PASSWORD = "testpassword123";
+
+const normalizeEmail = (email: string): string => email.trim().toLowerCase();
+const encodeEmailKey = (normalizedEmail: string): string =>
+  normalizedEmail.replace(/[.#$/\[\]]/g, "_");
 
 // Flag to track if seeding has been attempted (prevents duplicate seeding during hot reloads)
 let seedingAttempted = false;
@@ -30,11 +37,11 @@ let seedingAttempted = false;
 async function testDataExists(): Promise<boolean> {
   try {
     // Check if test user has any trackers
-    const userTrackersRef = ref(db, 'userTrackers');
+    const userTrackersRef = ref(db, "userTrackers");
     const snapshot = await get(userTrackersRef);
     return snapshot.exists() && Object.keys(snapshot.val()).length > 0;
   } catch (error) {
-    console.error('Error checking for test data:', error);
+    console.error("Error checking for test data:", error);
     return false;
   }
 }
@@ -48,23 +55,26 @@ async function createTestUser(): Promise<string> {
     const userCredential = await signInWithEmailAndPassword(
       auth,
       TEST_USER_EMAIL,
-      TEST_USER_PASSWORD
+      TEST_USER_PASSWORD,
     );
-    console.log('Test user signed in:', userCredential.user.uid);
+    console.log("Test user signed in:", userCredential.user.uid);
     return userCredential.user.uid;
   } catch (signInError: any) {
     // If sign in fails, try to create the user
-    if (signInError.code === 'auth/user-not-found' || signInError.code === 'auth/invalid-credential') {
+    if (
+      signInError.code === "auth/user-not-found" ||
+      signInError.code === "auth/invalid-credential"
+    ) {
       try {
         const userCredential = await createUserWithEmailAndPassword(
           auth,
           TEST_USER_EMAIL,
-          TEST_USER_PASSWORD
+          TEST_USER_PASSWORD,
         );
-        console.log('Test user created:', userCredential.user.uid);
+        console.log("Test user created:", userCredential.user.uid);
         return userCredential.user.uid;
       } catch (createError) {
-        console.error('Error creating test user:', createError);
+        console.error("Error creating test user:", createError);
         throw createError;
       }
     }
@@ -81,15 +91,27 @@ async function createTracker(
     title: string;
     gameVersionId: string;
     playerNames: string[];
-    teamPokemon: Array<{ id: number; route: string; members: Array<{ name: string; nickname: string }> }>;
-    boxPokemon: Array<{ id: number; route: string; members: Array<{ name: string; nickname: string }> }>;
-    graveyardPokemon: Array<{ id: number; route: string; members: Array<{ name: string; nickname: string }> }>;
+    teamPokemon: Array<{
+      id: number;
+      route: string;
+      members: Array<{ name: string; nickname: string }>;
+    }>;
+    boxPokemon: Array<{
+      id: number;
+      route: string;
+      members: Array<{ name: string; nickname: string }>;
+    }>;
+    graveyardPokemon: Array<{
+      id: number;
+      route: string;
+      members: Array<{ name: string; nickname: string }>;
+    }>;
     checkedLevelCaps: number[]; // Array of level cap indices to mark as done
-  }
+  },
 ): Promise<Record<string, any>> {
   const now = Date.now();
   const trackerId = `test-tracker-${config.gameVersionId}-${now}`;
-  
+
   // Create tracker metadata
   const trackerMeta = {
     id: trackerId,
@@ -101,7 +123,7 @@ async function createTracker(
       [userId]: {
         uid: userId,
         email: TEST_USER_EMAIL,
-        role: 'owner',
+        role: "owner",
         addedAt: now,
       },
     },
@@ -109,8 +131,11 @@ async function createTracker(
   };
 
   // Create initial state with sample data
-  const initialState = createInitialState(config.gameVersionId, config.playerNames);
-  
+  const initialState = createInitialState(
+    config.gameVersionId,
+    config.playerNames,
+  );
+
   // Add sample data
   initialState.team = config.teamPokemon;
   initialState.box = config.boxPokemon;
@@ -120,7 +145,7 @@ async function createTracker(
   const deathCount = config.graveyardPokemon.length;
   initialState.stats.deaths = config.playerNames.map(() => deathCount);
   initialState.stats.sumDeaths = config.playerNames.map(() => deathCount);
-  
+
   // Mark specified level caps as done
   config.checkedLevelCaps.forEach((index) => {
     if (initialState.levelCaps[index]) {
@@ -144,44 +169,44 @@ async function createSampleTrackerData(userId: string): Promise<void> {
 
   // Create Gen 5 tracker
   const gen5Updates = await createTracker(userId, {
-    title: 'Test Tracker - Gen 5 Sample',
-    gameVersionId: 'gen5_sw',
-    playerNames: ['Spieler 1', 'Spieler 2'],
+    title: "Test Tracker - Gen 5 Sample",
+    gameVersionId: "gen5_sw",
+    playerNames: ["Spieler 1", "Spieler 2"],
     teamPokemon: [
       {
         id: 1,
-        route: 'Route 1',
+        route: "Route 1",
         members: [
-          { name: 'Pikachu', nickname: 'Sparky' },
-          { name: 'Evoli', nickname: 'Flausch' },
+          { name: "Pikachu", nickname: "Sparky" },
+          { name: "Evoli", nickname: "Flausch" },
         ],
       },
       {
         id: 2,
-        route: 'Route 2',
+        route: "Route 2",
         members: [
-          { name: 'Glumanda', nickname: 'Flame' },
-          { name: 'Schiggy', nickname: 'Splash' },
+          { name: "Glumanda", nickname: "Flame" },
+          { name: "Schiggy", nickname: "Splash" },
         ],
       },
     ],
     boxPokemon: [
       {
         id: 3,
-        route: 'Route 3',
+        route: "Route 3",
         members: [
-          { name: 'Bisasam', nickname: 'Grün' },
-          { name: 'Taubsi', nickname: 'Wings' },
+          { name: "Bisasam", nickname: "Grün" },
+          { name: "Taubsi", nickname: "Wings" },
         ],
       },
     ],
     graveyardPokemon: [
       {
         id: 4,
-        route: 'Arena 1',
+        route: "Arena 1",
         members: [
-          { name: 'Rattfratz', nickname: 'Speed' },
-          { name: 'Tauboga', nickname: 'Flyer' },
+          { name: "Rattfratz", nickname: "Speed" },
+          { name: "Tauboga", nickname: "Flyer" },
         ],
       },
     ],
@@ -190,52 +215,52 @@ async function createSampleTrackerData(userId: string): Promise<void> {
 
   // Create Gen 1 Red/Blue tracker
   const gen1Updates = await createTracker(userId, {
-    title: 'Test Tracker - Gen 1 Rot/Blau',
-    gameVersionId: 'gen1_rb',
-    playerNames: ['Ash', 'Gary'],
+    title: "Test Tracker - Gen 1 Rot/Blau",
+    gameVersionId: "gen1_rb",
+    playerNames: ["Ash", "Gary"],
     teamPokemon: [
       {
         id: 1,
-        route: 'Route 1',
+        route: "Route 1",
         members: [
-          { name: 'Taubsi', nickname: 'Pidgy' },
-          { name: 'Rattfratz', nickname: 'Ratty' },
+          { name: "Taubsi", nickname: "Pidgy" },
+          { name: "Rattfratz", nickname: "Ratty" },
         ],
       },
       {
         id: 2,
-        route: 'Route 2',
+        route: "Route 2",
         members: [
-          { name: 'Raupy', nickname: 'Wurm' },
-          { name: 'Hornliu', nickname: 'Stinger' },
+          { name: "Raupy", nickname: "Wurm" },
+          { name: "Hornliu", nickname: "Stinger" },
         ],
       },
       {
         id: 3,
-        route: 'Vertania-Wald',
+        route: "Vertania-Wald",
         members: [
-          { name: 'Pikachu', nickname: 'Blitz' },
-          { name: 'Sandan', nickname: 'Sandy' },
+          { name: "Pikachu", nickname: "Blitz" },
+          { name: "Sandan", nickname: "Sandy" },
         ],
       },
     ],
     boxPokemon: [
       {
         id: 4,
-        route: 'Route 3',
+        route: "Route 3",
         members: [
-          { name: 'Smettbo', nickname: 'Butterfly' },
-          { name: 'Kokuna', nickname: 'Kokon' },
+          { name: "Smettbo", nickname: "Butterfly" },
+          { name: "Kokuna", nickname: "Kokon" },
         ],
       },
     ],
     graveyardPokemon: [
       {
         id: 5,
-        route: 'Marmoria City',
+        route: "Marmoria City",
         members: [
-          { name: 'Tauboga', nickname: 'Wings' },
-          { name: 'Rattikarl', nickname: 'Speedy' },
+          { name: "Tauboga", nickname: "Wings" },
+          { name: "Rattikarl", nickname: "Speedy" },
         ],
       },
     ],
@@ -248,21 +273,19 @@ async function createSampleTrackerData(userId: string): Promise<void> {
     ...gen1Updates,
     [`users/${userId}`]: {
       uid: userId,
-      email: TEST_USER_EMAIL,
-      emailLowerCase: TEST_USER_EMAIL.toLowerCase(),
       createdAt: now,
       lastLoginAt: now,
     },
-    [`userEmails/test_example_com`]: {
+    [`userEmails/${encodeEmailKey(normalizeEmail(TEST_USER_EMAIL))}`]: {
       uid: userId,
-      email: TEST_USER_EMAIL,
-      emailLowerCase: TEST_USER_EMAIL.toLowerCase(),
       updatedAt: now,
     },
   };
 
   await update(ref(db), allUpdates);
-  console.log('Sample tracker data created successfully (Gen 5 and Gen 1 trackers)');
+  console.log(
+    "Sample tracker data created successfully (Gen 5 and Gen 1 trackers)",
+  );
 }
 
 /**
@@ -274,18 +297,18 @@ export async function seedEmulatorData(): Promise<void> {
   if (seedingAttempted) {
     return;
   }
-  
+
   seedingAttempted = true;
 
   try {
     // Check if test data already exists
     const dataExists = await testDataExists();
     if (dataExists) {
-      console.log('Test data already exists, skipping seeding');
+      console.log("Test data already exists, skipping seeding");
       return;
     }
 
-    console.log('Starting emulator data seeding...');
+    console.log("Starting emulator data seeding...");
 
     // Create test user
     const userId = await createTestUser();
@@ -293,9 +316,9 @@ export async function seedEmulatorData(): Promise<void> {
     // Create sample tracker data
     await createSampleTrackerData(userId);
 
-    console.log('Emulator seeding completed successfully');
+    console.log("Emulator seeding completed successfully");
   } catch (error) {
-    console.error('Error seeding emulator data:', error);
+    console.error("Error seeding emulator data:", error);
     // Reset flag on error so it can be retried
     seedingAttempted = false;
   }

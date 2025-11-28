@@ -1,11 +1,10 @@
 {
   "rules": {
     "users": {
-      ".read": "auth.uid != null",
       "$uid": {
+        ".read": "auth.uid === $uid",
         ".write": "auth.uid === $uid"
-      },
-      ".indexOn": ["emailLowerCase"]
+      }
     },
     "userTrackers": {
       "$uid": {
@@ -16,14 +15,15 @@
       }
     },
     "userEmails": {
-      ".read": "auth.uid != null",
+      ".read": false,
       "$emailKey": {
+        ".read": "auth.uid != null",
         ".write": "auth.uid != null && ((newData.exists() && newData.child('uid').val() === auth.uid) || (!newData.exists() && data.child('uid').val() === auth.uid))"
       }
     },
     "trackers": {
       "$trackerId": {
-        ".read": "auth.uid != null && root.child('trackers').child($trackerId).child('meta').child('members').child(auth.uid).exists()",
+        ".read": "(auth.uid != null && (root.child('trackers').child($trackerId).child('meta').child('members').child(auth.uid).exists() || root.child('trackers').child($trackerId).child('meta').child('guests').child(auth.uid).exists())) || root.child('trackers').child($trackerId).child('meta').child('isPublic').val() === true",
         ".write": "auth.uid != null && (newData.child('meta').child('members').child(auth.uid).exists() || root.child('trackers').child($trackerId).child('meta').child('members').child(auth.uid).exists())"
       }
     }
