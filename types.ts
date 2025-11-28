@@ -17,12 +17,12 @@ export interface LevelCap {
 }
 
 export interface VariableRival {
-  name: string;
-  key: string;
-  options: {
-    male: string;
-    female: string;
-  };
+    name: string;
+    key: string;
+    options: {
+        male: string;
+        female: string;
+    };
 }
 
 export interface RivalCap {
@@ -58,9 +58,9 @@ export interface AppState {
   runStartedAt?: number;
 }
 
-export type TrackerRole = "owner" | "editor";
+export type TrackerRole = 'owner' | 'editor';
 
-export type RivalGender = "male" | "female";
+export type RivalGender = 'male' | 'female';
 
 export interface UserSettings {
   rivalPreferences?: Record<string, RivalGender>;
@@ -74,28 +74,28 @@ export interface TrackerMember {
 }
 
 export interface GameVersionBadgeSegment {
-  text: string;
-  bgColor: string;
-  textColor: string;
-  borderColor: string;
+    text: string;
+    bgColor: string;
+    textColor: string;
+    borderColor: string;
 }
 
 export interface GameSelectionColor {
-  bgColor: string;
-  textColor: string;
-  borderColor: string;
+    bgColor: string;
+    textColor: string;
+    borderColor: string;
 }
 
 export interface GameVersion {
-  id: string;
-  name: string;
-  badgeSet: string;
-  badge?: {
-    segments: GameVersionBadgeSegment[];
-  };
-  selectionColors?: Record<string, GameSelectionColor>;
-  levelCaps: Omit<LevelCap, "done">[];
-  rivalCaps: Omit<RivalCap, "done" | "revealed">[];
+    id: string;
+    name: string;
+    badgeSet: string;
+    badge?: {
+      segments: GameVersionBadgeSegment[];
+    };
+    selectionColors?: Record<string, GameSelectionColor>;
+    levelCaps: Omit<LevelCap, 'done'>[];
+    rivalCaps: Omit<RivalCap, 'done' | 'revealed'>[];
 }
 
 export interface TrackerMeta {

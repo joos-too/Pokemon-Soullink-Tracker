@@ -1,8 +1,7 @@
 # Pokémon Soullink Tracker
 
 ## Run locally for development
-
-**Prerequisites:** [Node.js + npm](https://nodejs.org/en/download/), [git](https://git-scm.com/downloads) and [Java](https://www.oracle.com/java/technologies/downloads/#java21) installed
+**Prerequisites:**  [Node.js + npm](https://nodejs.org/en/download/), [git](https://git-scm.com/downloads) and [Java](https://www.oracle.com/java/technologies/downloads/#java21) installed
 
 1. Clone the [repository](https://github.com/joos-too/pokemon-soullink-tracker.git)
 2. Install dependencies:
@@ -14,11 +13,10 @@
    `npm run dev`
 
 ## Deploy on a web server
-
-**Prerequisites:** [Node.js + npm](https://nodejs.org/en/download/) and [git](https://git-scm.com/downloads) installed
+**Prerequisites:**  [Node.js + npm](https://nodejs.org/en/download/) and [git](https://git-scm.com/downloads) installed
 
 1. Clone the repository at the desired release tag:
-   `git clone --branch v1.2.0 https://github.com/joos-too/pokemon-soullink-tracker.git`
+    `git clone --branch v1.2.0 https://github.com/joos-too/pokemon-soullink-tracker.git`
 2. Configure the environment as described below.
 3. Install dependencies:
    `npm install`
@@ -78,9 +76,8 @@ VITE_FIREBASE_APP_ID=...
 ```
 
 Important:
-
 - Do not set VITE_USE_FIREBASE_EMULATOR in production. The app will validate these variables at runtime and throw a helpful error if missing.
-- Vite automatically exposes variables prefixed with VITE\_ to the client.
+- Vite automatically exposes variables prefixed with VITE_ to the client.
 
 ## Sync Firebase Database Rules via CLI
 
@@ -109,7 +106,6 @@ The script fetches all supported Pokémon species and evolution chains (up to Ge
 ## Image caching
 
 The app uses a service worker to cache Pokémon sprite images from the PokeAPI GitHub repository. This improves performance by:
-
 - Reducing network requests for frequently viewed Pokémon
 - Enabling offline access to previously loaded images
 - Speeding up page load times

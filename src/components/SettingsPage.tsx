@@ -1,686 +1,526 @@
-import React, { useState, useMemo } from "react";
-import { PLAYER_COLORS, MAX_PLAYER_COUNT, MIN_PLAYER_COUNT } from "@/constants";
-import type {
-  TrackerMember,
-  GameVersion,
-  VariableRival,
-  UserSettings,
-  RivalGender,
-} from "@/types";
-import {
-  FiShield,
-  FiUserPlus,
-  FiX,
-  FiTrash2,
-  FiLogOut,
-  FiInfo,
-  FiArrowLeft,
-} from "react-icons/fi";
-import {
-  focusRingInputClasses,
-  focusRingClasses,
-} from "@/src/styles/focusRing";
-import Tooltip from "./Tooltip";
-import { useTranslation } from "react-i18next";
-import { getLocalizedRivalEntry } from "@/src/services/gameLocalization";
+import React, {useState, useMemo} from 'react';
+import {PLAYER_COLORS, MAX_PLAYER_COUNT, MIN_PLAYER_COUNT} from '@/constants';
+import type {TrackerMember, GameVersion, VariableRival, UserSettings, RivalGender} from '@/types';
+import {FiShield, FiUserPlus, FiX, FiTrash2, FiLogOut, FiInfo, FiArrowLeft} from 'react-icons/fi';
+import { focusRingInputClasses, focusRingClasses } from '@/src/styles/focusRing';
+import Tooltip from './Tooltip';
+import { useTranslation } from 'react-i18next';
+import { getLocalizedRivalEntry } from '@/src/services/gameLocalization';
 
 interface SettingsPageProps {
-  trackerTitle: string;
-  playerNames: string[];
-  onTitleChange: (title: string) => void;
-  onPlayerNameChange: (index: number, name: string) => void;
-  onBack: () => void;
-  legendaryTrackerEnabled: boolean;
-  onlegendaryTrackerToggle: (enabled: boolean) => void;
-  rivalCensorEnabled: boolean;
-  onRivalCensorToggle: (enabled: boolean) => void;
-  hardcoreModeEnabled: boolean;
-  onHardcoreModeToggle: (enabled: boolean) => void;
-  members: TrackerMember[];
-  onInviteMember: (email: string) => Promise<void>;
-  onRemoveMember: (memberUid: string) => Promise<void>;
-  onRequestDeleteTracker: () => void;
-  canManageMembers: boolean;
-  currentUserEmail?: string | null;
-  currentUserId?: string | null;
-  gameVersion?: GameVersion;
-  rivalPreferences?: UserSettings["rivalPreferences"];
-  onRivalPreferenceChange: (key: string, gender: RivalGender) => void;
+    trackerTitle: string;
+    playerNames: string[];
+    onTitleChange: (title: string) => void;
+    onPlayerNameChange: (index: number, name: string) => void;
+    onBack: () => void;
+    legendaryTrackerEnabled: boolean;
+    onlegendaryTrackerToggle: (enabled: boolean) => void;
+    rivalCensorEnabled: boolean;
+    onRivalCensorToggle: (enabled: boolean) => void;
+    hardcoreModeEnabled: boolean;
+    onHardcoreModeToggle: (enabled: boolean) => void;
+    members: TrackerMember[];
+    onInviteMember: (email: string) => Promise<void>;
+    onRemoveMember: (memberUid: string) => Promise<void>;
+    onRequestDeleteTracker: () => void;
+    canManageMembers: boolean;
+    currentUserEmail?: string | null;
+    currentUserId?: string | null;
+    gameVersion?: GameVersion;
+    rivalPreferences?: UserSettings['rivalPreferences'];
+    onRivalPreferenceChange: (key: string, gender: RivalGender) => void;
 }
 
 interface ToggleSwitchProps {
-  id: string;
-  checked: boolean;
-  onChange: (enabled: boolean) => void;
-  ariaLabel?: string;
+    id: string;
+    checked: boolean;
+    onChange: (enabled: boolean) => void;
+    ariaLabel?: string;
 }
 
-const ToggleSwitch: React.FC<ToggleSwitchProps> = ({
-  id,
-  checked,
-  onChange,
-  ariaLabel,
-}) => {
-  const trackClasses = `relative block w-11 h-6 rounded-full transition-colors duration-200 ease-out pointer-events-none ${
-    checked ? "bg-green-500" : "bg-gray-200 dark:bg-gray-700"
-  }`;
-  const thumbClasses = `absolute top-[2px] left-[2px] h-5 w-5 transform rounded-full bg-white shadow transition duration-200 ease-out pointer-events-none ${
-    checked ? "translate-x-5" : ""
-  }`;
+const ToggleSwitch: React.FC<ToggleSwitchProps> = ({ id, checked, onChange, ariaLabel }) => {
+    const trackClasses = `relative block w-11 h-6 rounded-full transition-colors duration-200 ease-out pointer-events-none ${
+        checked ? 'bg-green-500' : 'bg-gray-200 dark:bg-gray-700'
+    }`;
+    const thumbClasses = `absolute top-[2px] left-[2px] h-5 w-5 transform rounded-full bg-white shadow transition duration-200 ease-out pointer-events-none ${
+        checked ? 'translate-x-5' : ''
+    }`;
 
-  return (
-    <label
-      htmlFor={id}
-      className="inline-flex items-center cursor-pointer rounded-full"
-    >
-      <input
-        type="checkbox"
-        id={id}
-        checked={checked}
-        onChange={(event) => onChange(event.target.checked)}
-        className="sr-only"
-        tabIndex={-1}
-        aria-label={ariaLabel}
-      />
-      <span aria-hidden="true" className={trackClasses}>
-        <span className={thumbClasses} />
-      </span>
-    </label>
-  );
+    return (
+        <label
+            htmlFor={id}
+            className="inline-flex items-center cursor-pointer rounded-full"
+        >
+            <input
+                type="checkbox"
+                id={id}
+                checked={checked}
+                onChange={(event) => onChange(event.target.checked)}
+                className="sr-only"
+                tabIndex={-1}
+                aria-label={ariaLabel}
+            />
+            <span aria-hidden="true" className={trackClasses}>
+                <span className={thumbClasses}/>
+            </span>
+        </label>
+    );
 };
 
 const SettingsPage: React.FC<SettingsPageProps> = ({
-  trackerTitle,
-  playerNames,
-  onTitleChange,
-  onPlayerNameChange,
-  onBack,
-  legendaryTrackerEnabled,
-  onlegendaryTrackerToggle,
-  rivalCensorEnabled,
-  onRivalCensorToggle,
-  hardcoreModeEnabled,
-  onHardcoreModeToggle,
-  members,
-  onInviteMember,
-  onRemoveMember,
-  onRequestDeleteTracker,
-  canManageMembers,
-  currentUserEmail,
-  currentUserId,
-  gameVersion,
-  rivalPreferences,
-  onRivalPreferenceChange,
-}) => {
-  const { t } = useTranslation();
-  const [inviteEmail, setInviteEmail] = useState("");
-  const [inviteMessage, setInviteMessage] = useState<string | null>(null);
-  const [inviteError, setInviteError] = useState<string | null>(null);
-  const [inviteLoading, setInviteLoading] = useState(false);
-  const [memberActionError, setMemberActionError] = useState<string | null>(
-    null,
-  );
-  const [removingMemberId, setRemovingMemberId] = useState<string | null>(null);
-  const [memberPendingRemoval, setMemberPendingRemoval] =
-    useState<TrackerMember | null>(null);
-  const playerCount = Math.min(
-    Math.max(playerNames.length, MIN_PLAYER_COUNT),
-    MAX_PLAYER_COUNT,
-  );
+                                                       trackerTitle,
+                                                       playerNames,
+                                                       onTitleChange,
+                                                       onPlayerNameChange,
+                                                       onBack,
+                                                       legendaryTrackerEnabled,
+                                                       onlegendaryTrackerToggle,
+                                                       rivalCensorEnabled,
+                                                       onRivalCensorToggle,
+                                                       hardcoreModeEnabled,
+                                                       onHardcoreModeToggle,
+                                                       members,
+                                                       onInviteMember,
+                                                       onRemoveMember,
+                                                       onRequestDeleteTracker,
+                                                       canManageMembers,
+                                                       currentUserEmail,
+                                                       currentUserId,
+                                                   gameVersion,
+                                                   rivalPreferences,
+                                                   onRivalPreferenceChange,
+                                               }) => {
+    const { t } = useTranslation();
+    const [inviteEmail, setInviteEmail] = useState('');
+    const [inviteMessage, setInviteMessage] = useState<string | null>(null);
+    const [inviteError, setInviteError] = useState<string | null>(null);
+    const [inviteLoading, setInviteLoading] = useState(false);
+    const [memberActionError, setMemberActionError] = useState<string | null>(null);
+    const [removingMemberId, setRemovingMemberId] = useState<string | null>(null);
+    const [memberPendingRemoval, setMemberPendingRemoval] = useState<TrackerMember | null>(null);
+    const playerCount = Math.min(Math.max(playerNames.length, MIN_PLAYER_COUNT), MAX_PLAYER_COUNT);
 
-  const { variableRivals, rivalKeyToCapId } = useMemo(() => {
-    if (!gameVersion) {
-      return {
-        variableRivals: [],
-        rivalKeyToCapId: {} as Record<string, number | string>,
-      };
-    }
-    const seen = new Set<string>();
-    const result: VariableRival[] = [];
-    const keyMap: Record<string, number | string> = {};
-    for (const cap of gameVersion.rivalCaps) {
-      if (typeof cap.rival === "object" && cap.rival.key) {
-        if (!seen.has(cap.rival.key)) {
-          result.push(cap.rival);
-          seen.add(cap.rival.key);
-          keyMap[cap.rival.key] = cap.id;
+    const { variableRivals, rivalKeyToCapId } = useMemo(() => {
+        if (!gameVersion) {
+            return { variableRivals: [], rivalKeyToCapId: {} as Record<string, number | string> };
         }
-      }
-    }
-    return { variableRivals: result, rivalKeyToCapId: keyMap };
-  }, [gameVersion]);
+        const seen = new Set<string>();
+        const result: VariableRival[] = [];
+        const keyMap: Record<string, number | string> = {};
+        for (const cap of gameVersion.rivalCaps) {
+            if (typeof cap.rival === 'object' && cap.rival.key) {
+                if (!seen.has(cap.rival.key)) {
+                    result.push(cap.rival);
+                    seen.add(cap.rival.key);
+                    keyMap[cap.rival.key] = cap.id;
+                }
+            }
+        }
+        return { variableRivals: result, rivalKeyToCapId: keyMap };
+    }, [gameVersion]);
 
-  const versionId = gameVersion?.id;
-  const localizedRivalOptions = useMemo(() => {
-    if (!versionId) return {} as Record<string, Record<string, string>>;
-    const out: Record<string, Record<string, string>> = {};
-    Object.entries(rivalKeyToCapId).forEach(([key, capId]) => {
-      const localized = getLocalizedRivalEntry(t, versionId, capId);
-      if (
-        localized &&
-        typeof localized === "object" &&
-        (localized as any).options &&
-        (localized as any).key === key
-      ) {
-        out[key] = { ...(localized as any).options };
+    const versionId = gameVersion?.id;
+    const localizedRivalOptions = useMemo(() => {
+        if (!versionId) return {} as Record<string, Record<string, string>>;
+        const out: Record<string, Record<string, string>> = {};
+        Object.entries(rivalKeyToCapId).forEach(([key, capId]) => {
+            const localized = getLocalizedRivalEntry(t, versionId, capId);
+            if (localized && typeof localized === 'object' && (localized as any).options && (localized as any).key === key) {
+                out[key] = {...(localized as any).options};
+            }
+        });
+        return out;
+    }, [rivalKeyToCapId, versionId, t]);
+
+    const handleInvite = async (event: React.FormEvent) => {
+        event.preventDefault();
+        setInviteError(null);
+        setInviteMessage(null);
+        setInviteLoading(true);
+        try {
+        await onInviteMember(inviteEmail);
+        setInviteMessage(t('settings.members.inviteSuccess'));
+        setInviteEmail('');
+      } catch (err) {
+        const message = err instanceof Error ? err.message : t('settings.members.inviteError');
+        setInviteError(message);
+      } finally {
+        setInviteLoading(false);
       }
+    };
+
+    const handleConfirmRemoveMember = async () => {
+        if (!memberPendingRemoval) return;
+        setMemberActionError(null);
+        setRemovingMemberId(memberPendingRemoval.uid);
+        try {
+            await onRemoveMember(memberPendingRemoval.uid);
+            setMemberPendingRemoval(null);
+        } catch (error) {
+        const message = error instanceof Error ? error.message : t('settings.members.removeError');
+            setMemberActionError(message);
+        } finally {
+            setRemovingMemberId(null);
+        }
+    };
+
+    const handleCancelRemoveMember = () => {
+        if (removingMemberId) return;
+        setMemberPendingRemoval(null);
+        setMemberActionError(null);
+    };
+
+    const sortedMembers = [...members].sort((a, b) => {
+        if (a.role === b.role) return a.email.localeCompare(b.email);
+        return a.role === 'owner' ? -1 : 1;
     });
-    return out;
-  }, [rivalKeyToCapId, versionId, t]);
 
-  const handleInvite = async (event: React.FormEvent) => {
-    event.preventDefault();
-    setInviteError(null);
-    setInviteMessage(null);
-    setInviteLoading(true);
-    try {
-      await onInviteMember(inviteEmail);
-      setInviteMessage(t("settings.members.inviteSuccess"));
-      setInviteEmail("");
-    } catch (err) {
-      const message =
-        err instanceof Error ? err.message : t("settings.members.inviteError");
-      setInviteError(message);
-    } finally {
-      setInviteLoading(false);
-    }
-  };
+    const currentMember = currentUserId ? members.find((member) => member.uid === currentUserId) : undefined;
+    const pendingRemovalIsSelf = memberPendingRemoval && memberPendingRemoval.uid === currentUserId;
 
-  const handleConfirmRemoveMember = async () => {
-    if (!memberPendingRemoval) return;
-    setMemberActionError(null);
-    setRemovingMemberId(memberPendingRemoval.uid);
-    try {
-      await onRemoveMember(memberPendingRemoval.uid);
-      setMemberPendingRemoval(null);
-    } catch (error) {
-      const message =
-        error instanceof Error
-          ? error.message
-          : t("settings.members.removeError");
-      setMemberActionError(message);
-    } finally {
-      setRemovingMemberId(null);
-    }
-  };
+    const formatSlug = (slug: string): string => slug.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+    const getRivalOptionLabel = (rivalKey: string, gender: 'male' | 'female', fallbackSlug: string): string => {
+        const localized = localizedRivalOptions[rivalKey]?.[gender];
+        if (typeof localized === 'string' && localized.trim().length > 0) {
+            return localized;
+        }
+        return formatSlug(fallbackSlug);
+    };
 
-  const handleCancelRemoveMember = () => {
-    if (removingMemberId) return;
-    setMemberPendingRemoval(null);
-    setMemberActionError(null);
-  };
-
-  const sortedMembers = [...members].sort((a, b) => {
-    if (a.role === b.role) return a.email.localeCompare(b.email);
-    return a.role === "owner" ? -1 : 1;
-  });
-
-  const currentMember = currentUserId
-    ? members.find((member) => member.uid === currentUserId)
-    : undefined;
-  const pendingRemovalIsSelf =
-    memberPendingRemoval && memberPendingRemoval.uid === currentUserId;
-
-  const formatSlug = (slug: string): string =>
-    slug
-      .split("_")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
-  const getRivalOptionLabel = (
-    rivalKey: string,
-    gender: "male" | "female",
-    fallbackSlug: string,
-  ): string => {
-    const localized = localizedRivalOptions[rivalKey]?.[gender];
-    if (typeof localized === "string" && localized.trim().length > 0) {
-      return localized;
-    }
-    return formatSlug(fallbackSlug);
-  };
-
-  return (
-    <div className="bg-[#f0f0f0] dark:bg-gray-900 min-h-screen text-gray-800 dark:text-gray-100 px-3 py-6 sm:py-10">
-      <div className="max-w-2xl mx-auto space-y-4">
-        <button
-          onClick={onBack}
-          className={`inline-flex items-center gap-2 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white ${focusRingClasses}`}
-        >
-          <FiArrowLeft /> {t("settings.buttons.back")}
-        </button>
-
-        <div className="w-full bg-white dark:bg-gray-800 shadow-lg p-6 rounded-lg">
-          <header className="pb-4 border-b border-gray-200 dark:border-gray-700">
-            <div className="flex justify-between items-center">
-              <div>
-                <p className="text-xs uppercase tracking-[0.3em] text-green-600">
-                  {t("settings.header.badge")}
-                </p>
-                <h1 className="text-2xl font-bold font-press-start dark:text-gray-100 mt-2">
-                  {t("settings.header.title")}
-                </h1>
-              </div>
-              {canManageMembers ? (
+    return (
+        <div className="bg-[#f0f0f0] dark:bg-gray-900 min-h-screen text-gray-800 dark:text-gray-100 px-3 py-6 sm:py-10">
+            <div className="max-w-2xl mx-auto space-y-4">
                 <button
-                  type="button"
-                  onClick={onRequestDeleteTracker}
-                  className="text-red-600 hover:text-red-800 p-2"
-                  title={t("settings.header.deleteTrackerTitle")}
+                    onClick={onBack}
+                    className={`inline-flex items-center gap-2 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white ${focusRingClasses}`}
                 >
-                  <FiTrash2 size={24} />
+                    <FiArrowLeft/> {t('settings.buttons.back')}
                 </button>
-              ) : currentMember ? (
-                <button
-                  type="button"
-                  onClick={() => setMemberPendingRemoval(currentMember)}
-                  disabled={removingMemberId === currentMember.uid}
-                  className="text-red-600 hover:text-red-800 p-2 disabled:opacity-60"
-                  title={t("settings.header.leaveTrackerTitle")}
-                >
-                  <FiLogOut size={24} />
-                </button>
-              ) : null}
-            </div>
-          </header>
 
-          <main className="mt-6 space-y-8">
-            <section>
-              <div className="space-y-4">
-                <div>
-                  <label
-                    htmlFor="trackerTitle"
-                    className="block text-sm font-bold mb-2 text-gray-800 dark:text-gray-200"
-                  >
-                    {t("settings.inputs.trackerTitle")}
-                  </label>
-                  <input
-                    id="trackerTitle"
-                    type="text"
-                    value={trackerTitle}
-                    onChange={(e) => onTitleChange(e.target.value)}
-                    className={`w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
-                    placeholder={t("settings.inputs.trackerTitlePlaceholder")}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                    {Array.from({ length: playerCount }, (_, index) => {
-                      const fullWidth =
-                        (playerCount === 3 && index === 2) || playerCount === 1;
-                      return (
-                        <div
-                          key={`player-${index}`}
-                          className={fullWidth ? "sm:col-span-2" : undefined}
-                        >
-                          <label
-                            className="block text-sm font-bold mb-2"
-                            style={{ color: PLAYER_COLORS[index] ?? "#4b5563" }}
-                          >
-                            {t("settings.inputs.playerLabel", {
-                              index: index + 1,
-                            })}
-                          </label>
-                          <input
-                            type="text"
-                            value={playerNames[index]}
-                            onChange={(e) =>
-                              onPlayerNameChange(index, e.target.value)
-                            }
-                            className={`w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
-                          />
+                <div className="w-full bg-white dark:bg-gray-800 shadow-lg p-6 rounded-lg">
+                    <header className="pb-4 border-b border-gray-200 dark:border-gray-700">
+                        <div className="flex justify-between items-center">
+                            <div>
+                                <p className="text-xs uppercase tracking-[0.3em] text-green-600">{t('settings.header.badge')}</p>
+                                <h1 className="text-2xl font-bold font-press-start dark:text-gray-100 mt-2">{t('settings.header.title')}</h1>
+                            </div>
+                            {canManageMembers ? (
+                                <button
+                                    type="button"
+                                    onClick={onRequestDeleteTracker}
+                                    className="text-red-600 hover:text-red-800 p-2"
+                                    title={t('settings.header.deleteTrackerTitle')}
+                                >
+                                    <FiTrash2 size={24}/>
+                                </button>
+                            ) : currentMember ? (
+                                    <button
+                                        type="button"
+                                        onClick={() => setMemberPendingRemoval(currentMember)}
+                                        disabled={removingMemberId === currentMember.uid}
+                                        className="text-red-600 hover:text-red-800 p-2 disabled:opacity-60"
+                                        title={t('settings.header.leaveTrackerTitle')}
+                                    >
+                                    <FiLogOut size={24}/>
+                                </button>
+                            ) : null}
                         </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-            </section>
+                    </header>
 
-            <section>
-              <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-gray-500 mb-4">
-                {t("settings.sections.options")}
-              </h2>
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <div className="font-medium text-gray-800 dark:text-gray-200">
-                      {t("settings.features.hardcore.title")}
-                    </div>
-                    <Tooltip
-                      side="top"
-                      content={t("settings.features.hardcore.tooltip")}
-                    >
-                      <span
-                        className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-help"
-                        aria-label={t(
-                          "settings.features.hardcore.tooltipLabel",
-                        )}
-                      >
-                        <FiInfo size={16} />
-                      </span>
-                    </Tooltip>
-                  </div>
-                  <div className="text-xs text-gray-500 dark:text-gray-400">
-                    {t("settings.features.hardcore.description")}
-                  </div>
-                </div>
-                <ToggleSwitch
-                  id="hardcore-toggle"
-                  checked={hardcoreModeEnabled}
-                  onChange={onHardcoreModeToggle}
-                  ariaLabel={t("settings.features.hardcore.title")}
-                />
-              </div>
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <div className="font-medium text-gray-800 dark:text-gray-200">
-                      {t("settings.features.rivalCensor.title")}
-                    </div>
-                    <Tooltip
-                      side="top"
-                      content={t("settings.features.rivalCensor.tooltip")}
-                    >
-                      <span
-                        className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-help"
-                        aria-label={t(
-                          "settings.features.rivalCensor.tooltipLabel",
-                        )}
-                      >
-                        <FiInfo size={16} />
-                      </span>
-                    </Tooltip>
-                  </div>
-                  <div className="text-xs text-gray-500 dark:text-gray-400">
-                    {t("settings.features.rivalCensor.description")}
-                  </div>
-                </div>
-                <ToggleSwitch
-                  id="rival-censor-toggle"
-                  checked={rivalCensorEnabled}
-                  onChange={onRivalCensorToggle}
-                  ariaLabel={t("settings.features.rivalCensor.title")}
-                />
-              </div>
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <div className="font-medium text-gray-800 dark:text-gray-200">
-                      {t("settings.features.legendary.title")}
-                    </div>
-                    <Tooltip
-                      side="top"
-                      content={t("settings.features.legendary.tooltip")}
-                    >
-                      <span
-                        className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-help"
-                        aria-label={t(
-                          "settings.features.legendary.tooltipLabel",
-                        )}
-                      >
-                        <FiInfo size={16} />
-                      </span>
-                    </Tooltip>
-                  </div>
-                  <div className="text-xs text-gray-500 dark:text-gray-400">
-                    {t("settings.features.legendary.description")}
-                  </div>
-                </div>
-                <ToggleSwitch
-                  id="legendary-toggle"
-                  checked={legendaryTrackerEnabled}
-                  onChange={onlegendaryTrackerToggle}
-                  ariaLabel={t("settings.features.legendary.title")}
-                />
-              </div>
-            </section>
+                    <main className="mt-6 space-y-8">
+                    <section>
+                        <div className="space-y-4">
+                                <div>
+                                    <label htmlFor="trackerTitle"
+                                           className="block text-sm font-bold mb-2 text-gray-800 dark:text-gray-200">
+                                        {t('settings.inputs.trackerTitle')}
+                                    </label>
+                                    <input
+                                        id="trackerTitle"
+                                        type="text"
+                                        value={trackerTitle}
+                                        onChange={(e) => onTitleChange(e.target.value)}
+                                        className={`w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
+                                        placeholder={t('settings.inputs.trackerTitlePlaceholder')}
+                                    />
+                                </div>
+                            <div className="space-y-2">
+                                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                                    {Array.from({length: playerCount}, (_, index) => {
+                                        const fullWidth = (playerCount === 3 && index === 2) || playerCount === 1;
+                                        return (
+                                            <div key={`player-${index}`}
+                                                 className={fullWidth ? 'sm:col-span-2' : undefined}>
+                                                <label className="block text-sm font-bold mb-2"
+                                                       style={{color: PLAYER_COLORS[index] ?? '#4b5563'}}>
+                                                    {t('settings.inputs.playerLabel', {index: index + 1})}
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    value={playerNames[index]}
+                                                    onChange={(e) => onPlayerNameChange(index, e.target.value)}
+                                                    className={`w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
+                                                />
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        </div>
+                    </section>
 
-            {variableRivals.length > 0 && (
-              <section>
-                <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-gray-500 mb-4">
-                  {t("settings.sections.variableRivals")}
-                </h2>
-                {variableRivals.map((rival) => (
-                  <div key={rival.key} className="mb-4">
-                    <div className="flex items-center gap-4 text-gray-800 dark:text-gray-200">
-                      <label className="flex items-center gap-2 cursor-pointer">
-                        <input
-                          type="radio"
-                          name={`rival-${rival.key}`}
-                          value="male"
-                          checked={
-                            (rivalPreferences?.[rival.key] || "male") === "male"
-                          }
-                          onChange={() =>
-                            onRivalPreferenceChange(rival.key, "male")
-                          }
-                          className="h-4 w-4 accent-green-600"
-                        />{" "}
-                        {getRivalOptionLabel(
-                          rival.key,
-                          "male",
-                          rival.options.male,
-                        )}
-                      </label>
-                      <label className="flex items-center gap-2 cursor-pointer">
-                        <input
-                          type="radio"
-                          name={`rival-${rival.key}`}
-                          value="female"
-                          checked={rivalPreferences?.[rival.key] === "female"}
-                          onChange={() =>
-                            onRivalPreferenceChange(rival.key, "female")
-                          }
-                          className="h-4 w-4 accent-green-600"
-                        />{" "}
-                        {getRivalOptionLabel(
-                          rival.key,
-                          "female",
-                          rival.options.female,
-                        )}
-                      </label>
-                    </div>
-                    <div className="text-xs text-gray-500 dark:text-gray-400 mb-2">
-                      {t("settings.sections.variableRivalsDescription")}
-                    </div>
-                  </div>
-                ))}
-              </section>
-            )}
+                    <section>
+                        <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-gray-500 mb-4">{t('settings.sections.options')}</h2>
+                        <div className="flex items-center justify-between mb-4">
+                            <div>
+                                <div className="flex items-center gap-2">
+                                    <div className="font-medium text-gray-800 dark:text-gray-200">{t('settings.features.hardcore.title')}</div>
+                                    <Tooltip side="top" content={t('settings.features.hardcore.tooltip')}>
+                                        <span
+                                            className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-help"
+                                            aria-label={t('settings.features.hardcore.tooltipLabel')}>
+                                            <FiInfo size={16}/>
+                                        </span>
+                                    </Tooltip>
+                                </div>
+                                <div className="text-xs text-gray-500 dark:text-gray-400">{t('settings.features.hardcore.description')}</div>
+                            </div>
+                            <ToggleSwitch
+                                id="hardcore-toggle"
+                                checked={hardcoreModeEnabled}
+                                onChange={onHardcoreModeToggle}
+                                ariaLabel={t('settings.features.hardcore.title')}
+                            />
+                        </div>
+                        <div className="flex items-center justify-between mb-4">
+                            <div>
+                                <div className="flex items-center gap-2">
+                                    <div className="font-medium text-gray-800 dark:text-gray-200">{t('settings.features.rivalCensor.title')}</div>
+                                    <Tooltip side="top" content={t('settings.features.rivalCensor.tooltip')}>
+                                        <span
+                                            className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-help"
+                                            aria-label={t('settings.features.rivalCensor.tooltipLabel')}>
+                                            <FiInfo size={16}/>
+                                        </span>
+                                    </Tooltip>
+                                </div>
+                                <div className="text-xs text-gray-500 dark:text-gray-400">{t('settings.features.rivalCensor.description')}</div>
+                            </div>
+                            <ToggleSwitch
+                                id="rival-censor-toggle"
+                                checked={rivalCensorEnabled}
+                                onChange={onRivalCensorToggle}
+                                ariaLabel={t('settings.features.rivalCensor.title')}
+                            />
+                        </div>
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <div className="flex items-center gap-2">
+                                    <div className="font-medium text-gray-800 dark:text-gray-200">{t('settings.features.legendary.title')}</div>
+                                    <Tooltip side="top" content={t('settings.features.legendary.tooltip')}>
+                                        <span
+                                            className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-help"
+                                            aria-label={t('settings.features.legendary.tooltipLabel')}>
+                                            <FiInfo size={16}/>
+                                        </span>
+                                    </Tooltip>
+                                </div>
+                                <div className="text-xs text-gray-500 dark:text-gray-400">{t('settings.features.legendary.description')}</div>
+                            </div>
+                            <ToggleSwitch
+                                id="legendary-toggle"
+                                checked={legendaryTrackerEnabled}
+                                onChange={onlegendaryTrackerToggle}
+                                ariaLabel={t('settings.features.legendary.title')}
+                            />
+                        </div>
+                    </section>
 
-            <section>
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-gray-500">
-                    {t("settings.members.title")}
-                  </h2>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                    {canManageMembers
-                      ? t("settings.members.managerNotice")
-                      : t("settings.members.viewerNotice")}
-                  </p>
+                    {variableRivals.length > 0 && (
+                        <section>
+                            <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-gray-500 mb-4">
+                                {t('settings.sections.variableRivals')}
+                            </h2>
+                            {variableRivals.map(rival => (
+                                <div key={rival.key} className="mb-4">
+                                    <div className="flex items-center gap-4 text-gray-800 dark:text-gray-200">
+                                        <label className="flex items-center gap-2 cursor-pointer">
+                                            <input type="radio" name={`rival-${rival.key}`} value="male"
+                                                   checked={(rivalPreferences?.[rival.key] || 'male') === 'male'}
+                                                   onChange={() => onRivalPreferenceChange(rival.key, 'male')}
+                                                   className="h-4 w-4 accent-green-600"/> {getRivalOptionLabel(rival.key, 'male', rival.options.male)}
+                                        </label>
+                                        <label className="flex items-center gap-2 cursor-pointer">
+                                            <input type="radio" name={`rival-${rival.key}`} value="female"
+                                                   checked={rivalPreferences?.[rival.key] === 'female'}
+                                                   onChange={() => onRivalPreferenceChange(rival.key, 'female')}
+                                                   className="h-4 w-4 accent-green-600"/> {getRivalOptionLabel(rival.key, 'female', rival.options.female)}
+                                        </label>
+                                    </div>
+                                    <div className="text-xs text-gray-500 dark:text-gray-400 mb-2">
+                                        {t('settings.sections.variableRivalsDescription')}
+                                    </div>
+                                </div>
+                            ))}
+                        </section>
+                    )}
+
+                    <section>
+                        <div className="flex items-center justify-between mb-4">
+                            <div>
+                                <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-gray-500">{t('settings.members.title')}</h2>
+                                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                    {canManageMembers ? t('settings.members.managerNotice') : t('settings.members.viewerNotice')}
+                                </p>
+                            </div>
+                            <span className="text-xs text-gray-500">{t('settings.members.count', {count: members.length})}</span>
+                        </div>
+
+                        <ul className="space-y-3 mb-4">
+                            {sortedMembers.map((member) => (
+                                <li key={member.uid}
+                                    className="flex items-center justify-between rounded-md border border-gray-200 dark:border-gray-700 px-3 py-2">
+                                    <div>
+                                        <div
+                                            className="flex flex-wrap items-center gap-2 text-sm font-semibold text-gray-900 dark:text-gray-100">
+                                            <span>{member.email}</span>
+                                            {currentUserEmail && member.email === currentUserEmail &&
+                                                <span className="text-xs text-green-600">(Du)</span>}
+                                            {canManageMembers && member.role !== 'owner' && member.email !== currentUserEmail && (
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setMemberPendingRemoval(member)}
+                                                    className="text-xs text-red-600 hover:text-red-800 flex items-center gap-1"
+                                                    aria-label={t('settings.members.removeAriaLabel', { email: member.email })}
+                                                >
+                                                    <FiX size={14}/>
+                                                </button>
+                                            )}
+                                        </div>
+                                        <p className="text-xs text-gray-500">
+                                            {member.addedAt ? new Date(member.addedAt).toLocaleDateString() : t('settings.members.unknownDate')}
+                                        </p>
+                                    </div>
+                                    <span
+                                        className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold ${
+                                            member.role === 'owner'
+                                                ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-200'
+                                                : 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-200'
+                                        }`}>
+                    {member.role === 'owner' && <FiShield/>}
+                                        {member.role === 'owner' ? t('settings.members.roles.owner') : t('settings.members.roles.member')}
+                  </span>
+                                </li>
+                            ))}
+                            {sortedMembers.length === 0 && (
+                                <li className="text-sm text-gray-500 dark:text-gray-400">Keine Mitglieder gefunden.</li>
+                            )}
+                        </ul>
+                        {memberActionError && (
+                            <p className="text-sm text-red-600 dark:text-red-400 mb-4">{memberActionError}</p>
+                        )}
+
+                        {canManageMembers && (
+                            <form onSubmit={handleInvite}
+                                  className="space-y-3 rounded-lg border border-dashed border-gray-300 dark:border-gray-600 p-4">
+                                <div
+                                    className="flex items-center gap-2 text-sm font-semibold text-gray-800 dark:text-gray-100">
+                                    <FiUserPlus/> {t('settings.members.inviteTitle')}
+                                </div>
+                                <div className="flex flex-col sm:flex-row gap-2">
+                                    <input
+                                        type="email"
+                                        value={inviteEmail}
+                                        onChange={(e) => setInviteEmail(e.target.value)}
+                                        required
+                                        placeholder="trainer@example.com"
+                                        className={`flex-1 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
+                                    />
+                                    <button
+                                        type="submit"
+                                        disabled={inviteLoading}
+                                        className="inline-flex items-center justify-center rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700 disabled:opacity-60"
+                                    >
+                                        {inviteLoading ? t('settings.members.inviteButton.loading') : t('settings.members.inviteButton.default')}
+                                    </button>
+                                </div>
+                                {inviteError && <p className="text-sm text-red-600 dark:text-red-400">{inviteError}</p>}
+                                {inviteMessage &&
+                                    <p className="text-sm text-green-600 dark:text-green-400">{inviteMessage}</p>}
+                            </form>
+                        )}
+                    </section>
+                </main>
                 </div>
-                <span className="text-xs text-gray-500">
-                  {t("settings.members.count", { count: members.length })}
-                </span>
-              </div>
-
-              <ul className="space-y-3 mb-4">
-                {sortedMembers.map((member) => (
-                  <li
-                    key={member.uid}
-                    className="flex items-center justify-between rounded-md border border-gray-200 dark:border-gray-700 px-3 py-2"
-                  >
-                    <div>
-                      <div className="flex flex-wrap items-center gap-2 text-sm font-semibold text-gray-900 dark:text-gray-100">
-                        <span>{member.email}</span>
-                        {currentUserEmail &&
-                          member.email === currentUserEmail && (
-                            <span className="text-xs text-green-600">(Du)</span>
-                          )}
-                        {canManageMembers &&
-                          member.role !== "owner" &&
-                          member.email !== currentUserEmail && (
+            </div>
+            {memberPendingRemoval && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
+                    <div
+                        className="w-full max-w-md rounded-xl bg-white dark:bg-gray-800 shadow-2xl border border-gray-200 dark:border-gray-700">
+                        <div
+                            className="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 px-5 py-4">
+                            <div>
+                                <p className="text-xs uppercase tracking-[0.3em] text-red-500">
+                                    {pendingRemovalIsSelf ? t('settings.removeModal.badgeSelf') : t('settings.removeModal.badgeMember')}
+                                </p>
+                                <h2 className="text-xl font-semibold mt-1 text-gray-900 dark:text-gray-100">
+                                    {pendingRemovalIsSelf ? trackerTitle : memberPendingRemoval.email}
+                                </h2>
+                            </div>
                             <button
-                              type="button"
-                              onClick={() => setMemberPendingRemoval(member)}
-                              className="text-xs text-red-600 hover:text-red-800 flex items-center gap-1"
-                              aria-label={t(
-                                "settings.members.removeAriaLabel",
-                                { email: member.email },
-                              )}
+                                type="button"
+                                onClick={handleCancelRemoveMember}
+                                className="rounded-full p-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                                aria-label={t('common.close')}
+                                disabled={removingMemberId === memberPendingRemoval.uid}
                             >
-                              <FiX size={14} />
+                                <FiX size={20}/>
                             </button>
-                          )}
-                      </div>
-                      <p className="text-xs text-gray-500">
-                        {member.addedAt
-                          ? new Date(member.addedAt).toLocaleDateString()
-                          : t("settings.members.unknownDate")}
-                      </p>
+                        </div>
+
+                        <div className="px-5 py-6 space-y-4">
+                            <div
+                                className="rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 px-4 py-3 text-sm text-red-900 dark:text-red-100">
+                                {pendingRemovalIsSelf ? t('settings.removeModal.confirmSelf') : t('settings.removeModal.confirmMember')}
+                            </div>
+                            <p className="text-sm text-gray-600 dark:text-gray-300">
+                                {pendingRemovalIsSelf ? t('settings.removeModal.descriptionSelf') : t('settings.removeModal.descriptionMember')}
+                            </p>
+                            {memberActionError && (
+                                <div
+                                    className="rounded-md bg-red-50 dark:bg-red-900/40 border border-red-200 dark:border-red-700 px-3 py-2 text-sm text-red-700 dark:text-red-200">
+                                    {memberActionError}
+                                </div>
+                            )}
+                        </div>
+
+                        <div
+                            className="flex flex-col gap-2 sm:flex-row sm:justify-end border-t border-gray-200 dark:border-gray-700 px-5 py-4">
+                            <button
+                                type="button"
+                                onClick={handleCancelRemoveMember}
+                                disabled={removingMemberId === memberPendingRemoval.uid}
+                                className="inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-600 px-4 py-2 text-sm font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-60"
+                            >
+                                {t('common.cancel')}
+                            </button>
+                            <button
+                                type="button"
+                                onClick={handleConfirmRemoveMember}
+                                disabled={removingMemberId === memberPendingRemoval.uid}
+                                className="inline-flex items-center justify-center gap-2 rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500 disabled:opacity-60"
+                            >
+                                {pendingRemovalIsSelf ? <FiLogOut/> : <FiX/>}
+                                {removingMemberId === memberPendingRemoval.uid
+                                    ? t('settings.removeModal.processing')
+                                    : (pendingRemovalIsSelf ? t('settings.removeModal.confirmSelf') : t('settings.removeModal.confirmMember'))}
+                            </button>
+                        </div>
                     </div>
-                    <span
-                      className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold ${
-                        member.role === "owner"
-                          ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-200"
-                          : "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-200"
-                      }`}
-                    >
-                      {member.role === "owner" && <FiShield />}
-                      {member.role === "owner"
-                        ? t("settings.members.roles.owner")
-                        : t("settings.members.roles.member")}
-                    </span>
-                  </li>
-                ))}
-                {sortedMembers.length === 0 && (
-                  <li className="text-sm text-gray-500 dark:text-gray-400">
-                    Keine Mitglieder gefunden.
-                  </li>
-                )}
-              </ul>
-              {memberActionError && (
-                <p className="text-sm text-red-600 dark:text-red-400 mb-4">
-                  {memberActionError}
-                </p>
-              )}
-
-              {canManageMembers && (
-                <form
-                  onSubmit={handleInvite}
-                  className="space-y-3 rounded-lg border border-dashed border-gray-300 dark:border-gray-600 p-4"
-                >
-                  <div className="flex items-center gap-2 text-sm font-semibold text-gray-800 dark:text-gray-100">
-                    <FiUserPlus /> {t("settings.members.inviteTitle")}
-                  </div>
-                  <div className="flex flex-col sm:flex-row gap-2">
-                    <input
-                      type="email"
-                      value={inviteEmail}
-                      onChange={(e) => setInviteEmail(e.target.value)}
-                      required
-                      placeholder="trainer@example.com"
-                      className={`flex-1 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
-                    />
-                    <button
-                      type="submit"
-                      disabled={inviteLoading}
-                      className="inline-flex items-center justify-center rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700 disabled:opacity-60"
-                    >
-                      {inviteLoading
-                        ? t("settings.members.inviteButton.loading")
-                        : t("settings.members.inviteButton.default")}
-                    </button>
-                  </div>
-                  {inviteError && (
-                    <p className="text-sm text-red-600 dark:text-red-400">
-                      {inviteError}
-                    </p>
-                  )}
-                  {inviteMessage && (
-                    <p className="text-sm text-green-600 dark:text-green-400">
-                      {inviteMessage}
-                    </p>
-                  )}
-                </form>
-              )}
-            </section>
-          </main>
-        </div>
-      </div>
-      {memberPendingRemoval && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
-          <div className="w-full max-w-md rounded-xl bg-white dark:bg-gray-800 shadow-2xl border border-gray-200 dark:border-gray-700">
-            <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 px-5 py-4">
-              <div>
-                <p className="text-xs uppercase tracking-[0.3em] text-red-500">
-                  {pendingRemovalIsSelf
-                    ? t("settings.removeModal.badgeSelf")
-                    : t("settings.removeModal.badgeMember")}
-                </p>
-                <h2 className="text-xl font-semibold mt-1 text-gray-900 dark:text-gray-100">
-                  {pendingRemovalIsSelf
-                    ? trackerTitle
-                    : memberPendingRemoval.email}
-                </h2>
-              </div>
-              <button
-                type="button"
-                onClick={handleCancelRemoveMember}
-                className="rounded-full p-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
-                aria-label={t("common.close")}
-                disabled={removingMemberId === memberPendingRemoval.uid}
-              >
-                <FiX size={20} />
-              </button>
-            </div>
-
-            <div className="px-5 py-6 space-y-4">
-              <div className="rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 px-4 py-3 text-sm text-red-900 dark:text-red-100">
-                {pendingRemovalIsSelf
-                  ? t("settings.removeModal.confirmSelf")
-                  : t("settings.removeModal.confirmMember")}
-              </div>
-              <p className="text-sm text-gray-600 dark:text-gray-300">
-                {pendingRemovalIsSelf
-                  ? t("settings.removeModal.descriptionSelf")
-                  : t("settings.removeModal.descriptionMember")}
-              </p>
-              {memberActionError && (
-                <div className="rounded-md bg-red-50 dark:bg-red-900/40 border border-red-200 dark:border-red-700 px-3 py-2 text-sm text-red-700 dark:text-red-200">
-                  {memberActionError}
                 </div>
-              )}
-            </div>
-
-            <div className="flex flex-col gap-2 sm:flex-row sm:justify-end border-t border-gray-200 dark:border-gray-700 px-5 py-4">
-              <button
-                type="button"
-                onClick={handleCancelRemoveMember}
-                disabled={removingMemberId === memberPendingRemoval.uid}
-                className="inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-600 px-4 py-2 text-sm font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-60"
-              >
-                {t("common.cancel")}
-              </button>
-              <button
-                type="button"
-                onClick={handleConfirmRemoveMember}
-                disabled={removingMemberId === memberPendingRemoval.uid}
-                className="inline-flex items-center justify-center gap-2 rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500 disabled:opacity-60"
-              >
-                {pendingRemovalIsSelf ? <FiLogOut /> : <FiX />}
-                {removingMemberId === memberPendingRemoval.uid
-                  ? t("settings.removeModal.processing")
-                  : pendingRemovalIsSelf
-                    ? t("settings.removeModal.confirmSelf")
-                    : t("settings.removeModal.confirmMember")}
-              </button>
-            </div>
-          </div>
+            )}
         </div>
-      )}
-    </div>
-  );
+    );
 };
 
 export default SettingsPage;
