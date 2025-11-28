@@ -1,11 +1,10 @@
 {
   "rules": {
     "users": {
-      ".read": "auth.uid != null",
       "$uid": {
+        ".read": "auth.uid === $uid",
         ".write": "auth.uid === $uid"
-      },
-      ".indexOn": ["emailLowerCase"]
+      }
     },
     "userTrackers": {
       "$uid": {
@@ -16,8 +15,9 @@
       }
     },
     "userEmails": {
-      ".read": "auth.uid != null",
+      ".read": false,
       "$emailKey": {
+        ".read": "auth.uid != null",
         ".write": "auth.uid != null && ((newData.exists() && newData.child('uid').val() === auth.uid) || (!newData.exists() && data.child('uid').val() === auth.uid))"
       }
     },

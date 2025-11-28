@@ -127,8 +127,6 @@ export interface TrackerSummary {
 
 export interface UserProfile {
   uid: string;
-  email: string;
-  emailLowerCase: string;
   createdAt: number;
   lastLoginAt: number;
   useGenerationSprites?: boolean;

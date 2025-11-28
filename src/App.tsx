@@ -603,13 +603,16 @@ const App: React.FC = () => {
     };
   }, [user, userTrackerIds]);
 
-  // Load public tracker metadata when not authenticated
+  // Load tracker metadata for direct URL access (used for public trackers)
   useEffect(() => {
-    if (user) {
-      setPublicTrackerLoading(false);
-      return; // Only for unauthenticated users
-    }
     if (!routeTrackerId) {
+      setPublicTrackerLoading(false);
+      return;
+    }
+
+    // When the user already has this tracker in their list, metadata is handled
+    // by the userTrackers listener above.
+    if (user && userTrackerIds.includes(routeTrackerId)) {
       setPublicTrackerLoading(false);
       return;
     }
@@ -651,7 +654,7 @@ const App: React.FC = () => {
     return () => {
       unsubscribe();
     };
-  }, [user, routeTrackerId]);
+  }, [user, routeTrackerId, userTrackerIds]);
 
   useEffect(() => {
     if (!user) {
@@ -664,7 +667,11 @@ const App: React.FC = () => {
     if (userTrackersLoading) return;
 
     if (routeTrackerId) {
-      if (userTrackerIds.includes(routeTrackerId)) {
+      const isUserTracker = userTrackerIds.includes(routeTrackerId);
+      const routeMeta = trackerMetas[routeTrackerId];
+      const isPublicRouteTracker = Boolean(routeMeta?.isPublic);
+
+      if (isUserTracker || isPublicRouteTracker) {
         if (activeTrackerId !== routeTrackerId) {
           setActiveTrackerId(routeTrackerId);
         }
@@ -724,11 +731,16 @@ const App: React.FC = () => {
 
   const routeTrackerExistsForUser =
     user && routeTrackerId ? userTrackerIds.includes(routeTrackerId) : false;
+  const routeTrackerIsPublic = routeTrackerId
+    ? Boolean(trackerMetas[routeTrackerId]?.isPublic)
+    : false;
   const routeTrackerKnownMissing = Boolean(
     user &&
       routeTrackerId &&
       !userTrackersLoading &&
-      !routeTrackerExistsForUser,
+      !routeTrackerExistsForUser &&
+      !routeTrackerIsPublic &&
+      !publicTrackerLoading,
   );
   const routeTrackerPendingSelection = user
     ? Boolean(
@@ -1494,11 +1506,12 @@ const App: React.FC = () => {
     activeTrackerMeta?.title?.trim() ||
     nameTitleFallback ||
     t("common.appName");
+  const isPublicTracker = Boolean(activeTrackerMeta?.isPublic);
   const readOnlyNotice = isReadOnly
-    ? isViewingPublicTracker
-      ? t("app.publicReadOnlyNotice")
-      : isGuest
-        ? t("app.guestReadOnlyNotice")
+    ? isGuest
+      ? t("app.guestReadOnlyNotice")
+      : isPublicTracker
+        ? t("app.publicReadOnlyNotice")
         : null
     : null;
 
@@ -1652,24 +1665,26 @@ const App: React.FC = () => {
               >
                 <FiHome size={28} />
               </button>
-              <button
-                onClick={handleReset}
-                disabled={isReadOnly}
-                className={`p-2 rounded-full focus:outline-none ${isReadOnly ? "text-gray-400 dark:text-gray-600 cursor-not-allowed" : "hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white"}`}
-                aria-label={t("tracker.actions.resetRun")}
-                title={t("tracker.actions.resetRun")}
-              >
-                <FiRotateCw size={28} />
-              </button>
-              <button
-                onClick={openSettingsPanel}
-                disabled={isReadOnly && !isGuest}
-                className={`p-2 rounded-full focus:outline-none ${isReadOnly && !isGuest ? "text-gray-400 dark:text-gray-600 cursor-not-allowed" : "hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white"}`}
-                aria-label={t("tracker.actions.settings")}
-                title={t("tracker.actions.settings")}
-              >
-                <FiSettings size={28} />
-              </button>
+              {!isReadOnly && (
+                <button
+                  onClick={handleReset}
+                  className="p-2 rounded-full focus:outline-none hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white"
+                  aria-label={t("tracker.actions.resetRun")}
+                  title={t("tracker.actions.resetRun")}
+                >
+                  <FiRotateCw size={28} />
+                </button>
+              )}
+              {(!isReadOnly || isGuest) && (
+                <button
+                  onClick={openSettingsPanel}
+                  className="p-2 rounded-full focus:outline-none hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white"
+                  aria-label={t("tracker.actions.settings")}
+                  title={t("tracker.actions.settings")}
+                >
+                  <FiSettings size={28} />
+                </button>
+              )}
             </div>
             {/* Mobile burger (<xl) */}
             <button
@@ -1735,28 +1750,30 @@ const App: React.FC = () => {
               >
                 <FiHome size={18} /> {t("tracker.menu.overview")}
               </button>
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  handleReset();
-                }}
-                disabled={isReadOnly}
-                className={`w-full text-left px-2 py-2 rounded-md text-sm inline-flex items-center gap-2 ${isReadOnly ? "text-gray-400 dark:text-gray-500 cursor-not-allowed" : "text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"}`}
-                title={t("tracker.menu.resetRun")}
-              >
-                <FiRotateCw size={18} /> {t("tracker.menu.resetRun")}
-              </button>
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  openSettingsPanel();
-                }}
-                disabled={isReadOnly && !isGuest}
-                className={`w-full text-left px-2 py-2 rounded-md text-sm inline-flex items-center gap-2 ${isReadOnly && !isGuest ? "text-gray-400 dark:text-gray-500 cursor-not-allowed" : "text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"}`}
-                title={t("tracker.menu.settings")}
-              >
-                <FiSettings size={18} /> {t("tracker.menu.settings")}
-              </button>
+              {!isReadOnly && (
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    handleReset();
+                  }}
+                  className="w-full text-left px-2 py-2 rounded-md text-sm inline-flex items-center gap-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  title={t("tracker.menu.resetRun")}
+                >
+                  <FiRotateCw size={18} /> {t("tracker.menu.resetRun")}
+                </button>
+              )}
+              {(!isReadOnly || isGuest) && (
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    openSettingsPanel();
+                  }}
+                  className="w-full text-left px-2 py-2 rounded-md text-sm inline-flex items-center gap-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  title={t("tracker.menu.settings")}
+                >
+                  <FiSettings size={18} /> {t("tracker.menu.settings")}
+                </button>
+              )}
             </div>
           </div>
         </div>

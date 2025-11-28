@@ -39,8 +39,6 @@ export const ensureUserProfile = async (user: User): Promise<void> => {
   const snapshot = await get(profileRef);
   const payload = {
     uid: user.uid,
-    email: user.email,
-    emailLowerCase: normalizeEmail(user.email),
     lastLoginAt: now,
   };
   if (snapshot.exists()) {
@@ -57,16 +55,9 @@ export const ensureUserProfile = async (user: User): Promise<void> => {
   const updates: Record<string, unknown> = {
     [`userEmails/${emailKey}`]: {
       uid: user.uid,
-      email: user.email,
-      emailLowerCase: normalizedEmail,
       updatedAt: now,
     },
   };
-
-  const previousEmail = snapshot.val()?.emailLowerCase;
-  if (previousEmail && previousEmail !== normalizedEmail) {
-    updates[`userEmails/${encodeEmailKey(previousEmail)}`] = null;
-  }
 
   await update(ref(db), updates);
 };
@@ -82,7 +73,7 @@ export const findUserByEmail = async (
   if (!snapshot.exists()) return null;
   const value = snapshot.val();
   if (!value?.uid) return null;
-  return { uid: value.uid, email: value.email ?? normalized };
+  return { uid: value.uid, email };
 };
 
 const resolveUsersByEmails = async (
