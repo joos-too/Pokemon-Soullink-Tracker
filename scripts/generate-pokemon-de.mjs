@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-import {Pokedex} from 'pokeapi-js-wrapper';
-import {writeFile} from 'node:fs/promises';
-import {fileURLToPath} from 'node:url';
-import path from 'node:path';
+import Pokedex from "pokedex-promise-v2";
+import { writeFile } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
+import path from "node:path";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -13,7 +13,6 @@ const outMapPath = path.resolve(__dirname, '../src/data/pokemon-map.ts');
 const outEvoPath = path.resolve(__dirname, '../src/data/pokemon-evolutions.ts');
 const outLocationsPath = path.resolve(__dirname, '../src/data/location-suggestions.ts');
 
-const API_BASE = 'https://pokeapi.co/api/v2';
 const MAX_GENERATION = 6;
 const REGION_TO_GENERATION = {
   kanto: 1,
@@ -28,6 +27,10 @@ const REGION_TO_GENERATION = {
   paldea: 9,
 };
 const SUPPORTED_LANGUAGES = ['de', 'en'];
+const POKEDEX_OPTIONS = {
+  timeout: 15000,
+  cacheLimit: 0,
+};
 
 const MANUAL_TRANSLATIONS = {
   de: {
@@ -63,6 +66,8 @@ const MANUAL_TRANSLATIONS = {
   },
 };
 
+const createPokedexClient = () => new Pokedex(POKEDEX_OPTIONS);
+
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const SKIPPED_EVOLUTIONS = new Set(['489:490']);
 
@@ -79,27 +84,6 @@ async function withRetry(fn, attempts = 3, delayMs = 500) {
         }
     }
     throw lastError;
-}
-
-async function fetchJson(path) {
-    const res = await fetch(`${API_BASE}${path}`);
-    if (!res.ok) {
-        throw new Error(`Failed to fetch ${path}: ${res.status}`);
-    }
-    return res.json();
-}
-
-async function fetchWithFallback(wrapperFn, fallbackPath) {
-    try {
-        return await withRetry(wrapperFn, 3, 600);
-    } catch (err) {
-        if (!fallbackPath) throw err;
-        try {
-            return await withRetry(() => fetchJson(fallbackPath), 3, 800);
-        } catch {
-            return null;
-        }
-    }
 }
 
 function formatSlugName(slug) {
@@ -188,7 +172,7 @@ async function loadItemTranslations(P, slugs) {
         const slice = arr.slice(i, i + ITEM_CHUNK);
         const items = await Promise.all(
             slice.map((slug) =>
-                fetchWithFallback(() => P.getItemByName(slug), `/item/${slug}`).catch(() => null)
+                withRetry(() => P.getItemByName(slug), 3, 600).catch(() => null)
             )
         );
         items.forEach((item, idx) => {
@@ -210,7 +194,7 @@ async function loadMoveTranslations(P, slugs) {
         const slice = arr.slice(i, i + MOVE_CHUNK);
         const moves = await Promise.all(
             slice.map((slug) =>
-                fetchWithFallback(() => P.getMoveByName(slug), `/move/${slug}`).catch(() => null)
+                withRetry(() => P.getMoveByName(slug), 3, 600).catch(() => null)
             )
         );
         moves.forEach((move, idx) => {
@@ -232,7 +216,7 @@ async function loadTypeTranslations(P, slugs) {
         const slice = arr.slice(i, i + TYPE_CHUNK);
         const types = await Promise.all(
             slice.map((slug) =>
-                fetchWithFallback(() => P.getTypeByName(slug), `/type/${slug}`).catch(() => null)
+                withRetry(() => P.getTypeByName(slug), 3, 600).catch(() => null)
             )
         );
         types.forEach((type, idx) => {
@@ -248,14 +232,14 @@ async function loadTypeTranslations(P, slugs) {
 async function loadAllLocations(P) {
     const translations = new Map();
     const regions = new Map();
-    const list = await fetchJson('/location?limit=2000');
+    const list = await withRetry(() => P.getLocationsList({limit: 2000, offset: 0}), 3, 600);
     const slugs = Array.isArray(list?.results) ? list.results.map((it) => it?.name).filter(Boolean) : [];
     const LOC_CHUNK = 40;
     for (let i = 0; i < slugs.length; i += LOC_CHUNK) {
         const slice = slugs.slice(i, i + LOC_CHUNK);
         const locations = await Promise.all(
             slice.map((slug) =>
-                fetchWithFallback(() => P.getLocationByName(slug), `/location/${slug}`).catch(() => null)
+                withRetry(() => P.getLocationByName(slug), 3, 600).catch(() => null)
             )
         );
         locations.forEach((loc, idx) => {
@@ -448,8 +432,7 @@ function describeEvolutionDetail(detail, translators = {}, locale = 'de') {
 }
 
 async function main() {
-    // Disable wrapper caching in Node (localforage has no backend here)
-    const P = new Pokedex({timeout: 15000, cache: false});
+    const P = createPokedexClient();
     console.log('Fetching species list…');
     const list = await withRetry(() => P.getPokemonSpeciesList({limit: 20000, offset: 0}), 5, 800);
     const items = list.results || [];
@@ -622,15 +605,19 @@ async function main() {
     };
 
     const buildLocationSuggestions = () => {
-        const entries = [];
-        locationTranslations.forEach((record, slug) => {
-            const region = locationRegions.get(slug) || "";
-            const name = record?.en || formatSlugName(slug);
-            if (!name) return;
-            entries.push({ name, slug, region: region });
+        const result = {};
+        SUPPORTED_LANGUAGES.forEach((locale) => {
+            const entries = [];
+            locationTranslations.forEach((record, slug) => {
+                const region = locationRegions.get(slug) || "";
+                const name = record?.[locale] || record?.en || formatSlugName(slug);
+                if (!name) return;
+                entries.push({ name, slug, region });
+            });
+            entries.sort((a, b) => a.name.localeCompare(b.name, locale === 'en' ? 'en' : 'de'));
+            result[locale] = entries;
         });
-        entries.sort((a, b) => a.name.localeCompare(b.name, 'en'));
-        return { en: entries };
+        return result;
     };
 
     const buildEvolutionTable = (locale) => {

@@ -2053,7 +2053,14 @@ export const EVOLUTIONS_DE: Record<number, { id: number; methods: string[] }[]> 
       ]
     }
   ],
-  "511": [],
+  "511": [
+    {
+      "id": 512,
+      "methods": [
+        "Item: Blattstein"
+      ]
+    }
+  ],
   "513": [
     {
       "id": 514,

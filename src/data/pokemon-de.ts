@@ -3271,6 +3271,11 @@ export const GERMAN_POKEMON_NAMES: { name: string; id: number; generation: numbe
     "generation": 5
   },
   {
+    "name": "Vegimak",
+    "id": 511,
+    "generation": 5
+  },
+  {
     "name": "Venuflibis",
     "id": 455,
     "generation": 4

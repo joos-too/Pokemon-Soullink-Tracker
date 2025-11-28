@@ -75,13 +75,17 @@ const buildEntries = (items: { name: string; slug: string; region: string }[]): 
         };
     });
 
-const staticEntries = buildEntries((LOCATION_SUGGESTIONS.en || []).map((entry) => ({
-    ...entry,
-})));
+const getEntriesForLocale = (locale: SupportedLanguage): LocationEntry[] => {
+    const baseList = LOCATION_SUGGESTIONS[locale] || [];
+    const entries = buildEntries(baseList);
+    if (entries.length) return entries;
+    const fallback = LOCATION_SUGGESTIONS[DEFAULT_LOCATION_LOCALE] || [];
+    return buildEntries(fallback);
+};
 
 const LOCATION_LISTS: Record<SupportedLanguage, LocationEntry[]> = {
-    en: staticEntries,
-    de: staticEntries,
+    en: getEntriesForLocale('en'),
+    de: getEntriesForLocale('de'),
 };
 
 export async function searchLocations(
@@ -97,13 +101,11 @@ export async function searchLocations(
     const fallbackList = LOCATION_LISTS[DEFAULT_LOCATION_LOCALE] ?? [];
     const list = LOCATION_LISTS[locale]?.length ? LOCATION_LISTS[locale] : fallbackList;
     const localeForCompare = DEFAULT_LOCATION_LOCALE;
-    const requireRouteNumber = locale === 'de';
     const filtered = list.filter((entry) => {
         const matchesTerm = entry.lower.includes(q);
         if (!matchesTerm) return false;
         if (!entry.region || !allowedRegions.has(entry.region)) return false;
-        if (!requireRouteNumber) return true;
-        return getRouteNumberForEntry(entry) !== null;
+        return true;
     });
     filtered.sort((a, b) => {
         const aRoute = getRouteNumberForEntry(a);

@@ -2231,6 +2231,11 @@ export const ENGLISH_POKEMON_NAMES: { name: string; id: number; generation: numb
     "generation": 5
   },
   {
+    "name": "Pansage",
+    "id": 511,
+    "generation": 5
+  },
+  {
     "name": "Pansear",
     "id": 513,
     "generation": 5
