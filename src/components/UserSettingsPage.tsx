@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import {
+  FiAlertTriangle,
   FiArrowLeft,
+  FiCheckCircle,
+  FiInfo,
+  FiLogOut,
   FiMail,
   FiRefreshCw,
-  FiCheckCircle,
-  FiAlertTriangle,
-  FiLogOut,
-  FiInfo,
 } from "react-icons/fi";
 import { focusRingClasses } from "@/src/styles/focusRing";
 import { requestPasswordReset } from "@/src/services/auth";
+import ToggleSwitch from "@/src/components/ToggleSwitch";
 import { useTranslation } from "react-i18next";
 import LanguageToggle from "./LanguageToggle";
 import Tooltip from "./Tooltip";
@@ -185,34 +186,12 @@ const UserSettingsPage: React.FC<UserSettingsPageProps> = ({
                   {t("settings.features.generationSprites.description")}
                 </div>
               </div>
-              <label
-                htmlFor="generation-sprites-toggle"
-                className="inline-flex items-center cursor-pointer rounded-full"
-              >
-                <input
-                  type="checkbox"
-                  id="generation-sprites-toggle"
-                  checked={useGenerationSprites ?? false}
-                  onChange={(e) => onGenerationSpritesToggle(e.target.checked)}
-                  className="sr-only"
-                  tabIndex={-1}
-                  aria-label={t("settings.features.generationSprites.title")}
-                />
-                <span
-                  aria-hidden="true"
-                  className={`relative block w-11 h-6 rounded-full transition-colors duration-200 ease-out pointer-events-none ${
-                    useGenerationSprites
-                      ? "bg-green-500"
-                      : "bg-gray-200 dark:bg-gray-700"
-                  }`}
-                >
-                  <span
-                    className={`absolute top-[2px] left-[2px] h-5 w-5 transform rounded-full bg-white shadow transition duration-200 ease-out pointer-events-none ${
-                      useGenerationSprites ? "translate-x-5" : ""
-                    }`}
-                  />
-                </span>
-              </label>
+              <ToggleSwitch
+                id="generation-sprites-toggle"
+                checked={useGenerationSprites ?? false}
+                onChange={onGenerationSpritesToggle}
+                ariaLabel={t("settings.features.generationSprites.title")}
+              />
             </div>
 
             <div className="flex items-center justify-between">
@@ -239,34 +218,12 @@ const UserSettingsPage: React.FC<UserSettingsPageProps> = ({
                   {t("settings.features.spritesInTeamTable.description")}
                 </div>
               </div>
-              <label
-                htmlFor="sprites-in-team-table-toggle"
-                className="inline-flex items-center cursor-pointer rounded-full"
-              >
-                <input
-                  type="checkbox"
-                  id="sprites-in-team-table-toggle"
-                  checked={useSpritesInTeamTable ?? false}
-                  onChange={(e) => onSpritesInTeamTableToggle(e.target.checked)}
-                  className="sr-only"
-                  tabIndex={-1}
-                  aria-label={t("settings.features.spritesInTeamTable.title")}
-                />
-                <span
-                  aria-hidden="true"
-                  className={`relative block w-11 h-6 rounded-full transition-colors duration-200 ease-out pointer-events-none ${
-                    useSpritesInTeamTable
-                      ? "bg-green-500"
-                      : "bg-gray-200 dark:bg-gray-700"
-                  }`}
-                >
-                  <span
-                    className={`absolute top-[2px] left-[2px] h-5 w-5 transform rounded-full bg-white shadow transition duration-200 ease-out pointer-events-none ${
-                      useSpritesInTeamTable ? "translate-x-5" : ""
-                    }`}
-                  />
-                </span>
-              </label>
+              <ToggleSwitch
+                id="sprites-in-team-table-toggle"
+                checked={useSpritesInTeamTable ?? false}
+                onChange={onSpritesInTeamTableToggle}
+                ariaLabel={t("settings.features.spritesInTeamTable.title")}
+              />
             </div>
           </section>
 
