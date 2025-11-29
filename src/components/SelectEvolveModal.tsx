@@ -202,7 +202,6 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
     () => normalizeLanguage(i18n.language),
     [i18n.language],
   );
-  const [nameLanguage, setNameLanguage] = useState<SupportedLanguage>(language);
 
   useEffect(() => {
     if (isOpen) {
@@ -211,7 +210,6 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
       setAvailableEvos(null);
       setSelectedEvoId(null);
       setLoading(false);
-      setNameLanguage(language);
     }
   }, [isOpen, playerLabels.length, language]);
 
@@ -236,7 +234,6 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
         setAvailableEvos([]);
         return;
       }
-      setNameLanguage(match.language);
       const numericId = match.id;
 
       const evoTable = EVOLUTION_TABLES[language] || EVOLUTION_TABLES.de;
@@ -303,7 +300,7 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
   const handleConfirm = (e: React.FormEvent) => {
     e.preventDefault();
     if (selectedPlayer === null || selectedEvoId === null) return;
-    const targetName = getPokemonNameById(selectedEvoId, nameLanguage);
+    const targetName = getPokemonNameById(selectedEvoId, language);
     onConfirm(selectedPlayer, targetName, selectedEvoId);
   };
 
