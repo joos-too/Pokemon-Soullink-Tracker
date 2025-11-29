@@ -11,6 +11,7 @@ import {
   normalizeLanguage,
   type SupportedLanguage,
 } from "@/src/utils/language";
+import LocationSuggestionInput from "@/src/components/LocationSuggestionInput";
 
 interface EditPairModalProps {
   isOpen: boolean;
@@ -23,6 +24,7 @@ interface EditPairModalProps {
     members: Pokemon[];
   };
   generationLimit?: number;
+  gameVersionId?: string;
   generationSpritePath?: string | null;
 }
 
@@ -215,6 +217,7 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
   initial,
   mode = "edit",
   generationLimit,
+  gameVersionId,
   generationSpritePath,
 }) => {
   const { t, i18n } = useTranslation();
@@ -307,21 +310,12 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label
-              htmlFor="route"
-              className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1"
-            >
-              {t("modals.addLost.routeLabel")}{" "}
-              <span className="text-red-500">*</span>
-            </label>
-            <input
-              id="route"
-              type="text"
+            <LocationSuggestionInput
+              label={t("modals.addLost.routeLabel")}
               value={route}
-              onChange={(e) => setRoute(e.target.value)}
-              className={`w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
-              placeholder={t("common.routePlaceholder")}
-              required
+              onChange={setRoute}
+              isOpen={isOpen}
+              gameVersionId={gameVersionId}
             />
           </div>
 

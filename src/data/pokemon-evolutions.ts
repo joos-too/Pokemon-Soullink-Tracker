@@ -1187,6 +1187,12 @@ export const EVOLUTIONS_DE: Record<
       methods: ["Tausch - Trägt Düsterumhang"],
     },
   ],
+  "360": [
+    {
+      id: 202,
+      methods: ["Level-Up - Level 15"],
+    },
+  ],
   "361": [
     {
       id: 362,
@@ -1541,7 +1547,12 @@ export const EVOLUTIONS_DE: Record<
       methods: ["Level-Up - Level 20"],
     },
   ],
-  "511": [],
+  "511": [
+    {
+      id: 512,
+      methods: ["Item: Blattstein"],
+    },
+  ],
   "513": [
     {
       id: 514,
@@ -3322,6 +3333,12 @@ export const EVOLUTIONS_EN: Record<
       methods: ["Trade - Holds Reaper Cloth"],
     },
   ],
+  "360": [
+    {
+      id: 202,
+      methods: ["Level-Up - Level 15"],
+    },
+  ],
   "361": [
     {
       id: 362,
@@ -3676,7 +3693,12 @@ export const EVOLUTIONS_EN: Record<
       methods: ["Level-Up - Level 20"],
     },
   ],
-  "511": [],
+  "511": [
+    {
+      id: 512,
+      methods: ["Item: Leaf Stone"],
+    },
+  ],
   "513": [
     {
       id: 514,

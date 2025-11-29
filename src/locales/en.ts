@@ -190,6 +190,7 @@ export const en = {
       loading: "Loading evolutions…",
       noneAvailable: "No evolutions available for this Pokémon.",
       methodUnknown: "Condition unknown",
+      locationPrefix: "Level-Up - Location: ",
       buttonCancel: "Cancel",
       buttonConfirm: "Confirm",
       unavailable: "Not available in this version",

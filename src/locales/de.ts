@@ -192,6 +192,7 @@ export const de = {
       loading: "Lade Entwicklungen…",
       noneAvailable: "Für dieses Pokémon sind keine Entwicklungen verfügbar.",
       methodUnknown: "Bedingung unbekannt",
+      locationPrefix: "Level-Up - Ort: ",
       buttonCancel: "Abbrechen",
       buttonConfirm: "Bestätigen",
       unavailable: "In dieser Version nicht verfügbar",

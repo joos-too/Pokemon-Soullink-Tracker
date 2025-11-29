@@ -8,6 +8,7 @@ import {
 import type { Pokemon } from "@/types";
 import { useTranslation } from "react-i18next";
 import { normalizeLanguage } from "@/src/utils/language";
+import LocationSuggestionInput from "@/src/components/LocationSuggestionInput";
 
 interface AddLostPokemonModalProps {
   isOpen: boolean;
@@ -16,6 +17,7 @@ interface AddLostPokemonModalProps {
   playerNames: string[];
   generationLimit?: number;
   generationSpritePath?: string | null;
+  gameVersionId?: string;
 }
 
 interface PokemonNameFieldProps {
@@ -116,6 +118,10 @@ const PokemonNameField: React.FC<PokemonNameFieldProps> = ({
       <div className="relative">
         <input
           type="text"
+          autoComplete="off"
+          autoCorrect="off"
+          autoCapitalize="off"
+          spellCheck={false}
           value={value}
           onChange={(e) => onChange(e.target.value)}
           onFocus={() => setFocused(true)}
@@ -136,7 +142,7 @@ const PokemonNameField: React.FC<PokemonNameFieldProps> = ({
             src={spriteUrl}
             alt=""
             aria-hidden="true"
-            className="pointer-events-none absolute inset-y-0 right-2 my-auto h-10 w-10 select-none"
+            className="pointer-events-none absolute inset-y-0 right-2 my-auto h-8 w-8 select-none"
             loading="lazy"
           />
         ) : null}
@@ -177,6 +183,7 @@ const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({
   onAdd,
   playerNames,
   generationLimit,
+  gameVersionId,
   generationSpritePath,
 }) => {
   const { t } = useTranslation();
@@ -242,21 +249,12 @@ const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({
         <form onSubmit={handleSubmit}>
           <div className="space-y-4">
             <div>
-              <label
-                htmlFor="route"
-                className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1"
-              >
-                {t("modals.addLost.routeLabel")}{" "}
-                <span className="text-red-500">*</span>
-              </label>
-              <input
-                id="route"
-                type="text"
+              <LocationSuggestionInput
+                label={t("modals.addLost.routeLabel")}
                 value={route}
-                onChange={(e) => setRoute(e.target.value)}
-                className={`w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
-                placeholder={t("common.routePlaceholder")}
-                required
+                onChange={setRoute}
+                isOpen={isOpen}
+                gameVersionId={gameVersionId}
               />
             </div>
             {playerNames.map((name, index) => (

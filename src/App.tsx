@@ -78,6 +78,7 @@ import {
 } from "@/src/services/trackers";
 import { GAME_VERSIONS } from "@/src/data/game-versions";
 import { useTranslation } from "react-i18next";
+import "@/src/pokeapi"; // initialize Pokedex once so sprite caching SW gets registered
 
 const LAST_TRACKER_STORAGE_KEY = "soullink:lastTrackerId";
 
@@ -1622,6 +1623,7 @@ const App: React.FC = () => {
         playerNames={resolvedPlayerNames}
         generationLimit={pokemonGenerationLimit}
         generationSpritePath={generationSpritePath}
+        gameVersionId={activeGameVersionId || undefined}
       />
       <SelectLossModal
         isOpen={!isReadOnly && showLossModal}
