@@ -19,6 +19,24 @@
         font-family: "Press Start 2P", cursive;
       }
     </style>
+    <script>
+      // prevent a flash of incorrect theme background
+      (function initTheme() {
+        try {
+          const stored = localStorage.getItem("color-theme");
+          const prefersDark =
+            window.matchMedia &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches;
+          const isDark = stored === "dark" || (!stored && prefersDark);
+          const root = document.documentElement;
+          root.classList.toggle("dark", isDark);
+          const bg = isDark ? "#0f172a" : "#f8fafc";
+          root.style.backgroundColor = bg;
+          root.style.colorScheme = isDark ? "dark" : "light";
+          if (document.body) document.body.style.backgroundColor = bg;
+        } catch (e) {}
+      })();
+    </script>
     <link rel="stylesheet" href="/index.css" />
   </head>
   <body>
