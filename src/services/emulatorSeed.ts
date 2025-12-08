@@ -18,7 +18,7 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { get, ref, update } from "firebase/database";
-import { createInitialState } from "@/constants";
+import { createInitialState } from "@/src/services/init.ts";
 
 // Test user credentials for emulator mode
 const TEST_USER_EMAIL = "test@example.com";

@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import type { PokemonLink } from "@/types";
 import { getSpriteUrlForPokemonName } from "@/src/services/sprites";
-import { PLAYER_COLORS } from "@/constants";
+import { PLAYER_COLORS } from "@/src/services/init.ts";
 import { useTranslation } from "react-i18next";
 
 interface GraveyardProps {

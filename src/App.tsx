@@ -6,6 +6,7 @@ import React, {
   useState,
 } from "react";
 import {
+  FiEdit,
   FiHome,
   FiMenu,
   FiMoon,
@@ -20,16 +21,17 @@ import type {
   Pokemon,
   PokemonLink,
   RivalGender,
+  Ruleset,
   TrackerMeta,
   TrackerSummary,
 } from "@/types";
 import {
   createInitialState,
-  DEFAULT_RULES,
   ensureStatsForPlayers,
   PLAYER_COLORS,
   sanitizePlayerNames,
-} from "@/constants";
+  sanitizeRules,
+} from "@/src/services/init.ts";
 import TeamTable from "@/src/components/TeamTable";
 import InfoPanel from "@/src/components/InfoPanel";
 import Graveyard from "@/src/components/Graveyard";
@@ -77,6 +79,18 @@ import {
   updateUserSpritesInTeamTablePreference,
 } from "@/src/services/trackers";
 import { GAME_VERSIONS } from "@/src/data/game-versions";
+import {
+  DEFAULT_RULES,
+  DEFAULT_RULESET_ID,
+  PRESET_RULESETS,
+} from "@/src/data/rulesets";
+import {
+  deleteRuleset,
+  listenToUserRulesets,
+  saveRuleset,
+  SaveRulesetPayload,
+} from "@/src/services/rulesets";
+import RulesetEditorPage from "@/src/components/RulesetEditorPage";
 import { useTranslation } from "react-i18next";
 import "@/src/pokeapi"; // initialize Pokedex once so sprite caching SW gets registered
 
@@ -199,6 +213,8 @@ const App: React.FC = () => {
   const [deleteTrackerError, setDeleteTrackerError] = useState<string | null>(
     null,
   );
+  const [rulesets, setRulesets] = useState<Ruleset[]>(PRESET_RULESETS);
+  const rulesetUnsubscribeRef = useRef<(() => void) | null>(null);
 
   const activeTrackerMeta = activeTrackerId
     ? trackerMetas[activeTrackerId]
@@ -354,6 +370,12 @@ const App: React.FC = () => {
         return list.map((p, index) => sanitizeLink(p, index + 1));
       };
 
+      const resolvedRulesetId =
+        typeof safe.rulesetId === "string" && safe.rulesetId.trim().length > 0
+          ? safe.rulesetId
+          : base.rulesetId || DEFAULT_RULESET_ID;
+      const sanitizedRules = sanitizeRules(safe.rules);
+
       const stats = ensureStatsForPlayers(safe.stats, playerCount);
 
       return {
@@ -361,11 +383,13 @@ const App: React.FC = () => {
         team: sanitizeArray(safe.team),
         box: sanitizeArray(safe.box),
         graveyard: sanitizeArray(safe.graveyard),
-        rules: Array.isArray(safe.rules)
-          ? safe.rules
-              .map((r: any) => (typeof r === "string" ? r : ""))
-              .filter((r: string) => r.trim().length > 0)
-          : (base.rules ?? DEFAULT_RULES),
+        rules:
+          sanitizedRules.length > 0
+            ? sanitizedRules
+            : base.rules && base.rules.length > 0
+              ? base.rules
+              : DEFAULT_RULES,
+        rulesetId: resolvedRulesetId,
         levelCaps: finalLevelCaps,
         rivalCaps: finalRivalCaps,
         stats: {
@@ -399,6 +423,28 @@ const App: React.FC = () => {
     });
     return () => unsubscribe();
   }, []);
+
+  useEffect(() => {
+    if (rulesetUnsubscribeRef.current) {
+      rulesetUnsubscribeRef.current();
+      rulesetUnsubscribeRef.current = null;
+    }
+    setRulesets(PRESET_RULESETS);
+    if (!user) return;
+
+    const unsubscribe = listenToUserRulesets(user.uid, (customRulesets) => {
+      const sortedCustom = [...customRulesets].sort(
+        (a, b) => (b.updatedAt ?? 0) - (a.updatedAt ?? 0),
+      );
+      setRulesets([...PRESET_RULESETS, ...sortedCustom]);
+    });
+    rulesetUnsubscribeRef.current = unsubscribe;
+
+    return () => {
+      unsubscribe();
+      rulesetUnsubscribeRef.current = null;
+    };
+  }, [user]);
 
   /**
    * Seed emulator with test data when running in emulator mode
@@ -894,6 +940,7 @@ const App: React.FC = () => {
       return {
         ...base,
         rules: prev.rules, // keep rule changes
+        rulesetId: prev.rulesetId ?? base.rulesetId,
         // keep toggled settings
         legendaryTrackerEnabled: prev.legendaryTrackerEnabled,
         rivalCensorEnabled: prev.rivalCensorEnabled,
@@ -927,6 +974,96 @@ const App: React.FC = () => {
     setMobileMenuOpen(false);
     navigate("/account");
   }, [navigate]);
+
+  const handleOpenRulesetEditor = useCallback(() => {
+    setMobileMenuOpen(false);
+    const from =
+      typeof window !== "undefined"
+        ? `${location.pathname}${location.search}`
+        : undefined;
+    navigate("/rulesets", { state: { from } });
+  }, [navigate, location.pathname, location.search]);
+
+  const rulesetBackTarget =
+    (location.state as { from?: string } | null)?.from || null;
+
+  const handleRulesetBack = useCallback(() => {
+    if (rulesetBackTarget) {
+      navigate(rulesetBackTarget);
+      return;
+    }
+    if (typeof window !== "undefined" && window.history.length > 1) {
+      navigate(-1);
+      return;
+    }
+    navigate("/");
+  }, [navigate, rulesetBackTarget]);
+
+  const propagateRulesetUpdate = useCallback(
+    async (ruleset: Ruleset) => {
+      if (!user) return ruleset;
+      const normalizedRules = sanitizeRules(ruleset.rules);
+      const finalRules =
+        normalizedRules.length > 0
+          ? normalizedRules
+          : sanitizeRules(DEFAULT_RULES);
+
+      const targetTrackers = Object.values(trackerMetas).filter(
+        (meta) =>
+          meta?.rulesetId === ruleset.id &&
+          meta?.members &&
+          meta.members[user.uid],
+      );
+
+      const updates: Record<string, unknown> = {};
+      targetTrackers.forEach((meta) => {
+        updates[`trackers/${meta.id}/state/rules`] = finalRules;
+        updates[`trackers/${meta.id}/state/rulesetId`] = ruleset.id;
+        updates[`trackers/${meta.id}/meta/rulesetId`] = ruleset.id;
+      });
+
+      if (Object.keys(updates).length > 0) {
+        await update(ref(db), updates);
+        setTrackerMetas((prev) => {
+          const next = { ...prev };
+          targetTrackers.forEach((meta) => {
+            next[meta.id] = { ...meta, rulesetId: ruleset.id };
+          });
+          return next;
+        });
+        if (
+          activeTrackerId &&
+          targetTrackers.some((m) => m.id === activeTrackerId)
+        ) {
+          setData((prev) => ({
+            ...prev,
+            rules: finalRules,
+            rulesetId: ruleset.id,
+          }));
+        }
+      }
+      return ruleset;
+    },
+    [activeTrackerId, trackerMetas, user],
+  );
+
+  const handleSaveRuleset = useCallback(
+    async (payload: SaveRulesetPayload): Promise<Ruleset> => {
+      if (!user) throw new Error("Du musst angemeldet sein.");
+      const saved = await saveRuleset(user.uid, payload);
+      await propagateRulesetUpdate(saved);
+      return saved;
+    },
+    [user, propagateRulesetUpdate],
+  );
+
+  const handleDeleteRuleset = useCallback(
+    async (rulesetId: string) => {
+      if (!user) throw new Error("Du musst angemeldet sein.");
+      await deleteRuleset(user.uid, rulesetId);
+    },
+    [user],
+  );
 
   const handleNavigateHome = () => {
     setMobileMenuOpen(false);
@@ -1239,6 +1376,38 @@ const App: React.FC = () => {
     setData((prev) => ({ ...prev, hardcoreModeEnabled: enabled }));
   };
 
+  const handleRulesetChange = (rulesetId: string) => {
+    if (isReadOnly) return;
+    const selected =
+      rulesets.find((entry) => entry.id === rulesetId) ??
+      PRESET_RULESETS.find((entry) => entry.id === rulesetId);
+    const normalizedRules =
+      sanitizeRules(selected?.rules) || sanitizeRules(DEFAULT_RULES);
+    const finalRules = normalizedRules.length ? normalizedRules : DEFAULT_RULES;
+    const resolvedId = selected?.id ?? DEFAULT_RULESET_ID;
+    setData((prev) => ({
+      ...prev,
+      rules: finalRules,
+      rulesetId: resolvedId,
+    }));
+    if (activeTrackerId) {
+      setTrackerMetas((prev) => {
+        const existing = prev[activeTrackerId];
+        if (!existing) return prev;
+        return {
+          ...prev,
+          [activeTrackerId]: {
+            ...existing,
+            rulesetId: resolvedId,
+          },
+        };
+      });
+      update(ref(db, `trackers/${activeTrackerId}/meta`), {
+        rulesetId: resolvedId,
+      });
+    }
+  };
+
   const handlePublicToggle = (enabled: boolean) => {
     if (!activeTrackerId || isReadOnly) return;
     setTrackerMetas((prev) => {
@@ -1295,17 +1464,26 @@ const App: React.FC = () => {
     playerNames: string[];
     memberInvites: Array<{ email: string; role: "editor" | "guest" }>;
     gameVersionId: string;
+    rulesetId?: string;
   }) => {
     if (!user) return;
     setCreateTrackerError(null);
     setCreateTrackerLoading(true);
     try {
+      const selectedRuleset =
+        rulesets.find((entry) => entry.id === payload.rulesetId) ??
+        PRESET_RULESETS.find((entry) => entry.id === payload.rulesetId);
+      const rulesetId = selectedRuleset?.id ?? DEFAULT_RULESET_ID;
+      const initialRules =
+        sanitizeRules(selectedRuleset?.rules) || sanitizeRules(DEFAULT_RULES);
       await createTracker({
         title: payload.title,
         playerNames: payload.playerNames,
         memberInvites: payload.memberInvites,
         owner: user,
         gameVersionId: payload.gameVersionId,
+        rulesetId,
+        rules: initialRules.length > 0 ? initialRules : DEFAULT_RULES,
       });
       setShowCreateModal(false);
     } catch (error) {
@@ -1612,6 +1790,10 @@ const App: React.FC = () => {
       gameVersion={activeGameVersion}
       rivalPreferences={currentUserRivalPreferences}
       onRivalPreferenceChange={handleRivalPreferenceChange}
+      rulesets={rulesets}
+      selectedRulesetId={data.rulesetId}
+      onRulesetSelect={handleRulesetChange}
+      onOpenRulesetEditor={handleOpenRulesetEditor}
       isGuest={isGuest}
     />
   ) : (
@@ -1750,6 +1932,15 @@ const App: React.FC = () => {
               >
                 <FiHome size={18} /> {t("tracker.menu.overview")}
               </button>
+              {user && (
+                <button
+                  onClick={handleOpenRulesetEditor}
+                  className="w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2"
+                  title={t("tracker.menu.rulesets")}
+                >
+                  <FiEdit size={18} /> {t("tracker.menu.rulesets")}
+                </button>
+              )}
               {!isReadOnly && (
                 <button
                   onClick={() => {
@@ -1906,6 +2097,8 @@ const App: React.FC = () => {
         onSubmit={handleCreateTrackerSubmit}
         isSubmitting={createTrackerLoading}
         error={createTrackerError}
+        rulesets={rulesets}
+        defaultRulesetId={DEFAULT_RULESET_ID}
       />
       <DeleteTrackerModal
         isOpen={Boolean(trackerPendingDelete)}
@@ -1924,6 +2117,7 @@ const App: React.FC = () => {
               onOpenTracker={handleOpenTracker}
               onCreateTracker={openCreateTrackerModal}
               onOpenUserSettings={handleOpenUserSettings}
+              onOpenRulesetEditor={handleOpenRulesetEditor}
               isLoading={trackerListLoading}
               activeTrackerId={activeTrackerId}
               userEmail={user?.email ?? undefined}
@@ -1938,6 +2132,22 @@ const App: React.FC = () => {
           element={
             activeTrackerId ? (
               <Navigate to={`/tracker/${activeTrackerId}`} replace />
+            ) : (
+              <Navigate to="/" replace />
+            )
+          }
+        />
+        <Route
+          path="/rulesets"
+          element={
+            user ? (
+              <RulesetEditorPage
+                rulesets={rulesets}
+                onBack={handleRulesetBack}
+                onSave={handleSaveRuleset}
+                onDelete={handleDeleteRuleset}
+                defaultRulesetId={DEFAULT_RULESET_ID}
+              />
             ) : (
               <Navigate to="/" replace />
             )

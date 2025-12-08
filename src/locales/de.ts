@@ -46,6 +46,7 @@ export const de = {
     progressFallback: "Noch keine Arena",
     privateTracker: "Privater Tracker",
     publicTracker: "Öffentlicher Tracker",
+    rulesetEditor: "Regel-Editor",
   },
   modals: {
     common: {
@@ -80,6 +81,10 @@ export const de = {
       versionButton: "Spielversion auswählen",
       versionPlaceholder: "Keine Version ausgewählt",
       versionRequired: "Bitte wähle eine Spielversion aus.",
+      rulesetLabel: "Regeln",
+      rulesetButton: "Regeln auswählen",
+      rulesetPlaceholder: "Standard-Regeln",
+      manageRulesets: "Regeln bearbeiten",
       titleLabel: "Titel",
       titlePlaceholder: "z. B. Schwarz 2 Soullink",
       playerCountLabel: "Spieleranzahl wählen",
@@ -114,6 +119,13 @@ export const de = {
       confirm: "Bestätigen",
     },
   },
+  rulesets: {
+    presetTag: "Voreinstellung",
+    customTag: "Eigenes",
+    noDescription: "Keine Beschreibung vorhanden",
+    ruleCount: "{{count}} Regeln",
+    empty: "Noch keine Regeln vorhanden.",
+  },
   tracker: {
     defaultTitle: "Tracker",
     header: {
@@ -125,6 +137,7 @@ export const de = {
     actions: {
       resetRun: "Run zurücksetzen",
       settings: "Einstellungen",
+      rulesetEditor: "Regel Editor",
     },
     menu: {
       open: "Menü öffnen",
@@ -134,6 +147,7 @@ export const de = {
       lightMode: "Lightmode",
       darkMode: "Darkmode",
       overview: "Übersicht",
+      rulesets: "Regel Editor",
       resetRun: "Run zurücksetzen",
       settings: "Einstellungen",
     },
@@ -198,6 +212,35 @@ export const de = {
       unavailable: "In dieser Version nicht verfügbar",
     },
   },
+  rulesetEditor: {
+    badge: "Regeln",
+    title: "Regel-Editor",
+    subtitle: "Erstelle, kopiere und bearbeite deine Regeln.",
+    listTitle: "Verfügbare Regeln",
+    new: "Neue Regeln",
+    copy: "Duplizieren",
+    copySuffix: "Kopie",
+    presetLocked: "Vordefinierte Regeln können nicht bearbeitet werden.",
+    customHint: "Eigene Regeln sind nur für dich sichtbar.",
+    formTitle: "Regel-Details",
+    readonlyInfo: "Vordefinierte Regeln sind schreibgeschützt.",
+    name: "Name",
+    namePlaceholder: "Name für das Regelset",
+    description: "Beschreibung",
+    descriptionPlaceholder: "Optionale Kurzbeschreibung",
+    rulesTitle: "Regeln",
+    addRule: "Regel hinzufügen",
+    rulePlaceholder: "Regel {{index}}",
+    removeRule: "Regel {{index}} entfernen",
+    save: "Regeln speichern",
+    saving: "Speichere…",
+    saveSuccess: "Regeln gespeichert.",
+    saveError: "Regeln konnten nicht gespeichert werden.",
+    delete: "Löschen",
+    deleting: "Lösche…",
+    deleteSuccess: "Regeln gelöscht.",
+    deleteError: "Regeln konnte nicht gelöscht werden.",
+  },
   app: {
     trackerNotFound: {
       title: "Tracker nicht gefunden.",
@@ -258,6 +301,14 @@ export const de = {
       trackerTitle: "Tracker Titel",
       trackerTitlePlaceholder: "z. B. Schwarz 2 Soullink",
       playerLabel: "Name Spieler {{index}}",
+    },
+    rulesets: {
+      label: "Regeln",
+      description:
+        "Wähle ein vordefiniertes oder eigenes Regelset für diesen Tracker. Dieses Regelset ist für alle sichtbar.",
+      manage: "Regeln verwalten",
+      selectButton: "Regeln auswählen",
+      fallback: "Keine Regeln ausgewählt",
     },
     sections: {
       options: "Tracker Optionen",

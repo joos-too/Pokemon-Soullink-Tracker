@@ -1,14 +1,20 @@
 import React, { useMemo, useState } from "react";
-import { MAX_PLAYER_COUNT, MIN_PLAYER_COUNT, PLAYER_COLORS } from "@/constants";
+import {
+  MAX_PLAYER_COUNT,
+  MIN_PLAYER_COUNT,
+  PLAYER_COLORS,
+} from "@/src/services/init.ts";
 import type {
   GameVersion,
   RivalGender,
+  Ruleset,
   TrackerMember,
   UserSettings,
   VariableRival,
 } from "@/types";
 import {
   FiArrowLeft,
+  FiEdit,
   FiEye,
   FiInfo,
   FiLogOut,
@@ -25,6 +31,7 @@ import ToggleSwitch from "@/src/components/ToggleSwitch";
 import Tooltip from "./Tooltip";
 import { useTranslation } from "react-i18next";
 import { getLocalizedRivalEntry } from "@/src/services/gameLocalization";
+import RulesetPicker from "./RulesetPicker";
 
 type InviteRoleOption = "editor" | "guest";
 
@@ -53,6 +60,10 @@ interface SettingsPageProps {
   gameVersion?: GameVersion;
   rivalPreferences?: UserSettings["rivalPreferences"];
   onRivalPreferenceChange: (key: string, gender: RivalGender) => void;
+  rulesets: Ruleset[];
+  selectedRulesetId?: string;
+  onRulesetSelect: (rulesetId: string) => void;
+  onOpenRulesetEditor: () => void;
   isGuest?: boolean;
 }
 
@@ -81,6 +92,10 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
   gameVersion,
   rivalPreferences,
   onRivalPreferenceChange,
+  rulesets,
+  selectedRulesetId,
+  onRulesetSelect,
+  onOpenRulesetEditor,
   isGuest = false,
 }) => {
   const { t } = useTranslation();
@@ -95,6 +110,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
   const [removingMemberId, setRemovingMemberId] = useState<string | null>(null);
   const [memberPendingRemoval, setMemberPendingRemoval] =
     useState<TrackerMember | null>(null);
+  const [showRulesetPicker, setShowRulesetPicker] = useState(false);
   const playerCount = Math.min(
     Math.max(playerNames.length, MIN_PLAYER_COUNT),
     MAX_PLAYER_COUNT,
@@ -139,6 +155,12 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
     });
     return out;
   }, [rivalKeyToCapId, versionId, t]);
+
+  const selectedRuleset = useMemo(
+    () => rulesets.find((entry) => entry.id === selectedRulesetId),
+    [rulesets, selectedRulesetId],
+  );
+  const rulesetLabel = selectedRuleset?.name || t("settings.rulesets.fallback");
 
   const handleInvite = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -653,6 +675,63 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                   )}
                 </form>
               )}
+            </section>
+
+            <section className="space-y-3">
+              <div className="items-center justify-between mb-4">
+                <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-gray-500">
+                  {t("settings.rulesets.label")}
+                </h2>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                  {t("settings.rulesets.description")}
+                </p>
+              </div>
+              <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 space-y-3">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                  <div className="text-sm font-semibold text-gray-800 dark:text-gray-100">
+                    {rulesetLabel}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={onOpenRulesetEditor}
+                    className={`inline-flex items-center gap-2 rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-60 ${focusRingClasses}`}
+                    disabled={isGuest}
+                  >
+                    <FiEdit /> {t("settings.rulesets.manage")}
+                  </button>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowRulesetPicker((v) => !v)}
+                  aria-expanded={showRulesetPicker}
+                  aria-controls="settings-ruleset-picker-panel"
+                  className={`w-full inline-flex items-center justify-between rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-sm font-semibold text-gray-800 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700 ${focusRingClasses} disabled:opacity-60`}
+                  disabled={isGuest}
+                >
+                  <span>{t("settings.rulesets.selectButton")}</span>
+                  <span className="text-xs text-gray-600 dark:text-gray-300">
+                    {rulesetLabel}
+                  </span>
+                </button>
+                <div
+                  id="settings-ruleset-picker-panel"
+                  aria-hidden={!showRulesetPicker}
+                  inert={!showRulesetPicker}
+                  className={`transform-gpu ${showRulesetPicker ? "max-h-72 opacity-100" : "max-h-0 opacity-0 pointer-events-none"} transition-all duration-300 ease-in-out overflow-hidden`}
+                >
+                  <div className="pt-1">
+                    <RulesetPicker
+                      value={selectedRulesetId || ""}
+                      rulesets={rulesets}
+                      isInteractive={showRulesetPicker && !isGuest}
+                      onSelect={(value) => {
+                        onRulesetSelect(value);
+                        setShowRulesetPicker(false);
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
             </section>
           </main>
         </div>

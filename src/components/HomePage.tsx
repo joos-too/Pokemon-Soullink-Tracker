@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import {
+  FiEdit,
   FiEye,
   FiLock,
   FiPlus,
@@ -20,6 +21,7 @@ interface HomePageProps {
   onOpenTracker: (trackerId: string) => void;
   onCreateTracker: () => void;
   onOpenUserSettings: () => void;
+  onOpenRulesetEditor: () => void;
   isLoading: boolean;
   activeTrackerId: string | null;
   userEmail?: string | null;
@@ -33,6 +35,7 @@ const HomePage: React.FC<HomePageProps> = ({
   onCreateTracker,
   isLoading,
   onOpenUserSettings,
+  onOpenRulesetEditor,
   activeTrackerId,
   trackerSummaries,
   currentUserId,
@@ -72,6 +75,16 @@ const HomePage: React.FC<HomePageProps> = ({
             <div className="flex flex-col items-end gap-3 sm:gap-4">
               <div className="flex items-center gap-2">
                 <DarkModeToggle />
+                <button
+                  type="button"
+                  onClick={onOpenRulesetEditor}
+                  className={`p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white ${focusRingClasses}`}
+                  aria-label={t("home.rulesetEditor")}
+                  title={t("home.rulesetEditor")}
+                >
+                  <FiEdit size={30} />
+                  <span className="sr-only">{t("home.rulesetEditor")}</span>
+                </button>
                 <button
                   type="button"
                   onClick={onOpenUserSettings}
@@ -151,8 +164,8 @@ const HomePage: React.FC<HomePageProps> = ({
                     : t("home.progressFallback");
                 const isGuestTracker = Boolean(
                   currentUserId &&
-                  tracker.guests?.[currentUserId] &&
-                  !tracker.members?.[currentUserId],
+                    tracker.guests?.[currentUserId] &&
+                    !tracker.members?.[currentUserId],
                 );
                 return (
                   <div

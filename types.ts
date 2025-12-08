@@ -9,6 +9,17 @@ export interface PokemonLink {
   members: Pokemon[];
 }
 
+export interface Ruleset {
+  id: string;
+  name: string;
+  description?: string;
+  rules: string[];
+  isPreset?: boolean;
+  createdBy?: string;
+  createdAt?: number;
+  updatedAt?: number;
+}
+
 export interface LevelCap {
   id: number;
   arena: string;
@@ -49,6 +60,7 @@ export interface AppState {
   box: PokemonLink[];
   graveyard: PokemonLink[];
   rules: string[];
+  rulesetId?: string;
   levelCaps: LevelCap[];
   rivalCaps: RivalCap[];
   stats: Stats;
@@ -111,6 +123,7 @@ export interface TrackerMeta {
   members: Record<string, TrackerMember>;
   guests?: Record<string, TrackerMember>;
   gameVersionId: string;
+  rulesetId?: string;
   userSettings?: Record<string, UserSettings>;
   isPublic?: boolean;
 }

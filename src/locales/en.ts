@@ -45,6 +45,7 @@ export const en = {
     progressFallback: "No gyms cleared",
     privateTracker: "Private tracker",
     publicTracker: "Public tracker",
+    rulesetEditor: "Ruleset editor",
   },
   modals: {
     common: {
@@ -79,6 +80,10 @@ export const en = {
       versionButton: "Select game version",
       versionPlaceholder: "No version selected",
       versionRequired: "Please select a game version.",
+      rulesetLabel: "Ruleset",
+      rulesetButton: "Select ruleset",
+      rulesetPlaceholder: "Default ruleset",
+      manageRulesets: "Edit rulesets",
       titleLabel: "Title",
       titlePlaceholder: "e.g. Black 2 Soullink",
       playerCountLabel: "Choose number of players",
@@ -112,6 +117,13 @@ export const en = {
       confirm: "Confirm",
     },
   },
+  rulesets: {
+    presetTag: "Preset",
+    customTag: "Custom",
+    noDescription: "No description yet",
+    ruleCount: "{{count}} rules",
+    empty: "No rulesets available yet.",
+  },
   tracker: {
     defaultTitle: "Tracker",
     header: {
@@ -123,6 +135,7 @@ export const en = {
     actions: {
       resetRun: "Reset run",
       settings: "Settings",
+      rulesetEditor: "Ruleset editor",
     },
     menu: {
       open: "Open menu",
@@ -132,6 +145,7 @@ export const en = {
       lightMode: "Light mode",
       darkMode: "Dark mode",
       overview: "Overview",
+      rulesets: "Ruleset editor",
       resetRun: "Reset run",
       settings: "Settings",
     },
@@ -196,6 +210,35 @@ export const en = {
       unavailable: "Not available in this version",
     },
   },
+  rulesetEditor: {
+    badge: "Rules",
+    title: "Rule editor",
+    subtitle: "Create, copy, and edit your own rulesets.",
+    listTitle: "Available rulesets",
+    new: "New ruleset",
+    copy: "Duplicate",
+    copySuffix: "Copy",
+    presetLocked: "Preset rulesets can’t be edited.",
+    customHint: "Custom rulesets are only visible to you.",
+    formTitle: "Ruleset details",
+    readonlyInfo: "Preset rulesets are read-only.",
+    name: "Name",
+    namePlaceholder: "Name your ruleset",
+    description: "Description",
+    descriptionPlaceholder: "Optional short description",
+    rulesTitle: "Rules",
+    addRule: "Add rule",
+    rulePlaceholder: "Rule {{index}}",
+    removeRule: "Remove rule {{index}}",
+    save: "Save ruleset",
+    saving: "Saving…",
+    saveSuccess: "Ruleset saved.",
+    saveError: "Ruleset could not be saved.",
+    delete: "Delete",
+    deleting: "Deleting…",
+    deleteSuccess: "Ruleset deleted.",
+    deleteError: "Ruleset could not be deleted.",
+  },
   app: {
     trackerNotFound: {
       title: "Tracker not found.",
@@ -255,6 +298,14 @@ export const en = {
       trackerTitle: "Tracker Title",
       trackerTitlePlaceholder: "e.g. Black 2 Soullink",
       playerLabel: "Player {{index}} name",
+    },
+    rulesets: {
+      label: "Rulesets",
+      description:
+        "Pick a preset or your own custom ruleset for this tracker. The ruleset is visible for everyone.",
+      manage: "Manage rules",
+      selectButton: "Select ruleset",
+      fallback: "No ruleset selected",
     },
     sections: {
       options: "Tracker options",

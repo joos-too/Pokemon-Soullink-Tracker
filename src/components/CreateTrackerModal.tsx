@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { FiPlus, FiUsers, FiX } from "react-icons/fi";
 import { GAME_VERSIONS } from "@/src/data/game-versions";
-import { PLAYER_COLORS } from "@/constants";
+import { PLAYER_COLORS } from "@/src/services/init.ts";
 import {
   focusRingClasses,
   focusRingInputClasses,
@@ -10,6 +10,8 @@ import {
 import GameVersionPicker from "./GameVersionPicker";
 import { useTranslation } from "react-i18next";
 import { getLocalizedGameName } from "@/src/services/gameLocalization.ts";
+import type { Ruleset } from "@/types";
+import RulesetPicker from "./RulesetPicker";
 
 interface CreateTrackerModalProps {
   isOpen: boolean;
@@ -19,9 +21,12 @@ interface CreateTrackerModalProps {
     playerNames: string[];
     memberInvites: Array<{ email: string; role: "editor" | "guest" }>;
     gameVersionId: string;
+    rulesetId?: string;
   }) => Promise<void>;
   isSubmitting: boolean;
   error?: string | null;
+  rulesets: Ruleset[];
+  defaultRulesetId?: string;
 }
 
 const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({
@@ -30,6 +35,8 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({
   onSubmit,
   isSubmitting,
   error,
+  rulesets,
+  defaultRulesetId,
 }) => {
   const [title, setTitle] = useState("");
   const [playerCount, setPlayerCount] = useState(2);
@@ -40,6 +47,10 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({
   const [gameVersionId, setGameVersionId] = useState("");
   const [versionError, setVersionError] = useState(false);
   const [showVersionPicker, setShowVersionPicker] = useState(false);
+  const [rulesetId, setRulesetId] = useState(
+    defaultRulesetId || rulesets[0]?.id || "",
+  );
+  const [showRulesetPicker, setShowRulesetPicker] = useState(false);
   const { t } = useTranslation();
   const playerCountLabels = useMemo(
     () => ({
@@ -68,7 +79,9 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({
     setGameVersionId("");
     setVersionError(false);
     setShowVersionPicker(false);
-  }, []);
+    setRulesetId(defaultRulesetId || rulesets[0]?.id || "");
+    setShowRulesetPicker(false);
+  }, [defaultRulesetId, rulesets]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -114,6 +127,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({
         .map((entry) => ({ email: entry.email.trim(), role: entry.role }))
         .filter((entry) => entry.email.length > 0),
       gameVersionId: gameVersionId,
+      rulesetId,
     });
   };
 
@@ -202,6 +216,47 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({
                   {t("modals.createTracker.versionRequired")}
                 </p>
               )}
+            </div>
+            <div>
+              <label className="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2 block">
+                {t("modals.createTracker.rulesetLabel")}
+              </label>
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
+                <button
+                  type="button"
+                  onClick={() => setShowRulesetPicker((v) => !v)}
+                  aria-expanded={showRulesetPicker}
+                  aria-controls="ruleset-picker-panel"
+                  className={`flex-1 inline-flex items-center justify-between rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-sm font-semibold text-gray-800 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-600 ${focusRingClasses}`}
+                  title={t("modals.createTracker.rulesetButton")}
+                  disabled={isSubmitting}
+                >
+                  <span>{t("modals.createTracker.rulesetButton")}</span>
+                  <span
+                    className={`text-xs ${rulesetId ? "text-gray-600 dark:text-gray-300" : "text-gray-400 dark:text-gray-500"}`}
+                  >
+                    {rulesets.find((entry) => entry.id === rulesetId)?.name ||
+                      t("modals.createTracker.rulesetPlaceholder")}
+                  </span>
+                </button>
+              </div>
+
+              <div
+                id="ruleset-picker-panel"
+                aria-hidden={!showRulesetPicker}
+                inert={!showRulesetPicker}
+                className={`transform-gpu ${showRulesetPicker ? "mt-3 max-h-72 opacity-100" : "max-h-0 opacity-0 pointer-events-none"} transition-all duration-300 ease-in-out overflow-hidden`}
+              >
+                <RulesetPicker
+                  value={rulesetId}
+                  rulesets={rulesets}
+                  isInteractive={showRulesetPicker && !isSubmitting}
+                  onSelect={(id) => {
+                    setRulesetId(id);
+                    setShowRulesetPicker(false);
+                  }}
+                />
+              </div>
             </div>
             <div>
               <label
