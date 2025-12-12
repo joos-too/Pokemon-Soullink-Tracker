@@ -32,7 +32,7 @@
           root.classList.toggle("dark", isDark);
           const bg = isDark ? "#0f172a" : "#f8fafc";
           root.style.backgroundColor = bg;
-          root.style.colorScheme = isDark ? "dark" : "light";
+          // Avoid setting color-scheme here so native form controls (e.g., checkboxes) keep their default look
           if (document.body) document.body.style.backgroundColor = bg;
         } catch (e) {}
       })();
