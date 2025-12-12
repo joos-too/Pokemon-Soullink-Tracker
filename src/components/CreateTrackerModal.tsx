@@ -245,7 +245,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({
                 id="ruleset-picker-panel"
                 aria-hidden={!showRulesetPicker}
                 inert={!showRulesetPicker}
-                className={`transform-gpu ${showRulesetPicker ? "mt-3 max-h-72 opacity-100" : "max-h-0 opacity-0 pointer-events-none"} transition-all duration-300 ease-in-out overflow-hidden`}
+                className={`transform-gpu ${showRulesetPicker ? "mt-3 max-h-[70vh] opacity-100" : "max-h-0 opacity-0 pointer-events-none"} transition-all duration-300 ease-in-out overflow-hidden`}
               >
                 <RulesetPicker
                   value={rulesetId}

@@ -91,7 +91,7 @@ const RulesetPicker: React.FC<RulesetPickerProps> = ({
       )}
 
       <div
-        className={`space-y-2 pr-1 pb-1 custom-scrollbar ${fullHeight ? "flex-1 min-h-0 overflow-y-auto" : `${listMaxHeightClass} overflow-y-auto`}`}
+        className={`space-y-2 pr-1 pb-1 custom-scrollbar overscroll-contain ${fullHeight ? "flex-1 min-h-0 overflow-y-auto" : `${listMaxHeightClass} overflow-y-auto`}`}
       >
         {visibleRulesets.length === 0 ? (
           <div className="text-sm text-gray-600 dark:text-gray-300 px-1 py-2">
