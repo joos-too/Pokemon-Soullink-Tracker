@@ -58,6 +58,22 @@ export const sanitizeRules = (rules?: unknown): string[] => {
     .filter((entry) => entry.length > 0);
 };
 
+export const sanitizeTags = (tags?: unknown): string[] => {
+  if (!Array.isArray(tags)) return [];
+  const seen = new Set<string>();
+  const normalized: string[] = [];
+  tags.forEach((tag) => {
+    if (typeof tag !== "string") return;
+    const cleaned = tag.trim();
+    if (!cleaned.length) return;
+    const key = cleaned.toLowerCase();
+    if (seen.has(key)) return;
+    seen.add(key);
+    normalized.push(cleaned);
+  });
+  return normalized;
+};
+
 // Legendary Pokémon organized by generation
 const LEGENDARY_POKEMON_BY_GENERATION: Record<number, string[]> = {
   1: ["Arktos", "Zapdos", "Lavados", "Mewtu", "Mew"],

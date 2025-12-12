@@ -2,7 +2,7 @@ import { get, onValue, ref, remove, set } from "firebase/database";
 import { db } from "@/src/firebaseConfig";
 import type { Ruleset } from "@/types";
 import { PRESET_RULESETS } from "@/src/data/rulesets";
-import { sanitizeRules } from "@/src/services/init.ts";
+import { sanitizeRules, sanitizeTags } from "@/src/services/init.ts";
 
 const generateRulesetId = (): string =>
   typeof crypto !== "undefined" && "randomUUID" in crypto
@@ -15,6 +15,7 @@ const normalizeRuleset = (id: string, value: any): Ruleset => ({
   description:
     typeof value?.description === "string" ? value.description : undefined,
   rules: sanitizeRules(value?.rules),
+  tags: sanitizeTags(value?.tags),
   isPreset: Boolean(value?.isPreset),
   createdBy: typeof value?.createdBy === "string" ? value.createdBy : undefined,
   createdAt: typeof value?.createdAt === "number" ? value.createdAt : undefined,
@@ -26,6 +27,7 @@ export interface SaveRulesetPayload {
   name: string;
   description?: string;
   rules: string[];
+  tags?: string[];
 }
 
 export const listenToUserRulesets = (
@@ -53,6 +55,7 @@ export const saveRuleset = async (
   payload: SaveRulesetPayload,
 ): Promise<Ruleset> => {
   const rules = sanitizeRules(payload.rules);
+  const tags = sanitizeTags(payload.tags);
   const now = Date.now();
   const rulesetId = payload.id || generateRulesetId();
 
@@ -70,6 +73,7 @@ export const saveRuleset = async (
     name: payload.name.trim() || "Neues Regelset",
     description: payload.description?.trim() || "",
     rules: rules.length > 0 ? rules : PRESET_RULESETS[0]?.rules || [],
+    tags,
     createdBy: userId,
     isPreset: false,
     createdAt,

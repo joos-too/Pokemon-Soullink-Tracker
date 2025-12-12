@@ -2,6 +2,7 @@ import type { Ruleset } from "@/types";
 
 export const DEFAULT_RULESET_ID = "default_ruleset";
 export const DEFAULT_RULESET_ID_EN = "default_ruleset_en";
+export const PREDEFINED_RULESET_TAGS = ["Solo", "Duo", "Trio", "EN", "DE"];
 
 export const DEFAULT_RULES: string[] = [
   "Pro Route/Gebiet darf nur das erste Pokémon gefangen werden. Diese Pokémon ist mit dem Pokémon des Partners verbunden.",
@@ -51,6 +52,7 @@ export const PRESET_RULESETS: Ruleset[] = [
     name: "Hardcore-Regeln (DE)",
     description: "Hardcore-Regeln für Soullink-Runs in Deutsch.",
     rules: DEFAULT_RULES,
+    tags: ["Duo", "DE"],
     isPreset: true,
     createdAt: 0,
     updatedAt: 0,
@@ -60,6 +62,7 @@ export const PRESET_RULESETS: Ruleset[] = [
     name: "Hardcore Rules (EN)",
     description: "Hardcore rules for Soullink runs in english.",
     rules: DEFAULT_RULES_EN,
+    tags: ["Duo", "EN"],
     isPreset: true,
     createdAt: 0,
     updatedAt: 0,

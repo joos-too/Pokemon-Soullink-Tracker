@@ -724,6 +724,8 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                       value={selectedRulesetId || ""}
                       rulesets={rulesets}
                       isInteractive={showRulesetPicker && !isGuest}
+                      enableTagFilter
+                      listMaxHeightClass="max-h-56"
                       onSelect={(value) => {
                         onRulesetSelect(value);
                         setShowRulesetPicker(false);

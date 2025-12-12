@@ -123,6 +123,10 @@ export const en = {
     noDescription: "No description yet",
     ruleCount: "{{count}} rules",
     empty: "No rulesets available yet.",
+    tagFilterLabel: "Filter by tag",
+    tagFilterAll: "All tags",
+    tagFilterSelect: "Filter by {{tag}}",
+    filteredEmpty: "No rulesets match this tag yet.",
   },
   tracker: {
     defaultTitle: "Tracker",
@@ -238,6 +242,13 @@ export const en = {
     deleting: "Deleting…",
     deleteSuccess: "Ruleset deleted.",
     deleteError: "Ruleset could not be deleted.",
+    tagsTitle: "Tags",
+    tagsHint: "Use tags to find rule sets faster.",
+    tagsEmpty: "No tags yet.",
+    tagPlaceholder: "Add a tag (e.g. Duo, EN)",
+    addTag: "Add tag",
+    removeTag: "Remove tag {{tag}}",
+    presetTagsLabel: "Quick tags",
   },
   app: {
     trackerNotFound: {

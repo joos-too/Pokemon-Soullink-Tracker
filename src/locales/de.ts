@@ -125,6 +125,10 @@ export const de = {
     noDescription: "Keine Beschreibung vorhanden",
     ruleCount: "{{count}} Regeln",
     empty: "Noch keine Regeln vorhanden.",
+    tagFilterLabel: "Nach Tag filtern",
+    tagFilterAll: "Alle Tags",
+    tagFilterSelect: "Nach {{tag}} filtern",
+    filteredEmpty: "Keine Regelsets mit diesem Tag gefunden.",
   },
   tracker: {
     defaultTitle: "Tracker",
@@ -240,6 +244,13 @@ export const de = {
     deleting: "Lösche…",
     deleteSuccess: "Regeln gelöscht.",
     deleteError: "Regeln konnte nicht gelöscht werden.",
+    tagsTitle: "Tags",
+    tagsHint: "Tags helfen beim Filtern deiner Regelsets.",
+    tagsEmpty: "Noch keine Tags.",
+    tagPlaceholder: "Tag hinzufügen (z. B. Duo, DE)",
+    addTag: "Tag hinzufügen",
+    removeTag: "Tag {{tag}} entfernen",
+    presetTagsLabel: "Schnell-Tags",
   },
   app: {
     trackerNotFound: {

@@ -251,6 +251,8 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({
                   value={rulesetId}
                   rulesets={rulesets}
                   isInteractive={showRulesetPicker && !isSubmitting}
+                  enableTagFilter
+                  listMaxHeightClass="max-h-56"
                   onSelect={(id) => {
                     setRulesetId(id);
                     setShowRulesetPicker(false);

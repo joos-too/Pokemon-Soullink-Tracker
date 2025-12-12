@@ -14,6 +14,7 @@ export interface Ruleset {
   name: string;
   description?: string;
   rules: string[];
+  tags?: string[];
   isPreset?: boolean;
   createdBy?: string;
   createdAt?: number;

@@ -1,5 +1,12 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { FiArrowLeft, FiCopy, FiPlus, FiSave, FiTrash2 } from "react-icons/fi";
+import {
+  FiArrowLeft,
+  FiCopy,
+  FiPlus,
+  FiSave,
+  FiTag,
+  FiTrash2,
+} from "react-icons/fi";
 import type { Ruleset } from "@/types";
 import type { SaveRulesetPayload } from "@/src/services/rulesets";
 import { useTranslation } from "react-i18next";
@@ -7,7 +14,8 @@ import {
   focusRingClasses,
   focusRingInputClasses,
 } from "@/src/styles/focusRing";
-import { DEFAULT_RULES } from "@/src/data/rulesets";
+import { DEFAULT_RULES, PREDEFINED_RULESET_TAGS } from "@/src/data/rulesets";
+import { sanitizeTags } from "@/src/services/init";
 import RulesetPicker from "./RulesetPicker";
 
 interface RulesetEditorPageProps {
@@ -32,6 +40,8 @@ const RulesetEditorPage: React.FC<RulesetEditorPageProps> = ({
   const [draftName, setDraftName] = useState("");
   const [draftDescription, setDraftDescription] = useState("");
   const [draftRules, setDraftRules] = useState<string[]>(DEFAULT_RULES);
+  const [draftTags, setDraftTags] = useState<string[]>([]);
+  const [tagInput, setTagInput] = useState("");
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
@@ -56,6 +66,8 @@ const RulesetEditorPage: React.FC<RulesetEditorPageProps> = ({
       );
       setDraftDescription(source?.description || "");
       setDraftRules(normalizedRules);
+      setDraftTags(sanitizeTags(source?.tags));
+      setTagInput("");
       setMessage(null);
       setError(null);
     },
@@ -104,6 +116,7 @@ const RulesetEditorPage: React.FC<RulesetEditorPageProps> = ({
         name: draftName,
         description: draftDescription,
         rules: draftRules,
+        tags: draftTags,
       });
       if (result?.id) {
         setSelectedId(result.id);
@@ -147,6 +160,31 @@ const RulesetEditorPage: React.FC<RulesetEditorPageProps> = ({
     );
   };
 
+  const handleAddTag = (tag: string) => {
+    const cleaned = sanitizeTags([tag])[0];
+    if (!cleaned) return;
+    setDraftTags((prev) => sanitizeTags([...prev, cleaned]));
+    setTagInput("");
+  };
+
+  const handleTagSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    handleAddTag(tagInput);
+  };
+
+  const handleTagKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      handleAddTag(tagInput);
+    }
+  };
+
+  const handleRemoveTag = (tag: string) => {
+    setDraftTags((prev) =>
+      prev.filter((entry) => entry.toLowerCase() !== tag.toLowerCase()),
+    );
+  };
+
   return (
     <div className="min-h-screen bg-[#f0f0f0] dark:bg-gray-900 text-gray-800 dark:text-gray-100 px-3 py-6 sm:py-10">
       <div className="max-w-6xl mx-auto space-y-6">
@@ -174,44 +212,50 @@ const RulesetEditorPage: React.FC<RulesetEditorPageProps> = ({
           </div>
         </header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          <section className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 shadow-sm">
-            <div className="flex items-center justify-between gap-2 mb-3">
-              <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-gray-500">
-                {t("rulesetEditor.listTitle")}
-              </h2>
-              <button
-                type="button"
-                onClick={() => handleStartNew()}
-                className={`inline-flex items-center gap-2 rounded-md border border-gray-300 dark:border-gray-600 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 ${focusRingClasses}`}
-              >
-                <FiPlus /> {t("rulesetEditor.new")}
-              </button>
-            </div>
-            <RulesetPicker
-              value={selectedId}
-              rulesets={rulesets}
-              onSelect={(id) => setSelectedId(id)}
-            />
-            {selectedRuleset && (
-              <div className="mt-3 flex items-center justify-between gap-2">
-                <p className="text-xs text-gray-500 dark:text-gray-400">
-                  {selectedRuleset.isPreset
-                    ? t("rulesetEditor.presetLocked")
-                    : t("rulesetEditor.customHint")}
-                </p>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-stretch lg:h-[calc(100vh-180px)] lg:min-h-0">
+          <section className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 shadow-sm h-full flex flex-col min-h-0 overflow-hidden">
+            <div className="flex h-full flex-col min-h-0">
+              <div className="flex items-center justify-between gap-2 mb-3">
+                <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-gray-500">
+                  {t("rulesetEditor.listTitle")}
+                </h2>
                 <button
                   type="button"
-                  onClick={() => handleStartNew(selectedRuleset)}
-                  className={`inline-flex items-center gap-1 text-xs font-semibold rounded-md px-2 py-1 border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 ${focusRingClasses}`}
+                  onClick={() => handleStartNew()}
+                  className={`inline-flex items-center gap-2 rounded-md border border-gray-300 dark:border-gray-600 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 ${focusRingClasses}`}
                 >
-                  <FiCopy size={14} /> {t("rulesetEditor.copy")}
+                  <FiPlus /> {t("rulesetEditor.new")}
                 </button>
               </div>
-            )}
+              <div className="flex-1 min-h-0">
+                <RulesetPicker
+                  value={selectedId}
+                  rulesets={rulesets}
+                  onSelect={(id) => setSelectedId(id)}
+                  enableTagFilter
+                  fullHeight
+                />
+              </div>
+              {selectedRuleset && (
+                <div className="mt-auto pt-3 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between gap-2">
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    {selectedRuleset.isPreset
+                      ? t("rulesetEditor.presetLocked")
+                      : t("rulesetEditor.customHint")}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => handleStartNew(selectedRuleset)}
+                    className={`inline-flex items-center gap-1 text-xs font-semibold rounded-md px-2 py-1 border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 ${focusRingClasses}`}
+                  >
+                    <FiCopy size={14} /> {t("rulesetEditor.copy")}
+                  </button>
+                </div>
+              )}
+            </div>
           </section>
 
-          <section className="lg:col-span-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 shadow-sm space-y-4">
+          <section className="lg:col-span-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 shadow-sm space-y-4 h-full flex flex-col min-h-0 overflow-y-auto custom-scrollbar">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
               <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-gray-500">
                 {t("rulesetEditor.formTitle")}
@@ -266,7 +310,7 @@ const RulesetEditorPage: React.FC<RulesetEditorPageProps> = ({
                   </button>
                 )}
               </div>
-              <div className="space-y-2 max-h-[50vh] overflow-y-auto pr-1 custom-scrollbar">
+              <div className="space-y-2 max-h-[40vh] overflow-y-auto pr-1 custom-scrollbar">
                 {draftRules.map((rule, index) => (
                   <div
                     key={`${index}-${selectedId}`}
@@ -302,40 +346,132 @@ const RulesetEditorPage: React.FC<RulesetEditorPageProps> = ({
               </div>
             </div>
 
-            {error && (
-              <div className="rounded-md border border-red-300 bg-red-50 dark:border-red-700 dark:bg-red-900/30 px-3 py-2 text-sm text-red-700 dark:text-red-200">
-                {error}
+            <div className="space-y-2 pt-1">
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-semibold text-gray-800 dark:text-gray-200">
+                  {t("rulesetEditor.tagsTitle")}
+                </h3>
+                <span className="text-xs text-gray-500 dark:text-gray-400">
+                  {t("rulesetEditor.tagsHint")}
+                </span>
               </div>
-            )}
-            {message && (
-              <div className="rounded-md border border-green-300 bg-green-50 dark:border-green-700 dark:bg-green-900/30 px-3 py-2 text-sm text-green-700 dark:text-green-200">
-                {message}
+              <div className="flex flex-wrap gap-2">
+                {draftTags.length === 0 ? (
+                  <span className="text-xs text-gray-500 dark:text-gray-400">
+                    {t("rulesetEditor.tagsEmpty")}
+                  </span>
+                ) : (
+                  draftTags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="inline-flex items-center gap-2 rounded-full border border-gray-300 bg-white px-3 py-1 text-xs font-semibold text-gray-800 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
+                    >
+                      <span>{tag}</span>
+                      {!isPreset && (
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveTag(tag)}
+                          className={`rounded-full border border-transparent px-1 text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white ${focusRingClasses}`}
+                          aria-label={t("rulesetEditor.removeTag", { tag })}
+                        >
+                          ×
+                        </button>
+                      )}
+                    </span>
+                  ))
+                )}
               </div>
-            )}
 
-            <div className="flex flex-wrap items-center justify-end gap-3">
-              {!isPreset && selectedRuleset && selectedRuleset.id !== "new" && (
+              {!isPreset && (
+                <form
+                  className="flex flex-wrap items-center gap-2"
+                  onSubmit={handleTagSubmit}
+                >
+                  <input
+                    type="text"
+                    value={tagInput}
+                    onChange={(e) => setTagInput(e.target.value)}
+                    onKeyDown={handleTagKeyDown}
+                    className={`min-w-[160px] flex-1 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-sm text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
+                    placeholder={t("rulesetEditor.tagPlaceholder")}
+                  />
+                  <button
+                    type="submit"
+                    className="inline-flex items-center gap-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-700"
+                  >
+                    <FiPlus /> {t("rulesetEditor.addTag")}
+                  </button>
+                </form>
+              )}
+
+              {!isPreset && (
+                <div className="flex flex-wrap items-center gap-2 pt-1">
+                  <span className="text-xs uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400">
+                    {t("rulesetEditor.presetTagsLabel")}
+                  </span>
+                  {PREDEFINED_RULESET_TAGS.map((tag) => {
+                    const isActive = draftTags.some(
+                      (entry) => entry.toLowerCase() === tag.toLowerCase(),
+                    );
+                    return (
+                      <button
+                        key={tag}
+                        type="button"
+                        onClick={() => handleAddTag(tag)}
+                        disabled={isActive}
+                        className={`inline-flex items-center gap-1 rounded-full border px-3 py-1 text-xs font-semibold ${isActive ? "border-green-500 bg-green-50 text-green-700 dark:border-green-600 dark:bg-green-900/30 dark:text-green-100" : "border-gray-300 bg-white text-gray-700 hover:border-gray-400 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 dark:hover:border-gray-500"} disabled:opacity-60 ${focusRingClasses}`}
+                      >
+                        <FiTag size={12} />
+                        {tag}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
+            <div className="flex flex-wrap items-center gap-3">
+              {(error || message) && (
+                <div className="flex-1 min-w-[240px]">
+                  {error && (
+                    <div className="rounded-md border border-red-300 bg-red-50 dark:border-red-700 dark:bg-red-900/30 px-3 py-2 text-sm text-red-700 dark:text-red-200">
+                      {error}
+                    </div>
+                  )}
+                  {!error && message && (
+                    <div className="rounded-md border border-green-300 bg-green-50 dark:border-green-700 dark:bg-green-900/30 px-3 py-2 text-sm text-green-700 dark:text-green-200">
+                      {message}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              <div className="flex items-center gap-3 ml-auto">
+                {!isPreset &&
+                  selectedRuleset &&
+                  selectedRuleset.id !== "new" && (
+                    <button
+                      type="button"
+                      onClick={handleDelete}
+                      disabled={deleting}
+                      className="inline-flex items-center gap-2 rounded-md border border-red-300 bg-white dark:bg-gray-800 dark:border-red-700 px-4 py-2 text-sm font-semibold text-red-700 dark:text-red-200 hover:bg-red-50 dark:hover:bg-red-900/30 disabled:opacity-60"
+                    >
+                      <FiTrash2 />{" "}
+                      {deleting
+                        ? t("rulesetEditor.deleting")
+                        : t("rulesetEditor.delete")}
+                    </button>
+                  )}
                 <button
                   type="button"
-                  onClick={handleDelete}
-                  disabled={deleting}
-                  className="inline-flex items-center gap-2 rounded-md border border-red-300 bg-white dark:bg-gray-800 dark:border-red-700 px-4 py-2 text-sm font-semibold text-red-700 dark:text-red-200 hover:bg-red-50 dark:hover:bg-red-900/30 disabled:opacity-60"
+                  onClick={handleSave}
+                  disabled={saving || isPreset}
+                  className="inline-flex items-center gap-2 rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-700 disabled:opacity-60"
                 >
-                  <FiTrash2 />{" "}
-                  {deleting
-                    ? t("rulesetEditor.deleting")
-                    : t("rulesetEditor.delete")}
+                  <FiSave />
+                  {saving ? t("rulesetEditor.saving") : t("rulesetEditor.save")}
                 </button>
-              )}
-              <button
-                type="button"
-                onClick={handleSave}
-                disabled={saving || isPreset}
-                className="inline-flex items-center gap-2 rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-700 disabled:opacity-60"
-              >
-                <FiSave />
-                {saving ? t("rulesetEditor.saving") : t("rulesetEditor.save")}
-              </button>
+              </div>
             </div>
           </section>
         </div>
