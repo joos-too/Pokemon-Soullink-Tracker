@@ -293,7 +293,7 @@ export const de = {
     areaLabel: "Gebiet: {{route}}",
     memberTitle: "{{name}}'s {{pokemon}}",
     nicknameLabel: "Spitzname: {{nickname}}",
-    noNickname: "—",
+    noNickname: "-",
     unknownPokemon: "Pokémon",
     empty: "Noch keine toten oder verlorenen Pokémon vorhanden.",
     defaultPlayer: "Spieler {{index}}",

@@ -98,7 +98,7 @@ const UserSettingsPage: React.FC<UserSettingsPageProps> = ({
                   {t("userSettings.emailLabel")}
                 </p>
                 <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                  {email || "—"}
+                  {email || "-"}
                 </p>
                 <p className="text-sm text-gray-500 mt-1">
                   {t("userSettings.emailInfo")}

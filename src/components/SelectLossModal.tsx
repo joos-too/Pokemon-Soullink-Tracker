@@ -78,7 +78,7 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({
                   >
                     <div className="font-semibold">{name}</div>
                     <div className="text-right">
-                      {member.name || "—"}
+                      {member.name || "-"}
                       {member.nickname ? ` (${member.nickname})` : ""}
                     </div>
                   </div>
