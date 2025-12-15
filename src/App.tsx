@@ -237,6 +237,7 @@ const App: React.FC = () => {
   const [rulesetSaveLoading, setRulesetSaveLoading] = useState(false);
   const [rulesetSaveError, setRulesetSaveError] = useState<string | null>(null);
   const [rulesetCopyName, setRulesetCopyName] = useState<string>("");
+  const [rulesetOverwriteName, setRulesetOverwriteName] = useState<string>("");
 
   const activeTrackerMeta = activeTrackerId
     ? trackerMetas[activeTrackerId]
@@ -1046,9 +1047,27 @@ const App: React.FC = () => {
     return title;
   }, [currentRuleset?.name, t]);
 
+  const getRulesetOverwriteName = useCallback(() => {
+    const rulesetName = currentRuleset?.name;
+    const trackerName = activeTrackerMeta?.title;
+    let title: string;
+
+    if (rulesetName) {
+      title = rulesetName;
+    } else if (trackerName) {
+      title = t("settings.rulesets.trackerRuleTemplate", {
+        trackerName: trackerName,
+      });
+    } else {
+      title = t("settings.rulesets.defaultRulesetName");
+    }
+    return title;
+  }, [activeTrackerMeta?.title, currentRuleset?.name, t]);
+
   useEffect(() => {
     setRulesetCopyName(getRulesetCopyName());
-  }, [getRulesetCopyName]);
+    setRulesetOverwriteName(getRulesetOverwriteName());
+  }, [getRulesetCopyName, getRulesetOverwriteName]);
 
   const handleOpenRulesetEditor = useCallback(() => {
     setMobileMenuOpen(false);
@@ -1443,9 +1462,10 @@ const App: React.FC = () => {
       setPendingRulesetId(nextRulesetId ?? null);
       setRulesetSaveError(null);
       setRulesetCopyName(getRulesetCopyName());
+      setRulesetOverwriteName(getRulesetOverwriteName());
       setShowRulesetSaveModal(true);
     },
-    [getRulesetCopyName],
+    [getRulesetCopyName, getRulesetOverwriteName],
   );
 
   const handleRulesetChange = useCallback(
@@ -1506,12 +1526,8 @@ const App: React.FC = () => {
         PRESET_RULESETS.find((entry) => entry.id === currentId);
       const name =
         effectiveMode === "overwrite"
-          ? baseRuleset?.name ||
-            t("settings.rulesets.trackerRuleTemplate", {
-              trackerName: activeTrackerMeta?.title,
-            }) ||
-            t("settings.rulesets.defaultRulesetName")
-          : rulesetCopyName;
+          ? rulesetOverwriteName || getRulesetOverwriteName()
+          : rulesetCopyName || getRulesetCopyName();
       const description = baseRuleset?.description || "";
       const tags = baseRuleset?.tags;
       const rulesToPersist =
@@ -1557,10 +1573,13 @@ const App: React.FC = () => {
       normalizedTrackerRules,
       pendingRulesetId,
       rulesetCopyName,
+      rulesetOverwriteName,
       rulesets,
       rulesetSaveReason,
       t,
       user,
+      getRulesetCopyName,
+      getRulesetOverwriteName,
     ],
   );
 
@@ -2341,9 +2360,7 @@ const App: React.FC = () => {
                       {rulesetSaveLoading
                         ? t("settings.rulesets.saveModal.saving")
                         : t("settings.rulesets.saveModal.overwriteButton", {
-                            name:
-                              currentRuleset?.name ||
-                              t("settings.rulesets.defaultRulesetName"),
+                            name: rulesetOverwriteName,
                           })}
                     </button>
                     <button
