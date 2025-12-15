@@ -317,6 +317,27 @@ export const en = {
       manage: "Manage rules",
       selectButton: "Select ruleset",
       fallback: "No ruleset selected",
+      saveCurrent: "Save current rules",
+      unsavedWarning: "Your current tracker rules aren't saved.",
+      copyNameTemplate: "{{rulesetName}} (Copy)",
+      trackerRuleTemplate: "{{trackerName}} rules",
+      defaultRulesetName: "Tracker rules",
+      saveModal: {
+        title: "Save rules to your collection",
+        description:
+          "Store the current tracker rules as a ruleset in your collection.",
+        overwrite: "Overwrite or save separately",
+        overwriteButton: 'Overwrite "{{name}}"',
+        copyButton: 'Save as "{{name}}"',
+        primary: "Save rules",
+        saving: "Saving...",
+        error: "Saving failed. Please try again.",
+        switchTitle: "Save before switching?",
+        switchBody:
+          "Switching rulesets will overwrite the tracker rules. Save a copy if you want to keep them.",
+        skip: "Switch without saving",
+        cancel: "Cancel",
+      },
     },
     sections: {
       options: "Tracker options",

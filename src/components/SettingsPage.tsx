@@ -14,10 +14,12 @@ import type {
 } from "@/types";
 import {
   FiArrowLeft,
+  FiAlertTriangle,
   FiEdit,
   FiEye,
   FiInfo,
   FiLogOut,
+  FiSave,
   FiShield,
   FiTrash2,
   FiUserPlus,
@@ -65,6 +67,8 @@ interface SettingsPageProps {
   onRulesetSelect: (rulesetId: string) => void;
   onOpenRulesetEditor: () => void;
   isGuest?: boolean;
+  onSaveRulesetToCollection: () => void;
+  rulesetDirty?: boolean;
 }
 
 const SettingsPage: React.FC<SettingsPageProps> = ({
@@ -97,6 +101,8 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
   onRulesetSelect,
   onOpenRulesetEditor,
   isGuest = false,
+  onSaveRulesetToCollection,
+  rulesetDirty = false,
 }) => {
   const { t } = useTranslation();
   const [inviteEmail, setInviteEmail] = useState("");
@@ -691,15 +697,34 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                   <div className="text-sm font-semibold text-gray-800 dark:text-gray-100">
                     {rulesetLabel}
                   </div>
-                  <button
-                    type="button"
-                    onClick={onOpenRulesetEditor}
-                    className={`inline-flex items-center gap-2 rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-60 ${focusRingClasses}`}
-                    disabled={isGuest}
-                  >
-                    <FiEdit /> {t("settings.rulesets.manage")}
-                  </button>
+                  <div className="flex flex-wrap justify-end gap-2">
+                    <button
+                      type="button"
+                      onClick={onOpenRulesetEditor}
+                      className={`inline-flex items-center gap-2 rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-60 ${focusRingClasses}`}
+                      disabled={isGuest}
+                    >
+                      <FiEdit /> {t("settings.rulesets.manage")}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={onSaveRulesetToCollection}
+                      className={`inline-flex items-center gap-2 rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-60 ${focusRingClasses}`}
+                      disabled={isGuest}
+                    >
+                      <FiSave /> {t("settings.rulesets.saveCurrent")}
+                    </button>
+                  </div>
                 </div>
+                {rulesetDirty && (
+                  <div className="flex items-start gap-2 rounded-md bg-amber-50 dark:bg-amber-900/30 border border-amber-200 dark:border-amber-800 px-3 py-2 text-xs text-amber-800 dark:text-amber-100">
+                    <FiAlertTriangle
+                      size={14}
+                      className="mt-0.5 flex-shrink-0"
+                    />
+                    <span>{t("settings.rulesets.unsavedWarning")}</span>
+                  </div>
+                )}
                 <button
                   type="button"
                   onClick={() => setShowRulesetPicker((v) => !v)}

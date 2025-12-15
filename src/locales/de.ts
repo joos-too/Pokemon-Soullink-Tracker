@@ -320,6 +320,27 @@ export const de = {
       manage: "Regeln verwalten",
       selectButton: "Regeln auswählen",
       fallback: "Keine Regeln ausgewählt",
+      saveCurrent: "Regeln speichern",
+      unsavedWarning: "Die aktuellen Tracker-Regeln sind nicht gespeichert.",
+      copyNameTemplate: "{{rulesetName}} (Kopie)",
+      trackerRuleTemplate: "{{trackerName}} Regeln",
+      defaultRulesetName: "Tracker-Regeln",
+      saveModal: {
+        title: "Regeln in deiner Sammlung speichern",
+        description:
+          "Speichere die aktuellen Tracker-Regeln als eigenes Regelset.",
+        overwrite: "Überschreiben oder kopieren",
+        overwriteButton: '"{{name}}" überschreiben',
+        copyButton: 'Als "{{name}}" speichern',
+        primary: "Regeln speichern",
+        saving: "Speichere...",
+        error: "Speichern fehlgeschlagen. Bitte versuche es erneut.",
+        switchTitle: "Vor Wechsel speichern?",
+        switchBody:
+          "Beim Wechseln wird das Tracker-Regelset überschrieben. Sichere es vorher, wenn du es behalten möchtest.",
+        skip: "Ohne Speichern wechseln",
+        cancel: "Abbrechen",
+      },
     },
     sections: {
       options: "Tracker Optionen",

@@ -6,11 +6,14 @@ import React, {
   useState,
 } from "react";
 import {
+  FiAlertTriangle,
+  FiCopy,
   FiEdit,
   FiHome,
   FiMenu,
   FiMoon,
   FiRotateCw,
+  FiSave,
   FiSettings,
   FiSun,
 } from "react-icons/fi";
@@ -226,6 +229,14 @@ const App: React.FC = () => {
   );
   const [rulesets, setRulesets] = useState<Ruleset[]>(PRESET_RULESETS);
   const rulesetUnsubscribeRef = useRef<(() => void) | null>(null);
+  const [showRulesetSaveModal, setShowRulesetSaveModal] = useState(false);
+  const [pendingRulesetId, setPendingRulesetId] = useState<string | null>(null);
+  const [rulesetSaveReason, setRulesetSaveReason] = useState<
+    "manual" | "switch"
+  >("manual");
+  const [rulesetSaveLoading, setRulesetSaveLoading] = useState(false);
+  const [rulesetSaveError, setRulesetSaveError] = useState<string | null>(null);
+  const [rulesetCopyName, setRulesetCopyName] = useState<string>("");
 
   const activeTrackerMeta = activeTrackerId
     ? trackerMetas[activeTrackerId]
@@ -234,6 +245,30 @@ const App: React.FC = () => {
   const activeGameVersion = activeGameVersionId
     ? GAME_VERSIONS[activeGameVersionId]
     : undefined;
+  const currentRuleset = useMemo(() => {
+    const id = data.rulesetId || defaultLocaleRulesetId;
+    return (
+      rulesets.find((entry) => entry.id === id) ||
+      PRESET_RULESETS.find((entry) => entry.id === id)
+    );
+  }, [data.rulesetId, defaultLocaleRulesetId, rulesets]);
+  const normalizedTrackerRules = useMemo(
+    () => sanitizeRules(data.rules),
+    [data.rules],
+  );
+  const savedRulesetRules = useMemo(
+    () => sanitizeRules(currentRuleset?.rules),
+    [currentRuleset],
+  );
+  const rulesetInSync = useMemo(
+    () =>
+      savedRulesetRules.length > 0 &&
+      savedRulesetRules.length === normalizedTrackerRules.length &&
+      savedRulesetRules.every(
+        (rule, index) => rule === normalizedTrackerRules[index],
+      ),
+    [normalizedTrackerRules, savedRulesetRules],
+  );
   const pokemonGenerationLimit = useMemo(
     () => resolveGenerationFromVersionId(activeGameVersionId),
     [activeGameVersionId],
@@ -254,6 +289,17 @@ const App: React.FC = () => {
     }
     return null;
   }, [userUseGenerationSprites, activeGameVersionId]);
+  const currentRulesetId = data.rulesetId || defaultLocaleRulesetId;
+  const hasUserRulesetWithSameId = useMemo(
+    () =>
+      rulesets.some(
+        (entry) =>
+          entry.id === currentRulesetId &&
+          !entry.isPreset &&
+          entry.createdBy === user?.uid,
+      ),
+    [currentRulesetId, rulesets, user?.uid],
+  );
 
   const handleRivalPreferenceChange = useCallback(
     async (key: string, gender: RivalGender) => {
@@ -447,7 +493,7 @@ const App: React.FC = () => {
       const sortedCustom = [...customRulesets].sort(
         (a, b) => (b.updatedAt ?? 0) - (a.updatedAt ?? 0),
       );
-      setRulesets([...PRESET_RULESETS, ...sortedCustom]);
+      setRulesets([...sortedCustom, ...PRESET_RULESETS]);
     });
     rulesetUnsubscribeRef.current = unsubscribe;
 
@@ -986,6 +1032,24 @@ const App: React.FC = () => {
     navigate("/account");
   }, [navigate]);
 
+  const getRulesetCopyName = useCallback(() => {
+    const rulesetName = currentRuleset?.name;
+    let title: string;
+    if (rulesetName) {
+      title = t("settings.rulesets.copyNameTemplate", {
+        rulesetName: rulesetName,
+      });
+    } else {
+      title = t("settings.rulesets.defaultRulesetName");
+    }
+
+    return title;
+  }, [currentRuleset?.name, t]);
+
+  useEffect(() => {
+    setRulesetCopyName(getRulesetCopyName());
+  }, [getRulesetCopyName]);
+
   const handleOpenRulesetEditor = useCallback(() => {
     setMobileMenuOpen(false);
     const from =
@@ -1010,62 +1074,12 @@ const App: React.FC = () => {
     navigate("/");
   }, [navigate, rulesetBackTarget]);
 
-  const propagateRulesetUpdate = useCallback(
-    async (ruleset: Ruleset) => {
-      if (!user) return ruleset;
-      const normalizedRules = sanitizeRules(ruleset.rules);
-      const finalRules =
-        normalizedRules.length > 0
-          ? normalizedRules
-          : sanitizeRules(DEFAULT_RULES);
-
-      const targetTrackers = Object.values(trackerMetas).filter(
-        (meta) =>
-          meta?.rulesetId === ruleset.id &&
-          meta?.members &&
-          meta.members[user.uid],
-      );
-
-      const updates: Record<string, unknown> = {};
-      targetTrackers.forEach((meta) => {
-        updates[`trackers/${meta.id}/state/rules`] = finalRules;
-        updates[`trackers/${meta.id}/state/rulesetId`] = ruleset.id;
-        updates[`trackers/${meta.id}/meta/rulesetId`] = ruleset.id;
-      });
-
-      if (Object.keys(updates).length > 0) {
-        await update(ref(db), updates);
-        setTrackerMetas((prev) => {
-          const next = { ...prev };
-          targetTrackers.forEach((meta) => {
-            next[meta.id] = { ...meta, rulesetId: ruleset.id };
-          });
-          return next;
-        });
-        if (
-          activeTrackerId &&
-          targetTrackers.some((m) => m.id === activeTrackerId)
-        ) {
-          setData((prev) => ({
-            ...prev,
-            rules: finalRules,
-            rulesetId: ruleset.id,
-          }));
-        }
-      }
-      return ruleset;
-    },
-    [activeTrackerId, trackerMetas, user],
-  );
-
   const handleSaveRuleset = useCallback(
     async (payload: SaveRulesetPayload): Promise<Ruleset> => {
       if (!user) throw new Error("Du musst angemeldet sein.");
-      const saved = await saveRuleset(user.uid, payload);
-      await propagateRulesetUpdate(saved);
-      return saved;
+      return saveRuleset(user.uid, payload);
     },
-    [user, propagateRulesetUpdate],
+    [user],
   );
 
   const handleDeleteRuleset = useCallback(
@@ -1387,37 +1401,72 @@ const App: React.FC = () => {
     setData((prev) => ({ ...prev, hardcoreModeEnabled: enabled }));
   };
 
-  const handleRulesetChange = (rulesetId: string) => {
-    if (isReadOnly) return;
-    const selected =
-      rulesets.find((entry) => entry.id === rulesetId) ??
-      PRESET_RULESETS.find((entry) => entry.id === rulesetId);
-    const normalizedRules =
-      sanitizeRules(selected?.rules) || sanitizeRules(DEFAULT_RULES);
-    const finalRules = normalizedRules.length ? normalizedRules : DEFAULT_RULES;
-    const resolvedId = selected?.id ?? DEFAULT_RULESET_ID;
-    setData((prev) => ({
-      ...prev,
-      rules: finalRules,
-      rulesetId: resolvedId,
-    }));
-    if (activeTrackerId) {
-      setTrackerMetas((prev) => {
-        const existing = prev[activeTrackerId];
-        if (!existing) return prev;
-        return {
-          ...prev,
-          [activeTrackerId]: {
-            ...existing,
-            rulesetId: resolvedId,
-          },
-        };
-      });
-      update(ref(db, `trackers/${activeTrackerId}/meta`), {
+  const applyRulesetChange = useCallback(
+    (rulesetId: string) => {
+      if (isReadOnly) return;
+      const selected =
+        rulesets.find((entry) => entry.id === rulesetId) ??
+        PRESET_RULESETS.find((entry) => entry.id === rulesetId);
+      const normalizedRules =
+        sanitizeRules(selected?.rules) || sanitizeRules(DEFAULT_RULES);
+      const finalRules =
+        normalizedRules.length > 0 ? normalizedRules : DEFAULT_RULES;
+      const resolvedId = selected?.id ?? DEFAULT_RULESET_ID;
+      setData((prev) => ({
+        ...prev,
+        rules: finalRules,
         rulesetId: resolvedId,
-      });
-    }
-  };
+      }));
+      if (activeTrackerId) {
+        setTrackerMetas((prev) => {
+          const existing = prev[activeTrackerId];
+          if (!existing) return prev;
+          return {
+            ...prev,
+            [activeTrackerId]: {
+              ...existing,
+              rulesetId: resolvedId,
+            },
+          };
+        });
+        update(ref(db, `trackers/${activeTrackerId}/meta`), {
+          rulesetId: resolvedId,
+        });
+      }
+    },
+    [activeTrackerId, isReadOnly, rulesets],
+  );
+
+  const openRulesetSaveModal = useCallback(
+    (reason: "manual" | "switch", nextRulesetId?: string | null) => {
+      setRulesetSaveReason(reason);
+      setPendingRulesetId(nextRulesetId ?? null);
+      setRulesetSaveError(null);
+      setRulesetCopyName(getRulesetCopyName());
+      setShowRulesetSaveModal(true);
+    },
+    [getRulesetCopyName],
+  );
+
+  const handleRulesetChange = useCallback(
+    (rulesetId: string) => {
+      if (isReadOnly) return;
+      const currentId = data.rulesetId || DEFAULT_RULESET_ID;
+      if (rulesetId === currentId) return;
+      if (!rulesetInSync) {
+        openRulesetSaveModal("switch", rulesetId);
+        return;
+      }
+      applyRulesetChange(rulesetId);
+    },
+    [
+      applyRulesetChange,
+      data.rulesetId,
+      isReadOnly,
+      openRulesetSaveModal,
+      rulesetInSync,
+    ],
+  );
 
   const handlePublicToggle = (enabled: boolean) => {
     if (!activeTrackerId || isReadOnly) return;
@@ -1433,6 +1482,93 @@ const App: React.FC = () => {
       };
     });
     update(ref(db, `trackers/${activeTrackerId}/meta`), { isPublic: enabled });
+  };
+
+  const closeRulesetSaveModal = () => {
+    setShowRulesetSaveModal(false);
+    setRulesetSaveError(null);
+    setPendingRulesetId(null);
+    setRulesetSaveLoading(false);
+  };
+
+  const handleSaveRulesetFromTracker = useCallback(
+    async (mode: "overwrite" | "copy") => {
+      if (!user) {
+        setRulesetSaveError("Du musst angemeldet sein.");
+        return;
+      }
+      const baseRulesetIsPreset = Boolean(currentRuleset?.isPreset);
+      const effectiveMode =
+        baseRulesetIsPreset && mode === "overwrite" ? "copy" : mode;
+      const currentId = data.rulesetId || defaultLocaleRulesetId;
+      const baseRuleset =
+        rulesets.find((entry) => entry.id === currentId) ||
+        PRESET_RULESETS.find((entry) => entry.id === currentId);
+      const name =
+        effectiveMode === "overwrite"
+          ? baseRuleset?.name ||
+            t("settings.rulesets.trackerRuleTemplate", {
+              trackerName: activeTrackerMeta?.title,
+            }) ||
+            t("settings.rulesets.defaultRulesetName")
+          : rulesetCopyName;
+      const description = baseRuleset?.description || "";
+      const tags = baseRuleset?.tags;
+      const rulesToPersist =
+        normalizedTrackerRules.length > 0
+          ? normalizedTrackerRules
+          : (baseRuleset?.rules ?? DEFAULT_RULES);
+
+      setRulesetSaveLoading(true);
+      setRulesetSaveError(null);
+      try {
+        await saveRuleset(user.uid, {
+          id:
+            effectiveMode === "overwrite" && !baseRulesetIsPreset
+              ? currentId
+              : undefined,
+          name,
+          description,
+          rules: rulesToPersist,
+          tags,
+        });
+        if (rulesetSaveReason === "switch" && pendingRulesetId) {
+          applyRulesetChange(pendingRulesetId);
+        }
+        setPendingRulesetId(null);
+        setShowRulesetSaveModal(false);
+      } catch (err) {
+        const fallback =
+          t("settings.rulesets.saveModal.error", {
+            defaultValue: "Speichern fehlgeschlagen.",
+          }) || "Fehler";
+        setRulesetSaveError(
+          err instanceof Error ? err.message : String(fallback),
+        );
+      } finally {
+        setRulesetSaveLoading(false);
+      }
+    },
+    [
+      activeTrackerMeta?.title,
+      applyRulesetChange,
+      data.rulesetId,
+      defaultLocaleRulesetId,
+      normalizedTrackerRules,
+      pendingRulesetId,
+      rulesetCopyName,
+      rulesets,
+      rulesetSaveReason,
+      t,
+      user,
+    ],
+  );
+
+  const handleSkipRulesetSave = () => {
+    if (rulesetSaveReason === "switch" && pendingRulesetId) {
+      applyRulesetChange(pendingRulesetId);
+    }
+    closeRulesetSaveModal();
   };
 
   const handleLegendaryIncrement = () => {
@@ -1815,6 +1951,8 @@ const App: React.FC = () => {
       onRulesetSelect={handleRulesetChange}
       onOpenRulesetEditor={handleOpenRulesetEditor}
       isGuest={isGuest}
+      onSaveRulesetToCollection={() => openRulesetSaveModal("manual")}
+      rulesetDirty={!rulesetInSync}
     />
   ) : (
     <div className="bg-[#f0f0f0] dark:bg-gray-900 min-h-screen p-2 sm:p-4 md:p-8 text-gray-800 dark:text-gray-200">
@@ -2128,6 +2266,132 @@ const App: React.FC = () => {
         isDeleting={deleteTrackerLoading}
         error={deleteTrackerError}
       />
+      {showRulesetSaveModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4">
+          <div className="w-full max-w-lg rounded-xl bg-white dark:bg-gray-900 shadow-2xl border border-gray-200 dark:border-gray-700">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-gray-200 dark:border-gray-700">
+              <div>
+                <p className="text-xs uppercase tracking-[0.3em] text-green-600">
+                  {t("settings.rulesets.label")}
+                </p>
+                <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                  {rulesetSaveReason === "switch"
+                    ? t("settings.rulesets.saveModal.switchTitle")
+                    : t("settings.rulesets.saveModal.title")}
+                </h2>
+              </div>
+              <button
+                type="button"
+                onClick={closeRulesetSaveModal}
+                className="rounded-full p-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                aria-label={t("settings.rulesets.saveModal.cancel")}
+              >
+                ✕
+              </button>
+            </div>
+            <div className="px-5 py-4 space-y-3">
+              <div className="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-200">
+                <FiAlertTriangle
+                  className="mt-0.5 text-amber-500 shrink-0"
+                  size={18}
+                />
+                <span>
+                  {rulesetSaveReason === "switch"
+                    ? t("settings.rulesets.saveModal.switchBody")
+                    : t("settings.rulesets.saveModal.description")}
+                </span>
+              </div>
+              {rulesetSaveError && (
+                <div className="text-sm text-red-600 dark:text-red-400">
+                  {rulesetSaveError}
+                </div>
+              )}
+              {currentRuleset?.isPreset ? (
+                <div className="space-y-2">
+                  <p className="text-xs uppercase tracking-[0.2em] text-gray-600 dark:text-gray-400">
+                    {t("settings.rulesets.saveModal.description")}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => handleSaveRulesetFromTracker("copy")}
+                    disabled={rulesetSaveLoading}
+                    className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-green-600 hover:bg-green-700 text-white px-3 py-2 text-sm font-semibold shadow disabled:opacity-60"
+                  >
+                    <FiCopy />
+                    {rulesetSaveLoading
+                      ? t("settings.rulesets.saveModal.saving")
+                      : t("settings.rulesets.saveModal.copyButton", {
+                          name: rulesetCopyName,
+                        })}
+                  </button>
+                </div>
+              ) : hasUserRulesetWithSameId ? (
+                <div className="space-y-2">
+                  <p className="text-xs uppercase tracking-[0.2em] text-gray-600 dark:text-gray-400">
+                    {t("settings.rulesets.saveModal.overwrite")}
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-2">
+                    <button
+                      type="button"
+                      onClick={() => handleSaveRulesetFromTracker("overwrite")}
+                      disabled={rulesetSaveLoading}
+                      className="grow inline-flex items-center justify-center gap-2 rounded-md bg-green-600 hover:bg-green-700 text-white px-3 py-2 text-sm font-semibold shadow disabled:opacity-60"
+                    >
+                      <FiSave />
+                      {rulesetSaveLoading
+                        ? t("settings.rulesets.saveModal.saving")
+                        : t("settings.rulesets.saveModal.overwriteButton", {
+                            name:
+                              currentRuleset?.name ||
+                              t("settings.rulesets.defaultRulesetName"),
+                          })}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleSaveRulesetFromTracker("copy")}
+                      disabled={rulesetSaveLoading}
+                      className="grow inline-flex items-center justify-center gap-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100 px-3 py-2 text-sm font-semibold shadow-sm disabled:opacity-60"
+                    >
+                      <FiCopy />
+                      {t("settings.rulesets.saveModal.copyButton", {
+                        name: rulesetCopyName,
+                      })}
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => handleSaveRulesetFromTracker("overwrite")}
+                  disabled={rulesetSaveLoading}
+                  className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-green-600 hover:bg-green-700 text-white px-3 py-2 text-sm font-semibold shadow disabled:opacity-60"
+                >
+                  <FiSave />
+                  {rulesetSaveLoading
+                    ? t("settings.rulesets.saveModal.saving")
+                    : t("settings.rulesets.saveModal.primary")}
+                </button>
+              )}
+              {rulesetSaveReason === "switch" && (
+                <button
+                  type="button"
+                  onClick={handleSkipRulesetSave}
+                  className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 px-3 py-2 text-sm font-semibold shadow-sm"
+                >
+                  {t("settings.rulesets.saveModal.skip")}
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={closeRulesetSaveModal}
+                className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-800 dark:text-gray-200 px-3 py-2 text-sm font-semibold shadow-sm"
+              >
+                {t("settings.rulesets.saveModal.cancel")}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <Routes>
         <Route
           path="/"
