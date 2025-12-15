@@ -120,7 +120,7 @@ export const de = {
     },
   },
   rulesets: {
-    presetTag: "Voreinstellung",
+    presetTag: "Vordefiniert",
     customTag: "Eigenes",
     noDescription: "Keine Beschreibung vorhanden",
     ruleCount: "{{count}} Regeln",

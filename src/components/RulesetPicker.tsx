@@ -105,6 +105,9 @@ const RulesetPicker: React.FC<RulesetPickerProps> = ({
             ) : (
               <FiUser size={12} />
             );
+            const badgeLabel = ruleset.isPreset
+              ? t("rulesets.presetTag")
+              : t("rulesets.customTag");
             const tags = sanitizeTags(ruleset.tags);
             return (
               <button
@@ -122,11 +125,10 @@ const RulesetPicker: React.FC<RulesetPickerProps> = ({
                       </p>
                       <span
                         className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.2em] ${ruleset.isPreset ? "bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-100" : "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100"}`}
+                        title={badgeLabel}
                       >
+                        <span className="sr-only">{badgeLabel}</span>
                         {badgeIcon}
-                        {ruleset.isPreset
-                          ? t("rulesets.presetTag")
-                          : t("rulesets.customTag")}
                       </span>
                     </div>
                     <p className="text-xs text-gray-600 dark:text-gray-300 mt-1">

@@ -82,6 +82,7 @@ import { GAME_VERSIONS } from "@/src/data/game-versions";
 import {
   DEFAULT_RULES,
   DEFAULT_RULESET_ID,
+  DEFAULT_RULESET_ID_EN,
   PRESET_RULESETS,
 } from "@/src/data/rulesets";
 import {
@@ -169,7 +170,17 @@ const App: React.FC = () => {
   const [trackerSummaries, setTrackerSummaries] = useState<
     Record<string, TrackerSummary>
   >({});
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const defaultLocaleRulesetId = useMemo(() => {
+    const language = (
+      i18n.resolvedLanguage ||
+      i18n.language ||
+      ""
+    ).toLowerCase();
+    return language.startsWith("en")
+      ? DEFAULT_RULESET_ID_EN
+      : DEFAULT_RULESET_ID;
+  }, [i18n.language, i18n.resolvedLanguage]);
   const [userTrackersLoading, setUserTrackersLoading] = useState(false);
   const [publicTrackerLoading, setPublicTrackerLoading] = useState(() =>
     Boolean(routeTrackerId),
@@ -1473,9 +1484,15 @@ const App: React.FC = () => {
       const selectedRuleset =
         rulesets.find((entry) => entry.id === payload.rulesetId) ??
         PRESET_RULESETS.find((entry) => entry.id === payload.rulesetId);
-      const rulesetId = selectedRuleset?.id ?? DEFAULT_RULESET_ID;
-      const initialRules =
-        sanitizeRules(selectedRuleset?.rules) || sanitizeRules(DEFAULT_RULES);
+      const fallbackRuleset =
+        PRESET_RULESETS.find((entry) => entry.id === defaultLocaleRulesetId) ||
+        PRESET_RULESETS.find((entry) => entry.id === DEFAULT_RULESET_ID);
+      const resolvedRuleset = selectedRuleset ?? fallbackRuleset;
+      const rulesetId =
+        resolvedRuleset?.id ?? fallbackRuleset?.id ?? defaultLocaleRulesetId;
+      const initialRules = sanitizeRules(
+        resolvedRuleset?.rules ?? fallbackRuleset?.rules ?? DEFAULT_RULES,
+      );
       await createTracker({
         title: payload.title,
         playerNames: payload.playerNames,
@@ -1483,7 +1500,10 @@ const App: React.FC = () => {
         owner: user,
         gameVersionId: payload.gameVersionId,
         rulesetId,
-        rules: initialRules.length > 0 ? initialRules : DEFAULT_RULES,
+        rules:
+          initialRules.length > 0
+            ? initialRules
+            : (fallbackRuleset?.rules ?? DEFAULT_RULES),
       });
       setShowCreateModal(false);
     } catch (error) {
@@ -2098,7 +2118,7 @@ const App: React.FC = () => {
         isSubmitting={createTrackerLoading}
         error={createTrackerError}
         rulesets={rulesets}
-        defaultRulesetId={DEFAULT_RULESET_ID}
+        defaultRulesetId={defaultLocaleRulesetId}
       />
       <DeleteTrackerModal
         isOpen={Boolean(trackerPendingDelete)}

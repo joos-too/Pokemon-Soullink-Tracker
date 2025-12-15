@@ -1,7 +1,7 @@
 import type { Ruleset } from "@/types";
 
-export const DEFAULT_RULESET_ID = "default_ruleset";
-export const DEFAULT_RULESET_ID_EN = "default_ruleset_en";
+export const DEFAULT_RULESET_ID = "default_duo_ruleset";
+export const DEFAULT_RULESET_ID_EN = "default_duo_ruleset_en";
 export const PREDEFINED_RULESET_TAGS = ["Solo", "Duo", "Trio", "EN", "DE"];
 
 export const DEFAULT_SOLO_RULES: string[] = [
@@ -132,9 +132,29 @@ export const DEFAULT_TRIO_RULES_EN: string[] = [
 
 export const PRESET_RULESETS: Ruleset[] = [
   {
+    id: "default_solo_ruleset",
+    name: "Standard-Regeln Solo",
+    description: "Standard-Regeln für Solo-Runs in Deutsch.",
+    rules: DEFAULT_SOLO_RULES,
+    tags: ["Solo", "DE"],
+    isPreset: true,
+    createdAt: 0,
+    updatedAt: 0,
+  },
+  {
+    id: "default_solo_ruleset_en",
+    name: "Default Rules Solo",
+    description: "Default rules for solo runs in english.",
+    rules: DEFAULT_SOLO_RULES_EN,
+    tags: ["Solo", "EN"],
+    isPreset: true,
+    createdAt: 0,
+    updatedAt: 0,
+  },
+  {
     id: DEFAULT_RULESET_ID,
-    name: "Hardcore-Regeln (DE)",
-    description: "Hardcore-Regeln für Soullink-Runs in Deutsch.",
+    name: "Standard-Regeln Duo",
+    description: "Standard-Regeln für Soullink-Runs in Deutsch.",
     rules: DEFAULT_RULES,
     tags: ["Duo", "DE"],
     isPreset: true,
@@ -143,10 +163,30 @@ export const PRESET_RULESETS: Ruleset[] = [
   },
   {
     id: DEFAULT_RULESET_ID_EN,
-    name: "Hardcore Rules (EN)",
-    description: "Hardcore rules for Soullink runs in english.",
+    name: "Default Rules Duo",
+    description: "Default rules for Soullink runs in english.",
     rules: DEFAULT_RULES_EN,
     tags: ["Duo", "EN"],
+    isPreset: true,
+    createdAt: 0,
+    updatedAt: 0,
+  },
+  {
+    id: "default_trio_ruleset",
+    name: "Standard-Regeln Trio",
+    description: "Standard-Regeln für Trio-Soullink-Runs in Deutsch.",
+    rules: DEFAULT_TRIO_RULES,
+    tags: ["Trio", "DE"],
+    isPreset: true,
+    createdAt: 0,
+    updatedAt: 0,
+  },
+  {
+    id: "default_trio_ruleset_en",
+    name: "Default Rules Trio",
+    description: "Default rules for trio runs in english.",
+    rules: DEFAULT_TRIO_RULES_EN,
+    tags: ["Trio", "EN"],
     isPreset: true,
     createdAt: 0,
     updatedAt: 0,
