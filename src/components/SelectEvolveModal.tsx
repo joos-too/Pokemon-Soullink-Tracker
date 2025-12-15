@@ -431,7 +431,7 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
                       <div>
                         <div className="font-semibold">{label}</div>
                         <div className="text-sm">
-                          {member?.name || "—"}
+                          {member?.name || "-"}
                           {member?.nickname ? ` (${member.nickname})` : ""}
                         </div>
                       </div>
