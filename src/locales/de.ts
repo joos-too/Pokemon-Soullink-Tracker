@@ -244,6 +244,9 @@ export const de = {
     deleting: "Lösche…",
     deleteSuccess: "Regeln gelöscht.",
     deleteError: "Regeln konnte nicht gelöscht werden.",
+    deleteConfirmTitle: "Regeln löschen?",
+    deleteConfirmBody:
+      "Willst du „{{name}}“ wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
     tagsTitle: "Tags",
     tagsHint: "Tags helfen beim Filtern deiner Regeln.",
     tagsEmpty: "Noch keine Tags.",

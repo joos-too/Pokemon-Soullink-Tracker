@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import type { Ruleset } from "@/types";
-import { focusRingClasses } from "@/src/styles/focusRing";
+import { focusRingCardClasses, focusRingClasses } from "@/src/styles/focusRing";
 import { FiLock, FiTag, FiUser } from "react-icons/fi";
 import { useTranslation } from "react-i18next";
 import { PREDEFINED_RULESET_TAGS } from "@/src/data/rulesets";
@@ -57,7 +57,9 @@ const RulesetPicker: React.FC<RulesetPickerProps> = ({
   }
 
   return (
-    <div className={`space-y-3 ${fullHeight ? "flex h-full flex-col" : ""}`}>
+    <div
+      className={`space-y-3 ${fullHeight ? "flex h-full flex-col" : ""} py-1 px-1`}
+    >
       {enableTagFilter && availableTags.length > 0 && (
         <div className="space-y-1">
           <p className="text-[11px] uppercase tracking-[0.25em] text-gray-500 dark:text-gray-400">
@@ -91,7 +93,9 @@ const RulesetPicker: React.FC<RulesetPickerProps> = ({
       )}
 
       <div
-        className={`space-y-2 pr-1 pb-1 custom-scrollbar overscroll-contain ${fullHeight ? "flex-1 min-h-0 overflow-y-auto" : `${listMaxHeightClass} overflow-y-auto`}`}
+        tabIndex={-1}
+        className={`space-y-2 pl-1 pr-3 py-1 custom-scrollbar overscroll-contain focus-visible:outline-none ${fullHeight ? "flex-1 min-h-0 overflow-y-auto" : `${listMaxHeightClass} overflow-y-auto`}`}
+        style={{ scrollbarGutter: "stable" }}
       >
         {visibleRulesets.length === 0 ? (
           <div className="text-sm text-gray-600 dark:text-gray-300 px-1 py-2">
@@ -115,7 +119,7 @@ const RulesetPicker: React.FC<RulesetPickerProps> = ({
                 type="button"
                 onClick={() => onSelect(ruleset.id)}
                 disabled={!isInteractive}
-                className={`w-full text-left rounded-md border px-3 py-2 transition ${selected ? "border-green-500 bg-green-50 dark:border-green-500/80 dark:bg-green-900/20 shadow-sm" : "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-600"} disabled:opacity-60 disabled:cursor-not-allowed ${focusRingClasses}`}
+                className={`w-full text-left rounded-md border px-3 py-2 transition ${selected ? "border-green-500 bg-green-50 dark:border-green-500/80 dark:bg-green-900/20 shadow-sm" : "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-600"} disabled:opacity-60 disabled:cursor-not-allowed ${focusRingCardClasses}`}
               >
                 <div className="flex items-start justify-between gap-2">
                   <div>

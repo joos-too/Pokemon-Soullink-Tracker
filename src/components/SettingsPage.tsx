@@ -274,7 +274,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                 <button
                   type="button"
                   onClick={onRequestDeleteTracker}
-                  className="text-red-600 hover:text-red-800 p-2"
+                  className={`text-red-600 hover:text-red-800 p-2 rounded-full ${focusRingClasses}`}
                   title={t("settings.header.deleteTrackerTitle")}
                 >
                   <FiTrash2 size={24} />
@@ -662,7 +662,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                     <button
                       type="submit"
                       disabled={inviteLoading}
-                      className="inline-flex items-center justify-center rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700 disabled:opacity-60"
+                      className={`inline-flex items-center justify-center rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700 disabled:opacity-60 ${focusRingClasses}`}
                     >
                       {inviteLoading
                         ? t("settings.members.inviteButton.loading")

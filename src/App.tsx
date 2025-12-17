@@ -55,6 +55,7 @@ import DarkModeToggle, {
 import HomePage from "@/src/components/HomePage";
 import CreateTrackerModal from "@/src/components/CreateTrackerModal";
 import DeleteTrackerModal from "@/src/components/DeleteTrackerModal";
+import { focusRingClasses } from "@/src/styles/focusRing";
 import {
   Navigate,
   Route,
@@ -2018,7 +2019,7 @@ const App: React.FC = () => {
               <DarkModeToggle />
               <button
                 onClick={handleNavigateHome}
-                className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white focus:outline-none"
+                className={`p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white ${focusRingClasses}`}
                 aria-label={t("common.overview")}
                 title={t("common.overview")}
               >
@@ -2027,7 +2028,7 @@ const App: React.FC = () => {
               {!isReadOnly && (
                 <button
                   onClick={handleReset}
-                  className="p-2 rounded-full focus:outline-none hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white"
+                  className={`p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white ${focusRingClasses}`}
                   aria-label={t("tracker.actions.resetRun")}
                   title={t("tracker.actions.resetRun")}
                 >
@@ -2037,7 +2038,7 @@ const App: React.FC = () => {
               {(!isReadOnly || isGuest) && (
                 <button
                   onClick={openSettingsPanel}
-                  className="p-2 rounded-full focus:outline-none hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white"
+                  className={`p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white ${focusRingClasses}`}
                   aria-label={t("tracker.actions.settings")}
                   title={t("tracker.actions.settings")}
                 >
@@ -2047,7 +2048,7 @@ const App: React.FC = () => {
             </div>
             {/* Mobile burger (<xl) */}
             <button
-              className="xl:hidden p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 focus:outline-none"
+              className={`xl:hidden p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 ${focusRingClasses}`}
               aria-label={t("tracker.menu.open")}
               aria-expanded={mobileMenuOpen}
               onClick={() => setMobileMenuOpen((v) => !v)}
@@ -2077,7 +2078,7 @@ const App: React.FC = () => {
               </span>
               <button
                 onClick={() => setMobileMenuOpen(false)}
-                className="p-1 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200"
+                className={`p-1 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 ${focusRingClasses}`}
                 aria-label={t("tracker.menu.close")}
               >
                 ✕
@@ -2090,7 +2091,7 @@ const App: React.FC = () => {
                   setDarkMode(next);
                   setIsDark(next);
                 }}
-                className="w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2"
+                className={`w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2 ${focusRingClasses}`}
                 title={
                   isDark
                     ? t("tracker.menu.lightMode")
@@ -2104,7 +2105,7 @@ const App: React.FC = () => {
               </button>
               <button
                 onClick={handleNavigateHome}
-                className="w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2"
+                className={`w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2 ${focusRingClasses}`}
                 title={t("common.overview")}
               >
                 <FiHome size={18} /> {t("tracker.menu.overview")}
@@ -2112,7 +2113,7 @@ const App: React.FC = () => {
               {user && (
                 <button
                   onClick={handleOpenRulesetEditor}
-                  className="w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2"
+                  className={`w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2 ${focusRingClasses}`}
                   title={t("tracker.menu.rulesets")}
                 >
                   <FiEdit size={18} /> {t("tracker.menu.rulesets")}
@@ -2124,7 +2125,7 @@ const App: React.FC = () => {
                     setMobileMenuOpen(false);
                     handleReset();
                   }}
-                  className="w-full text-left px-2 py-2 rounded-md text-sm inline-flex items-center gap-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  className={`w-full text-left px-2 py-2 rounded-md text-sm inline-flex items-center gap-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 ${focusRingClasses}`}
                   title={t("tracker.menu.resetRun")}
                 >
                   <FiRotateCw size={18} /> {t("tracker.menu.resetRun")}
@@ -2136,7 +2137,7 @@ const App: React.FC = () => {
                     setMobileMenuOpen(false);
                     openSettingsPanel();
                   }}
-                  className="w-full text-left px-2 py-2 rounded-md text-sm inline-flex items-center gap-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  className={`w-full text-left px-2 py-2 rounded-md text-sm inline-flex items-center gap-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 ${focusRingClasses}`}
                   title={t("tracker.menu.settings")}
                 >
                   <FiSettings size={18} /> {t("tracker.menu.settings")}
@@ -2327,9 +2328,6 @@ const App: React.FC = () => {
               )}
               {currentRuleset?.isPreset ? (
                 <div className="space-y-2">
-                  <p className="text-xs uppercase tracking-[0.2em] text-gray-600 dark:text-gray-400">
-                    {t("settings.rulesets.saveModal.description")}
-                  </p>
                   <button
                     type="button"
                     onClick={() => handleSaveRulesetFromTracker("copy")}

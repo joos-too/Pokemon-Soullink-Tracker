@@ -242,6 +242,9 @@ export const en = {
     deleting: "Deleting…",
     deleteSuccess: "Ruleset deleted.",
     deleteError: "Ruleset could not be deleted.",
+    deleteConfirmTitle: "Delete ruleset?",
+    deleteConfirmBody:
+      "Do you really want to delete “{{name}}”? This action cannot be undone.",
     tagsTitle: "Tags",
     tagsHint: "Use tags to find rule sets faster.",
     tagsEmpty: "No tags yet.",

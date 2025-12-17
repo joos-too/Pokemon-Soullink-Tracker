@@ -15,6 +15,7 @@ import {
   normalizeLanguage,
   type SupportedLanguage,
 } from "@/src/utils/language";
+import { focusRingClasses } from "@/src/styles/focusRing";
 
 interface SelectEvolveModalProps {
   isOpen: boolean;
@@ -315,7 +316,7 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
           </h2>
           <button
             onClick={onClose}
-            className="text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
+            className={`text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 ${focusRingClasses}`}
             aria-label={t("common.close")}
           >
             <svg
@@ -346,7 +347,7 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
                   return (
                     <label
                       key={`evolve-player-${index}`}
-                      className="flex items-center gap-2 mt-3 cursor-pointer dark:text-gray-200"
+                      className={`flex items-center gap-2 mt-3 cursor-pointer dark:text-gray-200 rounded-md px-2 py-1 ${focusRingClasses}`}
                     >
                       <input
                         type="radio"
@@ -354,6 +355,7 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
                         value={index}
                         checked={selectedPlayer === index}
                         onChange={() => setSelectedPlayer(index)}
+                        tabIndex={0}
                         className="h-4 w-4 accent-green-600"
                       />
                       <div>
@@ -405,7 +407,7 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
                       return (
                         <label
                           key={ev.id}
-                          className="flex items-center gap-3 cursor-pointer dark:text-gray-200"
+                          className={`flex items-center gap-3 cursor-pointer dark:text-gray-200 rounded-md px-2 py-1 ${focusRingClasses}`}
                         >
                           <input
                             type="radio"
@@ -413,6 +415,7 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
                             value={ev.id}
                             checked={selectedEvoId === ev.id}
                             onChange={() => setSelectedEvoId(ev.id)}
+                            tabIndex={0}
                             className="h-4 w-4 accent-green-600"
                           />
                           <img
@@ -444,14 +447,14 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700"
+              className={`px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 ${focusRingClasses}`}
             >
               {t("tracker.evolveModal.buttonCancel")}
             </button>
             <button
               type="submit"
               disabled={selectedPlayer === null || selectedEvoId === null}
-              className={`px-4 py-2 rounded-md font-semibold shadow ${selectedEvoId ? "bg-green-600 text-white hover:bg-green-700" : "bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed"}`}
+              className={`px-4 py-2 rounded-md font-semibold shadow ${selectedEvoId ? "bg-green-600 text-white hover:bg-green-700" : "bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed"} ${focusRingClasses}`}
             >
               {t("tracker.evolveModal.buttonConfirm")}
             </button>

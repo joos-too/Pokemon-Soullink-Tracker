@@ -13,6 +13,7 @@ import { useTranslation } from "react-i18next";
 import {
   focusRingClasses,
   focusRingInputClasses,
+  focusRingRedClasses,
 } from "@/src/styles/focusRing";
 import { DEFAULT_RULES, PREDEFINED_RULESET_TAGS } from "@/src/data/rulesets";
 import { sanitizeTags } from "@/src/services/init";
@@ -44,6 +45,7 @@ const RulesetEditorPage: React.FC<RulesetEditorPageProps> = ({
   const [tagInput, setTagInput] = useState("");
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -150,6 +152,11 @@ const RulesetEditorPage: React.FC<RulesetEditorPageProps> = ({
     } finally {
       setDeleting(false);
     }
+  };
+
+  const handleDeleteConfirmed = async () => {
+    setConfirmDeleteOpen(false);
+    await handleDelete();
   };
 
   const handleStartNew = (template?: Ruleset) => {
@@ -310,7 +317,10 @@ const RulesetEditorPage: React.FC<RulesetEditorPageProps> = ({
                   </button>
                 )}
               </div>
-              <div className="space-y-2 max-h-[40vh] overflow-y-auto pr-1 custom-scrollbar">
+              <div
+                tabIndex={-1}
+                className="space-y-2 max-h-[40vh] overflow-y-auto pr-1 py-1 custom-scrollbar focus-visible:outline-none"
+              >
                 {draftRules.map((rule, index) => (
                   <div
                     key={`${index}-${selectedId}`}
@@ -397,7 +407,7 @@ const RulesetEditorPage: React.FC<RulesetEditorPageProps> = ({
                   />
                   <button
                     type="submit"
-                    className="inline-flex items-center gap-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-700"
+                    className={`inline-flex items-center gap-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-700 ${focusRingClasses}`}
                   >
                     <FiPlus /> {t("rulesetEditor.addTag")}
                   </button>
@@ -452,9 +462,9 @@ const RulesetEditorPage: React.FC<RulesetEditorPageProps> = ({
                   selectedRuleset.id !== "new" && (
                     <button
                       type="button"
-                      onClick={handleDelete}
+                      onClick={() => setConfirmDeleteOpen(true)}
                       disabled={deleting}
-                      className="inline-flex items-center gap-2 rounded-md border border-red-300 bg-white dark:bg-gray-800 dark:border-red-700 px-4 py-2 text-sm font-semibold text-red-700 dark:text-red-200 hover:bg-red-50 dark:hover:bg-red-900/30 disabled:opacity-60"
+                      className={`inline-flex items-center gap-2 rounded-md border border-red-300 bg-white dark:bg-gray-800 dark:border-red-700 px-4 py-2 text-sm font-semibold text-red-700 dark:text-red-200 hover:bg-red-50 dark:hover:bg-red-900/30 disabled:opacity-60 ${focusRingRedClasses}`}
                     >
                       <FiTrash2 />{" "}
                       {deleting
@@ -467,7 +477,7 @@ const RulesetEditorPage: React.FC<RulesetEditorPageProps> = ({
                     type="button"
                     onClick={handleSave}
                     disabled={saving}
-                    className="inline-flex items-center gap-2 rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-700 disabled:opacity-60"
+                    className={`inline-flex items-center gap-2 rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-700 disabled:opacity-60 ${focusRingClasses}`}
                   >
                     <FiSave />
                     {saving
@@ -480,6 +490,51 @@ const RulesetEditorPage: React.FC<RulesetEditorPageProps> = ({
           </section>
         </div>
       </div>
+
+      {confirmDeleteOpen && selectedRuleset && !selectedRuleset.isPreset && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-3">
+          <div className="w-full max-w-md rounded-lg bg-white p-6 shadow-xl dark:bg-gray-800">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                {t("rulesetEditor.deleteConfirmTitle")}
+              </h2>
+              <button
+                type="button"
+                onClick={() => setConfirmDeleteOpen(false)}
+                className={`text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 rounded-full p-1.5 text-xl ${focusRingClasses}`}
+                aria-label={t("common.close")}
+              >
+                ×
+              </button>
+            </div>
+            <p className="text-sm text-gray-700 dark:text-gray-300">
+              {t("rulesetEditor.deleteConfirmBody", {
+                name: selectedRuleset.name || t("rulesetEditor.name"),
+              })}
+            </p>
+            <div className="mt-4 flex flex-wrap justify-end gap-2">
+              <button
+                type="button"
+                onClick={() => setConfirmDeleteOpen(false)}
+                className={`inline-flex items-center gap-2 rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700 ${focusRingClasses}`}
+              >
+                {t("common.cancel")}
+              </button>
+              <button
+                type="button"
+                onClick={handleDeleteConfirmed}
+                disabled={deleting}
+                className={`inline-flex items-center gap-2 rounded-md border border-red-300 bg-white dark:bg-gray-800 dark:border-red-700 px-3 py-2 text-sm font-semibold text-red-700 dark:text-red-200 hover:bg-red-50 dark:hover:bg-red-900/30 disabled:opacity-60 ${focusRingRedClasses}`}
+              >
+                <FiTrash2 />
+                {deleting
+                  ? t("rulesetEditor.deleting")
+                  : t("rulesetEditor.delete")}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
