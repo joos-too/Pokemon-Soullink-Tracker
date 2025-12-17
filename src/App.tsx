@@ -6,14 +6,11 @@ import React, {
   useState,
 } from "react";
 import {
-  FiAlertTriangle,
-  FiCopy,
   FiEdit,
   FiHome,
   FiMenu,
   FiMoon,
   FiRotateCw,
-  FiSave,
   FiSettings,
   FiSun,
 } from "react-icons/fi";
@@ -40,6 +37,7 @@ import InfoPanel from "@/src/components/InfoPanel";
 import Graveyard from "@/src/components/Graveyard";
 import ClearedRoutes from "@/src/components/ClearedRoutes";
 import AddLostPokemonModal from "@/src/components/AddLostPokemonModal";
+import RulesetSaveModal from "@/src/components/RulesetSaveModal";
 import { getGenerationSpritePath } from "@/src/services/sprites";
 import SelectLossModal from "@/src/components/SelectLossModal";
 import LoginPage from "@/src/components/LoginPage";
@@ -2287,125 +2285,19 @@ const App: React.FC = () => {
         error={deleteTrackerError}
       />
       {showRulesetSaveModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4">
-          <div className="w-full max-w-lg rounded-xl bg-white dark:bg-gray-900 shadow-2xl border border-gray-200 dark:border-gray-700">
-            <div className="flex items-center justify-between px-5 py-4 border-b border-gray-200 dark:border-gray-700">
-              <div>
-                <p className="text-xs uppercase tracking-[0.3em] text-green-600">
-                  {t("settings.rulesets.label")}
-                </p>
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                  {rulesetSaveReason === "switch"
-                    ? t("settings.rulesets.saveModal.switchTitle")
-                    : t("settings.rulesets.saveModal.title")}
-                </h2>
-              </div>
-              <button
-                type="button"
-                onClick={closeRulesetSaveModal}
-                className="rounded-full p-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
-                aria-label={t("settings.rulesets.saveModal.cancel")}
-              >
-                ✕
-              </button>
-            </div>
-            <div className="px-5 py-4 space-y-3">
-              <div className="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-200">
-                <FiAlertTriangle
-                  className="mt-0.5 text-amber-500 shrink-0"
-                  size={18}
-                />
-                <span>
-                  {rulesetSaveReason === "switch"
-                    ? t("settings.rulesets.saveModal.switchBody")
-                    : t("settings.rulesets.saveModal.description")}
-                </span>
-              </div>
-              {rulesetSaveError && (
-                <div className="text-sm text-red-600 dark:text-red-400">
-                  {rulesetSaveError}
-                </div>
-              )}
-              {currentRuleset?.isPreset ? (
-                <div className="space-y-2">
-                  <button
-                    type="button"
-                    onClick={() => handleSaveRulesetFromTracker("copy")}
-                    disabled={rulesetSaveLoading}
-                    className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-green-600 hover:bg-green-700 text-white px-3 py-2 text-sm font-semibold shadow disabled:opacity-60"
-                  >
-                    <FiCopy />
-                    {rulesetSaveLoading
-                      ? t("settings.rulesets.saveModal.saving")
-                      : t("settings.rulesets.saveModal.copyButton", {
-                          name: rulesetCopyName,
-                        })}
-                  </button>
-                </div>
-              ) : hasUserRulesetWithSameId ? (
-                <div className="space-y-2">
-                  <p className="text-xs uppercase tracking-[0.2em] text-gray-600 dark:text-gray-400">
-                    {t("settings.rulesets.saveModal.overwrite")}
-                  </p>
-                  <div className="flex flex-col sm:flex-row gap-2">
-                    <button
-                      type="button"
-                      onClick={() => handleSaveRulesetFromTracker("overwrite")}
-                      disabled={rulesetSaveLoading}
-                      className="grow inline-flex items-center justify-center gap-2 rounded-md bg-green-600 hover:bg-green-700 text-white px-3 py-2 text-sm font-semibold shadow disabled:opacity-60"
-                    >
-                      <FiSave />
-                      {rulesetSaveLoading
-                        ? t("settings.rulesets.saveModal.saving")
-                        : t("settings.rulesets.saveModal.overwriteButton", {
-                            name: rulesetOverwriteName,
-                          })}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleSaveRulesetFromTracker("copy")}
-                      disabled={rulesetSaveLoading}
-                      className="grow inline-flex items-center justify-center gap-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100 px-3 py-2 text-sm font-semibold shadow-sm disabled:opacity-60"
-                    >
-                      <FiCopy />
-                      {t("settings.rulesets.saveModal.copyButton", {
-                        name: rulesetCopyName,
-                      })}
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => handleSaveRulesetFromTracker("overwrite")}
-                  disabled={rulesetSaveLoading}
-                  className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-green-600 hover:bg-green-700 text-white px-3 py-2 text-sm font-semibold shadow disabled:opacity-60"
-                >
-                  <FiSave />
-                  {rulesetSaveLoading
-                    ? t("settings.rulesets.saveModal.saving")
-                    : t("settings.rulesets.saveModal.primary")}
-                </button>
-              )}
-              {rulesetSaveReason === "switch" && (
-                <button
-                  type="button"
-                  onClick={handleSkipRulesetSave}
-                  className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 px-3 py-2 text-sm font-semibold shadow-sm"
-                >
-                  {t("settings.rulesets.saveModal.skip")}
-                </button>
-              )}
-              <button
-                type="button"
-                onClick={closeRulesetSaveModal}
-                className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-800 dark:text-gray-200 px-3 py-2 text-sm font-semibold shadow-sm"
-              >
-                {t("settings.rulesets.saveModal.cancel")}
-              </button>
-            </div>
-          </div>
-        </div>
+        <RulesetSaveModal
+          isOpen={showRulesetSaveModal}
+          onClose={closeRulesetSaveModal}
+          onSkip={handleSkipRulesetSave}
+          onSave={handleSaveRulesetFromTracker}
+          isLoading={rulesetSaveLoading}
+          error={rulesetSaveError}
+          reason={rulesetSaveReason}
+          currentRuleset={currentRuleset}
+          hasUserRulesetWithSameId={hasUserRulesetWithSameId}
+          rulesetCopyName={rulesetCopyName}
+          rulesetOverwriteName={rulesetOverwriteName}
+        />
       )}
       <Routes>
         <Route

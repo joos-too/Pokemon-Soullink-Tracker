@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useId, useMemo, useState } from "react";
 import {
   MAX_PLAYER_COUNT,
   MIN_PLAYER_COUNT,
@@ -28,12 +28,14 @@ import {
 import {
   focusRingClasses,
   focusRingInputClasses,
+  focusRingRedClasses,
 } from "@/src/styles/focusRing";
 import ToggleSwitch from "@/src/components/ToggleSwitch";
 import Tooltip from "./Tooltip";
 import { useTranslation } from "react-i18next";
 import { getLocalizedRivalEntry } from "@/src/services/gameLocalization";
 import RulesetPicker from "./RulesetPicker";
+import { useFocusTrap } from "@/src/hooks/useFocusTrap";
 
 type InviteRoleOption = "editor" | "guest";
 
@@ -117,6 +119,10 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
   const [memberPendingRemoval, setMemberPendingRemoval] =
     useState<TrackerMember | null>(null);
   const [showRulesetPicker, setShowRulesetPicker] = useState(false);
+  const { containerRef: removeModalRef } = useFocusTrap(
+    Boolean(memberPendingRemoval),
+  );
+  const removeModalTitleId = useId();
   const playerCount = Math.min(
     Math.max(playerNames.length, MIN_PLAYER_COUNT),
     MAX_PLAYER_COUNT,
@@ -274,7 +280,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                 <button
                   type="button"
                   onClick={onRequestDeleteTracker}
-                  className={`text-red-600 hover:text-red-800 p-2 rounded-full ${focusRingClasses}`}
+                  className={`text-red-600 hover:text-red-800 p-2 rounded-full ${focusRingRedClasses}`}
                   title={t("settings.header.deleteTrackerTitle")}
                 >
                   <FiTrash2 size={24} />
@@ -765,7 +771,14 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
       </div>
       {memberPendingRemoval && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
-          <div className="w-full max-w-md rounded-xl bg-white dark:bg-gray-800 shadow-2xl border border-gray-200 dark:border-gray-700">
+          <div
+            ref={removeModalRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={removeModalTitleId}
+            tabIndex={-1}
+            className="w-full max-w-md rounded-xl bg-white dark:bg-gray-800 shadow-2xl border border-gray-200 dark:border-gray-700"
+          >
             <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 px-5 py-4">
               <div>
                 <p className="text-xs uppercase tracking-[0.3em] text-red-500">
@@ -773,7 +786,10 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                     ? t("settings.removeModal.badgeSelf")
                     : t("settings.removeModal.badgeMember")}
                 </p>
-                <h2 className="text-xl font-semibold mt-1 text-gray-900 dark:text-gray-100">
+                <h2
+                  id={removeModalTitleId}
+                  className="text-xl font-semibold mt-1 text-gray-900 dark:text-gray-100"
+                >
                   {pendingRemovalIsSelf
                     ? trackerTitle
                     : memberPendingRemoval.email}
@@ -782,7 +798,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
               <button
                 type="button"
                 onClick={handleCancelRemoveMember}
-                className="rounded-full p-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                className={`text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 rounded-md ${focusRingClasses}`}
                 aria-label={t("common.close")}
                 disabled={removingMemberId === memberPendingRemoval.uid}
               >

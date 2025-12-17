@@ -1,5 +1,6 @@
-@config "./tailwind.config.ts";
 @import "tailwindcss";
+
+@config "./tailwind.config.ts";
 
 @layer base {
   button,
@@ -63,4 +64,11 @@ input[type="number"] {
 
 .dark .custom-scrollbar {
   scrollbar-color: #4a5568 transparent;
+}
+
+/* Only show toggle ring for keyboard focus */
+.focus-ring-toggle input:focus-visible + span {
+  outline: 2px solid #22c55e;
+  outline-offset: 3px;
+  border-radius: 9999px;
 }

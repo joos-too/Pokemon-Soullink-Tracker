@@ -25,9 +25,9 @@ const ToggleSwitch: React.FC<ToggleSwitchProps> = ({
   return (
     <label
       htmlFor={id}
-      className={`inline-flex items-center rounded-full p-1 ${
+      className={`focus-ring-toggle inline-flex items-center rounded-full p-1 ${
         disabled ? "cursor-not-allowed" : "cursor-pointer"
-      } focus-within:outline-none focus-within:ring-2 focus-within:ring-green-500 focus-within:ring-offset-2 focus-within:ring-offset-white dark:focus-within:ring-offset-gray-900`}
+      }`}
     >
       <input
         type="checkbox"

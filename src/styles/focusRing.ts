@@ -15,3 +15,6 @@ export const focusRingCardClasses =
 
 export const focusRingRedClasses =
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-gray-800";
+
+export const focusRingTightClasses =
+  "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-green-500 focus-visible:ring-offset-0";

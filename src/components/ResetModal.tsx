@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useId } from "react";
 import { useTranslation } from "react-i18next";
+import { useFocusTrap } from "@/src/hooks/useFocusTrap";
 
 interface ResetModalProps {
   isOpen: boolean;
@@ -13,19 +14,28 @@ const ResetModal: React.FC<ResetModalProps> = ({
   onConfirm,
 }) => {
   const { t } = useTranslation();
+  const { containerRef } = useFocusTrap(isOpen);
+  const titleId = useId();
 
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md p-6">
+      <div
+        ref={containerRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        tabIndex={-1}
+        className="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md p-6"
+      >
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold dark:text-gray-100">
+          <h2 id={titleId} className="text-xl font-bold dark:text-gray-100">
             {t("modals.reset.title")}
           </h2>
           <button
             onClick={onClose}
-            className="text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 text-2xl"
+            className={`text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 text-2xl rounded-md ${focusRingClasses}`}
             aria-label={t("common.close")}
           >
             ×

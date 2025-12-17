@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useId, useMemo, useRef, useState } from "react";
 import { EVOLUTIONS_DE, EVOLUTIONS_EN } from "@/src/data/pokemon-evolutions";
 import { POKEMON_ID_TO_GENERATION } from "@/src/data/pokemon-map";
 import {
@@ -16,6 +16,7 @@ import {
   type SupportedLanguage,
 } from "@/src/utils/language";
 import { focusRingClasses } from "@/src/styles/focusRing";
+import { useFocusTrap } from "@/src/hooks/useFocusTrap";
 
 interface SelectEvolveModalProps {
   isOpen: boolean;
@@ -203,6 +204,10 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
     () => normalizeLanguage(i18n.language),
     [i18n.language],
   );
+  const playerRadioRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const evoRadioRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const { containerRef } = useFocusTrap(isOpen);
+  const titleId = useId();
 
   useEffect(() => {
     if (isOpen) {
@@ -298,6 +303,23 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
 
   if (!isOpen) return null;
 
+  const handleRadioTabNavigation = (
+    event: React.KeyboardEvent<HTMLInputElement>,
+    index: number,
+    refs: React.MutableRefObject<(HTMLInputElement | null)[]>,
+  ) => {
+    if (event.key !== "Tab") return;
+    const nodes = refs.current.filter((el): el is HTMLInputElement =>
+      Boolean(el),
+    );
+    if (!nodes.length) return;
+    const currentIndex = Math.min(Math.max(index, 0), nodes.length - 1);
+    const nextIndex = currentIndex + (event.shiftKey ? -1 : 1);
+    if (nextIndex < 0 || nextIndex >= nodes.length) return;
+    event.preventDefault();
+    nodes[nextIndex]?.focus({ preventScroll: true });
+  };
+
   const handleConfirm = (e: React.FormEvent) => {
     e.preventDefault();
     if (selectedPlayer === null || selectedEvoId === null) return;
@@ -308,15 +330,22 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       {/* modal shell: limit overall height and hide overflow so inner area can scroll */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md max-h-[80vh] overflow-hidden">
+      <div
+        ref={containerRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        tabIndex={-1}
+        className="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md max-h-[80vh] overflow-hidden"
+      >
         {/* header */}
         <div className="px-6 py-4 flex justify-between items-center border-b border-gray-100 dark:border-gray-700">
-          <h2 className="text-lg font-bold dark:text-gray-100">
+          <h2 id={titleId} className="text-lg font-bold dark:text-gray-100">
             {t("tracker.evolveModal.title")}
           </h2>
           <button
             onClick={onClose}
-            className={`text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 ${focusRingClasses}`}
+            className={`text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 rounded-md ${focusRingClasses}`}
             aria-label={t("common.close")}
           >
             <svg
@@ -338,7 +367,7 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
 
         <form onSubmit={handleConfirm} className="px-6 pb-6">
           {/* scrollable content area; keeps header and footer visible */}
-          <div className="overflow-auto max-h-[60vh] pr-2 pt-4">
+          <div className="overflow-auto max-h-[60vh] pr-2 pt-4" tabIndex={-1}>
             {selectedPlayer === null && (
               <div className="mb-4 text-sm text-gray-700 dark:text-gray-300">
                 <div className="mb-2">{t("tracker.evolveModal.prompt")}</div>
@@ -356,6 +385,16 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
                         checked={selectedPlayer === index}
                         onChange={() => setSelectedPlayer(index)}
                         tabIndex={0}
+                        ref={(el) => {
+                          playerRadioRefs.current[index] = el;
+                        }}
+                        onKeyDown={(event) =>
+                          handleRadioTabNavigation(
+                            event,
+                            index,
+                            playerRadioRefs,
+                          )
+                        }
                         className="h-4 w-4 accent-green-600"
                       />
                       <div>
@@ -393,7 +432,7 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
 
                 {!loading && availableEvos && availableEvos.length > 0 && (
                   <div className="space-y-3">
-                    {availableEvos.map((ev) => {
+                    {availableEvos.map((ev, idx) => {
                       const locationPrefix = t(
                         "tracker.evolveModal.locationPrefix",
                       );
@@ -416,6 +455,12 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
                             checked={selectedEvoId === ev.id}
                             onChange={() => setSelectedEvoId(ev.id)}
                             tabIndex={0}
+                            ref={(el) => {
+                              evoRadioRefs.current[idx] = el;
+                            }}
+                            onKeyDown={(event) =>
+                              handleRadioTabNavigation(event, idx, evoRadioRefs)
+                            }
                             className="h-4 w-4 accent-green-600"
                           />
                           <img

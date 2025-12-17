@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useId, useMemo, useState } from "react";
 import {
   FiArrowLeft,
   FiCopy,
@@ -6,6 +6,7 @@ import {
   FiSave,
   FiTag,
   FiTrash2,
+  FiX,
 } from "react-icons/fi";
 import type { Ruleset } from "@/types";
 import type { SaveRulesetPayload } from "@/src/services/rulesets";
@@ -18,6 +19,7 @@ import {
 import { DEFAULT_RULES, PREDEFINED_RULESET_TAGS } from "@/src/data/rulesets";
 import { sanitizeTags } from "@/src/services/init";
 import RulesetPicker from "./RulesetPicker";
+import { useFocusTrap } from "@/src/hooks/useFocusTrap";
 
 interface RulesetEditorPageProps {
   rulesets: Ruleset[];
@@ -48,6 +50,8 @@ const RulesetEditorPage: React.FC<RulesetEditorPageProps> = ({
   const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const { containerRef: confirmModalRef } = useFocusTrap(confirmDeleteOpen);
+  const confirmModalTitleId = useId();
 
   const selectedRuleset = useMemo(
     () => rulesets.find((entry) => entry.id === selectedId),
@@ -493,18 +497,28 @@ const RulesetEditorPage: React.FC<RulesetEditorPageProps> = ({
 
       {confirmDeleteOpen && selectedRuleset && !selectedRuleset.isPreset && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-3">
-          <div className="w-full max-w-md rounded-lg bg-white p-6 shadow-xl dark:bg-gray-800">
+          <div
+            ref={confirmModalRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={confirmModalTitleId}
+            tabIndex={-1}
+            className="w-full max-w-md rounded-lg bg-white p-6 shadow-xl dark:bg-gray-800"
+          >
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+              <h2
+                id={confirmModalTitleId}
+                className="text-lg font-semibold text-gray-900 dark:text-gray-100"
+              >
                 {t("rulesetEditor.deleteConfirmTitle")}
               </h2>
               <button
                 type="button"
                 onClick={() => setConfirmDeleteOpen(false)}
-                className={`text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 rounded-full p-1.5 text-xl ${focusRingClasses}`}
+                className={`text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 rounded-md ${focusRingClasses}`}
                 aria-label={t("common.close")}
               >
-                ×
+                <FiX size={20} />
               </button>
             </div>
             <p className="text-sm text-gray-700 dark:text-gray-300">

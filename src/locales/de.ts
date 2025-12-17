@@ -292,7 +292,7 @@ export const de = {
   },
   graveyard: {
     title: "Tote / verlorene Pokémon",
-    manualAddTitle: "Paar manuell hinzufügen",
+    manualAddTitle: "Verlorene Pokémon hinzufügen",
     areaLabel: "Gebiet: {{route}}",
     memberTitle: "{{name}}'s {{pokemon}}",
     nicknameLabel: "Spitzname: {{nickname}}",

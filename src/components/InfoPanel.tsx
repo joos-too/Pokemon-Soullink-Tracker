@@ -33,6 +33,12 @@ import {
   canToggleRivalAtIndex,
   formatBestLabel,
 } from "@/src/utils/bestRun";
+import {
+  focusRingClasses,
+  focusRingInputClasses,
+  focusRingTightClasses,
+  focusRingRedClasses,
+} from "@/src/styles/focusRing";
 
 interface InfoPanelProps {
   playerNames: string[];
@@ -306,7 +312,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
   };
 
   const renderLevelCapList = (wrapperClasses: string) => (
-    <div className={wrapperClasses}>
+    <div className={wrapperClasses} tabIndex={-1}>
       {levelCaps.map((cap, index) => {
         const arenaLabel = getLocalizedArenaLabel(
           t,
@@ -360,7 +366,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
   );
 
   const renderRivalCapList = (wrapperClasses: string) => (
-    <div className={wrapperClasses}>
+    <div className={wrapperClasses} tabIndex={-1}>
       {rivalCaps.map((rc, index) => (
         <div key={rc.id}>
           {rivalCensorEnabled && !rc.revealed ? (
@@ -584,7 +590,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                     String(Math.max(0, value - 1)),
                                   );
                                 }}
-                                className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300"
+                                className={`p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300 ${focusRingTightClasses}`}
                                 aria-label={t(
                                   "tracker.infoPanel.itemsDecrease",
                                 )}
@@ -602,7 +608,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                     e.target.value,
                                   );
                                 }}
-                                className="w-16 text-right bg-transparent border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-sm"
+                                className={`w-16 text-right bg-transparent border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-sm ${focusRingInputClasses}`}
                               />
                               <button
                                 type="button"
@@ -613,7 +619,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                     String(value + 1),
                                   );
                                 }}
-                                className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300"
+                                className={`p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300 ${focusRingTightClasses}`}
                                 aria-label={t(
                                   "tracker.infoPanel.itemsIncrease",
                                 )}
@@ -648,7 +654,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
             </h2>
             <button
               onClick={toggleCapsView}
-              className="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-full text-white/70 hover:text-white hover:bg-black/20 ring-2 ring-white/25"
+              className={`absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-full text-white/70 hover:text-white hover:bg-black/20 ring-2 ring-white/25 ${focusRingTightClasses}`}
               title={t("tracker.infoPanel.rivalCapsLabel.changeView")}
             >
               <FiRefreshCw
@@ -813,7 +819,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
               <button
                 type="button"
                 onClick={startEditRules}
-                className="px-2 py-1 rounded-md text-xs font-semibold inline-flex items-center gap-1 shadow bg-green-600 text-white hover:bg-green-700"
+                className={`px-2 py-1 rounded-md text-xs font-semibold inline-flex items-center gap-1 shadow bg-green-600 text-white hover:bg-green-700 ${focusRingClasses}`}
                 title={t("tracker.infoPanel.editRules")}
               >
                 <FiEdit size={14} /> {t("tracker.infoPanel.editRules")}
@@ -824,7 +830,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                 <button
                   type="button"
                   onClick={cancelEditRules}
-                  className="px-2 py-1 rounded-md text-xs font-semibold bg-red-600 text-white hover:bg-red-700 inline-flex items-center gap-1 shadow"
+                  className={`px-2 py-1 rounded-md text-xs font-semibold bg-red-600 text-white hover:bg-red-700 inline-flex items-center gap-1 shadow ${focusRingRedClasses}`}
                   title={t("tracker.infoPanel.cancelRules")}
                 >
                   <FiX size={14} /> {t("tracker.infoPanel.cancelRules")}
@@ -832,7 +838,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                 <button
                   type="button"
                   onClick={saveEditRules}
-                  className="px-2 py-1 rounded-md text-xs font-semibold inline-flex items-center gap-1 shadow bg-green-600 text-white hover:bg-green-700"
+                  className={`px-2 py-1 rounded-md text-xs font-semibold inline-flex items-center gap-1 shadow bg-green-600 text-white hover:bg-green-700 ${focusRingClasses}`}
                   title={t("tracker.infoPanel.saveRules")}
                 >
                   <FiSave size={14} /> {t("tracker.infoPanel.saveRules")}
@@ -867,7 +873,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                   placeholder={t("tracker.infoPanel.rulePlaceholder", {
                     index: index + 1,
                   })}
-                  className="grow px-2 py-1.5 border border-gray-300 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+                  className={`grow px-2 py-1.5 border border-gray-300 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
                 />
               </div>
             ))}
@@ -876,7 +882,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                 <button
                   type="button"
                   onClick={addNewRule}
-                  className="inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-semibold border border-gray-300 dark:border-gray-500 text-gray-800 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700"
+                  className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-semibold border border-gray-300 dark:border-gray-500 text-gray-800 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 ${focusRingClasses}`}
                   title={t("tracker.infoPanel.newRule")}
                 >
                   <FiPlus size={14} /> {t("tracker.infoPanel.newRule")}
