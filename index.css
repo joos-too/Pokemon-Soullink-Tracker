@@ -2,6 +2,14 @@
 
 @config "./tailwind.config.ts";
 
+@font-face {
+  font-family: "Press Start 2P";
+  src:
+    url("/dist/fonts/press-start-2p.woff2") format("woff2"),
+    url("/public/fonts/press-start-2p.woff2") format("woff2");
+  font-display: swap;
+}
+
 @layer base {
   button,
   [type="button"],

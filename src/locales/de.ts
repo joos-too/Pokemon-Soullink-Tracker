@@ -208,7 +208,7 @@ export const de = {
       prompt: "Welches Pokémon soll entwickelt werden?",
       evolveQuestion: "{{name}} entwickeln?",
       loading: "Lade Entwicklungen…",
-      noneAvailable: "Für dieses Pokémon sind keine Entwicklungen verfügbar.",
+      noneAvailable: "Für diese Pokémon sind keine Entwicklungen verfügbar.",
       methodUnknown: "Bedingung unbekannt",
       locationPrefix: "Level-Up - Ort: ",
       buttonCancel: "Abbrechen",

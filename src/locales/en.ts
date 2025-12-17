@@ -206,7 +206,7 @@ export const en = {
       prompt: "Which Pokémon should evolve?",
       evolveQuestion: "Evolve {{name}}?",
       loading: "Loading evolutions…",
-      noneAvailable: "No evolutions available for this Pokémon.",
+      noneAvailable: "No evolutions available for these Pokémon.",
       methodUnknown: "Condition unknown",
       locationPrefix: "Level-Up - Location: ",
       buttonCancel: "Cancel",

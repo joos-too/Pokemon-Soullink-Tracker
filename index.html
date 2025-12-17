@@ -5,11 +5,12 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pokémon Soullink Tracker</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@400;700&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      href="/fonts/press-start-2p.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
     />
     <style>
       body {
@@ -19,6 +20,24 @@
         font-family: "Press Start 2P", cursive;
       }
     </style>
+    <script>
+      // prevent a flash of incorrect theme background
+      (function initTheme() {
+        try {
+          const stored = localStorage.getItem("color-theme");
+          const prefersDark =
+            window.matchMedia &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches;
+          const isDark = stored === "dark" || (!stored && prefersDark);
+          const root = document.documentElement;
+          root.classList.toggle("dark", isDark);
+          const bg = isDark ? "#0f172a" : "#f8fafc";
+          root.style.backgroundColor = bg;
+          // Avoid setting color-scheme here so native form controls (e.g., checkboxes) keep their default look
+          if (document.body) document.body.style.backgroundColor = bg;
+        } catch (e) {}
+      })();
+    </script>
     <link rel="stylesheet" href="/index.css" />
   </head>
   <body>

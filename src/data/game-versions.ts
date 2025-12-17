@@ -716,7 +716,7 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
     },
     levelCaps: [
       { id: 1, arena: "1. Arena", level: "12/10" },
-      { id: 2, arena: "2. Arena", level: "25/25" },
+      { id: 2, arena: "2. Arena", level: "25" },
       { id: 3, arena: "3. Arena", level: "32/29" },
       { id: 4, arena: "4. Arena", level: "34/31" },
       { id: 5, arena: "5. Arena", level: "37/35" },

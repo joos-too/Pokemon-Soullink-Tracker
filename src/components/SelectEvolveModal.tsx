@@ -184,6 +184,47 @@ function filterMethodsForConstraints(
   return filtered;
 }
 
+function getFilteredEvolutionEntriesForPokemon(
+  pokemonId: number,
+  language: SupportedLanguage,
+  t: TFunction,
+  maxGeneration?: number | null,
+  gameVersionId?: string,
+) {
+  const evoTable = EVOLUTION_TABLES[language] || EVOLUTION_TABLES.de;
+  const evoEntries = evoTable[pokemonId] || [];
+  const generationLimit =
+    typeof maxGeneration === "number" ? maxGeneration : null;
+  const filteredEntries =
+    generationLimit === null
+      ? evoEntries
+      : evoEntries.filter((entry) => {
+          const gen = POKEMON_ID_TO_GENERATION[entry.id];
+          if (typeof gen !== "number") return true;
+          return gen <= generationLimit;
+        });
+  if (filteredEntries.length === 0) return [];
+  const defaultUnknown = t("tracker.evolveModal.methodUnknown");
+  return filteredEntries
+    .map((entry) => {
+      const baseMethods =
+        entry.methods && entry.methods.length
+          ? entry.methods
+          : [defaultUnknown];
+      const methodsForConstraints = filterMethodsForConstraints(
+        entry.id,
+        baseMethods,
+        maxGeneration,
+        gameVersionId,
+      );
+      return {
+        id: entry.id,
+        methods: methodsForConstraints,
+      };
+    })
+    .filter((entry) => entry.methods.length > 0);
+}
+
 const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
   isOpen,
   onClose,
@@ -211,13 +252,47 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
 
   useEffect(() => {
     if (isOpen) {
-      const autoSelectIndex = playerLabels.length === 1 ? 0 : null;
-      setSelectedPlayer(autoSelectIndex);
+      setSelectedPlayer(null);
       setAvailableEvos(null);
       setSelectedEvoId(null);
       setLoading(false);
     }
   }, [isOpen, playerLabels.length, language]);
+
+  const evolvablePlayers = useMemo(() => {
+    if (!pair) return [];
+    return playerLabels
+      .map((label, index) => {
+        const member = pair.members?.[index];
+        const name = member?.name;
+        if (!name) return null;
+        const match = findPokemonIdByName(name);
+        if (!match) return null;
+        const entries = getFilteredEvolutionEntriesForPokemon(
+          match.id,
+          language,
+          t,
+          maxGeneration,
+          gameVersionId,
+        );
+        if (entries.length === 0) return null;
+        return { index, label };
+      })
+      .filter((entry): entry is { index: number; label: string } => !!entry);
+  }, [pair, playerLabels, language, t, maxGeneration, gameVersionId]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    if (
+      selectedPlayer !== null &&
+      evolvablePlayers.some((player) => player.index === selectedPlayer)
+    ) {
+      return;
+    }
+    const autoSelectIndex =
+      evolvablePlayers.length === 1 ? evolvablePlayers[0].index : null;
+    setSelectedPlayer(autoSelectIndex);
+  }, [evolvablePlayers, isOpen, selectedPlayer]);
 
   const currentName = useMemo(() => {
     if (!pair || selectedPlayer === null) return "";
@@ -242,18 +317,13 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
       }
       const numericId = match.id;
 
-      const evoTable = EVOLUTION_TABLES[language] || EVOLUTION_TABLES.de;
-      const evoEntries = evoTable[numericId] || [];
-      const generationLimit =
-        typeof maxGeneration === "number" ? maxGeneration : null;
-      const filteredEntries =
-        generationLimit === null
-          ? evoEntries
-          : evoEntries.filter((entry) => {
-              const gen = POKEMON_ID_TO_GENERATION[entry.id];
-              if (typeof gen !== "number") return true;
-              return gen <= generationLimit;
-            });
+      const filteredEntries = getFilteredEvolutionEntriesForPokemon(
+        numericId,
+        language,
+        t,
+        maxGeneration,
+        gameVersionId,
+      );
       if (filteredEntries.length === 0) {
         setAvailableEvos([]);
         return;
@@ -265,16 +335,10 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
         const infos: EvoInfo[] = await Promise.all(
           filteredEntries.map(async (entry) => {
             const eid = entry.id;
-            const baseMethods =
+            const methodsForConstraints =
               entry.methods && entry.methods.length
                 ? entry.methods
                 : [defaultUnknown];
-            const methodsForConstraints = filterMethodsForConstraints(
-              eid,
-              baseMethods,
-              maxGeneration,
-              gameVersionId,
-            );
             const displayMethods = methodsForConstraints.length
               ? methodsForConstraints
               : [t("tracker.evolveModal.unavailable")];
@@ -292,14 +356,14 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
             }
           }),
         );
-        setAvailableEvos(infos);
+        setAvailableEvos(infos.filter(Boolean));
       } finally {
         setLoading(false);
       }
     }
 
     if (selectedPlayer !== null) loadEvos();
-  }, [selectedPlayer, pair, maxGeneration, gameVersionId, language]);
+  }, [selectedPlayer, pair, maxGeneration, gameVersionId, language, t]);
 
   if (!isOpen) return null;
 
@@ -370,8 +434,15 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
           <div className="overflow-auto max-h-[60vh] pr-2 pt-4" tabIndex={-1}>
             {selectedPlayer === null && (
               <div className="mb-4 text-sm text-gray-700 dark:text-gray-300">
-                <div className="mb-2">{t("tracker.evolveModal.prompt")}</div>
-                {playerLabels.map((label, index) => {
+                {evolvablePlayers.length > 0 && (
+                  <div className="mb-2">{t("tracker.evolveModal.prompt")}</div>
+                )}
+                {evolvablePlayers.length === 0 && (
+                  <div className="text-sm text-gray-600 dark:text-gray-300">
+                    {t("tracker.evolveModal.noneAvailable")}
+                  </div>
+                )}
+                {evolvablePlayers.map(({ index, label }) => {
                   const member = pair?.members?.[index];
                   return (
                     <label
@@ -421,12 +492,6 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
                 {loading && (
                   <div className="text-sm text-gray-500">
                     {t("tracker.evolveModal.loading")}
-                  </div>
-                )}
-
-                {!loading && availableEvos && availableEvos.length === 0 && (
-                  <div className="text-sm text-gray-600 dark:text-gray-300">
-                    {t("tracker.evolveModal.noneAvailable")}
                   </div>
                 )}
 
