@@ -1,4 +1,5 @@
 import React, { useEffect, useId, useMemo, useRef, useState } from "react";
+import { TFunction } from "i18next";
 import { EVOLUTIONS_DE, EVOLUTIONS_EN } from "@/src/data/pokemon-evolutions";
 import { POKEMON_ID_TO_GENERATION } from "@/src/data/pokemon-map";
 import {
