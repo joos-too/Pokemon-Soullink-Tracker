@@ -128,7 +128,7 @@ export const de = {
     tagFilterLabel: "Nach Tag filtern",
     tagFilterAll: "Alle Tags",
     tagFilterSelect: "Nach {{tag}} filtern",
-    filteredEmpty: "Keine Regelsets mit diesem Tag gefunden.",
+    filteredEmpty: "Keine Regeln mit diesem Tag gefunden.",
   },
   tracker: {
     defaultTitle: "Tracker",
@@ -245,7 +245,7 @@ export const de = {
     deleteSuccess: "Regeln gelöscht.",
     deleteError: "Regeln konnte nicht gelöscht werden.",
     tagsTitle: "Tags",
-    tagsHint: "Tags helfen beim Filtern deiner Regelsets.",
+    tagsHint: "Tags helfen beim Filtern deiner Regeln.",
     tagsEmpty: "Noch keine Tags.",
     tagPlaceholder: "Tag hinzufügen (z. B. Duo, DE)",
     addTag: "Tag hinzufügen",

@@ -462,15 +462,19 @@ const RulesetEditorPage: React.FC<RulesetEditorPageProps> = ({
                         : t("rulesetEditor.delete")}
                     </button>
                   )}
-                <button
-                  type="button"
-                  onClick={handleSave}
-                  disabled={saving || isPreset}
-                  className="inline-flex items-center gap-2 rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-700 disabled:opacity-60"
-                >
-                  <FiSave />
-                  {saving ? t("rulesetEditor.saving") : t("rulesetEditor.save")}
-                </button>
+                {!isPreset && (
+                  <button
+                    type="button"
+                    onClick={handleSave}
+                    disabled={saving}
+                    className="inline-flex items-center gap-2 rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-700 disabled:opacity-60"
+                  >
+                    <FiSave />
+                    {saving
+                      ? t("rulesetEditor.saving")
+                      : t("rulesetEditor.save")}
+                  </button>
+                )}
               </div>
             </div>
           </section>
