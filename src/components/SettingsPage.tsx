@@ -724,10 +724,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                 </div>
                 {rulesetDirty && (
                   <div className="flex items-start gap-2 rounded-md bg-amber-50 dark:bg-amber-900/30 border border-amber-200 dark:border-amber-800 px-3 py-2 text-xs text-amber-800 dark:text-amber-100">
-                    <FiAlertTriangle
-                      size={14}
-                      className="mt-0.5 flex-shrink-0"
-                    />
+                    <FiAlertTriangle size={14} className="mt-0.5 shrink-0" />
                     <span>{t("settings.rulesets.unsavedWarning")}</span>
                   </div>
                 )}
