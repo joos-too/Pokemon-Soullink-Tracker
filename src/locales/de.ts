@@ -330,8 +330,6 @@ export const de = {
       defaultRulesetName: "Tracker-Regeln",
       saveModal: {
         title: "Regeln in deiner Sammlung speichern",
-        description:
-          "Speichere die aktuellen Tracker-Regeln als eigenes Regelset.",
         overwrite: "Überschreiben oder kopieren",
         overwriteButton: '"{{name}}" überschreiben',
         copyButton: 'Als "{{name}}" speichern',
@@ -339,8 +337,16 @@ export const de = {
         saving: "Speichere...",
         error: "Speichern fehlgeschlagen. Bitte versuche es erneut.",
         switchTitle: "Vor Wechsel speichern?",
-        switchBody:
-          "Beim Wechseln wird das Tracker-Regelset überschrieben. Sichere es vorher, wenn du es behalten möchtest.",
+        switchCustom:
+          "Beim Wechseln werden die aktuellen Tracker-Regeln ersetzt. Speichere sie, wenn du sie behalten möchtest.",
+        switchPreset:
+          "Beim Wechseln bleibt das Preset unverändert. Speichere eine Kopie, wenn du deine Anpassungen behalten möchtest.",
+        manualCustom:
+          "Speichere die aktuellen Tracker-Regeln als eigenes Regelset in deiner Sammlung.",
+        manualPreset:
+          "Dieses Regelset ist ein Preset und kann nicht überschrieben werden. Speichere es als eigenes Regelset, wenn du deine Anpassungen behalten möchtest.",
+        manualOverwrite:
+          'Ein Regelset mit dem Namen "{{name}}" existiert bereits. Du kannst es überschreiben oder als Kopie speichern.',
         skip: "Ohne Speichern wechseln",
         cancel: "Abbrechen",
       },

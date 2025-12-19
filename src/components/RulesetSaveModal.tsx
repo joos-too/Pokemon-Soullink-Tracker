@@ -1,5 +1,5 @@
 import React, { useId } from "react";
-import { FiAlertTriangle, FiCopy, FiSave, FiX } from "react-icons/fi";
+import { FiCopy, FiSave, FiX } from "react-icons/fi";
 import type { Ruleset } from "@/types";
 import { useTranslation } from "react-i18next";
 import { focusRingClasses } from "@/src/styles/focusRing";
@@ -35,6 +35,18 @@ const RulesetSaveModal: React.FC<RulesetSaveModalProps> = ({
   const { t } = useTranslation();
   const { containerRef } = useFocusTrap(isOpen);
   const titleId = useId();
+  const modalMessage =
+    reason === "switch"
+      ? currentRuleset?.isPreset
+        ? t("settings.rulesets.saveModal.switchPreset")
+        : t("settings.rulesets.saveModal.switchCustom")
+      : currentRuleset?.isPreset
+        ? t("settings.rulesets.saveModal.manualPreset")
+        : hasUserRulesetWithSameId
+          ? t("settings.rulesets.saveModal.manualOverwrite", {
+              name: rulesetOverwriteName,
+            })
+          : t("settings.rulesets.saveModal.manualCustom");
   if (!isOpen) return null;
 
   return (
@@ -73,17 +85,9 @@ const RulesetSaveModal: React.FC<RulesetSaveModalProps> = ({
         </div>
 
         <div className="px-5 py-4 space-y-3">
-          <div className="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-200">
-            <FiAlertTriangle
-              className="mt-0.5 text-amber-500 shrink-0"
-              size={18}
-            />
-            <span>
-              {reason === "switch"
-                ? t("settings.rulesets.saveModal.switchBody")
-                : t("settings.rulesets.saveModal.description")}
-            </span>
-          </div>
+          <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+            {modalMessage}
+          </p>
           {error && (
             <div className="text-sm text-red-600 dark:text-red-400">
               {error}
@@ -153,7 +157,7 @@ const RulesetSaveModal: React.FC<RulesetSaveModalProps> = ({
             <button
               type="button"
               onClick={onSkip}
-              className={`w-full inline-flex items-center justify-center gap-2 rounded-md bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 px-3 py-2 text-sm font-semibold shadow-sm ${focusRingClasses}`}
+              className={`w-full inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-600 px-4 py-2 text-sm font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 ${focusRingClasses}`}
             >
               {t("settings.rulesets.saveModal.skip")}
             </button>

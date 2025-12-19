@@ -707,7 +707,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                     <button
                       type="button"
                       onClick={onOpenRulesetEditor}
-                      className={`inline-flex items-center gap-2 rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-60 ${focusRingClasses}`}
+                      className={`inline-flex items-center gap-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-sm font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-60 ${focusRingClasses}`}
                       disabled={isGuest}
                     >
                       <FiEdit /> {t("settings.rulesets.manage")}
@@ -715,7 +715,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                     <button
                       type="button"
                       onClick={onSaveRulesetToCollection}
-                      className={`inline-flex items-center gap-2 rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-60 ${focusRingClasses}`}
+                      className={`inline-flex items-center gap-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-sm font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-60 ${focusRingClasses}`}
                       disabled={isGuest}
                     >
                       <FiSave /> {t("settings.rulesets.saveCurrent")}

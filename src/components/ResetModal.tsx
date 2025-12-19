@@ -1,6 +1,7 @@
 import React, { useId } from "react";
 import { useTranslation } from "react-i18next";
 import { useFocusTrap } from "@/src/hooks/useFocusTrap";
+import { focusRingClasses } from "@/src/styles/focusRing.ts";
 
 interface ResetModalProps {
   isOpen: boolean;

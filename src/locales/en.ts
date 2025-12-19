@@ -327,8 +327,6 @@ export const en = {
       defaultRulesetName: "Tracker rules",
       saveModal: {
         title: "Save rules to your collection",
-        description:
-          "Store the current tracker rules as a ruleset in your collection.",
         overwrite: "Overwrite or save separately",
         overwriteButton: 'Overwrite "{{name}}"',
         copyButton: 'Save as "{{name}}"',
@@ -336,8 +334,16 @@ export const en = {
         saving: "Saving...",
         error: "Saving failed. Please try again.",
         switchTitle: "Save before switching?",
-        switchBody:
-          "Switching rulesets will overwrite the tracker rules. Save a copy if you want to keep them.",
+        switchCustom:
+          "Switching rulesets replaces the current tracker rules. Save them if you want to keep them.",
+        switchPreset:
+          "Switching keeps the preset unchanged. Save a copy if you want to keep your edits.",
+        manualCustom:
+          "Save the current tracker rules as a new ruleset in your collection.",
+        manualPreset:
+          "This ruleset is a preset and can't be overwritten. Save it as your own ruleset if you want to keep your edits.",
+        manualOverwrite:
+          'A ruleset named "{{name}}" already exists. You can overwrite it or save a copy.',
         skip: "Switch without saving",
         cancel: "Cancel",
       },

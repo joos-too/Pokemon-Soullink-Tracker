@@ -2,6 +2,7 @@ import React, { useEffect, useId, useState } from "react";
 import type { PokemonLink } from "@/types";
 import { Trans, useTranslation } from "react-i18next";
 import { useFocusTrap } from "@/src/hooks/useFocusTrap";
+import { focusRingClasses } from "@/src/styles/focusRing.ts";
 
 interface SelectLossModalProps {
   isOpen: boolean;
