@@ -15,6 +15,7 @@ import {
   getSpriteUrlForPokemonName,
 } from "@/src/services/sprites";
 import { useTranslation } from "react-i18next";
+import { focusRingClasses } from "@/src/styles/focusRing";
 
 interface TeamTableProps {
   title: string;
@@ -128,7 +129,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
               addDisabled
                 ? "bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed"
                 : "bg-green-600 text-white hover:bg-green-700 dark:hover:bg-green-500"
-            }`}
+            } ${focusRingClasses}`}
             title={
               addDisabled
                 ? addDisabledReason || t("team.addDisabled")
@@ -265,7 +266,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                           onClick={() => {
                             setEditIndex(originalIndex);
                           }}
-                          className="p-1 rounded-full inline-flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300"
+                          className={`p-1 rounded-full inline-flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 ${focusRingClasses}`}
                           title={t("team.titleEdit")}
                         >
                           <FiEdit size={18} />
@@ -277,7 +278,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                           onClick={() => {
                             onMoveToBox(pair);
                           }}
-                          className="p-1 rounded-full inline-flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300"
+                          className={`p-1 rounded-full inline-flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 ${focusRingClasses}`}
                           title={t("team.titleMoveToBox")}
                         >
                           <FiArrowDown size={18} />
@@ -290,7 +291,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                             if (!teamIsFull) onMoveToTeam(pair);
                           }}
                           disabled={teamIsFull}
-                          className={`p-1 rounded-full inline-flex items-center justify-center ${teamIsFull ? "text-gray-400 dark:text-gray-500 cursor-not-allowed" : "hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300"}`}
+                          className={`p-1 rounded-full inline-flex items-center justify-center ${teamIsFull ? "text-gray-400 dark:text-gray-500 cursor-not-allowed" : "hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300"} ${focusRingClasses}`}
                           title={
                             teamIsFull
                               ? t("team.teamFull")
@@ -306,7 +307,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                           onClick={() => {
                             setEvolveIndex(originalIndex);
                           }}
-                          className="p-1 rounded-full inline-flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300"
+                          className={`p-1 rounded-full inline-flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 ${focusRingClasses}`}
                           title={t("team.titleEvolve")}
                         >
                           <FiChevronsUp size={18} />
@@ -319,7 +320,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                             onClick={() => {
                               onAddToGraveyard(pair);
                             }}
-                            className="p-1 rounded-full inline-flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-600 text-red-600 hover:text-red-700 dark:text-red-500 dark:hover:text-red-400"
+                            className={`p-1 rounded-full inline-flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-600 text-red-600 hover:text-red-700 dark:text-red-500 dark:hover:text-red-400 focus-visible:ring-red-500 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-gray-900 ${focusRingClasses}`}
                             title={t("team.titleSendToGraveyard")}
                           >
                             <FiTrash size={18} />

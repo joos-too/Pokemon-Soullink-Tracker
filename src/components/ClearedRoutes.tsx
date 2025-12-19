@@ -42,7 +42,7 @@ const ClearedRoutes: React.FC<ClearedRoutesProps> = ({ routes }) => {
           {t("tracker.routes.title")}
         </h2>
       </div>
-      <div className="p-4 max-h-60 overflow-y-auto">
+      <div className="p-4 max-h-60 overflow-y-auto" tabIndex={-1}>
         {hasRoutes ? (
           <ul className="grid grid-cols-1 gap-2 text-sm text-gray-800 dark:text-gray-200">
             {sortedRoutes.map((r) => (

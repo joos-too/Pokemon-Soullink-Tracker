@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useId, useMemo, useRef, useState } from "react";
 import { searchPokemonNames } from "@/src/services/pokemonSearch";
 import { getSpriteUrlForPokemonName } from "@/src/services/sprites";
 import {
@@ -9,6 +9,7 @@ import type { Pokemon } from "@/types";
 import { useTranslation } from "react-i18next";
 import { normalizeLanguage } from "@/src/utils/language";
 import LocationSuggestionInput from "@/src/components/LocationSuggestionInput";
+import { useFocusTrap } from "@/src/hooks/useFocusTrap";
 
 interface AddLostPokemonModalProps {
   isOpen: boolean;
@@ -187,6 +188,8 @@ const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({
   generationSpritePath,
 }) => {
   const { t } = useTranslation();
+  const { containerRef } = useFocusTrap(isOpen);
+  const titleId = useId();
   const [route, setRoute] = useState("");
   const [pokemonNames, setPokemonNames] = useState<string[]>(() =>
     playerNames.map(() => ""),
@@ -221,9 +224,16 @@ const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-md">
+      <div
+        ref={containerRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        tabIndex={-1}
+        className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-md"
+      >
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold dark:text-gray-100">
+          <h2 id={titleId} className="text-xl font-bold dark:text-gray-100">
             {t("modals.addLost.title")}
           </h2>
           <button

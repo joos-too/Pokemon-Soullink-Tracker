@@ -6,7 +6,10 @@ import type {
   Stats,
   UserSettings,
 } from "@/types";
-import { getLegendariesUpToGeneration, PLAYER_COLORS } from "@/constants";
+import {
+  getLegendariesUpToGeneration,
+  PLAYER_COLORS,
+} from "@/src/services/init.ts";
 import {
   FiEdit,
   FiEye,
@@ -30,6 +33,12 @@ import {
   canToggleRivalAtIndex,
   formatBestLabel,
 } from "@/src/utils/bestRun";
+import {
+  focusRingClasses,
+  focusRingInputClasses,
+  focusRingTightClasses,
+  focusRingRedClasses,
+} from "@/src/styles/focusRing";
 
 interface InfoPanelProps {
   playerNames: string[];
@@ -111,6 +120,12 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
   useEffect(() => {
     setShowRivalCaps(readStoredCapsView(trackerViewStorageKey));
   }, [trackerViewStorageKey]);
+
+  useEffect(() => {
+    if (!isEditingRules) {
+      setDraftRules(rules);
+    }
+  }, [rules, isEditingRules]);
 
   useEffect(() => {
     if (readOnly) {
@@ -233,7 +248,9 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
   };
   const saveEditRules = () => {
     if (readOnly) return;
-    const cleaned = draftRules.map((r) => r.trim()).filter((r) => r.length > 0);
+    const cleaned = draftRules
+      .map((rule) => rule.trim())
+      .filter((rule) => rule.length > 0);
     onRulesChange(cleaned);
     setIsEditingRules(false);
   };
@@ -255,7 +272,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
       const show = hasSlash ? left : left || right || "";
       return (
         <div className="inline-flex items-center pl-1">
-          <span className="min-w-[2.5rem] px-1 py-0.5 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-bold text-gray-800 dark:text-gray-200 text-center">
+          <span className="min-w-10 px-1 py-0.5 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-bold text-gray-800 dark:text-gray-200 text-center">
             {show}
           </span>
         </div>
@@ -291,7 +308,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
   };
 
   const renderLevelCapList = (wrapperClasses: string) => (
-    <div className={wrapperClasses}>
+    <div className={wrapperClasses} tabIndex={-1}>
       {levelCaps.map((cap, index) => {
         const arenaLabel = getLocalizedArenaLabel(
           t,
@@ -304,7 +321,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
             key={cap.id}
             className={`flex items-center justify-between pl-2 py-1.5 border rounded-md ${cap.done ? "bg-green-100 dark:bg-green-900/50 border-green-200 dark:border-green-800" : "bg-gray-50 dark:bg-gray-700/50 border-gray-200 dark:border-gray-600"}`}
           >
-            <div className="flex items-center gap-3 flex-grow min-w-0">
+            <div className="flex items-center gap-3 grow min-w-0">
               <input
                 id={`levelcap-done-${cap.id}`}
                 type="checkbox"
@@ -318,17 +335,17 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                 aria-label={t("tracker.infoPanel.completedArena", {
                   target: arenaLabel,
                 })}
-                className={`h-5 w-5 accent-green-600 flex-shrink-0 ${
+                className={`h-5 w-5 accent-green-600 shrink-0 ${
                   readOnly || !canToggleLevelAtIndex(levelCaps, index)
                     ? "cursor opacity-70"
                     : "cursor-pointer"
                 }`}
               />
-              <span className="text-sm text-gray-800 dark:text-gray-300 break-words">
+              <span className="text-sm text-gray-800 dark:text-gray-300 wrap-break-word">
                 {arenaLabel}
               </span>
             </div>
-            <div className="flex items-center justify-end flex-shrink-0 px-3">
+            <div className="flex items-center justify-end shrink-0 px-3">
               <BadgeImage
                 arenaLabel={cap.arena}
                 posIndex={index}
@@ -345,7 +362,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
   );
 
   const renderRivalCapList = (wrapperClasses: string) => (
-    <div className={wrapperClasses}>
+    <div className={wrapperClasses} tabIndex={-1}>
       {rivalCaps.map((rc, index) => (
         <div key={rc.id}>
           {rivalCensorEnabled && !rc.revealed ? (
@@ -369,7 +386,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
             <div
               className={`flex items-center justify-between pl-2 py-1.5 border rounded-md ${rc.done ? "bg-green-100 dark:bg-green-900/50 border-green-200 dark:border-green-800" : "bg-gray-50 dark:bg-gray-700/50 border-gray-200 dark:border-gray-600"}`}
             >
-              <div className="flex items-center gap-3 flex-grow min-w-0">
+              <div className="flex items-center gap-3 grow min-w-0">
                 <input
                   id={`rivalcap-done-${rc.id}`}
                   type="checkbox"
@@ -383,7 +400,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                   aria-label={t("tracker.infoPanel.completedArena", {
                     target: resolvePreferredRivalName(rc),
                   })}
-                  className={`h-5 w-5 accent-green-600 flex-shrink-0 ${
+                  className={`h-5 w-5 accent-green-600 shrink-0 ${
                     readOnly || !canToggleRivalAtIndex(rivalCaps, index)
                       ? "cursor opacity-70"
                       : "cursor-pointer"
@@ -391,12 +408,12 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                 />
                 <span
                   onClick={(e) => e.stopPropagation()}
-                  className="text-sm text-gray-800 dark:text-gray-300 break-words"
+                  className="text-sm text-gray-800 dark:text-gray-300 wrap-break-word"
                 >
                   {getLocalizedRivalLocation(t, versionId, rc.id, rc.location)}
                 </span>
               </div>
-              <div className="flex items-center justify-end flex-shrink-0 px-3">
+              <div className="flex items-center justify-end shrink-0 px-3">
                 <RivalImage
                   rival={rc.rival}
                   preferences={rivalPreferences}
@@ -490,10 +507,10 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                 aria-valuemax={100}
               >
                 <div
-                  className="h-full transition-all duration-700 ease-out bg-gradient-to-r from-green-400 via-emerald-500 to-teal-500 shadow-[inset_0_0_6px_rgba(0,0,0,0.25)]"
+                  className="h-full transition-all duration-700 ease-out bg-linear-to-r from-green-400 via-emerald-500 to-teal-500 shadow-[inset_0_0_6px_rgba(0,0,0,0.25)]"
                   style={{ width: `${progressPct}%` }}
                 />
-                <div className="absolute inset-0 [mask-image:radial-gradient(transparent,black)] opacity-20 pointer-events-none"></div>
+                <div className="absolute inset-0 mask-[radial-gradient(transparent,black)] opacity-20 pointer-events-none"></div>
               </div>
             </div>
           </div>
@@ -569,7 +586,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                     String(Math.max(0, value - 1)),
                                   );
                                 }}
-                                className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300"
+                                className={`p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300 ${focusRingTightClasses}`}
                                 aria-label={t(
                                   "tracker.infoPanel.itemsDecrease",
                                 )}
@@ -587,7 +604,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                     e.target.value,
                                   );
                                 }}
-                                className="w-16 text-right bg-transparent border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-sm"
+                                className={`w-16 text-right bg-transparent border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-sm ${focusRingInputClasses}`}
                               />
                               <button
                                 type="button"
@@ -598,7 +615,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                                     String(value + 1),
                                   );
                                 }}
-                                className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300"
+                                className={`p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300 ${focusRingTightClasses}`}
                                 aria-label={t(
                                   "tracker.infoPanel.itemsIncrease",
                                 )}
@@ -622,7 +639,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
           className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700 overflow-hidden flex flex-col"
           style={{ perspective: "1000px" }}
         >
-          <div className="relative flex-shrink-0">
+          <div className="relative shrink-0">
             <h2
               className="text-center p-2 text-white font-press-start text-[10px] transition-colors duration-500"
               style={{ backgroundColor: showRivalCaps ? "#693992" : "#cf5930" }}
@@ -633,7 +650,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
             </h2>
             <button
               onClick={toggleCapsView}
-              className="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-full text-white/70 hover:text-white hover:bg-black/20 ring-2 ring-white/25"
+              className={`absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-full text-white/70 hover:text-white hover:bg-black/20 ring-2 ring-white/25 ${focusRingTightClasses}`}
               title={t("tracker.infoPanel.rivalCapsLabel.changeView")}
             >
               <FiRefreshCw
@@ -655,7 +672,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
             )
           ) : (
             <div
-              className={`relative flex-grow min-h-0 transition-transform duration-700`}
+              className={`relative grow min-h-0 transition-transform duration-700`}
               style={{
                 transformStyle: "preserve-3d",
                 transform: showRivalCaps ? "rotateY(180deg)" : "rotateY(0deg)",
@@ -708,7 +725,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                 className="px-2 py-2 text-center flex flex-col items-center gap-3"
               >
                 <h3
-                  className="font-press-start text-xs whitespace-normal break-words leading-tight"
+                  className="font-press-start text-xs whitespace-normal wrap-break-word leading-tight"
                   style={{ color: entry.color }}
                 >
                   {entry.name}
@@ -747,10 +764,10 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
             >
               {t("tracker.infoPanel.legendaryTitle")}
             </h2>
-            <div className="p-4 flex items-center justify-center flex-grow">
+            <div className="p-4 flex items-center justify-center grow">
               <div className="flex items-center justify-center gap-3 w-full max-w-sm">
                 <div
-                  className="flex-shrink-0"
+                  className="shrink-0"
                   style={{ width: "4.5rem", height: "4.5rem" }}
                 >
                   <LegendaryImage
@@ -784,7 +801,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
               <button
                 type="button"
                 onClick={startEditRules}
-                className="px-2 py-1 rounded-md text-xs font-semibold inline-flex items-center gap-1 shadow bg-green-600 text-white hover:bg-green-700"
+                className={`px-2 py-1 rounded-md text-xs font-semibold inline-flex items-center gap-1 shadow bg-green-600 text-white hover:bg-green-700 ${focusRingClasses}`}
                 title={t("tracker.infoPanel.editRules")}
               >
                 <FiEdit size={14} /> {t("tracker.infoPanel.editRules")}
@@ -795,7 +812,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                 <button
                   type="button"
                   onClick={cancelEditRules}
-                  className="px-2 py-1 rounded-md text-xs font-semibold bg-red-600 text-white hover:bg-red-700 inline-flex items-center gap-1 shadow"
+                  className={`px-2 py-1 rounded-md text-xs font-semibold bg-red-600 text-white hover:bg-red-700 inline-flex items-center gap-1 shadow ${focusRingRedClasses}`}
                   title={t("tracker.infoPanel.cancelRules")}
                 >
                   <FiX size={14} /> {t("tracker.infoPanel.cancelRules")}
@@ -803,7 +820,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                 <button
                   type="button"
                   onClick={saveEditRules}
-                  className="px-2 py-1 rounded-md text-xs font-semibold inline-flex items-center gap-1 shadow bg-green-600 text-white hover:bg-green-700"
+                  className={`px-2 py-1 rounded-md text-xs font-semibold inline-flex items-center gap-1 shadow bg-green-600 text-white hover:bg-green-700 ${focusRingClasses}`}
                   title={t("tracker.infoPanel.saveRules")}
                 >
                   <FiSave size={14} /> {t("tracker.infoPanel.saveRules")}
@@ -830,13 +847,15 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                   value={rule}
                   onChange={(e) =>
                     setDraftRules((prev) =>
-                      prev.map((r, i) => (i === index ? e.target.value : r)),
+                      prev.map((entry, i) =>
+                        i === index ? e.target.value : entry,
+                      ),
                     )
                   }
                   placeholder={t("tracker.infoPanel.rulePlaceholder", {
                     index: index + 1,
                   })}
-                  className="flex-1 px-2 py-1.5 border border-gray-300 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+                  className={`grow px-2 py-1.5 border border-gray-300 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
                 />
               </div>
             ))}
@@ -845,7 +864,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                 <button
                   type="button"
                   onClick={addNewRule}
-                  className="inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-semibold border border-gray-300 dark:border-gray-500 text-gray-800 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700"
+                  className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-semibold border border-gray-300 dark:border-gray-500 text-gray-800 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 ${focusRingClasses}`}
                   title={t("tracker.infoPanel.newRule")}
                 >
                   <FiPlus size={14} /> {t("tracker.infoPanel.newRule")}
