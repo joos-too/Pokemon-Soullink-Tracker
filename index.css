@@ -10,6 +10,26 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: "Roboto";
+  src:
+    url("/dist/fonts/Roboto-VariableFont.woff2") format("woff2"),
+    url("/public/fonts/Roboto-VariableFont.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src:
+    url("/dist/fonts/Roboto-VariableFont.woff2") format("woff2"),
+    url("/public/fonts/Roboto-Italic-VariableFont.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
 @layer base {
   button,
   [type="button"],
