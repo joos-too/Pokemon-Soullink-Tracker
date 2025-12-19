@@ -219,10 +219,6 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
       color: getPlayerColor(index),
       deaths,
       total: historic + deaths,
-      borderClass:
-        index < playerNames.length - 1
-          ? "border-r border-gray-300 dark:border-gray-700"
-          : "",
     };
   });
 
@@ -696,20 +692,20 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
       <div
         className={`grid grid-cols-1 ${legendaryTrackerEnabled ? "md:grid-cols-2" : ""} gap-6`}
       >
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700 overflow-hidden">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700 overflow-hidden flex flex-col h-full">
           <h2 className="text-center p-2 bg-gray-800 dark:bg-gray-900 text-white font-press-start text-sm">
             {t("tracker.infoPanel.deathLabel")}
           </h2>
           <div
-            className="grid gap-y-1"
+            className="grid divide-x divide-gray-300 dark:divide-gray-700 flex-1 h-full"
             style={{
               gridTemplateColumns: `repeat(${playerNames.length}, minmax(0, 1fr))`,
             }}
           >
             {deathStats.map((entry, index) => (
               <div
-                key={`death-name-${index}`}
-                className={`px-2 pt-2 pb-1 text-center ${entry.borderClass}`}
+                key={`death-column-${index}`}
+                className="px-2 py-2 text-center flex flex-col items-center gap-3"
               >
                 <h3
                   className="font-press-start text-xs whitespace-normal break-words leading-tight"
@@ -717,23 +713,9 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                 >
                   {entry.name}
                 </h3>
-              </div>
-            ))}
-            {deathStats.map((entry, index) => (
-              <div
-                key={`death-count-${index}`}
-                className={`px-2 py-2 text-center ${entry.borderClass}`}
-              >
                 <div className="text-4xl font-press-start text-gray-800 dark:text-gray-200">
                   {entry.deaths}
                 </div>
-              </div>
-            ))}
-            {deathStats.map((entry, index) => (
-              <div
-                key={`death-total-${index}`}
-                className={`px-2 pb-2 text-center ${entry.borderClass}`}
-              >
                 <div className="text-xs text-gray-600 dark:text-gray-400">
                   {t("tracker.infoPanel.totalLabel")} {entry.total}
                 </div>
