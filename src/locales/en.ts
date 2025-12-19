@@ -237,6 +237,8 @@ export const en = {
     title: "Dead / lost Pokémon",
     manualAddTitle: "Manually add pair",
     titleEdit: "Edit",
+    statusDead: "Dead",
+    statusLost: "Lost",
     areaLabel: "Area: {{route}}",
     memberTitle: "{{name}}’s {{pokemon}}",
     nicknameLabel: "Nickname: {{nickname}}",

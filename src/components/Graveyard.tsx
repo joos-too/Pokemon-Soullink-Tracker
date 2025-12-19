@@ -116,11 +116,20 @@ const Graveyard: React.FC<GraveyardProps> = ({
               const canEdit =
                 !readOnly &&
                 (pair.route || pair.members.some((member) => member?.name));
+              const isLost = Boolean(pair.isLost);
+              const statusLabel = isLost
+                ? t("graveyard.statusLost")
+                : t("graveyard.statusDead");
               return (
                 <div
                   key={pair.id}
                   className="relative p-2 border border-gray-200 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 text-xs"
                 >
+                  <div
+                    className={`absolute left-2 top-2 rounded-full px-2 py-0.5 text-[10px] font-semibold ${isLost ? "bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-200" : "bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-200"}`}
+                  >
+                    {statusLabel}
+                  </div>
                   {canEdit && (
                     <button
                       type="button"
@@ -174,12 +183,14 @@ const Graveyard: React.FC<GraveyardProps> = ({
                               })}
                             </span>
                           </p>
-                          <p className="text-gray-700 dark:text-gray-400">
-                            {t("graveyard.nicknameLabel", {
-                              nickname:
-                                member.nickname || t("graveyard.noNickname"),
-                            })}
-                          </p>
+                          {!isLost && (
+                            <p className="text-gray-700 dark:text-gray-400">
+                              {t("graveyard.nicknameLabel", {
+                                nickname:
+                                  member.nickname || t("graveyard.noNickname"),
+                              })}
+                            </p>
+                          )}
                         </div>
                       );
                     })}

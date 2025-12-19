@@ -240,6 +240,8 @@ export const de = {
     title: "Tote / verlorene Pokémon",
     manualAddTitle: "Paar manuell hinzufügen",
     titleEdit: "Bearbeiten",
+    statusDead: "Tot",
+    statusLost: "Verloren",
     areaLabel: "Gebiet: {{route}}",
     memberTitle: "{{name}}'s {{pokemon}}",
     nicknameLabel: "Spitzname: {{nickname}}",
