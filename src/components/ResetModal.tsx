@@ -61,7 +61,7 @@ const ResetModal: React.FC<ResetModalProps> = ({
           </button>
           <button
             onClick={() => onConfirm()}
-            className="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700"
+            className="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 font-semibold"
           >
             {t("modals.reset.submit")}
           </button>

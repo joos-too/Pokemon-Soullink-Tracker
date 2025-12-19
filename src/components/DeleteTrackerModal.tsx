@@ -86,7 +86,7 @@ const DeleteTrackerModal: React.FC<DeleteTrackerModalProps> = ({
             type="button"
             onClick={onConfirm}
             disabled={isDeleting}
-            className="inline-flex items-center justify-center gap-2 rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500 disabled:opacity-60"
+            className="inline-flex items-center justify-center gap-2 rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-700 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-red-500 disabled:opacity-60"
           >
             <FiTrash2 />
             {isDeleting
