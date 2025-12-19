@@ -316,6 +316,7 @@ export const de = {
       viewerNotice: "Nur Owner können neue Mitglieder hinzufügen.",
       count: "{{count}} Nutzer",
       unknownDate: "Datum unbekannt",
+      youBadge: "(Du)",
       roles: {
         owner: "Owner",
         member: "Mitglied",

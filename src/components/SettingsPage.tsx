@@ -549,7 +549,9 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                         <span>{member.email}</span>
                         {currentUserEmail &&
                           member.email === currentUserEmail && (
-                            <span className="text-xs text-green-600">(Du)</span>
+                            <span className="text-xs text-green-600">
+                              {t("settings.members.youBadge")}
+                            </span>
                           )}
                         {canManageMembers &&
                           member.role !== "owner" &&

@@ -312,6 +312,7 @@ export const en = {
       viewerNotice: "Only owners can invite new members.",
       count: "{{count}} members",
       unknownDate: "Unknown date",
+      youBadge: "(You)",
       roles: {
         owner: "Owner",
         member: "Member",
