@@ -1,16 +1,25 @@
-import React, { useMemo } from "react";
-import type { PokemonLink } from "@/types";
+import React, { useEffect, useMemo, useState } from "react";
+import type { Pokemon, PokemonLink } from "@/types";
 import { getSpriteUrlForPokemonName } from "@/src/services/sprites";
 import { PLAYER_COLORS } from "@/constants";
 import { useTranslation } from "react-i18next";
+import { FiEdit } from "react-icons/fi";
+import AddLostPokemonModal from "./AddLostPokemonModal";
+import EditPairModal from "./EditPairModal";
 
 interface GraveyardProps {
   graveyard?: PokemonLink[];
   playerNames: string[];
   playerColors?: string[];
   onManualAddClick?: () => void;
+  onEditPair: (
+    pairId: number,
+    payload: { route: string; members: Pokemon[] },
+  ) => void;
   readOnly?: boolean;
   generationSpritePath?: string | null;
+  pokemonGenerationLimit?: number;
+  gameVersionId?: string;
 }
 
 const Graveyard: React.FC<GraveyardProps> = ({
@@ -18,7 +27,10 @@ const Graveyard: React.FC<GraveyardProps> = ({
   playerNames,
   playerColors,
   onManualAddClick,
+  onEditPair,
   generationSpritePath,
+  pokemonGenerationLimit,
+  gameVersionId,
   readOnly = false,
 }) => {
   const { t } = useTranslation();
@@ -34,6 +46,40 @@ const Graveyard: React.FC<GraveyardProps> = ({
   }, [playerNames]);
   const colorForIndex = (index: number) =>
     playerColors?.[index] ?? PLAYER_COLORS[index] ?? "#4b5563";
+
+  const [editIndex, setEditIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (readOnly) {
+      setEditIndex(null);
+    }
+  }, [readOnly]);
+
+  useEffect(() => {
+    if (editIndex !== null && !graveyard[editIndex]) {
+      setEditIndex(null);
+    }
+  }, [editIndex, graveyard]);
+
+  const activePair = editIndex !== null ? graveyard[editIndex] : null;
+  const isLostPair = Boolean(activePair?.isLost);
+
+  const editInitial = useMemo(() => {
+    if (!activePair) return null;
+    return {
+      route: activePair.route ?? "",
+      members: names.map(
+        (_, index) => activePair.members?.[index] ?? { name: "", nickname: "" },
+      ),
+    };
+  }, [activePair, names]);
+
+  const handleSave = (payload: { route: string; members: Pokemon[] }) => {
+    if (!activePair) return;
+    onEditPair(activePair.id, payload);
+    setEditIndex(null);
+  };
+
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700 overflow-hidden custom-scrollbar">
       <div className="flex justify-center items-center p-2 bg-gray-800 dark:bg-gray-900">
@@ -66,65 +112,92 @@ const Graveyard: React.FC<GraveyardProps> = ({
       <div className="p-4 max-h-96 overflow-y-auto">
         {graveyard && graveyard.length > 0 ? (
           <div className="space-y-3">
-            {graveyard.map((pair) => (
-              <div
-                key={pair.id}
-                className="p-2 border border-gray-200 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 text-xs"
-              >
-                <p className="text-center font-bold text-gray-600 dark:text-gray-300 mb-1">
-                  {t("graveyard.areaLabel", {
-                    route: pair.route || t("common.unknownRoute"),
-                  })}
-                </p>
+            {graveyard.map((pair, index) => {
+              const canEdit =
+                !readOnly &&
+                (pair.route || pair.members.some((member) => member?.name));
+              const isLost = Boolean(pair.isLost);
+              const statusLabel = isLost
+                ? t("graveyard.statusLost")
+                : t("graveyard.statusDead");
+              return (
                 <div
-                  className="grid gap-2"
-                  style={{
-                    gridTemplateColumns: `repeat(${names.length}, minmax(0, 1fr))`,
-                  }}
+                  key={pair.id}
+                  className="relative p-2 border border-gray-200 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 text-xs"
                 >
-                  {names.map((name, index) => {
-                    const member = pair.members?.[index] ?? {
-                      name: "",
-                      nickname: "",
-                    };
-                    const spriteUrl = getSpriteUrlForPokemonName(
-                      member.name,
-                      generationSpritePath,
-                    );
-                    return (
-                      <div key={`${pair.id}-player-${index}`}>
-                        <p
-                          className="font-bold flex items-center gap-2"
-                          style={{ color: colorForIndex(index) }}
-                        >
-                          {spriteUrl ? (
-                            <img
-                              src={spriteUrl}
-                              alt={member.name || "Pokémon"}
-                              className="w-10 h-10"
-                              loading="lazy"
-                            />
-                          ) : null}
-                          <span>
-                            {t("graveyard.memberTitle", {
-                              name,
-                              pokemon:
-                                member.name || t("graveyard.unknownPokemon"),
-                            })}
-                          </span>
-                        </p>
-                        <p className="text-gray-700 dark:text-gray-400">
-                          {t("graveyard.nicknameLabel", {
-                            nickname:
-                              member.nickname || t("graveyard.noNickname"),
-                          })}
-                        </p>
-                      </div>
-                    );
-                  })}
+                  <div
+                    className={`absolute left-2 top-2 rounded-full px-2 py-0.5 text-[10px] font-semibold ${isLost ? "bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-200" : "bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-200"}`}
+                  >
+                    {statusLabel}
+                  </div>
+                  {canEdit && (
+                    <button
+                      type="button"
+                      onClick={() => setEditIndex(index)}
+                      className="absolute right-2 top-2 p-1 rounded-full text-gray-500 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-600"
+                      title={t("graveyard.titleEdit")}
+                      aria-label={t("graveyard.titleEdit")}
+                    >
+                      <FiEdit size={14} />
+                    </button>
+                  )}
+                  <p className="text-center font-bold text-gray-600 dark:text-gray-300 mb-1">
+                    {t("graveyard.areaLabel", {
+                      route: pair.route || t("common.unknownRoute"),
+                    })}
+                  </p>
+                  <div
+                    className="grid gap-2"
+                    style={{
+                      gridTemplateColumns: `repeat(${names.length}, minmax(0, 1fr))`,
+                    }}
+                  >
+                    {names.map((name, index) => {
+                      const member = pair.members?.[index] ?? {
+                        name: "",
+                        nickname: "",
+                      };
+                      const spriteUrl = getSpriteUrlForPokemonName(
+                        member.name,
+                        generationSpritePath,
+                      );
+                      return (
+                        <div key={`${pair.id}-player-${index}`}>
+                          <p
+                            className="font-bold flex items-center gap-2"
+                            style={{ color: colorForIndex(index) }}
+                          >
+                            {spriteUrl ? (
+                              <img
+                                src={spriteUrl}
+                                alt={member.name || "Pokémon"}
+                                className="w-10 h-10"
+                                loading="lazy"
+                              />
+                            ) : null}
+                            <span>
+                              {t("graveyard.memberTitle", {
+                                name,
+                                pokemon:
+                                  member.name || t("graveyard.unknownPokemon"),
+                              })}
+                            </span>
+                          </p>
+                          {!isLost && (
+                            <p className="text-gray-700 dark:text-gray-400">
+                              {t("graveyard.nicknameLabel", {
+                                nickname:
+                                  member.nickname || t("graveyard.noNickname"),
+                              })}
+                            </p>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         ) : (
           <p className="text-center text-gray-500 dark:text-gray-400 text-sm py-4">
@@ -132,6 +205,38 @@ const Graveyard: React.FC<GraveyardProps> = ({
           </p>
         )}
       </div>
+      <EditPairModal
+        isOpen={!readOnly && editIndex !== null && !isLostPair}
+        onClose={() => setEditIndex(null)}
+        onSave={handleSave}
+        playerLabels={names}
+        mode="edit"
+        initial={
+          editInitial || {
+            route: "",
+            members: names.map(() => ({ name: "", nickname: "" })),
+          }
+        }
+        generationLimit={pokemonGenerationLimit}
+        gameVersionId={gameVersionId}
+        generationSpritePath={generationSpritePath}
+      />
+      <AddLostPokemonModal
+        isOpen={!readOnly && editIndex !== null && isLostPair}
+        onClose={() => setEditIndex(null)}
+        onAdd={(route, members) => handleSave({ route, members })}
+        playerNames={names}
+        generationLimit={pokemonGenerationLimit}
+        generationSpritePath={generationSpritePath}
+        gameVersionId={gameVersionId}
+        mode="edit"
+        initial={
+          editInitial || {
+            route: "",
+            members: names.map(() => ({ name: "", nickname: "" })),
+          }
+        }
+      />
     </div>
   );
 };

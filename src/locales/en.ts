@@ -56,6 +56,9 @@ export const en = {
       routeLabel: "Area",
       playerPokemonLabel: "{{name}}’s Pokémon",
     },
+    editLost: {
+      title: "Edit lost Pokémon",
+    },
     deleteTracker: {
       badge: "Delete tracker",
       untitled: "Untitled tracker",
@@ -233,6 +236,9 @@ export const en = {
   graveyard: {
     title: "Dead / lost Pokémon",
     manualAddTitle: "Manually add pair",
+    titleEdit: "Edit",
+    statusDead: "Dead",
+    statusLost: "Lost",
     areaLabel: "Area: {{route}}",
     memberTitle: "{{name}}’s {{pokemon}}",
     nicknameLabel: "Nickname: {{nickname}}",

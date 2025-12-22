@@ -7,6 +7,7 @@ export interface PokemonLink {
   id: number;
   route: string;
   members: Pokemon[];
+  isLost?: boolean;
 }
 
 export interface LevelCap {

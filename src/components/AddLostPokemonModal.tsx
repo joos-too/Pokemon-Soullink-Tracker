@@ -18,6 +18,11 @@ interface AddLostPokemonModalProps {
   generationLimit?: number;
   generationSpritePath?: string | null;
   gameVersionId?: string;
+  mode?: "add" | "edit";
+  initial?: {
+    route: string;
+    members: Pokemon[];
+  };
 }
 
 interface PokemonNameFieldProps {
@@ -185,6 +190,8 @@ const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({
   generationLimit,
   gameVersionId,
   generationSpritePath,
+  mode = "add",
+  initial,
 }) => {
   const { t } = useTranslation();
   const [route, setRoute] = useState("");
@@ -194,14 +201,20 @@ const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({
 
   useEffect(() => {
     if (isOpen) {
-      setRoute("");
-      setPokemonNames(playerNames.map(() => ""));
+      setRoute(initial?.route ?? "");
+      setPokemonNames(
+        playerNames.map((_, index) => initial?.members?.[index]?.name ?? ""),
+      );
     }
-  }, [isOpen, playerNames]);
+  }, [isOpen, playerNames, initial]);
 
   if (!isOpen) {
     return null;
   }
+
+  const title =
+    mode === "add" ? t("modals.addLost.title") : t("modals.editLost.title");
+  const submitLabel = mode === "add" ? t("common.add") : t("common.save");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -223,9 +236,7 @@ const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-md">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold dark:text-gray-100">
-            {t("modals.addLost.title")}
-          </h2>
+          <h2 className="text-xl font-bold dark:text-gray-100">{title}</h2>
           <button
             onClick={onClose}
             className={`text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 rounded-md ${focusRingClasses}`}
@@ -289,7 +300,7 @@ const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({
               disabled={!isValid}
               className={`px-4 py-2 rounded-md font-semibold shadow ${isValid ? "bg-green-600 text-white hover:bg-green-700" : "bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed"} ${focusRingClasses}`}
             >
-              {t("common.add")}
+              {submitLabel}
             </button>
           </div>
         </form>
