@@ -147,7 +147,7 @@ const Graveyard: React.FC<GraveyardProps> = ({
                     })}
                   </p>
                   <div
-                    className="grid gap-2"
+                    className="grid gap-2 justify-items-center"
                     style={{
                       gridTemplateColumns: `repeat(${names.length}, minmax(0, 1fr))`,
                     }}
@@ -164,7 +164,7 @@ const Graveyard: React.FC<GraveyardProps> = ({
                       return (
                         <div
                           key={`${pair.id}-player-${index}`}
-                          className="flex justify-center"
+                          className="flex justify-center w-full"
                         >
                           <div className="inline-flex items-center gap-2 text-left">
                             {spriteUrl ? (
@@ -187,15 +187,13 @@ const Graveyard: React.FC<GraveyardProps> = ({
                                     t("graveyard.unknownPokemon"),
                                 })}
                               </p>
-                              {!isLost && (
-                                <p className="text-gray-700 dark:text-gray-400">
-                                  {t("graveyard.nicknameLabel", {
-                                    nickname:
-                                      member.nickname ||
-                                      t("graveyard.noNickname"),
-                                  })}
-                                </p>
-                              )}
+                              <p className="text-gray-700 dark:text-gray-400">
+                                {t("graveyard.nicknameLabel", {
+                                  nickname:
+                                    member.nickname ||
+                                    t("graveyard.noNickname"),
+                                })}
+                              </p>
                             </div>
                           </div>
                         </div>
