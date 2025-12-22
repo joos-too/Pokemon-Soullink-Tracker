@@ -166,7 +166,7 @@ const Graveyard: React.FC<GraveyardProps> = ({
                           key={`${pair.id}-player-${index}`}
                           className="flex justify-center w-full"
                         >
-                          <div className="inline-flex items-center gap-2 text-left">
+                          <div className="inline-flex items-center gap-2 text-left mb-2">
                             {spriteUrl ? (
                               <img
                                 src={spriteUrl}
