@@ -202,12 +202,15 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
   const liveDoneRivals = rivalCaps.filter((r) => r.done).length;
 
   const totalMilestones = (levelCaps.length || 0) + (rivalCaps.length || 0);
+  const challengeComplete =
+    levelCaps.length > 0 && levelCaps.every((cap) => cap.done);
   const completedMilestones = Math.min(
     liveDoneArenas + liveDoneRivals,
     totalMilestones,
   );
-  const progressPct =
-    totalMilestones > 0
+  const progressPct = challengeComplete
+    ? 100
+    : totalMilestones > 0
       ? Math.round((completedMilestones / totalMilestones) * 100)
       : 0;
 
@@ -477,9 +480,11 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
             <div className="p-3">
               <div className="flex items-center justify-between text-xs text-gray-600 dark:text-gray-300 mb-2">
                 <span>{t("tracker.infoPanel.progressLabel")}</span>
-                <span className="font-semibold">
-                  {completedMilestones}/{totalMilestones} · {progressPct}%
-                </span>
+                {!challengeComplete && (
+                  <span className="font-semibold">
+                    {completedMilestones}/{totalMilestones} · {progressPct}%
+                  </span>
+                )}
               </div>
               <div
                 className="relative h-4 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden"
