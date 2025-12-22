@@ -162,11 +162,11 @@ const Graveyard: React.FC<GraveyardProps> = ({
                         generationSpritePath,
                       );
                       return (
-                        <div key={`${pair.id}-player-${index}`}>
-                          <p
-                            className="font-bold flex items-center gap-2"
-                            style={{ color: colorForIndex(index) }}
-                          >
+                        <div
+                          key={`${pair.id}-player-${index}`}
+                          className="flex justify-center"
+                        >
+                          <div className="inline-flex items-center gap-2 text-left">
                             {spriteUrl ? (
                               <img
                                 src={spriteUrl}
@@ -175,22 +175,29 @@ const Graveyard: React.FC<GraveyardProps> = ({
                                 loading="lazy"
                               />
                             ) : null}
-                            <span>
-                              {t("graveyard.memberTitle", {
-                                name,
-                                pokemon:
-                                  member.name || t("graveyard.unknownPokemon"),
-                              })}
-                            </span>
-                          </p>
-                          {!isLost && (
-                            <p className="text-gray-700 dark:text-gray-400">
-                              {t("graveyard.nicknameLabel", {
-                                nickname:
-                                  member.nickname || t("graveyard.noNickname"),
-                              })}
-                            </p>
-                          )}
+                            <div className="flex flex-col items-start">
+                              <p
+                                className="font-bold"
+                                style={{ color: colorForIndex(index) }}
+                              >
+                                {t("graveyard.memberTitle", {
+                                  name,
+                                  pokemon:
+                                    member.name ||
+                                    t("graveyard.unknownPokemon"),
+                                })}
+                              </p>
+                              {!isLost && (
+                                <p className="text-gray-700 dark:text-gray-400">
+                                  {t("graveyard.nicknameLabel", {
+                                    nickname:
+                                      member.nickname ||
+                                      t("graveyard.noNickname"),
+                                  })}
+                                </p>
+                              )}
+                            </div>
+                          </div>
                         </div>
                       );
                     })}
