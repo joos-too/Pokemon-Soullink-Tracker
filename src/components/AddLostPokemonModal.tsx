@@ -233,8 +233,8 @@ const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({
     pokemonNames.every((name) => name.trim().length > 0);
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-md">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
+      <div className="w-full max-w-md rounded-lg bg-white p-6 shadow-xl dark:bg-gray-800">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold dark:text-gray-100">{title}</h2>
           <button
