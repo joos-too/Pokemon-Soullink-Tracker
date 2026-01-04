@@ -26,7 +26,7 @@ const RulesetPicker: React.FC<RulesetPickerProps> = ({
   listMaxHeightClass = "max-h-64",
 }) => {
   const { t } = useTranslation();
-  const [tagFilter, setTagFilter] = useState<string | null>(null);
+  const [tagFilters, setTagFilters] = useState<string[]>([]);
 
   const availableTags = useMemo(() => {
     const tagSet = new Set<string>();
@@ -39,14 +39,34 @@ const RulesetPicker: React.FC<RulesetPickerProps> = ({
     );
   }, [rulesets]);
 
+  const normalizedTagFilters = useMemo(
+    () => tagFilters.map((tag) => tag.toLowerCase()),
+    [tagFilters],
+  );
+
   const visibleRulesets = useMemo(() => {
-    if (!enableTagFilter || !tagFilter) return rulesets;
+    if (!enableTagFilter || normalizedTagFilters.length === 0) return rulesets;
     return rulesets.filter((ruleset) =>
-      sanitizeTags(ruleset.tags).some(
-        (tag) => tag.toLowerCase() === tagFilter.toLowerCase(),
+      normalizedTagFilters.every((filterTag) =>
+        sanitizeTags(ruleset.tags)
+          .map((tag) => tag.toLowerCase())
+          .includes(filterTag),
       ),
     );
-  }, [rulesets, tagFilter, enableTagFilter]);
+  }, [rulesets, normalizedTagFilters, enableTagFilter]);
+
+  const toggleTagFilter = (tag: string) => {
+    setTagFilters((current) => {
+      const normalizedTag = tag.toLowerCase();
+      const hasTag = current.some(
+        (value) => value.toLowerCase() === normalizedTag,
+      );
+      if (hasTag) {
+        return current.filter((value) => value.toLowerCase() !== normalizedTag);
+      }
+      return [...current, tag];
+    });
+  };
 
   if (!rulesets.length) {
     return (
@@ -68,18 +88,20 @@ const RulesetPicker: React.FC<RulesetPickerProps> = ({
           <div className="flex flex-wrap gap-2">
             <button
               type="button"
-              onClick={() => setTagFilter(null)}
-              className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-semibold ${tagFilter === null ? "border-green-500 bg-green-50 text-green-700 dark:border-green-600 dark:bg-green-900/30 dark:text-green-100" : "border-gray-300 bg-white text-gray-700 hover:border-gray-400 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 dark:hover:border-gray-500"} ${focusRingClasses}`}
+              onClick={() => setTagFilters([])}
+              aria-pressed={tagFilters.length === 0}
+              className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-semibold ${tagFilters.length === 0 ? "border-green-500 bg-green-50 text-green-700 dark:border-green-600 dark:bg-green-900/30 dark:text-green-100" : "border-gray-300 bg-white text-gray-700 hover:border-gray-400 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 dark:hover:border-gray-500"} ${focusRingClasses}`}
             >
               {t("rulesets.tagFilterAll")}
             </button>
             {availableTags.map((tag) => {
-              const active = tagFilter?.toLowerCase() === tag.toLowerCase();
+              const active = normalizedTagFilters.includes(tag.toLowerCase());
               return (
                 <button
                   key={tag}
                   type="button"
-                  onClick={() => setTagFilter(active ? null : tag)}
+                  onClick={() => toggleTagFilter(tag)}
+                  aria-pressed={active}
                   className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-semibold ${active ? "border-green-500 bg-green-50 text-green-700 dark:border-green-600 dark:bg-green-900/30 dark:text-green-100" : "border-gray-300 bg-white text-gray-700 hover:border-gray-400 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 dark:hover:border-gray-500"} ${focusRingClasses}`}
                   title={t("rulesets.tagFilterSelect", { tag })}
                 >
@@ -94,8 +116,7 @@ const RulesetPicker: React.FC<RulesetPickerProps> = ({
 
       <div
         tabIndex={-1}
-        className={`space-y-2 pl-1 pr-3 py-1 custom-scrollbar overscroll-contain focus-visible:outline-none ${fullHeight ? "flex-1 min-h-0 overflow-y-auto" : `${listMaxHeightClass} overflow-y-auto`}`}
-        style={{ scrollbarGutter: "stable" }}
+        className={`space-y-2 pl-1 pr-4 py-1 custom-scrollbar overscroll-contain focus-visible:outline-none ${fullHeight ? "flex-1 min-h-0 overflow-y-auto" : `${listMaxHeightClass} overflow-y-auto`}`}
       >
         {visibleRulesets.length === 0 ? (
           <div className="text-sm text-gray-600 dark:text-gray-300 px-1 py-2">

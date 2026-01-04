@@ -109,7 +109,9 @@ const RulesetEditorPage: React.FC<RulesetEditorPageProps> = ({
   };
 
   const handleRuleRemove = (index: number) => {
-    setDraftRules((prev) => prev.filter((_, i) => i !== index));
+    setDraftRules((prev) =>
+      prev.length <= 1 ? prev : prev.filter((_, i) => i !== index),
+    );
   };
 
   const handleSave = async () => {
@@ -323,7 +325,7 @@ const RulesetEditorPage: React.FC<RulesetEditorPageProps> = ({
               </div>
               <div
                 tabIndex={-1}
-                className="space-y-2 max-h-[40vh] overflow-y-auto pr-1 py-1 custom-scrollbar focus-visible:outline-none"
+                className="space-y-2 max-h-[40vh] overflow-y-auto pr-4 py-1 custom-scrollbar focus-visible:outline-none"
               >
                 {draftRules.map((rule, index) => (
                   <div
@@ -347,12 +349,24 @@ const RulesetEditorPage: React.FC<RulesetEditorPageProps> = ({
                       <button
                         type="button"
                         onClick={() => handleRuleRemove(index)}
-                        className={`mt-1 rounded-md border border-gray-300 dark:border-gray-600 px-2 py-1 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 ${focusRingClasses}`}
-                        aria-label={t("rulesetEditor.removeRule", {
-                          index: index + 1,
-                        })}
+                        disabled={draftRules.length <= 1}
+                        className={`self-center inline-flex h-8 w-8 items-center justify-center rounded-lg border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 disabled:cursor-not-allowed disabled:opacity-60 ${focusRingClasses}`}
+                        aria-label={
+                          draftRules.length <= 1
+                            ? `${t("rulesetEditor.removeRule", {
+                                index: index + 1,
+                              })} - ${t("rulesetEditor.removeRuleDisabled")}`
+                            : t("rulesetEditor.removeRule", {
+                                index: index + 1,
+                              })
+                        }
+                        title={
+                          draftRules.length <= 1
+                            ? t("rulesetEditor.removeRuleDisabled")
+                            : t("rulesetEditor.removeRuleTitle")
+                        }
                       >
-                        ×
+                        <FiX size={14} />
                       </button>
                     )}
                   </div>

@@ -262,6 +262,12 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
     if (readOnly) return;
     setDraftRules((prev) => [...prev, ""]);
   };
+  const removeRule = (index: number) => {
+    if (readOnly) return;
+    setDraftRules((prev) =>
+      prev.length <= 1 ? prev : prev.filter((_, i) => i !== index),
+    );
+  };
 
   const renderLevelCaps = (level: string) => {
     const hc = hardcoreModeEnabled !== false; // default true
@@ -690,7 +696,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                 }}
               >
                 {renderLevelCapList(
-                  "p-2 h-full overflow-y-auto space-y-1 overscroll-contain custom-scrollbar",
+                  "p-2 pr-4 h-full overflow-y-auto space-y-1 overscroll-contain custom-scrollbar",
                 )}
               </div>
 
@@ -702,7 +708,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                 }}
               >
                 {renderRivalCapList(
-                  "p-2 h-full overflow-y-auto space-y-1 overscroll-contain custom-scrollbar",
+                  "p-2 pr-4 h-full overflow-y-auto space-y-1 overscroll-contain custom-scrollbar",
                 )}
               </div>
             </div>
@@ -875,6 +881,30 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                   })}
                   className={`grow px-2 py-1.5 border border-gray-300 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
                 />
+                {!readOnly && (
+                  <button
+                    type="button"
+                    onClick={() => removeRule(index)}
+                    disabled={draftRules.length <= 1}
+                    className={`self-center inline-flex h-8 w-8 items-center justify-center rounded-lg border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 disabled:cursor-not-allowed disabled:opacity-60 ${focusRingClasses}`}
+                    aria-label={
+                      draftRules.length <= 1
+                        ? `${t("tracker.infoPanel.removeRule", {
+                            index: index + 1,
+                          })} - ${t("tracker.infoPanel.removeRuleDisabled")}`
+                        : t("tracker.infoPanel.removeRule", {
+                            index: index + 1,
+                          })
+                    }
+                    title={
+                      draftRules.length <= 1
+                        ? t("tracker.infoPanel.removeRuleDisabled")
+                        : t("tracker.infoPanel.removeRuleTitle")
+                    }
+                  >
+                    <FiX size={14} />
+                  </button>
+                )}
               </div>
             ))}
             {!readOnly && (
