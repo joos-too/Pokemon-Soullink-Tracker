@@ -57,6 +57,9 @@ export const en = {
       routeLabel: "Area",
       playerPokemonLabel: "{{name}}’s Pokémon",
     },
+    editLost: {
+      title: "Edit lost Pokémon",
+    },
     deleteTracker: {
       badge: "Delete tracker",
       untitled: "Untitled tracker",
@@ -295,6 +298,9 @@ export const en = {
   graveyard: {
     title: "Dead / lost Pokémon",
     manualAddTitle: "Add lost Pokémon",
+    titleEdit: "Edit",
+    statusDead: "Dead",
+    statusLost: "Lost",
     areaLabel: "Area: {{route}}",
     memberTitle: "{{name}}’s {{pokemon}}",
     nicknameLabel: "Nickname: {{nickname}}",
@@ -409,6 +415,7 @@ export const en = {
       viewerNotice: "Only owners can invite new members.",
       count: "{{count}} members",
       unknownDate: "Unknown date",
+      youBadge: "(You)",
       roles: {
         owner: "Owner",
         member: "Member",

@@ -413,14 +413,23 @@ const App: React.FC = () => {
         return members;
       };
 
-      const sanitizeLink = (p: any, fallbackId: number): PokemonLink => ({
-        id:
-          Number.isFinite(Number(p?.id)) && Number(p?.id) > 0
-            ? Number(p?.id)
-            : fallbackId,
-        route: typeof p?.route === "string" ? p.route : "",
-        members: sanitizeMembers(p),
-      });
+      const sanitizeLink = (p: any, fallbackId: number): PokemonLink => {
+        const members = sanitizeMembers(p);
+        const hasNickname = members.some(
+          (member) => member.nickname.trim().length > 0,
+        );
+        const inferredLost = members.length > 0 && !hasNickname;
+        const isLost = typeof p?.isLost === "boolean" ? p.isLost : inferredLost;
+        return {
+          id:
+            Number.isFinite(Number(p?.id)) && Number(p?.id) > 0
+              ? Number(p?.id)
+              : fallbackId,
+          route: typeof p?.route === "string" ? p.route : "",
+          members,
+          isLost,
+        };
+      };
 
       const sanitizeArray = (arr: any): PokemonLink[] => {
         const list = Array.isArray(arr) ? arr : [];
@@ -1276,7 +1285,7 @@ const App: React.FC = () => {
   const handleConfirmLoss = (playerIndex: number) => {
     if (isReadOnly || !pendingLossPair) return;
     if (!pendingLossPair) return;
-    const pair = pendingLossPair;
+    const pair = { ...pendingLossPair, isLost: false };
     setData((prev) => ({
       ...prev,
       graveyard: [...prev.graveyard, pair],
@@ -1308,11 +1317,36 @@ const App: React.FC = () => {
       route: route.trim(),
       members: members.map((member) => ({
         name: member.name.trim(),
-        nickname: member.nickname.trim(),
+        nickname: "",
       })),
+      isLost: true,
     };
     handleManualAddToGraveyard(newPair);
     setIsModalOpen(false);
+  };
+
+  const handleEditGraveyardPair = (
+    pairId: number,
+    payload: { route: string; members: Pokemon[] },
+  ) => {
+    if (isReadOnly) return;
+    setData((prev) => ({
+      ...prev,
+      graveyard: prev.graveyard.map((pair) => {
+        if (pair.id !== pairId) return pair;
+        const isLost = pair.isLost ?? false;
+        const members = payload.members.map((member) => ({
+          name: member.name.trim(),
+          nickname: isLost ? "" : member.nickname.trim(),
+        }));
+        return {
+          ...pair,
+          route: payload.route.trim(),
+          members,
+          isLost,
+        };
+      }),
+    }));
   };
 
   const handleAddTeamPair = (payload: {
@@ -2238,8 +2272,11 @@ const App: React.FC = () => {
               playerNames={resolvedPlayerNames}
               playerColors={playerColors}
               onManualAddClick={() => setIsModalOpen(true)}
+              onEditPair={handleEditGraveyardPair}
               readOnly={isReadOnly}
               generationSpritePath={generationSpritePath}
+              pokemonGenerationLimit={pokemonGenerationLimit}
+              gameVersionId={activeGameVersionId || undefined}
             />
             <ClearedRoutes routes={clearedRoutes} />
           </div>
