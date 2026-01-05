@@ -60,6 +60,13 @@ export const de = {
     editLost: {
       title: "Verlorene Pokémon bearbeiten",
     },
+    addFossil: {
+      title: "Fossil hinzufügen",
+      fossilLabel: "Fossil auswählen",
+      locationLabel: "Fundort",
+      inBagLabel: "Bereits im Beutel",
+      submit: "Hinzufügen",
+    },
     deleteTracker: {
       badge: "Tracker löschen",
       untitled: "Unbenannter Tracker",
@@ -165,6 +172,11 @@ export const de = {
       legendaryCounter: "Legendären begegnet",
       legendaryTitle: "Legendären begegnet",
       legendaryHint: "Linksklick: erhöhen · Rechtsklick: verringern",
+      fossilTracker: "Fossil Tracker",
+      fossilRevive: "Wiederbeleben",
+      fossilBag: "Im Beutel",
+      fossilLocation: "Ort: {{location}}",
+      fossilRevived: "Wiederbelebt",
       rules: "Regeln",
       editRules: "Regeln bearbeiten",
       cancelRules: "Abbrechen",
@@ -292,6 +304,13 @@ export const de = {
           "Aktiviert einen Tracker, welcher es ermöglicht die Encounter mit legendären Pokémon nachzuvollziehen, um eine eigene Statistik zu führen.",
         description:
           "Tracke die Anzahl der Legendaries, welchen man während der Challenge begegnet.",
+      },
+      fossil: {
+        title: "Fossil Tracker",
+        tooltipLabel: "Info Fossil Tracker",
+        tooltip:
+          "Ermöglicht das Tracken von Fossilen für jeden Spieler und deren gemeinsame Wiederbelebung.",
+        description: "Verwalte Fossile und deren Fundorte.",
       },
       publicTracker: {
         title: "Öffentlicher Tracker",
@@ -447,5 +466,18 @@ export const de = {
       buttonBack: "Zurück",
       accountLabel: "Account",
     },
+  },
+  fossils: {
+    "helix-fossil": "Helixfossil",
+    "dome-fossil": "Domfossil",
+    "old-amber": "Altbernstein",
+    "root-fossil": "Wurzelfossil",
+    "claw-fossil": "Klauenfossil",
+    "skull-fossil": "Kopffossil",
+    "armor-fossil": "Panzerfossil",
+    "cover-fossil": "Federfossil",
+    "plume-fossil": "Schildfossil",
+    "jaw-fossil": "Kieferfossil",
+    "sail-fossil": "Flossenfossil",
   },
 };

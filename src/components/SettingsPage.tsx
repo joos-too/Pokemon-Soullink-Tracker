@@ -40,6 +40,8 @@ interface SettingsPageProps {
   onRivalCensorToggle: (enabled: boolean) => void;
   hardcoreModeEnabled: boolean;
   onHardcoreModeToggle: (enabled: boolean) => void;
+  fossilTrackerEnabled: boolean;
+  onFossilTrackerToggle: (enabled: boolean) => void;
   isPublic: boolean;
   onPublicToggle: (enabled: boolean) => void;
   members: TrackerMember[];
@@ -68,6 +70,8 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
   onRivalCensorToggle,
   hardcoreModeEnabled,
   onHardcoreModeToggle,
+  fossilTrackerEnabled,
+  onFossilTrackerToggle,
   isPublic,
   onPublicToggle,
   members,
@@ -417,6 +421,36 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                   checked={legendaryTrackerEnabled}
                   onChange={onlegendaryTrackerToggle}
                   ariaLabel={t("settings.features.legendary.title")}
+                  disabled={isGuest}
+                />
+              </div>
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <div className="font-medium text-gray-800 dark:text-gray-200">
+                      {t("settings.features.fossil.title")}
+                    </div>
+                    <Tooltip
+                      side="top"
+                      content={t("settings.features.fossil.tooltip")}
+                    >
+                      <span
+                        className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-help"
+                        aria-label={t("settings.features.fossil.tooltipLabel")}
+                      >
+                        <FiInfo size={16} />
+                      </span>
+                    </Tooltip>
+                  </div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400">
+                    {t("settings.features.fossil.description")}
+                  </div>
+                </div>
+                <ToggleSwitch
+                  id="fossil-toggle"
+                  checked={fossilTrackerEnabled}
+                  onChange={onFossilTrackerToggle}
+                  ariaLabel={t("settings.features.fossil.title")}
                   disabled={isGuest}
                 />
               </div>

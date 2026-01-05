@@ -59,6 +59,13 @@ export const en = {
     editLost: {
       title: "Edit lost Pokémon",
     },
+    addFossil: {
+      title: "Add Fossil",
+      fossilLabel: "Select Fossil",
+      locationLabel: "Location",
+      inBagLabel: "Already in bag",
+      submit: "Add",
+    },
     deleteTracker: {
       badge: "Delete tracker",
       untitled: "Untitled tracker",
@@ -163,6 +170,11 @@ export const en = {
       legendaryCounter: "Legendary encounters",
       legendaryTitle: "Legendary encounters",
       legendaryHint: "Left click to increment · right click to decrement",
+      fossilTracker: "Fossil Tracker",
+      fossilRevive: "Revive",
+      fossilBag: "In Bag",
+      fossilLocation: "Loc: {{location}}",
+      fossilRevived: "Revived",
       rules: "Rules",
       editRules: "Edit rules",
       cancelRules: "Cancel",
@@ -288,6 +300,13 @@ export const en = {
           "Enables tracking of legendary encounters so you can keep your own statistics.",
         description:
           "Track how many legendaries you encounter during the challenge.",
+      },
+      fossil: {
+        title: "Fossil Tracker",
+        tooltipLabel: "Fossil Tracker info",
+        tooltip:
+          "Allows tracking of fossils for each player and their collective revival.",
+        description: "Manage fossils and their locations.",
       },
       publicTracker: {
         title: "Public tracker",
@@ -967,5 +986,18 @@ export const en = {
         },
       },
     },
+  },
+  fossils: {
+    "helix-fossil": "Helix Fossil",
+    "dome-fossil": "Dome Fossil",
+    "old-amber": "Old Amber",
+    "root-fossil": "Root Fossil",
+    "claw-fossil": "Claw Fossil",
+    "skull-fossil": "Skull Fossil",
+    "armor-fossil": "Armor Fossil",
+    "cover-fossil": "Cover Fossil",
+    "plume-fossil": "Plume Fossil",
+    "jaw-fossil": "Jaw Fossil",
+    "sail-fossil": "Sail Fossil",
   },
 };
