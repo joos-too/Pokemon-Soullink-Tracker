@@ -10,6 +10,7 @@ interface AddFossilModalProps {
   onAdd: (fossilId: string, location: string, inBag: boolean) => void;
   maxGeneration: number;
   alreadyOwnedIds: string[];
+  infiniteFossilsEnabled: boolean;
 }
 
 const AddFossilModal: React.FC<AddFossilModalProps> = ({
@@ -18,6 +19,7 @@ const AddFossilModal: React.FC<AddFossilModalProps> = ({
   onAdd,
   maxGeneration,
   alreadyOwnedIds,
+  infiniteFossilsEnabled,
 }) => {
   const { t } = useTranslation();
   const [selectedFossilId, setSelectedFossilId] = useState("");
@@ -25,10 +27,14 @@ const AddFossilModal: React.FC<AddFossilModalProps> = ({
   const [inBag, setInBag] = useState(true);
 
   const availableFossils = useMemo(() => {
-    return FOSSILS.filter(
-      (f) => f.gen <= maxGeneration && !alreadyOwnedIds.includes(f.id),
-    );
-  }, [maxGeneration, alreadyOwnedIds]);
+    return FOSSILS.filter((f) => {
+      const genMatch = f.gen <= maxGeneration;
+      if (!infiniteFossilsEnabled) {
+        return genMatch && !alreadyOwnedIds.includes(f.id);
+      }
+      return genMatch;
+    });
+  }, [maxGeneration, alreadyOwnedIds, infiniteFossilsEnabled]);
 
   if (!isOpen) return null;
 

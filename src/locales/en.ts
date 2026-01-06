@@ -59,13 +59,6 @@ export const en = {
     editLost: {
       title: "Edit lost Pokémon",
     },
-    addFossil: {
-      title: "Add Fossil",
-      fossilLabel: "Select Fossil",
-      locationLabel: "Location",
-      inBagLabel: "Already in bag",
-      submit: "Add",
-    },
     deleteTracker: {
       badge: "Delete tracker",
       untitled: "Untitled tracker",
@@ -121,6 +114,13 @@ export const en = {
         "The loss is automatically assigned to <strong>{{player}}</strong>.",
       confirm: "Confirm",
     },
+    addFossil: {
+      title: "Add Fossil",
+      fossilLabel: "Select Fossil",
+      locationLabel: "Location",
+      inBagLabel: "Already in bag",
+      submit: "Add",
+    },
   },
   tracker: {
     defaultTitle: "Tracker",
@@ -170,11 +170,6 @@ export const en = {
       legendaryCounter: "Legendary encounters",
       legendaryTitle: "Legendary encounters",
       legendaryHint: "Left click to increment · right click to decrement",
-      fossilTracker: "Fossil Tracker",
-      fossilRevive: "Revive",
-      fossilBag: "In Bag",
-      fossilLocation: "Loc: {{location}}",
-      fossilRevived: "Revived",
       rules: "Rules",
       editRules: "Edit rules",
       cancelRules: "Cancel",
@@ -197,6 +192,12 @@ export const en = {
       rulePlaceholder: "Rule {{index}}",
       completedArena: "Completed: {{target}}",
       totalLabel: "Total:",
+      fossilTracker: "Fossil Tracker",
+      fossilHint: "Collect fossils and revive them together.",
+      fossilRevive: "Revive",
+      fossilBag: "In Bag",
+      fossilLocation: "Loc: {{location}}",
+      fossilRevived: "Revived",
     },
     evolveModal: {
       title: "Evolve Pokémon",
@@ -301,13 +302,6 @@ export const en = {
         description:
           "Track how many legendaries you encounter during the challenge.",
       },
-      fossil: {
-        title: "Fossil Tracker",
-        tooltipLabel: "Fossil Tracker info",
-        tooltip:
-          "Allows tracking of fossils for each player and their collective revival.",
-        description: "Manage fossils and their locations.",
-      },
       publicTracker: {
         title: "Public tracker",
         tooltipLabel: "Public tracker info",
@@ -329,6 +323,14 @@ export const en = {
         tooltip:
           "Use sprites instead of official artwork everywhere in the app. Respects other sprite settings.",
         description: "Show sprites instead of artwork in all views.",
+      },
+      infiniteFossils: {
+        title: "Infinite Fossils",
+        tooltipLabel: "Infinite Fossils Info",
+        tooltip:
+          "By default, each fossil can only be owned once per player. When enabled, players can collect and revive the same fossil multiple times.",
+        description:
+          "Allow players to collect the same fossils multiple times.",
       },
     },
     members: {

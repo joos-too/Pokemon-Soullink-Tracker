@@ -64,7 +64,7 @@ export interface AppState {
   legendaryTrackerEnabled?: boolean;
   rivalCensorEnabled?: boolean;
   hardcoreModeEnabled?: boolean;
-  fossilTrackerEnabled?: boolean;
+  infiniteFossilsEnabled?: boolean;
   fossils?: FossilEntry[][];
   runStartedAt?: number;
 }

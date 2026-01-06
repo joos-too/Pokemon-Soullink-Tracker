@@ -168,7 +168,7 @@ export const INITIAL_STATE: AppState = {
   legendaryTrackerEnabled: true,
   rivalCensorEnabled: true,
   hardcoreModeEnabled: true,
-  fossilTrackerEnabled: true,
+  infiniteFossilsEnabled: false,
   fossils: [],
   runStartedAt: Date.now(),
 };

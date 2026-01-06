@@ -373,8 +373,8 @@ const App: React.FC = () => {
       };
 
       const sanitizeFossils = (playerFossils: any): FossilEntry[][] => {
-        if (!Array.isArray(playerFossils)) return normalizedNames.map(() => []);
-        return playerFossils.map((list) => {
+        return normalizedNames.map((_, i) => {
+          const list = Array.isArray(playerFossils) ? playerFossils[i] : null;
           if (!Array.isArray(list)) return [];
           return list.map((f: any) => ({
             fossilId: f.fossilId || "",
@@ -413,8 +413,8 @@ const App: React.FC = () => {
           safe.rivalCensorEnabled ?? base.rivalCensorEnabled ?? true,
         hardcoreModeEnabled:
           safe.hardcoreModeEnabled ?? base.hardcoreModeEnabled ?? true,
-        fossilTrackerEnabled:
-          safe.fossilTrackerEnabled ?? base.fossilTrackerEnabled ?? true,
+        infiniteFossilsEnabled:
+          safe.infiniteFossilsEnabled ?? base.infiniteFossilsEnabled ?? false,
         fossils: sanitizeFossils(safe.fossils),
         runStartedAt:
           typeof safe.runStartedAt === "number"
@@ -933,7 +933,7 @@ const App: React.FC = () => {
         legendaryTrackerEnabled: prev.legendaryTrackerEnabled,
         rivalCensorEnabled: prev.rivalCensorEnabled,
         hardcoreModeEnabled: prev.hardcoreModeEnabled,
-        fossilTrackerEnabled: prev.fossilTrackerEnabled,
+        infiniteFossilsEnabled: prev.infiniteFossilsEnabled,
         stats: {
           runs: prev.stats.runs + 1, // increase run number by 1
           best: newBest, // persistiertes best
@@ -1300,9 +1300,9 @@ const App: React.FC = () => {
     setData((prev) => ({ ...prev, hardcoreModeEnabled: enabled }));
   };
 
-  const handleFossilTrackerToggle = (enabled: boolean) => {
+  const handleInfiniteFossilsToggle = (enabled: boolean) => {
     if (isReadOnly) return;
-    setData((prev) => ({ ...prev, fossilTrackerEnabled: enabled }));
+    setData((prev) => ({ ...prev, infiniteFossilsEnabled: enabled }));
   };
 
   const handleAddFossil = (
@@ -1314,8 +1314,11 @@ const App: React.FC = () => {
     if (isReadOnly) return;
     setData((prev) => {
       const newFossils = [...(prev.fossils || prev.playerNames.map(() => []))];
+      const playerList = Array.isArray(newFossils[pIdx])
+        ? [...newFossils[pIdx]]
+        : [];
       newFossils[pIdx] = [
-        ...newFossils[pIdx],
+        ...playerList,
         { fossilId, location, inBag, revived: false },
       ];
       return { ...prev, fossils: newFossils };
@@ -1326,6 +1329,7 @@ const App: React.FC = () => {
     if (isReadOnly) return;
     setData((prev) => {
       const newFossils = [...(prev.fossils || [])];
+      if (!newFossils[pIdx]) return prev;
       newFossils[pIdx] = newFossils[pIdx].map((f, i) =>
         i === fIdx ? { ...f, inBag: true, location: "" } : f,
       );
@@ -1727,8 +1731,8 @@ const App: React.FC = () => {
       onRivalCensorToggle={handleRivalCensorToggle}
       hardcoreModeEnabled={data.hardcoreModeEnabled ?? true}
       onHardcoreModeToggle={handleHardcoreModeToggle}
-      fossilTrackerEnabled={data.fossilTrackerEnabled ?? true}
-      onFossilTrackerToggle={handleFossilTrackerToggle}
+      infiniteFossilsEnabled={data.infiniteFossilsEnabled ?? false}
+      onInfiniteFossilsToggle={handleInfiniteFossilsToggle}
       isPublic={activeTrackerMeta?.isPublic ?? false}
       onPublicToggle={handlePublicToggle}
       members={trackerMembers}
@@ -2000,17 +2004,16 @@ const App: React.FC = () => {
               generationSpritePath={generationSpritePath}
               pokemonGenerationLimit={pokemonGenerationLimit}
             />
-            {data.fossilTrackerEnabled && (
-              <FossilTracker
-                playerNames={resolvedPlayerNames}
-                fossils={data.fossils || resolvedPlayerNames.map(() => [])}
-                maxGeneration={pokemonGenerationLimit}
-                onAddFossil={handleAddFossil}
-                onToggleBag={handleToggleFossilBag}
-                onRevive={handleReviveFossils}
-                readOnly={isReadOnly}
-              />
-            )}
+            <FossilTracker
+              playerNames={resolvedPlayerNames}
+              fossils={data.fossils || resolvedPlayerNames.map(() => [])}
+              maxGeneration={pokemonGenerationLimit}
+              infiniteFossilsEnabled={data.infiniteFossilsEnabled ?? false}
+              onAddFossil={handleAddFossil}
+              onToggleBag={handleToggleFossilBag}
+              onRevive={handleReviveFossils}
+              readOnly={isReadOnly}
+            />
             <Graveyard
               graveyard={data.graveyard}
               playerNames={resolvedPlayerNames}

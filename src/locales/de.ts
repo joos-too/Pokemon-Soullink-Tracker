@@ -60,13 +60,6 @@ export const de = {
     editLost: {
       title: "Verlorene Pokémon bearbeiten",
     },
-    addFossil: {
-      title: "Fossil hinzufügen",
-      fossilLabel: "Fossil auswählen",
-      locationLabel: "Fundort",
-      inBagLabel: "Bereits im Beutel",
-      submit: "Hinzufügen",
-    },
     deleteTracker: {
       badge: "Tracker löschen",
       untitled: "Unbenannter Tracker",
@@ -123,6 +116,13 @@ export const de = {
         "Der Verlust wird automatisch <strong>{{player}}</strong> zugewiesen.",
       confirm: "Bestätigen",
     },
+    addFossil: {
+      title: "Fossil hinzufügen",
+      fossilLabel: "Fossil auswählen",
+      locationLabel: "Fundort",
+      inBagLabel: "Bereits im Beutel",
+      submit: "Hinzufügen",
+    },
   },
   tracker: {
     defaultTitle: "Tracker",
@@ -172,11 +172,6 @@ export const de = {
       legendaryCounter: "Legendären begegnet",
       legendaryTitle: "Legendären begegnet",
       legendaryHint: "Linksklick: erhöhen · Rechtsklick: verringern",
-      fossilTracker: "Fossil Tracker",
-      fossilRevive: "Wiederbeleben",
-      fossilBag: "Im Beutel",
-      fossilLocation: "Ort: {{location}}",
-      fossilRevived: "Wiederbelebt",
       rules: "Regeln",
       editRules: "Regeln bearbeiten",
       cancelRules: "Abbrechen",
@@ -199,6 +194,12 @@ export const de = {
       rulePlaceholder: "Regel {{index}}",
       completedArena: "Erledigt: {{target}}",
       totalLabel: "Gesamt:",
+      fossilTracker: "Fossil Tracker",
+      fossilHint: "Sammle Fossile und belebe sie gemeinsam wieder.",
+      fossilRevive: "Wiederbeleben",
+      fossilBag: "Im Beutel",
+      fossilLocation: "Ort: {{location}}",
+      fossilRevived: "Wiederbelebt",
     },
     evolveModal: {
       title: "Entwickeln",
@@ -305,13 +306,6 @@ export const de = {
         description:
           "Tracke die Anzahl der Legendaries, welchen man während der Challenge begegnet.",
       },
-      fossil: {
-        title: "Fossil Tracker",
-        tooltipLabel: "Info Fossil Tracker",
-        tooltip:
-          "Ermöglicht das Tracken von Fossilen für jeden Spieler und deren gemeinsame Wiederbelebung.",
-        description: "Verwalte Fossile und deren Fundorte.",
-      },
       publicTracker: {
         title: "Öffentlicher Tracker",
         tooltipLabel: "Info Öffentlicher Tracker",
@@ -333,6 +327,13 @@ export const de = {
         tooltip:
           "Verwende Sprites statt offizieller Artworks überall in der App. Respektiert die anderen Sprite-Einstellungen.",
         description: "Zeige Sprites statt Artworks in allen Ansichten an.",
+      },
+      infiniteFossils: {
+        title: "Unendliche Fossile",
+        tooltipLabel: "Info Unendliche Fossile",
+        tooltip:
+          "Standardmäßig kann jedes Fossil pro Spieler nur einmal wiederbelebt werden. Wenn aktiviert, können Spieler das gleiche Fossil unendlich oft sammeln und wiederbeleben.",
+        description: "Erlaube Spielern, Fossile mehrfach zu sammeln.",
       },
     },
     members: {

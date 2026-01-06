@@ -9,6 +9,7 @@ interface FossilTrackerProps {
   playerNames: string[];
   fossils: FossilEntry[][];
   maxGeneration: number;
+  infiniteFossilsEnabled: boolean;
   onAddFossil: (
     playerIndex: number,
     fossilId: string,
@@ -24,6 +25,7 @@ const FossilTracker: React.FC<FossilTrackerProps> = ({
   playerNames,
   fossils,
   maxGeneration,
+  infiniteFossilsEnabled,
   onAddFossil,
   onToggleBag,
   onRevive,
@@ -48,6 +50,7 @@ const FossilTracker: React.FC<FossilTrackerProps> = ({
   const handleReviveClick = () => {
     if (!canRevive) return;
     onRevive(selections);
+    setSelections(playerNames.map(() => -1));
   };
 
   return (
@@ -97,7 +100,7 @@ const FossilTracker: React.FC<FossilTrackerProps> = ({
 
                   return (
                     <div
-                      key={`${pIdx}-${entry.fossilId}`}
+                      key={`${pIdx}-${entry.fossilId}-${fIdx}`}
                       onClick={() => {
                         if (readOnly || !canBeSelected) return;
                         setSelections((prev) => {
@@ -179,6 +182,7 @@ const FossilTracker: React.FC<FossilTrackerProps> = ({
         alreadyOwnedIds={
           fossils[modalOpen.playerIndex]?.map((f) => f.fossilId) || []
         }
+        infiniteFossilsEnabled={infiniteFossilsEnabled}
         onAdd={(id, loc, bag) => {
           onAddFossil(modalOpen.playerIndex, id, loc, bag);
           setModalOpen({ open: false, playerIndex: 0 });
