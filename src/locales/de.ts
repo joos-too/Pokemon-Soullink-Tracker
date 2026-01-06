@@ -120,6 +120,9 @@ export const de = {
       title: "Fossil hinzufügen",
       fossilLabel: "Fossil auswählen",
       locationLabel: "Fundort",
+      locationTooltip:
+        "Falls ein Fossil gefunden wurde, aber noch nicht erworben wurde (z. B. in einem Shop bei Geldmangel), kann hier der Fundort notiert werden. Später lässt sich das Fossil mit einem Klick in den Beutel verschieben.",
+      locationTooltipLabel: "Info zum Fundort",
       inBagLabel: "Bereits im Beutel",
       submit: "Hinzufügen",
     },

@@ -2013,6 +2013,7 @@ const App: React.FC = () => {
               onToggleBag={handleToggleFossilBag}
               onRevive={handleReviveFossils}
               readOnly={isReadOnly}
+              gameVersionId={activeGameVersionId || undefined}
             />
             <Graveyard
               graveyard={data.graveyard}

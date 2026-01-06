@@ -19,6 +19,7 @@ interface FossilTrackerProps {
   onToggleBag: (playerIndex: number, fossilIndex: number) => void;
   onRevive: (selectedIndices: number[]) => void;
   readOnly?: boolean;
+  gameVersionId?: string;
 }
 
 const FossilTracker: React.FC<FossilTrackerProps> = ({
@@ -30,6 +31,7 @@ const FossilTracker: React.FC<FossilTrackerProps> = ({
   onToggleBag,
   onRevive,
   readOnly = false,
+  gameVersionId,
 }) => {
   const { t } = useTranslation();
   const [modalOpen, setModalOpen] = useState<{
@@ -183,6 +185,7 @@ const FossilTracker: React.FC<FossilTrackerProps> = ({
           fossils[modalOpen.playerIndex]?.map((f) => f.fossilId) || []
         }
         infiniteFossilsEnabled={infiniteFossilsEnabled}
+        gameVersionId={gameVersionId}
         onAdd={(id, loc, bag) => {
           onAddFossil(modalOpen.playerIndex, id, loc, bag);
           setModalOpen({ open: false, playerIndex: 0 });

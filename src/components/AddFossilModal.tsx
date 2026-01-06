@@ -1,8 +1,9 @@
 import React, { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FOSSILS } from "@/constants";
-import { focusRingInputClasses } from "@/src/styles/focusRing";
-import { FiX } from "react-icons/fi";
+import { FiX, FiInfo } from "react-icons/fi";
+import LocationSuggestionInput from "./LocationSuggestionInput";
+import Tooltip from "./Tooltip";
 
 interface AddFossilModalProps {
   isOpen: boolean;
@@ -11,6 +12,7 @@ interface AddFossilModalProps {
   maxGeneration: number;
   alreadyOwnedIds: string[];
   infiniteFossilsEnabled: boolean;
+  gameVersionId?: string;
 }
 
 const AddFossilModal: React.FC<AddFossilModalProps> = ({
@@ -20,6 +22,7 @@ const AddFossilModal: React.FC<AddFossilModalProps> = ({
   maxGeneration,
   alreadyOwnedIds,
   infiniteFossilsEnabled,
+  gameVersionId,
 }) => {
   const { t } = useTranslation();
   const [selectedFossilId, setSelectedFossilId] = useState("");
@@ -98,7 +101,10 @@ const AddFossilModal: React.FC<AddFossilModalProps> = ({
               type="checkbox"
               id="inBag"
               checked={inBag}
-              onChange={(e) => setInBag(e.target.checked)}
+              onChange={(e) => {
+                setInBag(e.target.checked);
+                if (e.target.checked) setLocation("");
+              }}
               className="h-4 w-4 accent-green-600 cursor-pointer"
             />
             <label
@@ -110,16 +116,31 @@ const AddFossilModal: React.FC<AddFossilModalProps> = ({
           </div>
 
           <div>
-            <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">
-              {t("modals.addFossil.locationLabel")}
-            </label>
-            <input
-              type="text"
+            <div className="flex items-center gap-2 mb-1">
+              <label className="block text-sm font-bold text-gray-700 dark:text-gray-300">
+                {t("modals.addFossil.locationLabel")}{" "}
+                <span className="text-red-500">*</span>
+              </label>
+              <Tooltip
+                side="top"
+                content={t("modals.addFossil.locationTooltip")}
+              >
+                <span
+                  className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-help"
+                  aria-label={t("modals.addFossil.locationTooltipLabel")}
+                >
+                  <FiInfo size={16} />
+                </span>
+              </Tooltip>
+            </div>
+            <LocationSuggestionInput
+              label=""
               value={inBag ? "" : location}
+              onChange={setLocation}
+              isOpen={isOpen}
+              gameVersionId={gameVersionId}
               disabled={inBag}
-              onChange={(e) => setLocation(e.target.value)}
-              className={`w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 disabled:opacity-50 disabled:cursor-not-allowed ${focusRingInputClasses}`}
-              placeholder={inBag ? "" : "z. B. Route 1"}
+              placeholder={inBag ? "" : t("common.routePlaceholder")}
             />
           </div>
 

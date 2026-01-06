@@ -118,6 +118,9 @@ export const en = {
       title: "Add Fossil",
       fossilLabel: "Select Fossil",
       locationLabel: "Location",
+      locationTooltip:
+        "If a fossil has been discovered but not yet obtained (e.g., in a shop when short on cash), you can note its location here. You can then move it to your bag later with a single click.",
+      locationTooltipLabel: "Location Info",
       inBagLabel: "Already in bag",
       submit: "Add",
     },
