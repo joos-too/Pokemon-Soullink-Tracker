@@ -25,7 +25,7 @@ const ToggleSwitch: React.FC<ToggleSwitchProps> = ({
   return (
     <label
       htmlFor={id}
-      className={`inline-flex items-center rounded-full ${
+      className={`focus-ring-toggle inline-flex items-center rounded-full p-1 ${
         disabled ? "cursor-not-allowed" : "cursor-pointer"
       }`}
     >
@@ -36,7 +36,6 @@ const ToggleSwitch: React.FC<ToggleSwitchProps> = ({
         onChange={(event) => onChange(event.target.checked)}
         disabled={disabled}
         className="sr-only"
-        tabIndex={-1}
         aria-label={ariaLabel}
       />
       <span aria-hidden="true" className={trackClasses}>

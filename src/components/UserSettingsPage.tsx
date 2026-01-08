@@ -8,7 +8,7 @@ import {
   FiMail,
   FiRefreshCw,
 } from "react-icons/fi";
-import { focusRingClasses } from "@/src/styles/focusRing";
+import { focusRingClasses, focusRingRedClasses } from "@/src/styles/focusRing";
 import { requestPasswordReset } from "@/src/services/auth";
 import ToggleSwitch from "@/src/components/ToggleSwitch";
 import { useTranslation } from "react-i18next";
@@ -234,7 +234,7 @@ const UserSettingsPage: React.FC<UserSettingsPageProps> = ({
             <button
               type="button"
               onClick={onLogout}
-              className={`inline-flex items-center gap-2 rounded-md border border-red-200 dark:border-red-700 px-4 py-2 text-sm font-semibold text-red-700 dark:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/30 ${focusRingClasses}`}
+              className={`inline-flex items-center gap-2 rounded-md border border-red-200 dark:border-red-700 px-4 py-2 text-sm font-semibold text-red-700 dark:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/30 ${focusRingRedClasses}`}
             >
               <FiLogOut /> {t("common.logout")}
             </button>

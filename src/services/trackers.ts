@@ -5,7 +5,9 @@ import {
   createInitialState,
   MIN_PLAYER_COUNT,
   sanitizePlayerNames,
-} from "@/constants";
+  sanitizeRules,
+} from "@/src/services/init.ts";
+import { DEFAULT_RULESET_ID } from "@/src/data/rulesets.ts";
 import type {
   RivalGender,
   TrackerMember,
@@ -124,6 +126,8 @@ interface CreateTrackerPayload {
   memberInvites: InviteEntry[];
   owner: User;
   gameVersionId: string;
+  rulesetId?: string;
+  rules?: string[];
 }
 
 export const createTracker = async ({
@@ -132,6 +136,8 @@ export const createTracker = async ({
   memberInvites,
   owner,
   gameVersionId,
+  rulesetId,
+  rules,
 }: CreateTrackerPayload): Promise<{ trackerId: string; meta: TrackerMeta }> => {
   if (!owner.email) {
     throw new TrackerOperationError(
@@ -198,6 +204,12 @@ export const createTracker = async ({
     }
   }
 
+  const normalizedRules = sanitizeRules(rules);
+  const resolvedRulesetId =
+    typeof rulesetId === "string" && rulesetId.trim().length > 0
+      ? rulesetId
+      : DEFAULT_RULESET_ID;
+
   const meta: TrackerMeta = {
     id: trackerId,
     title: sanitizedTitle,
@@ -207,10 +219,18 @@ export const createTracker = async ({
     members,
     guests,
     gameVersionId,
+    rulesetId: resolvedRulesetId,
     isPublic: false,
   };
 
-  const initialState = createInitialState(gameVersionId, normalizedPlayerNames);
+  const initialState = createInitialState(
+    gameVersionId,
+    normalizedPlayerNames,
+    {
+      id: resolvedRulesetId,
+      rules: normalizedRules,
+    },
+  );
 
   const trackerUpdates: Record<string, unknown> = {
     [`trackers/${trackerId}/meta`]: meta,

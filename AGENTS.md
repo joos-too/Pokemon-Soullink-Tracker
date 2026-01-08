@@ -24,7 +24,7 @@ Aktueller Überblick für Coding-Agents, die am Pokémon Soullink Tracker arbeit
   - `sprites.ts`: Sprite-/Artwork-Auflösung über Namen → IDs.
 - `src/data/`: Generierte Datensätze (`pokemon-de.ts`, `pokemon-en.ts`, `pokemon-map.ts`, `pokemon-evolutions.ts`, `game-versions.ts`). Änderungen i.d.R. per Script.
 - `src/firebaseConfig.ts`: Firebase-Initialisierung, Emulatorkonfiguration basierend auf Vite-Umgebungsvariablen.
-- `constants.ts`: Default-Setup (Farben, Regeln, Initialstate-Helfer), legt Standardspielversion fest.
+- `init.ts`: Default-Setup (Farben, Regeln, Initialstate-Helfer), legt Standardspielversion fest.
 - `types.ts`: Applikationsmodelle (Tracker-Struktur, Rivalen, Stats etc.).
 - `public/`: Statische Assets (Logos, Badges, Rival-Sprites, Champion-Sprites).
 - `vite.config.ts` / `tsconfig.json`: Vite-Build + Pfadalias `@/*` → Projektwurzel.

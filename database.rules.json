@@ -6,6 +6,12 @@
         ".write": "auth.uid === $uid"
       }
     },
+    "rulesets": {
+      "$uid": {
+        ".read": "auth.uid === $uid",
+        ".write": "auth.uid === $uid"
+      }
+    },
     "userTrackers": {
       "$uid": {
         ".read": "auth.uid === $uid",
