@@ -11,6 +11,7 @@ interface LocationSuggestionInputProps {
   isOpen: boolean;
   gameVersionId?: string;
   placeholder?: string;
+  disabled?: boolean;
 }
 
 const LocationSuggestionInput: React.FC<LocationSuggestionInputProps> = ({
@@ -20,6 +21,7 @@ const LocationSuggestionInput: React.FC<LocationSuggestionInputProps> = ({
   isOpen,
   gameVersionId,
   placeholder,
+  disabled = false,
 }) => {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
@@ -34,14 +36,7 @@ const LocationSuggestionInput: React.FC<LocationSuggestionInputProps> = ({
   );
 
   useEffect(() => {
-    if (!isOpen) {
-      setSuggestions([]);
-      setLoading(false);
-      setOpen(false);
-      setActiveIndex(-1);
-      return;
-    }
-    if (!focused) {
+    if (!isOpen || !focused || disabled) {
       setSuggestions([]);
       setLoading(false);
       setOpen(false);
@@ -72,7 +67,7 @@ const LocationSuggestionInput: React.FC<LocationSuggestionInputProps> = ({
       }
     }, 250);
     return () => clearTimeout(timer);
-  }, [value, focused, isOpen, language, gameVersionId]);
+  }, [value, focused, isOpen, language, gameVersionId, disabled]);
 
   const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
     if (e.key === "Tab") {
@@ -99,12 +94,14 @@ const LocationSuggestionInput: React.FC<LocationSuggestionInputProps> = ({
 
   return (
     <div>
-      <label
-        htmlFor="route"
-        className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1"
-      >
-        {label} <span className="text-red-500">*</span>
-      </label>
+      {label && (
+        <label
+          htmlFor="route"
+          className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1"
+        >
+          {label} <span className="text-red-500">*</span>
+        </label>
+      )}
       <div className="relative">
         <input
           id="route"
@@ -123,7 +120,8 @@ const LocationSuggestionInput: React.FC<LocationSuggestionInputProps> = ({
             }, 150)
           }
           onKeyDown={handleKeyDown}
-          className={`w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
+          disabled={disabled}
+          className={`w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 disabled:opacity-50 disabled:cursor-not-allowed ${focusRingInputClasses}`}
           placeholder={placeholder || t("common.routePlaceholder")}
           required
           aria-expanded={open}
