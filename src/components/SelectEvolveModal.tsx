@@ -74,6 +74,7 @@ interface MethodGenerationRule {
   maxGeneration?: number;
 }
 
+// id = pokemon which evolution results in
 const METHOD_GENERATION_RULES: Record<number, MethodGenerationRule[]> = {
   28: [
     {
@@ -93,6 +94,12 @@ const METHOD_GENERATION_RULES: Record<number, MethodGenerationRule[]> = {
         "Level-Up - Level 20, Tageszeit: Nacht",
         "Level-Up - Level 20, Time of day: Night",
       ],
+      minGeneration: 7,
+    },
+  ],
+  53: [
+    {
+      methods: ["Level-Up - Freundschaft ≥ 160", "Level-Up - Friendship ≥ 160"],
       minGeneration: 7,
     },
   ],
