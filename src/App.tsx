@@ -10,7 +10,7 @@ import {
   FiMenu,
   FiMoon,
   FiRotateCw,
-  FiSettings,
+  FiSliders,
   FiSun,
 } from "react-icons/fi";
 import { FaGithub } from "react-icons/fa";
@@ -1716,7 +1716,7 @@ const App: React.FC = () => {
                   aria-label={t("tracker.actions.settings")}
                   title={t("tracker.actions.settings")}
                 >
-                  <FiSettings size={28} />
+                  <FiSliders size={28} />
                 </button>
               )}
             </div>
@@ -1805,7 +1805,7 @@ const App: React.FC = () => {
                   className="w-full text-left px-2 py-2 rounded-md text-sm inline-flex items-center gap-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
                   title={t("tracker.menu.settings")}
                 >
-                  <FiSettings size={18} /> {t("tracker.menu.settings")}
+                  <FiSliders size={18} /> {t("tracker.menu.settings")}
                 </button>
               )}
             </div>
