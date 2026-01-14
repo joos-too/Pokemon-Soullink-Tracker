@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FossilEntry } from "@/types";
 import { FOSSILS, PLAYER_COLORS } from "@/constants";
-import { FiPlus, FiCheck } from "react-icons/fi";
+import { FiPlus, FiCheck, FiEdit, FiSave, FiX } from "react-icons/fi";
 import AddFossilModal from "./AddFossilModal";
 
 interface FossilTrackerProps {
@@ -18,6 +18,7 @@ interface FossilTrackerProps {
   ) => void;
   onToggleBag: (playerIndex: number, fossilIndex: number) => void;
   onRevive: (selectedIndices: number[]) => void;
+  onUpdateFossils: (newFossils: FossilEntry[][]) => void; // Neu: Um alle Fossile nach dem Edit zu speichern
   readOnly?: boolean;
   gameVersionId?: string;
 }
@@ -30,10 +31,14 @@ const FossilTracker: React.FC<FossilTrackerProps> = ({
   onAddFossil,
   onToggleBag,
   onRevive,
+  onUpdateFossils,
   readOnly = false,
   gameVersionId,
 }) => {
   const { t } = useTranslation();
+  const [isEditing, setIsEditing] = useState(false);
+  const [draftFossils, setDraftFossils] = useState<FossilEntry[][]>([]);
+
   const [modalOpen, setModalOpen] = useState<{
     open: boolean;
     playerIndex: number;
@@ -41,12 +46,40 @@ const FossilTracker: React.FC<FossilTrackerProps> = ({
     open: false,
     playerIndex: 0,
   });
+
   const [selections, setSelections] = useState<number[]>(
     playerNames.map(() => -1),
   );
 
+  // Initialisierung der Draft-Daten beim Starten des Edits
+  const startEditing = () => {
+    setDraftFossils(JSON.parse(JSON.stringify(fossils)));
+    setIsEditing(true);
+  };
+
+  const cancelEditing = () => {
+    setIsEditing(false);
+    setDraftFossils([]);
+  };
+
+  const saveEditing = () => {
+    onUpdateFossils(draftFossils);
+    setIsEditing(false);
+  };
+
+  const deleteFossil = (pIdx: number, fIdx: number) => {
+    setDraftFossils((prev) => {
+      const next = [...prev];
+      next[pIdx] = next[pIdx].filter((_, i) => i !== fIdx);
+      return next;
+    });
+  };
+
+  const displayFossils = isEditing ? draftFossils : fossils;
+
   const canRevive =
-    fossils.every((list) => list.some((f) => f.inBag && !f.revived)) &&
+    !isEditing && // Während des Edits keine Wiederbelebung
+    displayFossils.every((list) => list.some((f) => f.inBag && !f.revived)) &&
     selections.every((idx) => idx !== -1);
 
   const handleReviveClick = () => {
@@ -57,10 +90,48 @@ const FossilTracker: React.FC<FossilTrackerProps> = ({
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700 overflow-hidden">
-      <div className="flex justify-center items-center p-2 bg-gray-800 dark:bg-gray-900">
+      <div className="relative flex justify-center items-center p-2 bg-gray-800 dark:bg-gray-900">
         <h2 className="text-center text-white font-press-start text-sm">
           {t("tracker.infoPanel.fossilTracker")}
         </h2>
+
+        {!readOnly && (
+          <div className="absolute right-2 flex gap-2">
+            {!isEditing ? (
+              <button
+                onClick={startEditing}
+                className="px-2 py-1 rounded-md text-xs font-semibold flex items-center gap-1 shadow bg-green-600 text-white hover:bg-green-700"
+                title={t("tracker.infoPanel.editFossils")}
+              >
+                <FiEdit size={12} />{" "}
+                <span className="hidden sm:inline">
+                  {t("tracker.infoPanel.editFossils")}
+                </span>
+              </button>
+            ) : (
+              <>
+                <button
+                  onClick={cancelEditing}
+                  className="px-2 py-1 rounded-md text-xs font-semibold bg-red-600 text-white hover:bg-red-700 flex items-center gap-1 shadow"
+                >
+                  <FiX size={12} />{" "}
+                  <span className="hidden sm:inline">
+                    {t("tracker.infoPanel.cancelFossils")}
+                  </span>
+                </button>
+                <button
+                  onClick={saveEditing}
+                  className="px-2 py-1 rounded-md text-xs font-semibold bg-green-600 text-white hover:bg-green-700 flex items-center gap-1 shadow"
+                >
+                  <FiSave size={12} />{" "}
+                  <span className="hidden sm:inline">
+                    {t("tracker.infoPanel.saveFossils")}
+                  </span>
+                </button>
+              </>
+            )}
+          </div>
+        )}
       </div>
 
       <div className="p-4 space-y-4">
@@ -87,7 +158,12 @@ const FossilTracker: React.FC<FossilTrackerProps> = ({
                     onClick={() =>
                       setModalOpen({ open: true, playerIndex: pIdx })
                     }
-                    className="p-1 rounded bg-green-600 text-white hover:bg-green-700 transition-colors flex-shrink-0"
+                    disabled={isEditing}
+                    className={`p-1 rounded text-white transition-colors flex-shrink-0 ${
+                      isEditing
+                        ? "bg-gray-400 cursor-not-allowed"
+                        : "bg-green-600 hover:bg-green-700"
+                    }`}
                   >
                     <FiPlus size={14} />
                   </button>
@@ -95,10 +171,11 @@ const FossilTracker: React.FC<FossilTrackerProps> = ({
               </div>
 
               <div className="space-y-1 px-1">
-                {fossils[pIdx]?.map((entry, fIdx) => {
+                {displayFossils[pIdx]?.map((entry, fIdx) => {
                   const def = FOSSILS.find((f) => f.id === entry.fossilId);
                   const isSelected = selections[pIdx] === fIdx;
-                  const canBeSelected = entry.inBag && !entry.revived;
+                  const canBeSelected =
+                    entry.inBag && !entry.revived && !isEditing;
 
                   return (
                     <div
@@ -116,7 +193,7 @@ const FossilTracker: React.FC<FossilTrackerProps> = ({
                           ? "border-red-300 bg-red-50 dark:border-red-900/50 dark:bg-red-900/20 text-red-700 dark:text-red-400 cursor-default"
                           : isSelected
                             ? "border-green-500 bg-green-50 dark:bg-green-900/20 ring-1 ring-green-500 cursor-pointer"
-                            : !entry.inBag
+                            : !entry.inBag && !isEditing
                               ? "border-gray-200 dark:border-gray-700 opacity-60 cursor-default"
                               : "border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 dark:text-gray-300 cursor-pointer"
                       }`}
@@ -142,18 +219,36 @@ const FossilTracker: React.FC<FossilTrackerProps> = ({
                                 })}
                         </div>
                       </div>
-                      {!entry.inBag && !entry.revived && !readOnly && (
+
+                      {/* Löschen Button (im Edit Modus) */}
+                      {isEditing && (
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
-                            onToggleBag(pIdx, fIdx);
+                            deleteFossil(pIdx, fIdx);
                           }}
-                          className="p-1 rounded bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 hover:bg-blue-200 flex-shrink-0"
-                          title={t("tracker.infoPanel.fossilBag")}
+                          className="p-1 rounded bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300 hover:bg-red-200 flex-shrink-0"
                         >
-                          <FiCheck size={12} />
+                          <FiX size={12} />
                         </button>
                       )}
+
+                      {/* In Beutel verschieben Button (nur wenn nicht im Edit Modus) */}
+                      {!isEditing &&
+                        !entry.inBag &&
+                        !entry.revived &&
+                        !readOnly && (
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onToggleBag(pIdx, fIdx);
+                            }}
+                            className="p-1 rounded bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 hover:bg-blue-200 flex-shrink-0"
+                            title={t("tracker.infoPanel.fossilBag")}
+                          >
+                            <FiCheck size={12} />
+                          </button>
+                        )}
                     </div>
                   );
                 })}

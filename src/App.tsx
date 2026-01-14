@@ -1372,6 +1372,17 @@ const App: React.FC = () => {
     setPendingReviveIndices(null);
   };
 
+  const handleUpdateFossilList = useCallback(
+    (newFossils: FossilEntry[][]) => {
+      if (isReadOnly) return;
+      setData((prev) => ({
+        ...prev,
+        fossils: newFossils,
+      }));
+    },
+    [isReadOnly],
+  );
+
   const handlePublicToggle = (enabled: boolean) => {
     if (!activeTrackerId || isReadOnly) return;
     setTrackerMetas((prev) => {
@@ -2012,6 +2023,7 @@ const App: React.FC = () => {
               onAddFossil={handleAddFossil}
               onToggleBag={handleToggleFossilBag}
               onRevive={handleReviveFossils}
+              onUpdateFossils={handleUpdateFossilList}
               readOnly={isReadOnly}
               gameVersionId={activeGameVersionId || undefined}
             />

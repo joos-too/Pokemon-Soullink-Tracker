@@ -70,30 +70,37 @@ const AddFossilModal: React.FC<AddFossilModalProps> = ({
             <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
               {t("modals.addFossil.fossilLabel")}
             </label>
-            <div className="grid grid-cols-3 gap-2 p-1">
-              {availableFossils.map((f) => (
-                <button
-                  key={f.id}
-                  type="button"
-                  onClick={() => setSelectedFossilId(f.id)}
-                  className={`flex flex-col items-center p-2 rounded-md border transition-all ${
-                    selectedFossilId === f.id
-                      ? "border-green-500 bg-green-50 dark:bg-green-900/20"
-                      : "border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700"
-                  }`}
-                >
-                  <img
-                    src={`/fossil-sprites/${f.sprite}`}
-                    alt={f.id}
-                    className="w-10 h-10 object-contain"
-                    style={{ imageRendering: "pixelated" }}
-                  />
-                  <span className="text-[10px] mt-1 text-center dark:text-gray-200">
-                    {t(`fossils.${f.id}`)}
-                  </span>
-                </button>
-              ))}
-            </div>
+
+            {availableFossils.length > 0 ? (
+              <div className="grid grid-cols-3 gap-2 p-1">
+                {availableFossils.map((f) => (
+                  <button
+                    key={f.id}
+                    type="button"
+                    onClick={() => setSelectedFossilId(f.id)}
+                    className={`flex flex-col items-center p-2 rounded-md border transition-all ${
+                      selectedFossilId === f.id
+                        ? "border-green-500 bg-green-50 dark:bg-green-900/20"
+                        : "border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700"
+                    }`}
+                  >
+                    <img
+                      src={`/fossil-sprites/${f.sprite}`}
+                      alt={f.id}
+                      className="w-10 h-10 object-contain"
+                      style={{ imageRendering: "pixelated" }}
+                    />
+                    <span className="text-[10px] mt-1 text-center dark:text-gray-200">
+                      {t(`fossils.${f.id}`)}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <div className="p-4 rounded-md border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/20 text-xs text-amber-800 dark:text-amber-200 leading-relaxed">
+                {t("modals.addFossil.emptyListExplanation")}
+              </div>
+            )}
           </div>
 
           <div className="flex items-center gap-2 py-2">
@@ -105,11 +112,16 @@ const AddFossilModal: React.FC<AddFossilModalProps> = ({
                 setInBag(e.target.checked);
                 if (e.target.checked) setLocation("");
               }}
-              className="h-4 w-4 accent-green-600 cursor-pointer"
+              disabled={availableFossils.length === 0}
+              className="h-4 w-4 accent-green-600 cursor-pointer disabled:cursor-not-allowed"
             />
             <label
               htmlFor="inBag"
-              className="text-sm font-semibold dark:text-gray-200 cursor-pointer"
+              className={`text-sm font-semibold dark:text-gray-200 cursor-pointer ${
+                availableFossils.length === 0
+                  ? "opacity-50 cursor-not-allowed"
+                  : ""
+              }`}
             >
               {t("modals.addFossil.inBagLabel")}
             </label>
@@ -139,7 +151,7 @@ const AddFossilModal: React.FC<AddFossilModalProps> = ({
               onChange={setLocation}
               isOpen={isOpen}
               gameVersionId={gameVersionId}
-              disabled={inBag}
+              disabled={inBag || availableFossils.length === 0}
               placeholder={inBag ? "" : t("common.routePlaceholder")}
             />
           </div>
