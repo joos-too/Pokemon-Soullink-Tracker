@@ -114,6 +114,18 @@ export const en = {
         "The loss is automatically assigned to <strong>{{player}}</strong>.",
       confirm: "Confirm",
     },
+    addFossil: {
+      title: "Add Fossil",
+      fossilLabel: "Select Fossil",
+      locationLabel: "Location",
+      locationTooltip:
+        "If a fossil has been discovered but not yet obtained (e.g., in a shop when short on cash), you can note its location here. You can then move it to your bag later with a single click.",
+      locationTooltipLabel: "Location Info",
+      emptyListExplanation:
+        "No more fossils available. According to standard rules, each fossil can only be revived once per player. However, you can change this in the tracker settings under 'Infinite Fossils'.",
+      inBagLabel: "Already in bag",
+      submit: "Add",
+    },
   },
   tracker: {
     defaultTitle: "Tracker",
@@ -185,6 +197,15 @@ export const en = {
       rulePlaceholder: "Rule {{index}}",
       completedArena: "Completed: {{target}}",
       totalLabel: "Total:",
+      fossilTracker: "Fossil Tracker",
+      editFossils: "Edit fossils",
+      saveFossils: "Save",
+      cancelFossils: "Cancel",
+      fossilHint: "Collect fossils and revive them together.",
+      fossilRevive: "Revive",
+      fossilBag: "In Bag",
+      fossilLocation: "Loc: {{location}}",
+      fossilRevived: "Revived",
     },
     evolveModal: {
       title: "Evolve Pokémon",
@@ -310,6 +331,14 @@ export const en = {
         tooltip:
           "Use sprites instead of official artwork everywhere in the app. Respects other sprite settings.",
         description: "Show sprites instead of artwork in all views.",
+      },
+      infiniteFossils: {
+        title: "Infinite Fossils",
+        tooltipLabel: "Infinite Fossils Info",
+        tooltip:
+          "By default, each fossil can only be owned once per player. When enabled, players can collect and revive the same fossil multiple times.",
+        description:
+          "Allow players to collect the same fossils multiple times.",
       },
     },
     members: {
@@ -967,5 +996,18 @@ export const en = {
         },
       },
     },
+  },
+  fossils: {
+    "helix-fossil": "Helix Fossil",
+    "dome-fossil": "Dome Fossil",
+    "old-amber": "Old Amber",
+    "root-fossil": "Root Fossil",
+    "claw-fossil": "Claw Fossil",
+    "skull-fossil": "Skull Fossil",
+    "armor-fossil": "Armor Fossil",
+    "cover-fossil": "Cover Fossil",
+    "plume-fossil": "Plume Fossil",
+    "jaw-fossil": "Jaw Fossil",
+    "sail-fossil": "Sail Fossil",
   },
 };

@@ -116,6 +116,18 @@ export const de = {
         "Der Verlust wird automatisch <strong>{{player}}</strong> zugewiesen.",
       confirm: "Bestätigen",
     },
+    addFossil: {
+      title: "Fossil hinzufügen",
+      fossilLabel: "Fossil auswählen",
+      locationLabel: "Fundort",
+      locationTooltip:
+        "Falls ein Fossil gefunden wurde, aber noch nicht erworben wurde (z. B. in einem Shop bei Geldmangel), kann hier der Fundort notiert werden. Später lässt sich das Fossil mit einem Klick in den Beutel verschieben.",
+      locationTooltipLabel: "Info zum Fundort",
+      emptyListExplanation:
+        "Keine weiteren Fossile verfügbar. Laut den Standard Regeln darf jedes Fossil pro Spieler nur einmal wiederbelebt werden. Du kannst dies jedoch in den Tracker-Einstellungen unter 'Unendliche Fossile' ändern.",
+      inBagLabel: "Bereits im Beutel",
+      submit: "Hinzufügen",
+    },
   },
   tracker: {
     defaultTitle: "Tracker",
@@ -187,6 +199,15 @@ export const de = {
       rulePlaceholder: "Regel {{index}}",
       completedArena: "Erledigt: {{target}}",
       totalLabel: "Gesamt:",
+      fossilTracker: "Fossil Tracker",
+      editFossils: "Fossile Bearbeiten",
+      saveFossils: "Speichern",
+      cancelFossils: "Abbrechen",
+      fossilHint: "Sammle Fossile und belebe sie gemeinsam wieder.",
+      fossilRevive: "Wiederbeleben",
+      fossilBag: "Im Beutel",
+      fossilLocation: "Ort: {{location}}",
+      fossilRevived: "Wiederbelebt",
     },
     evolveModal: {
       title: "Entwickeln",
@@ -314,6 +335,13 @@ export const de = {
         tooltip:
           "Verwende Sprites statt offizieller Artworks überall in der App. Respektiert die anderen Sprite-Einstellungen.",
         description: "Zeige Sprites statt Artworks in allen Ansichten an.",
+      },
+      infiniteFossils: {
+        title: "Unendliche Fossile",
+        tooltipLabel: "Info Unendliche Fossile",
+        tooltip:
+          "Standardmäßig kann jedes Fossil pro Spieler nur einmal wiederbelebt werden. Wenn aktiviert, können Spieler das gleiche Fossil unendlich oft sammeln und wiederbeleben.",
+        description: "Erlaube Spielern, Fossile mehrfach zu sammeln.",
       },
     },
     members: {
@@ -447,5 +475,18 @@ export const de = {
       buttonBack: "Zurück",
       accountLabel: "Account",
     },
+  },
+  fossils: {
+    "helix-fossil": "Helixfossil",
+    "dome-fossil": "Domfossil",
+    "old-amber": "Altbernstein",
+    "root-fossil": "Wurzelfossil",
+    "claw-fossil": "Klauenfossil",
+    "skull-fossil": "Kopffossil",
+    "armor-fossil": "Panzerfossil",
+    "cover-fossil": "Federfossil",
+    "plume-fossil": "Schildfossil",
+    "jaw-fossil": "Kieferfossil",
+    "sail-fossil": "Flossenfossil",
   },
 };
