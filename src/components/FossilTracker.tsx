@@ -100,7 +100,7 @@ const FossilTracker: React.FC<FossilTrackerProps> = ({
             {!isEditing ? (
               <button
                 onClick={startEditing}
-                className="px-2 py-1 rounded-md text-xs font-semibold flex items-center gap-1 shadow bg-green-600 text-white hover:bg-green-700"
+                className="px-2 py-1 rounded-md text-xs font-semibold flex items-center gap-1 shadow bg-gray-800 text-white hover:bg-gray-700"
                 title={t("tracker.infoPanel.editFossils")}
               >
                 <FiEdit size={12} />{" "}

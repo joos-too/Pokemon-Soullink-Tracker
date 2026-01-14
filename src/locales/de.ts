@@ -124,7 +124,7 @@ export const de = {
         "Falls ein Fossil gefunden wurde, aber noch nicht erworben wurde (z. B. in einem Shop bei Geldmangel), kann hier der Fundort notiert werden. Später lässt sich das Fossil mit einem Klick in den Beutel verschieben.",
       locationTooltipLabel: "Info zum Fundort",
       emptyListExplanation:
-        "Keine weiteren Fossile verfügbar. Laut den offiziellen Regeln darf jedes Fossil pro Spieler nur einmal wiederbelebt werden. Du kannst dies jedoch in den Tracker-Einstellungen unter 'Unendliche Fossile' ändern.",
+        "Keine weiteren Fossile verfügbar. Laut den Standard Regeln darf jedes Fossil pro Spieler nur einmal wiederbelebt werden. Du kannst dies jedoch in den Tracker-Einstellungen unter 'Unendliche Fossile' ändern.",
       inBagLabel: "Bereits im Beutel",
       submit: "Hinzufügen",
     },

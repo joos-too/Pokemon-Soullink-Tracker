@@ -122,7 +122,7 @@ export const en = {
         "If a fossil has been discovered but not yet obtained (e.g., in a shop when short on cash), you can note its location here. You can then move it to your bag later with a single click.",
       locationTooltipLabel: "Location Info",
       emptyListExplanation:
-        "No more fossils available. According to official rules, each fossil can only be revived once per player. However, you can change this in the tracker settings under 'Infinite Fossils'.",
+        "No more fossils available. According to standard rules, each fossil can only be revived once per player. However, you can change this in the tracker settings under 'Infinite Fossils'.",
       inBagLabel: "Already in bag",
       submit: "Add",
     },
