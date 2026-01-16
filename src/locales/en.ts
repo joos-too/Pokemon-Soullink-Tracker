@@ -37,7 +37,6 @@ export const en = {
     emptyTitle: "No trackers yet",
     emptyDescription: "Create your first tracker and invite your teammates.",
     startNow: "Start now",
-    memberCount: "{{count}} members",
     progressLabel: "Progress",
     runCount: "Run {{count}}",
     activePokemon: "Active",

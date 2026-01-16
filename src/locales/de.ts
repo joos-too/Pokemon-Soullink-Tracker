@@ -38,7 +38,6 @@ export const de = {
     emptyDescription:
       "Erstelle deinen ersten Tracker und lade deine Mitspieler ein.",
     startNow: "Jetzt starten",
-    memberCount: "{{count}} Mitglieder",
     progressLabel: "Fortschritt",
     runCount: "Run {{count}}",
     activePokemon: "Aktiv",
