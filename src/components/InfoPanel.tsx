@@ -459,7 +459,13 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                         </div>
                         <div>
                           {t("tracker.infoPanel.levelCapLabel")}{" "}
-                          <strong>{next.level}</strong>
+                          <strong>
+                            {(() => {
+                              const hc = hardcoreModeEnabled !== false;
+                              if (hc) return next.level;
+                              return next.level.split("/")[0].trim();
+                            })()}
+                          </strong>
                         </div>
                       </div>
                     </div>

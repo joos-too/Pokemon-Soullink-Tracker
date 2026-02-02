@@ -165,7 +165,7 @@ export const de = {
       bestRunLabel: "Bester Run",
       statActiveLabel: "Aktiv",
       statFallenLabel: "Tot",
-      currentLevelCap: "Aktueller Level Cap",
+      currentLevelCap: "Aktuelle Level Cap",
       challengeComplete: "Challenge geschafft!",
       activeLabel: "Aktuell:",
       levelCapLabel: "Level Cap:",
