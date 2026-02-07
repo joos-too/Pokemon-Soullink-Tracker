@@ -50,7 +50,7 @@ interface InfoPanelProps {
   onRulesChange: (rules: string[]) => void;
   legendaryTrackerEnabled: boolean;
   rivalCensorEnabled: boolean;
-  hardcoreModeEnabled?: boolean;
+  hardcoreModeEnabled: boolean;
   onlegendaryIncrement: () => void;
   onlegendaryDecrement: () => void;
   runStartedAt?: number;
@@ -246,7 +246,6 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
   };
 
   const renderLevelCaps = (level: string) => {
-    const hc = hardcoreModeEnabled !== false; // default true
     const hasSlash = level.includes("/");
     const [leftRaw, rightRaw] = hasSlash
       ? level.split("/")
@@ -254,7 +253,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
     const left = (leftRaw || "").trim();
     const right = (rightRaw || "").trim();
 
-    if (!hc) {
+    if (!hardcoreModeEnabled) {
       const show = hasSlash ? left : left || right || "";
       return (
         <div className="inline-flex items-center pl-1">
@@ -461,8 +460,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                           {t("tracker.infoPanel.levelCapLabel")}{" "}
                           <strong>
                             {(() => {
-                              const hc = hardcoreModeEnabled !== false;
-                              if (hc) return next.level;
+                              if (hardcoreModeEnabled) return next.level;
                               return next.level.split("/")[0].trim();
                             })()}
                           </strong>
