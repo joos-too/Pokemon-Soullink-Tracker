@@ -4,6 +4,10 @@ import { FOSSILS } from "@/src/services/init";
 import { FiX, FiInfo } from "react-icons/fi";
 import LocationSuggestionInput from "./LocationSuggestionInput";
 import Tooltip from "./Tooltip";
+import {
+  focusRingCardClasses,
+  focusRingClasses,
+} from "@/src/styles/focusRing.ts";
 
 interface AddFossilModalProps {
   isOpen: boolean;
@@ -59,7 +63,7 @@ const AddFossilModal: React.FC<AddFossilModalProps> = ({
           </h2>
           <button
             onClick={onClose}
-            className="text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
+            className={`text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 rounded-md ${focusRingClasses}`}
           >
             <FiX size={24} />
           </button>
@@ -78,7 +82,7 @@ const AddFossilModal: React.FC<AddFossilModalProps> = ({
                     key={f.id}
                     type="button"
                     onClick={() => setSelectedFossilId(f.id)}
-                    className={`flex flex-col items-center p-2 rounded-md border transition-all ${
+                    className={`flex flex-col items-center p-2 rounded-md border transition-all ${focusRingCardClasses} ${
                       selectedFossilId === f.id
                         ? "border-green-500 bg-green-50 dark:bg-green-900/20"
                         : "border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700"
@@ -160,14 +164,14 @@ const AddFossilModal: React.FC<AddFossilModalProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700"
+              className={`px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 ${focusRingClasses}`}
             >
               {t("common.cancel")}
             </button>
             <button
               type="submit"
               disabled={!selectedFossilId || (!inBag && !location.trim())}
-              className={`px-4 py-2 rounded-md font-semibold shadow ${
+              className={`px-4 py-2 rounded-md font-semibold shadow ${focusRingClasses} ${
                 selectedFossilId && (inBag || location.trim())
                   ? "bg-green-600 text-white hover:bg-green-700"
                   : "bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed"
