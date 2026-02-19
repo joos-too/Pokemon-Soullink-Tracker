@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FOSSILS } from "@/constants";
+import { FOSSILS } from "@/src/services/init";
 import { FiX, FiInfo } from "react-icons/fi";
 import LocationSuggestionInput from "./LocationSuggestionInput";
 import Tooltip from "./Tooltip";

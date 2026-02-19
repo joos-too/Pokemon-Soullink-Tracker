@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FossilEntry } from "@/types";
-import { FOSSILS, PLAYER_COLORS } from "@/constants";
+import { FOSSILS, PLAYER_COLORS } from "@/src/services/init";
 import { FiPlus, FiCheck, FiEdit, FiSave, FiX } from "react-icons/fi";
 import AddFossilModal from "./AddFossilModal";
 
