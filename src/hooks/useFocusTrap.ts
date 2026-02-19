@@ -20,8 +20,60 @@ function getFocusableElements(container: HTMLElement) {
   );
 }
 
+let scrollLockCount = 0;
+let previousBodyOverflow = "";
+let previousBodyPaddingRight = "";
+let previousHtmlOverflow = "";
+
+function lockScroll() {
+  if (typeof document === "undefined") return;
+
+  if (scrollLockCount === 0) {
+    const body = document.body;
+    const html = document.documentElement;
+    const scrollbarWidth = window.innerWidth - html.clientWidth;
+
+    previousBodyOverflow = body.style.overflow;
+    previousBodyPaddingRight = body.style.paddingRight;
+    previousHtmlOverflow = html.style.overflow;
+
+    body.style.overflow = "hidden";
+    html.style.overflow = "hidden";
+
+    if (scrollbarWidth > 0) {
+      body.style.paddingRight = `${scrollbarWidth}px`;
+    }
+  }
+
+  scrollLockCount += 1;
+}
+
+function unlockScroll() {
+  if (typeof document === "undefined" || scrollLockCount === 0) return;
+
+  scrollLockCount -= 1;
+
+  if (scrollLockCount === 0) {
+    const body = document.body;
+    const html = document.documentElement;
+
+    body.style.overflow = previousBodyOverflow;
+    body.style.paddingRight = previousBodyPaddingRight;
+    html.style.overflow = previousHtmlOverflow;
+  }
+}
+
 export function useFocusTrap(active: boolean) {
   const containerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!active) return;
+
+    lockScroll();
+    return () => {
+      unlockScroll();
+    };
+  }, [active]);
 
   useEffect(() => {
     if (!active) return;
