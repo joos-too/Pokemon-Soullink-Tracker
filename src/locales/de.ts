@@ -38,7 +38,6 @@ export const de = {
     emptyDescription:
       "Erstelle deinen ersten Tracker und lade deine Mitspieler ein.",
     startNow: "Jetzt starten",
-    memberCount: "{{count}} Mitglieder",
     progressLabel: "Fortschritt",
     runCount: "Run {{count}}",
     activePokemon: "Aktiv",
@@ -121,6 +120,18 @@ export const de = {
         "Der Verlust wird automatisch <strong>{{player}}</strong> zugewiesen.",
       confirm: "Bestätigen",
     },
+    addFossil: {
+      title: "Fossil hinzufügen",
+      fossilLabel: "Fossil auswählen",
+      locationLabel: "Fundort",
+      locationTooltip:
+        "Falls ein Fossil gefunden wurde, aber noch nicht erworben wurde (z. B. in einem Shop bei Geldmangel), kann hier der Fundort notiert werden. Später lässt sich das Fossil mit einem Klick in den Beutel verschieben.",
+      locationTooltipLabel: "Info zum Fundort",
+      emptyListExplanation:
+        "Keine weiteren Fossile verfügbar. Laut den Standard Regeln darf jedes Fossil pro Spieler nur einmal wiederbelebt werden. Du kannst dies jedoch in den Tracker-Einstellungen unter 'Unendliche Fossile' ändern.",
+      inBagLabel: "Bereits im Beutel",
+      submit: "Hinzufügen",
+    },
   },
   rulesets: {
     presetTag: "Vordefiniert",
@@ -172,7 +183,7 @@ export const de = {
       bestRunLabel: "Bester Run",
       statActiveLabel: "Aktiv",
       statFallenLabel: "Tot",
-      currentLevelCap: "Aktueller Level Cap",
+      currentLevelCap: "Aktuelle Level Cap",
       challengeComplete: "Challenge geschafft!",
       activeLabel: "Aktuell:",
       levelCapLabel: "Level Cap:",
@@ -208,6 +219,15 @@ export const de = {
       removeRuleDisabled: "Mindestens eine Regel ist erforderlich",
       completedArena: "Erledigt: {{target}}",
       totalLabel: "Gesamt:",
+      fossilTracker: "Fossil Tracker",
+      editFossils: "Fossile Bearbeiten",
+      saveFossils: "Speichern",
+      cancelFossils: "Abbrechen",
+      fossilHint: "Sammle Fossile und belebe sie gemeinsam wieder.",
+      fossilRevive: "Wiederbeleben",
+      fossilBag: "Im Beutel",
+      fossilLocation: "Ort: {{location}}",
+      fossilRevived: "Wiederbelebt",
     },
     evolveModal: {
       title: "Entwickeln",
@@ -412,6 +432,13 @@ export const de = {
           "Verwende Sprites statt offizieller Artworks überall in der App. Respektiert die anderen Sprite-Einstellungen.",
         description: "Zeige Sprites statt Artworks in allen Ansichten an.",
       },
+      infiniteFossils: {
+        title: "Unendliche Fossile",
+        tooltipLabel: "Info Unendliche Fossile",
+        tooltip:
+          "Standardmäßig kann jedes Fossil pro Spieler nur einmal wiederbelebt werden. Wenn aktiviert, können Spieler das gleiche Fossil unendlich oft sammeln und wiederbeleben.",
+        description: "Erlaube Spielern, Fossile mehrfach zu sammeln.",
+      },
     },
     members: {
       title: "Mitglieder",
@@ -544,5 +571,18 @@ export const de = {
       buttonBack: "Zurück",
       accountLabel: "Account",
     },
+  },
+  fossils: {
+    "helix-fossil": "Helixfossil",
+    "dome-fossil": "Domfossil",
+    "old-amber": "Altbernstein",
+    "root-fossil": "Wurzelfossil",
+    "claw-fossil": "Klauenfossil",
+    "skull-fossil": "Kopffossil",
+    "armor-fossil": "Panzerfossil",
+    "cover-fossil": "Federfossil",
+    "plume-fossil": "Schildfossil",
+    "jaw-fossil": "Kieferfossil",
+    "sail-fossil": "Flossenfossil",
   },
 };

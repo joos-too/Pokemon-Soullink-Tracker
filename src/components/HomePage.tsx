@@ -6,6 +6,7 @@ import {
   FiPlus,
   FiSettings,
   FiUnlock,
+  FiUser,
   FiUsers,
 } from "react-icons/fi";
 import DarkModeToggle from "@/src/components/DarkModeToggle";
@@ -48,6 +49,14 @@ const HomePage: React.FC<HomePageProps> = ({
   const dateLocale = useMemo(
     () => (i18n.language?.toLowerCase().startsWith("de") ? "de-DE" : "en-US"),
     [i18n.language],
+  );
+  const playerCountLabels = useMemo(
+    () => ({
+      1: t("modals.createTracker.playerCounts.solo"),
+      2: t("modals.createTracker.playerCounts.duo"),
+      3: t("modals.createTracker.playerCounts.trio"),
+    }),
+    [t],
   );
 
   return (
@@ -143,9 +152,9 @@ const HomePage: React.FC<HomePageProps> = ({
           ) : (
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               {sortedTrackers.map((tracker) => {
-                const memberCount =
-                  Object.keys(tracker.members ?? {}).length +
-                  Object.keys(tracker.guests ?? {}).length;
+                const playerCount = Object.keys(
+                  tracker.playerNames ?? {},
+                ).length;
                 const isActive = tracker.id === activeTrackerId;
                 const summary = trackerSummaries[tracker.id];
                 const activePokemon =
@@ -193,8 +202,8 @@ const HomePage: React.FC<HomePageProps> = ({
                           )}
                         </span>
                         <span className="inline-flex items-center gap-1 rounded-full bg-gray-100 dark:bg-gray-800 px-2 py-1 text-xs font-semibold">
-                          <FiUsers />{" "}
-                          {t("home.memberCount", { count: memberCount })}
+                          {playerCount > 1 ? <FiUsers /> : <FiUser />}
+                          {playerCountLabels[playerCount]}
                         </span>
                         {isGuestTracker && (
                           <span className="inline-flex items-center gap-1 rounded-full bg-gray-100 dark:bg-gray-800 px-2 py-1 text-xs font-semibold">

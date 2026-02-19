@@ -11,12 +11,13 @@ import {
   FiMenu,
   FiMoon,
   FiRotateCw,
-  FiSettings,
+  FiSliders,
   FiSun,
 } from "react-icons/fi";
 import { FaGithub } from "react-icons/fa";
 import type {
   AppState,
+  FossilEntry,
   LevelCap,
   Pokemon,
   PokemonLink,
@@ -38,6 +39,7 @@ import Graveyard from "@/src/components/Graveyard";
 import ClearedRoutes from "@/src/components/ClearedRoutes";
 import AddLostPokemonModal from "@/src/components/AddLostPokemonModal";
 import RulesetSaveModal from "@/src/components/RulesetSaveModal";
+import FossilTracker from "@/src/components/FossilTracker";
 import { getGenerationSpritePath } from "@/src/services/sprites";
 import SelectLossModal from "@/src/components/SelectLossModal";
 import LoginPage from "@/src/components/LoginPage";
@@ -46,6 +48,7 @@ import SettingsPage from "@/src/components/SettingsPage";
 import UserSettingsPage from "@/src/components/UserSettingsPage";
 import PasswordResetPage from "@/src/components/PasswordResetPage";
 import ResetModal from "@/src/components/ResetModal";
+import EditPairModal from "@/src/components/EditPairModal";
 import DarkModeToggle, {
   getDarkMode,
   setDarkMode,
@@ -237,6 +240,12 @@ const App: React.FC = () => {
   const [rulesetSaveError, setRulesetSaveError] = useState<string | null>(null);
   const [rulesetCopyName, setRulesetCopyName] = useState<string>("");
   const [rulesetOverwriteName, setRulesetOverwriteName] = useState<string>("");
+
+  const [reviveArea, setReviveArea] = useState("");
+  const [addRevivedPokemonOpen, setAddRevivedPokemonOpen] = useState(false);
+  const [pendingReviveIndices, setPendingReviveIndices] = useState<
+    number[] | null
+  >(null);
 
   const activeTrackerMeta = activeTrackerId
     ? trackerMetas[activeTrackerId]
@@ -436,6 +445,20 @@ const App: React.FC = () => {
         return list.map((p, index) => sanitizeLink(p, index + 1));
       };
 
+      const sanitizeFossils = (playerFossils: any): FossilEntry[][] => {
+        return normalizedNames.map((_, i) => {
+          const list = Array.isArray(playerFossils) ? playerFossils[i] : null;
+          if (!Array.isArray(list)) return [];
+          return list.map((f: any) => ({
+            fossilId: f.fossilId || "",
+            location: f.location || "",
+            inBag: !!f.inBag,
+            revived: !!f.revived,
+            pokemonName: f.pokemonName || "",
+          }));
+        });
+      };
+
       const resolvedRulesetId =
         typeof safe.rulesetId === "string" && safe.rulesetId.trim().length > 0
           ? safe.rulesetId
@@ -471,6 +494,9 @@ const App: React.FC = () => {
           safe.rivalCensorEnabled ?? base.rivalCensorEnabled ?? true,
         hardcoreModeEnabled:
           safe.hardcoreModeEnabled ?? base.hardcoreModeEnabled ?? true,
+        infiniteFossilsEnabled:
+          safe.infiniteFossilsEnabled ?? base.infiniteFossilsEnabled ?? false,
+        fossils: sanitizeFossils(safe.fossils),
         runStartedAt:
           typeof safe.runStartedAt === "number"
             ? safe.runStartedAt
@@ -1011,6 +1037,7 @@ const App: React.FC = () => {
         legendaryTrackerEnabled: prev.legendaryTrackerEnabled,
         rivalCensorEnabled: prev.rivalCensorEnabled,
         hardcoreModeEnabled: prev.hardcoreModeEnabled,
+        infiniteFossilsEnabled: prev.infiniteFossilsEnabled,
         stats: {
           runs: prev.stats.runs + 1, // increase run number by 1
           best: newBest, // persistiertes best
@@ -1453,6 +1480,89 @@ const App: React.FC = () => {
     setData((prev) => ({ ...prev, hardcoreModeEnabled: enabled }));
   };
 
+  const handleInfiniteFossilsToggle = (enabled: boolean) => {
+    if (isReadOnly) return;
+    setData((prev) => ({ ...prev, infiniteFossilsEnabled: enabled }));
+  };
+
+  const handleAddFossil = (
+    pIdx: number,
+    fossilId: string,
+    location: string,
+    inBag: boolean,
+  ) => {
+    if (isReadOnly) return;
+    setData((prev) => {
+      const newFossils = [...(prev.fossils || prev.playerNames.map(() => []))];
+      const playerList = Array.isArray(newFossils[pIdx])
+        ? [...newFossils[pIdx]]
+        : [];
+      newFossils[pIdx] = [
+        ...playerList,
+        { fossilId, location, inBag, revived: false },
+      ];
+      return { ...prev, fossils: newFossils };
+    });
+  };
+
+  const handleToggleFossilBag = (pIdx: number, fIdx: number) => {
+    if (isReadOnly) return;
+    setData((prev) => {
+      const newFossils = [...(prev.fossils || [])];
+      if (!newFossils[pIdx]) return prev;
+      newFossils[pIdx] = newFossils[pIdx].map((f, i) =>
+        i === fIdx ? { ...f, inBag: true, location: "" } : f,
+      );
+      return { ...prev, fossils: newFossils };
+    });
+  };
+
+  const handleReviveFossils = (selectedIndices: number[]) => {
+    if (isReadOnly || !data.fossils) return;
+
+    const selectedFossils = selectedIndices.map(
+      (fIdx, pIdx) => data.fossils![pIdx][fIdx],
+    );
+    const areaName = selectedFossils
+      .map((f) => t(`fossils.${f.fossilId}`))
+      .join("/");
+
+    setReviveArea(areaName);
+    setPendingReviveIndices(selectedIndices);
+    setAddRevivedPokemonOpen(true);
+  };
+
+  const confirmRevival = (revivedNames: string[]) => {
+    if (!pendingReviveIndices) return;
+
+    setData((prev) => {
+      const newFossils = [...(prev.fossils || [])];
+      pendingReviveIndices.forEach((fIdx, pIdx) => {
+        if (newFossils[pIdx] && newFossils[pIdx][fIdx]) {
+          newFossils[pIdx] = newFossils[pIdx].map((f, i) =>
+            i === fIdx
+              ? { ...f, revived: true, pokemonName: revivedNames[pIdx] }
+              : f,
+          );
+        }
+      });
+      return { ...prev, fossils: newFossils };
+    });
+
+    setPendingReviveIndices(null);
+  };
+
+  const handleUpdateFossilList = useCallback(
+    (newFossils: FossilEntry[][]) => {
+      if (isReadOnly) return;
+      setData((prev) => ({
+        ...prev,
+        fossils: newFossils,
+      }));
+    },
+    [isReadOnly],
+  );
+
   const applyRulesetChange = useCallback(
     (rulesetId: string) => {
       if (isReadOnly) return;
@@ -1847,6 +1957,7 @@ const App: React.FC = () => {
       closeSettingsPanel();
     }
   }, [isReadOnly, isGuest, showSettings, closeSettingsPanel]);
+
   const resolvedPlayerNames = useMemo(() => {
     if (Array.isArray(data.playerNames) && data.playerNames.length > 0) {
       return data.playerNames;
@@ -1859,6 +1970,7 @@ const App: React.FC = () => {
     }
     return [];
   }, [data.playerNames, activeTrackerMeta?.playerNames]);
+
   const playerColors = useMemo(
     () => resolvedPlayerNames.map((_, index) => PLAYER_COLORS[index]),
     [resolvedPlayerNames],
@@ -1883,6 +1995,7 @@ const App: React.FC = () => {
     data.runStartedAt,
     activeTrackerMeta?.createdAt,
   ]);
+
   const nameTitleFallback = resolvedPlayerNames
     .map((n) => n?.trim())
     .filter(Boolean)
@@ -1981,6 +2094,8 @@ const App: React.FC = () => {
       onRivalCensorToggle={handleRivalCensorToggle}
       hardcoreModeEnabled={data.hardcoreModeEnabled ?? true}
       onHardcoreModeToggle={handleHardcoreModeToggle}
+      infiniteFossilsEnabled={data.infiniteFossilsEnabled ?? false}
+      onInfiniteFossilsToggle={handleInfiniteFossilsToggle}
       isPublic={activeTrackerMeta?.isPublic ?? false}
       onPublicToggle={handlePublicToggle}
       members={trackerMembers}
@@ -2074,7 +2189,7 @@ const App: React.FC = () => {
                   aria-label={t("tracker.actions.settings")}
                   title={t("tracker.actions.settings")}
                 >
-                  <FiSettings size={28} />
+                  <FiSliders size={28} />
                 </button>
               )}
             </div>
@@ -2172,7 +2287,7 @@ const App: React.FC = () => {
                   className={`w-full text-left px-2 py-2 rounded-md text-sm inline-flex items-center gap-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 ${focusRingClasses}`}
                   title={t("tracker.menu.settings")}
                 >
-                  <FiSettings size={18} /> {t("tracker.menu.settings")}
+                  <FiSliders size={18} /> {t("tracker.menu.settings")}
                 </button>
               )}
             </div>
@@ -2267,6 +2382,18 @@ const App: React.FC = () => {
               generationSpritePath={generationSpritePath}
               pokemonGenerationLimit={pokemonGenerationLimit}
             />
+            <FossilTracker
+              playerNames={resolvedPlayerNames}
+              fossils={data.fossils || resolvedPlayerNames.map(() => [])}
+              maxGeneration={pokemonGenerationLimit}
+              infiniteFossilsEnabled={data.infiniteFossilsEnabled ?? false}
+              onAddFossil={handleAddFossil}
+              onToggleBag={handleToggleFossilBag}
+              onRevive={handleReviveFossils}
+              onUpdateFossils={handleUpdateFossilList}
+              readOnly={isReadOnly}
+              gameVersionId={activeGameVersionId || undefined}
+            />
             <Graveyard
               graveyard={data.graveyard}
               playerNames={resolvedPlayerNames}
@@ -2296,6 +2423,29 @@ const App: React.FC = () => {
           </a>
         </footer>
       </div>
+
+      <EditPairModal
+        isOpen={addRevivedPokemonOpen}
+        onClose={() => {
+          setAddRevivedPokemonOpen(false);
+          setPendingReviveIndices(null);
+        }}
+        onSave={(payload) => {
+          handleAddBoxPair(payload);
+          const names = payload.members.map((m) => m.name);
+          confirmRevival(names);
+          setAddRevivedPokemonOpen(false);
+        }}
+        playerLabels={resolvedPlayerNames}
+        mode="create"
+        initial={{
+          route: reviveArea,
+          members: resolvedPlayerNames.map(() => ({ name: "", nickname: "" })),
+        }}
+        generationLimit={pokemonGenerationLimit}
+        gameVersionId={activeGameVersionId || undefined}
+        generationSpritePath={generationSpritePath}
+      />
     </div>
   );
 

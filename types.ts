@@ -47,6 +47,14 @@ export interface RivalCap {
   revealed?: boolean;
 }
 
+export interface FossilEntry {
+  fossilId: string;
+  location: string;
+  inBag: boolean;
+  revived: boolean;
+  pokemonName?: string;
+}
+
 export interface Stats {
   runs: number;
   best: number;
@@ -69,6 +77,8 @@ export interface AppState {
   legendaryTrackerEnabled?: boolean;
   rivalCensorEnabled?: boolean;
   hardcoreModeEnabled?: boolean;
+  infiniteFossilsEnabled?: boolean;
+  fossils?: FossilEntry[][];
   runStartedAt?: number;
 }
 

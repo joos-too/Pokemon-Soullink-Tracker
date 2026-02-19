@@ -19,6 +19,7 @@ import {
 } from "firebase/auth";
 import { get, ref, update } from "firebase/database";
 import { createInitialState } from "@/src/services/init.ts";
+import { FossilEntry } from "@/types";
 
 // Test user credentials for emulator mode
 const TEST_USER_EMAIL = "test@example.com";
@@ -107,6 +108,7 @@ async function createTracker(
       members: Array<{ name: string; nickname: string }>;
     }>;
     checkedLevelCaps: number[]; // Array of level cap indices to mark as done
+    fossilEntries?: FossilEntry[][]; // Array of fossils per player
   },
 ): Promise<Record<string, any>> {
   const now = Date.now();
@@ -140,6 +142,11 @@ async function createTracker(
   initialState.team = config.teamPokemon;
   initialState.box = config.boxPokemon;
   initialState.graveyard = config.graveyardPokemon;
+
+  // Add fossil data if provided
+  if (config.fossilEntries) {
+    initialState.fossils = config.fossilEntries;
+  }
 
   // Update stats to show progress
   const deathCount = config.graveyardPokemon.length;
@@ -189,6 +196,14 @@ async function createSampleTrackerData(userId: string): Promise<void> {
           { name: "Schiggy", nickname: "Splash" },
         ],
       },
+      {
+        id: 3,
+        route: "Altbernstein/Kopffossil",
+        members: [
+          { name: "Ottaro", nickname: "Otter" },
+          { name: "Floink", nickname: "Ferkel" },
+        ],
+      },
     ],
     boxPokemon: [
       {
@@ -211,6 +226,42 @@ async function createSampleTrackerData(userId: string): Promise<void> {
       },
     ],
     checkedLevelCaps: [0], // Mark first level cap as done
+    fossilEntries: [
+      // Player 1 Fossils
+      [
+        {
+          fossilId: "cover-fossil",
+          location: "Gavina | Shop",
+          inBag: false,
+          revived: false,
+        },
+        { fossilId: "helix-fossil", location: "", inBag: true, revived: false },
+        {
+          fossilId: "old-amber",
+          location: "",
+          inBag: true,
+          revived: true,
+          pokemonName: "Ottaro",
+        },
+      ],
+      // Player 2 Fossils
+      [
+        { fossilId: "plume-fossil", location: "", inBag: true, revived: false },
+        {
+          fossilId: "dome-fossil",
+          location: "Septerna City | Nebenshop",
+          inBag: false,
+          revived: false,
+        },
+        {
+          fossilId: "skull-fossil",
+          location: "",
+          inBag: true,
+          revived: true,
+          pokemonName: "Floink",
+        },
+      ],
+    ],
   });
 
   // Create Gen 1 Red/Blue tracker
@@ -243,6 +294,14 @@ async function createSampleTrackerData(userId: string): Promise<void> {
           { name: "Sandan", nickname: "Sandy" },
         ],
       },
+      {
+        id: 4,
+        route: "Altbernstein/Domfossil",
+        members: [
+          { name: "Karpador", nickname: "Fisch" },
+          { name: "Zubat", nickname: "Fledermaus" },
+        ],
+      },
     ],
     boxPokemon: [
       {
@@ -265,6 +324,35 @@ async function createSampleTrackerData(userId: string): Promise<void> {
       },
     ],
     checkedLevelCaps: [0, 1, 2], // Mark first three level caps as done
+    fossilEntries: [
+      // Ash Fossils
+      [
+        {
+          fossilId: "old-amber",
+          location: "",
+          inBag: true,
+          revived: true,
+          pokemonName: "Karpador",
+        },
+        { fossilId: "helix-fossil", location: "", inBag: true, revived: false },
+      ],
+      // Gary Fossils
+      [
+        {
+          fossilId: "dome-fossil",
+          location: "",
+          inBag: true,
+          revived: true,
+          pokemonName: "Zubat",
+        },
+        {
+          fossilId: "old-amber",
+          location: "Mondberg",
+          inBag: false,
+          revived: false,
+        },
+      ],
+    ],
   });
 
   // Combine all updates

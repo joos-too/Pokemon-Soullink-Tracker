@@ -311,7 +311,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({
                             : "bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600"
                         } ${count !== 3 ? "border-r border-gray-300 dark:border-gray-600" : ""} ${focusRingInsetClasses}`}
                       >
-                        {playerCountLabels[count as 1 | 2 | 3]}
+                        {playerCountLabels[count]}
                       </button>
                     );
                   })}
