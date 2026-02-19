@@ -315,7 +315,10 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
     }
   };
 
-  const renderLevelCapList = (wrapperClasses: string) => (
+  const renderLevelCapList = (
+    wrapperClasses: string,
+    isVisible: boolean = true,
+  ) => (
     <div className={wrapperClasses} tabIndex={-1}>
       {levelCaps.map((cap, index) => {
         const arenaLabel = getLocalizedArenaLabel(
@@ -324,6 +327,8 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
           cap.id,
           cap.arena,
         );
+        const isLevelCapActive =
+          isVisible && !readOnly && canToggleLevelAtIndex(levelCaps, index);
         return (
           <div
             key={cap.id}
@@ -334,6 +339,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                 id={`levelcap-done-${cap.id}`}
                 type="checkbox"
                 checked={!!cap.done}
+                tabIndex={isLevelCapActive ? 0 : -1}
                 onChange={() => attemptLevelToggle(index)}
                 onClick={(e) => {
                   if (readOnly || !canToggleLevelAtIndex(levelCaps, index)) {
@@ -344,9 +350,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                   target: arenaLabel,
                 })}
                 className={`h-5 w-5 accent-green-600 shrink-0 ${
-                  readOnly || !canToggleLevelAtIndex(levelCaps, index)
-                    ? "cursor opacity-70"
-                    : "cursor-pointer"
+                  !isLevelCapActive ? "cursor opacity-70" : "cursor-pointer"
                 }`}
               />
               <span className="text-sm text-gray-800 dark:text-gray-300 wrap-break-word">
@@ -369,72 +373,87 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
     </div>
   );
 
-  const renderRivalCapList = (wrapperClasses: string) => (
+  const renderRivalCapList = (
+    wrapperClasses: string,
+    isVisible: boolean = true,
+  ) => (
     <div className={wrapperClasses} tabIndex={-1}>
-      {rivalCaps.map((rc, index) => (
-        <div key={rc.id}>
-          {rivalCensorEnabled && !rc.revealed ? (
-            <>
-              {index === nextRivalToRevealIndex && !readOnly ? (
-                <button
-                  onClick={() => {
-                    onRivalCapReveal(index);
-                  }}
-                  className="w-full flex items-center justify-center gap-2 text-sm p-3 rounded-md border bg-gray-100 dark:bg-gray-700/50 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-600"
-                >
-                  <FiEye size={16} /> {t("tracker.infoPanel.nextRival")}
-                </button>
-              ) : (
-                <div className="w-full flex items-center justify-center gap-2 text-sm p-3 rounded-md bg-gray-50 dark:bg-gray-800 text-gray-400 dark:text-gray-500 cursor-not-allowed border border-dashed border-gray-300 dark:border-gray-600">
-                  <FiEyeOff size={16} /> {t("tracker.infoPanel.futureBattle")}
+      {rivalCaps.map((rc, index) => {
+        const isRivalCapActive =
+          isVisible && !readOnly && canToggleRivalAtIndex(rivalCaps, index);
+        return (
+          <div key={rc.id}>
+            {rivalCensorEnabled && !rc.revealed ? (
+              <>
+                {index === nextRivalToRevealIndex && !readOnly ? (
+                  <button
+                    onClick={() => {
+                      onRivalCapReveal(index);
+                    }}
+                    tabIndex={isVisible ? 0 : -1}
+                    className="w-full flex items-center justify-center gap-2 text-sm p-3 rounded-md border bg-gray-100 dark:bg-gray-700/50 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-600"
+                  >
+                    <FiEye size={16} /> {t("tracker.infoPanel.nextRival")}
+                  </button>
+                ) : (
+                  <div className="w-full flex items-center justify-center gap-2 text-sm p-3 rounded-md bg-gray-50 dark:bg-gray-800 text-gray-400 dark:text-gray-500 cursor-not-allowed border border-dashed border-gray-300 dark:border-gray-600">
+                    <FiEyeOff size={16} /> {t("tracker.infoPanel.futureBattle")}
+                  </div>
+                )}
+              </>
+            ) : (
+              <div
+                className={`flex items-center justify-between pl-2 py-1.5 border rounded-md ${rc.done ? "bg-green-100 dark:bg-green-900/50 border-green-200 dark:border-green-800" : "bg-gray-50 dark:bg-gray-700/50 border-gray-200 dark:border-gray-600"}`}
+              >
+                <div className="flex items-center gap-3 grow min-w-0">
+                  <input
+                    id={`rivalcap-done-${rc.id}`}
+                    type="checkbox"
+                    checked={!!rc.done}
+                    tabIndex={isRivalCapActive ? 0 : -1}
+                    onChange={() => attemptRivalToggle(index)}
+                    onClick={(e) => {
+                      if (
+                        readOnly ||
+                        !canToggleRivalAtIndex(rivalCaps, index)
+                      ) {
+                        e.preventDefault();
+                      }
+                    }}
+                    aria-label={t("tracker.infoPanel.completedArena", {
+                      target: resolvePreferredRivalName(rc),
+                    })}
+                    className={`h-5 w-5 accent-green-600 shrink-0 ${
+                      isRivalCapActive ? "cursor-pointer" : "cursor opacity-70"
+                    }`}
+                  />
+                  <span
+                    onClick={(e) => e.stopPropagation()}
+                    className="text-sm text-gray-800 dark:text-gray-300 wrap-break-word"
+                  >
+                    {getLocalizedRivalLocation(
+                      t,
+                      versionId,
+                      rc.id,
+                      rc.location,
+                    )}
+                  </span>
                 </div>
-              )}
-            </>
-          ) : (
-            <div
-              className={`flex items-center justify-between pl-2 py-1.5 border rounded-md ${rc.done ? "bg-green-100 dark:bg-green-900/50 border-green-200 dark:border-green-800" : "bg-gray-50 dark:bg-gray-700/50 border-gray-200 dark:border-gray-600"}`}
-            >
-              <div className="flex items-center gap-3 grow min-w-0">
-                <input
-                  id={`rivalcap-done-${rc.id}`}
-                  type="checkbox"
-                  checked={!!rc.done}
-                  onChange={() => attemptRivalToggle(index)}
-                  onClick={(e) => {
-                    if (readOnly || !canToggleRivalAtIndex(rivalCaps, index)) {
-                      e.preventDefault();
-                    }
-                  }}
-                  aria-label={t("tracker.infoPanel.completedArena", {
-                    target: resolvePreferredRivalName(rc),
-                  })}
-                  className={`h-5 w-5 accent-green-600 shrink-0 ${
-                    readOnly || !canToggleRivalAtIndex(rivalCaps, index)
-                      ? "cursor opacity-70"
-                      : "cursor-pointer"
-                  }`}
-                />
-                <span
-                  onClick={(e) => e.stopPropagation()}
-                  className="text-sm text-gray-800 dark:text-gray-300 wrap-break-word"
-                >
-                  {getLocalizedRivalLocation(t, versionId, rc.id, rc.location)}
-                </span>
+                <div className="flex items-center justify-end shrink-0 px-3">
+                  <RivalImage
+                    rival={rc.rival}
+                    preferences={rivalPreferences}
+                    displayName={resolvePreferredRivalName(rc)}
+                  />
+                  <span className="font-bold text-lg text-gray-800 dark:text-gray-200 text-center">
+                    {renderLevelCaps(rc.level)}
+                  </span>
+                </div>
               </div>
-              <div className="flex items-center justify-end shrink-0 px-3">
-                <RivalImage
-                  rival={rc.rival}
-                  preferences={rivalPreferences}
-                  displayName={resolvePreferredRivalName(rc)}
-                />
-                <span className="font-bold text-lg text-gray-800 dark:text-gray-200 text-center">
-                  {renderLevelCaps(rc.level)}
-                </span>
-              </div>
-            </div>
-          )}
-        </div>
-      ))}
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 
@@ -679,10 +698,12 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
             showRivalCaps ? (
               renderRivalCapList(
                 "p-2 space-y-1 max-h-[50vh] overflow-y-auto overscroll-contain custom-scrollbar",
+                true,
               )
             ) : (
               renderLevelCapList(
                 "p-2 space-y-1 max-h-[50vh] overflow-y-auto overscroll-contain custom-scrollbar",
+                true,
               )
             )
           ) : (
@@ -695,6 +716,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
             >
               <div
                 className={`absolute w-full h-full ${showRivalCaps ? "pointer-events-none" : "pointer-events-auto"}`}
+                aria-hidden={showRivalCaps}
                 style={{
                   backfaceVisibility: "hidden",
                   transform: "rotateY(0deg)",
@@ -702,11 +724,13 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
               >
                 {renderLevelCapList(
                   "p-2 pr-4 h-full overflow-y-auto space-y-1 overscroll-contain custom-scrollbar",
+                  !showRivalCaps,
                 )}
               </div>
 
               <div
                 className={`absolute w-full h-full ${showRivalCaps ? "pointer-events-auto" : "pointer-events-none"}`}
+                aria-hidden={!showRivalCaps}
                 style={{
                   backfaceVisibility: "hidden",
                   transform: "rotateY(180deg)",
@@ -714,6 +738,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
               >
                 {renderRivalCapList(
                   "p-2 pr-4 h-full overflow-y-auto space-y-1 overscroll-contain custom-scrollbar",
+                  showRivalCaps,
                 )}
               </div>
             </div>
