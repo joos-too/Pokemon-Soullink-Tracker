@@ -4,6 +4,7 @@ import { FOSSILS } from "@/src/services/init";
 import { FiX, FiInfo } from "react-icons/fi";
 import LocationSuggestionInput from "./LocationSuggestionInput";
 import Tooltip from "./Tooltip";
+import { useFocusTrap } from "@/src/hooks/useFocusTrap";
 import {
   focusRingCardClasses,
   focusRingClasses,
@@ -29,6 +30,7 @@ const AddFossilModal: React.FC<AddFossilModalProps> = ({
   gameVersionId,
 }) => {
   const { t } = useTranslation();
+  const { containerRef } = useFocusTrap(isOpen);
   const [selectedFossilId, setSelectedFossilId] = useState("");
   const [location, setLocation] = useState("");
   const [inBag, setInBag] = useState(true);
@@ -56,7 +58,13 @@ const AddFossilModal: React.FC<AddFossilModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
-      <div className="w-full max-w-md rounded-lg bg-white p-6 shadow-xl dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+      <div
+        ref={containerRef}
+        role="dialog"
+        aria-modal="true"
+        tabIndex={-1}
+        className="w-full max-w-md rounded-lg bg-white p-6 shadow-xl dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
+      >
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold dark:text-gray-100">
             {t("modals.addFossil.title")}

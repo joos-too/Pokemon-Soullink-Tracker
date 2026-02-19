@@ -4,6 +4,11 @@ import { FossilEntry } from "@/types";
 import { FOSSILS, PLAYER_COLORS } from "@/src/services/init";
 import { FiPlus, FiCheck, FiEdit, FiSave, FiX } from "react-icons/fi";
 import AddFossilModal from "./AddFossilModal";
+import {
+  focusRingCardClasses,
+  focusRingClasses,
+  focusRingRedClasses,
+} from "@/src/styles/focusRing";
 
 interface FossilTrackerProps {
   playerNames: string[];
@@ -100,7 +105,7 @@ const FossilTracker: React.FC<FossilTrackerProps> = ({
             {!isEditing ? (
               <button
                 onClick={startEditing}
-                className="px-2 py-1 rounded-md text-xs font-semibold flex items-center gap-1 shadow bg-gray-800 text-white hover:bg-gray-700"
+                className={`px-2 py-1 rounded-md text-xs font-semibold flex items-center gap-1 shadow bg-gray-800 text-white hover:bg-gray-700 ${focusRingClasses}`}
                 title={t("tracker.infoPanel.editFossils")}
               >
                 <FiEdit size={12} />{" "}
@@ -112,7 +117,7 @@ const FossilTracker: React.FC<FossilTrackerProps> = ({
               <>
                 <button
                   onClick={cancelEditing}
-                  className="px-2 py-1 rounded-md text-xs font-semibold bg-red-600 text-white hover:bg-red-700 flex items-center gap-1 shadow"
+                  className={`px-2 py-1 rounded-md text-xs font-semibold bg-red-600 text-white hover:bg-red-700 flex items-center gap-1 shadow ${focusRingRedClasses}`}
                 >
                   <FiX size={12} />{" "}
                   <span className="hidden sm:inline">
@@ -121,7 +126,7 @@ const FossilTracker: React.FC<FossilTrackerProps> = ({
                 </button>
                 <button
                   onClick={saveEditing}
-                  className="px-2 py-1 rounded-md text-xs font-semibold bg-green-600 text-white hover:bg-green-700 flex items-center gap-1 shadow"
+                  className={`px-2 py-1 rounded-md text-xs font-semibold bg-green-600 text-white hover:bg-green-700 flex items-center gap-1 shadow ${focusRingClasses}`}
                 >
                   <FiSave size={12} />{" "}
                   <span className="hidden sm:inline">
@@ -163,7 +168,7 @@ const FossilTracker: React.FC<FossilTrackerProps> = ({
                       isEditing
                         ? "bg-gray-400 cursor-not-allowed"
                         : "bg-green-600 hover:bg-green-700"
-                    }`}
+                    } ${focusRingClasses}`}
                   >
                     <FiPlus size={14} />
                   </button>
@@ -176,18 +181,32 @@ const FossilTracker: React.FC<FossilTrackerProps> = ({
                   const isSelected = selections[pIdx] === fIdx;
                   const canBeSelected =
                     entry.inBag && !entry.revived && !isEditing;
+                  const isInteractive = !readOnly && canBeSelected;
 
                   return (
                     <div
                       key={`${pIdx}-${entry.fossilId}-${fIdx}`}
                       onClick={() => {
-                        if (readOnly || !canBeSelected) return;
+                        if (!isInteractive) return;
                         setSelections((prev) => {
                           const next = [...prev];
                           next[pIdx] = next[pIdx] === fIdx ? -1 : fIdx;
                           return next;
                         });
                       }}
+                      onKeyDown={(e) => {
+                        if (!isInteractive) return;
+                        if (e.key !== "Enter" && e.key !== " ") return;
+                        e.preventDefault();
+                        setSelections((prev) => {
+                          const next = [...prev];
+                          next[pIdx] = next[pIdx] === fIdx ? -1 : fIdx;
+                          return next;
+                        });
+                      }}
+                      role={isInteractive ? "button" : undefined}
+                      aria-pressed={isInteractive ? isSelected : undefined}
+                      tabIndex={isInteractive ? 0 : -1}
                       className={`flex items-center gap-2 p-1.5 rounded border text-[10px] transition-all ${
                         entry.revived
                           ? "border-red-300 bg-red-50 dark:border-red-900/50 dark:bg-red-900/20 text-red-700 dark:text-red-400 cursor-default"
@@ -196,7 +215,7 @@ const FossilTracker: React.FC<FossilTrackerProps> = ({
                             : !entry.inBag && !isEditing
                               ? "border-gray-200 dark:border-gray-700 opacity-60 cursor-default"
                               : "border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 dark:text-gray-300 cursor-pointer"
-                      }`}
+                      } ${isInteractive ? focusRingCardClasses : ""}`}
                     >
                       <img
                         src={`/fossil-sprites/${def?.sprite}`}
@@ -227,7 +246,7 @@ const FossilTracker: React.FC<FossilTrackerProps> = ({
                             e.stopPropagation();
                             deleteFossil(pIdx, fIdx);
                           }}
-                          className="p-1 rounded bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300 hover:bg-red-200 flex-shrink-0"
+                          className={`p-1 rounded bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300 hover:bg-red-200 flex-shrink-0 ${focusRingRedClasses}`}
                         >
                           <FiX size={12} />
                         </button>
@@ -265,7 +284,7 @@ const FossilTracker: React.FC<FossilTrackerProps> = ({
               canRevive
                 ? "bg-red-600 text-white hover:bg-red-700"
                 : "bg-gray-200 dark:bg-gray-700 text-gray-400 cursor-not-allowed opacity-50"
-            }`}
+            } ${focusRingRedClasses}`}
           >
             {t("tracker.infoPanel.fossilRevive")}
           </button>
