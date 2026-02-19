@@ -116,7 +116,7 @@ const RulesetPicker: React.FC<RulesetPickerProps> = ({
 
       <div
         tabIndex={-1}
-        className={`space-y-2 pl-1 pr-4 py-1 custom-scrollbar overscroll-contain focus-visible:outline-none ${fullHeight ? "flex-1 min-h-0 overflow-y-auto" : `${listMaxHeightClass} overflow-y-auto`}`}
+        className={`space-y-2 pl-1 pr-1 py-1 custom-scrollbar overscroll-contain focus-visible:outline-none ${fullHeight ? "flex-1 min-h-0 overflow-y-auto" : `${listMaxHeightClass} overflow-y-auto`}`}
       >
         {visibleRulesets.length === 0 ? (
           <div className="text-sm text-gray-600 dark:text-gray-300 px-1 py-2">

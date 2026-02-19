@@ -325,7 +325,7 @@ const RulesetEditorPage: React.FC<RulesetEditorPageProps> = ({
               </div>
               <div
                 tabIndex={-1}
-                className="space-y-2 max-h-[40vh] overflow-y-auto pr-4 py-1 custom-scrollbar focus-visible:outline-none"
+                className="space-y-2 max-h-[40vh] overflow-y-auto pr-1 py-1 custom-scrollbar focus-visible:outline-none"
               >
                 {draftRules.map((rule, index) => (
                   <div

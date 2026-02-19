@@ -65,7 +65,7 @@ const GameVersionPicker: React.FC<GameVersionPickerProps> = ({
 
   return (
     <div>
-      <div className="space-y-3 max-h-64 overflow-y-auto overscroll-contain pr-4 custom-scrollbar px-0.5 pb-3">
+      <div className="space-y-3 max-h-64 overflow-y-auto overscroll-contain pr-1 custom-scrollbar px-0.5 pb-3">
         {groups.map((group) => (
           <div key={group.title}>
             <div className="flex items-center gap-3 mb-1.5">

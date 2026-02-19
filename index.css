@@ -94,12 +94,6 @@ input[type="number"] {
   scrollbar-color: #4a5568 transparent;
 }
 
-@supports (-moz-appearance: none) {
-  .custom-scrollbar {
-    scrollbar-width: auto;
-  }
-}
-
 /* Only show toggle ring for keyboard focus */
 .focus-ring-toggle input:focus-visible + span {
   outline: 2px solid #22c55e;

@@ -723,7 +723,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                 }}
               >
                 {renderLevelCapList(
-                  "p-2 pr-4 h-full overflow-y-auto space-y-1 overscroll-contain custom-scrollbar",
+                  "p-2 pr-1 h-full overflow-y-auto space-y-1 overscroll-contain custom-scrollbar",
                   !showRivalCaps,
                 )}
               </div>
@@ -737,7 +737,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                 }}
               >
                 {renderRivalCapList(
-                  "p-2 pr-4 h-full overflow-y-auto space-y-1 overscroll-contain custom-scrollbar",
+                  "p-2 pr-1 h-full overflow-y-auto space-y-1 overscroll-contain custom-scrollbar",
                   showRivalCaps,
                 )}
               </div>
