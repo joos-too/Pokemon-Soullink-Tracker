@@ -1631,6 +1631,11 @@ const App: React.FC = () => {
     ],
   );
 
+  const handleSynchronizeRules = useCallback(() => {
+    if (isReadOnly) return;
+    applyRulesetChange(currentRulesetId);
+  }, [applyRulesetChange, currentRulesetId, isReadOnly]);
+
   const handlePublicToggle = (enabled: boolean) => {
     if (!activeTrackerId || isReadOnly) return;
     setTrackerMetas((prev) => {
@@ -2116,6 +2121,7 @@ const App: React.FC = () => {
       rulesets={rulesets}
       selectedRulesetId={data.rulesetId}
       onRulesetSelect={handleRulesetChange}
+      onSynchronizeRules={handleSynchronizeRules}
       onOpenRulesetEditor={handleOpenRulesetEditor}
       isGuest={isGuest}
       onSaveRulesetToCollection={() => openRulesetSaveModal("manual")}

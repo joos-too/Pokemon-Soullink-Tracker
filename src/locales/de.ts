@@ -354,8 +354,19 @@ export const de = {
       manage: "Regeln verwalten",
       selectButton: "Regeln auswählen",
       fallback: "Keine Regeln ausgewählt",
-      saveCurrent: "Regeln speichern",
-      unsavedWarning: "Die aktuellen Tracker-Regeln sind nicht gespeichert.",
+      saveCurrent: "Speichern",
+      sync: "Synchronisieren",
+      syncModal: {
+        title: "Tracker-Regeln synchronisieren",
+        description:
+          'Die aktuellen Tracker-Regeln werden mit den Regeln aus "{{rulesetName}}" überschrieben.',
+        warning:
+          "Nicht gespeicherte Regeländerungen in diesem Tracker gehen dabei verloren.",
+        confirm: "Tracker-Regeln überschreiben",
+        cancel: "Abbrechen",
+      },
+      unsavedWarning:
+        "Die aktuellen Tracker-Regeln sind nicht identisch mit dem hinterlegten Regelset.",
       copyNameTemplate: "{{rulesetName}} (Kopie)",
       trackerRuleTemplate: "{{trackerName}} Regeln",
       defaultRulesetName: "Tracker-Regeln",

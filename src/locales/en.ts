@@ -351,8 +351,18 @@ export const en = {
       manage: "Manage rules",
       selectButton: "Select ruleset",
       fallback: "No ruleset selected",
-      saveCurrent: "Save current rules",
-      unsavedWarning: "Your current tracker rules aren't saved.",
+      saveCurrent: "Save",
+      sync: "Synchronize",
+      syncModal: {
+        title: "Synchronize tracker rules",
+        description:
+          'The current tracker rules will be replaced with the rules from "{{rulesetName}}".',
+        warning: "Any unsaved rule edits in this tracker will be lost.",
+        confirm: "Overwrite tracker rules",
+        cancel: "Cancel",
+      },
+      unsavedWarning:
+        "Your current tracker rules aren't identical with the linked ruleset.",
       copyNameTemplate: "{{rulesetName}} (Copy)",
       trackerRuleTemplate: "{{trackerName}} rules",
       defaultRulesetName: "Tracker rules",

@@ -19,6 +19,7 @@ import {
   FiEye,
   FiInfo,
   FiLogOut,
+  FiRefreshCw,
   FiSave,
   FiShield,
   FiTrash2,
@@ -36,6 +37,7 @@ import { useTranslation } from "react-i18next";
 import { getLocalizedRivalEntry } from "@/src/services/gameLocalization";
 import RulesetPicker from "./RulesetPicker";
 import { useFocusTrap } from "@/src/hooks/useFocusTrap";
+import RulesetSyncModal from "@/src/components/RulesetSyncModal";
 
 type InviteRoleOption = "editor" | "guest";
 
@@ -69,6 +71,7 @@ interface SettingsPageProps {
   rulesets: Ruleset[];
   selectedRulesetId?: string;
   onRulesetSelect: (rulesetId: string) => void;
+  onSynchronizeRules: () => void;
   onOpenRulesetEditor: () => void;
   isGuest?: boolean;
   onSaveRulesetToCollection: () => void;
@@ -105,6 +108,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
   rulesets,
   selectedRulesetId,
   onRulesetSelect,
+  onSynchronizeRules,
   onOpenRulesetEditor,
   isGuest = false,
   onSaveRulesetToCollection,
@@ -123,6 +127,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
   const [memberPendingRemoval, setMemberPendingRemoval] =
     useState<TrackerMember | null>(null);
   const [showRulesetPicker, setShowRulesetPicker] = useState(false);
+  const [showRulesetSyncModal, setShowRulesetSyncModal] = useState(false);
   const { containerRef: removeModalRef } = useFocusTrap(
     Boolean(memberPendingRemoval),
   );
@@ -219,6 +224,20 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
     if (removingMemberId) return;
     setMemberPendingRemoval(null);
     setMemberActionError(null);
+  };
+
+  const handleOpenRulesetSyncModal = () => {
+    if (isGuest) return;
+    setShowRulesetSyncModal(true);
+  };
+
+  const handleCloseRulesetSyncModal = () => {
+    setShowRulesetSyncModal(false);
+  };
+
+  const handleConfirmRulesetSync = () => {
+    onSynchronizeRules();
+    setShowRulesetSyncModal(false);
   };
 
   const participantsMap = new Map<string, TrackerMember>();
@@ -758,6 +777,16 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                     >
                       <FiSave /> {t("settings.rulesets.saveCurrent")}
                     </button>
+                    {rulesetDirty && (
+                      <button
+                        type="button"
+                        onClick={handleOpenRulesetSyncModal}
+                        className={`inline-flex items-center gap-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-sm font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-60 ${focusRingClasses}`}
+                        disabled={isGuest}
+                      >
+                        <FiRefreshCw /> {t("settings.rulesets.sync")}
+                      </button>
+                    )}
                   </div>
                 </div>
                 {rulesetDirty && (
@@ -804,6 +833,12 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
           </main>
         </div>
       </div>
+      <RulesetSyncModal
+        isOpen={showRulesetSyncModal}
+        rulesetName={rulesetLabel}
+        onClose={handleCloseRulesetSyncModal}
+        onConfirm={handleConfirmRulesetSync}
+      />
       {memberPendingRemoval && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
           <div
