@@ -50,9 +50,7 @@ export const canToggleRivalAtIndex = (
 ): boolean => {
   const rc = rivalCaps[index];
   if (!rc) return false;
-  const firstUndone = rivalCaps.findIndex(
-    (r) => !r.done && (r.revealed || !r.revealed),
-  );
+  const firstUndone = rivalCaps.findIndex((r) => !r.done);
   if (rc.done) {
     const lastDoneIndex = rivalCaps
       .map((r, i) => (r.done ? i : -1))
