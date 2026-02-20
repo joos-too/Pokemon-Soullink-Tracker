@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useId, useMemo, useState } from "react";
 import { FiPlus, FiUsers, FiX } from "react-icons/fi";
 import { GAME_VERSIONS } from "@/src/data/game-versions";
-import { PLAYER_COLORS } from "@/constants";
+import { PLAYER_COLORS } from "@/src/services/init.ts";
 import {
   focusRingClasses,
   focusRingInputClasses,
@@ -10,6 +10,9 @@ import {
 import GameVersionPicker from "./GameVersionPicker";
 import { useTranslation } from "react-i18next";
 import { getLocalizedGameName } from "@/src/services/gameLocalization.ts";
+import type { Ruleset } from "@/types";
+import RulesetPicker from "./RulesetPicker";
+import { useFocusTrap } from "@/src/hooks/useFocusTrap";
 
 interface CreateTrackerModalProps {
   isOpen: boolean;
@@ -19,9 +22,12 @@ interface CreateTrackerModalProps {
     playerNames: string[];
     memberInvites: Array<{ email: string; role: "editor" | "guest" }>;
     gameVersionId: string;
+    rulesetId?: string;
   }) => Promise<void>;
   isSubmitting: boolean;
   error?: string | null;
+  rulesets: Ruleset[];
+  defaultRulesetId?: string;
 }
 
 const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({
@@ -30,7 +36,10 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({
   onSubmit,
   isSubmitting,
   error,
+  rulesets,
+  defaultRulesetId,
 }) => {
+  const { containerRef } = useFocusTrap(isOpen);
   const [title, setTitle] = useState("");
   const [playerCount, setPlayerCount] = useState(2);
   const [playerNames, setPlayerNames] = useState<string[]>(["", ""]);
@@ -40,7 +49,12 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({
   const [gameVersionId, setGameVersionId] = useState("");
   const [versionError, setVersionError] = useState(false);
   const [showVersionPicker, setShowVersionPicker] = useState(false);
+  const [rulesetId, setRulesetId] = useState(
+    defaultRulesetId || rulesets[0]?.id || "",
+  );
+  const [showRulesetPicker, setShowRulesetPicker] = useState(false);
   const { t } = useTranslation();
+  const titleId = useId();
   const playerCountLabels = useMemo(
     () => ({
       1: t("modals.createTracker.playerCounts.solo"),
@@ -68,7 +82,9 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({
     setGameVersionId("");
     setVersionError(false);
     setShowVersionPicker(false);
-  }, []);
+    setRulesetId(defaultRulesetId || rulesets[0]?.id || "");
+    setShowRulesetPicker(false);
+  }, [defaultRulesetId, rulesets]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -114,6 +130,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({
         .map((entry) => ({ email: entry.email.trim(), role: entry.role }))
         .filter((entry) => entry.email.length > 0),
       gameVersionId: gameVersionId,
+      rulesetId,
     });
   };
 
@@ -125,21 +142,31 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
-      <div className="w-full max-w-lg rounded-xl bg-white dark:bg-gray-800 shadow-2xl border border-gray-200 dark:border-gray-700">
+      <div
+        ref={containerRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        tabIndex={-1}
+        className="w-full max-w-lg rounded-xl bg-white dark:bg-gray-800 shadow-2xl border border-gray-200 dark:border-gray-700"
+      >
         <form onSubmit={handleSubmit}>
           <header className="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 px-5 py-4">
             <div>
               <p className="text-xs uppercase tracking-[0.3em] text-green-600">
                 {t("modals.createTracker.badge")}
               </p>
-              <h2 className="text-xl font-semibold mt-1 text-gray-900 dark:text-gray-100">
+              <h2
+                id={titleId}
+                className="text-xl font-semibold mt-1 text-gray-900 dark:text-gray-100"
+              >
                 {t("modals.createTracker.title")}
               </h2>
             </div>
             <button
               type="button"
               onClick={handleClose}
-              className={`rounded-full p-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white ${focusRingClasses}`}
+              className={`text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 rounded-md ${focusRingClasses}`}
               aria-label={t("common.close")}
               disabled={isSubmitting}
             >
@@ -204,6 +231,49 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({
               )}
             </div>
             <div>
+              <label className="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2 block">
+                {t("modals.createTracker.rulesetLabel")}
+              </label>
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
+                <button
+                  type="button"
+                  onClick={() => setShowRulesetPicker((v) => !v)}
+                  aria-expanded={showRulesetPicker}
+                  aria-controls="ruleset-picker-panel"
+                  className={`flex-1 inline-flex items-center justify-between rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-sm font-semibold text-gray-800 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-600 ${focusRingClasses}`}
+                  title={t("modals.createTracker.rulesetButton")}
+                  disabled={isSubmitting}
+                >
+                  <span>{t("modals.createTracker.rulesetButton")}</span>
+                  <span
+                    className={`text-xs ${rulesetId ? "text-gray-600 dark:text-gray-300" : "text-gray-400 dark:text-gray-500"}`}
+                  >
+                    {rulesets.find((entry) => entry.id === rulesetId)?.name ||
+                      t("modals.createTracker.rulesetPlaceholder")}
+                  </span>
+                </button>
+              </div>
+
+              <div
+                id="ruleset-picker-panel"
+                aria-hidden={!showRulesetPicker}
+                inert={!showRulesetPicker}
+                className={`transform-gpu ${showRulesetPicker ? "mt-3 max-h-[70vh] opacity-100" : "max-h-0 opacity-0 pointer-events-none"} transition-all duration-300 ease-in-out overflow-hidden`}
+              >
+                <RulesetPicker
+                  value={rulesetId}
+                  rulesets={rulesets}
+                  isInteractive={showRulesetPicker && !isSubmitting}
+                  enableTagFilter
+                  listMaxHeightClass="max-h-56"
+                  onSelect={(id) => {
+                    setRulesetId(id);
+                    setShowRulesetPicker(false);
+                  }}
+                />
+              </div>
+            </div>
+            <div>
               <label
                 className="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-1 block"
                 htmlFor="trackerTitle"
@@ -216,6 +286,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({
                 required
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
+                data-autofocus
                 className={`w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
                 placeholder={t("modals.createTracker.titlePlaceholder")}
               />

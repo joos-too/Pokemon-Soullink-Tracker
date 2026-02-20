@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import {
+  FiEdit,
   FiEye,
   FiLock,
   FiPlus,
@@ -11,7 +12,7 @@ import {
 import DarkModeToggle from "@/src/components/DarkModeToggle";
 import type { TrackerMeta, TrackerSummary } from "@/types";
 import GameVersionBadge from "./GameVersionBadge";
-import { focusRingClasses } from "@/src/styles/focusRing";
+import { focusRingCardClasses, focusRingClasses } from "@/src/styles/focusRing";
 import { GAME_VERSIONS } from "@/src/data/game-versions";
 import { formatBestLabel } from "@/src/utils/bestRun";
 import { useTranslation } from "react-i18next";
@@ -21,6 +22,7 @@ interface HomePageProps {
   onOpenTracker: (trackerId: string) => void;
   onCreateTracker: () => void;
   onOpenUserSettings: () => void;
+  onOpenRulesetEditor: () => void;
   isLoading: boolean;
   activeTrackerId: string | null;
   userEmail?: string | null;
@@ -34,6 +36,7 @@ const HomePage: React.FC<HomePageProps> = ({
   onCreateTracker,
   isLoading,
   onOpenUserSettings,
+  onOpenRulesetEditor,
   activeTrackerId,
   trackerSummaries,
   currentUserId,
@@ -81,6 +84,16 @@ const HomePage: React.FC<HomePageProps> = ({
             <div className="flex flex-col items-end gap-3 sm:gap-4">
               <div className="flex items-center gap-2">
                 <DarkModeToggle />
+                <button
+                  type="button"
+                  onClick={onOpenRulesetEditor}
+                  className={`p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white ${focusRingClasses}`}
+                  aria-label={t("home.rulesetEditor")}
+                  title={t("home.rulesetEditor")}
+                >
+                  <FiEdit size={30} />
+                  <span className="sr-only">{t("home.rulesetEditor")}</span>
+                </button>
                 <button
                   type="button"
                   onClick={onOpenUserSettings}
@@ -175,7 +188,7 @@ const HomePage: React.FC<HomePageProps> = ({
                         onOpenTracker(tracker.id);
                       }
                     }}
-                    className={`rounded-lg border px-4 py-5 shadow-sm transition cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#f0f0f0] dark:focus-visible:ring-offset-transparent hover:transform hover:scale-[1.02] hover:shadow-md ${
+                    className={`rounded-lg border px-4 py-5 shadow-sm transition cursor-pointer ${focusRingCardClasses} hover:transform hover:scale-[1.02] hover:shadow-md ${
                       isActive
                         ? "border-green-500 bg-green-50/70 dark:border-green-500 dark:bg-green-900/10"
                         : "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900"

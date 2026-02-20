@@ -6,6 +6,7 @@ import React, {
   useState,
 } from "react";
 import {
+  FiEdit,
   FiHome,
   FiMenu,
   FiMoon,
@@ -21,21 +22,23 @@ import type {
   Pokemon,
   PokemonLink,
   RivalGender,
+  Ruleset,
   TrackerMeta,
   TrackerSummary,
 } from "@/types";
 import {
   createInitialState,
-  DEFAULT_RULES,
   ensureStatsForPlayers,
   PLAYER_COLORS,
   sanitizePlayerNames,
-} from "@/constants";
+  sanitizeRules,
+} from "@/src/services/init.ts";
 import TeamTable from "@/src/components/TeamTable";
 import InfoPanel from "@/src/components/InfoPanel";
 import Graveyard from "@/src/components/Graveyard";
 import ClearedRoutes from "@/src/components/ClearedRoutes";
 import AddLostPokemonModal from "@/src/components/AddLostPokemonModal";
+import RulesetSaveModal from "@/src/components/RulesetSaveModal";
 import FossilTracker from "@/src/components/FossilTracker";
 import { getGenerationSpritePath } from "@/src/services/sprites";
 import SelectLossModal from "@/src/components/SelectLossModal";
@@ -53,6 +56,7 @@ import DarkModeToggle, {
 import HomePage from "@/src/components/HomePage";
 import CreateTrackerModal from "@/src/components/CreateTrackerModal";
 import DeleteTrackerModal from "@/src/components/DeleteTrackerModal";
+import { focusRingClasses } from "@/src/styles/focusRing";
 import {
   Navigate,
   Route,
@@ -80,6 +84,19 @@ import {
   updateUserSpritesInTeamTablePreference,
 } from "@/src/services/trackers";
 import { GAME_VERSIONS } from "@/src/data/game-versions";
+import {
+  DEFAULT_RULES,
+  DEFAULT_RULESET_ID,
+  DEFAULT_RULESET_ID_EN,
+  PRESET_RULESETS,
+} from "@/src/data/rulesets";
+import {
+  deleteRuleset,
+  listenToUserRulesets,
+  saveRuleset,
+  SaveRulesetPayload,
+} from "@/src/services/rulesets";
+import RulesetEditorPage from "@/src/components/RulesetEditorPage";
 import { useTranslation } from "react-i18next";
 import "@/src/pokeapi"; // initialize Pokedex once so sprite caching SW gets registered
 
@@ -158,7 +175,17 @@ const App: React.FC = () => {
   const [trackerSummaries, setTrackerSummaries] = useState<
     Record<string, TrackerSummary>
   >({});
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const defaultLocaleRulesetId = useMemo(() => {
+    const language = (
+      i18n.resolvedLanguage ||
+      i18n.language ||
+      ""
+    ).toLowerCase();
+    return language.startsWith("en")
+      ? DEFAULT_RULESET_ID_EN
+      : DEFAULT_RULESET_ID;
+  }, [i18n.language, i18n.resolvedLanguage]);
   const [userTrackersLoading, setUserTrackersLoading] = useState(false);
   const [publicTrackerLoading, setPublicTrackerLoading] = useState(() =>
     Boolean(routeTrackerId),
@@ -202,6 +229,17 @@ const App: React.FC = () => {
   const [deleteTrackerError, setDeleteTrackerError] = useState<string | null>(
     null,
   );
+  const [rulesets, setRulesets] = useState<Ruleset[]>(PRESET_RULESETS);
+  const rulesetUnsubscribeRef = useRef<(() => void) | null>(null);
+  const [showRulesetSaveModal, setShowRulesetSaveModal] = useState(false);
+  const [pendingRulesetId, setPendingRulesetId] = useState<string | null>(null);
+  const [rulesetSaveReason, setRulesetSaveReason] = useState<
+    "manual" | "switch"
+  >("manual");
+  const [rulesetSaveLoading, setRulesetSaveLoading] = useState(false);
+  const [rulesetSaveError, setRulesetSaveError] = useState<string | null>(null);
+  const [rulesetCopyName, setRulesetCopyName] = useState<string>("");
+  const [rulesetOverwriteName, setRulesetOverwriteName] = useState<string>("");
 
   const [reviveArea, setReviveArea] = useState("");
   const [addRevivedPokemonOpen, setAddRevivedPokemonOpen] = useState(false);
@@ -216,6 +254,30 @@ const App: React.FC = () => {
   const activeGameVersion = activeGameVersionId
     ? GAME_VERSIONS[activeGameVersionId]
     : undefined;
+  const currentRuleset = useMemo(() => {
+    const id = data.rulesetId || defaultLocaleRulesetId;
+    return (
+      rulesets.find((entry) => entry.id === id) ||
+      PRESET_RULESETS.find((entry) => entry.id === id)
+    );
+  }, [data.rulesetId, defaultLocaleRulesetId, rulesets]);
+  const normalizedTrackerRules = useMemo(
+    () => sanitizeRules(data.rules),
+    [data.rules],
+  );
+  const savedRulesetRules = useMemo(
+    () => sanitizeRules(currentRuleset?.rules),
+    [currentRuleset],
+  );
+  const rulesetInSync = useMemo(
+    () =>
+      savedRulesetRules.length > 0 &&
+      savedRulesetRules.length === normalizedTrackerRules.length &&
+      savedRulesetRules.every(
+        (rule, index) => rule === normalizedTrackerRules[index],
+      ),
+    [normalizedTrackerRules, savedRulesetRules],
+  );
   const pokemonGenerationLimit = useMemo(
     () => resolveGenerationFromVersionId(activeGameVersionId),
     [activeGameVersionId],
@@ -236,6 +298,17 @@ const App: React.FC = () => {
     }
     return null;
   }, [userUseGenerationSprites, activeGameVersionId]);
+  const currentRulesetId = data.rulesetId || defaultLocaleRulesetId;
+  const hasUserRulesetWithSameId = useMemo(
+    () =>
+      rulesets.some(
+        (entry) =>
+          entry.id === currentRulesetId &&
+          !entry.isPreset &&
+          entry.createdBy === user?.uid,
+      ),
+    [currentRulesetId, rulesets, user?.uid],
+  );
 
   const handleRivalPreferenceChange = useCallback(
     async (key: string, gender: RivalGender) => {
@@ -386,6 +459,12 @@ const App: React.FC = () => {
         });
       };
 
+      const resolvedRulesetId =
+        typeof safe.rulesetId === "string" && safe.rulesetId.trim().length > 0
+          ? safe.rulesetId
+          : base.rulesetId || DEFAULT_RULESET_ID;
+      const sanitizedRules = sanitizeRules(safe.rules);
+
       const stats = ensureStatsForPlayers(safe.stats, playerCount);
 
       return {
@@ -393,11 +472,13 @@ const App: React.FC = () => {
         team: sanitizeArray(safe.team),
         box: sanitizeArray(safe.box),
         graveyard: sanitizeArray(safe.graveyard),
-        rules: Array.isArray(safe.rules)
-          ? safe.rules
-              .map((r: any) => (typeof r === "string" ? r : ""))
-              .filter((r: string) => r.trim().length > 0)
-          : (base.rules ?? DEFAULT_RULES),
+        rules:
+          sanitizedRules.length > 0
+            ? sanitizedRules
+            : base.rules && base.rules.length > 0
+              ? base.rules
+              : DEFAULT_RULES,
+        rulesetId: resolvedRulesetId,
         levelCaps: finalLevelCaps,
         rivalCaps: finalRivalCaps,
         stats: {
@@ -434,6 +515,28 @@ const App: React.FC = () => {
     });
     return () => unsubscribe();
   }, []);
+
+  useEffect(() => {
+    if (rulesetUnsubscribeRef.current) {
+      rulesetUnsubscribeRef.current();
+      rulesetUnsubscribeRef.current = null;
+    }
+    setRulesets(PRESET_RULESETS);
+    if (!user) return;
+
+    const unsubscribe = listenToUserRulesets(user.uid, (customRulesets) => {
+      const sortedCustom = [...customRulesets].sort(
+        (a, b) => (b.updatedAt ?? 0) - (a.updatedAt ?? 0),
+      );
+      setRulesets([...sortedCustom, ...PRESET_RULESETS]);
+    });
+    rulesetUnsubscribeRef.current = unsubscribe;
+
+    return () => {
+      unsubscribe();
+      rulesetUnsubscribeRef.current = null;
+    };
+  }, [user]);
 
   /**
    * Seed emulator with test data when running in emulator mode
@@ -929,6 +1032,7 @@ const App: React.FC = () => {
       return {
         ...base,
         rules: prev.rules, // keep rule changes
+        rulesetId: prev.rulesetId ?? base.rulesetId,
         // keep toggled settings
         legendaryTrackerEnabled: prev.legendaryTrackerEnabled,
         rivalCensorEnabled: prev.rivalCensorEnabled,
@@ -963,6 +1067,82 @@ const App: React.FC = () => {
     setMobileMenuOpen(false);
     navigate("/account");
   }, [navigate]);
+
+  const getRulesetCopyName = useCallback(() => {
+    const rulesetName = currentRuleset?.name;
+    let title: string;
+    if (rulesetName) {
+      title = t("settings.rulesets.copyNameTemplate", {
+        rulesetName: rulesetName,
+      });
+    } else {
+      title = t("settings.rulesets.defaultRulesetName");
+    }
+
+    return title;
+  }, [currentRuleset?.name, t]);
+
+  const getRulesetOverwriteName = useCallback(() => {
+    const rulesetName = currentRuleset?.name;
+    const trackerName = activeTrackerMeta?.title;
+    let title: string;
+
+    if (rulesetName) {
+      title = rulesetName;
+    } else if (trackerName) {
+      title = t("settings.rulesets.trackerRuleTemplate", {
+        trackerName: trackerName,
+      });
+    } else {
+      title = t("settings.rulesets.defaultRulesetName");
+    }
+    return title;
+  }, [activeTrackerMeta?.title, currentRuleset?.name, t]);
+
+  useEffect(() => {
+    setRulesetCopyName(getRulesetCopyName());
+    setRulesetOverwriteName(getRulesetOverwriteName());
+  }, [getRulesetCopyName, getRulesetOverwriteName]);
+
+  const handleOpenRulesetEditor = useCallback(() => {
+    setMobileMenuOpen(false);
+    const from =
+      typeof window !== "undefined"
+        ? `${location.pathname}${location.search}`
+        : undefined;
+    navigate("/rulesets", { state: { from } });
+  }, [navigate, location.pathname, location.search]);
+
+  const rulesetBackTarget =
+    (location.state as { from?: string } | null)?.from || null;
+
+  const handleRulesetBack = useCallback(() => {
+    if (rulesetBackTarget) {
+      navigate(rulesetBackTarget);
+      return;
+    }
+    if (typeof window !== "undefined" && window.history.length > 1) {
+      navigate(-1);
+      return;
+    }
+    navigate("/");
+  }, [navigate, rulesetBackTarget]);
+
+  const handleSaveRuleset = useCallback(
+    async (payload: SaveRulesetPayload): Promise<Ruleset> => {
+      if (!user) throw new Error("Du musst angemeldet sein.");
+      return saveRuleset(user.uid, payload);
+    },
+    [user],
+  );
+
+  const handleDeleteRuleset = useCallback(
+    async (rulesetId: string) => {
+      if (!user) throw new Error("Du musst angemeldet sein.");
+      await deleteRuleset(user.uid, rulesetId);
+    },
+    [user],
+  );
 
   const handleNavigateHome = () => {
     setMobileMenuOpen(false);
@@ -1383,6 +1563,79 @@ const App: React.FC = () => {
     [isReadOnly],
   );
 
+  const applyRulesetChange = useCallback(
+    (rulesetId: string) => {
+      if (isReadOnly) return;
+      const selected =
+        rulesets.find((entry) => entry.id === rulesetId) ??
+        PRESET_RULESETS.find((entry) => entry.id === rulesetId);
+      const normalizedRules =
+        sanitizeRules(selected?.rules) || sanitizeRules(DEFAULT_RULES);
+      const finalRules =
+        normalizedRules.length > 0 ? normalizedRules : DEFAULT_RULES;
+      const resolvedId = selected?.id ?? DEFAULT_RULESET_ID;
+      setData((prev) => ({
+        ...prev,
+        rules: finalRules,
+        rulesetId: resolvedId,
+      }));
+      if (activeTrackerId) {
+        setTrackerMetas((prev) => {
+          const existing = prev[activeTrackerId];
+          if (!existing) return prev;
+          return {
+            ...prev,
+            [activeTrackerId]: {
+              ...existing,
+              rulesetId: resolvedId,
+            },
+          };
+        });
+        update(ref(db, `trackers/${activeTrackerId}/meta`), {
+          rulesetId: resolvedId,
+        });
+      }
+    },
+    [activeTrackerId, isReadOnly, rulesets],
+  );
+
+  const openRulesetSaveModal = useCallback(
+    (reason: "manual" | "switch", nextRulesetId?: string | null) => {
+      setRulesetSaveReason(reason);
+      setPendingRulesetId(nextRulesetId ?? null);
+      setRulesetSaveError(null);
+      setRulesetCopyName(getRulesetCopyName());
+      setRulesetOverwriteName(getRulesetOverwriteName());
+      setShowRulesetSaveModal(true);
+    },
+    [getRulesetCopyName, getRulesetOverwriteName],
+  );
+
+  const handleRulesetChange = useCallback(
+    (rulesetId: string) => {
+      if (isReadOnly) return;
+      const currentId = data.rulesetId || DEFAULT_RULESET_ID;
+      if (rulesetId === currentId) return;
+      if (!rulesetInSync) {
+        openRulesetSaveModal("switch", rulesetId);
+        return;
+      }
+      applyRulesetChange(rulesetId);
+    },
+    [
+      applyRulesetChange,
+      data.rulesetId,
+      isReadOnly,
+      openRulesetSaveModal,
+      rulesetInSync,
+    ],
+  );
+
+  const handleSynchronizeRules = useCallback(() => {
+    if (isReadOnly) return;
+    applyRulesetChange(currentRulesetId);
+  }, [applyRulesetChange, currentRulesetId, isReadOnly]);
+
   const handlePublicToggle = (enabled: boolean) => {
     if (!activeTrackerId || isReadOnly) return;
     setTrackerMetas((prev) => {
@@ -1397,6 +1650,92 @@ const App: React.FC = () => {
       };
     });
     update(ref(db, `trackers/${activeTrackerId}/meta`), { isPublic: enabled });
+  };
+
+  const closeRulesetSaveModal = () => {
+    setShowRulesetSaveModal(false);
+    setRulesetSaveError(null);
+    setPendingRulesetId(null);
+    setRulesetSaveLoading(false);
+  };
+
+  const handleSaveRulesetFromTracker = useCallback(
+    async (mode: "overwrite" | "copy") => {
+      if (!user) {
+        setRulesetSaveError("Du musst angemeldet sein.");
+        return;
+      }
+      const baseRulesetIsPreset = Boolean(currentRuleset?.isPreset);
+      const effectiveMode =
+        baseRulesetIsPreset && mode === "overwrite" ? "copy" : mode;
+      const currentId = data.rulesetId || defaultLocaleRulesetId;
+      const baseRuleset =
+        rulesets.find((entry) => entry.id === currentId) ||
+        PRESET_RULESETS.find((entry) => entry.id === currentId);
+      const name =
+        effectiveMode === "overwrite"
+          ? rulesetOverwriteName || getRulesetOverwriteName()
+          : rulesetCopyName || getRulesetCopyName();
+      const description = baseRuleset?.description || "";
+      const tags = baseRuleset?.tags;
+      const rulesToPersist =
+        normalizedTrackerRules.length > 0
+          ? normalizedTrackerRules
+          : (baseRuleset?.rules ?? DEFAULT_RULES);
+
+      setRulesetSaveLoading(true);
+      setRulesetSaveError(null);
+      try {
+        await saveRuleset(user.uid, {
+          id:
+            effectiveMode === "overwrite" && !baseRulesetIsPreset
+              ? currentId
+              : undefined,
+          name,
+          description,
+          rules: rulesToPersist,
+          tags,
+        });
+        if (rulesetSaveReason === "switch" && pendingRulesetId) {
+          applyRulesetChange(pendingRulesetId);
+        }
+        setPendingRulesetId(null);
+        setShowRulesetSaveModal(false);
+      } catch (err) {
+        const fallback =
+          t("settings.rulesets.saveModal.error", {
+            defaultValue: "Speichern fehlgeschlagen.",
+          }) || "Fehler";
+        setRulesetSaveError(
+          err instanceof Error ? err.message : String(fallback),
+        );
+      } finally {
+        setRulesetSaveLoading(false);
+      }
+    },
+    [
+      activeTrackerMeta?.title,
+      applyRulesetChange,
+      data.rulesetId,
+      defaultLocaleRulesetId,
+      normalizedTrackerRules,
+      pendingRulesetId,
+      rulesetCopyName,
+      rulesetOverwriteName,
+      rulesets,
+      rulesetSaveReason,
+      t,
+      user,
+      getRulesetCopyName,
+      getRulesetOverwriteName,
+    ],
+  );
+
+  const handleSkipRulesetSave = () => {
+    if (rulesetSaveReason === "switch" && pendingRulesetId) {
+      applyRulesetChange(pendingRulesetId);
+    }
+    closeRulesetSaveModal();
   };
 
   const handleLegendaryIncrement = () => {
@@ -1439,17 +1778,35 @@ const App: React.FC = () => {
     playerNames: string[];
     memberInvites: Array<{ email: string; role: "editor" | "guest" }>;
     gameVersionId: string;
+    rulesetId?: string;
   }) => {
     if (!user) return;
     setCreateTrackerError(null);
     setCreateTrackerLoading(true);
     try {
+      const selectedRuleset =
+        rulesets.find((entry) => entry.id === payload.rulesetId) ??
+        PRESET_RULESETS.find((entry) => entry.id === payload.rulesetId);
+      const fallbackRuleset =
+        PRESET_RULESETS.find((entry) => entry.id === defaultLocaleRulesetId) ||
+        PRESET_RULESETS.find((entry) => entry.id === DEFAULT_RULESET_ID);
+      const resolvedRuleset = selectedRuleset ?? fallbackRuleset;
+      const rulesetId =
+        resolvedRuleset?.id ?? fallbackRuleset?.id ?? defaultLocaleRulesetId;
+      const initialRules = sanitizeRules(
+        resolvedRuleset?.rules ?? fallbackRuleset?.rules ?? DEFAULT_RULES,
+      );
       await createTracker({
         title: payload.title,
         playerNames: payload.playerNames,
         memberInvites: payload.memberInvites,
         owner: user,
         gameVersionId: payload.gameVersionId,
+        rulesetId,
+        rules:
+          initialRules.length > 0
+            ? initialRules
+            : (fallbackRuleset?.rules ?? DEFAULT_RULES),
       });
       setShowCreateModal(false);
     } catch (error) {
@@ -1761,7 +2118,14 @@ const App: React.FC = () => {
       gameVersion={activeGameVersion}
       rivalPreferences={currentUserRivalPreferences}
       onRivalPreferenceChange={handleRivalPreferenceChange}
+      rulesets={rulesets}
+      selectedRulesetId={data.rulesetId}
+      onRulesetSelect={handleRulesetChange}
+      onSynchronizeRules={handleSynchronizeRules}
+      onOpenRulesetEditor={handleOpenRulesetEditor}
       isGuest={isGuest}
+      onSaveRulesetToCollection={() => openRulesetSaveModal("manual")}
+      rulesetDirty={!rulesetInSync}
     />
   ) : (
     <div className="bg-[#f0f0f0] dark:bg-gray-900 min-h-screen p-2 sm:p-4 md:p-8 text-gray-800 dark:text-gray-200">
@@ -1808,7 +2172,7 @@ const App: React.FC = () => {
               <DarkModeToggle />
               <button
                 onClick={handleNavigateHome}
-                className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white focus:outline-none"
+                className={`p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white ${focusRingClasses}`}
                 aria-label={t("common.overview")}
                 title={t("common.overview")}
               >
@@ -1817,7 +2181,7 @@ const App: React.FC = () => {
               {!isReadOnly && (
                 <button
                   onClick={handleReset}
-                  className="p-2 rounded-full focus:outline-none hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white"
+                  className={`p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white ${focusRingClasses}`}
                   aria-label={t("tracker.actions.resetRun")}
                   title={t("tracker.actions.resetRun")}
                 >
@@ -1827,7 +2191,7 @@ const App: React.FC = () => {
               {(!isReadOnly || isGuest) && (
                 <button
                   onClick={openSettingsPanel}
-                  className="p-2 rounded-full focus:outline-none hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white"
+                  className={`p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white ${focusRingClasses}`}
                   aria-label={t("tracker.actions.settings")}
                   title={t("tracker.actions.settings")}
                 >
@@ -1837,7 +2201,7 @@ const App: React.FC = () => {
             </div>
             {/* Mobile burger (<xl) */}
             <button
-              className="xl:hidden p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 focus:outline-none"
+              className={`xl:hidden p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 ${focusRingClasses}`}
               aria-label={t("tracker.menu.open")}
               aria-expanded={mobileMenuOpen}
               onClick={() => setMobileMenuOpen((v) => !v)}
@@ -1867,7 +2231,7 @@ const App: React.FC = () => {
               </span>
               <button
                 onClick={() => setMobileMenuOpen(false)}
-                className="p-1 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200"
+                className={`p-1 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 ${focusRingClasses}`}
                 aria-label={t("tracker.menu.close")}
               >
                 ✕
@@ -1880,7 +2244,7 @@ const App: React.FC = () => {
                   setDarkMode(next);
                   setIsDark(next);
                 }}
-                className="w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2"
+                className={`w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2 ${focusRingClasses}`}
                 title={
                   isDark
                     ? t("tracker.menu.lightMode")
@@ -1894,18 +2258,27 @@ const App: React.FC = () => {
               </button>
               <button
                 onClick={handleNavigateHome}
-                className="w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2"
+                className={`w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2 ${focusRingClasses}`}
                 title={t("common.overview")}
               >
                 <FiHome size={18} /> {t("tracker.menu.overview")}
               </button>
+              {user && (
+                <button
+                  onClick={handleOpenRulesetEditor}
+                  className={`w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2 ${focusRingClasses}`}
+                  title={t("tracker.menu.rulesets")}
+                >
+                  <FiEdit size={18} /> {t("tracker.menu.rulesets")}
+                </button>
+              )}
               {!isReadOnly && (
                 <button
                   onClick={() => {
                     setMobileMenuOpen(false);
                     handleReset();
                   }}
-                  className="w-full text-left px-2 py-2 rounded-md text-sm inline-flex items-center gap-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  className={`w-full text-left px-2 py-2 rounded-md text-sm inline-flex items-center gap-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 ${focusRingClasses}`}
                   title={t("tracker.menu.resetRun")}
                 >
                   <FiRotateCw size={18} /> {t("tracker.menu.resetRun")}
@@ -1917,7 +2290,7 @@ const App: React.FC = () => {
                     setMobileMenuOpen(false);
                     openSettingsPanel();
                   }}
-                  className="w-full text-left px-2 py-2 rounded-md text-sm inline-flex items-center gap-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  className={`w-full text-left px-2 py-2 rounded-md text-sm inline-flex items-center gap-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 ${focusRingClasses}`}
                   title={t("tracker.menu.settings")}
                 >
                   <FiSliders size={18} /> {t("tracker.menu.settings")}
@@ -2093,6 +2466,8 @@ const App: React.FC = () => {
         onSubmit={handleCreateTrackerSubmit}
         isSubmitting={createTrackerLoading}
         error={createTrackerError}
+        rulesets={rulesets}
+        defaultRulesetId={defaultLocaleRulesetId}
       />
       <DeleteTrackerModal
         isOpen={Boolean(trackerPendingDelete)}
@@ -2102,6 +2477,21 @@ const App: React.FC = () => {
         isDeleting={deleteTrackerLoading}
         error={deleteTrackerError}
       />
+      {showRulesetSaveModal && (
+        <RulesetSaveModal
+          isOpen={showRulesetSaveModal}
+          onClose={closeRulesetSaveModal}
+          onSkip={handleSkipRulesetSave}
+          onSave={handleSaveRulesetFromTracker}
+          isLoading={rulesetSaveLoading}
+          error={rulesetSaveError}
+          reason={rulesetSaveReason}
+          currentRuleset={currentRuleset}
+          hasUserRulesetWithSameId={hasUserRulesetWithSameId}
+          rulesetCopyName={rulesetCopyName}
+          rulesetOverwriteName={rulesetOverwriteName}
+        />
+      )}
       <Routes>
         <Route
           path="/"
@@ -2111,6 +2501,7 @@ const App: React.FC = () => {
               onOpenTracker={handleOpenTracker}
               onCreateTracker={openCreateTrackerModal}
               onOpenUserSettings={handleOpenUserSettings}
+              onOpenRulesetEditor={handleOpenRulesetEditor}
               isLoading={trackerListLoading}
               activeTrackerId={activeTrackerId}
               userEmail={user?.email ?? undefined}
@@ -2125,6 +2516,22 @@ const App: React.FC = () => {
           element={
             activeTrackerId ? (
               <Navigate to={`/tracker/${activeTrackerId}`} replace />
+            ) : (
+              <Navigate to="/" replace />
+            )
+          }
+        />
+        <Route
+          path="/rulesets"
+          element={
+            user ? (
+              <RulesetEditorPage
+                rulesets={rulesets}
+                onBack={handleRulesetBack}
+                onSave={handleSaveRuleset}
+                onDelete={handleDeleteRuleset}
+                defaultRulesetId={DEFAULT_RULESET_ID}
+              />
             ) : (
               <Navigate to="/" replace />
             )

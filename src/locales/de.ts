@@ -45,6 +45,7 @@ export const de = {
     progressFallback: "Noch keine Arena",
     privateTracker: "Privater Tracker",
     publicTracker: "Öffentlicher Tracker",
+    rulesetEditor: "Regel-Editor",
   },
   modals: {
     common: {
@@ -82,6 +83,10 @@ export const de = {
       versionButton: "Spielversion auswählen",
       versionPlaceholder: "Keine Version ausgewählt",
       versionRequired: "Bitte wähle eine Spielversion aus.",
+      rulesetLabel: "Regeln",
+      rulesetButton: "Regeln auswählen",
+      rulesetPlaceholder: "Standard-Regeln",
+      manageRulesets: "Regeln bearbeiten",
       titleLabel: "Titel",
       titlePlaceholder: "z. B. Schwarz 2 Soullink",
       playerCountLabel: "Spieleranzahl wählen",
@@ -128,6 +133,17 @@ export const de = {
       submit: "Hinzufügen",
     },
   },
+  rulesets: {
+    presetTag: "Vordefiniert",
+    customTag: "Eigenes",
+    noDescription: "Keine Beschreibung vorhanden",
+    ruleCount: "{{count}} Regeln",
+    empty: "Noch keine Regeln vorhanden.",
+    tagFilterLabel: "Nach Tags filtern",
+    tagFilterAll: "Alle Tags",
+    tagFilterSelect: "Tag {{tag}} umschalten",
+    filteredEmpty: "Keine Regeln mit diesen Tags gefunden.",
+  },
   tracker: {
     defaultTitle: "Tracker",
     header: {
@@ -139,6 +155,7 @@ export const de = {
     actions: {
       resetRun: "Run zurücksetzen",
       settings: "Einstellungen",
+      rulesetEditor: "Regel Editor",
     },
     menu: {
       open: "Menü öffnen",
@@ -148,6 +165,7 @@ export const de = {
       lightMode: "Lightmode",
       darkMode: "Darkmode",
       overview: "Übersicht",
+      rulesets: "Regel Editor",
       resetRun: "Run zurücksetzen",
       settings: "Einstellungen",
     },
@@ -196,6 +214,9 @@ export const de = {
       itemsIncrease: "Items erhöhen",
       itemsDecrease: "Items verringern",
       rulePlaceholder: "Regel {{index}}",
+      removeRule: "Regel {{index}} entfernen",
+      removeRuleTitle: "Regel entfernen",
+      removeRuleDisabled: "Mindestens eine Regel ist erforderlich",
       completedArena: "Erledigt: {{target}}",
       totalLabel: "Gesamt:",
       fossilTracker: "Fossil Tracker",
@@ -220,6 +241,47 @@ export const de = {
       buttonConfirm: "Bestätigen",
       unavailable: "In dieser Version nicht verfügbar",
     },
+  },
+  rulesetEditor: {
+    badge: "Regeln",
+    title: "Regel-Editor",
+    subtitle: "Erstelle, kopiere und bearbeite deine Regeln.",
+    listTitle: "Verfügbare Regeln",
+    new: "Neue Regeln",
+    copy: "Duplizieren",
+    copySuffix: "Kopie",
+    presetLocked: "Vordefinierte Regeln können nicht bearbeitet werden.",
+    customHint: "Eigene Regeln sind nur für dich sichtbar.",
+    formTitle: "Regel-Details",
+    readonlyInfo: "Vordefinierte Regeln sind schreibgeschützt.",
+    name: "Name",
+    namePlaceholder: "Name für das Regelset",
+    description: "Beschreibung",
+    descriptionPlaceholder: "Optionale Kurzbeschreibung",
+    rulesTitle: "Regeln",
+    addRule: "Regel hinzufügen",
+    rulePlaceholder: "Regel {{index}}",
+    removeRule: "Regel {{index}} entfernen",
+    removeRuleTitle: "Regel entfernen",
+    removeRuleDisabled: "Mindestens eine Regel ist erforderlich",
+    save: "Regeln speichern",
+    saving: "Speichere…",
+    saveSuccess: "Regeln gespeichert.",
+    saveError: "Regeln konnten nicht gespeichert werden.",
+    delete: "Löschen",
+    deleting: "Lösche…",
+    deleteSuccess: "Regeln gelöscht.",
+    deleteError: "Regeln konnte nicht gelöscht werden.",
+    deleteConfirmTitle: "Regeln löschen?",
+    deleteConfirmBody:
+      "Willst du „{{name}}“ wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
+    tagsTitle: "Tags",
+    tagsHint: "Tags helfen beim Filtern deiner Regeln.",
+    tagsEmpty: "Noch keine Tags.",
+    tagPlaceholder: "Tag hinzufügen (z. B. Duo, DE)",
+    addTag: "Tag hinzufügen",
+    removeTag: "Tag {{tag}} entfernen",
+    presetTagsLabel: "Schnell-Tags",
   },
   app: {
     trackerNotFound: {
@@ -258,7 +320,7 @@ export const de = {
   },
   graveyard: {
     title: "Tote / verlorene Pokémon",
-    manualAddTitle: "Paar manuell hinzufügen",
+    manualAddTitle: "Verlorene Pokémon hinzufügen",
     titleEdit: "Bearbeiten",
     statusDead: "Tot",
     statusLost: "Verloren",
@@ -284,6 +346,52 @@ export const de = {
       trackerTitle: "Tracker Titel",
       trackerTitlePlaceholder: "z. B. Schwarz 2 Soullink",
       playerLabel: "Name Spieler {{index}}",
+    },
+    rulesets: {
+      label: "Regeln",
+      description:
+        "Wähle ein vordefiniertes oder eigenes Regelset für diesen Tracker. Dieses Regelset ist für alle sichtbar.",
+      manage: "Regeln verwalten",
+      selectButton: "Regeln auswählen",
+      fallback: "Keine Regeln ausgewählt",
+      saveCurrent: "Speichern",
+      sync: "Synchronisieren",
+      syncModal: {
+        title: "Tracker-Regeln synchronisieren",
+        description:
+          'Die aktuellen Tracker-Regeln werden mit den Regeln aus "{{rulesetName}}" überschrieben.',
+        warning:
+          "Nicht gespeicherte Regeländerungen in diesem Tracker gehen dabei verloren.",
+        confirm: "Tracker-Regeln überschreiben",
+        cancel: "Abbrechen",
+      },
+      unsavedWarning:
+        "Die aktuellen Tracker-Regeln sind nicht identisch mit dem hinterlegten Regelset.",
+      copyNameTemplate: "{{rulesetName}} (Kopie)",
+      trackerRuleTemplate: "{{trackerName}} Regeln",
+      defaultRulesetName: "Tracker-Regeln",
+      saveModal: {
+        title: "Regeln in deiner Sammlung speichern",
+        overwrite: "Überschreiben oder kopieren",
+        overwriteButton: '"{{name}}" überschreiben',
+        copyButton: 'Als "{{name}}" speichern',
+        primary: "Regeln speichern",
+        saving: "Speichere...",
+        error: "Speichern fehlgeschlagen. Bitte versuche es erneut.",
+        switchTitle: "Vor Wechsel speichern?",
+        switchCustom:
+          "Beim Wechseln werden die aktuellen Tracker-Regeln ersetzt. Speichere sie, wenn du sie behalten möchtest.",
+        switchPreset:
+          "Beim Wechseln bleibt das Preset unverändert. Speichere eine Kopie, wenn du deine Anpassungen behalten möchtest.",
+        manualCustom:
+          "Speichere die aktuellen Tracker-Regeln als eigenes Regelset in deiner Sammlung.",
+        manualPreset:
+          "Dieses Regelset ist ein Preset und kann nicht überschrieben werden. Speichere es als eigenes Regelset, wenn du deine Anpassungen behalten möchtest.",
+        manualOverwrite:
+          'Ein Regelset mit dem Namen "{{name}}" existiert bereits. Du kannst es überschreiben oder als Kopie speichern.',
+        skip: "Ohne Speichern wechseln",
+        cancel: "Abbrechen",
+      },
     },
     sections: {
       options: "Tracker Optionen",

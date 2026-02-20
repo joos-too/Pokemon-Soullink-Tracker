@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useId, useMemo, useRef, useState } from "react";
 import { searchPokemonNames } from "@/src/services/pokemonSearch";
 import { getSpriteUrlForPokemonName } from "@/src/services/sprites";
 import {
@@ -9,6 +9,7 @@ import type { Pokemon } from "@/types";
 import { useTranslation } from "react-i18next";
 import { normalizeLanguage } from "@/src/utils/language";
 import LocationSuggestionInput from "@/src/components/LocationSuggestionInput";
+import { useFocusTrap } from "@/src/hooks/useFocusTrap";
 
 interface AddLostPokemonModalProps {
   isOpen: boolean;
@@ -194,6 +195,8 @@ const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({
   initial,
 }) => {
   const { t } = useTranslation();
+  const { containerRef } = useFocusTrap(isOpen);
+  const titleId = useId();
   const [route, setRoute] = useState("");
   const [pokemonNames, setPokemonNames] = useState<string[]>(() =>
     playerNames.map(() => ""),
@@ -233,10 +236,19 @@ const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({
     pokemonNames.every((name) => name.trim().length > 0);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
-      <div className="w-full max-w-md rounded-lg bg-white p-6 shadow-xl dark:bg-gray-800">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div
+        ref={containerRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        tabIndex={-1}
+        className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-md"
+      >
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold dark:text-gray-100">{title}</h2>
+          <h2 id={titleId} className="text-xl font-bold dark:text-gray-100">
+            {title}
+          </h2>
           <button
             onClick={onClose}
             className={`text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 rounded-md ${focusRingClasses}`}

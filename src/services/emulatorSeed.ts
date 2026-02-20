@@ -18,7 +18,7 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { get, ref, update } from "firebase/database";
-import { createInitialState } from "@/constants";
+import { createInitialState } from "@/src/services/init.ts";
 import { FossilEntry } from "@/types";
 
 // Test user credentials for emulator mode

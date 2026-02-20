@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useId, useMemo, useRef, useState } from "react";
 import type { Pokemon } from "@/types";
 import { searchPokemonNames } from "@/src/services/pokemonSearch";
 import { getSpriteUrlForPokemonName } from "@/src/services/sprites";
@@ -12,6 +12,7 @@ import {
   type SupportedLanguage,
 } from "@/src/utils/language";
 import LocationSuggestionInput from "@/src/components/LocationSuggestionInput";
+import { useFocusTrap } from "@/src/hooks/useFocusTrap";
 
 interface EditPairModalProps {
   isOpen: boolean;
@@ -225,6 +226,8 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
     () => normalizeLanguage(i18n.language),
     [i18n.language],
   );
+  const { containerRef } = useFocusTrap(isOpen);
+  const titleId = useId();
   const [route, setRoute] = useState(initial.route || "");
   const [members, setMembers] = useState<Pokemon[]>(() =>
     playerLabels.map(
@@ -285,9 +288,18 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-lg">
+      <div
+        ref={containerRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        tabIndex={-1}
+        className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-lg"
+      >
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold dark:text-gray-100">{title}</h2>
+          <h2 id={titleId} className="text-xl font-bold dark:text-gray-100">
+            {title}
+          </h2>
           <button
             onClick={onClose}
             className={`text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 rounded-md ${focusRingClasses}`}

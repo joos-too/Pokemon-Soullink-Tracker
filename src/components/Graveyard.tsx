@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react";
 import type { Pokemon, PokemonLink } from "@/types";
 import { getSpriteUrlForPokemonName } from "@/src/services/sprites";
-import { PLAYER_COLORS } from "@/constants";
+import { PLAYER_COLORS } from "@/src/services/init.ts";
 import { useTranslation } from "react-i18next";
+import { focusRingClasses } from "@/src/styles/focusRing";
 import { FiEdit } from "react-icons/fi";
 import AddLostPokemonModal from "./AddLostPokemonModal";
 import EditPairModal from "./EditPairModal";
@@ -89,7 +90,7 @@ const Graveyard: React.FC<GraveyardProps> = ({
         {onManualAddClick && !readOnly && (
           <button
             onClick={onManualAddClick}
-            className="ml-4 text-white hover:text-gray-300"
+            className={`ml-4 text-white hover:text-gray-300 rounded-md ${focusRingClasses}`}
             title={t("graveyard.manualAddTitle")}
           >
             <svg

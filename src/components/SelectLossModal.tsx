@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useId, useState } from "react";
 import type { PokemonLink } from "@/types";
 import { Trans, useTranslation } from "react-i18next";
+import { useFocusTrap } from "@/src/hooks/useFocusTrap";
+import { focusRingClasses } from "@/src/styles/focusRing.ts";
 
 interface SelectLossModalProps {
   isOpen: boolean;
@@ -19,6 +21,8 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({
 }) => {
   const [selected, setSelected] = useState<number | null>(null);
   const { t } = useTranslation();
+  const { containerRef } = useFocusTrap(isOpen);
+  const titleId = useId();
 
   useEffect(() => {
     if (isOpen) {
@@ -36,14 +40,21 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-md">
+      <div
+        ref={containerRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        tabIndex={-1}
+        className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-md"
+      >
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-lg font-bold dark:text-gray-100">
+          <h2 id={titleId} className="text-lg font-bold dark:text-gray-100">
             {t("modals.selectLoss.title")}
           </h2>
           <button
             onClick={onClose}
-            className="text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
+            className={`text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 rounded-md ${focusRingClasses}`}
             aria-label={t("common.close")}
           >
             <svg

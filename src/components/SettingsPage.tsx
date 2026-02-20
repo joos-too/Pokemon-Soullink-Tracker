@@ -1,17 +1,26 @@
-import React, { useMemo, useState } from "react";
-import { MAX_PLAYER_COUNT, MIN_PLAYER_COUNT, PLAYER_COLORS } from "@/constants";
+import React, { useId, useMemo, useState } from "react";
+import {
+  MAX_PLAYER_COUNT,
+  MIN_PLAYER_COUNT,
+  PLAYER_COLORS,
+} from "@/src/services/init.ts";
 import type {
   GameVersion,
   RivalGender,
+  Ruleset,
   TrackerMember,
   UserSettings,
   VariableRival,
 } from "@/types";
 import {
   FiArrowLeft,
+  FiAlertTriangle,
+  FiEdit,
   FiEye,
   FiInfo,
   FiLogOut,
+  FiRefreshCw,
+  FiSave,
   FiShield,
   FiTrash2,
   FiUserPlus,
@@ -20,11 +29,15 @@ import {
 import {
   focusRingClasses,
   focusRingInputClasses,
+  focusRingRedClasses,
 } from "@/src/styles/focusRing";
 import ToggleSwitch from "@/src/components/ToggleSwitch";
 import Tooltip from "./Tooltip";
 import { useTranslation } from "react-i18next";
 import { getLocalizedRivalEntry } from "@/src/services/gameLocalization";
+import RulesetPicker from "./RulesetPicker";
+import { useFocusTrap } from "@/src/hooks/useFocusTrap";
+import RulesetSyncModal from "@/src/components/RulesetSyncModal";
 
 type InviteRoleOption = "editor" | "guest";
 
@@ -55,7 +68,14 @@ interface SettingsPageProps {
   gameVersion?: GameVersion;
   rivalPreferences?: UserSettings["rivalPreferences"];
   onRivalPreferenceChange: (key: string, gender: RivalGender) => void;
+  rulesets: Ruleset[];
+  selectedRulesetId?: string;
+  onRulesetSelect: (rulesetId: string) => void;
+  onSynchronizeRules: () => void;
+  onOpenRulesetEditor: () => void;
   isGuest?: boolean;
+  onSaveRulesetToCollection: () => void;
+  rulesetDirty?: boolean;
 }
 
 const SettingsPage: React.FC<SettingsPageProps> = ({
@@ -85,7 +105,14 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
   gameVersion,
   rivalPreferences,
   onRivalPreferenceChange,
+  rulesets,
+  selectedRulesetId,
+  onRulesetSelect,
+  onSynchronizeRules,
+  onOpenRulesetEditor,
   isGuest = false,
+  onSaveRulesetToCollection,
+  rulesetDirty = false,
 }) => {
   const { t } = useTranslation();
   const [inviteEmail, setInviteEmail] = useState("");
@@ -99,6 +126,12 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
   const [removingMemberId, setRemovingMemberId] = useState<string | null>(null);
   const [memberPendingRemoval, setMemberPendingRemoval] =
     useState<TrackerMember | null>(null);
+  const [showRulesetPicker, setShowRulesetPicker] = useState(false);
+  const [showRulesetSyncModal, setShowRulesetSyncModal] = useState(false);
+  const { containerRef: removeModalRef } = useFocusTrap(
+    Boolean(memberPendingRemoval),
+  );
+  const removeModalTitleId = useId();
   const playerCount = Math.min(
     Math.max(playerNames.length, MIN_PLAYER_COUNT),
     MAX_PLAYER_COUNT,
@@ -144,6 +177,12 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
     return out;
   }, [rivalKeyToCapId, versionId, t]);
 
+  const selectedRuleset = useMemo(
+    () => rulesets.find((entry) => entry.id === selectedRulesetId),
+    [rulesets, selectedRulesetId],
+  );
+  const rulesetLabel = selectedRuleset?.name || t("settings.rulesets.fallback");
+
   const handleInvite = async (event: React.FormEvent) => {
     event.preventDefault();
     setInviteError(null);
@@ -185,6 +224,20 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
     if (removingMemberId) return;
     setMemberPendingRemoval(null);
     setMemberActionError(null);
+  };
+
+  const handleOpenRulesetSyncModal = () => {
+    if (isGuest) return;
+    setShowRulesetSyncModal(true);
+  };
+
+  const handleCloseRulesetSyncModal = () => {
+    setShowRulesetSyncModal(false);
+  };
+
+  const handleConfirmRulesetSync = () => {
+    onSynchronizeRules();
+    setShowRulesetSyncModal(false);
   };
 
   const participantsMap = new Map<string, TrackerMember>();
@@ -250,7 +303,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                 <button
                   type="button"
                   onClick={onRequestDeleteTracker}
-                  className="text-red-600 hover:text-red-800 p-2"
+                  className={`text-red-600 hover:text-red-800 p-2 rounded-full ${focusRingRedClasses}`}
                   title={t("settings.header.deleteTrackerTitle")}
                 >
                   <FiTrash2 size={24} />
@@ -672,7 +725,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                     <button
                       type="submit"
                       disabled={inviteLoading}
-                      className="inline-flex items-center justify-center rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700 disabled:opacity-60"
+                      className={`inline-flex items-center justify-center rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700 disabled:opacity-60 ${focusRingClasses}`}
                     >
                       {inviteLoading
                         ? t("settings.members.inviteButton.loading")
@@ -692,12 +745,110 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                 </form>
               )}
             </section>
+
+            <section className="space-y-3">
+              <div className="items-center justify-between mb-4">
+                <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-gray-500">
+                  {t("settings.rulesets.label")}
+                </h2>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                  {t("settings.rulesets.description")}
+                </p>
+              </div>
+              <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 space-y-3">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                  <div className="text-sm font-semibold text-gray-800 dark:text-gray-100">
+                    {rulesetLabel}
+                  </div>
+                  <div className="flex flex-wrap justify-end gap-2">
+                    <button
+                      type="button"
+                      onClick={onOpenRulesetEditor}
+                      className={`inline-flex items-center gap-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-sm font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-60 ${focusRingClasses}`}
+                      disabled={isGuest}
+                    >
+                      <FiEdit /> {t("settings.rulesets.manage")}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={onSaveRulesetToCollection}
+                      className={`inline-flex items-center gap-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-sm font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-60 ${focusRingClasses}`}
+                      disabled={isGuest}
+                    >
+                      <FiSave /> {t("settings.rulesets.saveCurrent")}
+                    </button>
+                    {rulesetDirty && (
+                      <button
+                        type="button"
+                        onClick={handleOpenRulesetSyncModal}
+                        className={`inline-flex items-center gap-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-sm font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-60 ${focusRingClasses}`}
+                        disabled={isGuest}
+                      >
+                        <FiRefreshCw /> {t("settings.rulesets.sync")}
+                      </button>
+                    )}
+                  </div>
+                </div>
+                {rulesetDirty && (
+                  <div className="flex items-start gap-2 rounded-md bg-amber-50 dark:bg-amber-900/30 border border-amber-200 dark:border-amber-800 px-3 py-2 text-xs text-amber-800 dark:text-amber-100">
+                    <FiAlertTriangle size={14} className="mt-0.5 shrink-0" />
+                    <span>{t("settings.rulesets.unsavedWarning")}</span>
+                  </div>
+                )}
+                <button
+                  type="button"
+                  onClick={() => setShowRulesetPicker((v) => !v)}
+                  aria-expanded={showRulesetPicker}
+                  aria-controls="settings-ruleset-picker-panel"
+                  className={`w-full inline-flex items-center justify-between rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-sm font-semibold text-gray-800 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700 ${focusRingClasses} disabled:opacity-60`}
+                  disabled={isGuest}
+                >
+                  <span>{t("settings.rulesets.selectButton")}</span>
+                  <span className="text-xs text-gray-600 dark:text-gray-300">
+                    {rulesetLabel}
+                  </span>
+                </button>
+                <div
+                  id="settings-ruleset-picker-panel"
+                  aria-hidden={!showRulesetPicker}
+                  inert={!showRulesetPicker}
+                  className={`transform-gpu ${showRulesetPicker ? "max-h-[70vh] opacity-100" : "max-h-0 opacity-0 pointer-events-none"} transition-all duration-300 ease-in-out overflow-hidden`}
+                >
+                  <div className="pt-1">
+                    <RulesetPicker
+                      value={selectedRulesetId || ""}
+                      rulesets={rulesets}
+                      isInteractive={showRulesetPicker && !isGuest}
+                      enableTagFilter
+                      listMaxHeightClass="max-h-56"
+                      onSelect={(value) => {
+                        onRulesetSelect(value);
+                        setShowRulesetPicker(false);
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+            </section>
           </main>
         </div>
       </div>
+      <RulesetSyncModal
+        isOpen={showRulesetSyncModal}
+        rulesetName={rulesetLabel}
+        onClose={handleCloseRulesetSyncModal}
+        onConfirm={handleConfirmRulesetSync}
+      />
       {memberPendingRemoval && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
-          <div className="w-full max-w-md rounded-xl bg-white dark:bg-gray-800 shadow-2xl border border-gray-200 dark:border-gray-700">
+          <div
+            ref={removeModalRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={removeModalTitleId}
+            tabIndex={-1}
+            className="w-full max-w-md rounded-xl bg-white dark:bg-gray-800 shadow-2xl border border-gray-200 dark:border-gray-700"
+          >
             <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 px-5 py-4">
               <div>
                 <p className="text-xs uppercase tracking-[0.3em] text-red-500">
@@ -705,7 +856,10 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                     ? t("settings.removeModal.badgeSelf")
                     : t("settings.removeModal.badgeMember")}
                 </p>
-                <h2 className="text-xl font-semibold mt-1 text-gray-900 dark:text-gray-100">
+                <h2
+                  id={removeModalTitleId}
+                  className="text-xl font-semibold mt-1 text-gray-900 dark:text-gray-100"
+                >
                   {pendingRemovalIsSelf
                     ? trackerTitle
                     : memberPendingRemoval.email}
@@ -714,7 +868,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
               <button
                 type="button"
                 onClick={handleCancelRemoveMember}
-                className="rounded-full p-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                className={`text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 rounded-md ${focusRingClasses}`}
                 aria-label={t("common.close")}
                 disabled={removingMemberId === memberPendingRemoval.uid}
               >
