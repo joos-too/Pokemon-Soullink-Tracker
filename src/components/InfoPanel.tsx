@@ -33,6 +33,7 @@ import {
   canToggleRivalAtIndex,
   formatBestLabel,
 } from "@/src/utils/bestRun";
+import { computeWeightedProgress } from "@/src/utils/progressWeights";
 import {
   focusRingClasses,
   focusRingInputClasses,
@@ -214,20 +215,14 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
 
   // Live computed progress
   const liveDoneArenas = levelCaps.filter((c) => c.done).length;
-  const liveDoneRivals = rivalCaps.filter((r) => r.done).length;
 
-  const totalMilestones = (levelCaps.length || 0) + (rivalCaps.length || 0);
   const challengeComplete =
     levelCaps.length > 0 && levelCaps.every((cap) => cap.done);
-  const completedMilestones = Math.min(
-    liveDoneArenas + liveDoneRivals,
-    totalMilestones,
-  );
-  const progressPct = challengeComplete
-    ? 100
-    : totalMilestones > 0
-      ? Math.round((completedMilestones / totalMilestones) * 100)
-      : 0;
+
+  const weightedProgress = computeWeightedProgress(levelCaps, rivalCaps);
+  const totalMilestones = weightedProgress.rawTotal;
+  const completedMilestones = weightedProgress.rawCompleted;
+  const progressPct = weightedProgress.pct;
 
   const deathStats = playerNames.map((name, index) => {
     const deaths = stats.deaths?.[index] ?? 0;
