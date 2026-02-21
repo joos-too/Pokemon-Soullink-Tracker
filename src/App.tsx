@@ -1029,8 +1029,18 @@ const App: React.FC = () => {
         : 0;
       const newBest = Math.max(prev.stats.best ?? 0, prevCurrentBest);
 
+      // Preserve revealed status of rival caps across resets
+      const rivalCapsWithRevealedState = base.rivalCaps.map((rc) => {
+        const prevRc = prev.rivalCaps?.find((p) => p.id === rc.id);
+        return {
+          ...rc,
+          revealed: prevRc?.revealed ?? false,
+        };
+      });
+
       return {
         ...base,
+        rivalCaps: rivalCapsWithRevealedState,
         rules: prev.rules, // keep rule changes
         rulesetId: prev.rulesetId ?? base.rulesetId,
         // keep toggled settings
