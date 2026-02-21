@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import type { Ruleset } from "@/types";
 import { focusRingCardClasses, focusRingClasses } from "@/src/styles/focusRing";
 import { FiLock, FiTag, FiUser } from "react-icons/fi";
@@ -12,6 +12,8 @@ interface RulesetPickerProps {
   onSelect: (rulesetId: string) => void;
   isInteractive?: boolean;
   enableTagFilter?: boolean;
+  defaultTagFilter?: string;
+  defaultTagFilterGroup?: string[];
   fullHeight?: boolean;
   listMaxHeightClass?: string;
 }
@@ -22,11 +24,47 @@ const RulesetPicker: React.FC<RulesetPickerProps> = ({
   onSelect,
   isInteractive = true,
   enableTagFilter = false,
+  defaultTagFilter,
+  defaultTagFilterGroup,
   fullHeight = false,
   listMaxHeightClass = "max-h-64",
 }) => {
   const { t } = useTranslation();
   const [tagFilters, setTagFilters] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (!enableTagFilter) return;
+    const cleanedDefaultTag = defaultTagFilter?.trim();
+    if (!cleanedDefaultTag) return;
+    const normalizedGroup = (
+      defaultTagFilterGroup && defaultTagFilterGroup.length > 0
+        ? defaultTagFilterGroup
+        : [cleanedDefaultTag]
+    ).map((tag) => tag.toLowerCase());
+    setTagFilters((current) => {
+      const preserved = current.filter(
+        (value) => !normalizedGroup.includes(value.toLowerCase()),
+      );
+      const next = [...preserved, cleanedDefaultTag];
+      const deduped: string[] = [];
+      const seen = new Set<string>();
+      next.forEach((tag) => {
+        const key = tag.toLowerCase();
+        if (seen.has(key)) return;
+        seen.add(key);
+        deduped.push(tag);
+      });
+      if (
+        deduped.length === current.length &&
+        deduped.every(
+          (tag, index) => tag.toLowerCase() === current[index].toLowerCase(),
+        )
+      ) {
+        return current;
+      }
+      return deduped;
+    });
+  }, [defaultTagFilter, defaultTagFilterGroup, enableTagFilter]);
 
   const availableTags = useMemo(() => {
     const tagSet = new Set<string>();

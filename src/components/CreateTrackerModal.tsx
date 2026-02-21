@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useId, useMemo, useState } from "react";
 import { FiPlus, FiUsers, FiX } from "react-icons/fi";
 import { GAME_VERSIONS } from "@/src/data/game-versions";
-import { PLAYER_COLORS } from "@/src/services/init.ts";
+import { PLAYER_COLORS, sanitizeTags } from "@/src/services/init.ts";
 import {
   focusRingClasses,
   focusRingInputClasses,
@@ -53,7 +53,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({
     defaultRulesetId || rulesets[0]?.id || "",
   );
   const [showRulesetPicker, setShowRulesetPicker] = useState(false);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const titleId = useId();
   const playerCountLabels = useMemo(
     () => ({
@@ -63,6 +63,54 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({
     }),
     [t],
   );
+  const playerCountTagFilter = useMemo(
+    () =>
+      ({
+        1: "Solo",
+        2: "Duo",
+        3: "Trio",
+      })[playerCount] ?? "Duo",
+    [playerCount],
+  );
+  const localeTag = useMemo(() => {
+    const language = (
+      i18n.resolvedLanguage ||
+      i18n.language ||
+      ""
+    ).toLowerCase();
+    return language.startsWith("en") ? "EN" : "DE";
+  }, [i18n.language, i18n.resolvedLanguage]);
+  const preferredRulesetIdForSelection = useMemo(() => {
+    const includesAllTags = (ruleset: Ruleset, requiredTags: string[]) => {
+      const normalizedTags = sanitizeTags(ruleset.tags).map((tag) =>
+        tag.toLowerCase(),
+      );
+      return requiredTags.every((tag) =>
+        normalizedTags.includes(tag.toLowerCase()),
+      );
+    };
+
+    return (
+      rulesets.find(
+        (ruleset) =>
+          ruleset.isPreset &&
+          includesAllTags(ruleset, [playerCountTagFilter, localeTag]),
+      )?.id ||
+      rulesets.find(
+        (ruleset) =>
+          ruleset.isPreset && includesAllTags(ruleset, [playerCountTagFilter]),
+      )?.id ||
+      rulesets.find((ruleset) =>
+        includesAllTags(ruleset, [playerCountTagFilter, localeTag]),
+      )?.id ||
+      rulesets.find((ruleset) =>
+        includesAllTags(ruleset, [playerCountTagFilter]),
+      )?.id ||
+      defaultRulesetId ||
+      rulesets[0]?.id ||
+      ""
+    );
+  }, [defaultRulesetId, localeTag, playerCountTagFilter, rulesets]);
 
   useEffect(() => {
     setPlayerNames((prev) => {
@@ -73,6 +121,15 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({
       return next;
     });
   }, [playerCount]);
+
+  useEffect(() => {
+    if (!isOpen || !preferredRulesetIdForSelection) return;
+    setRulesetId((current) =>
+      current === preferredRulesetIdForSelection
+        ? current
+        : preferredRulesetIdForSelection,
+    );
+  }, [isOpen, preferredRulesetIdForSelection]);
 
   const resetForm = useCallback(() => {
     setTitle("");
@@ -265,6 +322,8 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({
                   rulesets={rulesets}
                   isInteractive={showRulesetPicker && !isSubmitting}
                   enableTagFilter
+                  defaultTagFilter={playerCountTagFilter}
+                  defaultTagFilterGroup={["Solo", "Duo", "Trio"]}
                   listMaxHeightClass="max-h-56"
                   onSelect={(id) => {
                     setRulesetId(id);
