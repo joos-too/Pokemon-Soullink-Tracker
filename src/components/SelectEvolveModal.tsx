@@ -18,6 +18,8 @@ import {
 } from "@/src/utils/language";
 import { focusRingClasses } from "@/src/styles/focusRing";
 import { useFocusTrap } from "@/src/hooks/useFocusTrap";
+import { getPokemonTypeSlugsById } from "@/src/services/pokemonTypes";
+import TypeBadge from "@/src/components/TypeBadge";
 
 interface SelectEvolveModalProps {
   isOpen: boolean;
@@ -546,7 +548,12 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
                             className="w-16 h-16 object-contain"
                           />
                           <div className="text-sm">
-                            <div>{ev.name}</div>
+                            <div className="flex items-center gap-1.5 flex-wrap">
+                              <span>{ev.name}</span>
+                              {getPokemonTypeSlugsById(ev.id).map((slug) => (
+                                <TypeBadge key={slug} typeSlug={slug} />
+                              ))}
+                            </div>
                             <div className="text-xs text-gray-500 dark:text-gray-400">
                               {methodText}
                             </div>
