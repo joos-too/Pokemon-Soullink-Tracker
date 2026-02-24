@@ -305,7 +305,7 @@ export const en = {
     addPokemon: "Add Pokémon",
     addDisabled: "Adding disabled",
     pokemonColumn: "Pokémon",
-    nameColumn: "Name",
+    nameColumn: "Name & Type",
     nicknameColumn: "Nickname",
     routeColumn: "Area",
     actionsColumn: "Actions",

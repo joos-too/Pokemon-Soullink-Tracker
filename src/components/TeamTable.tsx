@@ -14,6 +14,8 @@ import {
   getOfficialArtworkUrlForPokemonName,
   getSpriteUrlForPokemonName,
 } from "@/src/services/sprites";
+import { getPokemonTypeSlugsForName } from "@/src/services/pokemonTypes";
+import TypeBadge from "@/src/components/TypeBadge";
 import { useTranslation } from "react-i18next";
 import { focusRingClasses } from "@/src/styles/focusRing";
 
@@ -242,8 +244,21 @@ const TeamTable: React.FC<TeamTableProps> = ({
                           </span>
                         )}
                       </td>
-                      <td className="p-2 text-sm text-gray-800 dark:text-gray-300 text-center">
+                      <td className="p-2 text-sm text-gray-800 dark:text-gray-300 text-center whitespace-nowrap">
                         {member.name || "-"}
+                        {member.name &&
+                          (() => {
+                            const typeSlugs = getPokemonTypeSlugsForName(
+                              member.name,
+                            );
+                            return typeSlugs.length > 0 ? (
+                              <div className="flex items-center justify-center gap-0.5 mt-1">
+                                {typeSlugs.map((slug) => (
+                                  <TypeBadge key={slug} typeSlug={slug} />
+                                ))}
+                              </div>
+                            ) : null;
+                          })()}
                       </td>
                       <td className="p-2 text-sm text-gray-800 dark:text-gray-300 text-center">
                         {member.nickname || "-"}
