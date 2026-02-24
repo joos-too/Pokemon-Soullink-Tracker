@@ -136,6 +136,15 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
     Math.max(playerNames.length, MIN_PLAYER_COUNT),
     MAX_PLAYER_COUNT,
   );
+  const playerCountTagFilter = useMemo(
+    () =>
+      ({
+        1: "Solo",
+        2: "Duo",
+        3: "Trio",
+      })[playerCount] ?? "Duo",
+    [playerCount],
+  );
 
   const { variableRivals, rivalKeyToCapId } = useMemo(() => {
     if (!gameVersion) {
@@ -769,14 +778,16 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                     >
                       <FiEdit /> {t("settings.rulesets.manage")}
                     </button>
-                    <button
-                      type="button"
-                      onClick={onSaveRulesetToCollection}
-                      className={`inline-flex items-center gap-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-sm font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-60 ${focusRingClasses}`}
-                      disabled={isGuest}
-                    >
-                      <FiSave /> {t("settings.rulesets.saveCurrent")}
-                    </button>
+                    {rulesetDirty && (
+                      <button
+                        type="button"
+                        onClick={onSaveRulesetToCollection}
+                        className={`inline-flex items-center gap-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-sm font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-60 ${focusRingClasses}`}
+                        disabled={isGuest}
+                      >
+                        <FiSave /> {t("settings.rulesets.saveCurrent")}
+                      </button>
+                    )}
                     {rulesetDirty && (
                       <button
                         type="button"
@@ -820,6 +831,8 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                       rulesets={rulesets}
                       isInteractive={showRulesetPicker && !isGuest}
                       enableTagFilter
+                      defaultTagFilter={playerCountTagFilter}
+                      defaultTagFilterGroup={["Solo", "Duo", "Trio"]}
                       listMaxHeightClass="max-h-56"
                       onSelect={(value) => {
                         onRulesetSelect(value);
