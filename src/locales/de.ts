@@ -308,7 +308,7 @@ export const de = {
     addPokemon: "Pokémon hinzufügen",
     addDisabled: "Hinzufügen deaktiviert",
     pokemonColumn: "Pokémon",
-    nameColumn: "Name",
+    nameColumn: "Name & Typ",
     nicknameColumn: "Spitzname",
     routeColumn: "Gebiet",
     actionsColumn: "Aktionen",
