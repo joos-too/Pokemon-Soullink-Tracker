@@ -6,7 +6,6 @@ import React, {
   useState,
 } from "react";
 import {
-  FiEdit,
   FiHome,
   FiMenu,
   FiMoon,
@@ -2273,15 +2272,6 @@ const App: React.FC = () => {
               >
                 <FiHome size={18} /> {t("tracker.menu.overview")}
               </button>
-              {user && (
-                <button
-                  onClick={handleOpenRulesetEditor}
-                  className={`w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2 ${focusRingClasses}`}
-                  title={t("tracker.menu.rulesets")}
-                >
-                  <FiEdit size={18} /> {t("tracker.menu.rulesets")}
-                </button>
-              )}
               {!isReadOnly && (
                 <button
                   onClick={() => {

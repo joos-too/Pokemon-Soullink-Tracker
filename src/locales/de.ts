@@ -45,7 +45,7 @@ export const de = {
     progressFallback: "Noch keine Arena",
     privateTracker: "Privater Tracker",
     publicTracker: "Öffentlicher Tracker",
-    rulesetEditor: "Regel-Editor",
+    rulesetEditor: "Regeln verwalten",
   },
   modals: {
     common: {
@@ -155,7 +155,7 @@ export const de = {
     actions: {
       resetRun: "Run zurücksetzen",
       settings: "Einstellungen",
-      rulesetEditor: "Regel Editor",
+      rulesetEditor: "Regeln verwalten",
     },
     menu: {
       open: "Menü öffnen",
@@ -165,7 +165,7 @@ export const de = {
       lightMode: "Lightmode",
       darkMode: "Darkmode",
       overview: "Übersicht",
-      rulesets: "Regel Editor",
+      rulesets: "Regeln verwalten",
       resetRun: "Run zurücksetzen",
       settings: "Einstellungen",
     },

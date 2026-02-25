@@ -1,15 +1,21 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   FiEdit,
   FiEye,
   FiLock,
+  FiMenu,
+  FiMoon,
   FiPlus,
   FiSettings,
+  FiSun,
   FiUnlock,
   FiUser,
   FiUsers,
 } from "react-icons/fi";
-import DarkModeToggle from "@/src/components/DarkModeToggle";
+import DarkModeToggle, {
+  getDarkMode,
+  setDarkMode,
+} from "@/src/components/DarkModeToggle";
 import type { TrackerMeta, TrackerSummary } from "@/types";
 import GameVersionBadge from "./GameVersionBadge";
 import { focusRingCardClasses, focusRingClasses } from "@/src/styles/focusRing";
@@ -42,6 +48,8 @@ const HomePage: React.FC<HomePageProps> = ({
   currentUserId,
 }) => {
   const { t, i18n } = useTranslation();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isDark, setIsDark] = useState(getDarkMode());
   const sortedTrackers = useMemo(
     () => [...trackers].sort((a, b) => b.createdAt - a.createdAt),
     [trackers],
@@ -59,10 +67,15 @@ const HomePage: React.FC<HomePageProps> = ({
     [t],
   );
 
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    setIsDark(getDarkMode());
+  }, [mobileMenuOpen]);
+
   return (
     <div className="min-h-screen bg-[#f0f0f0] dark:bg-gray-900 text-gray-800 dark:text-gray-100 px-3 py-6 sm:py-10">
       <div className="max-w-5xl mx-auto space-y-6">
-        <header className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-4 py-5 sm:px-6 shadow-[6px_6px_0_0_rgba(31,41,55,0.25)]">
+        <header className="relative bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-4 py-5 sm:px-6 shadow-[6px_6px_0_0_rgba(31,41,55,0.25)]">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-4 flex-1">
               <img
@@ -81,7 +94,7 @@ const HomePage: React.FC<HomePageProps> = ({
                 </p>
               </div>
             </div>
-            <div className="flex flex-col items-end gap-3 sm:gap-4">
+            <div className="hidden xl:flex flex-col items-end gap-3 sm:gap-4">
               <div className="flex items-center gap-2">
                 <DarkModeToggle />
                 <button
@@ -98,11 +111,90 @@ const HomePage: React.FC<HomePageProps> = ({
                   type="button"
                   onClick={onOpenUserSettings}
                   className={`p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white ${focusRingClasses}`}
-                  aria-label="Account-Einstellungen"
-                  title="Account-Einstellungen"
+                  aria-label={t("tracker.menu.settings")}
+                  title={t("tracker.menu.settings")}
                 >
                   <FiSettings size={30} />
-                  <span className="sr-only">Einstellungen</span>
+                  <span className="sr-only">{t("tracker.menu.settings")}</span>
+                </button>
+              </div>
+            </div>
+            <button
+              type="button"
+              className={`xl:hidden p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 ${focusRingClasses}`}
+              aria-label={t("tracker.menu.open")}
+              aria-expanded={mobileMenuOpen}
+              onClick={() => setMobileMenuOpen((v) => !v)}
+            >
+              <FiMenu size={26} />
+            </button>
+          </div>
+
+          <div className="xl:hidden">
+            <div
+              className={`fixed inset-0 bg-black/50 transition-opacity duration-300 ${mobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"} z-40`}
+              onClick={() => setMobileMenuOpen(false)}
+              aria-hidden
+            />
+            <div
+              className={`fixed top-0 right-0 h-full w-64 bg-white dark:bg-gray-800 border-l border-gray-200 dark:border-gray-700 shadow-xl transform transition-transform duration-300 ${mobileMenuOpen ? "translate-x-0" : "translate-x-full"} z-50`}
+              role="dialog"
+              aria-label={t("tracker.menu.dialog")}
+            >
+              <div className="p-3 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                <span className="text-sm font-semibold text-gray-800 dark:text-gray-200">
+                  {t("tracker.menu.title")}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`p-1 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 ${focusRingClasses}`}
+                  aria-label={t("tracker.menu.close")}
+                >
+                  ✕
+                </button>
+              </div>
+              <div className="p-2 space-y-1">
+                <button
+                  type="button"
+                  onClick={() => {
+                    const next = !isDark;
+                    setDarkMode(next);
+                    setIsDark(next);
+                  }}
+                  className={`w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2 ${focusRingClasses}`}
+                  title={
+                    isDark
+                      ? t("tracker.menu.lightMode")
+                      : t("tracker.menu.darkMode")
+                  }
+                >
+                  {isDark ? <FiSun size={18} /> : <FiMoon size={18} />}
+                  {isDark
+                    ? t("tracker.menu.lightMode")
+                    : t("tracker.menu.darkMode")}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    onOpenRulesetEditor();
+                  }}
+                  className={`w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2 ${focusRingClasses}`}
+                  title={t("tracker.menu.rulesets")}
+                >
+                  <FiEdit size={18} /> {t("tracker.menu.rulesets")}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    onOpenUserSettings();
+                  }}
+                  className={`w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2 ${focusRingClasses}`}
+                  title={t("tracker.menu.settings")}
+                >
+                  <FiSettings size={18} /> {t("tracker.menu.settings")}
                 </button>
               </div>
             </div>

@@ -44,7 +44,7 @@ export const en = {
     progressFallback: "No gyms cleared",
     privateTracker: "Private tracker",
     publicTracker: "Public tracker",
-    rulesetEditor: "Ruleset editor",
+    rulesetEditor: "Edit rulesets",
   },
   modals: {
     common: {
@@ -153,7 +153,7 @@ export const en = {
     actions: {
       resetRun: "Reset run",
       settings: "Settings",
-      rulesetEditor: "Ruleset editor",
+      rulesetEditor: "Edit rulesets",
     },
     menu: {
       open: "Open menu",
@@ -163,7 +163,7 @@ export const en = {
       lightMode: "Light mode",
       darkMode: "Dark mode",
       overview: "Overview",
-      rulesets: "Ruleset editor",
+      rulesets: "Edit rulesets",
       resetRun: "Reset run",
       settings: "Settings",
     },
