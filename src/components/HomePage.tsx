@@ -351,7 +351,7 @@ const HomePage: React.FC<HomePageProps> = ({
                         <div className="grid grid-cols-4 gap-3 w-full">
                           {/* Progress field (takes 2 columns) */}
                           <div className="col-span-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/40 p-3">
-                            <div className="flex justify-between items-center mb-1">
+                            <div className="mb-1 flex flex-col items-start gap-1 sm:flex-row sm:items-center sm:justify-between">
                               <p className="text-[0.65rem] uppercase tracking-[0.3em] text-gray-500">
                                 {t("home.progressLabel")}
                               </p>
@@ -367,7 +367,7 @@ const HomePage: React.FC<HomePageProps> = ({
                           </div>
 
                           {/* Stats fields (1 column each) */}
-                          <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/40 p-3 text-center">
+                          <div className="h-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/40 p-3 text-center flex flex-col items-center justify-center">
                             <p className="text-[0.65rem] uppercase tracking-[0.3em] text-gray-500 whitespace-nowrap">
                               {t("home.activePokemon")}
                             </p>
@@ -375,7 +375,7 @@ const HomePage: React.FC<HomePageProps> = ({
                               {activePokemon}
                             </p>
                           </div>
-                          <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/40 p-3 text-center">
+                          <div className="h-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/40 p-3 text-center flex flex-col items-center justify-center">
                             <p className="text-[0.65rem] uppercase tracking-[0.3em] text-gray-500 whitespace-nowrap">
                               {t("home.fallenPokemon")}
                             </p>
