@@ -465,7 +465,7 @@ export const en = {
       inviteError: "Something went wrong while inviting the user.",
       inviteButton: {
         loading: "Adding…",
-        default: "Invite",
+        default: "Add",
       },
       removeError: "Could not remove member.",
     },

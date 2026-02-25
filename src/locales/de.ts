@@ -469,7 +469,7 @@ export const de = {
       inviteError: "Ein unbekannter Fehler ist aufgetreten.",
       inviteButton: {
         loading: "Hinzufügen…",
-        default: "Einladen",
+        default: "Hinzufügen",
       },
       removeError: "Mitglied konnte nicht entfernt werden.",
     },

@@ -19,7 +19,6 @@ import {
   FiEye,
   FiInfo,
   FiLogOut,
-  FiSend,
   FiRefreshCw,
   FiSave,
   FiShield,
@@ -741,7 +740,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                       disabled={inviteLoading}
                       className={`w-full shrink-0 inline-flex items-center justify-center gap-2 rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700 disabled:opacity-60 sm:w-auto ${focusRingClasses}`}
                     >
-                      <FiSend size={16} />
+                      <FiUserPlus size={16} />
                       {inviteLoading
                         ? t("settings.members.inviteButton.loading")
                         : t("settings.members.inviteButton.default")}
