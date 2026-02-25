@@ -19,6 +19,7 @@ import {
   FiEye,
   FiInfo,
   FiLogOut,
+  FiSend,
   FiRefreshCw,
   FiSave,
   FiShield,
@@ -712,30 +713,35 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                   <div className="flex items-center gap-2 text-sm font-semibold text-gray-800 dark:text-gray-100">
                     <FiUserPlus /> {t("settings.members.inviteTitle")}
                   </div>
-                  <div className="flex flex-col sm:flex-row gap-2">
-                    <input
-                      type="email"
-                      value={inviteEmail}
-                      onChange={(e) => setInviteEmail(e.target.value)}
-                      required
-                      placeholder="trainer@example.com"
-                      className={`flex-1 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
-                    />
-                    <select
-                      value={inviteRole}
-                      onChange={(e) =>
-                        setInviteRole(e.target.value as InviteRoleOption)
-                      }
-                      className={`w-32 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-2 py-2 text-sm text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
-                    >
-                      <option value="editor">{t("common.roles.member")}</option>
-                      <option value="guest">{t("common.roles.guest")}</option>
-                    </select>
+                  <div className="flex flex-col gap-2 sm:flex-row">
+                    <div className="flex min-w-0 gap-2 sm:flex-1">
+                      <input
+                        type="email"
+                        value={inviteEmail}
+                        onChange={(e) => setInviteEmail(e.target.value)}
+                        required
+                        placeholder="trainer@example.com"
+                        className={`min-w-0 flex-1 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
+                      />
+                      <select
+                        value={inviteRole}
+                        onChange={(e) =>
+                          setInviteRole(e.target.value as InviteRoleOption)
+                        }
+                        className={`w-24 sm:w-28 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-2 py-2 text-sm text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
+                      >
+                        <option value="editor">
+                          {t("common.roles.member")}
+                        </option>
+                        <option value="guest">{t("common.roles.guest")}</option>
+                      </select>
+                    </div>
                     <button
                       type="submit"
                       disabled={inviteLoading}
-                      className={`inline-flex items-center justify-center rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700 disabled:opacity-60 ${focusRingClasses}`}
+                      className={`w-full shrink-0 inline-flex items-center justify-center gap-2 rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700 disabled:opacity-60 sm:w-auto ${focusRingClasses}`}
                     >
+                      <FiSend size={16} />
                       {inviteLoading
                         ? t("settings.members.inviteButton.loading")
                         : t("settings.members.inviteButton.default")}
@@ -765,11 +771,23 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                 </p>
               </div>
               <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 space-y-3">
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-                  <div className="text-sm font-semibold text-gray-800 dark:text-gray-100">
+                <div
+                  className={
+                    rulesetDirty
+                      ? "flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2"
+                      : "flex flex-wrap items-center justify-between gap-2"
+                  }
+                >
+                  <div className="min-w-0 text-sm font-semibold text-gray-800 dark:text-gray-100">
                     {rulesetLabel}
                   </div>
-                  <div className="flex flex-wrap justify-end gap-2">
+                  <div
+                    className={
+                      rulesetDirty
+                        ? "flex w-full flex-wrap justify-start gap-2 sm:w-auto sm:justify-end"
+                        : "flex shrink-0 flex-wrap gap-2"
+                    }
+                  >
                     <button
                       type="button"
                       onClick={onOpenRulesetEditor}
