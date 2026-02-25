@@ -2168,13 +2168,15 @@ const App: React.FC = () => {
         </div>
       )}
       <div className="max-w-[1920px] mx-auto bg-white dark:bg-gray-800 shadow-lg p-4 rounded-lg">
-        <header className="relative text-center py-4 border-b-2 border-gray-300 dark:border-gray-700">
-          <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-3xl 2xl:text-4xl font-bold font-press-start tracking-tighter dark:text-gray-100">
-            {trackerTitleDisplay}
-          </h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-            {t("tracker.header.subtitle")}
-          </p>
+        <header className="relative py-4 border-b-2 border-gray-300 dark:border-gray-700">
+          <div className="mx-auto max-w-full px-2 pr-14 sm:pr-16 xl:px-0 xl:pr-0 text-center">
+            <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-3xl 2xl:text-4xl font-bold font-press-start tracking-tighter dark:text-gray-100">
+              {trackerTitleDisplay}
+            </h1>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+              {t("tracker.header.subtitle")}
+            </p>
+          </div>
           <div className="absolute right-2 sm:right-4 top-2 sm:top-3 flex items-center gap-1 sm:gap-2 z-30">
             {/* Desktop icons (>=xl) */}
             <div className="hidden xl:flex items-center gap-1 sm:gap-2">
