@@ -21,7 +21,7 @@ const ResetModal: React.FC<ResetModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
       <div
         ref={containerRef}
         role="dialog"
