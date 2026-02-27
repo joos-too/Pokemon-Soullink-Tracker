@@ -325,7 +325,7 @@ const RulesetEditorPage: React.FC<RulesetEditorPageProps> = ({
               </div>
               <div
                 tabIndex={-1}
-                className="space-y-2 max-h-[40vh] overflow-y-auto pr-1 py-1 custom-scrollbar focus-visible:outline-none"
+                className="space-y-2 max-h-[40vh] overflow-y-auto pr-2 sm:pr-1 py-1 custom-scrollbar focus-visible:outline-none"
               >
                 {draftRules.map((rule, index) => (
                   <div
@@ -420,7 +420,7 @@ const RulesetEditorPage: React.FC<RulesetEditorPageProps> = ({
                     value={tagInput}
                     onChange={(e) => setTagInput(e.target.value)}
                     onKeyDown={handleTagKeyDown}
-                    className={`min-w-[160px] flex-1 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-sm text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
+                    className={`min-w-40 flex-1 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-sm text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
                     placeholder={t("rulesetEditor.tagPlaceholder")}
                   />
                   <button
@@ -460,7 +460,7 @@ const RulesetEditorPage: React.FC<RulesetEditorPageProps> = ({
 
             <div className="flex flex-wrap items-center gap-3">
               {(error || message) && (
-                <div className="flex-1 min-w-[240px]">
+                <div className="flex-1 min-w-60">
                   {error && (
                     <div className="rounded-md border border-red-300 bg-red-50 dark:border-red-700 dark:bg-red-900/30 px-3 py-2 text-sm text-red-700 dark:text-red-200">
                       {error}

@@ -356,7 +356,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({
                 <label className="text-sm font-semibold text-gray-700 dark:text-gray-200">
                   {t("modals.createTracker.playerCountLabel")}
                 </label>
-                <div className="inline-flex rounded-md border border-gray-300 dark:border-gray-600 overflow-hidden focus-within:border-green-500 transition-colors">
+                <div className="inline-flex self-start sm:self-auto rounded-md border border-gray-300 dark:border-gray-600 overflow-hidden focus-within:border-green-500 transition-colors">
                   {[1, 2, 3].map((count) => {
                     const active = playerCount === count;
                     return (
@@ -437,7 +437,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({
               </div>
               <div className="space-y-2 max-h-44 overflow-y-auto px-1 py-1 custom-scrollbar">
                 {memberInputs.map((value, index) => (
-                  <div key={`member-${index}`} className="flex gap-2">
+                  <div key={`member-${index}`} className="flex min-w-0 gap-2">
                     <input
                       type="email"
                       value={value.email}
@@ -445,7 +445,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({
                         handleMemberChange(index, e.target.value)
                       }
                       placeholder="trainer@example.com"
-                      className={`flex-1 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
+                      className={`min-w-0 flex-1 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
                     />
                     <select
                       value={value.role}
@@ -455,7 +455,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({
                           e.target.value as "editor" | "guest",
                         )
                       }
-                      className={`w-28 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-2 py-2 text-sm text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
+                      className={`w-24 sm:w-28 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-2 py-2 text-sm text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
                     >
                       <option value="editor">{t("common.roles.member")}</option>
                       <option value="guest">{t("common.roles.guest")}</option>

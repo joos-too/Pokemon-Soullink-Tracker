@@ -839,7 +839,10 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                 className={`px-2 py-1 rounded-md text-xs font-semibold inline-flex items-center gap-1 shadow bg-green-600 text-white hover:bg-green-700 ${focusRingClasses}`}
                 title={t("tracker.infoPanel.editRules")}
               >
-                <FiEdit size={14} /> {t("tracker.infoPanel.editRules")}
+                <FiEdit size={14} />
+                <span className="hidden sm:inline">
+                  {t("tracker.infoPanel.editRules")}
+                </span>
               </button>
             ) : null}
             {isEditingRules && (
@@ -850,7 +853,10 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                   className={`px-2 py-1 rounded-md text-xs font-semibold bg-red-600 text-white hover:bg-red-700 inline-flex items-center gap-1 shadow ${focusRingRedClasses}`}
                   title={t("tracker.infoPanel.cancelRules")}
                 >
-                  <FiX size={14} /> {t("tracker.infoPanel.cancelRules")}
+                  <FiX size={14} />
+                  <span className="hidden sm:inline">
+                    {t("tracker.infoPanel.cancelRules")}
+                  </span>
                 </button>
                 <button
                   type="button"
@@ -858,7 +864,10 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
                   className={`px-2 py-1 rounded-md text-xs font-semibold inline-flex items-center gap-1 shadow bg-green-600 text-white hover:bg-green-700 ${focusRingClasses}`}
                   title={t("tracker.infoPanel.saveRules")}
                 >
-                  <FiSave size={14} /> {t("tracker.infoPanel.saveRules")}
+                  <FiSave size={14} />
+                  <span className="hidden sm:inline">
+                    {t("tracker.infoPanel.saveRules")}
+                  </span>
                 </button>
               </div>
             )}

@@ -402,7 +402,7 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4 custom-scrollbar">
       {/* modal shell: limit overall height and hide overflow so inner area can scroll */}
       <div
         ref={containerRef}
