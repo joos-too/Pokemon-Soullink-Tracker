@@ -41,6 +41,7 @@ import RulesetSaveModal from "@/src/components/RulesetSaveModal";
 import FossilTracker from "@/src/components/FossilTracker";
 import { getGenerationSpritePath } from "@/src/services/sprites";
 import SelectLossModal from "@/src/components/SelectLossModal";
+import DeleteLinkModal from "@/src/components/DeleteLinkModal";
 import LoginPage from "@/src/components/LoginPage";
 import RegisterPage from "@/src/components/RegisterPage";
 import SettingsPage from "@/src/components/SettingsPage";
@@ -214,6 +215,9 @@ const App: React.FC = () => {
   const [pendingLossPair, setPendingLossPair] = useState<PokemonLink | null>(
     null,
   );
+  const [showDeleteLinkModal, setShowDeleteLinkModal] = useState(false);
+  const [pendingDeletePair, setPendingDeletePair] =
+    useState<PokemonLink | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isDark, setIsDark] = useState(getDarkMode());
   const [authScreen, setAuthScreen] = useState<"login" | "register">("login");
@@ -1318,6 +1322,26 @@ const App: React.FC = () => {
     [isReadOnly],
   );
 
+  const handleDeleteLink = useCallback(
+    (pair: PokemonLink) => {
+      if (isReadOnly) return;
+      setPendingDeletePair(pair);
+      setShowDeleteLinkModal(true);
+    },
+    [isReadOnly],
+  );
+
+  const handleConfirmDeleteLink = useCallback(() => {
+    if (isReadOnly || !pendingDeletePair) return;
+    setData((prev) => ({
+      ...prev,
+      team: prev.team.filter((p) => p.id !== pendingDeletePair.id),
+      box: prev.box.filter((p) => p.id !== pendingDeletePair.id),
+    }));
+    setShowDeleteLinkModal(false);
+    setPendingDeletePair(null);
+  }, [isReadOnly, pendingDeletePair]);
+
   const handleConfirmLoss = (playerIndex: number) => {
     if (isReadOnly || !pendingLossPair) return;
     if (!pendingLossPair) return;
@@ -2157,6 +2181,16 @@ const App: React.FC = () => {
         pair={pendingLossPair}
         playerNames={resolvedPlayerNames}
       />
+      <DeleteLinkModal
+        isOpen={!isReadOnly && showDeleteLinkModal}
+        onClose={() => {
+          setShowDeleteLinkModal(false);
+          setPendingDeletePair(null);
+        }}
+        onConfirm={handleConfirmDeleteLink}
+        pair={pendingDeletePair}
+        playerNames={resolvedPlayerNames}
+      />
       <ResetModal
         isOpen={!isReadOnly && showResetModal}
         onClose={() => setShowResetModal(false)}
@@ -2340,6 +2374,7 @@ const App: React.FC = () => {
               onPokemonChange={handleBoxChange}
               onRouteChange={handleBoxRouteChange}
               onAddToGraveyard={handleAddToGraveyard}
+              onDeleteLink={handleDeleteLink}
               onAddLink={handleAddBoxPair}
               emptyMessage={t("team.boxEmpty")}
               context="box"

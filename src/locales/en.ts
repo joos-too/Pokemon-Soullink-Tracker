@@ -118,6 +118,14 @@ export const en = {
         "The loss is automatically assigned to <strong>{{player}}</strong>.",
       confirm: "Confirm",
     },
+    deleteLink: {
+      title: "Delete Link",
+      description:
+        "This function is intended for deleting links, that were created accidentally.",
+      routeLabel: "Area: {{route}}",
+      warning: "Link will be permanently deleted!",
+      confirm: "Delete permanently",
+    },
     addFossil: {
       title: "Add Fossil",
       fossilLabel: "Select Fossil",
@@ -313,6 +321,7 @@ export const en = {
     titleMoveToBox: "Move to box",
     titleSendToGraveyard: "Send to graveyard",
     titleEvolve: "Evolve",
+    titleDeleteLink: "Delete link",
     moveToTeam: "Move to team",
   },
   graveyard: {

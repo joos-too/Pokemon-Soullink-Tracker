@@ -120,6 +120,14 @@ export const de = {
         "Der Verlust wird automatisch <strong>{{player}}</strong> zugewiesen.",
       confirm: "Bestätigen",
     },
+    deleteLink: {
+      title: "Link löschen",
+      description:
+        "Diese Funktion ist dazu gedacht Links zu löschen, welche versehentlich erstellt worden sind.",
+      routeLabel: "Gebiet: {{route}}",
+      warning: "Link wird endgültig gelöscht!",
+      confirm: "Endgültig löschen",
+    },
     addFossil: {
       title: "Fossil hinzufügen",
       fossilLabel: "Fossil auswählen",
@@ -316,6 +324,7 @@ export const de = {
     titleMoveToBox: "In die Box verschieben",
     titleSendToGraveyard: "In den Friedhof verschieben",
     titleEvolve: "Entwickeln",
+    titleDeleteLink: "Link löschen",
     moveToTeam: "Ins Team verschieben",
   },
   graveyard: {

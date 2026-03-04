@@ -2,7 +2,11 @@ import React, { useEffect, useId, useState } from "react";
 import type { PokemonLink } from "@/types";
 import { Trans, useTranslation } from "react-i18next";
 import { useFocusTrap } from "@/src/hooks/useFocusTrap";
-import { focusRingClasses } from "@/src/styles/focusRing.ts";
+import {
+  focusRingClasses,
+  focusRingInsetClasses,
+} from "@/src/styles/focusRing.ts";
+import { getSpriteUrlForPokemonName } from "@/src/services/sprites";
 
 interface SelectLossModalProps {
   isOpen: boolean;
@@ -76,31 +80,41 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({
 
         {pair && (
           <div className="mb-4 text-sm text-gray-700 dark:text-gray-300">
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-1 bg-gray-50 dark:bg-gray-700/50 rounded-md px-2.5 py-1.5">
               {playerNames.map((name, index) => {
                 const member = pair.members?.[index] ?? {
                   name: "",
                   nickname: "",
                 };
+                const spriteUrl = getSpriteUrlForPokemonName(member.name);
                 return (
                   <div
                     key={`loss-preview-${index}`}
-                    className="flex justify-between text-xs"
+                    className="flex items-center justify-between text-xs"
                   >
                     <div className="font-semibold">{name}</div>
-                    <div className="text-right">
-                      {member.name || "-"}
-                      {member.nickname ? ` (${member.nickname})` : ""}
+                    <div className="flex items-center gap-1.5">
+                      {spriteUrl && (
+                        <img
+                          src={spriteUrl}
+                          alt={member.name}
+                          className="w-8 h-8"
+                        />
+                      )}
+                      <span>
+                        {member.name || "-"}
+                        {member.nickname ? ` (${member.nickname})` : ""}
+                      </span>
                     </div>
                   </div>
                 );
               })}
+              {pair.route && (
+                <div className="text-xs text-gray-500 dark:text-gray-400">
+                  {t("modals.selectLoss.routeLabel", { route: pair.route })}
+                </div>
+              )}
             </div>
-            {pair.route && (
-              <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
-                {t("modals.selectLoss.routeLabel", { route: pair.route })}
-              </div>
-            )}
           </div>
         )}
 
@@ -114,23 +128,29 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({
               />
             </div>
           ) : (
-            <div className="space-y-3">
-              {playerNames.map((name, index) => (
-                <label
-                  key={`lost-player-${index}`}
-                  className="flex items-center gap-2 cursor-pointer dark:text-gray-200"
-                >
-                  <input
-                    type="radio"
-                    name="lostPlayer"
-                    value={index}
-                    checked={selected === index}
-                    onChange={() => setSelected(index)}
-                    className="h-4 w-4 accent-red-600"
-                  />
-                  <span>{name}</span>
-                </label>
-              ))}
+            <div>
+              <label className="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2 block">
+                {t("modals.selectLoss.title")}
+              </label>
+              <div className="inline-flex rounded-md border border-gray-300 dark:border-gray-600 overflow-hidden focus-within:border-green-500 transition-colors">
+                {playerNames.map((name, index) => {
+                  const active = selected === index;
+                  return (
+                    <button
+                      key={`lost-player-${index}`}
+                      type="button"
+                      onClick={() => setSelected(index)}
+                      className={`px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] transition ${
+                        active
+                          ? "bg-green-600 text-white"
+                          : "bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600"
+                      } ${index !== playerNames.length - 1 ? "border-r border-gray-300 dark:border-gray-600" : ""} ${focusRingInsetClasses}`}
+                    >
+                      {name}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           )}
 
