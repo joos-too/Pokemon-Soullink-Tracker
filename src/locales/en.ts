@@ -45,6 +45,25 @@ export const en = {
     privateTracker: "Private tracker",
     publicTracker: "Public tracker",
     rulesetEditor: "Edit rulesets",
+    filterSort: "Filter",
+    sortLabel: "Sort by",
+    sort: {
+      date: "Date",
+      name: "Name",
+      version: "Version",
+    },
+    visibilityLabel: "Visibility",
+    visibility: {
+      all: "All",
+      public: "Public",
+      private: "Private",
+    },
+    playerCountLabel: "Player count",
+    versionLabel: "Version",
+    resetFilters: "Reset filters",
+    filteredEmptyTitle: "No trackers match your filters",
+    filteredEmptyDescription:
+      "Try adjusting or resetting the filters to see your trackers.",
   },
   modals: {
     common: {
