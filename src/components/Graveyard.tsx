@@ -113,7 +113,7 @@ const Graveyard: React.FC<GraveyardProps> = ({
       <div className="p-4 max-h-96 overflow-y-auto">
         {graveyard && graveyard.length > 0 ? (
           <div className="space-y-3">
-            {graveyard.map((pair, index) => {
+            {[...graveyard].reverse().map((pair) => {
               const canEdit =
                 !readOnly &&
                 (pair.route || pair.members.some((member) => member?.name));
@@ -134,7 +134,11 @@ const Graveyard: React.FC<GraveyardProps> = ({
                   {canEdit && (
                     <button
                       type="button"
-                      onClick={() => setEditIndex(index)}
+                      onClick={() =>
+                        setEditIndex(
+                          graveyard.findIndex((g) => g.id === pair.id),
+                        )
+                      }
                       className="absolute right-2 top-2 p-1 rounded-full text-gray-500 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-600"
                       title={t("graveyard.titleEdit")}
                       aria-label={t("graveyard.titleEdit")}
@@ -172,7 +176,7 @@ const Graveyard: React.FC<GraveyardProps> = ({
                               <img
                                 src={spriteUrl}
                                 alt={member.name || "Pokémon"}
-                                className="w-10 h-10"
+                                className="w-16 h-16 -my-3"
                                 loading="lazy"
                               />
                             ) : null}
