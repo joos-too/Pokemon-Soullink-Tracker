@@ -1,7 +1,8 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   FiEdit,
   FiEye,
+  FiFilter,
   FiLock,
   FiMenu,
   FiMoon,
@@ -18,10 +19,19 @@ import DarkModeToggle, {
 } from "@/src/components/DarkModeToggle";
 import type { TrackerMeta, TrackerSummary } from "@/types";
 import GameVersionBadge from "./GameVersionBadge";
-import { focusRingCardClasses, focusRingClasses } from "@/src/styles/focusRing";
+import {
+  focusRingCardClasses,
+  focusRingClasses,
+  focusRingInsetClasses,
+} from "@/src/styles/focusRing";
 import { GAME_VERSIONS } from "@/src/data/game-versions";
 import { formatBestLabel } from "@/src/utils/bestRun";
 import { useTranslation } from "react-i18next";
+import { getLocalizedGameName } from "@/src/services/gameLocalization";
+
+type SortOption = "date" | "name" | "version";
+type VisibilityFilter = "all" | "public" | "private";
+type PlayerCountFilter = "all" | 1 | 2 | 3;
 
 interface HomePageProps {
   trackers: TrackerMeta[];
@@ -50,10 +60,84 @@ const HomePage: React.FC<HomePageProps> = ({
   const { t, i18n } = useTranslation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isDark, setIsDark] = useState(getDarkMode());
-  const sortedTrackers = useMemo(
-    () => [...trackers].sort((a, b) => b.createdAt - a.createdAt),
-    [trackers],
-  );
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [sortBy, setSortBy] = useState<SortOption>("date");
+  const [visibilityFilter, setVisibilityFilter] =
+    useState<VisibilityFilter>("all");
+  const [playerCountFilter, setPlayerCountFilter] =
+    useState<PlayerCountFilter>("all");
+  const [versionFilter, setVersionFilter] = useState<string>("all");
+  const filterPanelRef = useRef<HTMLDivElement>(null);
+  const filterButtonRef = useRef<HTMLButtonElement>(null);
+
+  const usedVersionIds = useMemo(() => {
+    const ids = new Set<string>();
+    trackers.forEach((tracker) => ids.add(tracker.gameVersionId));
+    const canonicalOrder = Object.keys(GAME_VERSIONS);
+    return canonicalOrder.filter((id) => ids.has(id));
+  }, [trackers]);
+
+  const activeFilterCount = useMemo(() => {
+    let count = 0;
+    if (visibilityFilter !== "all") count++;
+    if (playerCountFilter !== "all") count++;
+    if (versionFilter !== "all") count++;
+    return count;
+  }, [visibilityFilter, playerCountFilter, versionFilter]);
+
+  const hasActiveFilters = activeFilterCount > 0;
+
+  const filteredAndSortedTrackers = useMemo(() => {
+    let result = [...trackers];
+
+    // Filter by visibility
+    if (visibilityFilter === "public") {
+      result = result.filter((tracker) => tracker.isPublic);
+    } else if (visibilityFilter === "private") {
+      result = result.filter((tracker) => !tracker.isPublic);
+    }
+
+    // Filter by player count
+    if (playerCountFilter !== "all") {
+      result = result.filter(
+        (tracker) =>
+          Object.keys(tracker.playerNames ?? {}).length === playerCountFilter,
+      );
+    }
+
+    // Filter by game version
+    if (versionFilter !== "all") {
+      result = result.filter(
+        (tracker) => tracker.gameVersionId === versionFilter,
+      );
+    }
+
+    // Sort
+    switch (sortBy) {
+      case "name":
+        result.sort((a, b) =>
+          a.title.localeCompare(b.title, undefined, { sensitivity: "base" }),
+        );
+        break;
+      case "version": {
+        const canonicalOrder = Object.keys(GAME_VERSIONS);
+        result.sort((a, b) => {
+          const idxA = canonicalOrder.indexOf(a.gameVersionId);
+          const idxB = canonicalOrder.indexOf(b.gameVersionId);
+          return (
+            (idxA === -1 ? Infinity : idxA) - (idxB === -1 ? Infinity : idxB)
+          );
+        });
+        break;
+      }
+      case "date":
+      default:
+        result.sort((a, b) => b.createdAt - a.createdAt);
+        break;
+    }
+
+    return result;
+  }, [trackers, sortBy, visibilityFilter, playerCountFilter, versionFilter]);
   const dateLocale = useMemo(
     () => (i18n.language?.toLowerCase().startsWith("de") ? "de-DE" : "en-US"),
     [i18n.language],
@@ -71,6 +155,22 @@ const HomePage: React.FC<HomePageProps> = ({
     if (!mobileMenuOpen) return;
     setIsDark(getDarkMode());
   }, [mobileMenuOpen]);
+
+  useEffect(() => {
+    if (!filterOpen) return;
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        filterPanelRef.current &&
+        !filterPanelRef.current.contains(event.target as Node) &&
+        filterButtonRef.current &&
+        !filterButtonRef.current.contains(event.target as Node)
+      ) {
+        setFilterOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [filterOpen]);
 
   return (
     <div className="min-h-screen bg-[#f0f0f0] dark:bg-gray-900 text-gray-800 dark:text-gray-100 px-3 py-6 sm:py-10">
@@ -212,6 +312,185 @@ const HomePage: React.FC<HomePageProps> = ({
               </h2>
             </div>
             <div className="flex flex-col items-start gap-2 sm:items-end sm:flex-row sm:gap-3">
+              <div className="relative">
+                <button
+                  ref={filterButtonRef}
+                  type="button"
+                  onClick={() => setFilterOpen((v) => !v)}
+                  aria-expanded={filterOpen}
+                  className={`inline-flex items-center gap-2 justify-center rounded-md border px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] shadow-sm transition ${
+                    hasActiveFilters
+                      ? "border-green-500 bg-green-50 text-green-700 dark:border-green-600 dark:bg-green-900/30 dark:text-green-100"
+                      : "border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700"
+                  } ${focusRingClasses}`}
+                  title={t("home.filterSort")}
+                >
+                  <FiFilter size={14} />
+                  {t("home.filterSort")}
+                  {hasActiveFilters && (
+                    <span className="ml-1 inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-green-600 text-[9px] font-bold text-white leading-none normal-case tracking-normal">
+                      {activeFilterCount}
+                    </span>
+                  )}
+                </button>
+
+                {filterOpen && (
+                  <div
+                    ref={filterPanelRef}
+                    className="absolute left-0 sm:left-auto sm:right-0 z-30 mt-2 w-auto rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-xl p-3 space-y-3"
+                  >
+                    {/* Sort */}
+                    <div className="space-y-1.5">
+                      <p className="text-[11px] uppercase tracking-[0.25em] text-gray-500 dark:text-gray-400">
+                        {t("home.sortLabel")}
+                      </p>
+                      <div className="inline-flex rounded-md border border-gray-300 dark:border-gray-600 overflow-hidden focus-within:border-green-500 transition-colors">
+                        {(["date", "name", "version"] as SortOption[]).map(
+                          (option, idx) => {
+                            const active = sortBy === option;
+                            return (
+                              <button
+                                key={option}
+                                type="button"
+                                onClick={() => setSortBy(option)}
+                                className={`px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] transition ${
+                                  active
+                                    ? "bg-green-600 text-white"
+                                    : "bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600"
+                                } ${idx !== 2 ? "border-r border-gray-300 dark:border-gray-600" : ""} ${focusRingInsetClasses}`}
+                              >
+                                {t(`home.sort.${option}`)}
+                              </button>
+                            );
+                          },
+                        )}
+                      </div>
+                    </div>
+
+                    <hr className="border-gray-200 dark:border-gray-700" />
+
+                    {/* Visibility filter */}
+                    <div className="space-y-1.5">
+                      <p className="text-[11px] uppercase tracking-[0.25em] text-gray-500 dark:text-gray-400">
+                        {t("home.visibilityLabel")}
+                      </p>
+                      <div className="inline-flex rounded-md border border-gray-300 dark:border-gray-600 overflow-hidden focus-within:border-green-500 transition-colors">
+                        {(
+                          ["all", "public", "private"] as VisibilityFilter[]
+                        ).map((option, idx) => {
+                          const active = visibilityFilter === option;
+                          return (
+                            <button
+                              key={option}
+                              type="button"
+                              onClick={() => setVisibilityFilter(option)}
+                              className={`px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] transition ${
+                                active
+                                  ? "bg-green-600 text-white"
+                                  : "bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600"
+                              } ${idx !== 2 ? "border-r border-gray-300 dark:border-gray-600" : ""} ${focusRingInsetClasses}`}
+                            >
+                              {t(`home.visibility.${option}`)}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    {/* Player count filter */}
+                    <div className="space-y-1.5">
+                      <p className="text-[11px] uppercase tracking-[0.25em] text-gray-500 dark:text-gray-400">
+                        {t("home.playerCountLabel")}
+                      </p>
+                      <div className="inline-flex rounded-md border border-gray-300 dark:border-gray-600 overflow-hidden focus-within:border-green-500 transition-colors">
+                        {(["all", 1, 2, 3] as PlayerCountFilter[]).map(
+                          (option, idx) => {
+                            const active = playerCountFilter === option;
+                            const label =
+                              option === "all"
+                                ? t("home.visibility.all")
+                                : playerCountLabels[option];
+                            return (
+                              <button
+                                key={String(option)}
+                                type="button"
+                                onClick={() => setPlayerCountFilter(option)}
+                                className={`px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] transition ${
+                                  active
+                                    ? "bg-green-600 text-white"
+                                    : "bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600"
+                                } ${idx !== 3 ? "border-r border-gray-300 dark:border-gray-600" : ""} ${focusRingInsetClasses}`}
+                              >
+                                {label}
+                              </button>
+                            );
+                          },
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Version filter */}
+                    {usedVersionIds.length > 1 && (
+                      <div className="space-y-1.5">
+                        <p className="text-[11px] uppercase tracking-[0.25em] text-gray-500 dark:text-gray-400">
+                          {t("home.versionLabel")}
+                        </p>
+                        <div className="flex flex-wrap gap-1.5">
+                          <button
+                            type="button"
+                            onClick={() => setVersionFilter("all")}
+                            aria-pressed={versionFilter === "all"}
+                            className={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold ${
+                              versionFilter === "all"
+                                ? "border-green-500 bg-green-50 text-green-700 dark:border-green-600 dark:bg-green-900/30 dark:text-green-100"
+                                : "border-gray-300 bg-white text-gray-700 hover:border-gray-400 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 dark:hover:border-gray-500"
+                            } ${focusRingClasses}`}
+                          >
+                            {t("home.visibility.all")}
+                          </button>
+                          {usedVersionIds.map((versionId) => {
+                            const active = versionFilter === versionId;
+                            const gv = GAME_VERSIONS[versionId];
+                            const label = gv
+                              ? getLocalizedGameName(t, versionId, gv.name)
+                              : versionId;
+                            return (
+                              <button
+                                key={versionId}
+                                type="button"
+                                onClick={() => setVersionFilter(versionId)}
+                                aria-pressed={active}
+                                className={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold ${
+                                  active
+                                    ? "border-green-500 bg-green-50 text-green-700 dark:border-green-600 dark:bg-green-900/30 dark:text-green-100"
+                                    : "border-gray-300 bg-white text-gray-700 hover:border-gray-400 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 dark:hover:border-gray-500"
+                                } ${focusRingClasses}`}
+                              >
+                                {label}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Reset filters */}
+                    {hasActiveFilters && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setVisibilityFilter("all");
+                          setPlayerCountFilter("all");
+                          setVersionFilter("all");
+                        }}
+                        className={`w-full text-center rounded-md border border-gray-300 dark:border-gray-600 px-3 py-1.5 text-xs font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 ${focusRingClasses}`}
+                      >
+                        {t("home.resetFilters")}
+                      </button>
+                    )}
+                  </div>
+                )}
+              </div>
               <button
                 type="button"
                 onClick={onCreateTracker}
@@ -229,7 +508,8 @@ const HomePage: React.FC<HomePageProps> = ({
                 <p className="text-sm font-medium">{t("home.loading")}</p>
               </div>
             </div>
-          ) : sortedTrackers.length === 0 ? (
+          ) : filteredAndSortedTrackers.length === 0 &&
+            trackers.length === 0 ? (
             <div className="rounded-lg border border-dashed border-gray-300 dark:border-gray-600 p-8 text-center text-gray-600 dark:text-gray-300">
               <p className="text-base font-semibold">{t("home.emptyTitle")}</p>
               <p className="text-sm mt-2">{t("home.emptyDescription")}</p>
@@ -241,9 +521,29 @@ const HomePage: React.FC<HomePageProps> = ({
                 <FiPlus /> {t("home.startNow")}
               </button>
             </div>
+          ) : filteredAndSortedTrackers.length === 0 ? (
+            <div className="rounded-lg border border-dashed border-gray-300 dark:border-gray-600 p-8 text-center text-gray-600 dark:text-gray-300">
+              <p className="text-base font-semibold">
+                {t("home.filteredEmptyTitle")}
+              </p>
+              <p className="text-sm mt-2">
+                {t("home.filteredEmptyDescription")}
+              </p>
+              <button
+                type="button"
+                onClick={() => {
+                  setVisibilityFilter("all");
+                  setPlayerCountFilter("all");
+                  setVersionFilter("all");
+                }}
+                className={`mt-4 inline-flex items-center gap-2 rounded-md border border-gray-300 dark:border-gray-600 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 ${focusRingClasses}`}
+              >
+                {t("home.resetFilters")}
+              </button>
+            </div>
           ) : (
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              {sortedTrackers.map((tracker) => {
+              {filteredAndSortedTrackers.map((tracker) => {
                 const playerCount = Object.keys(
                   tracker.playerNames ?? {},
                 ).length;
