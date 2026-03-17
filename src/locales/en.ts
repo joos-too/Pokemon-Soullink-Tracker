@@ -138,7 +138,7 @@ export const en = {
       tooltipLabel: "Info about kill link",
       autoAssign:
         "The loss is automatically assigned to <strong>{{player}}</strong>.",
-      selectHint: "Select the player whose Pokémon caused the death.",
+      selectHint: "Select the player whose Pokémon died.",
       confirm: "Confirm",
     },
     deleteLink: {

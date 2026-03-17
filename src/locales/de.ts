@@ -140,8 +140,7 @@ export const de = {
       tooltipLabel: "Info zum Link töten",
       autoAssign:
         "Der Verlust wird automatisch <strong>{{player}}</strong> zugewiesen.",
-      selectHint:
-        "Wähle den Spieler aus, dessen Pokémon für den Tot verantwortlich war.",
+      selectHint: "Wähle den Spieler aus, dessen Pokémon gestorben ist.",
       confirm: "Bestätigen",
     },
     deleteLink: {
