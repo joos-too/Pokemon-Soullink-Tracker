@@ -2,10 +2,7 @@ import React, { useEffect, useId, useState } from "react";
 import type { PokemonLink } from "@/types";
 import { Trans, useTranslation } from "react-i18next";
 import { useFocusTrap } from "@/src/hooks/useFocusTrap";
-import {
-  focusRingClasses,
-  focusRingInsetClasses,
-} from "@/src/styles/focusRing.ts";
+import { focusRingClasses } from "@/src/styles/focusRing.ts";
 import { getSpriteUrlForPokemonName } from "@/src/services/sprites";
 
 interface SelectLossModalProps {
@@ -80,6 +77,7 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({
 
         {pair && (
           <div className="mb-4 text-sm text-gray-700 dark:text-gray-300">
+            <p className="mb-3">{t("modals.selectLoss.description")}</p>
             <div className="flex flex-col gap-1 bg-gray-50 dark:bg-gray-700/50 rounded-md px-2.5 py-1.5">
               {playerNames.map((name, index) => {
                 const member = pair.members?.[index] ?? {
@@ -128,30 +126,23 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({
               />
             </div>
           ) : (
-            <div>
-              <label className="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2 block">
-                {t("modals.selectLoss.title")}
-              </label>
-              <div className="inline-flex rounded-md border border-gray-300 dark:border-gray-600 overflow-hidden focus-within:border-green-500 transition-colors">
-                {playerNames.map((name, index) => {
-                  const active = selected === index;
-                  return (
-                    <button
-                      key={`lost-player-${index}`}
-                      type="button"
-                      onClick={() => setSelected(index)}
-                      className={`px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] transition ${
-                        active
-                          ? "bg-green-600 text-white"
-                          : "bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600"
-                      } ${index !== playerNames.length - 1 ? "border-r border-gray-300 dark:border-gray-600" : ""} ${focusRingInsetClasses}`}
-                    >
-                      {name}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
+            <fieldset className="flex flex-col gap-2">
+              {playerNames.map((name, index) => (
+                <label
+                  key={`lost-player-${index}`}
+                  className={`flex items-center gap-2 cursor-pointer dark:text-gray-200 rounded-md px-2 py-1 ${focusRingClasses}`}
+                >
+                  <input
+                    type="radio"
+                    name="lost-player"
+                    checked={selected === index}
+                    onChange={() => setSelected(index)}
+                    className="h-4 w-4 accent-red-600"
+                  />
+                  <span className="font-semibold">{name}</span>
+                </label>
+              ))}
+            </fieldset>
           )}
 
           <div className="mt-6 flex justify-end gap-2">

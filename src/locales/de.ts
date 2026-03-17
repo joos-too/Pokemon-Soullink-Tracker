@@ -114,14 +114,16 @@ export const de = {
       submit: "Bestätigen",
     },
     selectLoss: {
-      title: "Wer hat das Pokémon getötet?",
+      title: "Link töten?",
       routeLabel: "Gebiet: {{route}}",
+      description:
+        "Diese Funktion ist dazu gedacht, gestorbene Links in den Friedhof zu verschieben.",
       autoAssign:
         "Der Verlust wird automatisch <strong>{{player}}</strong> zugewiesen.",
       confirm: "Bestätigen",
     },
     deleteLink: {
-      title: "Link löschen",
+      title: "Link löschen?",
       description:
         "Diese Funktion ist dazu gedacht Links zu löschen, welche versehentlich erstellt worden sind.",
       routeLabel: "Gebiet: {{route}}",
@@ -322,7 +324,7 @@ export const de = {
     actionsColumn: "Aktionen",
     titleEdit: "Bearbeiten",
     titleMoveToBox: "In die Box verschieben",
-    titleSendToGraveyard: "In den Friedhof verschieben",
+    titleSendToGraveyard: "Link töten",
     titleEvolve: "Entwickeln",
     titleDeleteLink: "Link löschen",
     moveToTeam: "Ins Team verschieben",

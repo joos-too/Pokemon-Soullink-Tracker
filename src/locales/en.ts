@@ -112,14 +112,16 @@ export const en = {
       submit: "Reset run",
     },
     selectLoss: {
-      title: "Who killed the Pokémon?",
+      title: "Kill link?",
       routeLabel: "Area: {{route}}",
+      description:
+        "This function is intended to move dead links to the graveyard.",
       autoAssign:
         "The loss is automatically assigned to <strong>{{player}}</strong>.",
       confirm: "Confirm",
     },
     deleteLink: {
-      title: "Delete Link",
+      title: "Delete Link?",
       description:
         "This function is intended for deleting links, that were created accidentally.",
       routeLabel: "Area: {{route}}",
@@ -319,7 +321,7 @@ export const en = {
     actionsColumn: "Actions",
     titleEdit: "Edit",
     titleMoveToBox: "Move to box",
-    titleSendToGraveyard: "Send to graveyard",
+    titleSendToGraveyard: "Kill link",
     titleEvolve: "Evolve",
     titleDeleteLink: "Delete link",
     moveToTeam: "Move to team",
