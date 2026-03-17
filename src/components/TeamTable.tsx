@@ -5,11 +5,11 @@ import SelectEvolveModal from "./SelectEvolveModal";
 import {
   FiArrowDown,
   FiArrowUp,
-  FiChevronsUp,
   FiEdit,
   FiPlus,
   FiTrash,
 } from "react-icons/fi";
+import { LuCircleFadingArrowUp } from "react-icons/lu";
 import { PiSkullBold } from "react-icons/pi";
 import {
   getOfficialArtworkUrlForPokemonName,
@@ -325,10 +325,10 @@ const TeamTable: React.FC<TeamTableProps> = ({
                           onClick={() => {
                             setEvolveIndex(originalIndex);
                           }}
-                          className={`p-1 rounded-full inline-flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 ${focusRingClasses}`}
+                          className={`p-1 rounded-full inline-flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-600 text-green-600 hover:text-green-700 dark:text-green-500 dark:hover:text-green-400 ${focusRingClasses}`}
                           title={t("team.titleEvolve")}
                         >
-                          <FiChevronsUp size={18} />
+                          <LuCircleFadingArrowUp size={20} />
                         </button>
                       )}
                       {context === "team" &&
