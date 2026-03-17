@@ -5,11 +5,12 @@ import SelectEvolveModal from "./SelectEvolveModal";
 import {
   FiArrowDown,
   FiArrowUp,
-  FiChevronsUp,
   FiEdit,
   FiPlus,
   FiTrash,
 } from "react-icons/fi";
+import { LuCircleFadingArrowUp } from "react-icons/lu";
+import { PiSkullBold } from "react-icons/pi";
 import {
   getOfficialArtworkUrlForPokemonName,
   getSpriteUrlForPokemonName,
@@ -32,6 +33,7 @@ interface TeamTableProps {
   ) => void;
   onRouteChange: (index: number, value: string) => void;
   onAddToGraveyard: (pair: PokemonLink) => void;
+  onDeleteLink?: (pair: PokemonLink) => void;
   onAddLink: (payload: { route: string; members: Pokemon[] }) => void;
   emptyMessage: string;
   addDisabled?: boolean;
@@ -55,6 +57,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
   onPokemonChange,
   onRouteChange,
   onAddToGraveyard,
+  onDeleteLink,
   onAddLink,
   emptyMessage,
   addDisabled = false,
@@ -322,10 +325,10 @@ const TeamTable: React.FC<TeamTableProps> = ({
                           onClick={() => {
                             setEvolveIndex(originalIndex);
                           }}
-                          className={`p-1 rounded-full inline-flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 ${focusRingClasses}`}
+                          className={`p-1 rounded-full inline-flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-600 text-green-600 hover:text-green-700 dark:text-green-500 dark:hover:text-green-400 ${focusRingClasses}`}
                           title={t("team.titleEvolve")}
                         >
-                          <FiChevronsUp size={18} />
+                          <LuCircleFadingArrowUp size={20} />
                         </button>
                       )}
                       {context === "team" &&
@@ -338,9 +341,21 @@ const TeamTable: React.FC<TeamTableProps> = ({
                             className={`p-1 rounded-full inline-flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-600 text-red-600 hover:text-red-700 dark:text-red-500 dark:hover:text-red-400 focus-visible:ring-red-500 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-gray-900 ${focusRingClasses}`}
                             title={t("team.titleSendToGraveyard")}
                           >
-                            <FiTrash size={18} />
+                            <PiSkullBold size={18} />
                           </button>
                         )}
+                      {context === "box" && onDeleteLink && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            onDeleteLink(pair);
+                          }}
+                          className={`p-1 rounded-full inline-flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-600 text-red-600 hover:text-red-700 dark:text-red-500 dark:hover:text-red-400 focus-visible:ring-red-500 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-gray-900 ${focusRingClasses}`}
+                          title={t("team.titleDeleteLink")}
+                        >
+                          <FiTrash size={18} />
+                        </button>
+                      )}
                     </div>
                   </td>
                 )}

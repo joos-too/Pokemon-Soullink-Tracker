@@ -1,0 +1,141 @@
+import React, { useId } from "react";
+import type { PokemonLink } from "@/types";
+import { useTranslation } from "react-i18next";
+import { useFocusTrap } from "@/src/hooks/useFocusTrap";
+import { focusRingClasses } from "@/src/styles/focusRing.ts";
+import { getSpriteUrlForPokemonName } from "@/src/services/sprites";
+import { FiInfo } from "react-icons/fi";
+import Tooltip from "./Tooltip";
+
+interface DeleteLinkModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm: () => void;
+  pair: PokemonLink | null;
+  playerNames: string[];
+}
+
+const DeleteLinkModal: React.FC<DeleteLinkModalProps> = ({
+  isOpen,
+  onClose,
+  onConfirm,
+  pair,
+  playerNames,
+}) => {
+  const { t } = useTranslation();
+  const { containerRef } = useFocusTrap(isOpen);
+  const titleId = useId();
+
+  if (!isOpen || !pair) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
+      <div
+        ref={containerRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        tabIndex={-1}
+        className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-md"
+      >
+        <div className="flex justify-between items-center mb-4">
+          <div className="flex items-center gap-2">
+            <h2 id={titleId} className="text-lg font-bold dark:text-gray-100">
+              {t("modals.deleteLink.title")}
+            </h2>
+            <Tooltip side="top" content={t("modals.deleteLink.description")}>
+              <span
+                className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-help"
+                aria-label={t("modals.deleteLink.tooltipLabel")}
+              >
+                <FiInfo size={16} />
+              </span>
+            </Tooltip>
+          </div>
+          <button
+            onClick={onClose}
+            className={`text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 rounded-md ${focusRingClasses}`}
+            aria-label={t("common.close")}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <div className="mb-4 text-sm text-gray-700 dark:text-gray-300">
+          {pair.route && (
+            <div className="text-sm text-gray-500 dark:text-gray-400 mb-3 px-1">
+              {t("modals.deleteLink.routeLabel", { route: pair.route })}
+            </div>
+          )}
+
+          <div className="flex flex-col gap-1.5">
+            {playerNames.map((name, index) => {
+              const member = pair.members?.[index] ?? {
+                name: "",
+                nickname: "",
+              };
+              const spriteUrl = getSpriteUrlForPokemonName(member.name);
+              return (
+                <div
+                  key={`delete-preview-${index}`}
+                  className="flex items-center justify-between rounded-md px-2.5 py-1.5 bg-gray-50 dark:bg-gray-700/50 text-xs"
+                >
+                  <div className="font-semibold">{name}</div>
+                  <div className="flex items-center gap-1.5">
+                    {spriteUrl && (
+                      <img
+                        src={spriteUrl}
+                        alt={member.name}
+                        className="w-8 h-8"
+                      />
+                    )}
+                    <span>
+                      {member.name || "-"}
+                      {member.nickname ? ` (${member.nickname})` : ""}
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          <p className="mt-3 text-xs text-red-600 dark:text-red-400 font-semibold">
+            {t("modals.deleteLink.warning")}
+          </p>
+        </div>
+
+        <div className="flex justify-end gap-3">
+          <button
+            type="button"
+            onClick={onClose}
+            className={`px-4 py-2 text-sm font-semibold rounded-md bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-500 ${focusRingClasses}`}
+          >
+            {t("common.cancel")}
+          </button>
+          <button
+            type="button"
+            onClick={onConfirm}
+            className={`px-4 py-2 text-sm font-semibold rounded-md bg-red-600 text-white hover:bg-red-700 dark:hover:bg-red-500 ${focusRingClasses}`}
+          >
+            {t("modals.deleteLink.confirm")}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default DeleteLinkModal;

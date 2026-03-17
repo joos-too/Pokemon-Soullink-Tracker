@@ -133,11 +133,24 @@ export const de = {
       submit: "Bestätigen",
     },
     selectLoss: {
-      title: "Wer hat das Pokémon getötet?",
+      title: "Link töten?",
       routeLabel: "Gebiet: {{route}}",
+      description:
+        "Diese Funktion ist dazu gedacht, gestorbene Links in den Friedhof zu verschieben.",
+      tooltipLabel: "Info zum Link töten",
       autoAssign:
         "Der Verlust wird automatisch <strong>{{player}}</strong> zugewiesen.",
+      selectHint: "Wähle den Spieler aus, dessen Pokémon gestorben ist.",
       confirm: "Bestätigen",
+    },
+    deleteLink: {
+      title: "Link löschen?",
+      description:
+        "Diese Funktion ist dazu gedacht Links zu löschen, welche versehentlich erstellt worden sind.",
+      tooltipLabel: "Info zum Link löschen",
+      routeLabel: "Gebiet: {{route}}",
+      warning: "Link wird endgültig gelöscht!",
+      confirm: "Endgültig löschen",
     },
     addFossil: {
       title: "Fossil hinzufügen",
@@ -333,8 +346,9 @@ export const de = {
     actionsColumn: "Aktionen",
     titleEdit: "Bearbeiten",
     titleMoveToBox: "In die Box verschieben",
-    titleSendToGraveyard: "In den Friedhof verschieben",
+    titleSendToGraveyard: "Link töten",
     titleEvolve: "Entwickeln",
+    titleDeleteLink: "Link löschen",
     moveToTeam: "Ins Team verschieben",
   },
   graveyard: {

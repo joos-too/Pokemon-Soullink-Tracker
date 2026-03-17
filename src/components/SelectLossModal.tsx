@@ -3,6 +3,9 @@ import type { PokemonLink } from "@/types";
 import { Trans, useTranslation } from "react-i18next";
 import { useFocusTrap } from "@/src/hooks/useFocusTrap";
 import { focusRingClasses } from "@/src/styles/focusRing.ts";
+import { getSpriteUrlForPokemonName } from "@/src/services/sprites";
+import { FiInfo } from "react-icons/fi";
+import Tooltip from "./Tooltip";
 
 interface SelectLossModalProps {
   isOpen: boolean;
@@ -49,9 +52,19 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({
         className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-md"
       >
         <div className="flex justify-between items-center mb-4">
-          <h2 id={titleId} className="text-lg font-bold dark:text-gray-100">
-            {t("modals.selectLoss.title")}
-          </h2>
+          <div className="flex items-center gap-2">
+            <h2 id={titleId} className="text-lg font-bold dark:text-gray-100">
+              {t("modals.selectLoss.title")}
+            </h2>
+            <Tooltip side="top" content={t("modals.selectLoss.description")}>
+              <span
+                className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-help"
+                aria-label={t("modals.selectLoss.tooltipLabel")}
+              >
+                <FiInfo size={16} />
+              </span>
+            </Tooltip>
+          </div>
           <button
             onClick={onClose}
             className={`text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 rounded-md ${focusRingClasses}`}
@@ -74,78 +87,121 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({
           </button>
         </div>
 
-        {pair && (
-          <div className="mb-4 text-sm text-gray-700 dark:text-gray-300">
-            <div className="flex flex-col gap-2">
-              {playerNames.map((name, index) => {
-                const member = pair.members?.[index] ?? {
-                  name: "",
-                  nickname: "",
-                };
-                return (
-                  <div
-                    key={`loss-preview-${index}`}
-                    className="flex justify-between text-xs"
-                  >
-                    <div className="font-semibold">{name}</div>
-                    <div className="text-right">
-                      {member.name || "-"}
-                      {member.nickname ? ` (${member.nickname})` : ""}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-            {pair.route && (
-              <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
-                {t("modals.selectLoss.routeLabel", { route: pair.route })}
-              </div>
-            )}
-          </div>
-        )}
-
         <form onSubmit={handleSubmit}>
-          {playerNames.length === 1 ? (
-            <div className="text-sm text-gray-700 dark:text-gray-300 border border-red-200 dark:border-red-500 rounded-md p-3 bg-red-50 dark:bg-red-900/30">
-              <Trans
-                i18nKey="modals.selectLoss.autoAssign"
-                values={{ player: playerNames[0] }}
-                components={{ strong: <span className="font-semibold" /> }}
-              />
-            </div>
-          ) : (
-            <div className="space-y-3">
-              {playerNames.map((name, index) => (
-                <label
-                  key={`lost-player-${index}`}
-                  className="flex items-center gap-2 cursor-pointer dark:text-gray-200"
-                >
-                  <input
-                    type="radio"
-                    name="lostPlayer"
-                    value={index}
-                    checked={selected === index}
-                    onChange={() => setSelected(index)}
-                    className="h-4 w-4 accent-red-600"
+          {pair && (
+            <div className="mb-4 text-sm text-gray-700 dark:text-gray-300">
+              {pair.route && (
+                <div className="text-sm text-gray-500 dark:text-gray-400 mb-3 px-1">
+                  {t("modals.selectLoss.routeLabel", { route: pair.route })}
+                </div>
+              )}
+
+              {playerNames.length === 1 ? (
+                <div className="flex flex-col gap-1 bg-gray-50 dark:bg-gray-700/50 rounded-md px-2.5 py-1.5">
+                  {playerNames.map((name, index) => {
+                    const member = pair.members?.[index] ?? {
+                      name: "",
+                      nickname: "",
+                    };
+                    const spriteUrl = getSpriteUrlForPokemonName(member.name);
+                    return (
+                      <div
+                        key={`loss-preview-${index}`}
+                        className="flex items-center justify-between text-xs"
+                      >
+                        <div className="font-semibold">{name}</div>
+                        <div className="flex items-center gap-1.5">
+                          {spriteUrl && (
+                            <img
+                              src={spriteUrl}
+                              alt={member.name}
+                              className="w-8 h-8"
+                            />
+                          )}
+                          <span>
+                            {member.name || "-"}
+                            {member.nickname ? ` (${member.nickname})` : ""}
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <fieldset className="flex flex-col gap-1.5">
+                  {playerNames.map((name, index) => {
+                    const member = pair.members?.[index] ?? {
+                      name: "",
+                      nickname: "",
+                    };
+                    const spriteUrl = getSpriteUrlForPokemonName(member.name);
+                    const isSelected = selected === index;
+                    return (
+                      <label
+                        key={`loss-preview-${index}`}
+                        className={`flex items-center justify-between cursor-pointer rounded-md px-2.5 py-1.5 border-2 transition-colors ${
+                          isSelected
+                            ? "border-red-500 bg-red-50 dark:bg-red-900/30"
+                            : "border-transparent bg-gray-50 dark:bg-gray-700/50 hover:border-gray-300 dark:hover:border-gray-500"
+                        } ${focusRingClasses}`}
+                      >
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="radio"
+                            name="lost-player"
+                            checked={isSelected}
+                            onChange={() => setSelected(index)}
+                            className="h-4 w-4 accent-red-600"
+                          />
+                          <span className="font-semibold text-xs dark:text-gray-200">
+                            {name}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-1.5 text-xs">
+                          {spriteUrl && (
+                            <img
+                              src={spriteUrl}
+                              alt={member.name}
+                              className="w-8 h-8"
+                            />
+                          )}
+                          <span>
+                            {member.name || "-"}
+                            {member.nickname ? ` (${member.nickname})` : ""}
+                          </span>
+                        </div>
+                      </label>
+                    );
+                  })}
+                </fieldset>
+              )}
+
+              <p className="mt-3 text-xs font-semibold">
+                {playerNames.length === 1 ? (
+                  <Trans
+                    i18nKey="modals.selectLoss.autoAssign"
+                    values={{ player: playerNames[0] }}
+                    components={{ strong: <span className="font-semibold" /> }}
                   />
-                  <span>{name}</span>
-                </label>
-              ))}
+                ) : (
+                  t("modals.selectLoss.selectHint")
+                )}
+              </p>
             </div>
           )}
 
-          <div className="mt-6 flex justify-end gap-2">
+          <div className="flex justify-end gap-3">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700"
+              className={`px-4 py-2 text-sm font-semibold rounded-md bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-500 ${focusRingClasses}`}
             >
               {t("common.cancel")}
             </button>
             <button
               type="submit"
               disabled={selected === null}
-              className={`px-4 py-2 rounded-md font-semibold shadow ${selected !== null ? "bg-red-600 text-white hover:bg-red-700" : "bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed"}`}
+              className={`px-4 py-2 text-sm font-semibold rounded-md shadow ${focusRingClasses} ${selected !== null ? "bg-red-600 text-white hover:bg-red-700 dark:hover:bg-red-500" : "bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed"}`}
             >
               {t("modals.selectLoss.confirm")}
             </button>
