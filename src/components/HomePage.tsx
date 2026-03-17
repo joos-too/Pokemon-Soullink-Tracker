@@ -77,13 +77,15 @@ const HomePage: React.FC<HomePageProps> = ({
     return canonicalOrder.filter((id) => ids.has(id));
   }, [trackers]);
 
-  const hasActiveFilters = useMemo(
-    () =>
-      visibilityFilter !== "all" ||
-      playerCountFilter !== "all" ||
-      versionFilter !== "all",
-    [visibilityFilter, playerCountFilter, versionFilter],
-  );
+  const activeFilterCount = useMemo(() => {
+    let count = 0;
+    if (visibilityFilter !== "all") count++;
+    if (playerCountFilter !== "all") count++;
+    if (versionFilter !== "all") count++;
+    return count;
+  }, [visibilityFilter, playerCountFilter, versionFilter]);
+
+  const hasActiveFilters = activeFilterCount > 0;
 
   const filteredAndSortedTrackers = useMemo(() => {
     let result = [...trackers];
@@ -327,7 +329,7 @@ const HomePage: React.FC<HomePageProps> = ({
                   {t("home.filterSort")}
                   {hasActiveFilters && (
                     <span className="ml-1 inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-green-600 text-[9px] font-bold text-white leading-none normal-case tracking-normal">
-                      !
+                      {activeFilterCount}
                     </span>
                   )}
                 </button>
@@ -335,7 +337,7 @@ const HomePage: React.FC<HomePageProps> = ({
                 {filterOpen && (
                   <div
                     ref={filterPanelRef}
-                    className="absolute right-0 z-30 mt-2 w-72 sm:w-80 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-xl p-4 space-y-4"
+                    className="absolute left-0 sm:left-auto sm:right-0 z-30 mt-2 w-auto rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-xl p-3 space-y-3"
                   >
                     {/* Sort */}
                     <div className="space-y-1.5">
