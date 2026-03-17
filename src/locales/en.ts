@@ -116,14 +116,17 @@ export const en = {
       routeLabel: "Area: {{route}}",
       description:
         "This function is intended to move dead links to the graveyard.",
+      tooltipLabel: "Info about kill link",
       autoAssign:
         "The loss is automatically assigned to <strong>{{player}}</strong>.",
+      selectHint: "Select the player whose Pokémon caused the death.",
       confirm: "Confirm",
     },
     deleteLink: {
       title: "Delete Link?",
       description:
         "This function is intended for deleting links, that were created accidentally.",
+      tooltipLabel: "Info about delete link",
       routeLabel: "Area: {{route}}",
       warning: "Link will be permanently deleted!",
       confirm: "Delete permanently",

@@ -118,14 +118,18 @@ export const de = {
       routeLabel: "Gebiet: {{route}}",
       description:
         "Diese Funktion ist dazu gedacht, gestorbene Links in den Friedhof zu verschieben.",
+      tooltipLabel: "Info zum Link töten",
       autoAssign:
         "Der Verlust wird automatisch <strong>{{player}}</strong> zugewiesen.",
+      selectHint:
+        "Wähle den Spieler aus, dessen Pokémon für den Tot verantwortlich war.",
       confirm: "Bestätigen",
     },
     deleteLink: {
       title: "Link löschen?",
       description:
         "Diese Funktion ist dazu gedacht Links zu löschen, welche versehentlich erstellt worden sind.",
+      tooltipLabel: "Info zum Link löschen",
       routeLabel: "Gebiet: {{route}}",
       warning: "Link wird endgültig gelöscht!",
       confirm: "Endgültig löschen",

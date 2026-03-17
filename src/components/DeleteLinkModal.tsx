@@ -4,6 +4,8 @@ import { useTranslation } from "react-i18next";
 import { useFocusTrap } from "@/src/hooks/useFocusTrap";
 import { focusRingClasses } from "@/src/styles/focusRing.ts";
 import { getSpriteUrlForPokemonName } from "@/src/services/sprites";
+import { FiInfo } from "react-icons/fi";
+import Tooltip from "./Tooltip";
 
 interface DeleteLinkModalProps {
   isOpen: boolean;
@@ -37,9 +39,19 @@ const DeleteLinkModal: React.FC<DeleteLinkModalProps> = ({
         className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-md"
       >
         <div className="flex justify-between items-center mb-4">
-          <h2 id={titleId} className="text-lg font-bold dark:text-gray-100">
-            {t("modals.deleteLink.title")}
-          </h2>
+          <div className="flex items-center gap-2">
+            <h2 id={titleId} className="text-lg font-bold dark:text-gray-100">
+              {t("modals.deleteLink.title")}
+            </h2>
+            <Tooltip side="top" content={t("modals.deleteLink.description")}>
+              <span
+                className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-help"
+                aria-label={t("modals.deleteLink.tooltipLabel")}
+              >
+                <FiInfo size={16} />
+              </span>
+            </Tooltip>
+          </div>
           <button
             onClick={onClose}
             className={`text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 rounded-md ${focusRingClasses}`}
@@ -63,8 +75,13 @@ const DeleteLinkModal: React.FC<DeleteLinkModalProps> = ({
         </div>
 
         <div className="mb-4 text-sm text-gray-700 dark:text-gray-300">
-          <p className="mb-3">{t("modals.deleteLink.description")}</p>
-          <div className="flex flex-col gap-1 bg-gray-50 dark:bg-gray-700/50 rounded-md px-2.5 py-1.5">
+          {pair.route && (
+            <div className="text-sm text-gray-500 dark:text-gray-400 mb-3 px-1">
+              {t("modals.deleteLink.routeLabel", { route: pair.route })}
+            </div>
+          )}
+
+          <div className="flex flex-col gap-1.5">
             {playerNames.map((name, index) => {
               const member = pair.members?.[index] ?? {
                 name: "",
@@ -74,7 +91,7 @@ const DeleteLinkModal: React.FC<DeleteLinkModalProps> = ({
               return (
                 <div
                   key={`delete-preview-${index}`}
-                  className="flex items-center justify-between text-xs"
+                  className="flex items-center justify-between rounded-md px-2.5 py-1.5 bg-gray-50 dark:bg-gray-700/50 text-xs"
                 >
                   <div className="font-semibold">{name}</div>
                   <div className="flex items-center gap-1.5">
@@ -93,17 +110,12 @@ const DeleteLinkModal: React.FC<DeleteLinkModalProps> = ({
                 </div>
               );
             })}
-            {pair.route && (
-              <div className="text-xs text-gray-500 dark:text-gray-400">
-                {t("modals.deleteLink.routeLabel", { route: pair.route })}
-              </div>
-            )}
           </div>
-        </div>
 
-        <p className="mb-5 text-xs text-red-600 dark:text-red-400 font-semibold">
-          {t("modals.deleteLink.warning")}
-        </p>
+          <p className="mt-3 text-xs text-red-600 dark:text-red-400 font-semibold">
+            {t("modals.deleteLink.warning")}
+          </p>
+        </div>
 
         <div className="flex justify-end gap-3">
           <button
