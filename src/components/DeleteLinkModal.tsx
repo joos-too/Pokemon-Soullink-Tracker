@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useFocusTrap } from "@/src/hooks/useFocusTrap";
 import { focusRingClasses } from "@/src/styles/focusRing.ts";
 import { getSpriteUrlForPokemonName } from "@/src/services/sprites";
-import { FiInfo } from "react-icons/fi";
+import { FiAlertTriangle, FiInfo } from "react-icons/fi";
 import Tooltip from "./Tooltip";
 
 interface DeleteLinkModalProps {
@@ -112,16 +112,17 @@ const DeleteLinkModal: React.FC<DeleteLinkModalProps> = ({
             })}
           </div>
 
-          <p className="mt-3 text-xs text-red-600 dark:text-red-400 font-semibold">
+          <div className="p-2 mt-3 flex items-start gap-2 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20 text-sm text-red-800 dark:text-red-200">
+            <FiAlertTriangle size={16} className="mt-0.5 shrink-0" />
             {t("modals.deleteLink.warning")}
-          </p>
+          </div>
         </div>
 
         <div className="flex justify-end gap-3">
           <button
             type="button"
             onClick={onClose}
-            className={`px-4 py-2 text-sm font-semibold rounded-md bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-500 ${focusRingClasses}`}
+            className={`px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-500 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 ${focusRingClasses}`}
           >
             {t("common.cancel")}
           </button>

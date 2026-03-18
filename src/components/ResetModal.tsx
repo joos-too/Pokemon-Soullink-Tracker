@@ -2,6 +2,7 @@ import React, { useId } from "react";
 import { useTranslation } from "react-i18next";
 import { useFocusTrap } from "@/src/hooks/useFocusTrap";
 import { focusRingClasses } from "@/src/styles/focusRing.ts";
+import { FiAlertTriangle } from "react-icons/fi";
 
 interface ResetModalProps {
   isOpen: boolean;
@@ -47,7 +48,8 @@ const ResetModal: React.FC<ResetModalProps> = ({
           <p className="text-sm text-gray-700 dark:text-gray-300">
             {t("modals.reset.confirmation")}
           </p>
-          <div className="p-3 rounded-md border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20 text-sm text-red-800 dark:text-red-200">
+          <div className="p-3 flex items-start gap-2 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20 text-sm text-red-800 dark:text-red-200">
+            <FiAlertTriangle size={20} className="mt-0.5 shrink-0" />
             {t("modals.reset.description")}
           </div>
         </div>
