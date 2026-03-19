@@ -1,5 +1,5 @@
 import React, { useId } from "react";
-import { FiTrash2, FiX } from "react-icons/fi";
+import { FiAlertTriangle, FiX } from "react-icons/fi";
 import { useTranslation } from "react-i18next";
 import { useFocusTrap } from "@/src/hooks/useFocusTrap";
 import { focusRingClasses } from "@/src/styles/focusRing";
@@ -60,12 +60,13 @@ const DeleteTrackerModal: React.FC<DeleteTrackerModalProps> = ({
         </div>
 
         <div className="px-5 py-6 space-y-4">
-          <div className="rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 px-4 py-3 text-sm text-red-900 dark:text-red-100">
-            {t("modals.deleteTracker.confirm")}
-          </div>
           <p className="text-sm text-gray-600 dark:text-gray-300">
-            {t("modals.deleteTracker.warning")}
+            {t("modals.deleteTracker.confirm")}
           </p>
+          <div className="flex items-start gap-2 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 px-4 py-3 text-sm text-red-900 dark:text-red-100">
+            <FiAlertTriangle size={20} className="mt-0.5 shrink-0" />
+            {t("modals.deleteTracker.warning")}
+          </div>
           {error && (
             <div className="rounded-md bg-red-50 dark:bg-red-900/40 border border-red-200 dark:border-red-700 px-3 py-2 text-sm text-red-700 dark:text-red-200">
               {error}
@@ -88,7 +89,6 @@ const DeleteTrackerModal: React.FC<DeleteTrackerModalProps> = ({
             disabled={isDeleting}
             className="inline-flex items-center justify-center gap-2 rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-700 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-red-500 disabled:opacity-60"
           >
-            <FiTrash2 />
             {isDeleting
               ? t("modals.deleteTracker.deleting")
               : t("modals.deleteTracker.submit")}
