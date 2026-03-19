@@ -112,7 +112,7 @@ const DeleteLinkModal: React.FC<DeleteLinkModalProps> = ({
             })}
           </div>
 
-          <div className="p-2 mt-3 flex items-start gap-2 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20 text-sm text-red-800 dark:text-red-200">
+          <div className="p-2 mt-3 flex items-start gap-2 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20 text-sm text-red-800 dark:text-red-100">
             <FiAlertTriangle size={16} className="mt-0.5 shrink-0" />
             {t("modals.deleteLink.warning")}
           </div>
