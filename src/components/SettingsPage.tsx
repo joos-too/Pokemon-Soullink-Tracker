@@ -907,7 +907,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
             </div>
 
             <div className="px-5 py-6 space-y-4">
-              <div className="rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 px-4 py-3 text-sm text-red-900 dark:text-red-100">
+              <div className="rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 px-4 py-3 text-sm text-red-800 dark:text-red-100">
                 {pendingRemovalIsSelf
                   ? t("settings.removeModal.confirmSelf")
                   : t("settings.removeModal.confirmMember")}

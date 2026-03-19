@@ -63,7 +63,7 @@ const DeleteTrackerModal: React.FC<DeleteTrackerModalProps> = ({
           <p className="text-sm text-gray-600 dark:text-gray-300">
             {t("modals.deleteTracker.confirm")}
           </p>
-          <div className="flex items-start gap-2 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 px-4 py-3 text-sm text-red-900 dark:text-red-100">
+          <div className="flex items-start gap-2 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 px-4 py-3 text-sm text-red-800 dark:text-red-100">
             <FiAlertTriangle size={20} className="mt-0.5 shrink-0" />
             {t("modals.deleteTracker.warning")}
           </div>
