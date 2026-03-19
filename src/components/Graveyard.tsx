@@ -4,7 +4,7 @@ import { getSpriteUrlForPokemonName } from "@/src/services/sprites";
 import { PLAYER_COLORS } from "@/src/services/init.ts";
 import { useTranslation } from "react-i18next";
 import { focusRingClasses } from "@/src/styles/focusRing";
-import { FiEdit } from "react-icons/fi";
+import { FiEdit, FiTrash } from "react-icons/fi";
 import AddLostPokemonModal from "./AddLostPokemonModal";
 import EditPairModal from "./EditPairModal";
 
@@ -17,6 +17,7 @@ interface GraveyardProps {
     pairId: number,
     payload: { route: string; members: Pokemon[] },
   ) => void;
+  onDeleteLink?: (pair: PokemonLink) => void;
   readOnly?: boolean;
   generationSpritePath?: string | null;
   pokemonGenerationLimit?: number;
@@ -29,6 +30,7 @@ const Graveyard: React.FC<GraveyardProps> = ({
   playerColors,
   onManualAddClick,
   onEditPair,
+  onDeleteLink,
   generationSpritePath,
   pokemonGenerationLimit,
   gameVersionId,
@@ -117,6 +119,7 @@ const Graveyard: React.FC<GraveyardProps> = ({
               const canEdit =
                 !readOnly &&
                 (pair.route || pair.members.some((member) => member?.name));
+              const canDelete = !readOnly && onDeleteLink;
               const isLost = Boolean(pair.isLost);
               const statusLabel = isLost
                 ? t("graveyard.statusLost")
@@ -131,20 +134,35 @@ const Graveyard: React.FC<GraveyardProps> = ({
                   >
                     {statusLabel}
                   </div>
-                  {canEdit && (
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setEditIndex(
-                          graveyard.findIndex((g) => g.id === pair.id),
-                        )
-                      }
-                      className="absolute right-2 top-2 p-1 rounded-full text-gray-500 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-600"
-                      title={t("graveyard.titleEdit")}
-                      aria-label={t("graveyard.titleEdit")}
-                    >
-                      <FiEdit size={14} />
-                    </button>
+                  {(canEdit || canDelete) && (
+                    <div className="absolute right-2 top-2 flex items-center gap-1">
+                      {canEdit && (
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setEditIndex(
+                              graveyard.findIndex((g) => g.id === pair.id),
+                            )
+                          }
+                          className={`p-1 rounded-full text-gray-500 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-600 ${focusRingClasses}`}
+                          title={t("graveyard.titleEdit")}
+                          aria-label={t("graveyard.titleEdit")}
+                        >
+                          <FiEdit size={14} />
+                        </button>
+                      )}
+                      {canDelete && (
+                        <button
+                          type="button"
+                          onClick={() => onDeleteLink(pair)}
+                          className={`p-1 rounded-full text-red-600 hover:text-red-700 dark:text-red-500 dark:hover:text-red-400 hover:bg-gray-200 dark:hover:bg-gray-600 focus-visible:ring-red-500 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-gray-900 ${focusRingClasses}`}
+                          title={t("team.titleDeleteLink")}
+                          aria-label={t("team.titleDeleteLink")}
+                        >
+                          <FiTrash size={14} />
+                        </button>
+                      )}
+                    </div>
                   )}
                   <p className="text-center font-bold text-gray-600 dark:text-gray-300 mb-1">
                     {t("graveyard.areaLabel", {

@@ -1337,6 +1337,7 @@ const App: React.FC = () => {
       ...prev,
       team: prev.team.filter((p) => p.id !== pendingDeletePair.id),
       box: prev.box.filter((p) => p.id !== pendingDeletePair.id),
+      graveyard: prev.graveyard.filter((p) => p.id !== pendingDeletePair.id),
     }));
     setShowDeleteLinkModal(false);
     setPendingDeletePair(null);
@@ -2443,6 +2444,7 @@ const App: React.FC = () => {
               playerColors={playerColors}
               onManualAddClick={() => setIsModalOpen(true)}
               onEditPair={handleEditGraveyardPair}
+              onDeleteLink={handleDeleteLink}
               readOnly={isReadOnly}
               generationSpritePath={generationSpritePath}
               pokemonGenerationLimit={pokemonGenerationLimit}
