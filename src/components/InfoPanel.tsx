@@ -14,6 +14,7 @@ import {
   FiEdit,
   FiEye,
   FiEyeOff,
+  FiInfo,
   FiMinus,
   FiPlus,
   FiRefreshCw,
@@ -21,6 +22,7 @@ import {
   FiX,
 } from "react-icons/fi";
 import { BadgeImage, LegendaryImage, RivalImage } from "./GameImages";
+import Tooltip from "./Tooltip";
 import { useTranslation } from "react-i18next";
 import {
   getLocalizedArenaLabel,
@@ -579,10 +581,26 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
               </tbody>
             </table>
           </div>
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700 overflow-hidden">
-            <h2 className="text-center p-2 bg-blue-600 text-white font-press-start text-[10px]">
-              {t("tracker.infoPanel.itemsHeading")}
-            </h2>
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700">
+            <div className="relative">
+              <h2 className="rounded-t-lg text-center p-2 bg-blue-600 text-white font-press-start text-[10px]">
+                {t("tracker.infoPanel.itemsHeading")}
+              </h2>
+              <div className="absolute right-2 top-1/2 -translate-y-1/2">
+                <Tooltip
+                  side="left"
+                  content={t("tracker.infoPanel.itemsWidgetTooltip")}
+                >
+                  <span
+                    tabIndex={0}
+                    className="inline-flex cursor-help rounded-sm text-white/80 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
+                    aria-label={t("tracker.infoPanel.itemsWidgetTooltipLabel")}
+                  >
+                    <FiInfo size={14} />
+                  </span>
+                </Tooltip>
+              </div>
+            </div>
             <table className="w-full">
               <tbody>
                 {playerNames.map((name, index) => {

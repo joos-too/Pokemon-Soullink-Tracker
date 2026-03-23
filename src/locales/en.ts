@@ -241,6 +241,9 @@ export const en = {
       updateLegendary: "Legendary encounters",
       rivalToggle: "Rivals / Gyms",
       itemsHeading: "Items",
+      itemsWidgetTooltip:
+        "This widget can be used to track items in battles or for the Elite Four (f.E. max. 20 items).",
+      itemsWidgetTooltipLabel: "Info about the items widget",
       itemsIncrease: "Increase items",
       itemsDecrease: "Decrease items",
       rulePlaceholder: "Rule {{index}}",

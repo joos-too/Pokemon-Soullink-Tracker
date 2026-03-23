@@ -243,6 +243,9 @@ export const de = {
       updateLegendary: "Legendäre Begegnungen",
       rivalToggle: "Rivalenkämpfe / Arenen",
       itemsHeading: "Items",
+      itemsWidgetTooltip:
+        "Dieses Widget kann genutzt werden, um Items in Kämpfen oder für die Top 4 zu tracken (z.B. max. 20 Items).",
+      itemsWidgetTooltipLabel: "Info zum Items-Widget",
       itemsIncrease: "Items erhöhen",
       itemsDecrease: "Items verringern",
       rulePlaceholder: "Regel {{index}}",
