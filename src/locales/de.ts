@@ -1,6 +1,7 @@
 export const de = {
   common: {
     appName: "Soullink Tracker",
+    search: "Suchen",
     loading: "Laden…",
     cancel: "Abbrechen",
     close: "Schließen",
