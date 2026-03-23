@@ -1,65 +1,84 @@
 # Agent Handbook
 
-Aktueller Überblick für Coding-Agents, die am Pokémon Soullink Tracker arbeiten.
+Reference for coding agents working on the Pokemon Soullink Tracker.
 
-## Architektur & Hauptfunktionen
+## Project Overview
 
-- React 19 Single-Page-App mit React Router; Einstieg über `index.tsx`, Hauptlogik in `src/App.tsx`.
-- Firebase Realtime Database und Firebase Auth: Benutzer müssen sich einloggen, bevor sie Tracker sehen/verwalten.
-- Home-Dashboard zeigt alle Tracker des eingeloggten Users, inkl. Zusammenfassungen (Team, Box, Grab, Fortschritt). Tracker lassen sich erstellen, öffnen und für Owners löschen.
-- Tracker-Ansicht verwaltet Team-, Box- und Grab-Paare, Level- und Rivalen-Caps, Regeln, Statistiken sowie optionale Features (Legendary-Zähler, Rivalen-Zensur).
-- Spielversionen inkl. Badge-Designs, Level- und Rivalen-Caps sind in `src/data/game-versions.ts` definierte Stammdaten.
-- Hintergrundaktualisierung deutscher Pokémon-Namen (`src/services/pokemonSearch.ts`) und Sprite-Zugriff (`src/services/sprites.ts`) nutzen lokale Caches + PokeAPI.
+- React 19 + TypeScript single-page app built with Vite.
+- Main entry points are `index.tsx` and `src/App.tsx`.
+- The app uses Firebase Authentication and Firebase Realtime Database.
+- Core product flow:
+  - users sign in
+  - users create or open trackers
+  - trackers manage team, box, graveyard, rules, level caps, rival caps, fossils, and run stats
+  - owners can invite members or guests and optionally expose trackers publicly in read-only mode
 
-## Projektstruktur (Auszug)
+## Key Directories
 
-- `src/App.tsx`: Router-Setup, Firebase-Listener, Tracker-Lifecycle, Modale Steuerung.
-- `src/components/`: UI-Bausteine
-  - Auth (`LoginPage.tsx`, `RegisterPage.tsx`)
-  - Dashboard (`HomePage.tsx`, `GameVersionBadge.tsx`)
-  - Tracker-UI (`TeamTable.tsx`, `InfoPanel.tsx`, `ClearedRoutes.tsx`, `Graveyard.tsx`, `SettingsPage.tsx`, diverse Modale).
-- `src/services/`:
-  - `trackers.ts`: CRUD-Operationen auf Realtime DB, Mitgliederverwaltung, Rivalenpräferenzen.
-  - `pokemonSearch.ts`: Sofortsuche + Hintergrundrefresh deutscher Namen.
-  - `sprites.ts`: Sprite-/Artwork-Auflösung über Namen → IDs.
-- `src/data/`: Generierte Datensätze (`pokemon-de.ts`, `pokemon-en.ts`, `pokemon-map.ts`, `pokemon-evolutions.ts`, `game-versions.ts`). Änderungen i.d.R. per Script.
-- `src/firebaseConfig.ts`: Firebase-Initialisierung, Emulatorkonfiguration basierend auf Vite-Umgebungsvariablen.
-- `init.ts`: Default-Setup (Farben, Regeln, Initialstate-Helfer), legt Standardspielversion fest.
-- `types.ts`: Applikationsmodelle (Tracker-Struktur, Rivalen, Stats etc.).
-- `public/`: Statische Assets (Logos, Badges, Rival-Sprites, Champion-Sprites).
-- `vite.config.ts` / `tsconfig.json`: Vite-Build + Pfadalias `@/*` → Projektwurzel.
+- `src/App.tsx`: routing, auth/bootstrap, tracker lifecycle, modal orchestration, and most application state wiring
+- `src/components/`: UI components and modal flows
+- `src/services/`: Firebase access, search helpers, sprite resolution, emulator seed logic, and tracker/ruleset operations
+- `src/data/`: static and generated data such as game versions, rulesets, Pokemon names, type data, and evolutions
+- `src/locales/`: translation dictionaries for German and English
+- `public/`: static images, fonts, sprite assets, and the service worker
+- `types.ts`: shared domain types for trackers, rulesets, Pokemon links, stats, and user settings
 
-## Build-, Dev- & Datenbefehle
+## Runtime and Commands
 
-- `npm run dev`: Vite Dev-Server (nutzt automatisch Emulatoren).
-- `npm run emulators`: Firebase Emulator Suite (Auth + Realtime DB).
-- `npm run build`: Production-Build nach `dist/`.
-- `npm run preview`: Preview-Server für Build.
-- `npm run build:names`: Regeneriert deutsche Pokémon-Namen + Map via PokeAPI (Netzwerkzugriff erforderlich).
+- Install dependencies: `npm install`
+- Start the app: `npm run dev`
+- Start Firebase emulators: `npm run emulators`
+- Create a production build: `npm run build`
+- Preview the build: `npm run preview`
+- Format the repo: `npm run prettier`
+- Check formatting: `npm run prettier:check`
+- Regenerate Pokemon datasets from PokeAPI: `npm run generate-pokemon`
 
-## Entwicklungsrichtlinien
+## Environment Notes
 
-- TypeScript + React Hooks; Komponenten funktional halten, Props typisieren (`types.ts` erweitern statt `any`).
-- 2 Leerzeichen Einrückung, short & readable Zeilen, Nutzertexte Deutsch.
-- Imports über `@/…` Alias; UI-Files in `src/components/` nutzen PascalCase.
-- Dark Mode via `<html class="dark">`; `DarkModeToggle` synchronisiert LocalStorage + DOM.
-- Firebase: Emulatormodus per `VITE_USE_FIREBASE_EMULATOR=true` (Standard in `.env`). Production benötigt vollständige `VITE_FIREBASE_*` Variablen; ohne Emulator strikte Runtime-Checks.
-- Tracker-Daten liegen unter `trackers/{trackerId}/state`. Schema-Änderungen mit Bedacht planen, Migration kommunizieren.
-- Namen/Sprite-Caches greifen auf `localStorage` zu; schützende Try/Catch-Blöcke beibehalten, um SSR/Emulator-Kontexte nicht zu brechen.
+- Local development is expected to use Firebase emulators.
+- Copy `.env.example` to `.env` for local work.
+- Production builds require the full set of `VITE_FIREBASE_*` variables.
+- Firebase emulator wiring lives in `src/firebaseConfig.ts`.
+- The app validates missing production Firebase config at runtime when emulator mode is disabled.
 
-## Testing & Qualität
+## Data Model
 
-- Noch keine Tests eingerichtet; bei Bedarf Vitest + React Testing Library einsetzen (`*.test.tsx` neben Quelle).
-- Tests deterministisch halten; Firebase über Emulatoren oder Mocks stubben.
-- Vor größeren Änderungen: `npm run dev` + Emulatoren lokal prüfen. UI-Änderungen mit Screenshots im PR dokumentieren.
+- Tracker metadata is stored under `trackers/{trackerId}/meta`.
+- Tracker state is stored under `trackers/{trackerId}/state`.
+- User-to-tracker membership lookups live under `userTrackers/{userId}`.
+- User profiles live under `users/{userId}`.
+- Email lookup records live under `userEmails/{encodedEmail}`.
+- Custom rulesets live under `rulesets/{userId}/{rulesetId}`.
 
-## Datenpflege & Skripte
+When changing tracker shape, update both runtime sanitizing code and any default-state helpers. The main normalization logic currently lives in `src/services/init.ts` and `src/App.tsx`.
 
-- Änderungen in `src/data/` möglichst über vorhandene Skripte erzeugen; im PR vermerken, dass Daten regeneriert wurden.
-- `metadata.json` beschreibt App für externe Integrationen - bei Produktänderungen aktualisieren.
+## Localization Rules
 
-## Sicherheit & Konfiguration
+- The UI supports German and English.
+- Prefer translation keys over inline user-facing strings.
+- When adding or changing UI copy, update both `src/locales/de.ts` and `src/locales/en.ts`.
+- Keep labels, button text, and validation messages aligned across both locales.
 
-- `.env.example` → `.env` für lokale Dev-Umgebung (keine Secrets committed). Production-Werte in `.env.production` pflegen.
-- Nur `VITE_*` Variablen ins Frontend exportieren; Secrets bleiben serverseitig.
-- Bei neuem Feature-Zugriff via Firebase Auth sicherstellen, dass DB-Regeln (`database.rules.json`) den erwarteten Zugriff erlauben.
+## Coding Conventions
+
+- Prefer functional React components and typed props.
+- Extend `types.ts` or local interfaces instead of introducing `any`.
+- Use the `@/` alias for imports from the project root.
+- Keep data-fetching and Firebase mutation logic in `src/services/` rather than inside UI components.
+- Reuse existing helpers for sanitizing player names, rules, tags, and state shape.
+- Preserve read-only behavior for public trackers and guest users.
+
+## Product-Specific Guardrails
+
+- Game version data in `src/data/game-versions.ts` drives badges, level caps, rival caps, and generation limits.
+- Rulesets can be presets or user-owned custom entries; do not treat presets as editable.
+- Tracker creation and membership management are implemented in `src/services/trackers.ts`.
+- Ruleset persistence is implemented in `src/services/rulesets.ts`.
+- Emulator seed logic exists to provide deterministic local demo data; avoid breaking that flow.
+- Generated Pokemon datasets in `src/data/` should be regenerated by script when possible instead of edited manually.
+
+## Validation Checklist
+
+- Run `npm run build` after meaningful code changes.
+- Run `npm run prettier:check` if formatting might be affected.
