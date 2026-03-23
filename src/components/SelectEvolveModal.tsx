@@ -128,6 +128,15 @@ const METHOD_GENERATION_RULES: Record<number, MethodGenerationRule[]> = {
       minGeneration: 7,
     },
   ],
+  105: [
+    {
+      methods: [
+        "Level-Up - Level 28, Tageszeit: Nacht",
+        "Level-Up - Level 28, Time of day: Night",
+      ],
+      minGeneration: 7,
+    },
+  ],
 };
 
 const LOCATION_METHOD_VERSION_RULES: Record<string, string[]> = {
