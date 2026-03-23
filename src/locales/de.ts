@@ -195,6 +195,7 @@ export const de = {
       dialog: "Mobiles Menü",
       title: "Menü",
       close: "Menü schließen",
+      search: "Suchen",
       lightMode: "Lightmode",
       darkMode: "Darkmode",
       overview: "Übersicht",
@@ -208,6 +209,15 @@ export const de = {
     routes: {
       title: "Abgegraste Gebiete",
       empty: "Noch keine Routen eingetragen.",
+    },
+    search: {
+      title: "Tracker durchsuchen",
+      open: "Suche öffnen",
+      modePokemon: "Pokémon",
+      modeRoutes: "Routen",
+      fieldLabel: "Tracker durchsuchen",
+      emptyPokemon: "Noch keine Pokémon eingetragen.",
+      emptyRoutes: "Noch keine Routen eingetragen.",
     },
     infoPanel: {
       deathLabel: "Tode",

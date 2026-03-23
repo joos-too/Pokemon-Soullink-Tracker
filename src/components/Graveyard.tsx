@@ -1,19 +1,12 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import type { Pokemon, PokemonLink } from "@/types";
 import { getSpriteUrlForPokemonName } from "@/src/services/sprites";
 import { PLAYER_COLORS } from "@/src/services/init.ts";
 import { useTranslation } from "react-i18next";
-import {
-  focusRingClasses,
-  focusRingInputClasses,
-} from "@/src/styles/focusRing";
-import { FiEdit, FiSearch, FiTrash } from "react-icons/fi";
+import { focusRingClasses } from "@/src/styles/focusRing";
+import { FiEdit, FiTrash } from "react-icons/fi";
 import AddLostPokemonModal from "./AddLostPokemonModal";
 import EditPairModal from "./EditPairModal";
-import {
-  getPokemonFamilyIdsMatchingQuery,
-  getPokemonIdFromName,
-} from "@/src/services/pokemonSearch";
 
 interface GraveyardProps {
   graveyard?: PokemonLink[];
@@ -58,9 +51,6 @@ const Graveyard: React.FC<GraveyardProps> = ({
     playerColors?.[index] ?? PLAYER_COLORS[index] ?? "#4b5563";
 
   const [editIndex, setEditIndex] = useState<number | null>(null);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const searchInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     if (readOnly) {
@@ -73,14 +63,6 @@ const Graveyard: React.FC<GraveyardProps> = ({
       setEditIndex(null);
     }
   }, [editIndex, graveyard]);
-
-  useEffect(() => {
-    if (isSearchOpen) {
-      searchInputRef.current?.focus({ preventScroll: true });
-      return;
-    }
-    setSearchQuery("");
-  }, [isSearchOpen]);
 
   const activePair = editIndex !== null ? graveyard[editIndex] : null;
   const isLostPair = Boolean(activePair?.isLost);
@@ -101,99 +83,39 @@ const Graveyard: React.FC<GraveyardProps> = ({
     setEditIndex(null);
   };
 
-  const filteredGraveyard = useMemo(() => {
-    const normalizedQuery = searchQuery.trim().toLowerCase();
-    const reversedGraveyard = [...graveyard].reverse();
-    if (!normalizedQuery) {
-      return reversedGraveyard;
-    }
-
-    const matchingFamilyIds = getPokemonFamilyIdsMatchingQuery(normalizedQuery);
-
-    return reversedGraveyard.filter((pair) => {
-      if ((pair.route || "").toLowerCase().includes(normalizedQuery)) {
-        return true;
-      }
-
-      return pair.members.some((member) => {
-        const name = member?.name || "";
-        const nickname = member?.nickname || "";
-        if (
-          name.toLowerCase().includes(normalizedQuery) ||
-          nickname.toLowerCase().includes(normalizedQuery)
-        ) {
-          return true;
-        }
-
-        const pokemonId = getPokemonIdFromName(name);
-        return pokemonId !== null && matchingFamilyIds.has(pokemonId);
-      });
-    });
-  }, [graveyard, searchQuery]);
-
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700 overflow-hidden custom-scrollbar">
-      <div className="flex items-center gap-2 p-2 bg-gray-800 dark:bg-gray-900">
-        <div className="flex-1 min-w-0">
-          {isSearchOpen ? (
-            <input
-              ref={searchInputRef}
-              type="text"
-              value={searchQuery}
-              onChange={(event) => setSearchQuery(event.target.value)}
-              onKeyDown={(event) => {
-                if (event.key === "Escape") {
-                  setIsSearchOpen(false);
-                }
-              }}
-              placeholder={t("common.searchPlaceholder")}
-              aria-label={t("common.search")}
-              className={`w-full px-3 py-1.5 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-sm text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
-            />
-          ) : (
-            <h2 className="text-center text-white font-press-start text-sm">
-              {t("graveyard.title")}
-            </h2>
-          )}
-        </div>
-        <div className="flex items-center gap-2">
-          {onManualAddClick && !readOnly && (
-            <button
-              onClick={onManualAddClick}
-              className={`text-white hover:text-gray-300 rounded-md ${focusRingClasses}`}
-              title={t("graveyard.manualAddTitle")}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-            </button>
-          )}
+      <div className="flex justify-center items-center p-2 bg-gray-800 dark:bg-gray-900">
+        <h2 className="text-center text-white font-press-start text-sm">
+          {t("graveyard.title")}
+        </h2>
+        {onManualAddClick && !readOnly && (
           <button
-            type="button"
-            onClick={() => setIsSearchOpen((prev) => !prev)}
-            className={`text-white hover:text-gray-300 rounded-md ${focusRingClasses}`}
-            title={isSearchOpen ? t("common.close") : t("common.search")}
-            aria-label={isSearchOpen ? t("common.close") : t("common.search")}
+            onClick={onManualAddClick}
+            className={`ml-4 text-white hover:text-gray-300 rounded-md ${focusRingClasses}`}
+            title={t("graveyard.manualAddTitle")}
           >
-            <FiSearch size={18} />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
           </button>
-        </div>
+        )}
       </div>
       <div className="p-4 max-h-96 overflow-y-auto">
-        {filteredGraveyard.length > 0 ? (
+        {graveyard && graveyard.length > 0 ? (
           <div className="space-y-3">
-            {filteredGraveyard.map((pair) => {
+            {[...graveyard].reverse().map((pair) => {
               const canEdit =
                 !readOnly &&
                 (pair.route || pair.members.some((member) => member?.name));
@@ -307,9 +229,7 @@ const Graveyard: React.FC<GraveyardProps> = ({
           </div>
         ) : (
           <p className="text-center text-gray-500 dark:text-gray-400 text-sm py-4">
-            {searchQuery.trim()
-              ? t("modals.common.noMatches")
-              : t("graveyard.empty")}
+            {t("graveyard.empty")}
           </p>
         )}
       </div>

@@ -193,6 +193,7 @@ export const en = {
       dialog: "Mobile menu",
       title: "Menu",
       close: "Close menu",
+      search: "Search",
       lightMode: "Light mode",
       darkMode: "Dark mode",
       overview: "Overview",
@@ -206,6 +207,15 @@ export const en = {
     routes: {
       title: "Cleared routes",
       empty: "No routes have been logged yet.",
+    },
+    search: {
+      title: "Search tracker",
+      open: "Open search",
+      modePokemon: "Pokémon",
+      modeRoutes: "Routes",
+      fieldLabel: "Search tracker",
+      emptyPokemon: "No Pokémon have been logged yet.",
+      emptyRoutes: "No routes have been logged yet.",
     },
     infoPanel: {
       deathLabel: "Deaths",
