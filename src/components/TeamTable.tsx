@@ -235,12 +235,14 @@ const TeamTable: React.FC<TeamTableProps> = ({
                     >
                       <td className="p-2 text-center border-l border-gray-200 dark:border-gray-700">
                         {imgURL ? (
-                          <img
-                            src={imgURL}
-                            alt=""
-                            className="w-20 h-20 mx-auto"
-                            loading="lazy"
-                          />
+                          <div className="mx-auto flex h-20 w-20 items-center justify-center">
+                            <img
+                              src={imgURL}
+                              alt=""
+                              className="block max-h-full max-w-full object-contain"
+                              loading="lazy"
+                            />
+                          </div>
                         ) : (
                           <span className="text-gray-400 dark:text-gray-500">
                             -
