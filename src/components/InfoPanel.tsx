@@ -780,7 +780,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
           <div
             className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300
                         dark:border-gray-700 overflow-hidden hover:bg-gray-100 active:bg-gray-200
-                        dark:hover:bg-gray-700 dark:active:bg-gray-600 duration-200 select-none flex flex-col h-full"
+                        dark:hover:bg-gray-700 dark:active:bg-gray-600 select-none flex flex-col h-full"
             onClick={() => {
               if (!readOnly) onlegendaryIncrement();
             }}
