@@ -244,7 +244,7 @@ export const de = {
       rivalToggle: "Rivalenkämpfe / Arenen",
       itemsHeading: "Items",
       itemsWidgetTooltip:
-        "Dieses Widget kann genutzt werden, um Items in Kämpfen oder für die Top 4 zu tracken (z.B. max. 20 Items).",
+        "Dieses Widget ist dazu gedacht um die außerhalb von Kämpfen verwendeten Items in den Top 4 zu tracken, da diese je nach Regelset auf z.B. 20 begrenzt sind. Alternativ kann es in Kämpfen genutzt werden, um die Anzahl der vom Gegner verwendeten Items zu tracken.",
       itemsWidgetTooltipLabel: "Info zum Items-Widget",
       itemsIncrease: "Items erhöhen",
       itemsDecrease: "Items verringern",
