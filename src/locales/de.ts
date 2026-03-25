@@ -13,7 +13,7 @@ export const de = {
     searchPlaceholder: "Suchen…",
     overview: "Zur Übersicht",
     unknownPlayers: "Unbekannte Spieler",
-    unknownRoute: "Unbekannte Route",
+    unknownRoute: "Unbekanntes Gebiet",
     nickname: "Spitzname",
     pokemonPlaceholder: "Pokémon",
     routePlaceholder: "z. B. Route 1",
@@ -208,16 +208,16 @@ export const de = {
     },
     routes: {
       title: "Abgegraste Gebiete",
-      empty: "Noch keine Routen eingetragen.",
+      empty: "Noch keine Gebiete eingetragen.",
     },
     search: {
       title: "Tracker durchsuchen",
       open: "Suche öffnen",
       modePokemon: "Pokémon",
-      modeRoutes: "Routen",
+      modeRoutes: "Gebiete",
       fieldLabel: "Tracker durchsuchen",
       emptyPokemon: "Noch keine Pokémon eingetragen.",
-      emptyRoutes: "Noch keine Routen eingetragen.",
+      emptyRoutes: "Noch keine Gebiete eingetragen.",
     },
     infoPanel: {
       deathLabel: "Tode",
