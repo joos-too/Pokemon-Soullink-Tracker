@@ -224,10 +224,10 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
           />
         </div>
 
-        <div className="px-6 pb-6 pt-4 overflow-y-auto max-h-[calc(85vh-170px)] custom-scrollbar">
+        <div className="px-6 pb-8 pt-4 overflow-y-auto max-h-[calc(85vh-170px)] custom-scrollbar">
           {mode === "pokemon" ? (
             hasPokemonResults ? (
-              <div className="space-y-6">
+              <div className="space-y-6 pb-2">
                 {pokemonSections.map((section) => (
                   <div key={section.key} className="space-y-3">
                     <h3 className="text-sm font-press-start text-gray-800 dark:text-gray-200">
@@ -315,7 +315,7 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
               </p>
             )
           ) : hasRouteResults ? (
-            <ul className="grid grid-cols-1 gap-2 text-sm text-gray-800 dark:text-gray-200">
+            <ul className="grid grid-cols-1 gap-2 pb-2 text-sm text-gray-800 dark:text-gray-200">
               {filteredRoutes.map((route) => (
                 <li
                   key={route}
