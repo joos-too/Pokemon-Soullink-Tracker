@@ -40,7 +40,10 @@ import ClearedRoutes from "@/src/components/ClearedRoutes";
 import AddLostPokemonModal from "@/src/components/AddLostPokemonModal";
 import RulesetSaveModal from "@/src/components/RulesetSaveModal";
 import FossilTracker from "@/src/components/FossilTracker";
-import { getGenerationSpritePath } from "@/src/services/sprites";
+import {
+  getGenerationSpritePath,
+  getAnimatedSpritePath,
+} from "@/src/services/sprites";
 import SelectLossModal from "@/src/components/SelectLossModal";
 import DeleteLinkModal from "@/src/components/DeleteLinkModal";
 import LoginPage from "@/src/components/LoginPage";
@@ -79,11 +82,13 @@ import {
   ensureUserProfile,
   getUserGenerationSpritePreference,
   getUserSpritesInTeamTablePreference,
+  getUserAnimatedSpritesPreference,
   removeMemberFromTracker,
   TrackerOperationError,
   updateRivalPreference,
   updateUserGenerationSpritePreference,
   updateUserSpritesInTeamTablePreference,
+  updateUserAnimatedSpritesPreference,
 } from "@/src/services/trackers";
 import { GAME_VERSIONS } from "@/src/data/game-versions";
 import {
@@ -197,6 +202,7 @@ const App: React.FC = () => {
     useState(false);
   const [userUseSpritesInTeamTable, setUserUseSpritesInTeamTable] =
     useState(false);
+  const [userUseAnimatedSprites, setUserUseAnimatedSprites] = useState(false);
   const showSettings = searchParams.get("panel") === "settings";
   const openSettingsPanel = useCallback(() => {
     const next = new URLSearchParams(searchParams);
@@ -298,12 +304,24 @@ const App: React.FC = () => {
   }, [user, activeTrackerMeta]);
 
   const generationSpritePath = useMemo(() => {
-    // Use generation-specific sprites if enabled
-    if (userUseGenerationSprites && activeGameVersionId) {
+    if (!activeGameVersionId) return null;
+    if (userUseAnimatedSprites) {
+      if (userUseGenerationSprites) {
+        // Generation sprites on → use version-specific animated path when available
+        const animatedPath = getAnimatedSpritePath(activeGameVersionId);
+        if (animatedPath) return animatedPath;
+        // No animated path for this version, fall back to static generation path
+        return getGenerationSpritePath(activeGameVersionId);
+      }
+      // Generation sprites off → default sprites are Gen V, so use Gen V animated
+      return "versions/generation-v/black-white/animated";
+    }
+    // Fall back to generation-specific sprites if enabled
+    if (userUseGenerationSprites) {
       return getGenerationSpritePath(activeGameVersionId);
     }
     return null;
-  }, [userUseGenerationSprites, activeGameVersionId]);
+  }, [userUseAnimatedSprites, userUseGenerationSprites, activeGameVersionId]);
   const currentRulesetId = data.rulesetId || defaultLocaleRulesetId;
   const hasUserRulesetWithSameId = useMemo(
     () =>
@@ -352,6 +370,19 @@ const App: React.FC = () => {
           "Failed to update sprites in team table preference:",
           error,
         );
+      }
+    },
+    [user],
+  );
+
+  const handleAnimatedSpritesToggle = useCallback(
+    async (enabled: boolean) => {
+      if (!user) return;
+      try {
+        await updateUserAnimatedSpritesPreference(user.uid, enabled);
+        setUserUseAnimatedSprites(enabled);
+      } catch (error) {
+        console.error("Failed to update animated sprites preference:", error);
       }
     },
     [user],
@@ -572,14 +603,17 @@ const App: React.FC = () => {
     Promise.all([
       getUserGenerationSpritePreference(user.uid),
       getUserSpritesInTeamTablePreference(user.uid),
+      getUserAnimatedSpritesPreference(user.uid),
     ])
-      .then(([genSprites, teamTableSprites]) => {
+      .then(([genSprites, teamTableSprites, animatedSprites]) => {
         setUserUseGenerationSprites(genSprites);
         setUserUseSpritesInTeamTable(teamTableSprites);
+        setUserUseAnimatedSprites(animatedSprites);
       })
       .catch(() => {
         setUserUseGenerationSprites(false);
         setUserUseSpritesInTeamTable(false);
+        setUserUseAnimatedSprites(false);
       });
   }, [user]);
 
@@ -2620,6 +2654,8 @@ const App: React.FC = () => {
                 onGenerationSpritesToggle={handleGenerationSpritesToggle}
                 useSpritesInTeamTable={userUseSpritesInTeamTable}
                 onSpritesInTeamTableToggle={handleSpritesInTeamTableToggle}
+                useAnimatedSprites={userUseAnimatedSprites}
+                onAnimatedSpritesToggle={handleAnimatedSpritesToggle}
               />
             ) : (
               <Navigate to="/" replace />

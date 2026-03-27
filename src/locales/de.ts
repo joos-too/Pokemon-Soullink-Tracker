@@ -490,6 +490,14 @@ export const de = {
           "Verwende Sprites statt offizieller Artworks überall in der App. Respektiert die anderen Sprite-Einstellungen.",
         description: "Zeige Sprites statt Artworks in allen Ansichten an.",
       },
+      animatedSprites: {
+        title: "Animierte Sprites",
+        tooltipLabel: "Info animierte Sprites",
+        tooltip:
+          "Verwende animierte Sprites, wenn verfügbar. Unterstützt für Gen V (Standard Sprites), Kristall (Gen II), X/Y und OR/AS (Gen VI).",
+        description:
+          "Zeige animierte Sprites für unterstützte Spielversionen an.",
+      },
       infiniteFossils: {
         title: "Unendliche Fossile",
         tooltipLabel: "Info Unendliche Fossile",

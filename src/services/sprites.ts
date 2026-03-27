@@ -22,6 +22,24 @@ export function getGenerationSpritePath(gameVersionId: string): string | null {
     gen5_s2w2: "versions/generation-v/black-white", // Gen 5 only has black-white sprites
     // Generation VI and later don't have version-specific sprites in PokeAPI
     // They use the modern unified sprites, so return null
+    // Generation VI
+    gen6_xy: "versions/generation-vi/x-y",
+    gen6_oras: "versions/generation-vi/omegaruby-alphasapphire",
+  };
+  return mapping[gameVersionId] || null;
+}
+
+// Map game version IDs to animated sprite paths
+// Gen II Crystal → crystal/animated (GIF)
+// Gen V B/W → black-white/animated (GIF)
+// Gen VI X/Y & ORAS → other/showdown (GIF, universal)
+export function getAnimatedSpritePath(gameVersionId: string): string | null {
+  const mapping: Record<string, string> = {
+    gen2_k: "versions/generation-ii/crystal/animated",
+    gen5_sw: "versions/generation-v/black-white/animated",
+    gen5_s2w2: "versions/generation-v/black-white/animated",
+    gen6_xy: "other/showdown",
+    gen6_oras: "other/showdown",
   };
   return mapping[gameVersionId] || null;
 }
@@ -65,6 +83,11 @@ function applySpriteGenerationFallback(
   return generationPath;
 }
 
+// Paths that serve GIF sprites instead of PNG
+function isAnimatedPath(path: string): boolean {
+  return path.includes("/animated") || path.includes("/showdown");
+}
+
 // Official artwork (high-res) by numeric id
 export function getOfficialArtworkUrlById(id: number): string {
   return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
@@ -80,7 +103,8 @@ export function getSpriteUrlById(
     id,
   );
   if (effectiveGenerationPath) {
-    return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${effectiveGenerationPath}/${id}.png`;
+    const ext = isAnimatedPath(effectiveGenerationPath) ? "gif" : "png";
+    return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${effectiveGenerationPath}/${id}.${ext}`;
   }
   return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
 }

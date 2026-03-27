@@ -355,10 +355,194 @@ async function createSampleTrackerData(userId: string): Promise<void> {
     ],
   });
 
+  // Create Gen 6 X/Y tracker
+  const gen6Updates = await createTracker(userId, {
+    title: "Test Tracker - Gen 6 X/Y",
+    gameVersionId: "gen6_xy",
+    playerNames: ["Serena", "Kalem"],
+    teamPokemon: [
+      {
+        id: 1,
+        route: "Route 2",
+        members: [
+          { name: "Igamaro", nickname: "Stachel" },
+          { name: "Fynx", nickname: "Flamme" },
+        ],
+      },
+      {
+        id: 2,
+        route: "Route 3",
+        members: [
+          { name: "Dartiri", nickname: "Pfeil" },
+          { name: "Scoppel", nickname: "Hops" },
+        ],
+      },
+      {
+        id: 3,
+        route: "Nouvaria-Wald",
+        members: [
+          { name: "Pam-Pam", nickname: "Bambus" },
+          { name: "Purmel", nickname: "Puder" },
+        ],
+      },
+      {
+        id: 4,
+        route: "Route 22",
+        members: [
+          { name: "Coiffwaff", nickname: "Pudel" },
+          { name: "Psiau", nickname: "Miez" },
+        ],
+      },
+    ],
+    boxPokemon: [
+      {
+        id: 5,
+        route: "Kieferfossil/Flossenfossil",
+        members: [
+          { name: "Balgoras", nickname: "Dino1" },
+          { name: "Amarino", nickname: "Dino2" },
+        ],
+      },
+      {
+        id: 6,
+        route: "Leuchthöhle",
+        members: [
+          { name: "eF-eM", nickname: "Schlüssel" },
+          { name: "Leufeo", nickname: "Löwe" },
+        ],
+      },
+    ],
+    graveyardPokemon: [
+      {
+        id: 7,
+        route: "Relievera City",
+        members: [
+          { name: "Dartignis", nickname: "Rotfink" },
+          { name: "Resladero", nickname: "Ringer" },
+        ],
+      },
+      {
+        id: 8,
+        route: "Spiegel-Höhle",
+        members: [
+          { name: "Eguana", nickname: "Solar" },
+          { name: "Algitt", nickname: "Tang" },
+        ],
+      },
+    ],
+    checkedLevelCaps: [0, 1], // Mark first two level caps as done
+    fossilEntries: [
+      // Serena Fossils
+      [
+        {
+          fossilId: "jaw-fossil",
+          location: "",
+          inBag: true,
+          revived: true,
+          pokemonName: "Balgoras",
+        },
+        {
+          fossilId: "old-amber",
+          location: "Petpokemon City",
+          inBag: false,
+          revived: false,
+        },
+      ],
+      // Kalem Fossils
+      [
+        {
+          fossilId: "sail-fossil",
+          location: "",
+          inBag: true,
+          revived: true,
+          pokemonName: "Amarino",
+        },
+        {
+          fossilId: "helix-fossil",
+          location: "",
+          inBag: true,
+          revived: false,
+        },
+      ],
+    ],
+  });
+
+  // Create Gen 2 Crystal tracker
+  const gen2Updates = await createTracker(userId, {
+    title: "Test Tracker - Gen 2 Kristall",
+    gameVersionId: "gen2_k",
+    playerNames: ["Gold", "Silber"],
+    teamPokemon: [
+      {
+        id: 1,
+        route: "Route 29",
+        members: [
+          { name: "Wiesor", nickname: "Scout" },
+          { name: "Feurigel", nickname: "Funke" },
+        ],
+      },
+      {
+        id: 2,
+        route: "Route 30",
+        members: [
+          { name: "Ledyba", nickname: "Käfer" },
+          { name: "Hoothoot", nickname: "Eule" },
+        ],
+      },
+      {
+        id: 3,
+        route: "Route 31",
+        members: [
+          { name: "Endivie", nickname: "Blatt" },
+          { name: "Karnimani", nickname: "Snapper" },
+        ],
+      },
+      {
+        id: 4,
+        route: "Finsterhöhle",
+        members: [
+          { name: "Zubat", nickname: "Fang" },
+          { name: "Geodude", nickname: "Brocken" },
+        ],
+      },
+    ],
+    boxPokemon: [
+      {
+        id: 5,
+        route: "Route 32",
+        members: [
+          { name: "Voltilamm", nickname: "Wolle" },
+          { name: "Quapsel", nickname: "Frosch" },
+        ],
+      },
+      {
+        id: 6,
+        route: "Einheitstunnel",
+        members: [
+          { name: "Onix", nickname: "Fels" },
+          { name: "Krabby", nickname: "Schere" },
+        ],
+      },
+    ],
+    graveyardPokemon: [
+      {
+        id: 7,
+        route: "Azalea City",
+        members: [
+          { name: "Webarak", nickname: "Spinner" },
+          { name: "Rattfratz", nickname: "Nager" },
+        ],
+      },
+    ],
+    checkedLevelCaps: [0, 1, 2, 3], // Mark first four level caps as done
+  });
+
   // Combine all updates
   const allUpdates: Record<string, any> = {
     ...gen5Updates,
     ...gen1Updates,
+    ...gen6Updates,
+    ...gen2Updates,
     [`users/${userId}`]: {
       uid: userId,
       createdAt: now,
@@ -372,7 +556,7 @@ async function createSampleTrackerData(userId: string): Promise<void> {
 
   await update(ref(db), allUpdates);
   console.log(
-    "Sample tracker data created successfully (Gen 5 and Gen 1 trackers)",
+    "Sample tracker data created successfully (Gen 5, Gen 1, Gen 2, and Gen 6 trackers)",
   );
 }
 

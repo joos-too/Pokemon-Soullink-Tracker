@@ -23,6 +23,8 @@ interface UserSettingsPageProps {
   onGenerationSpritesToggle: (enabled: boolean) => void;
   useSpritesInTeamTable?: boolean;
   onSpritesInTeamTableToggle: (enabled: boolean) => void;
+  useAnimatedSprites?: boolean;
+  onAnimatedSpritesToggle: (enabled: boolean) => void;
 }
 
 const UserSettingsPage: React.FC<UserSettingsPageProps> = ({
@@ -33,6 +35,8 @@ const UserSettingsPage: React.FC<UserSettingsPageProps> = ({
   onGenerationSpritesToggle,
   useSpritesInTeamTable,
   onSpritesInTeamTableToggle,
+  useAnimatedSprites,
+  onAnimatedSpritesToggle,
 }) => {
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [message, setMessage] = useState<string | null>(null);
@@ -223,6 +227,38 @@ const UserSettingsPage: React.FC<UserSettingsPageProps> = ({
                 checked={useSpritesInTeamTable ?? false}
                 onChange={onSpritesInTeamTableToggle}
                 ariaLabel={t("settings.features.spritesInTeamTable.title")}
+              />
+            </div>
+
+            <div className="flex items-center justify-between">
+              <div className="flex-1">
+                <div className="flex items-center gap-2">
+                  <div className="font-medium text-gray-800 dark:text-gray-200">
+                    {t("settings.features.animatedSprites.title")}
+                  </div>
+                  <Tooltip
+                    side="top"
+                    content={t("settings.features.animatedSprites.tooltip")}
+                  >
+                    <span
+                      className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-help"
+                      aria-label={t(
+                        "settings.features.animatedSprites.tooltipLabel",
+                      )}
+                    >
+                      <FiInfo size={16} />
+                    </span>
+                  </Tooltip>
+                </div>
+                <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                  {t("settings.features.animatedSprites.description")}
+                </div>
+              </div>
+              <ToggleSwitch
+                id="animated-sprites-toggle"
+                checked={useAnimatedSprites ?? false}
+                onChange={onAnimatedSpritesToggle}
+                ariaLabel={t("settings.features.animatedSprites.title")}
               />
             </div>
           </section>

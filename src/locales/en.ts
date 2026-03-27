@@ -485,6 +485,13 @@ export const en = {
           "Use sprites instead of official artwork everywhere in the app. Respects other sprite settings.",
         description: "Show sprites instead of artwork in all views.",
       },
+      animatedSprites: {
+        title: "Animated Sprites",
+        tooltipLabel: "Animated sprites info",
+        tooltip:
+          "Use animated sprites when available. Supported for Gen V (default sprites), Crystal (Gen II), X/Y and OR/AS (Gen VI).",
+        description: "Display animated sprites for supported game versions.",
+      },
       infiniteFossils: {
         title: "Infinite Fossils",
         tooltipLabel: "Infinite Fossils Info",
