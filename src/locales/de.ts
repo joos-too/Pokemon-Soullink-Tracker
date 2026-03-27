@@ -254,6 +254,9 @@ export const de = {
       updateLegendary: "Legendäre Begegnungen",
       rivalToggle: "Rivalenkämpfe / Arenen",
       itemsHeading: "Items",
+      itemsWidgetTooltip:
+        "Dieses Widget ist dazu gedacht um die außerhalb von Kämpfen verwendeten Items in den Top 4 zu tracken, da diese je nach Regelset auf z.B. 20 begrenzt sind. Alternativ kann es in Kämpfen genutzt werden, um die Anzahl der vom Gegner verwendeten Items zu tracken.",
+      itemsWidgetTooltipLabel: "Info zum Items-Widget",
       itemsIncrease: "Items erhöhen",
       itemsDecrease: "Items verringern",
       rulePlaceholder: "Regel {{index}}",

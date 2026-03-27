@@ -252,6 +252,9 @@ export const en = {
       updateLegendary: "Legendary encounters",
       rivalToggle: "Rivals / Gyms",
       itemsHeading: "Items",
+      itemsWidgetTooltip:
+        "This widget is intended to track items used during the Elite 4 outside of battles, as they may be limited to e.g. 20 depending on the ruleset. Alternatively, it can be used in battles to track the number of items used by your opponent.",
+      itemsWidgetTooltipLabel: "Info about the items widget",
       itemsIncrease: "Increase items",
       itemsDecrease: "Decrease items",
       rulePlaceholder: "Rule {{index}}",
