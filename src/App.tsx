@@ -10,6 +10,7 @@ import {
   FiMenu,
   FiMoon,
   FiRotateCw,
+  FiSearch,
   FiSliders,
   FiSun,
 } from "react-icons/fi";
@@ -56,6 +57,7 @@ import DarkModeToggle, {
 import HomePage from "@/src/components/HomePage";
 import CreateTrackerModal from "@/src/components/CreateTrackerModal";
 import DeleteTrackerModal from "@/src/components/DeleteTrackerModal";
+import TrackerSearchModal from "@/src/components/TrackerSearchModal";
 import { focusRingClasses } from "@/src/styles/focusRing";
 import {
   Navigate,
@@ -219,6 +221,7 @@ const App: React.FC = () => {
   const [pendingDeletePair, setPendingDeletePair] =
     useState<PokemonLink | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showSearchModal, setShowSearchModal] = useState(false);
   const [isDark, setIsDark] = useState(getDarkMode());
   const [authScreen, setAuthScreen] = useState<"login" | "register">("login");
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -2197,6 +2200,17 @@ const App: React.FC = () => {
         onClose={() => setShowResetModal(false)}
         onConfirm={handleConfirmReset}
       />
+      <TrackerSearchModal
+        isOpen={showSearchModal}
+        onClose={() => setShowSearchModal(false)}
+        playerNames={resolvedPlayerNames}
+        playerColors={playerColors}
+        team={data.team}
+        box={data.box}
+        graveyard={data.graveyard}
+        routes={clearedRoutes}
+        generationSpritePath={generationSpritePath}
+      />
       {readOnlyNotice && (
         <div className="max-w-[1920px] mx-auto mt-3 mb-3 bg-blue-50 border border-blue-200 text-blue-800 dark:bg-slate-800 dark:border-slate-700 dark:text-blue-100 rounded-md px-3 py-2 text-sm shadow-sm">
           {readOnlyNotice}
@@ -2216,6 +2230,14 @@ const App: React.FC = () => {
             {/* Desktop icons (>=xl) */}
             <div className="hidden xl:flex items-center gap-1 sm:gap-2">
               <DarkModeToggle />
+              <button
+                onClick={() => setShowSearchModal(true)}
+                className={`p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white ${focusRingClasses}`}
+                aria-label={t("tracker.search.open")}
+                title={t("tracker.search.open")}
+              >
+                <FiSearch size={28} />
+              </button>
               <button
                 onClick={handleNavigateHome}
                 className={`p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white ${focusRingClasses}`}
@@ -2301,6 +2323,16 @@ const App: React.FC = () => {
                 {isDark
                   ? t("tracker.menu.lightMode")
                   : t("tracker.menu.darkMode")}
+              </button>
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  setShowSearchModal(true);
+                }}
+                className={`w-full text-left px-2 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex items-center gap-2 ${focusRingClasses}`}
+                title={t("tracker.search.open")}
+              >
+                <FiSearch size={18} /> {t("tracker.search.open")}
               </button>
               <button
                 onClick={handleNavigateHome}

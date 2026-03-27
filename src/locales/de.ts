@@ -1,6 +1,7 @@
 export const de = {
   common: {
     appName: "Soullink Tracker",
+    search: "Suchen",
     loading: "Laden…",
     cancel: "Abbrechen",
     close: "Schließen",
@@ -12,7 +13,7 @@ export const de = {
     searchPlaceholder: "Suchen…",
     overview: "Zur Übersicht",
     unknownPlayers: "Unbekannte Spieler",
-    unknownRoute: "Unbekannte Route",
+    unknownRoute: "Unbekanntes Gebiet",
     nickname: "Spitzname",
     pokemonPlaceholder: "Pokémon",
     routePlaceholder: "z. B. Route 1",
@@ -194,6 +195,7 @@ export const de = {
       dialog: "Mobiles Menü",
       title: "Menü",
       close: "Menü schließen",
+      search: "Suchen",
       lightMode: "Lightmode",
       darkMode: "Darkmode",
       overview: "Übersicht",
@@ -206,7 +208,16 @@ export const de = {
     },
     routes: {
       title: "Abgegraste Gebiete",
-      empty: "Noch keine Routen eingetragen.",
+      empty: "Noch keine Gebiete eingetragen.",
+    },
+    search: {
+      title: "Tracker durchsuchen",
+      open: "Suche öffnen",
+      modePokemon: "Pokémon",
+      modeRoutes: "Gebiete",
+      fieldLabel: "Tracker durchsuchen",
+      emptyPokemon: "Noch keine Pokémon eingetragen.",
+      emptyRoutes: "Noch keine Gebiete eingetragen.",
     },
     infoPanel: {
       deathLabel: "Tode",

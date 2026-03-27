@@ -1,5 +1,6 @@
 import { GERMAN_POKEMON_NAMES } from "@/src/data/pokemon-de";
 import { ENGLISH_POKEMON_NAMES } from "@/src/data/pokemon-en";
+import { EVOLUTIONS_EN } from "@/src/data/pokemon-evolutions";
 import { ENGLISH_TO_ID, GERMAN_TO_ID } from "@/src/data/pokemon-map";
 import { SUPPORTED_LANGUAGES, SupportedLanguage } from "@/src/utils/language";
 
@@ -44,6 +45,24 @@ const ID_TO_NAME: Record<SupportedLanguage, Record<number, string>> = {
   }, {}),
 };
 
+const ALL_NAME_ENTRIES = SUPPORTED_LANGUAGES.reduce<PokemonNameEntry[]>(
+  (acc, locale) => acc.concat(NAME_LISTS[locale] || []),
+  [],
+);
+
+const EVOLUTION_GRAPH = Object.entries(EVOLUTIONS_EN).reduce<
+  Record<number, number[]>
+>((acc, [sourceId, evolutions]) => {
+  const numericSourceId = Number(sourceId);
+  evolutions.forEach(({ id }) => {
+    acc[numericSourceId] = [...(acc[numericSourceId] || []), id];
+    acc[id] = [...(acc[id] || []), numericSourceId];
+  });
+  return acc;
+}, {});
+
+const POKEMON_FAMILY_CACHE = new Map<number, Set<number>>();
+
 export interface PokemonNameMatch {
   id: number;
   language: SupportedLanguage;
@@ -77,6 +96,46 @@ export async function searchPokemonNames(
     )
     .slice(0, max)
     .map((entry) => entry.name);
+}
+
+function collectPokemonFamilyIds(id: number): Set<number> {
+  const cached = POKEMON_FAMILY_CACHE.get(id);
+  if (cached) return cached;
+
+  const visited = new Set<number>();
+  const queue = [id];
+
+  while (queue.length > 0) {
+    const currentId = queue.shift();
+    if (typeof currentId !== "number" || visited.has(currentId)) continue;
+    visited.add(currentId);
+    (EVOLUTION_GRAPH[currentId] || []).forEach((neighborId) => {
+      if (!visited.has(neighborId)) {
+        queue.push(neighborId);
+      }
+    });
+  }
+
+  POKEMON_FAMILY_CACHE.set(id, visited);
+  return visited;
+}
+
+export function getPokemonFamilyIdsMatchingQuery(
+  query: string,
+  options: SearchOptions = {},
+): Set<number> {
+  const q = query.trim().toLowerCase();
+  if (!q) return new Set<number>();
+
+  const { maxGeneration } = options;
+  return ALL_NAME_ENTRIES.reduce<Set<number>>((acc, entry) => {
+    if (!entry.lower.includes(q)) return acc;
+    if (typeof maxGeneration === "number" && entry.generation > maxGeneration) {
+      return acc;
+    }
+    collectPokemonFamilyIds(entry.id).forEach((familyId) => acc.add(familyId));
+    return acc;
+  }, new Set<number>());
 }
 
 export function findPokemonIdByName(
