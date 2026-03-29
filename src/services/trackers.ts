@@ -429,3 +429,19 @@ export const getUserSpritesInTeamTablePreference = async (
   const snapshot = await get(ref(db, userPath));
   return snapshot.exists() ? snapshot.val() : false;
 };
+
+export const updateUserWikiPreference = async (
+  userId: string,
+  wikiId: string,
+): Promise<void> => {
+  const userPath = `users/${userId}/wikiId`;
+  await set(ref(db, userPath), wikiId);
+};
+
+export const getUserWikiPreference = async (
+  userId: string,
+): Promise<string | null> => {
+  const userPath = `users/${userId}/wikiId`;
+  const snapshot = await get(ref(db, userPath));
+  return snapshot.exists() ? (snapshot.val() as string) : null;
+};

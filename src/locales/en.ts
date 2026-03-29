@@ -563,6 +563,13 @@ export const en = {
     sprites: {
       title: "Sprite Display",
     },
+    wiki: {
+      title: "Wiki-Provider",
+      description:
+        "Choose your preferred Pokémon-Wiki, when clicking on a Pokémon.",
+      languageDE: "GER",
+      languageEN: "EN",
+    },
   },
   auth: {
     login: {

@@ -7,6 +7,7 @@ import { focusRingClasses } from "@/src/styles/focusRing";
 import { FiEdit, FiTrash } from "react-icons/fi";
 import AddLostPokemonModal from "./AddLostPokemonModal";
 import EditPairModal from "./EditPairModal";
+import { getWikiUrl, type WikiId } from "@/src/data/wiki";
 
 interface GraveyardProps {
   graveyard?: PokemonLink[];
@@ -22,6 +23,7 @@ interface GraveyardProps {
   generationSpritePath?: string | null;
   pokemonGenerationLimit?: number;
   gameVersionId?: string;
+  wikiId?: WikiId | string | null;
 }
 
 const Graveyard: React.FC<GraveyardProps> = ({
@@ -35,6 +37,7 @@ const Graveyard: React.FC<GraveyardProps> = ({
   pokemonGenerationLimit,
   gameVersionId,
   readOnly = false,
+  wikiId,
 }) => {
   const { t } = useTranslation();
   const names = useMemo(() => {
@@ -184,6 +187,10 @@ const Graveyard: React.FC<GraveyardProps> = ({
                         member.name,
                         generationSpritePath,
                       );
+                      const wikiUrl =
+                        member.name && wikiId
+                          ? getWikiUrl(member.name, wikiId as WikiId)
+                          : null;
                       return (
                         <div
                           key={`${pair.id}-player-${index}`}
@@ -203,12 +210,24 @@ const Graveyard: React.FC<GraveyardProps> = ({
                                 className="font-bold"
                                 style={{ color: colorForIndex(index) }}
                               >
-                                {t("graveyard.memberTitle", {
-                                  name,
-                                  pokemon:
-                                    member.name ||
-                                    t("graveyard.unknownPokemon"),
-                                })}
+                                {name}
+                                {"'s "}
+                                {member.name ? (
+                                  wikiUrl ? (
+                                    <a
+                                      href={wikiUrl}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="hover:underline"
+                                    >
+                                      {member.name}
+                                    </a>
+                                  ) : (
+                                    member.name
+                                  )
+                                ) : (
+                                  t("graveyard.unknownPokemon")
+                                )}
                               </p>
                               <p className="text-gray-700 dark:text-gray-400">
                                 {t("graveyard.nicknameLabel", {

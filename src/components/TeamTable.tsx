@@ -19,6 +19,7 @@ import { getPokemonTypeSlugsForName } from "@/src/services/pokemonTypes";
 import TypeBadge from "@/src/components/TypeBadge";
 import { useTranslation } from "react-i18next";
 import { focusRingClasses } from "@/src/styles/focusRing";
+import { getWikiUrl, type WikiId } from "@/src/data/wiki";
 
 interface TeamTableProps {
   title: string;
@@ -47,6 +48,7 @@ interface TeamTableProps {
   readOnly?: boolean;
   generationSpritePath?: string | null;
   useSpritesInTeamTable?: boolean;
+  wikiId?: WikiId | string | null;
 }
 
 const TeamTable: React.FC<TeamTableProps> = ({
@@ -71,6 +73,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
   readOnly = false,
   generationSpritePath,
   useSpritesInTeamTable = false,
+  wikiId,
 }) => {
   const { t } = useTranslation();
   const [editIndex, setEditIndex] = useState<number | null>(null);
@@ -229,6 +232,10 @@ const TeamTable: React.FC<TeamTableProps> = ({
                         )
                       : getOfficialArtworkUrlForPokemonName(member.name)
                     : null;
+                  const wikiUrl =
+                    member.name && wikiId
+                      ? getWikiUrl(member.name, wikiId as WikiId)
+                      : null;
                   return (
                     <React.Fragment
                       key={`player-cell-${pair.id}-${playerIndex}`}
@@ -250,7 +257,22 @@ const TeamTable: React.FC<TeamTableProps> = ({
                         )}
                       </td>
                       <td className="p-2 text-sm text-gray-800 dark:text-gray-300 text-center whitespace-nowrap">
-                        {member.name || "-"}
+                        {member.name ? (
+                          wikiUrl ? (
+                            <a
+                              href={wikiUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="hover:underline"
+                            >
+                              {member.name}
+                            </a>
+                          ) : (
+                            member.name
+                          )
+                        ) : (
+                          "-"
+                        )}
                         {member.name &&
                           (() => {
                             const typeSlugs = getPokemonTypeSlugsForName(
