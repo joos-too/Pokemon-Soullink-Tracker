@@ -616,7 +616,7 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
       { id: 10, arena: "Top 4 | Astor", level: "50/48" },
       { id: 11, arena: "Top 4 | Kattlea", level: "50/48" },
       { id: 12, arena: "Top 4 | Eugen", level: "50/48" },
-      { id: 13, arena: "Champ | Lauro", level: "52/50" },
+      { id: 13, arena: "Champ | N", level: "52/50" },
     ],
     rivalCaps: [
       { id: 1, location: "Gavina", rival: "N", level: "7" },

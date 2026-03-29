@@ -976,7 +976,7 @@ export const en = {
         10: { arena: "Elite 4 | Grimsley" },
         11: { arena: "Elite 4 | Caitlin" },
         12: { arena: "Elite 4 | Marshal" },
-        13: { arena: "Champion | Alder" },
+        13: { arena: "Champion | N" },
       },
       rivalCaps: {
         1: { location: "Accumula Town", rival: "N" },
