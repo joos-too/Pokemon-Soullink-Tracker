@@ -79,11 +79,13 @@ import {
   ensureUserProfile,
   getUserGenerationSpritePreference,
   getUserSpritesInTeamTablePreference,
+  getUserWikiPreference,
   removeMemberFromTracker,
   TrackerOperationError,
   updateRivalPreference,
   updateUserGenerationSpritePreference,
   updateUserSpritesInTeamTablePreference,
+  updateUserWikiPreference,
 } from "@/src/services/trackers";
 import { GAME_VERSIONS } from "@/src/data/game-versions";
 import {
@@ -100,6 +102,7 @@ import {
 } from "@/src/services/rulesets";
 import RulesetEditorPage from "@/src/components/RulesetEditorPage";
 import { useTranslation } from "react-i18next";
+import { DEFAULT_WIKI_DE, DEFAULT_WIKI_EN, type WikiId } from "@/src/data/wiki";
 import "@/src/pokeapi"; // initialize Pokedex once so sprite caching SW gets registered
 
 const LAST_TRACKER_STORAGE_KEY = "soullink:lastTrackerId";
@@ -197,6 +200,7 @@ const App: React.FC = () => {
     useState(false);
   const [userUseSpritesInTeamTable, setUserUseSpritesInTeamTable] =
     useState(false);
+  const [userWikiId, setUserWikiId] = useState<string | null>(null);
   const showSettings = searchParams.get("panel") === "settings";
   const openSettingsPanel = useCallback(() => {
     const next = new URLSearchParams(searchParams);
@@ -356,6 +360,27 @@ const App: React.FC = () => {
     },
     [user],
   );
+
+  const handleWikiChange = useCallback(
+    async (id: WikiId) => {
+      if (!user) return;
+      try {
+        await updateUserWikiPreference(user.uid, id);
+        setUserWikiId(id);
+      } catch (error) {
+        console.error("Failed to update wiki preference:", error);
+      }
+    },
+    [user],
+  );
+
+  const effectiveWikiId: WikiId =
+    (userWikiId as WikiId | null) ??
+    ((i18n.resolvedLanguage || i18n.language || "")
+      .toLowerCase()
+      .startsWith("de")
+      ? DEFAULT_WIKI_DE
+      : DEFAULT_WIKI_EN);
 
   const coerceAppState = useCallback(
     (incoming: any, base: AppState): AppState => {
@@ -572,14 +597,17 @@ const App: React.FC = () => {
     Promise.all([
       getUserGenerationSpritePreference(user.uid),
       getUserSpritesInTeamTablePreference(user.uid),
+      getUserWikiPreference(user.uid),
     ])
-      .then(([genSprites, teamTableSprites]) => {
+      .then(([genSprites, teamTableSprites, wikiId]) => {
         setUserUseGenerationSprites(genSprites);
         setUserUseSpritesInTeamTable(teamTableSprites);
+        setUserWikiId(wikiId);
       })
       .catch(() => {
         setUserUseGenerationSprites(false);
         setUserUseSpritesInTeamTable(false);
+        setUserWikiId(null);
       });
   }, [user]);
 
@@ -2398,6 +2426,7 @@ const App: React.FC = () => {
               readOnly={isReadOnly}
               generationSpritePath={generationSpritePath}
               useSpritesInTeamTable={userUseSpritesInTeamTable}
+              wikiId={effectiveWikiId}
             />
             <TeamTable
               title={t("team.boxTitle")}
@@ -2428,6 +2457,7 @@ const App: React.FC = () => {
               readOnly={isReadOnly}
               generationSpritePath={generationSpritePath}
               useSpritesInTeamTable={userUseSpritesInTeamTable}
+              wikiId={effectiveWikiId}
             />
           </div>
 
@@ -2481,6 +2511,7 @@ const App: React.FC = () => {
               generationSpritePath={generationSpritePath}
               pokemonGenerationLimit={pokemonGenerationLimit}
               gameVersionId={activeGameVersionId || undefined}
+              wikiId={effectiveWikiId}
             />
             <ClearedRoutes routes={clearedRoutes} />
           </div>
@@ -2620,6 +2651,8 @@ const App: React.FC = () => {
                 onGenerationSpritesToggle={handleGenerationSpritesToggle}
                 useSpritesInTeamTable={userUseSpritesInTeamTable}
                 onSpritesInTeamTableToggle={handleSpritesInTeamTableToggle}
+                wikiId={userWikiId ?? effectiveWikiId}
+                onWikiChange={handleWikiChange}
               />
             ) : (
               <Navigate to="/" replace />

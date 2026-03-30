@@ -3,6 +3,7 @@ import {
   FiAlertTriangle,
   FiArrowLeft,
   FiCheckCircle,
+  FiExternalLink,
   FiInfo,
   FiLogOut,
   FiMail,
@@ -14,6 +15,7 @@ import ToggleSwitch from "@/src/components/ToggleSwitch";
 import { useTranslation } from "react-i18next";
 import LanguageToggle from "./LanguageToggle";
 import Tooltip from "./Tooltip";
+import { WIKIS, type WikiId } from "@/src/data/wiki";
 
 interface UserSettingsPageProps {
   email?: string | null;
@@ -23,6 +25,8 @@ interface UserSettingsPageProps {
   onGenerationSpritesToggle: (enabled: boolean) => void;
   useSpritesInTeamTable?: boolean;
   onSpritesInTeamTableToggle: (enabled: boolean) => void;
+  wikiId?: string | null;
+  onWikiChange: (id: WikiId) => void;
 }
 
 const UserSettingsPage: React.FC<UserSettingsPageProps> = ({
@@ -33,6 +37,8 @@ const UserSettingsPage: React.FC<UserSettingsPageProps> = ({
   onGenerationSpritesToggle,
   useSpritesInTeamTable,
   onSpritesInTeamTableToggle,
+  wikiId,
+  onWikiChange,
 }) => {
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [message, setMessage] = useState<string | null>(null);
@@ -224,6 +230,51 @@ const UserSettingsPage: React.FC<UserSettingsPageProps> = ({
                 onChange={onSpritesInTeamTableToggle}
                 ariaLabel={t("settings.features.spritesInTeamTable.title")}
               />
+            </div>
+          </section>
+
+          <section className="pt-6 border-t border-gray-200 dark:border-gray-700 mt-6 space-y-4">
+            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-gray-500">
+              {t("userSettings.wiki.title")}
+            </p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              {t("userSettings.wiki.description")}
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {WIKIS.map((wiki) => {
+                const isActive = wikiId === wiki.id;
+                return (
+                  <button
+                    key={wiki.id}
+                    type="button"
+                    onClick={() => onWikiChange(wiki.id)}
+                    className={`flex-1 min-w-[140px] flex flex-col items-center gap-2 p-3 rounded-lg border-2 transition-all shadow-sm outline-none ${
+                      isActive
+                        ? "border-green-500 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300"
+                        : "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600 hover:shadow-md"
+                    }`}
+                  >
+                    <span className="font-bold flex items-center gap-1.5">
+                      {wiki.name}
+                      <a
+                        href={wiki.baseUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="opacity-60 hover:opacity-100"
+                        tabIndex={-1}
+                      >
+                        <FiExternalLink size={13} />
+                      </a>
+                    </span>
+                    <span className="text-xs uppercase tracking-wider opacity-70">
+                      {wiki.language === "de"
+                        ? t("userSettings.wiki.languageDE")
+                        : t("userSettings.wiki.languageEN")}
+                    </span>
+                  </button>
+                );
+              })}
             </div>
           </section>
 

@@ -570,6 +570,13 @@ export const de = {
     sprites: {
       title: "Sprite-Anzeige",
     },
+    wiki: {
+      title: "Wiki-Anbieter",
+      description:
+        "Wähle dein bevorzugtes Pokémon-Wiki beim Anklicken eines Pokémon.",
+      languageDE: "DE",
+      languageEN: "EN",
+    },
   },
   auth: {
     login: {
