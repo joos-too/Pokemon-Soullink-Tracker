@@ -55,6 +55,13 @@ export interface FossilEntry {
   pokemonName?: string;
 }
 
+export interface StoneEntry {
+  stoneId: string;
+  location: string;
+  inBag: boolean;
+  used: boolean;
+}
+
 export interface Stats {
   runs: number;
   best: number;
@@ -79,6 +86,7 @@ export interface AppState {
   hardcoreModeEnabled?: boolean;
   infiniteFossilsEnabled?: boolean;
   fossils?: FossilEntry[][];
+  stones?: StoneEntry[][];
   runStartedAt?: number;
 }
 
