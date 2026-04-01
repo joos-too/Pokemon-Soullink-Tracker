@@ -225,6 +225,11 @@ export const LOCATION_SUGGESTIONS: Record<
       region: "unova",
     },
     {
+      name: "Dernier-Weg",
+      slug: "derniere-way",
+      region: "kalos",
+    },
+    {
       name: "Détourné-Weg",
       slug: "detourner-way",
       region: "kalos",
@@ -1135,6 +1140,11 @@ export const LOCATION_SUGGESTIONS: Record<
       region: "hoenn",
     },
     {
+      name: "Mirage Island",
+      slug: "mirage-island",
+      region: "hoenn",
+    },
+    {
       name: "Miroir-Weg",
       slug: "miroir-way",
       region: "kalos",
@@ -1502,6 +1512,11 @@ export const LOCATION_SUGGESTIONS: Record<
     {
       name: "Rihorn-Pass",
       slug: "spikes-passage",
+      region: "kalos",
+    },
+    {
+      name: "Rivière-Promenade",
+      slug: "riviere-walk",
       region: "kalos",
     },
     {
@@ -3006,7 +3021,7 @@ export const LOCATION_SUGGESTIONS: Record<
     },
     {
       name: "Wunderberg",
-      slug: "mirage-mountain",
+      slug: "mirage-spot-mountain",
       region: "hoenn",
     },
     {
@@ -3016,12 +3031,12 @@ export const LOCATION_SUGGESTIONS: Record<
     },
     {
       name: "Wundereiland",
-      slug: "mirage-island",
+      slug: "mirage-spot-island",
       region: "hoenn",
     },
     {
       name: "Wunderhöhle",
-      slug: "mirage-cave",
+      slug: "mirage-spot-cave",
       region: "hoenn",
     },
     {
@@ -3031,7 +3046,7 @@ export const LOCATION_SUGGESTIONS: Record<
     },
     {
       name: "Wunderwald",
-      slug: "mirage-forest",
+      slug: "mirage-spot-forest",
       region: "hoenn",
     },
     {
@@ -3539,6 +3554,11 @@ export const LOCATION_SUGGESTIONS: Record<
     {
       name: "Dendemille Town",
       slug: "dendemille-town",
+      region: "kalos",
+    },
+    {
+      name: "Dernière Way",
+      slug: "derniere-way",
       region: "kalos",
     },
     {
@@ -4198,12 +4218,17 @@ export const LOCATION_SUGGESTIONS: Record<
     },
     {
       name: "Mirage Cave",
-      slug: "mirage-cave",
+      slug: "mirage-spot-cave",
       region: "hoenn",
     },
     {
       name: "Mirage Forest",
-      slug: "mirage-forest",
+      slug: "mirage-spot-forest",
+      region: "hoenn",
+    },
+    {
+      name: "Mirage Island",
+      slug: "mirage-spot-island",
       region: "hoenn",
     },
     {
@@ -4213,7 +4238,7 @@ export const LOCATION_SUGGESTIONS: Record<
     },
     {
       name: "Mirage Mountain",
-      slug: "mirage-mountain",
+      slug: "mirage-spot-mountain",
       region: "hoenn",
     },
     {
@@ -4650,6 +4675,11 @@ export const LOCATION_SUGGESTIONS: Record<
       name: "Reversal Mountain",
       slug: "reversal-mountain",
       region: "unova",
+    },
+    {
+      name: "Rivière Walk",
+      slug: "riviere-walk",
+      region: "kalos",
     },
     {
       name: "Rixy Chamber",
@@ -5682,6 +5712,11 @@ export const LOCATION_SUGGESTIONS: Record<
       region: "johto",
     },
     {
+      name: "Sinnoh Pokemart",
+      slug: "sinnoh-pokemart",
+      region: "sinnoh",
+    },
+    {
       name: "Six Island",
       slug: "six-island",
       region: "kanto",
@@ -5977,7 +6012,7 @@ export const LOCATION_SUGGESTIONS: Record<
       region: "johto",
     },
     {
-      name: "Unova (Romaing)",
+      name: "Unova (Roaming)",
       slug: "roaming-unova",
       region: "unova",
     },

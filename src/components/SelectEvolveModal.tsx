@@ -559,7 +559,10 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
                           <div className="text-sm">
                             <div className="flex items-center gap-1.5 flex-wrap">
                               <span>{ev.name}</span>
-                              {getPokemonTypeSlugsById(ev.id).map((slug) => (
+                              {getPokemonTypeSlugsById(
+                                ev.id,
+                                maxGeneration,
+                              ).map((slug) => (
                                 <TypeBadge key={slug} typeSlug={slug} />
                               ))}
                             </div>
