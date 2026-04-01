@@ -5712,11 +5712,6 @@ export const LOCATION_SUGGESTIONS: Record<
       region: "johto",
     },
     {
-      name: "Sinnoh Pokemart",
-      slug: "sinnoh-pokemart",
-      region: "sinnoh",
-    },
-    {
       name: "Six Island",
       slug: "six-island",
       region: "kanto",
