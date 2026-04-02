@@ -277,6 +277,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                           (() => {
                             const typeSlugs = getPokemonTypeSlugsForName(
                               member.name,
+                              pokemonGenerationLimit,
                             );
                             return typeSlugs.length > 0 ? (
                               <div className="flex items-center justify-center gap-0.5 mt-1">
