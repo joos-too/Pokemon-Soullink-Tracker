@@ -20,7 +20,7 @@ import {
   focusRingTightClasses,
 } from "@/src/styles/focusRing";
 
-interface FossilTrackerProps {
+interface ItemTrackerProps {
   playerNames: string[];
   fossils: FossilEntry[][];
   stones: StoneEntry[][];
@@ -48,7 +48,7 @@ interface FossilTrackerProps {
   gameVersionId?: string;
 }
 
-const FossilTracker: React.FC<FossilTrackerProps> = ({
+const ItemTracker: React.FC<ItemTrackerProps> = ({
   playerNames,
   fossils,
   stones,
@@ -198,7 +198,7 @@ const FossilTracker: React.FC<FossilTrackerProps> = ({
           <button
             onClick={startStoneEditing}
             className={`absolute right-10 top-1/2 -translate-y-1/2 p-1 rounded-full text-white/70 hover:text-white hover:bg-black/20 ring-2 ring-white/25 ${focusRingTightClasses}`}
-            title={t("tracker.infoPanel.editStones")}
+            title={t("tracker.infoPanel.editItems")}
           >
             <FiEdit size={14} />
           </button>
@@ -522,7 +522,7 @@ const FossilTracker: React.FC<FossilTrackerProps> = ({
             }}
           >
             {showStones
-              ? t("tracker.infoPanel.stoneTracker")
+              ? t("tracker.infoPanel.itemTracker")
               : t("tracker.infoPanel.fossilTracker")}
           </h2>
           {showStones
@@ -534,7 +534,7 @@ const FossilTracker: React.FC<FossilTrackerProps> = ({
             title={
               showStones
                 ? t("tracker.infoPanel.flipToFossils")
-                : t("tracker.infoPanel.flipToStones")
+                : t("tracker.infoPanel.flipToItems")
             }
           >
             <FiRefreshCw
@@ -619,4 +619,4 @@ const FossilTracker: React.FC<FossilTrackerProps> = ({
   );
 };
 
-export default FossilTracker;
+export default ItemTracker;

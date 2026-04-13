@@ -40,7 +40,7 @@ import Graveyard from "@/src/components/Graveyard";
 import ClearedRoutes from "@/src/components/ClearedRoutes";
 import AddLostPokemonModal from "@/src/components/AddLostPokemonModal";
 import RulesetSaveModal from "@/src/components/RulesetSaveModal";
-import FossilTracker from "@/src/components/FossilTracker";
+import ItemTracker from "@/src/components/ItemTracker";
 import { getGenerationSpritePath } from "@/src/services/sprites";
 import SelectLossModal from "@/src/components/SelectLossModal";
 import DeleteLinkModal from "@/src/components/DeleteLinkModal";
@@ -2559,7 +2559,7 @@ const App: React.FC = () => {
               generationSpritePath={generationSpritePath}
               pokemonGenerationLimit={pokemonGenerationLimit}
             />
-            <FossilTracker
+            <ItemTracker
               playerNames={resolvedPlayerNames}
               fossils={data.fossils || resolvedPlayerNames.map(() => [])}
               stones={data.stones || resolvedPlayerNames.map(() => [])}
