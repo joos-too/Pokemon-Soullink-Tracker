@@ -805,7 +805,7 @@ export const en = {
         smaragd: "Emerald",
       },
       badge: {
-        s: "E",
+        sm: "EM",
       },
       levelCaps: {
         1: { arena: "1. Gym" },
