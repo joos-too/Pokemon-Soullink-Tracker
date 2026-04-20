@@ -1,7 +1,11 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { GAME_VERSIONS } from "@/src/data/game-versions";
-import { getLocalizedGameName } from "@/src/services/gameLocalization";
+import {
+  getLocalizedGameName,
+  getLocalizedBadgeLabel,
+} from "@/src/services/gameLocalization";
+import { GameVersionBadgeSegment } from "@/types.ts";
 
 interface GameVersionBadgeProps {
   gameVersionId: string;
@@ -15,8 +19,13 @@ const GameVersionBadge: React.FC<GameVersionBadgeProps> = ({
   if (!version?.badge) {
     return null;
   }
-
   const { segments } = version.badge;
+  const localizedSegments: GameVersionBadgeSegment[] = segments.map(
+    (segment) => {
+      segment.text = getLocalizedBadgeLabel(t, version?.id, segment.text);
+      return segment;
+    },
+  );
   const localizedName = getLocalizedGameName(
     t,
     version?.id,
@@ -33,7 +42,7 @@ const GameVersionBadge: React.FC<GameVersionBadgeProps> = ({
       }}
       title={localizedName}
     >
-      {segments.map((segment, index) => (
+      {localizedSegments.map((segment, index) => (
         <span
           key={index}
           className={`flex items-center justify-center px-1`}
