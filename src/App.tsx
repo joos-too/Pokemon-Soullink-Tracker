@@ -18,6 +18,7 @@ import { FaGithub } from "react-icons/fa";
 import type {
   AppState,
   FossilEntry,
+  StoneEntry,
   LevelCap,
   Pokemon,
   PokemonLink,
@@ -39,7 +40,7 @@ import Graveyard from "@/src/components/Graveyard";
 import ClearedRoutes from "@/src/components/ClearedRoutes";
 import AddLostPokemonModal from "@/src/components/AddLostPokemonModal";
 import RulesetSaveModal from "@/src/components/RulesetSaveModal";
-import FossilTracker from "@/src/components/FossilTracker";
+import ItemTracker from "@/src/components/ItemTracker";
 import { getGenerationSpritePath } from "@/src/services/sprites";
 import SelectLossModal from "@/src/components/SelectLossModal";
 import DeleteLinkModal from "@/src/components/DeleteLinkModal";
@@ -490,6 +491,19 @@ const App: React.FC = () => {
         });
       };
 
+      const sanitizeStones = (playerStones: any): StoneEntry[][] => {
+        return normalizedNames.map((_, i) => {
+          const list = Array.isArray(playerStones) ? playerStones[i] : null;
+          if (!Array.isArray(list)) return [];
+          return list.map((s: any) => ({
+            stoneId: s.stoneId || "",
+            location: s.location || "",
+            inBag: !!s.inBag,
+            used: !!s.used,
+          }));
+        });
+      };
+
       const resolvedRulesetId =
         typeof safe.rulesetId === "string" && safe.rulesetId.trim().length > 0
           ? safe.rulesetId
@@ -528,6 +542,7 @@ const App: React.FC = () => {
         infiniteFossilsEnabled:
           safe.infiniteFossilsEnabled ?? base.infiniteFossilsEnabled ?? false,
         fossils: sanitizeFossils(safe.fossils),
+        stones: sanitizeStones(safe.stones),
         runStartedAt:
           typeof safe.runStartedAt === "number"
             ? safe.runStartedAt
@@ -1628,6 +1643,62 @@ const App: React.FC = () => {
     [isReadOnly],
   );
 
+  const handleAddStone = (
+    pIdx: number,
+    stoneId: string,
+    location: string,
+    inBag: boolean,
+  ) => {
+    if (isReadOnly) return;
+    setData((prev) => {
+      const newStones = [...(prev.stones || prev.playerNames.map(() => []))];
+      const playerList = Array.isArray(newStones[pIdx])
+        ? [...newStones[pIdx]]
+        : [];
+      newStones[pIdx] = [
+        ...playerList,
+        { stoneId, location, inBag, used: false },
+      ];
+      return { ...prev, stones: newStones };
+    });
+  };
+
+  const handleToggleStoneBag = (pIdx: number, sIdx: number) => {
+    if (isReadOnly) return;
+    setData((prev) => {
+      const newStones = [...(prev.stones || [])];
+      if (!newStones[pIdx]) return prev;
+      newStones[pIdx] = newStones[pIdx].map((s, i) =>
+        i === sIdx ? { ...s, inBag: true, location: "" } : s,
+      );
+      return { ...prev, stones: newStones };
+    });
+  };
+
+  const handleUseStone = (pIdx: number, sIdx: number) => {
+    if (isReadOnly || !data.stones) return;
+    setData((prev) => {
+      const newStones = [...(prev.stones || [])];
+      if (newStones[pIdx] && newStones[pIdx][sIdx]) {
+        newStones[pIdx] = newStones[pIdx].map((s, i) =>
+          i === sIdx ? { ...s, used: true } : s,
+        );
+      }
+      return { ...prev, stones: newStones };
+    });
+  };
+
+  const handleUpdateStoneList = useCallback(
+    (newStones: StoneEntry[][]) => {
+      if (isReadOnly) return;
+      setData((prev) => ({
+        ...prev,
+        stones: newStones,
+      }));
+    },
+    [isReadOnly],
+  );
+
   const applyRulesetChange = useCallback(
     (rulesetId: string) => {
       if (isReadOnly) return;
@@ -2488,15 +2559,20 @@ const App: React.FC = () => {
               generationSpritePath={generationSpritePath}
               pokemonGenerationLimit={pokemonGenerationLimit}
             />
-            <FossilTracker
+            <ItemTracker
               playerNames={resolvedPlayerNames}
               fossils={data.fossils || resolvedPlayerNames.map(() => [])}
+              stones={data.stones || resolvedPlayerNames.map(() => [])}
               maxGeneration={pokemonGenerationLimit}
               infiniteFossilsEnabled={data.infiniteFossilsEnabled ?? false}
               onAddFossil={handleAddFossil}
               onToggleBag={handleToggleFossilBag}
               onRevive={handleReviveFossils}
               onUpdateFossils={handleUpdateFossilList}
+              onAddStone={handleAddStone}
+              onToggleStoneBag={handleToggleStoneBag}
+              onUseStone={handleUseStone}
+              onUpdateStones={handleUpdateStoneList}
               readOnly={isReadOnly}
               gameVersionId={activeGameVersionId || undefined}
             />
