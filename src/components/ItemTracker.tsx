@@ -225,9 +225,9 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
   // --- Render fossil content ---
   const renderFossilContent = () => (
     <div className="flex flex-col max-h-[350px]">
-      <div className="p-4 flex-1 min-h-0 overflow-y-auto custom-scrollbar">
+      <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar">
         <div
-          className="grid gap-4 grid-cols-1"
+          className="grid gap-4 grid-cols-1 px-4 pb-4"
           style={{
             gridTemplateColumns:
               playerNames.length > 1
@@ -237,28 +237,35 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
         >
           {playerNames.map((name, pIdx) => (
             <div key={`fossil-player-${pIdx}`} className="space-y-2">
-              <div className="flex items-center justify-between px-1">
-                <span
-                  className="text-xs font-bold truncate mr-2"
-                  style={{ color: PLAYER_COLORS[pIdx] }}
-                >
-                  {name}
-                </span>
-                {!readOnly && (
-                  <button
-                    onClick={() =>
-                      setFossilModalOpen({ open: true, playerIndex: pIdx })
-                    }
-                    disabled={isFossilEditing}
-                    className={`p-1 rounded text-white transition-colors shrink-0 ${
-                      isFossilEditing
-                        ? "bg-gray-400 cursor-not-allowed"
-                        : "bg-green-600 hover:bg-green-700"
-                    } ${focusRingClasses}`}
+              <div className="sticky top-0 z-10 pt-4 pb-1 bg-white dark:bg-gray-800">
+                <div className="flex items-center justify-between px-2.5 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">
+                  <span
+                    className="text-xs font-press-start truncate mr-2"
+                    style={{ color: PLAYER_COLORS[pIdx] }}
                   >
-                    <FiPlus size={14} />
-                  </button>
-                )}
+                    {name}
+                  </span>
+                  {!readOnly && (
+                    <button
+                      onClick={() =>
+                        setFossilModalOpen({ open: true, playerIndex: pIdx })
+                      }
+                      disabled={isFossilEditing}
+                      className={`p-1 rounded-md text-white transition-all shrink-0 shadow-sm ${
+                        isFossilEditing
+                          ? "bg-gray-400 cursor-not-allowed opacity-50"
+                          : "hover:scale-110 hover:shadow-md"
+                      } ${focusRingClasses}`}
+                      style={
+                        !isFossilEditing
+                          ? { backgroundColor: PLAYER_COLORS[pIdx] }
+                          : undefined
+                      }
+                    >
+                      <FiPlus size={14} />
+                    </button>
+                  )}
+                </div>
               </div>
 
               <div className="space-y-1 px-1">
@@ -362,7 +369,7 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
       </div>
 
       {!readOnly && (
-        <div className="p-4 pt-2 border-t border-gray-200 dark:border-gray-700">
+        <div className="px-4 py-2 border-t border-gray-200 dark:border-gray-700 shrink-0">
           <button
             onClick={handleReviveClick}
             disabled={!canRevive}
@@ -381,128 +388,137 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
 
   // --- Render stone content ---
   const renderStoneContent = () => (
-    <div className="p-4 space-y-4 max-h-[350px] overflow-y-auto custom-scrollbar">
-      <div
-        className="grid gap-4 grid-cols-1"
-        style={{
-          gridTemplateColumns:
-            playerNames.length > 1
-              ? `repeat(${playerNames.length}, minmax(0, 1fr))`
-              : undefined,
-        }}
-      >
-        {playerNames.map((name, pIdx) => (
-          <div key={`stone-player-${pIdx}`} className="space-y-2">
-            <div className="flex items-center justify-between px-1">
-              <span
-                className="text-xs font-bold truncate mr-2"
-                style={{ color: PLAYER_COLORS[pIdx] }}
-              >
-                {name}
-              </span>
-              {!readOnly && (
-                <button
-                  onClick={() =>
-                    setStoneModalOpen({ open: true, playerIndex: pIdx })
-                  }
-                  disabled={isStoneEditing}
-                  className={`p-1 rounded text-white transition-colors shrink-0 ${
-                    isStoneEditing
-                      ? "bg-gray-400 cursor-not-allowed"
-                      : "bg-green-600 hover:bg-green-700"
-                  } ${focusRingClasses}`}
-                >
-                  <FiPlus size={14} />
-                </button>
-              )}
-            </div>
-
-            <div className="space-y-1 px-1">
-              {displayStones[pIdx]?.map((entry, sIdx) => {
-                const def = STONES.find((s) => s.id === entry.stoneId);
-
-                return (
-                  <div
-                    key={`${pIdx}-${entry.stoneId}-${sIdx}`}
-                    className={`flex items-center gap-2 p-1.5 rounded border text-[10px] transition-all ${
-                      entry.used
-                        ? "border-red-300 bg-red-50 dark:border-red-900/50 dark:bg-red-900/20 text-red-700 dark:text-red-400"
-                        : !entry.inBag && !isStoneEditing
-                          ? "border-gray-200 dark:border-gray-700 opacity-60"
-                          : "border-gray-200 dark:border-gray-700 dark:text-gray-300"
-                    }`}
+    <div className="flex flex-col max-h-[350px]">
+      <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar">
+        <div
+          className="grid gap-4 grid-cols-1 px-4 pb-4"
+          style={{
+            gridTemplateColumns:
+              playerNames.length > 1
+                ? `repeat(${playerNames.length}, minmax(0, 1fr))`
+                : undefined,
+          }}
+        >
+          {playerNames.map((name, pIdx) => (
+            <div key={`stone-player-${pIdx}`} className="space-y-2">
+              <div className="sticky top-0 z-10 pt-4 pb-1 bg-white dark:bg-gray-800">
+                <div className="flex items-center justify-between px-2.5 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">
+                  <span
+                    className="text-xs font-press-start truncate mr-2"
+                    style={{ color: PLAYER_COLORS[pIdx] }}
                   >
-                    <img
-                      src={`/stone-sprites/${def?.sprite}`}
-                      alt=""
-                      className={`w-6 h-6 object-contain ${entry.used ? "grayscale-[0.5]" : ""}`}
-                    />
-                    <div className="flex-1 min-w-0">
-                      <div className="font-bold truncate">
-                        {t(`stones.${entry.stoneId}`)}
-                      </div>
-                      <div className="opacity-70 truncate">
-                        {entry.used
-                          ? t("tracker.infoPanel.stoneUsed")
-                          : entry.inBag
-                            ? t("tracker.infoPanel.stoneBag")
-                            : t("tracker.infoPanel.stoneLocation", {
-                                location: entry.location,
-                              })}
-                      </div>
-                    </div>
+                    {name}
+                  </span>
+                  {!readOnly && (
+                    <button
+                      onClick={() =>
+                        setStoneModalOpen({ open: true, playerIndex: pIdx })
+                      }
+                      disabled={isStoneEditing}
+                      className={`p-1 rounded-md text-white transition-all shrink-0 shadow-sm ${
+                        isStoneEditing
+                          ? "bg-gray-400 cursor-not-allowed opacity-50"
+                          : "hover:scale-110 hover:shadow-md"
+                      } ${focusRingClasses}`}
+                      style={
+                        !isStoneEditing
+                          ? { backgroundColor: PLAYER_COLORS[pIdx] }
+                          : undefined
+                      }
+                    >
+                      <FiPlus size={14} />
+                    </button>
+                  )}
+                </div>
+              </div>
 
-                    {isStoneEditing && (
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          deleteStone(pIdx, sIdx);
-                        }}
-                        className={`p-1 rounded bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300 hover:bg-red-200 shrink-0 ${focusRingRedClasses}`}
-                      >
-                        <FiX size={12} />
-                      </button>
-                    )}
+              <div className="space-y-1 px-1">
+                {displayStones[pIdx]?.map((entry, sIdx) => {
+                  const def = STONES.find((s) => s.id === entry.stoneId);
 
-                    {/* Move to bag button */}
-                    {!isStoneEditing &&
-                      !entry.inBag &&
-                      !entry.used &&
-                      !readOnly && (
+                  return (
+                    <div
+                      key={`${pIdx}-${entry.stoneId}-${sIdx}`}
+                      className={`flex items-center gap-2 p-1.5 rounded border text-[10px] transition-all ${
+                        entry.used
+                          ? "border-red-300 bg-red-50 dark:border-red-900/50 dark:bg-red-900/20 text-red-700 dark:text-red-400"
+                          : !entry.inBag && !isStoneEditing
+                            ? "border-gray-200 dark:border-gray-700 opacity-60"
+                            : "border-gray-200 dark:border-gray-700 dark:text-gray-300"
+                      }`}
+                    >
+                      <img
+                        src={`/stone-sprites/${def?.sprite}`}
+                        alt=""
+                        className={`w-6 h-6 object-contain ${entry.used ? "grayscale-[0.5]" : ""}`}
+                      />
+                      <div className="flex-1 min-w-0">
+                        <div className="font-bold truncate">
+                          {t(`stones.${entry.stoneId}`)}
+                        </div>
+                        <div className="opacity-70 truncate">
+                          {entry.used
+                            ? t("tracker.infoPanel.stoneUsed")
+                            : entry.inBag
+                              ? t("tracker.infoPanel.stoneBag")
+                              : t("tracker.infoPanel.stoneLocation", {
+                                  location: entry.location,
+                                })}
+                        </div>
+                      </div>
+
+                      {isStoneEditing && (
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
-                            onToggleStoneBag(pIdx, sIdx);
-                          }}
-                          className="p-1 rounded bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 hover:bg-blue-200 shrink-0"
-                          title={t("tracker.infoPanel.stoneBag")}
-                        >
-                          <FiCheck size={12} />
-                        </button>
-                      )}
-
-                    {/* Use stone button — per-player, directly on the card */}
-                    {!isStoneEditing &&
-                      entry.inBag &&
-                      !entry.used &&
-                      !readOnly && (
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            onUseStone(pIdx, sIdx);
+                            deleteStone(pIdx, sIdx);
                           }}
                           className={`p-1 rounded bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300 hover:bg-red-200 shrink-0 ${focusRingRedClasses}`}
-                          title={t("tracker.infoPanel.stoneUse")}
                         >
-                          <FiZap size={12} />
+                          <FiX size={12} />
                         </button>
                       )}
-                  </div>
-                );
-              })}
+
+                      {/* Move to bag button */}
+                      {!isStoneEditing &&
+                        !entry.inBag &&
+                        !entry.used &&
+                        !readOnly && (
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onToggleStoneBag(pIdx, sIdx);
+                            }}
+                            className="p-1 rounded bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 hover:bg-blue-200 shrink-0"
+                            title={t("tracker.infoPanel.stoneBag")}
+                          >
+                            <FiCheck size={12} />
+                          </button>
+                        )}
+
+                      {/* Use stone button — per-player, directly on the card */}
+                      {!isStoneEditing &&
+                        entry.inBag &&
+                        !entry.used &&
+                        !readOnly && (
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onUseStone(pIdx, sIdx);
+                            }}
+                            className={`p-1 rounded bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300 hover:bg-red-200 shrink-0 ${focusRingRedClasses}`}
+                            title={t("tracker.infoPanel.stoneUse")}
+                          >
+                            <FiZap size={12} />
+                          </button>
+                        )}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -518,7 +534,7 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
           <h2
             className="text-center p-2 text-white font-press-start text-sm transition-colors duration-500"
             style={{
-              backgroundColor: showStones ? "#d38442" : "#2c7b90",
+              backgroundColor: showStones ? "#2c7b90" : "#895338",
             }}
           >
             {showStones
