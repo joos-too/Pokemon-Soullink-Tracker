@@ -238,13 +238,7 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
           {playerNames.map((name, pIdx) => (
             <div key={`fossil-player-${pIdx}`} className="space-y-2">
               <div className="sticky top-0 z-10 pt-4 pb-1 bg-white dark:bg-gray-800">
-                <div
-                  className="flex items-center justify-between px-2.5 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm"
-                  style={{
-                    background: `linear-gradient(135deg, ${PLAYER_COLORS[pIdx]}18 0%, transparent 60%)`,
-                    borderLeft: `3px solid ${PLAYER_COLORS[pIdx]}`,
-                  }}
-                >
+                <div className="flex items-center justify-between px-2.5 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">
                   <span
                     className="text-xs font-press-start truncate mr-2"
                     style={{ color: PLAYER_COLORS[pIdx] }}
@@ -408,13 +402,7 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
           {playerNames.map((name, pIdx) => (
             <div key={`stone-player-${pIdx}`} className="space-y-2">
               <div className="sticky top-0 z-10 pt-4 pb-1 bg-white dark:bg-gray-800">
-                <div
-                  className="flex items-center justify-between px-2.5 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm"
-                  style={{
-                    background: `linear-gradient(135deg, ${PLAYER_COLORS[pIdx]}18 0%, transparent 60%)`,
-                    borderLeft: `3px solid ${PLAYER_COLORS[pIdx]}`,
-                  }}
-                >
+                <div className="flex items-center justify-between px-2.5 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">
                   <span
                     className="text-xs font-press-start truncate mr-2"
                     style={{ color: PLAYER_COLORS[pIdx] }}
