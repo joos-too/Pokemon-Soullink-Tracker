@@ -6,10 +6,8 @@ import type {
   Stats,
   UserSettings,
 } from "@/types";
-import {
-  getLegendariesUpToGeneration,
-  PLAYER_COLORS,
-} from "@/src/services/init.ts";
+import { PLAYER_COLORS } from "@/src/services/init.ts";
+import { getLegendariesUpToGeneration } from "@/src/services/legendaryFilter";
 import {
   FiEdit,
   FiEye,
