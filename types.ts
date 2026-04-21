@@ -166,3 +166,10 @@ export interface UserProfile {
   useSpritesInTeamTable?: boolean;
   wikiId?: string;
 }
+
+export interface MethodGenerationRule {
+  methods: string[];
+  minGeneration?: number;
+  exactGeneration?: number;
+  maxGeneration?: number;
+}
