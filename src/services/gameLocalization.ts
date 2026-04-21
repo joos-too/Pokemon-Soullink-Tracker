@@ -87,7 +87,6 @@ export const getLocalizedSelectionLabel = (
   versionId: string | undefined,
   label: string,
 ) => {
-  if (!versionId) return label;
   const key = toKey(versionId, `selection.${normalizeLabel(label)}`);
   return key ? t(key, { defaultValue: label }) : label;
 };
@@ -97,7 +96,6 @@ export const getLocalizedBadgeLabel = (
   versionId: string | undefined,
   label: string,
 ) => {
-  if (!versionId) return label;
   const key = toKey(versionId, `badge.${normalizeLabel(label)}`);
   return key ? t(key, { defaultValue: label }) : label;
 };
