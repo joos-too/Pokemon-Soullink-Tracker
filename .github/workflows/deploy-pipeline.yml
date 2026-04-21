@@ -1,4 +1,4 @@
-name: Deploy to Server
+name: Build and Deploy to Server
 
 on:
   push:
@@ -6,25 +6,46 @@ on:
       - master
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Deploy to server
-        uses: appleboy/ssh-action@v1.2.2
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          host: janlieder.de
-          username: projects
-          key: ${{ secrets.SSH_KEY }}
-          port: 22
+          node-version: 22
+          cache: npm
 
-          script: |
-            cd /var/www/pokemon-soullink-tracker/
-            git pull
+      - name: Install Dependencies & Build
+        run: |
+          echo "${{ secrets.ENV }}" > .env
+          npm ci
+          npm run build
+          rm -f .env
 
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  
-            nvm use 22
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
 
-            npm ci
-            npm run build
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download Build Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - name: Deploy to Server
+        run: |
+          echo "${{ secrets.SSH_KEY }}" > private_key.pem
+          chmod 600 private_key.pem
+          rsync -avz --delete -e "ssh -i private_key.pem -o StrictHostKeyChecking=no -p 22" dist/ ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_PATH }}
+          rm -f private_key.pem
