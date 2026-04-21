@@ -6,7 +6,10 @@ import type {
   Stats,
   UserSettings,
 } from "@/types";
-import { PLAYER_COLORS } from "@/src/services/init.ts";
+import {
+  getLegendariesUpToGeneration,
+  PLAYER_COLORS,
+} from "@/src/services/init.ts";
 import {
   FiEdit,
   FiEye,
@@ -38,7 +41,6 @@ import {
   focusRingInputClasses,
   focusRingTightClasses,
 } from "@/src/styles/focusRing";
-import { getLegendariesUpToGeneration } from "@/src/services/legendaryFilter.ts";
 
 interface InfoPanelProps {
   playerNames: string[];
