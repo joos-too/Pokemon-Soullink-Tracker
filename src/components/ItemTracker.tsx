@@ -173,13 +173,13 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
           <div className="absolute right-10 top-1/2 -translate-y-1/2 flex gap-2">
             <button
               onClick={cancelFossilEditing}
-              className={`p-1 rounded-full text-red-400 hover:text-red-200 hover:bg-black/20 ring-2 ring-red-400/80 ${focusRingTightClasses}`}
+              className={`p-1 rounded-full text-white/70 hover:text-white hover:bg-black/20 ring-2 ring-white/25 ${focusRingTightClasses}`}
             >
               <FiX size={14} />
             </button>
             <button
               onClick={saveFossilEditing}
-              className={`p-1 rounded-full text-green-400 hover:text-green-200 hover:bg-black/20 ring-2 ring-green-400/80 ${focusRingTightClasses}`}
+              className={`p-1 rounded-full text-white/70 hover:text-white hover:bg-black/20 ring-2 ring-white/25 ${focusRingTightClasses}`}
             >
               <FiSave size={14} />
             </button>
@@ -206,13 +206,13 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
           <div className="absolute right-10 top-1/2 -translate-y-1/2 flex gap-2">
             <button
               onClick={cancelStoneEditing}
-              className={`p-1 rounded-full text-red-400 hover:text-red-200 hover:bg-black/20 ring-2 ring-red-400/80 ${focusRingTightClasses}`}
+              className={`p-1 rounded-full text-white/70 hover:text-white hover:bg-black/20 ring-2 ring-white/25 ${focusRingTightClasses}`}
             >
               <FiX size={14} />
             </button>
             <button
               onClick={saveStoneEditing}
-              className={`p-1 rounded-full text-green-400 hover:text-green-200 hover:bg-black/20 ring-2 ring-green-400/80 ${focusRingTightClasses}`}
+              className={`p-1 rounded-full text-white/70 hover:text-white hover:bg-black/20 ring-2 ring-white/25 ${focusRingTightClasses}`}
             >
               <FiSave size={14} />
             </button>

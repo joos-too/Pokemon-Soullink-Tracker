@@ -37,7 +37,6 @@ import {
   focusRingClasses,
   focusRingInputClasses,
   focusRingTightClasses,
-  focusRingRedClasses,
 } from "@/src/styles/focusRing";
 import { getLegendariesUpToGeneration } from "@/src/services/legendaryFilter.ts";
 
@@ -847,47 +846,39 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
           >
             {t("tracker.infoPanel.rules")}
           </h2>
-          <div className="absolute right-2 top-1.5 flex items-center gap-2">
-            {!isEditingRules && !readOnly ? (
-              <button
-                type="button"
-                onClick={startEditRules}
-                className={`px-2 py-1 rounded-md text-xs font-semibold inline-flex items-center gap-1 shadow bg-green-600 text-white hover:bg-green-700 ${focusRingClasses}`}
-                title={t("tracker.infoPanel.editRules")}
-              >
-                <FiEdit size={14} />
-                <span className="hidden sm:inline">
-                  {t("tracker.infoPanel.editRules")}
-                </span>
-              </button>
-            ) : null}
-            {isEditingRules && (
-              <div className="flex items-center gap-2">
+          {!readOnly && (
+            <>
+              {!isEditingRules ? (
                 <button
                   type="button"
-                  onClick={cancelEditRules}
-                  className={`px-2 py-1 rounded-md text-xs font-semibold bg-red-600 text-white hover:bg-red-700 inline-flex items-center gap-1 shadow ${focusRingRedClasses}`}
-                  title={t("tracker.infoPanel.cancelRules")}
+                  onClick={startEditRules}
+                  className={`absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-full text-white/70 hover:text-white hover:bg-black/20 ring-2 ring-white/25 ${focusRingTightClasses}`}
+                  title={t("tracker.infoPanel.editRules")}
                 >
-                  <FiX size={14} />
-                  <span className="hidden sm:inline">
-                    {t("tracker.infoPanel.cancelRules")}
-                  </span>
+                  <FiEdit size={14} />
                 </button>
-                <button
-                  type="button"
-                  onClick={saveEditRules}
-                  className={`px-2 py-1 rounded-md text-xs font-semibold inline-flex items-center gap-1 shadow bg-green-600 text-white hover:bg-green-700 ${focusRingClasses}`}
-                  title={t("tracker.infoPanel.saveRules")}
-                >
-                  <FiSave size={14} />
-                  <span className="hidden sm:inline">
-                    {t("tracker.infoPanel.saveRules")}
-                  </span>
-                </button>
-              </div>
-            )}
-          </div>
+              ) : (
+                <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-2">
+                  <button
+                    type="button"
+                    onClick={cancelEditRules}
+                    className={`p-1 rounded-full text-white/70 hover:text-white hover:bg-black/20 ring-2 ring-white/25 ${focusRingTightClasses}`}
+                    title={t("tracker.infoPanel.cancelRules")}
+                  >
+                    <FiX size={14} />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={saveEditRules}
+                    className={`p-1 rounded-full text-white/70 hover:text-white hover:bg-black/20 ring-2 ring-white/25 ${focusRingTightClasses}`}
+                    title={t("tracker.infoPanel.saveRules")}
+                  >
+                    <FiSave size={14} />
+                  </button>
+                </div>
+              )}
+            </>
+          )}
         </div>
         {!isEditingRules ? (
           <ul className="p-4 space-y-2 text-xs list-decimal list-inside text-gray-700 dark:text-gray-300">
