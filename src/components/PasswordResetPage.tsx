@@ -114,7 +114,7 @@ const PasswordResetPage: React.FC<PasswordResetPageProps> = ({ oobCode }) => {
         <div className="bg-white dark:bg-gray-800 shadow-lg p-6 sm:p-8 rounded-lg">
           <header className="text-center pb-4 border-b-2 border-gray-200 dark:border-gray-700">
             <img
-              src="/Soullinktracker-Logo - cropped.png"
+              src="/Soullinktracker-Logo.png"
               alt="Soullink Tracker Logo"
               className="mx-auto mb-3 w-40 h-40 object-contain"
             />

@@ -39,7 +39,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onSwitchToRegister }) => {
         <div className="bg-white dark:bg-gray-800 shadow-[6px_6px_0_0_rgba(31,41,55,0.25)] border border-gray-200 dark:border-gray-700 p-6 sm:p-8 rounded-lg">
           <header className="text-center pb-4 border-b border-gray-200 dark:border-gray-700">
             <img
-              src="/Soullinktracker-Logo - cropped.png"
+              src="/Soullinktracker-Logo.png"
               alt="Soullink Tracker Logo"
               className="mx-auto mb-3 w-40 h-40 object-contain"
             />

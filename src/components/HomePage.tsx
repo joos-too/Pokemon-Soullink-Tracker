@@ -179,7 +179,7 @@ const HomePage: React.FC<HomePageProps> = ({
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-4 flex-1">
               <img
-                src="/Soullinktracker-Logo - cropped.png"
+                src="/Soullinktracker-Logo.png"
                 alt={t("home.logoAlt", {
                   defaultValue: "Soullink Tracker Logo",
                 })}
