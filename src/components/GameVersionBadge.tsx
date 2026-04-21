@@ -22,8 +22,10 @@ const GameVersionBadge: React.FC<GameVersionBadgeProps> = ({
   const { segments } = version.badge;
   const localizedSegments: GameVersionBadgeSegment[] = segments.map(
     (segment) => {
-      segment.text = getLocalizedBadgeLabel(t, version?.id, segment.text);
-      return segment;
+      return {
+        ...segment,
+        text: getLocalizedBadgeLabel(t, version?.id, segment.text),
+      };
     },
   );
   const localizedName = getLocalizedGameName(
