@@ -478,7 +478,7 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
     badge: {
       segments: [
         {
-          text: "P",
+          text: "PT",
           bgColor: "#aabbd1",
           textColor: "#000000",
           borderColor: "#6f5454",

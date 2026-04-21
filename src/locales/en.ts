@@ -684,6 +684,9 @@ export const en = {
       selection: {
         gelb: "Yellow",
       },
+      badge: {
+        g: "Y",
+      },
       levelCaps: {
         1: { arena: "1. Gym" },
         2: { arena: "2. Gym" },
@@ -740,6 +743,9 @@ export const en = {
       name: "Pokémon Crystal",
       selection: {
         kristall: "Crystal",
+      },
+      badge: {
+        k: "C",
       },
       levelCaps: {
         1: { arena: "1. Gym" },
@@ -818,6 +824,9 @@ export const en = {
       selection: {
         smaragd: "Emerald",
       },
+      badge: {
+        sm: "EM",
+      },
       levelCaps: {
         1: { arena: "1. Gym" },
         2: { arena: "2. Gym" },
@@ -875,6 +884,9 @@ export const en = {
       selection: {
         feuerrot: "FireRed",
         blattgrun: "LeafGreen",
+      },
+      badge: {
+        bg: "LG",
       },
       levelCaps: {
         1: { arena: "1. Gym" },
@@ -990,6 +1002,9 @@ export const en = {
         schwarz: "Black",
         weiss: "White",
       },
+      badge: {
+        s: "B",
+      },
       levelCaps: {
         1: { arena: "1. Gym" },
         2: { arena: "2. Gym" },
@@ -1027,6 +1042,9 @@ export const en = {
       selection: {
         schwarz_2: "Black 2",
         weiss_2: "White 2",
+      },
+      badge: {
+        s2: "B2",
       },
       levelCaps: {
         1: { arena: "1. Gym" },

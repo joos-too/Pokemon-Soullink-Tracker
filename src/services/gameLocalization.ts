@@ -61,26 +61,6 @@ export const getLocalizedRivalLocation = (
   return key ? t(key, { defaultValue: fallback }) : fallback;
 };
 
-export const getLocalizedRivalName = (
-  t: TFunction,
-  versionId: string | undefined,
-  capId: number | string,
-  fallback: string,
-) => {
-  const localized = getLocalizedRivalEntry(t, versionId, capId);
-  if (typeof localized === "string") {
-    return localized;
-  }
-  if (
-    localized &&
-    typeof localized === "object" &&
-    typeof (localized as any).name === "string"
-  ) {
-    return (localized as { name: string }).name;
-  }
-  return fallback;
-};
-
 export const resolveRivalDisplayName = (
   t: TFunction,
   versionId: string | undefined,
@@ -109,5 +89,15 @@ export const getLocalizedSelectionLabel = (
 ) => {
   if (!versionId) return label;
   const key = toKey(versionId, `selection.${normalizeLabel(label)}`);
+  return key ? t(key, { defaultValue: label }) : label;
+};
+
+export const getLocalizedBadgeLabel = (
+  t: TFunction,
+  versionId: string | undefined,
+  label: string,
+) => {
+  if (!versionId) return label;
+  const key = toKey(versionId, `badge.${normalizeLabel(label)}`);
   return key ? t(key, { defaultValue: label }) : label;
 };
