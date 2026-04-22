@@ -93,6 +93,14 @@ function toSlug(en) {
     .replace(/^-|-$/g, ""); // trim leading/trailing hyphens
 }
 
+/** Collapse a slug/name to only alphanumeric chars (no hyphens/spaces) */
+function toCollapsed(s) {
+  return s
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]/g, "");
+}
+
 /** Fetch JSON with basic retry */
 async function fetchJson(url, retries = 3) {
   for (let i = 0; i < retries; i++) {
@@ -124,7 +132,8 @@ async function fetchAllPages(url) {
 // 4. Build local lookup maps
 // ---------------------------------------------------------------------------
 
-/** slug → version  (first occurrence wins, Gen 1–6 only) */
+/** slug → version  (first occurrence wins, Gen 1–6 only)
+ *  Also registers collapsed forms (no hyphens/spaces) as secondary keys. */
 function buildLocalMap() {
   const map = new Map();
   for (const { file, version } of VERSION_FILES) {
@@ -136,8 +145,12 @@ function buildLocalMap() {
     const items = JSON.parse(fs.readFileSync(filePath, "utf-8"));
     for (const item of items) {
       const slug = toSlug(item.en);
+      const collapsed = toCollapsed(item.en);
       if (!map.has(slug)) {
         map.set(slug, version);
+      }
+      if (!map.has(collapsed)) {
+        map.set(collapsed, version);
       }
     }
   }
@@ -153,8 +166,10 @@ function buildPostGen6Set(localMap) {
     const items = JSON.parse(fs.readFileSync(filePath, "utf-8"));
     for (const item of items) {
       const slug = toSlug(item.en);
-      if (!localMap.has(slug)) {
+      const collapsed = toCollapsed(item.en);
+      if (!localMap.has(slug) && !localMap.has(collapsed)) {
         set.add(slug);
+        set.add(collapsed);
       }
     }
   }
@@ -207,6 +222,7 @@ async function main() {
   const results = [];
   const postGen6Items = [];
   const trulyUnmatched = [];
+  const fuzzyMatched = []; // items that needed collapsed matching
   let i = 0;
 
   for (const slug of itemSlugs) {
@@ -217,6 +233,17 @@ async function main() {
     const overrideEn = SLUG_TO_EN_OVERRIDE[slug];
     const lookupSlug = overrideEn ? toSlug(overrideEn) : slug;
     let version = localMap.get(lookupSlug) ?? null;
+    let wasFuzzy = false;
+
+    // Collapsed fallback: strip all hyphens and compare
+    if (!version) {
+      const collapsed = toCollapsed(slug);
+      const collapsedVersion = localMap.get(collapsed) ?? null;
+      if (collapsedVersion) {
+        version = collapsedVersion;
+        wasFuzzy = true;
+      }
+    }
 
     // Fetch the item detail from PokeAPI for properly cased names
     let enName, deName;
@@ -233,6 +260,14 @@ async function main() {
       if (!version) {
         const altSlug = toSlug(enName.toLowerCase());
         version = localMap.get(altSlug) ?? null;
+        if (!version) {
+          const altCollapsed = toCollapsed(enName.toLowerCase());
+          const cv = localMap.get(altCollapsed) ?? null;
+          if (cv) {
+            version = cv;
+            wasFuzzy = true;
+          }
+        }
       }
     } catch {
       enName = slug;
@@ -240,16 +275,18 @@ async function main() {
     }
 
     if (version) {
-      // Gen 1–6 item — include in main output
       results.push({ slug, de: deName, en: enName, version });
+      if (wasFuzzy) {
+        fuzzyMatched.push({ slug, en: enName, de: deName, version });
+      }
     } else if (
       postGen6Slugs.has(slug) ||
-      postGen6Slugs.has(toSlug(enName.toLowerCase()))
+      postGen6Slugs.has(toCollapsed(slug)) ||
+      postGen6Slugs.has(toSlug(enName.toLowerCase())) ||
+      postGen6Slugs.has(toCollapsed(enName.toLowerCase()))
     ) {
-      // Gen 7+ item
       postGen6Items.push({ slug, de: deName, en: enName });
     } else {
-      // Truly unmatched
       trulyUnmatched.push({ slug, de: deName, en: enName });
     }
   }
@@ -297,6 +334,14 @@ async function main() {
     );
   } else {
     console.log("🎉 All non-Gen7+ items matched to a version!");
+  }
+
+  if (fuzzyMatched.length > 0) {
+    const fuzzyPath = path.join(dataDir, "items-fuzzy-matched.json");
+    fs.writeFileSync(fuzzyPath, JSON.stringify(fuzzyMatched, null, 2), "utf-8");
+    console.log(
+      `  ℹ ${fuzzyMatched.length} items needed collapsed/fuzzy matching → ${fuzzyPath}`,
+    );
   }
 }
 
