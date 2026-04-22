@@ -74,6 +74,7 @@ const MANUAL_OVERRIDES = {
   "great-ball": "great ball",
   "ultra-ball": "ultra ball",
   "master-ball": "master ball",
+  "sport-ball": "parkball",
   // Add more overrides here as needed after reviewing items-unmatched.json
 };
 
