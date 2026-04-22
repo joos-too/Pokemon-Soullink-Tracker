@@ -1,0 +1,5907 @@
+[
+  {
+    "slug": "wishing-piece",
+    "en": "wishing piece",
+    "de": "wunschbrocken"
+  },
+  {
+    "slug": "galarica-twig",
+    "en": "galarica twig",
+    "de": "galarnuss-zweig"
+  },
+  {
+    "slug": "galarica-cuff",
+    "en": "galarica cuff",
+    "de": "galarnuss-reif"
+  },
+  {
+    "slug": "armorite-ore",
+    "en": "armorite ore",
+    "de": "rüstungserz"
+  },
+  {
+    "slug": "galarica-wreath",
+    "en": "galarica wreath",
+    "de": "galarnuss-kranz"
+  },
+  {
+    "slug": "dynite-ore",
+    "en": "dynite ore",
+    "de": "dyna-erz"
+  },
+  {
+    "slug": "ice-stone",
+    "en": "ice stone",
+    "de": "eisstein"
+  },
+  {
+    "slug": "strawberry-sweet",
+    "en": "strawberry sweet",
+    "de": "zucker-erdbeere"
+  },
+  {
+    "slug": "love-sweet",
+    "en": "love sweet",
+    "de": "zucker-herz"
+  },
+  {
+    "slug": "berry-sweet",
+    "en": "berry sweet",
+    "de": "zucker-beere"
+  },
+  {
+    "slug": "clover-sweet",
+    "en": "clover sweet",
+    "de": "zucker-kleeblatt"
+  },
+  {
+    "slug": "flower-sweet",
+    "en": "flower sweet",
+    "de": "zucker-blume"
+  },
+  {
+    "slug": "star-sweet",
+    "en": "star sweet",
+    "de": "zucker-stern"
+  },
+  {
+    "slug": "ribbon-sweet",
+    "en": "ribbon sweet",
+    "de": "zucker-schleife"
+  },
+  {
+    "slug": "sweet-apple",
+    "en": "sweet apple",
+    "de": "süßer apfel"
+  },
+  {
+    "slug": "tart-apple",
+    "en": "tart apple",
+    "de": "saurer apfel"
+  },
+  {
+    "slug": "cracked-pot",
+    "en": "cracked pot",
+    "de": "rissige kanne"
+  },
+  {
+    "slug": "chipped-pot",
+    "en": "chipped pot",
+    "de": "löchrige kanne"
+  },
+  {
+    "slug": "malicious-armor",
+    "en": "malicious armor",
+    "de": "malicious-armor"
+  },
+  {
+    "slug": "syrupy-apple",
+    "en": "syrupy apple",
+    "de": "syrupy-apple"
+  },
+  {
+    "slug": "unremarkable-teacup",
+    "en": "unremarkable teacup",
+    "de": "unremarkable-teacup"
+  },
+  {
+    "slug": "masterpiece-teacup",
+    "en": "masterpiece teacup",
+    "de": "masterpiece-teacup"
+  },
+  {
+    "slug": "linking-cord",
+    "en": "linking cord",
+    "de": "linking-cord"
+  },
+  {
+    "slug": "black-augurite",
+    "en": "black-augurite",
+    "de": "black-augurite"
+  },
+  {
+    "slug": "peat-block",
+    "en": "peat-block",
+    "de": "peat-block"
+  },
+  {
+    "slug": "lure",
+    "en": "lure",
+    "de": "lockparfüm"
+  },
+  {
+    "slug": "super-lure",
+    "en": "super lure",
+    "de": "super-lockparfüm"
+  },
+  {
+    "slug": "max-lure",
+    "en": "max lure",
+    "de": "top-lockparfüm"
+  },
+  {
+    "slug": "adrenaline-orb",
+    "en": "adrenaline orb",
+    "de": "zitterorb"
+  },
+  {
+    "slug": "terrain-extender",
+    "en": "terrain extender",
+    "de": "feldbeschichtung"
+  },
+  {
+    "slug": "protective-pads",
+    "en": "protective pads",
+    "de": "schutzpolster"
+  },
+  {
+    "slug": "electric-seed",
+    "en": "electric seed",
+    "de": "elektro-samen"
+  },
+  {
+    "slug": "psychic-seed",
+    "en": "psychic seed",
+    "de": "psycho-samen"
+  },
+  {
+    "slug": "misty-seed",
+    "en": "misty seed",
+    "de": "nebel-samen"
+  },
+  {
+    "slug": "grassy-seed",
+    "en": "grassy seed",
+    "de": "gras-samen"
+  },
+  {
+    "slug": "throat-spray",
+    "en": "throat spray",
+    "de": "halsspray"
+  },
+  {
+    "slug": "eject-pack",
+    "en": "eject pack",
+    "de": "fluchttasche"
+  },
+  {
+    "slug": "heavy-duty-boots",
+    "en": "heavy-duty boots",
+    "de": "plateauschuhe"
+  },
+  {
+    "slug": "blunder-policy",
+    "en": "blunder policy",
+    "de": "fehlschlagschutz"
+  },
+  {
+    "slug": "room-service",
+    "en": "room service",
+    "de": "bizarroservice"
+  },
+  {
+    "slug": "utility-umbrella",
+    "en": "utility umbrella",
+    "de": "allzweckschirm"
+  },
+  {
+    "slug": "booster-energy",
+    "en": "booster energy",
+    "de": "booster-energy"
+  },
+  {
+    "slug": "ability-shield",
+    "en": "ability shield",
+    "de": "ability-shield"
+  },
+  {
+    "slug": "clear-amulet",
+    "en": "clear amulet",
+    "de": "clear-amulet"
+  },
+  {
+    "slug": "mirror-herb",
+    "en": "mirror herb",
+    "de": "mirror-herb"
+  },
+  {
+    "slug": "punching-glove",
+    "en": "punching glove",
+    "de": "punching-glove"
+  },
+  {
+    "slug": "covert-cloak",
+    "en": "covert cloak",
+    "de": "covert-cloak"
+  },
+  {
+    "slug": "loaded-dice",
+    "en": "loaded dice",
+    "de": "loaded-dice"
+  },
+  {
+    "slug": "fairy-feather",
+    "en": "fairy feather",
+    "de": "fairy-feather"
+  },
+  {
+    "slug": "wellspring-mask",
+    "en": "wellspring mask",
+    "de": "wellspring-mask"
+  },
+  {
+    "slug": "hearthflame-mask",
+    "en": "hearthflame mask",
+    "de": "hearthflame-mask"
+  },
+  {
+    "slug": "cornerstone-mask",
+    "en": "cornerstone mask",
+    "de": "cornerstone-mask"
+  },
+  {
+    "slug": "blank-plate",
+    "en": "blank plate",
+    "de": "blank-plate"
+  },
+  {
+    "slug": "legend-plate",
+    "en": "legend plate",
+    "de": "legend-plate"
+  },
+  {
+    "slug": "red-nectar",
+    "en": "red nectar",
+    "de": "roter nektar"
+  },
+  {
+    "slug": "yellow-nectar",
+    "en": "yellow nectar",
+    "de": "gelber nektar"
+  },
+  {
+    "slug": "pink-nectar",
+    "en": "pink nectar",
+    "de": "rosa nektar"
+  },
+  {
+    "slug": "purple-nectar",
+    "en": "purple nectar",
+    "de": "purpurner nektar"
+  },
+  {
+    "slug": "rusted-sword",
+    "en": "rusted sword",
+    "de": "rostiges schwert"
+  },
+  {
+    "slug": "rusted-shield",
+    "en": "rusted shield",
+    "de": "rostiger schild"
+  },
+  {
+    "slug": "bottle-cap",
+    "en": "bottle cap",
+    "de": "silberkronkorken"
+  },
+  {
+    "slug": "gold-bottle-cap",
+    "en": "gold bottle cap",
+    "de": "goldkronkorken"
+  },
+  {
+    "slug": "stretchy-spring",
+    "en": "stretchy spring",
+    "de": "spiralfeder"
+  },
+  {
+    "slug": "chalky-stone",
+    "en": "chalky stone",
+    "de": "kreidestein"
+  },
+  {
+    "slug": "marble",
+    "en": "marble",
+    "de": "glasmurmel"
+  },
+  {
+    "slug": "lone-earring",
+    "en": "lone earring",
+    "de": "ohrring"
+  },
+  {
+    "slug": "beach-glass",
+    "en": "beach glass",
+    "de": "strandscherbe"
+  },
+  {
+    "slug": "polished-mud-ball",
+    "en": "polished mud ball",
+    "de": "glanzkugel"
+  },
+  {
+    "slug": "tropical-shell",
+    "en": "tropical shell",
+    "de": "tropenmuschel"
+  },
+  {
+    "slug": "leaf-letter--pikachu",
+    "en": "leaf letter",
+    "de": "blattbrief"
+  },
+  {
+    "slug": "leaf-letter--eevee",
+    "en": "leaf letter",
+    "de": "blattbrief"
+  },
+  {
+    "slug": "small-bouquet",
+    "en": "small bouquet",
+    "de": "ministrauß"
+  },
+  {
+    "slug": "tiny-bamboo-shoot",
+    "en": "tiny bamboo shoot",
+    "de": "tiny-bamboo-shoot"
+  },
+  {
+    "slug": "big-bamboo-shoot",
+    "en": "big bamboo shoot",
+    "de": "big-bamboo-shoot"
+  },
+  {
+    "slug": "fossilized-bird",
+    "en": "fossilized bird",
+    "de": "vogelfossil"
+  },
+  {
+    "slug": "fossilized-fish",
+    "en": "fossilized fish",
+    "de": "fischfossil"
+  },
+  {
+    "slug": "fossilized-drake",
+    "en": "fossilized drake",
+    "de": "drachenfossil"
+  },
+  {
+    "slug": "fossilized-dino",
+    "en": "fossilized dino",
+    "de": "paddelfossil"
+  },
+  {
+    "slug": "fighting-memory",
+    "en": "fighting memory",
+    "de": "kampf-disc"
+  },
+  {
+    "slug": "flying-memory",
+    "en": "flying memory",
+    "de": "flug-disc"
+  },
+  {
+    "slug": "poison-memory",
+    "en": "poison memory",
+    "de": "gift-disc"
+  },
+  {
+    "slug": "ground-memory",
+    "en": "ground memory",
+    "de": "boden-disc"
+  },
+  {
+    "slug": "rock-memory",
+    "en": "rock memory",
+    "de": "gesteins-disc"
+  },
+  {
+    "slug": "bug-memory",
+    "en": "bug memory",
+    "de": "käfer-disc"
+  },
+  {
+    "slug": "ghost-memory",
+    "en": "ghost memory",
+    "de": "geister-disc"
+  },
+  {
+    "slug": "steel-memory",
+    "en": "steel memory",
+    "de": "stahl-disc"
+  },
+  {
+    "slug": "fire-memory",
+    "en": "fire memory",
+    "de": "feuer-disc"
+  },
+  {
+    "slug": "water-memory",
+    "en": "water memory",
+    "de": "wasser-disc"
+  },
+  {
+    "slug": "grass-memory",
+    "en": "grass memory",
+    "de": "pflanzen-disc"
+  },
+  {
+    "slug": "electric-memory",
+    "en": "electric memory",
+    "de": "elektro-disc"
+  },
+  {
+    "slug": "psychic-memory",
+    "en": "psychic memory",
+    "de": "psycho-disc"
+  },
+  {
+    "slug": "ice-memory",
+    "en": "ice memory",
+    "de": "eis-disc"
+  },
+  {
+    "slug": "dragon-memory",
+    "en": "dragon memory",
+    "de": "drachen-disc"
+  },
+  {
+    "slug": "dark-memory",
+    "en": "dark memory",
+    "de": "unlicht-disc"
+  },
+  {
+    "slug": "fairy-memory",
+    "en": "fairy memory",
+    "de": "feen-disc"
+  },
+  {
+    "slug": "bulbasaur-candy",
+    "en": "bulbasaur candy",
+    "de": "bisasam-bonbon"
+  },
+  {
+    "slug": "charmander-candy",
+    "en": "charmander candy",
+    "de": "glumanda-bonbon"
+  },
+  {
+    "slug": "squirtle-candy",
+    "en": "squirtle candy",
+    "de": "schiggy-bonbon"
+  },
+  {
+    "slug": "caterpie-candy",
+    "en": "caterpie candy",
+    "de": "raupy-bonbon"
+  },
+  {
+    "slug": "weedle-candy",
+    "en": "weedle candy",
+    "de": "hornliu-bonbon"
+  },
+  {
+    "slug": "pidgey-candy",
+    "en": "pidgey candy",
+    "de": "taubsi-bonbon"
+  },
+  {
+    "slug": "rattata-candy",
+    "en": "rattata candy",
+    "de": "rattfratz-bonbon"
+  },
+  {
+    "slug": "spearow-candy",
+    "en": "spearow candy",
+    "de": "habitak-bonbon"
+  },
+  {
+    "slug": "ekans-candy",
+    "en": "ekans candy",
+    "de": "rettan-bonbon"
+  },
+  {
+    "slug": "pikachu-candy",
+    "en": "pikachu candy",
+    "de": "pikachu-bonbon"
+  },
+  {
+    "slug": "sandshrew-candy",
+    "en": "sandshrew candy",
+    "de": "sandan-bonbon"
+  },
+  {
+    "slug": "nidoran-f-candy",
+    "en": "nidoran♀ candy",
+    "de": "nidoran♀-bonbon"
+  },
+  {
+    "slug": "nidoran-m-candy",
+    "en": "nidoran♂ candy",
+    "de": "nidoran♂-bonbon"
+  },
+  {
+    "slug": "clefairy-candy",
+    "en": "clefairy candy",
+    "de": "piepi-bonbon"
+  },
+  {
+    "slug": "vulpix-candy",
+    "en": "vulpix candy",
+    "de": "vulpix-bonbon"
+  },
+  {
+    "slug": "jigglypuff-candy",
+    "en": "jigglypuff candy",
+    "de": "pummeluff-bonbon"
+  },
+  {
+    "slug": "zubat-candy",
+    "en": "zubat candy",
+    "de": "zubat-bonbon"
+  },
+  {
+    "slug": "oddish-candy",
+    "en": "oddish candy",
+    "de": "myrapla-bonbon"
+  },
+  {
+    "slug": "paras-candy",
+    "en": "paras candy",
+    "de": "paras-bonbon"
+  },
+  {
+    "slug": "venonat-candy",
+    "en": "venonat candy",
+    "de": "bluzuk-bonbon"
+  },
+  {
+    "slug": "diglett-candy",
+    "en": "diglett candy",
+    "de": "digda-bonbon"
+  },
+  {
+    "slug": "meowth-candy",
+    "en": "meowth candy",
+    "de": "mauzi-bonbon"
+  },
+  {
+    "slug": "psyduck-candy",
+    "en": "psyduck candy",
+    "de": "enton-bonbon"
+  },
+  {
+    "slug": "mankey-candy",
+    "en": "mankey candy",
+    "de": "menki-bonbon"
+  },
+  {
+    "slug": "growlithe-candy",
+    "en": "growlithe candy",
+    "de": "fukano-bonbon"
+  },
+  {
+    "slug": "poliwag-candy",
+    "en": "poliwag candy",
+    "de": "quapsel-bonbon"
+  },
+  {
+    "slug": "abra-candy",
+    "en": "abra candy",
+    "de": "abra-bonbon"
+  },
+  {
+    "slug": "machop-candy",
+    "en": "machop candy",
+    "de": "machollo-bonbon"
+  },
+  {
+    "slug": "bellsprout-candy",
+    "en": "bellsprout candy",
+    "de": "knofensa-bonbon"
+  },
+  {
+    "slug": "tentacool-candy",
+    "en": "tentacool candy",
+    "de": "tentacha-bonbon"
+  },
+  {
+    "slug": "geodude-candy",
+    "en": "geodude candy",
+    "de": "kleinstein-bonbon"
+  },
+  {
+    "slug": "ponyta-candy",
+    "en": "ponyta candy",
+    "de": "ponita-bonbon"
+  },
+  {
+    "slug": "slowpoke-candy",
+    "en": "slowpoke candy",
+    "de": "flegmon-bonbon"
+  },
+  {
+    "slug": "magnemite-candy",
+    "en": "magnemite candy",
+    "de": "magnetilo-bonbon"
+  },
+  {
+    "slug": "farfetchd-candy",
+    "en": "farfetch’d candy",
+    "de": "porenta-bonbon"
+  },
+  {
+    "slug": "doduo-candy",
+    "en": "doduo candy",
+    "de": "dodu-bonbon"
+  },
+  {
+    "slug": "seel-candy",
+    "en": "seel candy",
+    "de": "jurob-bonbon"
+  },
+  {
+    "slug": "grimer-candy",
+    "en": "grimer candy",
+    "de": "sleima-bonbon"
+  },
+  {
+    "slug": "shellder-candy",
+    "en": "shellder candy",
+    "de": "muschas-bonbon"
+  },
+  {
+    "slug": "gastly-candy",
+    "en": "gastly candy",
+    "de": "nebulak-bonbon"
+  },
+  {
+    "slug": "onix-candy",
+    "en": "onix candy",
+    "de": "onix-bonbon"
+  },
+  {
+    "slug": "drowzee-candy",
+    "en": "drowzee candy",
+    "de": "traumato-bonbon"
+  },
+  {
+    "slug": "krabby-candy",
+    "en": "krabby candy",
+    "de": "krabby-bonbon"
+  },
+  {
+    "slug": "voltorb-candy",
+    "en": "voltorb candy",
+    "de": "voltobal-bonbon"
+  },
+  {
+    "slug": "exeggcute-candy",
+    "en": "exeggcute candy",
+    "de": "owei-bonbon"
+  },
+  {
+    "slug": "cubone-candy",
+    "en": "cubone candy",
+    "de": "tragosso-bonbon"
+  },
+  {
+    "slug": "hitmonlee-candy",
+    "en": "hitmonlee candy",
+    "de": "kicklee-bonbon"
+  },
+  {
+    "slug": "hitmonchan-candy",
+    "en": "hitmonchan candy",
+    "de": "nockchan-bonbon"
+  },
+  {
+    "slug": "lickitung-candy",
+    "en": "lickitung candy",
+    "de": "schlurp-bonbon"
+  },
+  {
+    "slug": "koffing-candy",
+    "en": "koffing candy",
+    "de": "smogon-bonbon"
+  },
+  {
+    "slug": "rhyhorn-candy",
+    "en": "rhyhorn candy",
+    "de": "rihorn-bonbon"
+  },
+  {
+    "slug": "chansey-candy",
+    "en": "chansey candy",
+    "de": "chaneira-bonbon"
+  },
+  {
+    "slug": "tangela-candy",
+    "en": "tangela candy",
+    "de": "tangela-bonbon"
+  },
+  {
+    "slug": "kangaskhan-candy",
+    "en": "kangaskhan candy",
+    "de": "kangama-bonbon"
+  },
+  {
+    "slug": "horsea-candy",
+    "en": "horsea candy",
+    "de": "seeper-bonbon"
+  },
+  {
+    "slug": "goldeen-candy",
+    "en": "goldeen candy",
+    "de": "goldini-bonbon"
+  },
+  {
+    "slug": "staryu-candy",
+    "en": "staryu candy",
+    "de": "sterndu-bonbon"
+  },
+  {
+    "slug": "mr-mime-candy",
+    "en": "mr. mime candy",
+    "de": "pantimos-bonbon"
+  },
+  {
+    "slug": "scyther-candy",
+    "en": "scyther candy",
+    "de": "sichlor-bonbon"
+  },
+  {
+    "slug": "jynx-candy",
+    "en": "jynx candy",
+    "de": "rossana-bonbon"
+  },
+  {
+    "slug": "electabuzz-candy",
+    "en": "electabuzz candy",
+    "de": "elektek-bonbon"
+  },
+  {
+    "slug": "pinsir-candy",
+    "en": "pinsir candy",
+    "de": "pinsir-bonbon"
+  },
+  {
+    "slug": "tauros-candy",
+    "en": "tauros candy",
+    "de": "tauros-bonbon"
+  },
+  {
+    "slug": "magikarp-candy",
+    "en": "magikarp candy",
+    "de": "karpador-bonbon"
+  },
+  {
+    "slug": "lapras-candy",
+    "en": "lapras candy",
+    "de": "lapras-bonbon"
+  },
+  {
+    "slug": "ditto-candy",
+    "en": "ditto candy",
+    "de": "ditto-bonbon"
+  },
+  {
+    "slug": "eevee-candy",
+    "en": "eevee candy",
+    "de": "evoli-bonbon"
+  },
+  {
+    "slug": "porygon-candy",
+    "en": "porygon candy",
+    "de": "porygon-bonbon"
+  },
+  {
+    "slug": "omanyte-candy",
+    "en": "omanyte candy",
+    "de": "amonitas-bonbon"
+  },
+  {
+    "slug": "kabuto-candy",
+    "en": "kabuto candy",
+    "de": "kabuto-bonbon"
+  },
+  {
+    "slug": "aerodactyl-candy",
+    "en": "aerodactyl candy",
+    "de": "aerodactyl-bonbon"
+  },
+  {
+    "slug": "snorlax-candy",
+    "en": "snorlax candy",
+    "de": "relaxo-bonbon"
+  },
+  {
+    "slug": "articuno-candy",
+    "en": "articuno candy",
+    "de": "arktos-bonbon"
+  },
+  {
+    "slug": "zapdos-candy",
+    "en": "zapdos candy",
+    "de": "zapdos-bonbon"
+  },
+  {
+    "slug": "moltres-candy",
+    "en": "moltres candy",
+    "de": "lavados-bonbon"
+  },
+  {
+    "slug": "dratini-candy",
+    "en": "dratini candy",
+    "de": "dratini-bonbon"
+  },
+  {
+    "slug": "mewtwo-candy",
+    "en": "mewtwo candy",
+    "de": "mewtu-bonbon"
+  },
+  {
+    "slug": "mew-candy",
+    "en": "mew candy",
+    "de": "mew-bonbon"
+  },
+  {
+    "slug": "meltan-candy",
+    "en": "meltan candy",
+    "de": "meltan-bonbon"
+  },
+  {
+    "slug": "magmar-candy",
+    "en": "magmar candy",
+    "de": "magmar-bonbon"
+  },
+  {
+    "slug": "dynamax-crystal-and458",
+    "en": "★and458",
+    "de": "★and458"
+  },
+  {
+    "slug": "dynamax-crystal-and15",
+    "en": "★and15",
+    "de": "★and15"
+  },
+  {
+    "slug": "dynamax-crystal-and337",
+    "en": "★and337",
+    "de": "★and337"
+  },
+  {
+    "slug": "dynamax-crystal-and603",
+    "en": "★and603",
+    "de": "★and603"
+  },
+  {
+    "slug": "dynamax-crystal-and390",
+    "en": "★and390",
+    "de": "★and390"
+  },
+  {
+    "slug": "dynamax-crystal-sgr6879",
+    "en": "★sgr6879",
+    "de": "★sgr6879"
+  },
+  {
+    "slug": "dynamax-crystal-sgr6859",
+    "en": "★sgr6859",
+    "de": "★sgr6859"
+  },
+  {
+    "slug": "dynamax-crystal-sgr6913",
+    "en": "★sgr6913",
+    "de": "★sgr6913"
+  },
+  {
+    "slug": "dynamax-crystal-sgr7348",
+    "en": "★sgr7348",
+    "de": "★sgr7348"
+  },
+  {
+    "slug": "dynamax-crystal-sgr7121",
+    "en": "★sgr7121",
+    "de": "★sgr7121"
+  },
+  {
+    "slug": "dynamax-crystal-sgr6746",
+    "en": "★sgr6746",
+    "de": "★sgr6746"
+  },
+  {
+    "slug": "dynamax-crystal-sgr7194",
+    "en": "★sgr7194",
+    "de": "★sgr7194"
+  },
+  {
+    "slug": "dynamax-crystal-sgr7337",
+    "en": "★sgr7337",
+    "de": "★sgr7337"
+  },
+  {
+    "slug": "dynamax-crystal-sgr7343",
+    "en": "★sgr7343",
+    "de": "★sgr7343"
+  },
+  {
+    "slug": "dynamax-crystal-sgr6812",
+    "en": "★sgr6812",
+    "de": "★sgr6812"
+  },
+  {
+    "slug": "dynamax-crystal-sgr7116",
+    "en": "★sgr7116",
+    "de": "★sgr7116"
+  },
+  {
+    "slug": "dynamax-crystal-sgr7264",
+    "en": "★sgr7264",
+    "de": "★sgr7264"
+  },
+  {
+    "slug": "dynamax-crystal-sgr7597",
+    "en": "★sgr7597",
+    "de": "★sgr7597"
+  },
+  {
+    "slug": "dynamax-crystal-del7882",
+    "en": "★del7882",
+    "de": "★del7882"
+  },
+  {
+    "slug": "dynamax-crystal-del7906",
+    "en": "★del7906",
+    "de": "★del7906"
+  },
+  {
+    "slug": "dynamax-crystal-del7852",
+    "en": "★del7852",
+    "de": "★del7852"
+  },
+  {
+    "slug": "dynamax-crystal-psc596",
+    "en": "★psc596",
+    "de": "★psc596"
+  },
+  {
+    "slug": "dynamax-crystal-psc361",
+    "en": "★psc361",
+    "de": "★psc361"
+  },
+  {
+    "slug": "dynamax-crystal-psc510",
+    "en": "★psc510",
+    "de": "★psc510"
+  },
+  {
+    "slug": "dynamax-crystal-psc437",
+    "en": "★psc437",
+    "de": "★psc437"
+  },
+  {
+    "slug": "dynamax-crystal-psc8773",
+    "en": "★psc8773",
+    "de": "★psc8773"
+  },
+  {
+    "slug": "dynamax-crystal-lep1865",
+    "en": "★lep1865",
+    "de": "★lep1865"
+  },
+  {
+    "slug": "dynamax-crystal-lep1829",
+    "en": "★lep1829",
+    "de": "★lep1829"
+  },
+  {
+    "slug": "dynamax-crystal-boo5340",
+    "en": "★boo5340",
+    "de": "★boo5340"
+  },
+  {
+    "slug": "dynamax-crystal-boo5506",
+    "en": "★boo5506",
+    "de": "★boo5506"
+  },
+  {
+    "slug": "dynamax-crystal-boo5435",
+    "en": "★boo5435",
+    "de": "★boo5435"
+  },
+  {
+    "slug": "dynamax-crystal-boo5602",
+    "en": "★boo5602",
+    "de": "★boo5602"
+  },
+  {
+    "slug": "dynamax-crystal-boo5733",
+    "en": "★boo5733",
+    "de": "★boo5733"
+  },
+  {
+    "slug": "dynamax-crystal-boo5235",
+    "en": "★boo5235",
+    "de": "★boo5235"
+  },
+  {
+    "slug": "dynamax-crystal-boo5351",
+    "en": "★boo5351",
+    "de": "★boo5351"
+  },
+  {
+    "slug": "dynamax-crystal-hya3748",
+    "en": "★hya3748",
+    "de": "★hya3748"
+  },
+  {
+    "slug": "dynamax-crystal-hya3903",
+    "en": "★hya3903",
+    "de": "★hya3903"
+  },
+  {
+    "slug": "dynamax-crystal-hya3418",
+    "en": "★hya3418",
+    "de": "★hya3418"
+  },
+  {
+    "slug": "dynamax-crystal-hya3482",
+    "en": "★hya3482",
+    "de": "★hya3482"
+  },
+  {
+    "slug": "dynamax-crystal-hya3845",
+    "en": "★hya3845",
+    "de": "★hya3845"
+  },
+  {
+    "slug": "dynamax-crystal-eri1084",
+    "en": "★eri1084",
+    "de": "★eri1084"
+  },
+  {
+    "slug": "dynamax-crystal-eri472",
+    "en": "★eri472",
+    "de": "★eri472"
+  },
+  {
+    "slug": "dynamax-crystal-eri1666",
+    "en": "★eri1666",
+    "de": "★eri1666"
+  },
+  {
+    "slug": "dynamax-crystal-eri897",
+    "en": "★eri897",
+    "de": "★eri897"
+  },
+  {
+    "slug": "dynamax-crystal-eri1231",
+    "en": "★eri1231",
+    "de": "★eri1231"
+  },
+  {
+    "slug": "dynamax-crystal-eri874",
+    "en": "★eri874",
+    "de": "★eri874"
+  },
+  {
+    "slug": "dynamax-crystal-eri1298",
+    "en": "★eri1298",
+    "de": "★eri1298"
+  },
+  {
+    "slug": "dynamax-crystal-eri1325",
+    "en": "★eri1325",
+    "de": "★eri1325"
+  },
+  {
+    "slug": "dynamax-crystal-eri984",
+    "en": "★eri984",
+    "de": "★eri984"
+  },
+  {
+    "slug": "dynamax-crystal-eri1464",
+    "en": "★eri1464",
+    "de": "★eri1464"
+  },
+  {
+    "slug": "dynamax-crystal-eri1393",
+    "en": "★eri1393",
+    "de": "★eri1393"
+  },
+  {
+    "slug": "dynamax-crystal-eri850",
+    "en": "★eri850",
+    "de": "★eri850"
+  },
+  {
+    "slug": "dynamax-crystal-tau1409",
+    "en": "★tau1409",
+    "de": "★tau1409"
+  },
+  {
+    "slug": "dynamax-crystal-tau1457",
+    "en": "★tau1457",
+    "de": "★tau1457"
+  },
+  {
+    "slug": "dynamax-crystal-tau1165",
+    "en": "★tau1165",
+    "de": "★tau1165"
+  },
+  {
+    "slug": "dynamax-crystal-tau1791",
+    "en": "★tau1791",
+    "de": "★tau1791"
+  },
+  {
+    "slug": "dynamax-crystal-tau1910",
+    "en": "★tau1910",
+    "de": "★tau1910"
+  },
+  {
+    "slug": "dynamax-crystal-tau1346",
+    "en": "★tau1346",
+    "de": "★tau1346"
+  },
+  {
+    "slug": "dynamax-crystal-tau1373",
+    "en": "★tau1373",
+    "de": "★tau1373"
+  },
+  {
+    "slug": "dynamax-crystal-tau1412",
+    "en": "★tau1412",
+    "de": "★tau1412"
+  },
+  {
+    "slug": "dynamax-crystal-cma2491",
+    "en": "★cma2491",
+    "de": "★cma2491"
+  },
+  {
+    "slug": "dynamax-crystal-cma2693",
+    "en": "★cma2693",
+    "de": "★cma2693"
+  },
+  {
+    "slug": "dynamax-crystal-cma2294",
+    "en": "★cma2294",
+    "de": "★cma2294"
+  },
+  {
+    "slug": "dynamax-crystal-cma2827",
+    "en": "★cma2827",
+    "de": "★cma2827"
+  },
+  {
+    "slug": "dynamax-crystal-cma2282",
+    "en": "★cma2282",
+    "de": "★cma2282"
+  },
+  {
+    "slug": "dynamax-crystal-cma2618",
+    "en": "★cma2618",
+    "de": "★cma2618"
+  },
+  {
+    "slug": "dynamax-crystal-cma2657",
+    "en": "★cma2657",
+    "de": "★cma2657"
+  },
+  {
+    "slug": "dynamax-crystal-cma2646",
+    "en": "★cma2646",
+    "de": "★cma2646"
+  },
+  {
+    "slug": "dynamax-crystal-uma4905",
+    "en": "★uma4905",
+    "de": "★uma4905"
+  },
+  {
+    "slug": "dynamax-crystal-uma4301",
+    "en": "★uma4301",
+    "de": "★uma4301"
+  },
+  {
+    "slug": "dynamax-crystal-uma5191",
+    "en": "★uma5191",
+    "de": "★uma5191"
+  },
+  {
+    "slug": "dynamax-crystal-uma5054",
+    "en": "★uma5054",
+    "de": "★uma5054"
+  },
+  {
+    "slug": "dynamax-crystal-uma4295",
+    "en": "★uma4295",
+    "de": "★uma4295"
+  },
+  {
+    "slug": "dynamax-crystal-uma4660",
+    "en": "★uma4660",
+    "de": "★uma4660"
+  },
+  {
+    "slug": "dynamax-crystal-uma4554",
+    "en": "★uma4554",
+    "de": "★uma4554"
+  },
+  {
+    "slug": "dynamax-crystal-uma4069",
+    "en": "★uma4069",
+    "de": "★uma4069"
+  },
+  {
+    "slug": "dynamax-crystal-uma3569",
+    "en": "★uma3569",
+    "de": "★uma3569"
+  },
+  {
+    "slug": "dynamax-crystal-uma3323",
+    "en": "★uma3323",
+    "de": "★uma3323"
+  },
+  {
+    "slug": "dynamax-crystal-uma4033",
+    "en": "★uma4033",
+    "de": "★uma4033"
+  },
+  {
+    "slug": "dynamax-crystal-uma4377",
+    "en": "★uma4377",
+    "de": "★uma4377"
+  },
+  {
+    "slug": "dynamax-crystal-uma4375",
+    "en": "★uma4375",
+    "de": "★uma4375"
+  },
+  {
+    "slug": "dynamax-crystal-uma4518",
+    "en": "★uma4518",
+    "de": "★uma4518"
+  },
+  {
+    "slug": "dynamax-crystal-uma3594",
+    "en": "★uma3594",
+    "de": "★uma3594"
+  },
+  {
+    "slug": "dynamax-crystal-vir5056",
+    "en": "★vir5056",
+    "de": "★vir5056"
+  },
+  {
+    "slug": "dynamax-crystal-vir4825",
+    "en": "★vir4825",
+    "de": "★vir4825"
+  },
+  {
+    "slug": "dynamax-crystal-vir4932",
+    "en": "★vir4932",
+    "de": "★vir4932"
+  },
+  {
+    "slug": "dynamax-crystal-vir4540",
+    "en": "★vir4540",
+    "de": "★vir4540"
+  },
+  {
+    "slug": "dynamax-crystal-vir4689",
+    "en": "★vir4689",
+    "de": "★vir4689"
+  },
+  {
+    "slug": "dynamax-crystal-vir5338",
+    "en": "★vir5338",
+    "de": "★vir5338"
+  },
+  {
+    "slug": "dynamax-crystal-vir4910",
+    "en": "★vir4910",
+    "de": "★vir4910"
+  },
+  {
+    "slug": "dynamax-crystal-vir5315",
+    "en": "★vir5315",
+    "de": "★vir5315"
+  },
+  {
+    "slug": "dynamax-crystal-vir5359",
+    "en": "★vir5359",
+    "de": "★vir5359"
+  },
+  {
+    "slug": "dynamax-crystal-vir5409",
+    "en": "★vir5409",
+    "de": "★vir5409"
+  },
+  {
+    "slug": "dynamax-crystal-vir5107",
+    "en": "★vir5107",
+    "de": "★vir5107"
+  },
+  {
+    "slug": "dynamax-crystal-ari617",
+    "en": "★ari617",
+    "de": "★ari617"
+  },
+  {
+    "slug": "dynamax-crystal-ari553",
+    "en": "★ari553",
+    "de": "★ari553"
+  },
+  {
+    "slug": "dynamax-crystal-ari546",
+    "en": "★ari546",
+    "de": "★ari546"
+  },
+  {
+    "slug": "dynamax-crystal-ari951",
+    "en": "★ari951",
+    "de": "★ari951"
+  },
+  {
+    "slug": "dynamax-crystal-ori1713",
+    "en": "★ori1713",
+    "de": "★ori1713"
+  },
+  {
+    "slug": "dynamax-crystal-ori2061",
+    "en": "★ori2061",
+    "de": "★ori2061"
+  },
+  {
+    "slug": "dynamax-crystal-ori1790",
+    "en": "★ori1790",
+    "de": "★ori1790"
+  },
+  {
+    "slug": "dynamax-crystal-ori1903",
+    "en": "★ori1903",
+    "de": "★ori1903"
+  },
+  {
+    "slug": "dynamax-crystal-ori1948",
+    "en": "★ori1948",
+    "de": "★ori1948"
+  },
+  {
+    "slug": "dynamax-crystal-ori2004",
+    "en": "★ori2004",
+    "de": "★ori2004"
+  },
+  {
+    "slug": "dynamax-crystal-ori1852",
+    "en": "★ori1852",
+    "de": "★ori1852"
+  },
+  {
+    "slug": "dynamax-crystal-ori1879",
+    "en": "★ori1879",
+    "de": "★ori1879"
+  },
+  {
+    "slug": "dynamax-crystal-ori1899",
+    "en": "★ori1899",
+    "de": "★ori1899"
+  },
+  {
+    "slug": "dynamax-crystal-ori1543",
+    "en": "★ori1543",
+    "de": "★ori1543"
+  },
+  {
+    "slug": "dynamax-crystal-cas21",
+    "en": "★cas21",
+    "de": "★cas21"
+  },
+  {
+    "slug": "dynamax-crystal-cas168",
+    "en": "★cas168",
+    "de": "★cas168"
+  },
+  {
+    "slug": "dynamax-crystal-cas403",
+    "en": "★cas403",
+    "de": "★cas403"
+  },
+  {
+    "slug": "dynamax-crystal-cas153",
+    "en": "★cas153",
+    "de": "★cas153"
+  },
+  {
+    "slug": "dynamax-crystal-cas542",
+    "en": "★cas542",
+    "de": "★cas542"
+  },
+  {
+    "slug": "dynamax-crystal-cas219",
+    "en": "★cas219",
+    "de": "★cas219"
+  },
+  {
+    "slug": "dynamax-crystal-cas265",
+    "en": "★cas265",
+    "de": "★cas265"
+  },
+  {
+    "slug": "dynamax-crystal-cnc3572",
+    "en": "★cnc3572",
+    "de": "★cnc3572"
+  },
+  {
+    "slug": "dynamax-crystal-cnc3208",
+    "en": "★cnc3208",
+    "de": "★cnc3208"
+  },
+  {
+    "slug": "dynamax-crystal-cnc3461",
+    "en": "★cnc3461",
+    "de": "★cnc3461"
+  },
+  {
+    "slug": "dynamax-crystal-cnc3449",
+    "en": "★cnc3449",
+    "de": "★cnc3449"
+  },
+  {
+    "slug": "dynamax-crystal-cnc3429",
+    "en": "★cnc3429",
+    "de": "★cnc3429"
+  },
+  {
+    "slug": "dynamax-crystal-cnc3627",
+    "en": "★cnc3627",
+    "de": "★cnc3627"
+  },
+  {
+    "slug": "dynamax-crystal-cnc3268",
+    "en": "★cnc3268",
+    "de": "★cnc3268"
+  },
+  {
+    "slug": "dynamax-crystal-cnc3249",
+    "en": "★cnc3249",
+    "de": "★cnc3249"
+  },
+  {
+    "slug": "dynamax-crystal-com4968",
+    "en": "★com4968",
+    "de": "★com4968"
+  },
+  {
+    "slug": "dynamax-crystal-crv4757",
+    "en": "★crv4757",
+    "de": "★crv4757"
+  },
+  {
+    "slug": "dynamax-crystal-crv4623",
+    "en": "★crv4623",
+    "de": "★crv4623"
+  },
+  {
+    "slug": "dynamax-crystal-crv4662",
+    "en": "★crv4662",
+    "de": "★crv4662"
+  },
+  {
+    "slug": "dynamax-crystal-crv4786",
+    "en": "★crv4786",
+    "de": "★crv4786"
+  },
+  {
+    "slug": "dynamax-crystal-aur1708",
+    "en": "★aur1708",
+    "de": "★aur1708"
+  },
+  {
+    "slug": "dynamax-crystal-aur2088",
+    "en": "★aur2088",
+    "de": "★aur2088"
+  },
+  {
+    "slug": "dynamax-crystal-aur1605",
+    "en": "★aur1605",
+    "de": "★aur1605"
+  },
+  {
+    "slug": "dynamax-crystal-aur2095",
+    "en": "★aur2095",
+    "de": "★aur2095"
+  },
+  {
+    "slug": "dynamax-crystal-aur1577",
+    "en": "★aur1577",
+    "de": "★aur1577"
+  },
+  {
+    "slug": "dynamax-crystal-aur1641",
+    "en": "★aur1641",
+    "de": "★aur1641"
+  },
+  {
+    "slug": "dynamax-crystal-aur1612",
+    "en": "★aur1612",
+    "de": "★aur1612"
+  },
+  {
+    "slug": "dynamax-crystal-pav7790",
+    "en": "★pav7790",
+    "de": "★pav7790"
+  },
+  {
+    "slug": "dynamax-crystal-cet911",
+    "en": "★cet911",
+    "de": "★cet911"
+  },
+  {
+    "slug": "dynamax-crystal-cet681",
+    "en": "★cet681",
+    "de": "★cet681"
+  },
+  {
+    "slug": "dynamax-crystal-cet188",
+    "en": "★cet188",
+    "de": "★cet188"
+  },
+  {
+    "slug": "dynamax-crystal-cet539",
+    "en": "★cet539",
+    "de": "★cet539"
+  },
+  {
+    "slug": "dynamax-crystal-cet804",
+    "en": "★cet804",
+    "de": "★cet804"
+  },
+  {
+    "slug": "dynamax-crystal-cep8974",
+    "en": "★cep8974",
+    "de": "★cep8974"
+  },
+  {
+    "slug": "dynamax-crystal-cep8162",
+    "en": "★cep8162",
+    "de": "★cep8162"
+  },
+  {
+    "slug": "dynamax-crystal-cep8238",
+    "en": "★cep8238",
+    "de": "★cep8238"
+  },
+  {
+    "slug": "dynamax-crystal-cep8417",
+    "en": "★cep8417",
+    "de": "★cep8417"
+  },
+  {
+    "slug": "dynamax-crystal-cen5267",
+    "en": "★cen5267",
+    "de": "★cen5267"
+  },
+  {
+    "slug": "dynamax-crystal-cen5288",
+    "en": "★cen5288",
+    "de": "★cen5288"
+  },
+  {
+    "slug": "dynamax-crystal-cen551",
+    "en": "★cen551",
+    "de": "★cen551"
+  },
+  {
+    "slug": "dynamax-crystal-cen5459",
+    "en": "★cen5459",
+    "de": "★cen5459"
+  },
+  {
+    "slug": "dynamax-crystal-cen5460",
+    "en": "★cen5460",
+    "de": "★cen5460"
+  },
+  {
+    "slug": "dynamax-crystal-cmi2943",
+    "en": "★cmi2943",
+    "de": "★cmi2943"
+  },
+  {
+    "slug": "dynamax-crystal-cmi2845",
+    "en": "★cmi2845",
+    "de": "★cmi2845"
+  },
+  {
+    "slug": "dynamax-crystal-equ8131",
+    "en": "★equ8131",
+    "de": "★equ8131"
+  },
+  {
+    "slug": "dynamax-crystal-vul7405",
+    "en": "★vul7405",
+    "de": "★vul7405"
+  },
+  {
+    "slug": "dynamax-crystal-umi424",
+    "en": "★umi424",
+    "de": "★umi424"
+  },
+  {
+    "slug": "dynamax-crystal-umi5563",
+    "en": "★umi5563",
+    "de": "★umi5563"
+  },
+  {
+    "slug": "dynamax-crystal-umi5735",
+    "en": "★umi5735",
+    "de": "★umi5735"
+  },
+  {
+    "slug": "dynamax-crystal-umi6789",
+    "en": "★umi6789",
+    "de": "★umi6789"
+  },
+  {
+    "slug": "dynamax-crystal-crt4287",
+    "en": "★crt4287",
+    "de": "★crt4287"
+  },
+  {
+    "slug": "dynamax-crystal-lyr7001",
+    "en": "★lyr7001",
+    "de": "★lyr7001"
+  },
+  {
+    "slug": "dynamax-crystal-lyr7178",
+    "en": "★lyr7178",
+    "de": "★lyr7178"
+  },
+  {
+    "slug": "dynamax-crystal-lyr7106",
+    "en": "★lyr7106",
+    "de": "★lyr7106"
+  },
+  {
+    "slug": "dynamax-crystal-lyr7298",
+    "en": "★lyr7298",
+    "de": "★lyr7298"
+  },
+  {
+    "slug": "dynamax-crystal-ara6585",
+    "en": "★ara6585",
+    "de": "★ara6585"
+  },
+  {
+    "slug": "dynamax-crystal-sco6134",
+    "en": "★sco6134",
+    "de": "★sco6134"
+  },
+  {
+    "slug": "dynamax-crystal-sco6527",
+    "en": "★sco6527",
+    "de": "★sco6527"
+  },
+  {
+    "slug": "dynamax-crystal-sco6553",
+    "en": "★sco6553",
+    "de": "★sco6553"
+  },
+  {
+    "slug": "dynamax-crystal-sco5953",
+    "en": "★sco5953",
+    "de": "★sco5953"
+  },
+  {
+    "slug": "dynamax-crystal-sco5984",
+    "en": "★sco5984",
+    "de": "★sco5984"
+  },
+  {
+    "slug": "dynamax-crystal-sco6508",
+    "en": "★sco6508",
+    "de": "★sco6508"
+  },
+  {
+    "slug": "dynamax-crystal-sco6084",
+    "en": "★sco6084",
+    "de": "★sco6084"
+  },
+  {
+    "slug": "dynamax-crystal-sco5944",
+    "en": "★sco5944",
+    "de": "★sco5944"
+  },
+  {
+    "slug": "dynamax-crystal-sco6630",
+    "en": "★sco6630",
+    "de": "★sco6630"
+  },
+  {
+    "slug": "dynamax-crystal-sco6027",
+    "en": "★sco6027",
+    "de": "★sco6027"
+  },
+  {
+    "slug": "dynamax-crystal-sco6247",
+    "en": "★sco6247",
+    "de": "★sco6247"
+  },
+  {
+    "slug": "dynamax-crystal-sco6252",
+    "en": "★sco6252",
+    "de": "★sco6252"
+  },
+  {
+    "slug": "dynamax-crystal-sco5928",
+    "en": "★sco5928",
+    "de": "★sco5928"
+  },
+  {
+    "slug": "dynamax-crystal-sco6241",
+    "en": "★sco6241",
+    "de": "★sco6241"
+  },
+  {
+    "slug": "dynamax-crystal-sco6165",
+    "en": "★sco6165",
+    "de": "★sco6165"
+  },
+  {
+    "slug": "dynamax-crystal-tri544",
+    "en": "★tri544",
+    "de": "★tri544"
+  },
+  {
+    "slug": "dynamax-crystal-leo3982",
+    "en": "★leo3982",
+    "de": "★leo3982"
+  },
+  {
+    "slug": "dynamax-crystal-leo4534",
+    "en": "★leo4534",
+    "de": "★leo4534"
+  },
+  {
+    "slug": "dynamax-crystal-leo4357",
+    "en": "★leo4357",
+    "de": "★leo4357"
+  },
+  {
+    "slug": "dynamax-crystal-leo4057",
+    "en": "★leo4057",
+    "de": "★leo4057"
+  },
+  {
+    "slug": "dynamax-crystal-leo4359",
+    "en": "★leo4359",
+    "de": "★leo4359"
+  },
+  {
+    "slug": "dynamax-crystal-leo4031",
+    "en": "★leo4031",
+    "de": "★leo4031"
+  },
+  {
+    "slug": "dynamax-crystal-leo3852",
+    "en": "★leo3852",
+    "de": "★leo3852"
+  },
+  {
+    "slug": "dynamax-crystal-leo3905",
+    "en": "★leo3905",
+    "de": "★leo3905"
+  },
+  {
+    "slug": "dynamax-crystal-leo3773",
+    "en": "★leo3773",
+    "de": "★leo3773"
+  },
+  {
+    "slug": "dynamax-crystal-gru8425",
+    "en": "★gru8425",
+    "de": "★gru8425"
+  },
+  {
+    "slug": "dynamax-crystal-gru8636",
+    "en": "★gru8636",
+    "de": "★gru8636"
+  },
+  {
+    "slug": "dynamax-crystal-gru8353",
+    "en": "★gru8353",
+    "de": "★gru8353"
+  },
+  {
+    "slug": "dynamax-crystal-lib5685",
+    "en": "★lib5685",
+    "de": "★lib5685"
+  },
+  {
+    "slug": "dynamax-crystal-lib5531",
+    "en": "★lib5531",
+    "de": "★lib5531"
+  },
+  {
+    "slug": "dynamax-crystal-lib5787",
+    "en": "★lib5787",
+    "de": "★lib5787"
+  },
+  {
+    "slug": "dynamax-crystal-lib5603",
+    "en": "★lib5603",
+    "de": "★lib5603"
+  },
+  {
+    "slug": "dynamax-crystal-pup3165",
+    "en": "★pup3165",
+    "de": "★pup3165"
+  },
+  {
+    "slug": "dynamax-crystal-pup3185",
+    "en": "★pup3185",
+    "de": "★pup3185"
+  },
+  {
+    "slug": "dynamax-crystal-pup3045",
+    "en": "★pup3045",
+    "de": "★pup3045"
+  },
+  {
+    "slug": "dynamax-crystal-cyg7924",
+    "en": "★cyg7924",
+    "de": "★cyg7924"
+  },
+  {
+    "slug": "dynamax-crystal-cyg7417",
+    "en": "★cyg7417",
+    "de": "★cyg7417"
+  },
+  {
+    "slug": "dynamax-crystal-cyg7796",
+    "en": "★cyg7796",
+    "de": "★cyg7796"
+  },
+  {
+    "slug": "dynamax-crystal-cyg8301",
+    "en": "★cyg8301",
+    "de": "★cyg8301"
+  },
+  {
+    "slug": "dynamax-crystal-cyg7949",
+    "en": "★cyg7949",
+    "de": "★cyg7949"
+  },
+  {
+    "slug": "dynamax-crystal-cyg7528",
+    "en": "★cyg7528",
+    "de": "★cyg7528"
+  },
+  {
+    "slug": "dynamax-crystal-oct7228",
+    "en": "★oct7228",
+    "de": "★oct7228"
+  },
+  {
+    "slug": "dynamax-crystal-col1956",
+    "en": "★col1956",
+    "de": "★col1956"
+  },
+  {
+    "slug": "dynamax-crystal-col2040",
+    "en": "★col2040",
+    "de": "★col2040"
+  },
+  {
+    "slug": "dynamax-crystal-col2177",
+    "en": "★col2177",
+    "de": "★col2177"
+  },
+  {
+    "slug": "dynamax-crystal-gem2990",
+    "en": "★gem2990",
+    "de": "★gem2990"
+  },
+  {
+    "slug": "dynamax-crystal-gem2891",
+    "en": "★gem2891",
+    "de": "★gem2891"
+  },
+  {
+    "slug": "dynamax-crystal-gem2421",
+    "en": "★gem2421",
+    "de": "★gem2421"
+  },
+  {
+    "slug": "dynamax-crystal-gem2473",
+    "en": "★gem2473",
+    "de": "★gem2473"
+  },
+  {
+    "slug": "dynamax-crystal-gem2216",
+    "en": "★gem2216",
+    "de": "★gem2216"
+  },
+  {
+    "slug": "dynamax-crystal-gem2777",
+    "en": "★gem2777",
+    "de": "★gem2777"
+  },
+  {
+    "slug": "dynamax-crystal-gem2650",
+    "en": "★gem2650",
+    "de": "★gem2650"
+  },
+  {
+    "slug": "dynamax-crystal-gem2286",
+    "en": "★gem2286",
+    "de": "★gem2286"
+  },
+  {
+    "slug": "dynamax-crystal-gem2484",
+    "en": "★gem2484",
+    "de": "★gem2484"
+  },
+  {
+    "slug": "dynamax-crystal-gem2930",
+    "en": "★gem2930",
+    "de": "★gem2930"
+  },
+  {
+    "slug": "dynamax-crystal-peg8775",
+    "en": "★peg8775",
+    "de": "★peg8775"
+  },
+  {
+    "slug": "dynamax-crystal-peg8781",
+    "en": "★peg8781",
+    "de": "★peg8781"
+  },
+  {
+    "slug": "dynamax-crystal-peg39",
+    "en": "★peg39",
+    "de": "★peg39"
+  },
+  {
+    "slug": "dynamax-crystal-peg8308",
+    "en": "★peg8308",
+    "de": "★peg8308"
+  },
+  {
+    "slug": "dynamax-crystal-peg8650",
+    "en": "★peg8650",
+    "de": "★peg8650"
+  },
+  {
+    "slug": "dynamax-crystal-peg8634",
+    "en": "★peg8634",
+    "de": "★peg8634"
+  },
+  {
+    "slug": "dynamax-crystal-peg8684",
+    "en": "★peg8684",
+    "de": "★peg8684"
+  },
+  {
+    "slug": "dynamax-crystal-peg8450",
+    "en": "★peg8450",
+    "de": "★peg8450"
+  },
+  {
+    "slug": "dynamax-crystal-peg8880",
+    "en": "★peg8880",
+    "de": "★peg8880"
+  },
+  {
+    "slug": "dynamax-crystal-peg8905",
+    "en": "★peg8905",
+    "de": "★peg8905"
+  },
+  {
+    "slug": "dynamax-crystal-oph6556",
+    "en": "★oph6556",
+    "de": "★oph6556"
+  },
+  {
+    "slug": "dynamax-crystal-oph6378",
+    "en": "★oph6378",
+    "de": "★oph6378"
+  },
+  {
+    "slug": "dynamax-crystal-oph6603",
+    "en": "★oph6603",
+    "de": "★oph6603"
+  },
+  {
+    "slug": "dynamax-crystal-oph6149",
+    "en": "★oph6149",
+    "de": "★oph6149"
+  },
+  {
+    "slug": "dynamax-crystal-oph6056",
+    "en": "★oph6056",
+    "de": "★oph6056"
+  },
+  {
+    "slug": "dynamax-crystal-oph6075",
+    "en": "★oph6075",
+    "de": "★oph6075"
+  },
+  {
+    "slug": "dynamax-crystal-ser5854",
+    "en": "★ser5854",
+    "de": "★ser5854"
+  },
+  {
+    "slug": "dynamax-crystal-ser7141",
+    "en": "★ser7141",
+    "de": "★ser7141"
+  },
+  {
+    "slug": "dynamax-crystal-ser5879",
+    "en": "★ser5879",
+    "de": "★ser5879"
+  },
+  {
+    "slug": "dynamax-crystal-her6406",
+    "en": "★her6406",
+    "de": "★her6406"
+  },
+  {
+    "slug": "dynamax-crystal-her6148",
+    "en": "★her6148",
+    "de": "★her6148"
+  },
+  {
+    "slug": "dynamax-crystal-her6410",
+    "en": "★her6410",
+    "de": "★her6410"
+  },
+  {
+    "slug": "dynamax-crystal-her6526",
+    "en": "★her6526",
+    "de": "★her6526"
+  },
+  {
+    "slug": "dynamax-crystal-her6117",
+    "en": "★her6117",
+    "de": "★her6117"
+  },
+  {
+    "slug": "dynamax-crystal-her6008",
+    "en": "★her6008",
+    "de": "★her6008"
+  },
+  {
+    "slug": "dynamax-crystal-per936",
+    "en": "★per936",
+    "de": "★per936"
+  },
+  {
+    "slug": "dynamax-crystal-per1017",
+    "en": "★per1017",
+    "de": "★per1017"
+  },
+  {
+    "slug": "dynamax-crystal-per1131",
+    "en": "★per1131",
+    "de": "★per1131"
+  },
+  {
+    "slug": "dynamax-crystal-per1228",
+    "en": "★per1228",
+    "de": "★per1228"
+  },
+  {
+    "slug": "dynamax-crystal-per834",
+    "en": "★per834",
+    "de": "★per834"
+  },
+  {
+    "slug": "dynamax-crystal-per941",
+    "en": "★per941",
+    "de": "★per941"
+  },
+  {
+    "slug": "dynamax-crystal-phe99",
+    "en": "★phe99",
+    "de": "★phe99"
+  },
+  {
+    "slug": "dynamax-crystal-phe338",
+    "en": "★phe338",
+    "de": "★phe338"
+  },
+  {
+    "slug": "dynamax-crystal-vel3634",
+    "en": "★vel3634",
+    "de": "★vel3634"
+  },
+  {
+    "slug": "dynamax-crystal-vel3485",
+    "en": "★vel3485",
+    "de": "★vel3485"
+  },
+  {
+    "slug": "dynamax-crystal-vel3734",
+    "en": "★vel3734",
+    "de": "★vel3734"
+  },
+  {
+    "slug": "dynamax-crystal-aqr8232",
+    "en": "★aqr8232",
+    "de": "★aqr8232"
+  },
+  {
+    "slug": "dynamax-crystal-aqr8414",
+    "en": "★aqr8414",
+    "de": "★aqr8414"
+  },
+  {
+    "slug": "dynamax-crystal-aqr8709",
+    "en": "★aqr8709",
+    "de": "★aqr8709"
+  },
+  {
+    "slug": "dynamax-crystal-aqr8518",
+    "en": "★aqr8518",
+    "de": "★aqr8518"
+  },
+  {
+    "slug": "dynamax-crystal-aqr7950",
+    "en": "★aqr7950",
+    "de": "★aqr7950"
+  },
+  {
+    "slug": "dynamax-crystal-aqr8499",
+    "en": "★aqr8499",
+    "de": "★aqr8499"
+  },
+  {
+    "slug": "dynamax-crystal-aqr8610",
+    "en": "★aqr8610",
+    "de": "★aqr8610"
+  },
+  {
+    "slug": "dynamax-crystal-aqr8264",
+    "en": "★aqr8264",
+    "de": "★aqr8264"
+  },
+  {
+    "slug": "dynamax-crystal-cru4853",
+    "en": "★cru4853",
+    "de": "★cru4853"
+  },
+  {
+    "slug": "dynamax-crystal-cru4730",
+    "en": "★cru4730",
+    "de": "★cru4730"
+  },
+  {
+    "slug": "dynamax-crystal-cru4763",
+    "en": "★cru4763",
+    "de": "★cru4763"
+  },
+  {
+    "slug": "dynamax-crystal-cru4700",
+    "en": "★cru4700",
+    "de": "★cru4700"
+  },
+  {
+    "slug": "dynamax-crystal-cru4656",
+    "en": "★cru4656",
+    "de": "★cru4656"
+  },
+  {
+    "slug": "dynamax-crystal-psa8728",
+    "en": "★psa8728",
+    "de": "★psa8728"
+  },
+  {
+    "slug": "dynamax-crystal-tra6217",
+    "en": "★tra6217",
+    "de": "★tra6217"
+  },
+  {
+    "slug": "dynamax-crystal-cap7776",
+    "en": "★cap7776",
+    "de": "★cap7776"
+  },
+  {
+    "slug": "dynamax-crystal-cap7754",
+    "en": "★cap7754",
+    "de": "★cap7754"
+  },
+  {
+    "slug": "dynamax-crystal-cap8278",
+    "en": "★cap8278",
+    "de": "★cap8278"
+  },
+  {
+    "slug": "dynamax-crystal-cap8322",
+    "en": "★cap8322",
+    "de": "★cap8322"
+  },
+  {
+    "slug": "dynamax-crystal-cap7773",
+    "en": "★cap7773",
+    "de": "★cap7773"
+  },
+  {
+    "slug": "dynamax-crystal-sge7479",
+    "en": "★sge7479",
+    "de": "★sge7479"
+  },
+  {
+    "slug": "dynamax-crystal-car2326",
+    "en": "★car2326",
+    "de": "★car2326"
+  },
+  {
+    "slug": "dynamax-crystal-car3685",
+    "en": "★car3685",
+    "de": "★car3685"
+  },
+  {
+    "slug": "dynamax-crystal-car3307",
+    "en": "★car3307",
+    "de": "★car3307"
+  },
+  {
+    "slug": "dynamax-crystal-car3699",
+    "en": "★car3699",
+    "de": "★car3699"
+  },
+  {
+    "slug": "dynamax-crystal-dra5744",
+    "en": "★dra5744",
+    "de": "★dra5744"
+  },
+  {
+    "slug": "dynamax-crystal-dra5291",
+    "en": "★dra5291",
+    "de": "★dra5291"
+  },
+  {
+    "slug": "dynamax-crystal-dra6705",
+    "en": "★dra6705",
+    "de": "★dra6705"
+  },
+  {
+    "slug": "dynamax-crystal-dra6536",
+    "en": "★dra6536",
+    "de": "★dra6536"
+  },
+  {
+    "slug": "dynamax-crystal-dra7310",
+    "en": "★dra7310",
+    "de": "★dra7310"
+  },
+  {
+    "slug": "dynamax-crystal-dra6688",
+    "en": "★dra6688",
+    "de": "★dra6688"
+  },
+  {
+    "slug": "dynamax-crystal-dra4434",
+    "en": "★dra4434",
+    "de": "★dra4434"
+  },
+  {
+    "slug": "dynamax-crystal-dra6370",
+    "en": "★dra6370",
+    "de": "★dra6370"
+  },
+  {
+    "slug": "dynamax-crystal-dra7462",
+    "en": "★dra7462",
+    "de": "★dra7462"
+  },
+  {
+    "slug": "dynamax-crystal-dra6396",
+    "en": "★dra6396",
+    "de": "★dra6396"
+  },
+  {
+    "slug": "dynamax-crystal-dra6132",
+    "en": "★dra6132",
+    "de": "★dra6132"
+  },
+  {
+    "slug": "dynamax-crystal-dra6636",
+    "en": "★dra6636",
+    "de": "★dra6636"
+  },
+  {
+    "slug": "dynamax-crystal-cvn4915",
+    "en": "★cvn4915",
+    "de": "★cvn4915"
+  },
+  {
+    "slug": "dynamax-crystal-cvn4785",
+    "en": "★cvn4785",
+    "de": "★cvn4785"
+  },
+  {
+    "slug": "dynamax-crystal-cvn4846",
+    "en": "★cvn4846",
+    "de": "★cvn4846"
+  },
+  {
+    "slug": "dynamax-crystal-aql7595",
+    "en": "★aql7595",
+    "de": "★aql7595"
+  },
+  {
+    "slug": "dynamax-crystal-aql7557",
+    "en": "★aql7557",
+    "de": "★aql7557"
+  },
+  {
+    "slug": "dynamax-crystal-aql7525",
+    "en": "★aql7525",
+    "de": "★aql7525"
+  },
+  {
+    "slug": "dynamax-crystal-aql7602",
+    "en": "★aql7602",
+    "de": "★aql7602"
+  },
+  {
+    "slug": "dynamax-crystal-aql7235",
+    "en": "★aql7235",
+    "de": "★aql7235"
+  },
+  {
+    "slug": "sausages",
+    "en": "sausages",
+    "de": "würstchen"
+  },
+  {
+    "slug": "bobs-food-tin",
+    "en": "bob’s food tin",
+    "de": "pauls feinkost"
+  },
+  {
+    "slug": "bachs-food-tin",
+    "en": "bach’s food tin",
+    "de": "bachs feinkost"
+  },
+  {
+    "slug": "tin-of-beans",
+    "en": "tin of beans",
+    "de": "dosenbohnen"
+  },
+  {
+    "slug": "bread",
+    "en": "bread",
+    "de": "toastbrot"
+  },
+  {
+    "slug": "pasta",
+    "en": "pasta",
+    "de": "spaghetti"
+  },
+  {
+    "slug": "mixed-mushrooms",
+    "en": "mixed mushrooms",
+    "de": "pilzmix"
+  },
+  {
+    "slug": "smoke-poke-tail",
+    "en": "smoke-poke tail",
+    "de": "röstrute"
+  },
+  {
+    "slug": "large-leek",
+    "en": "large leek",
+    "de": "dicker lauch"
+  },
+  {
+    "slug": "fancy-apple",
+    "en": "fancy apple",
+    "de": "luxusapfel"
+  },
+  {
+    "slug": "brittle-bones",
+    "en": "brittle bones",
+    "de": "feine knochen"
+  },
+  {
+    "slug": "pack-of-potatoes",
+    "en": "pack of potatoes",
+    "de": "kartoffeln"
+  },
+  {
+    "slug": "pungent-root",
+    "en": "pungent root",
+    "de": "uferkraut"
+  },
+  {
+    "slug": "salad-mix",
+    "en": "salad mix",
+    "de": "gemüse"
+  },
+  {
+    "slug": "fried-food",
+    "en": "fried food",
+    "de": "frittiertes"
+  },
+  {
+    "slug": "boiled-egg",
+    "en": "boiled egg",
+    "de": "gekochtes ei"
+  },
+  {
+    "slug": "fruit-bunch",
+    "en": "fruit bunch",
+    "de": "früchte"
+  },
+  {
+    "slug": "moomoo-cheese",
+    "en": "moomoo cheese",
+    "de": "kuhmuh-käse"
+  },
+  {
+    "slug": "spice-mix",
+    "en": "spice mix",
+    "de": "gewürzmix"
+  },
+  {
+    "slug": "fresh-cream",
+    "en": "fresh cream",
+    "de": "frische sahne"
+  },
+  {
+    "slug": "packaged-curry",
+    "en": "packaged curry",
+    "de": "fertigcurry"
+  },
+  {
+    "slug": "coconut-milk",
+    "en": "coconut milk",
+    "de": "kokosmilch"
+  },
+  {
+    "slug": "instant-noodles",
+    "en": "instant noodles",
+    "de": "fertignudeln"
+  },
+  {
+    "slug": "precooked-burger",
+    "en": "precooked burger",
+    "de": "frikadellen"
+  },
+  {
+    "slug": "gigantamix",
+    "en": "gigantamix",
+    "de": "giga-pulver"
+  },
+  {
+    "slug": "normal-tera-shard",
+    "en": "normal tera shard",
+    "de": "normal-tera-shard"
+  },
+  {
+    "slug": "fire-tera-shard",
+    "en": "fire tera shard",
+    "de": "fire-tera-shard"
+  },
+  {
+    "slug": "water-tera-shard",
+    "en": "water tera shard",
+    "de": "water-tera-shard"
+  },
+  {
+    "slug": "electric-tera-shard",
+    "en": "electric tera shard",
+    "de": "electric-tera-shard"
+  },
+  {
+    "slug": "grass-tera-shard",
+    "en": "grass tera shard",
+    "de": "grass-tera-shard"
+  },
+  {
+    "slug": "ice-tera-shard",
+    "en": "ice tera shard",
+    "de": "ice-tera-shard"
+  },
+  {
+    "slug": "fighting-tera-shard",
+    "en": "fighting tera shard",
+    "de": "fighting-tera-shard"
+  },
+  {
+    "slug": "poison-tera-shard",
+    "en": "poison tera shard",
+    "de": "poison-tera-shard"
+  },
+  {
+    "slug": "ground-tera-shard",
+    "en": "ground tera shard",
+    "de": "ground-tera-shard"
+  },
+  {
+    "slug": "flying-tera-shard",
+    "en": "flying tera shard",
+    "de": "flying-tera-shard"
+  },
+  {
+    "slug": "psychic-tera-shard",
+    "en": "psychic tera shard",
+    "de": "psychic-tera-shard"
+  },
+  {
+    "slug": "bug-tera-shard",
+    "en": "bug tera shard",
+    "de": "bug-tera-shard"
+  },
+  {
+    "slug": "rock-tera-shard",
+    "en": "rock tera shard",
+    "de": "rock-tera-shard"
+  },
+  {
+    "slug": "ghost-tera-shard",
+    "en": "ghost tera shard",
+    "de": "ghost-tera-shard"
+  },
+  {
+    "slug": "dragon-tera-shard",
+    "en": "dragon tera shard",
+    "de": "dragon-tera-shard"
+  },
+  {
+    "slug": "dark-tera-shard",
+    "en": "dark tera shard",
+    "de": "dark-tera-shard"
+  },
+  {
+    "slug": "steel-tera-shard",
+    "en": "steel tera shard",
+    "de": "steel-tera-shard"
+  },
+  {
+    "slug": "fairy-tera-shard",
+    "en": "fairy tera shard",
+    "de": "fairy-tera-shard"
+  },
+  {
+    "slug": "baguette",
+    "en": "baguette",
+    "de": "baguette"
+  },
+  {
+    "slug": "mayonnaise",
+    "en": "mayonnaise",
+    "de": "mayonnaise"
+  },
+  {
+    "slug": "ketchup",
+    "en": "ketchup",
+    "de": "ketchup"
+  },
+  {
+    "slug": "mustard",
+    "en": "mustard",
+    "de": "mustard"
+  },
+  {
+    "slug": "butter",
+    "en": "butter",
+    "de": "butter"
+  },
+  {
+    "slug": "peanut-butter",
+    "en": "peanut butter",
+    "de": "peanut-butter"
+  },
+  {
+    "slug": "chili-sauce",
+    "en": "chili sauce",
+    "de": "chili-sauce"
+  },
+  {
+    "slug": "salt",
+    "en": "salt",
+    "de": "salt"
+  },
+  {
+    "slug": "pepper",
+    "en": "pepper",
+    "de": "pepper"
+  },
+  {
+    "slug": "yogurt",
+    "en": "yogurt",
+    "de": "yogurt"
+  },
+  {
+    "slug": "whipped-cream",
+    "en": "whipped cream",
+    "de": "whipped-cream"
+  },
+  {
+    "slug": "cream-cheese",
+    "en": "cream cheese",
+    "de": "cream-cheese"
+  },
+  {
+    "slug": "jam",
+    "en": "jam",
+    "de": "jam"
+  },
+  {
+    "slug": "marmalade",
+    "en": "marmalade",
+    "de": "marmalade"
+  },
+  {
+    "slug": "olive-oil",
+    "en": "olive oil",
+    "de": "olive-oil"
+  },
+  {
+    "slug": "vinegar",
+    "en": "vinegar",
+    "de": "vinegar"
+  },
+  {
+    "slug": "sweet-herba-mystica",
+    "en": "sweet herba mystica",
+    "de": "sweet-herba-mystica"
+  },
+  {
+    "slug": "salty-herba-mystica",
+    "en": "salty herba mystica",
+    "de": "salty-herba-mystica"
+  },
+  {
+    "slug": "sour-herba-mystica",
+    "en": "sour herba mystica",
+    "de": "sour-herba-mystica"
+  },
+  {
+    "slug": "bitter-herba-mystica",
+    "en": "bitter herba mystica",
+    "de": "bitter-herba-mystica"
+  },
+  {
+    "slug": "spicy-herba-mystica",
+    "en": "spicy herba mystica",
+    "de": "spicy-herba-mystica"
+  },
+  {
+    "slug": "lettuce",
+    "en": "lettuce",
+    "de": "lettuce"
+  },
+  {
+    "slug": "tomato",
+    "en": "tomato",
+    "de": "tomato"
+  },
+  {
+    "slug": "cherry-tomatoes",
+    "en": "cherry tomatoes",
+    "de": "cherry-tomatoes"
+  },
+  {
+    "slug": "cucumber",
+    "en": "cucumber",
+    "de": "cucumber"
+  },
+  {
+    "slug": "pickle",
+    "en": "pickle",
+    "de": "pickle"
+  },
+  {
+    "slug": "onion",
+    "en": "onion",
+    "de": "onion"
+  },
+  {
+    "slug": "red-onion",
+    "en": "red onion",
+    "de": "red-onion"
+  },
+  {
+    "slug": "green-bell-pepper",
+    "en": "green bell pepper",
+    "de": "green-bell-pepper"
+  },
+  {
+    "slug": "red-bell-pepper",
+    "en": "red bell pepper",
+    "de": "red-bell-pepper"
+  },
+  {
+    "slug": "yellow-bell-pepper",
+    "en": "yellow bell pepper",
+    "de": "yellow-bell-pepper"
+  },
+  {
+    "slug": "avocado",
+    "en": "avocado",
+    "de": "avocado"
+  },
+  {
+    "slug": "bacon",
+    "en": "bacon",
+    "de": "bacon"
+  },
+  {
+    "slug": "ham",
+    "en": "ham",
+    "de": "ham"
+  },
+  {
+    "slug": "prosciutto",
+    "en": "prosciutto",
+    "de": "prosciutto"
+  },
+  {
+    "slug": "chorizo",
+    "en": "chorizo",
+    "de": "chorizo"
+  },
+  {
+    "slug": "herbed-sausage",
+    "en": "herbed sausage",
+    "de": "herbed-sausage"
+  },
+  {
+    "slug": "hamburger",
+    "en": "hamburger",
+    "de": "hamburger"
+  },
+  {
+    "slug": "klawf-stick",
+    "en": "klawf stick",
+    "de": "klawf-stick"
+  },
+  {
+    "slug": "smoked-fillet",
+    "en": "smoked fillet",
+    "de": "smoked-fillet"
+  },
+  {
+    "slug": "fried-fillet",
+    "en": "fried fillet",
+    "de": "fried-fillet"
+  },
+  {
+    "slug": "egg",
+    "en": "egg",
+    "de": "egg"
+  },
+  {
+    "slug": "potato-tortilla",
+    "en": "potato tortilla",
+    "de": "potato-tortilla"
+  },
+  {
+    "slug": "tofu",
+    "en": "tofu",
+    "de": "tofu"
+  },
+  {
+    "slug": "rice",
+    "en": "rice",
+    "de": "rice"
+  },
+  {
+    "slug": "noodles",
+    "en": "noodles",
+    "de": "noodles"
+  },
+  {
+    "slug": "potato-salad",
+    "en": "potato salad",
+    "de": "potato-salad"
+  },
+  {
+    "slug": "cheese",
+    "en": "cheese",
+    "de": "cheese"
+  },
+  {
+    "slug": "banana",
+    "en": "banana",
+    "de": "banana"
+  },
+  {
+    "slug": "strawberry",
+    "en": "strawberry",
+    "de": "strawberry"
+  },
+  {
+    "slug": "apple",
+    "en": "apple",
+    "de": "apple"
+  },
+  {
+    "slug": "kiwi",
+    "en": "kiwi",
+    "de": "kiwi"
+  },
+  {
+    "slug": "pineapple",
+    "en": "pineapple",
+    "de": "pineapple"
+  },
+  {
+    "slug": "jalapeno",
+    "en": "jalapeño",
+    "de": "jalapeno"
+  },
+  {
+    "slug": "horseradish",
+    "en": "horseradish",
+    "de": "horseradish"
+  },
+  {
+    "slug": "curry-powder",
+    "en": "curry powder",
+    "de": "curry-powder"
+  },
+  {
+    "slug": "wasabi",
+    "en": "wasabi",
+    "de": "wasabi"
+  },
+  {
+    "slug": "watercress",
+    "en": "watercress",
+    "de": "watercress"
+  },
+  {
+    "slug": "basil",
+    "en": "basil",
+    "de": "basil"
+  },
+  {
+    "slug": "venonat-fang",
+    "en": "venonat fang",
+    "de": "venonat-fang"
+  },
+  {
+    "slug": "diglett-dirt",
+    "en": "diglett dirt",
+    "de": "diglett-dirt"
+  },
+  {
+    "slug": "meowth-fur",
+    "en": "meowth fur",
+    "de": "meowth-fur"
+  },
+  {
+    "slug": "psyduck-down",
+    "en": "psyduck down",
+    "de": "psyduck-down"
+  },
+  {
+    "slug": "mankey-fur",
+    "en": "mankey fur",
+    "de": "mankey-fur"
+  },
+  {
+    "slug": "growlithe-fur",
+    "en": "growlithe fur",
+    "de": "growlithe-fur"
+  },
+  {
+    "slug": "slowpoke-claw",
+    "en": "slowpoke claw",
+    "de": "slowpoke-claw"
+  },
+  {
+    "slug": "magnemite-screw",
+    "en": "magnemite screw",
+    "de": "magnemite-screw"
+  },
+  {
+    "slug": "grimer-toxin",
+    "en": "grimer toxin",
+    "de": "grimer-toxin"
+  },
+  {
+    "slug": "shellder-pearl",
+    "en": "shellder pearl",
+    "de": "shellder-pearl"
+  },
+  {
+    "slug": "gastly-gas",
+    "en": "gastly gas",
+    "de": "gastly-gas"
+  },
+  {
+    "slug": "drowzee-fur",
+    "en": "drowzee fur",
+    "de": "drowzee-fur"
+  },
+  {
+    "slug": "voltorb-sparks",
+    "en": "voltorb sparks",
+    "de": "voltorb-sparks"
+  },
+  {
+    "slug": "scyther-claw",
+    "en": "scyther claw",
+    "de": "scyther-claw"
+  },
+  {
+    "slug": "tauros-hair",
+    "en": "tauros hair",
+    "de": "tauros-hair"
+  },
+  {
+    "slug": "magikarp-scales",
+    "en": "magikarp scales",
+    "de": "magikarp-scales"
+  },
+  {
+    "slug": "ditto-goo",
+    "en": "ditto goo",
+    "de": "ditto-goo"
+  },
+  {
+    "slug": "eevee-fur",
+    "en": "eevee fur",
+    "de": "eevee-fur"
+  },
+  {
+    "slug": "dratini-scales",
+    "en": "dratini scales",
+    "de": "dratini-scales"
+  },
+  {
+    "slug": "pichu-fur",
+    "en": "pichu fur",
+    "de": "pichu-fur"
+  },
+  {
+    "slug": "igglybuff-fluff",
+    "en": "igglybuff fluff",
+    "de": "igglybuff-fluff"
+  },
+  {
+    "slug": "mareep-wool",
+    "en": "mareep wool",
+    "de": "mareep-wool"
+  },
+  {
+    "slug": "hoppip-leaf",
+    "en": "hoppip leaf",
+    "de": "hoppip-leaf"
+  },
+  {
+    "slug": "sunkern-leaf",
+    "en": "sunkern leaf",
+    "de": "sunkern-leaf"
+  },
+  {
+    "slug": "murkrow-bauble",
+    "en": "murkrow bauble",
+    "de": "murkrow-bauble"
+  },
+  {
+    "slug": "misdreavus-tears",
+    "en": "misdreavus tears",
+    "de": "misdreavus-tears"
+  },
+  {
+    "slug": "girafarig-fur",
+    "en": "girafarig fur",
+    "de": "girafarig-fur"
+  },
+  {
+    "slug": "pineco-husk",
+    "en": "pineco husk",
+    "de": "pineco-husk"
+  },
+  {
+    "slug": "dunsparce-scales",
+    "en": "dunsparce scales",
+    "de": "dunsparce-scales"
+  },
+  {
+    "slug": "qwilfish-spines",
+    "en": "qwilfish spines",
+    "de": "qwilfish-spines"
+  },
+  {
+    "slug": "heracross-claw",
+    "en": "heracross claw",
+    "de": "heracross-claw"
+  },
+  {
+    "slug": "sneasel-claw",
+    "en": "sneasel claw",
+    "de": "sneasel-claw"
+  },
+  {
+    "slug": "teddiursa-claw",
+    "en": "teddiursa claw",
+    "de": "teddiursa-claw"
+  },
+  {
+    "slug": "delibird-parcel",
+    "en": "delibird parcel",
+    "de": "delibird-parcel"
+  },
+  {
+    "slug": "houndour-fang",
+    "en": "houndour fang",
+    "de": "houndour-fang"
+  },
+  {
+    "slug": "phanpy-nail",
+    "en": "phanpy nail",
+    "de": "phanpy-nail"
+  },
+  {
+    "slug": "stantler-hair",
+    "en": "stantler hair",
+    "de": "stantler-hair"
+  },
+  {
+    "slug": "larvitar-claw",
+    "en": "larvitar claw",
+    "de": "larvitar-claw"
+  },
+  {
+    "slug": "wingull-feather",
+    "en": "wingull feather",
+    "de": "wingull-feather"
+  },
+  {
+    "slug": "ralts-dust",
+    "en": "ralts dust",
+    "de": "ralts-dust"
+  },
+  {
+    "slug": "surskit-syrup",
+    "en": "surskit syrup",
+    "de": "surskit-syrup"
+  },
+  {
+    "slug": "shroomish-spores",
+    "en": "shroomish spores",
+    "de": "shroomish-spores"
+  },
+  {
+    "slug": "slakoth-fur",
+    "en": "slakoth fur",
+    "de": "slakoth-fur"
+  },
+  {
+    "slug": "makuhita-sweat",
+    "en": "makuhita sweat",
+    "de": "makuhita-sweat"
+  },
+  {
+    "slug": "azurill-fur",
+    "en": "azurill fur",
+    "de": "azurill-fur"
+  },
+  {
+    "slug": "sableye-gem",
+    "en": "sableye gem",
+    "de": "sableye-gem"
+  },
+  {
+    "slug": "meditite-sweat",
+    "en": "meditite sweat",
+    "de": "meditite-sweat"
+  },
+  {
+    "slug": "gulpin-mucus",
+    "en": "gulpin mucus",
+    "de": "gulpin-mucus"
+  },
+  {
+    "slug": "numel-lava",
+    "en": "numel lava",
+    "de": "numel-lava"
+  },
+  {
+    "slug": "torkoal-coal",
+    "en": "torkoal coal",
+    "de": "torkoal-coal"
+  },
+  {
+    "slug": "spoink-pearl",
+    "en": "spoink pearl",
+    "de": "spoink-pearl"
+  },
+  {
+    "slug": "cacnea-needle",
+    "en": "cacnea needle",
+    "de": "cacnea-needle"
+  },
+  {
+    "slug": "swablu-fluff",
+    "en": "swablu fluff",
+    "de": "swablu-fluff"
+  },
+  {
+    "slug": "zangoose-claw",
+    "en": "zangoose claw",
+    "de": "zangoose-claw"
+  },
+  {
+    "slug": "seviper-fang",
+    "en": "seviper fang",
+    "de": "seviper-fang"
+  },
+  {
+    "slug": "barboach-slime",
+    "en": "barboach slime",
+    "de": "barboach-slime"
+  },
+  {
+    "slug": "shuppet-scrap",
+    "en": "shuppet scrap",
+    "de": "shuppet-scrap"
+  },
+  {
+    "slug": "tropius-leaf",
+    "en": "tropius leaf",
+    "de": "tropius-leaf"
+  },
+  {
+    "slug": "snorunt-fur",
+    "en": "snorunt fur",
+    "de": "snorunt-fur"
+  },
+  {
+    "slug": "luvdisc-scales",
+    "en": "luvdisc scales",
+    "de": "luvdisc-scales"
+  },
+  {
+    "slug": "bagon-scales",
+    "en": "bagon scales",
+    "de": "bagon-scales"
+  },
+  {
+    "slug": "starly-feather",
+    "en": "starly feather",
+    "de": "starly-feather"
+  },
+  {
+    "slug": "kricketot-shell",
+    "en": "kricketot shell",
+    "de": "kricketot-shell"
+  },
+  {
+    "slug": "shinx-fang",
+    "en": "shinx fang",
+    "de": "shinx-fang"
+  },
+  {
+    "slug": "combee-honey",
+    "en": "combee honey",
+    "de": "combee-honey"
+  },
+  {
+    "slug": "pachirisu-fur",
+    "en": "pachirisu fur",
+    "de": "pachirisu-fur"
+  },
+  {
+    "slug": "buizel-fur",
+    "en": "buizel fur",
+    "de": "buizel-fur"
+  },
+  {
+    "slug": "shellos-mucus",
+    "en": "shellos mucus",
+    "de": "shellos-mucus"
+  },
+  {
+    "slug": "drifloon-gas",
+    "en": "drifloon gas",
+    "de": "drifloon-gas"
+  },
+  {
+    "slug": "stunky-fur",
+    "en": "stunky fur",
+    "de": "stunky-fur"
+  },
+  {
+    "slug": "bronzor-fragment",
+    "en": "bronzor fragment",
+    "de": "bronzor-fragment"
+  },
+  {
+    "slug": "bonsly-tears",
+    "en": "bonsly tears",
+    "de": "bonsly-tears"
+  },
+  {
+    "slug": "happiny-dust",
+    "en": "happiny dust",
+    "de": "happiny-dust"
+  },
+  {
+    "slug": "spiritomb-fragment",
+    "en": "spiritomb fragment",
+    "de": "spiritomb-fragment"
+  },
+  {
+    "slug": "gible-scales",
+    "en": "gible scales",
+    "de": "gible-scales"
+  },
+  {
+    "slug": "riolu-fur",
+    "en": "riolu fur",
+    "de": "riolu-fur"
+  },
+  {
+    "slug": "hippopotas-sand",
+    "en": "hippopotas sand",
+    "de": "hippopotas-sand"
+  },
+  {
+    "slug": "croagunk-poison",
+    "en": "croagunk poison",
+    "de": "croagunk-poison"
+  },
+  {
+    "slug": "finneon-scales",
+    "en": "finneon scales",
+    "de": "finneon-scales"
+  },
+  {
+    "slug": "snover-berries",
+    "en": "snover berries",
+    "de": "snover-berries"
+  },
+  {
+    "slug": "rotom-sparks",
+    "en": "rotom sparks",
+    "de": "rotom-sparks"
+  },
+  {
+    "slug": "petilil-leaf",
+    "en": "petilil leaf",
+    "de": "petilil-leaf"
+  },
+  {
+    "slug": "basculin-fang",
+    "en": "basculin fang",
+    "de": "basculin-fang"
+  },
+  {
+    "slug": "sandile-claw",
+    "en": "sandile claw",
+    "de": "sandile-claw"
+  },
+  {
+    "slug": "zorua-fur",
+    "en": "zorua fur",
+    "de": "zorua-fur"
+  },
+  {
+    "slug": "gothita-eyelash",
+    "en": "gothita eyelash",
+    "de": "gothita-eyelash"
+  },
+  {
+    "slug": "deerling-hair",
+    "en": "deerling hair",
+    "de": "deerling-hair"
+  },
+  {
+    "slug": "foongus-spores",
+    "en": "foongus spores",
+    "de": "foongus-spores"
+  },
+  {
+    "slug": "alomomola-mucus",
+    "en": "alomomola mucus",
+    "de": "alomomola-mucus"
+  },
+  {
+    "slug": "tynamo-slime",
+    "en": "tynamo slime",
+    "de": "tynamo-slime"
+  },
+  {
+    "slug": "axew-scales",
+    "en": "axew scales",
+    "de": "axew-scales"
+  },
+  {
+    "slug": "cubchoo-fur",
+    "en": "cubchoo fur",
+    "de": "cubchoo-fur"
+  },
+  {
+    "slug": "cryogonal-ice",
+    "en": "cryogonal ice",
+    "de": "cryogonal-ice"
+  },
+  {
+    "slug": "pawniard-blade",
+    "en": "pawniard blade",
+    "de": "pawniard-blade"
+  },
+  {
+    "slug": "rufflet-feather",
+    "en": "rufflet feather",
+    "de": "rufflet-feather"
+  },
+  {
+    "slug": "deino-scales",
+    "en": "deino scales",
+    "de": "deino-scales"
+  },
+  {
+    "slug": "larvesta-fuzz",
+    "en": "larvesta fuzz",
+    "de": "larvesta-fuzz"
+  },
+  {
+    "slug": "fletchling-feather",
+    "en": "fletchling feather",
+    "de": "fletchling-feather"
+  },
+  {
+    "slug": "scatterbug-powder",
+    "en": "scatterbug powder",
+    "de": "scatterbug-powder"
+  },
+  {
+    "slug": "litleo-tuft",
+    "en": "litleo tuft",
+    "de": "litleo-tuft"
+  },
+  {
+    "slug": "flabebe-pollen",
+    "en": "flabébé pollen",
+    "de": "flabebe-pollen"
+  },
+  {
+    "slug": "skiddo-leaf",
+    "en": "skiddo leaf",
+    "de": "skiddo-leaf"
+  },
+  {
+    "slug": "skrelp-kelp",
+    "en": "skrelp kelp",
+    "de": "skrelp-kelp"
+  },
+  {
+    "slug": "clauncher-claw",
+    "en": "clauncher claw",
+    "de": "clauncher-claw"
+  },
+  {
+    "slug": "hawlucha-down",
+    "en": "hawlucha down",
+    "de": "hawlucha-down"
+  },
+  {
+    "slug": "dedenne-fur",
+    "en": "dedenne fur",
+    "de": "dedenne-fur"
+  },
+  {
+    "slug": "goomy-goo",
+    "en": "goomy goo",
+    "de": "goomy-goo"
+  },
+  {
+    "slug": "klefki-key",
+    "en": "klefki key",
+    "de": "klefki-key"
+  },
+  {
+    "slug": "bergmite-ice",
+    "en": "bergmite ice",
+    "de": "bergmite-ice"
+  },
+  {
+    "slug": "noibat-fur",
+    "en": "noibat fur",
+    "de": "noibat-fur"
+  },
+  {
+    "slug": "yungoos-fur",
+    "en": "yungoos fur",
+    "de": "yungoos-fur"
+  },
+  {
+    "slug": "crabrawler-shell",
+    "en": "crabrawler shell",
+    "de": "crabrawler-shell"
+  },
+  {
+    "slug": "oricorio-feather",
+    "en": "oricorio feather",
+    "de": "oricorio-feather"
+  },
+  {
+    "slug": "rockruff-rock",
+    "en": "rockruff rock",
+    "de": "rockruff-rock"
+  },
+  {
+    "slug": "mareanie-spike",
+    "en": "mareanie spike",
+    "de": "mareanie-spike"
+  },
+  {
+    "slug": "mudbray-mud",
+    "en": "mudbray mud",
+    "de": "mudbray-mud"
+  },
+  {
+    "slug": "fomantis-leaf",
+    "en": "fomantis leaf",
+    "de": "fomantis-leaf"
+  },
+  {
+    "slug": "salandit-gas",
+    "en": "salandit gas",
+    "de": "salandit-gas"
+  },
+  {
+    "slug": "bounsweet-sweat",
+    "en": "bounsweet sweat",
+    "de": "bounsweet-sweat"
+  },
+  {
+    "slug": "oranguru-fur",
+    "en": "oranguru fur",
+    "de": "oranguru-fur"
+  },
+  {
+    "slug": "passimian-fur",
+    "en": "passimian fur",
+    "de": "passimian-fur"
+  },
+  {
+    "slug": "sandygast-sand",
+    "en": "sandygast sand",
+    "de": "sandygast-sand"
+  },
+  {
+    "slug": "komala-claw",
+    "en": "komala claw",
+    "de": "komala-claw"
+  },
+  {
+    "slug": "mimikyu-scrap",
+    "en": "mimikyu scrap",
+    "de": "mimikyu-scrap"
+  },
+  {
+    "slug": "bruxish-tooth",
+    "en": "bruxish tooth",
+    "de": "bruxish-tooth"
+  },
+  {
+    "slug": "chewtle-claw",
+    "en": "chewtle claw",
+    "de": "chewtle-claw"
+  },
+  {
+    "slug": "skwovet-fur",
+    "en": "skwovet fur",
+    "de": "skwovet-fur"
+  },
+  {
+    "slug": "arrokuda-scales",
+    "en": "arrokuda scales",
+    "de": "arrokuda-scales"
+  },
+  {
+    "slug": "rookidee-feather",
+    "en": "rookidee feather",
+    "de": "rookidee-feather"
+  },
+  {
+    "slug": "toxel-sparks",
+    "en": "toxel sparks",
+    "de": "toxel-sparks"
+  },
+  {
+    "slug": "falinks-sweat",
+    "en": "falinks sweat",
+    "de": "falinks-sweat"
+  },
+  {
+    "slug": "cufant-tarnish",
+    "en": "cufant tarnish",
+    "de": "cufant-tarnish"
+  },
+  {
+    "slug": "rolycoly-coal",
+    "en": "rolycoly coal",
+    "de": "rolycoly-coal"
+  },
+  {
+    "slug": "silicobra-sand",
+    "en": "silicobra sand",
+    "de": "silicobra-sand"
+  },
+  {
+    "slug": "indeedee-fur",
+    "en": "indeedee fur",
+    "de": "indeedee-fur"
+  },
+  {
+    "slug": "pincurchin-spines",
+    "en": "pincurchin spines",
+    "de": "pincurchin-spines"
+  },
+  {
+    "slug": "snom-thread",
+    "en": "snom thread",
+    "de": "snom-thread"
+  },
+  {
+    "slug": "impidimp-hair",
+    "en": "impidimp hair",
+    "de": "impidimp-hair"
+  },
+  {
+    "slug": "applin-juice",
+    "en": "applin juice",
+    "de": "applin-juice"
+  },
+  {
+    "slug": "sinistea-chip",
+    "en": "sinistea chip",
+    "de": "sinistea-chip"
+  },
+  {
+    "slug": "hatenna-dust",
+    "en": "hatenna dust",
+    "de": "hatenna-dust"
+  },
+  {
+    "slug": "stonjourner-stone",
+    "en": "stonjourner stone",
+    "de": "stonjourner-stone"
+  },
+  {
+    "slug": "eiscue-down",
+    "en": "eiscue down",
+    "de": "eiscue-down"
+  },
+  {
+    "slug": "dreepy-powder",
+    "en": "dreepy powder",
+    "de": "dreepy-powder"
+  },
+  {
+    "slug": "lechonk-hair",
+    "en": "lechonk hair",
+    "de": "lechonk-hair"
+  },
+  {
+    "slug": "tarountula-thread",
+    "en": "tarountula thread",
+    "de": "tarountula-thread"
+  },
+  {
+    "slug": "nymble-claw",
+    "en": "nymble claw",
+    "de": "nymble-claw"
+  },
+  {
+    "slug": "rellor-mud",
+    "en": "rellor mud",
+    "de": "rellor-mud"
+  },
+  {
+    "slug": "greavard-wax",
+    "en": "greavard wax",
+    "de": "greavard-wax"
+  },
+  {
+    "slug": "flittle-down",
+    "en": "flittle down",
+    "de": "flittle-down"
+  },
+  {
+    "slug": "wiglett-sand",
+    "en": "wiglett sand",
+    "de": "wiglett-sand"
+  },
+  {
+    "slug": "dondozo-whisker",
+    "en": "dondozo whisker",
+    "de": "dondozo-whisker"
+  },
+  {
+    "slug": "veluza-fillet",
+    "en": "veluza fillet",
+    "de": "veluza-fillet"
+  },
+  {
+    "slug": "finizen-mucus",
+    "en": "finizen mucus",
+    "de": "finizen-mucus"
+  },
+  {
+    "slug": "smoliv-oil",
+    "en": "smoliv oil",
+    "de": "smoliv-oil"
+  },
+  {
+    "slug": "capsakid-seed",
+    "en": "capsakid seed",
+    "de": "capsakid-seed"
+  },
+  {
+    "slug": "tadbulb-mucus",
+    "en": "tadbulb mucus",
+    "de": "tadbulb-mucus"
+  },
+  {
+    "slug": "varoom-fume",
+    "en": "varoom fume",
+    "de": "varoom-fume"
+  },
+  {
+    "slug": "orthworm-tarnish",
+    "en": "orthworm tarnish",
+    "de": "orthworm-tarnish"
+  },
+  {
+    "slug": "tandemaus-fur",
+    "en": "tandemaus fur",
+    "de": "tandemaus-fur"
+  },
+  {
+    "slug": "cetoddle-grease",
+    "en": "cetoddle grease",
+    "de": "cetoddle-grease"
+  },
+  {
+    "slug": "frigibax-scales",
+    "en": "frigibax scales",
+    "de": "frigibax-scales"
+  },
+  {
+    "slug": "tatsugiri-scales",
+    "en": "tatsugiri scales",
+    "de": "tatsugiri-scales"
+  },
+  {
+    "slug": "cyclizar-scales",
+    "en": "cyclizar scales",
+    "de": "cyclizar-scales"
+  },
+  {
+    "slug": "pawmi-fur",
+    "en": "pawmi fur",
+    "de": "pawmi-fur"
+  },
+  {
+    "slug": "wattrel-feather",
+    "en": "wattrel feather",
+    "de": "wattrel-feather"
+  },
+  {
+    "slug": "bombirdier-feather",
+    "en": "bombirdier feather",
+    "de": "bombirdier-feather"
+  },
+  {
+    "slug": "squawkabilly-feather",
+    "en": "squawkabilly feather",
+    "de": "squawkabilly-feather"
+  },
+  {
+    "slug": "flamigo-down",
+    "en": "flamigo down",
+    "de": "flamigo-down"
+  },
+  {
+    "slug": "klawf-claw",
+    "en": "klawf claw",
+    "de": "klawf-claw"
+  },
+  {
+    "slug": "nacli-salt",
+    "en": "nacli salt",
+    "de": "nacli-salt"
+  },
+  {
+    "slug": "glimmet-crystal",
+    "en": "glimmet crystal",
+    "de": "glimmet-crystal"
+  },
+  {
+    "slug": "shroodle-ink",
+    "en": "shroodle ink",
+    "de": "shroodle-ink"
+  },
+  {
+    "slug": "fidough-fur",
+    "en": "fidough fur",
+    "de": "fidough-fur"
+  },
+  {
+    "slug": "maschiff-fang",
+    "en": "maschiff fang",
+    "de": "maschiff-fang"
+  },
+  {
+    "slug": "bramblin-twig",
+    "en": "bramblin twig",
+    "de": "bramblin-twig"
+  },
+  {
+    "slug": "gimmighoul-coin",
+    "en": "gimmighoul coin",
+    "de": "gimmighoul-coin"
+  },
+  {
+    "slug": "tinkatink-hair",
+    "en": "tinkatink hair",
+    "de": "tinkatink-hair"
+  },
+  {
+    "slug": "charcadet-soot",
+    "en": "charcadet soot",
+    "de": "charcadet-soot"
+  },
+  {
+    "slug": "toedscool-flaps",
+    "en": "toedscool flaps",
+    "de": "toedscool-flaps"
+  },
+  {
+    "slug": "wooper-slime",
+    "en": "wooper slime",
+    "de": "wooper-slime"
+  },
+  {
+    "slug": "ekans-fang",
+    "en": "ekans fang",
+    "de": "ekans-fang"
+  },
+  {
+    "slug": "sandshrew-claw",
+    "en": "sandshrew claw",
+    "de": "sandshrew-claw"
+  },
+  {
+    "slug": "cleffa-fur",
+    "en": "cleffa fur",
+    "de": "cleffa-fur"
+  },
+  {
+    "slug": "vulpix-fur",
+    "en": "vulpix fur",
+    "de": "vulpix-fur"
+  },
+  {
+    "slug": "poliwag-slime",
+    "en": "poliwag slime",
+    "de": "poliwag-slime"
+  },
+  {
+    "slug": "bellsprout-vine",
+    "en": "bellsprout vine",
+    "de": "bellsprout-vine"
+  },
+  {
+    "slug": "geodude-fragment",
+    "en": "geodude fragment",
+    "de": "geodude-fragment"
+  },
+  {
+    "slug": "koffing-gas",
+    "en": "koffing gas",
+    "de": "koffing-gas"
+  },
+  {
+    "slug": "munchlax-fang",
+    "en": "munchlax fang",
+    "de": "munchlax-fang"
+  },
+  {
+    "slug": "sentret-fur",
+    "en": "sentret fur",
+    "de": "sentret-fur"
+  },
+  {
+    "slug": "hoothoot-feather",
+    "en": "hoothoot feather",
+    "de": "hoothoot-feather"
+  },
+  {
+    "slug": "spinarak-thread",
+    "en": "spinarak thread",
+    "de": "spinarak-thread"
+  },
+  {
+    "slug": "aipom-hair",
+    "en": "aipom hair",
+    "de": "aipom-hair"
+  },
+  {
+    "slug": "yanma-spike",
+    "en": "yanma spike",
+    "de": "yanma-spike"
+  },
+  {
+    "slug": "gligar-fang",
+    "en": "gligar fang",
+    "de": "gligar-fang"
+  },
+  {
+    "slug": "slugma-lava",
+    "en": "slugma lava",
+    "de": "slugma-lava"
+  },
+  {
+    "slug": "swinub-hair",
+    "en": "swinub hair",
+    "de": "swinub-hair"
+  },
+  {
+    "slug": "poochyena-fang",
+    "en": "poochyena fang",
+    "de": "poochyena-fang"
+  },
+  {
+    "slug": "lotad-leaf",
+    "en": "lotad leaf",
+    "de": "lotad-leaf"
+  },
+  {
+    "slug": "seedot-stem",
+    "en": "seedot stem",
+    "de": "seedot-stem"
+  },
+  {
+    "slug": "nosepass-fragment",
+    "en": "nosepass fragment",
+    "de": "nosepass-fragment"
+  },
+  {
+    "slug": "volbeat-fluid",
+    "en": "volbeat fluid",
+    "de": "volbeat-fluid"
+  },
+  {
+    "slug": "illumise-fluid",
+    "en": "illumise fluid",
+    "de": "illumise-fluid"
+  },
+  {
+    "slug": "corphish-shell",
+    "en": "corphish shell",
+    "de": "corphish-shell"
+  },
+  {
+    "slug": "feebas-scales",
+    "en": "feebas scales",
+    "de": "feebas-scales"
+  },
+  {
+    "slug": "duskull-fragment",
+    "en": "duskull fragment",
+    "de": "duskull-fragment"
+  },
+  {
+    "slug": "chingling-fragment",
+    "en": "chingling fragment",
+    "de": "chingling-fragment"
+  },
+  {
+    "slug": "timburr-sweat",
+    "en": "timburr sweat",
+    "de": "timburr-sweat"
+  },
+  {
+    "slug": "sewaddle-leaf",
+    "en": "sewaddle leaf",
+    "de": "sewaddle-leaf"
+  },
+  {
+    "slug": "ducklett-feather",
+    "en": "ducklett feather",
+    "de": "ducklett-feather"
+  },
+  {
+    "slug": "litwick-soot",
+    "en": "litwick soot",
+    "de": "litwick-soot"
+  },
+  {
+    "slug": "mienfoo-claw",
+    "en": "mienfoo claw",
+    "de": "mienfoo-claw"
+  },
+  {
+    "slug": "vullaby-feather",
+    "en": "vullaby feather",
+    "de": "vullaby-feather"
+  },
+  {
+    "slug": "carbink-jewel",
+    "en": "carbink jewel",
+    "de": "carbink-jewel"
+  },
+  {
+    "slug": "phantump-twig",
+    "en": "phantump twig",
+    "de": "phantump-twig"
+  },
+  {
+    "slug": "grubbin-thread",
+    "en": "grubbin thread",
+    "de": "grubbin-thread"
+  },
+  {
+    "slug": "cutiefly-powder",
+    "en": "cutiefly powder",
+    "de": "cutiefly-powder"
+  },
+  {
+    "slug": "jangmo-o-scales",
+    "en": "jangmo-o scales",
+    "de": "jangmo-o-scales"
+  },
+  {
+    "slug": "cramorant-down",
+    "en": "cramorant down",
+    "de": "cramorant-down"
+  },
+  {
+    "slug": "morpeko-snack",
+    "en": "morpeko snack",
+    "de": "morpeko-snack"
+  },
+  {
+    "slug": "poltchageist-powder",
+    "en": "poltchageist powder",
+    "de": "poltchageist-powder"
+  },
+  {
+    "slug": "picnic-set",
+    "en": "picnic set",
+    "de": "picnic-set"
+  },
+  {
+    "slug": "academy-bottle",
+    "en": "academy bottle",
+    "de": "academy-bottle"
+  },
+  {
+    "slug": "polka-dot-bottle",
+    "en": "polka-dot bottle",
+    "de": "polka-dot-bottle"
+  },
+  {
+    "slug": "striped-bottle",
+    "en": "striped bottle",
+    "de": "striped-bottle"
+  },
+  {
+    "slug": "diamond-bottle",
+    "en": "diamond bottle",
+    "de": "diamond-bottle"
+  },
+  {
+    "slug": "academy-cup",
+    "en": "academy cup",
+    "de": "academy-cup"
+  },
+  {
+    "slug": "striped-cup",
+    "en": "striped cup",
+    "de": "striped-cup"
+  },
+  {
+    "slug": "polka-dot-cup",
+    "en": "polka-dot cup",
+    "de": "polka-dot-cup"
+  },
+  {
+    "slug": "flower-pattern-cup",
+    "en": "flower pattern cup",
+    "de": "flower-pattern-cup"
+  },
+  {
+    "slug": "academy-tablecloth",
+    "en": "academy tablecloth",
+    "de": "academy-tablecloth"
+  },
+  {
+    "slug": "whimsical-tablecloth",
+    "en": "whimsical tablecloth",
+    "de": "whimsical-tablecloth"
+  },
+  {
+    "slug": "leafy-tablecloth",
+    "en": "leafy tablecloth",
+    "de": "leafy-tablecloth"
+  },
+  {
+    "slug": "spooky-tablecloth",
+    "en": "spooky tablecloth",
+    "de": "spooky-tablecloth"
+  },
+  {
+    "slug": "academy-ball",
+    "en": "academy ball",
+    "de": "academy-ball"
+  },
+  {
+    "slug": "marill-ball",
+    "en": "marill ball",
+    "de": "marill-ball"
+  },
+  {
+    "slug": "yarn-ball",
+    "en": "yarn ball",
+    "de": "yarn-ball"
+  },
+  {
+    "slug": "cyber-ball",
+    "en": "cyber ball",
+    "de": "cyber-ball"
+  },
+  {
+    "slug": "gold-pick",
+    "en": "gold pick",
+    "de": "gold-pick"
+  },
+  {
+    "slug": "silver-pick",
+    "en": "silver pick",
+    "de": "silver-pick"
+  },
+  {
+    "slug": "red-flag-pick",
+    "en": "red-flag pick",
+    "de": "red-flag-pick"
+  },
+  {
+    "slug": "blue-flag-pick",
+    "en": "blue-flag pick",
+    "de": "blue-flag-pick"
+  },
+  {
+    "slug": "pika-pika-pick",
+    "en": "pika-pika pick",
+    "de": "pika-pika-pick"
+  },
+  {
+    "slug": "winking-pika-pick",
+    "en": "winking pika pick",
+    "de": "winking-pika-pick"
+  },
+  {
+    "slug": "vee-vee-pick",
+    "en": "vee-vee pick",
+    "de": "vee-vee-pick"
+  },
+  {
+    "slug": "smiling-vee-pick",
+    "en": "smiling vee pick",
+    "de": "smiling-vee-pick"
+  },
+  {
+    "slug": "blue-poke-ball-pick",
+    "en": "blue poké ball pick",
+    "de": "blue-poke-ball-pick"
+  },
+  {
+    "slug": "auspicious-armor",
+    "en": "auspicious armor",
+    "de": "auspicious-armor"
+  },
+  {
+    "slug": "leaders-crest",
+    "en": "leader’s crest",
+    "de": "leaders-crest"
+  },
+  {
+    "slug": "pink-bottle",
+    "en": "pink bottle",
+    "de": "pink-bottle"
+  },
+  {
+    "slug": "blue-bottle",
+    "en": "blue bottle",
+    "de": "blue-bottle"
+  },
+  {
+    "slug": "yellow-bottle",
+    "en": "yellow bottle",
+    "de": "yellow-bottle"
+  },
+  {
+    "slug": "steel-bottle-r",
+    "en": "steel bottle (r)",
+    "de": "steel-bottle-r"
+  },
+  {
+    "slug": "steel-bottle-y",
+    "en": "steel bottle (y)",
+    "de": "steel-bottle-y"
+  },
+  {
+    "slug": "steel-bottle-b",
+    "en": "steel bottle (b)",
+    "de": "steel-bottle-b"
+  },
+  {
+    "slug": "silver-bottle",
+    "en": "silver bottle",
+    "de": "silver-bottle"
+  },
+  {
+    "slug": "barred-cup",
+    "en": "barred cup",
+    "de": "barred-cup"
+  },
+  {
+    "slug": "diamond-pattern-cup",
+    "en": "diamond pattern cup",
+    "de": "diamond-pattern-cup"
+  },
+  {
+    "slug": "fire-pattern-cup",
+    "en": "fire pattern cup",
+    "de": "fire-pattern-cup"
+  },
+  {
+    "slug": "pink-cup",
+    "en": "pink cup",
+    "de": "pink-cup"
+  },
+  {
+    "slug": "blue-cup",
+    "en": "blue cup",
+    "de": "blue-cup"
+  },
+  {
+    "slug": "yellow-cup",
+    "en": "yellow cup",
+    "de": "yellow-cup"
+  },
+  {
+    "slug": "pikachu-cup",
+    "en": "pikachu cup",
+    "de": "pikachu-cup"
+  },
+  {
+    "slug": "eevee-cup",
+    "en": "eevee cup",
+    "de": "eevee-cup"
+  },
+  {
+    "slug": "slowpoke-cup",
+    "en": "slowpoke cup",
+    "de": "slowpoke-cup"
+  },
+  {
+    "slug": "silver-cup",
+    "en": "silver cup",
+    "de": "silver-cup"
+  },
+  {
+    "slug": "exercise-ball",
+    "en": "exercise ball",
+    "de": "exercise-ball"
+  },
+  {
+    "slug": "plaid-tablecloth-y",
+    "en": "plaid tablecloth (y)",
+    "de": "plaid-tablecloth-y"
+  },
+  {
+    "slug": "plaid-tablecloth-b",
+    "en": "plaid tablecloth (b)",
+    "de": "plaid-tablecloth-b"
+  },
+  {
+    "slug": "plaid-tablecloth-r",
+    "en": "plaid tablecloth (r)",
+    "de": "plaid-tablecloth-r"
+  },
+  {
+    "slug": "bw-grass-tablecloth",
+    "en": "b&w grass tablecloth",
+    "de": "bw-grass-tablecloth"
+  },
+  {
+    "slug": "battle-tablecloth",
+    "en": "battle tablecloth",
+    "de": "battle-tablecloth"
+  },
+  {
+    "slug": "monstrous-tablecloth",
+    "en": "monstrous tablecloth",
+    "de": "monstrous-tablecloth"
+  },
+  {
+    "slug": "striped-tablecloth",
+    "en": "striped tablecloth",
+    "de": "striped-tablecloth"
+  },
+  {
+    "slug": "diamond-tablecloth",
+    "en": "diamond tablecloth",
+    "de": "diamond-tablecloth"
+  },
+  {
+    "slug": "polka-dot-tablecloth",
+    "en": "polka-dot tablecloth",
+    "de": "polka-dot-tablecloth"
+  },
+  {
+    "slug": "lilac-tablecloth",
+    "en": "lilac tablecloth",
+    "de": "lilac-tablecloth"
+  },
+  {
+    "slug": "mint-tablecloth",
+    "en": "mint tablecloth",
+    "de": "mint-tablecloth"
+  },
+  {
+    "slug": "peach-tablecloth",
+    "en": "peach tablecloth",
+    "de": "peach-tablecloth"
+  },
+  {
+    "slug": "yellow-tablecloth",
+    "en": "yellow tablecloth",
+    "de": "yellow-tablecloth"
+  },
+  {
+    "slug": "blue-tablecloth",
+    "en": "blue tablecloth",
+    "de": "blue-tablecloth"
+  },
+  {
+    "slug": "pink-tablecloth",
+    "en": "pink tablecloth",
+    "de": "pink-tablecloth"
+  },
+  {
+    "slug": "gold-bottle",
+    "en": "gold bottle",
+    "de": "gold-bottle"
+  },
+  {
+    "slug": "bronze-bottle",
+    "en": "bronze bottle",
+    "de": "bronze-bottle"
+  },
+  {
+    "slug": "gold-cup",
+    "en": "gold cup",
+    "de": "gold-cup"
+  },
+  {
+    "slug": "bronze-cup",
+    "en": "bronze cup",
+    "de": "bronze-cup"
+  },
+  {
+    "slug": "green-poke-ball-pick",
+    "en": "green poké ball pick",
+    "de": "green-poke-ball-pick"
+  },
+  {
+    "slug": "red-poke-ball-pick",
+    "en": "red poké ball pick",
+    "de": "red-poke-ball-pick"
+  },
+  {
+    "slug": "party-sparkler-pick",
+    "en": "party sparkler pick",
+    "de": "party-sparkler-pick"
+  },
+  {
+    "slug": "heroic-sword-pick",
+    "en": "heroic sword pick",
+    "de": "heroic-sword-pick"
+  },
+  {
+    "slug": "magical-star-pick",
+    "en": "magical star pick",
+    "de": "magical-star-pick"
+  },
+  {
+    "slug": "magical-heart-pick",
+    "en": "magical heart pick",
+    "de": "magical-heart-pick"
+  },
+  {
+    "slug": "parasol-pick",
+    "en": "parasol pick",
+    "de": "parasol-pick"
+  },
+  {
+    "slug": "blue-sky-flower-pick",
+    "en": "blue-sky flower pick",
+    "de": "blue-sky-flower-pick"
+  },
+  {
+    "slug": "sunset-flower-pick",
+    "en": "sunset flower pick",
+    "de": "sunset-flower-pick"
+  },
+  {
+    "slug": "sunrise-flower-pick",
+    "en": "sunrise flower pick",
+    "de": "sunrise-flower-pick"
+  },
+  {
+    "slug": "blue-dish",
+    "en": "blue dish",
+    "de": "blue-dish"
+  },
+  {
+    "slug": "green-dish",
+    "en": "green dish",
+    "de": "green-dish"
+  },
+  {
+    "slug": "orange-dish",
+    "en": "orange dish",
+    "de": "orange-dish"
+  },
+  {
+    "slug": "red-dish",
+    "en": "red dish",
+    "de": "red-dish"
+  },
+  {
+    "slug": "white-dish",
+    "en": "white dish",
+    "de": "white-dish"
+  },
+  {
+    "slug": "yellow-dish",
+    "en": "yellow dish",
+    "de": "yellow-dish"
+  },
+  {
+    "slug": "health-candy",
+    "en": "health candy",
+    "de": "energiebonbon"
+  },
+  {
+    "slug": "mighty-candy",
+    "en": "mighty candy",
+    "de": "stärkebonbon"
+  },
+  {
+    "slug": "tough-candy",
+    "en": "tough candy",
+    "de": "robustbonbon"
+  },
+  {
+    "slug": "smart-candy",
+    "en": "smart candy",
+    "de": "gripsbonbon"
+  },
+  {
+    "slug": "courage-candy",
+    "en": "courage candy",
+    "de": "mentalbonbon"
+  },
+  {
+    "slug": "quick-candy",
+    "en": "quick candy",
+    "de": "flottbonbon"
+  },
+  {
+    "slug": "health-candy-l",
+    "en": "health candy l",
+    "de": "energiebonbon+"
+  },
+  {
+    "slug": "mighty-candy-l",
+    "en": "mighty candy l",
+    "de": "stärkebonbon+"
+  },
+  {
+    "slug": "tough-candy-l",
+    "en": "tough candy l",
+    "de": "robustbonbon+"
+  },
+  {
+    "slug": "smart-candy-l",
+    "en": "smart candy l",
+    "de": "gripsbonbon+"
+  },
+  {
+    "slug": "courage-candy-l",
+    "en": "courage candy l",
+    "de": "mentalbonbon+"
+  },
+  {
+    "slug": "quick-candy-l",
+    "en": "quick candy l",
+    "de": "flottbonbon+"
+  },
+  {
+    "slug": "health-candy-xl",
+    "en": "health candy xl",
+    "de": "energiebonbon++"
+  },
+  {
+    "slug": "mighty-candy-xl",
+    "en": "mighty candy xl",
+    "de": "stärkebonbon++"
+  },
+  {
+    "slug": "tough-candy-xl",
+    "en": "tough candy xl",
+    "de": "robustbonbon++"
+  },
+  {
+    "slug": "smart-candy-xl",
+    "en": "smart candy xl",
+    "de": "gripsbonbon++"
+  },
+  {
+    "slug": "courage-candy-xl",
+    "en": "courage candy xl",
+    "de": "mentalbonbon++"
+  },
+  {
+    "slug": "quick-candy-xl",
+    "en": "quick candy xl",
+    "de": "flottbonbon++"
+  },
+  {
+    "slug": "exp-candy-xs",
+    "en": "exp. candy xs",
+    "de": "ep-bonbon xs"
+  },
+  {
+    "slug": "exp-candy-s",
+    "en": "exp. candy s",
+    "de": "ep-bonbon s"
+  },
+  {
+    "slug": "exp-candy-m",
+    "en": "exp. candy m",
+    "de": "ep-bonbon m"
+  },
+  {
+    "slug": "exp-candy-l",
+    "en": "exp. candy l",
+    "de": "ep-bonbon l"
+  },
+  {
+    "slug": "exp-candy-xl",
+    "en": "exp. candy xl",
+    "de": "ep-bonbon xl"
+  },
+  {
+    "slug": "dynamax-candy",
+    "en": "dynamax candy",
+    "de": "dynamax-bonbon"
+  },
+  {
+    "slug": "ability-patch",
+    "en": "ability patch",
+    "de": "fähigk.-pflaster"
+  },
+  {
+    "slug": "health-mochi",
+    "en": "health mochi",
+    "de": "health-mochi"
+  },
+  {
+    "slug": "muscle-mochi",
+    "en": "muscle mochi",
+    "de": "muscle-mochi"
+  },
+  {
+    "slug": "resist-mochi",
+    "en": "resist mochi",
+    "de": "resist-mochi"
+  },
+  {
+    "slug": "genius-mochi",
+    "en": "genius mochi",
+    "de": "genius-mochi"
+  },
+  {
+    "slug": "clever-mochi",
+    "en": "clever mochi",
+    "de": "clever-mochi"
+  },
+  {
+    "slug": "swift-mochi",
+    "en": "swift mochi",
+    "de": "swift-mochi"
+  },
+  {
+    "slug": "fresh-start-mochi",
+    "en": "fresh start mochi",
+    "de": "fresh-start-mochi"
+  },
+  {
+    "slug": "max-honey",
+    "en": "max honey",
+    "de": "dyna-honig"
+  },
+  {
+    "slug": "big-malasada",
+    "en": "big malasada",
+    "de": "maxi-malasada"
+  },
+  {
+    "slug": "pewter-crunchies",
+    "en": "pewter crunchies",
+    "de": "marmoria-kräcker"
+  },
+  {
+    "slug": "lonely-mint",
+    "en": "lonely mint",
+    "de": "solo-minze"
+  },
+  {
+    "slug": "adamant-mint",
+    "en": "adamant mint",
+    "de": "hart-minze"
+  },
+  {
+    "slug": "naughty-mint",
+    "en": "naughty mint",
+    "de": "frech-minze"
+  },
+  {
+    "slug": "brave-mint",
+    "en": "brave mint",
+    "de": "mutig-minze"
+  },
+  {
+    "slug": "bold-mint",
+    "en": "bold mint",
+    "de": "kühn-minze"
+  },
+  {
+    "slug": "impish-mint",
+    "en": "impish mint",
+    "de": "pfiffig-minze"
+  },
+  {
+    "slug": "lax-mint",
+    "en": "lax mint",
+    "de": "lasch-minze"
+  },
+  {
+    "slug": "relaxed-mint",
+    "en": "relaxed mint",
+    "de": "locker-minze"
+  },
+  {
+    "slug": "modest-mint",
+    "en": "modest mint",
+    "de": "mäßig-minze"
+  },
+  {
+    "slug": "mild-mint",
+    "en": "mild mint",
+    "de": "mild-minze"
+  },
+  {
+    "slug": "rash-mint",
+    "en": "rash mint",
+    "de": "hitzig-minze"
+  },
+  {
+    "slug": "quiet-mint",
+    "en": "quiet mint",
+    "de": "ruhig-minze"
+  },
+  {
+    "slug": "calm-mint",
+    "en": "calm mint",
+    "de": "still-minze"
+  },
+  {
+    "slug": "gentle-mint",
+    "en": "gentle mint",
+    "de": "zart-minze"
+  },
+  {
+    "slug": "careful-mint",
+    "en": "careful mint",
+    "de": "sacht-minze"
+  },
+  {
+    "slug": "sassy-mint",
+    "en": "sassy mint",
+    "de": "forsch-minze"
+  },
+  {
+    "slug": "timid-mint",
+    "en": "timid mint",
+    "de": "scheu-minze"
+  },
+  {
+    "slug": "hasty-mint",
+    "en": "hasty mint",
+    "de": "hastig-minze"
+  },
+  {
+    "slug": "jolly-mint",
+    "en": "jolly mint",
+    "de": "froh-minze"
+  },
+  {
+    "slug": "naive-mint",
+    "en": "naive mint",
+    "de": "naiv-minze"
+  },
+  {
+    "slug": "serious-mint",
+    "en": "serious mint",
+    "de": "ernst-minze"
+  },
+  {
+    "slug": "beast-ball",
+    "en": "beast ball",
+    "de": "ultraball"
+  },
+  {
+    "slug": "lastrange-ball",
+    "en": "strange ball",
+    "de": "lastrange-ball"
+  },
+  {
+    "slug": "laleaden-ball",
+    "en": "leaden ball",
+    "de": "laleaden-ball"
+  },
+  {
+    "slug": "lagigaton-ball",
+    "en": "gigaton ball",
+    "de": "lagigaton-ball"
+  },
+  {
+    "slug": "lafeather-ball",
+    "en": "feather ball",
+    "de": "lafeather-ball"
+  },
+  {
+    "slug": "lawing-ball",
+    "en": "wing ball",
+    "de": "lawing-ball"
+  },
+  {
+    "slug": "lajet-ball",
+    "en": "jet ball",
+    "de": "lajet-ball"
+  },
+  {
+    "slug": "laorigin-ball",
+    "en": "origin ball",
+    "de": "laorigin-ball"
+  },
+  {
+    "slug": "tr00",
+    "en": "tr00",
+    "de": "tp00"
+  },
+  {
+    "slug": "tr01",
+    "en": "tr01",
+    "de": "tp01"
+  },
+  {
+    "slug": "tr02",
+    "en": "tr02",
+    "de": "tp02"
+  },
+  {
+    "slug": "tr03",
+    "en": "tr03",
+    "de": "tp03"
+  },
+  {
+    "slug": "tr04",
+    "en": "tr04",
+    "de": "tp04"
+  },
+  {
+    "slug": "tr05",
+    "en": "tr05",
+    "de": "tp05"
+  },
+  {
+    "slug": "tr06",
+    "en": "tr06",
+    "de": "tp06"
+  },
+  {
+    "slug": "tr07",
+    "en": "tr07",
+    "de": "tp07"
+  },
+  {
+    "slug": "tr08",
+    "en": "tr08",
+    "de": "tp08"
+  },
+  {
+    "slug": "tr09",
+    "en": "tr09",
+    "de": "tp09"
+  },
+  {
+    "slug": "tr10",
+    "en": "tr10",
+    "de": "tp10"
+  },
+  {
+    "slug": "tr11",
+    "en": "tr11",
+    "de": "tp11"
+  },
+  {
+    "slug": "tr12",
+    "en": "tr12",
+    "de": "tp12"
+  },
+  {
+    "slug": "tr13",
+    "en": "tr13",
+    "de": "tp13"
+  },
+  {
+    "slug": "tr14",
+    "en": "tr14",
+    "de": "tp14"
+  },
+  {
+    "slug": "tr15",
+    "en": "tr15",
+    "de": "tp15"
+  },
+  {
+    "slug": "tr16",
+    "en": "tr16",
+    "de": "tp16"
+  },
+  {
+    "slug": "tr17",
+    "en": "tr17",
+    "de": "tp17"
+  },
+  {
+    "slug": "tr18",
+    "en": "tr18",
+    "de": "tp18"
+  },
+  {
+    "slug": "tr19",
+    "en": "tr19",
+    "de": "tp19"
+  },
+  {
+    "slug": "tr20",
+    "en": "tr20",
+    "de": "tp20"
+  },
+  {
+    "slug": "tr21",
+    "en": "tr21",
+    "de": "tp21"
+  },
+  {
+    "slug": "tr22",
+    "en": "tr22",
+    "de": "tp22"
+  },
+  {
+    "slug": "tr23",
+    "en": "tr23",
+    "de": "tp23"
+  },
+  {
+    "slug": "tr24",
+    "en": "tr24",
+    "de": "tp24"
+  },
+  {
+    "slug": "tr25",
+    "en": "tr25",
+    "de": "tp25"
+  },
+  {
+    "slug": "tr26",
+    "en": "tr26",
+    "de": "tp26"
+  },
+  {
+    "slug": "tr27",
+    "en": "tr27",
+    "de": "tp27"
+  },
+  {
+    "slug": "tr28",
+    "en": "tr28",
+    "de": "tp28"
+  },
+  {
+    "slug": "tr29",
+    "en": "tr29",
+    "de": "tp29"
+  },
+  {
+    "slug": "tr30",
+    "en": "tr30",
+    "de": "tp30"
+  },
+  {
+    "slug": "tr31",
+    "en": "tr31",
+    "de": "tp31"
+  },
+  {
+    "slug": "tr32",
+    "en": "tr32",
+    "de": "tp32"
+  },
+  {
+    "slug": "tr33",
+    "en": "tr33",
+    "de": "tp33"
+  },
+  {
+    "slug": "tr34",
+    "en": "tr34",
+    "de": "tp34"
+  },
+  {
+    "slug": "tr35",
+    "en": "tr35",
+    "de": "tp35"
+  },
+  {
+    "slug": "tr36",
+    "en": "tr36",
+    "de": "tp36"
+  },
+  {
+    "slug": "tr37",
+    "en": "tr37",
+    "de": "tp37"
+  },
+  {
+    "slug": "tr38",
+    "en": "tr38",
+    "de": "tp38"
+  },
+  {
+    "slug": "tr39",
+    "en": "tr39",
+    "de": "tp39"
+  },
+  {
+    "slug": "tr40",
+    "en": "tr40",
+    "de": "tp40"
+  },
+  {
+    "slug": "tr41",
+    "en": "tr41",
+    "de": "tp41"
+  },
+  {
+    "slug": "tr42",
+    "en": "tr42",
+    "de": "tp42"
+  },
+  {
+    "slug": "tr43",
+    "en": "tr43",
+    "de": "tp43"
+  },
+  {
+    "slug": "tr44",
+    "en": "tr44",
+    "de": "tp44"
+  },
+  {
+    "slug": "tr45",
+    "en": "tr45",
+    "de": "tp45"
+  },
+  {
+    "slug": "tr46",
+    "en": "tr46",
+    "de": "tp46"
+  },
+  {
+    "slug": "tr47",
+    "en": "tr47",
+    "de": "tp47"
+  },
+  {
+    "slug": "tr48",
+    "en": "tr48",
+    "de": "tp48"
+  },
+  {
+    "slug": "tr49",
+    "en": "tr49",
+    "de": "tp49"
+  },
+  {
+    "slug": "tr50",
+    "en": "tr50",
+    "de": "tp50"
+  },
+  {
+    "slug": "tr51",
+    "en": "tr51",
+    "de": "tp51"
+  },
+  {
+    "slug": "tr52",
+    "en": "tr52",
+    "de": "tp52"
+  },
+  {
+    "slug": "tr53",
+    "en": "tr53",
+    "de": "tp53"
+  },
+  {
+    "slug": "tr54",
+    "en": "tr54",
+    "de": "tp54"
+  },
+  {
+    "slug": "tr55",
+    "en": "tr55",
+    "de": "tp55"
+  },
+  {
+    "slug": "tr56",
+    "en": "tr56",
+    "de": "tp56"
+  },
+  {
+    "slug": "tr57",
+    "en": "tr57",
+    "de": "tp57"
+  },
+  {
+    "slug": "tr58",
+    "en": "tr58",
+    "de": "tp58"
+  },
+  {
+    "slug": "tr59",
+    "en": "tr59",
+    "de": "tp59"
+  },
+  {
+    "slug": "tr60",
+    "en": "tr60",
+    "de": "tp60"
+  },
+  {
+    "slug": "tr61",
+    "en": "tr61",
+    "de": "tp61"
+  },
+  {
+    "slug": "tr62",
+    "en": "tr62",
+    "de": "tp62"
+  },
+  {
+    "slug": "tr63",
+    "en": "tr63",
+    "de": "tp63"
+  },
+  {
+    "slug": "tr64",
+    "en": "tr64",
+    "de": "tp64"
+  },
+  {
+    "slug": "tr65",
+    "en": "tr65",
+    "de": "tp65"
+  },
+  {
+    "slug": "tr66",
+    "en": "tr66",
+    "de": "tp66"
+  },
+  {
+    "slug": "tr67",
+    "en": "tr67",
+    "de": "tp67"
+  },
+  {
+    "slug": "tr68",
+    "en": "tr68",
+    "de": "tp68"
+  },
+  {
+    "slug": "tr69",
+    "en": "tr69",
+    "de": "tp69"
+  },
+  {
+    "slug": "tr70",
+    "en": "tr70",
+    "de": "tp70"
+  },
+  {
+    "slug": "tr71",
+    "en": "tr71",
+    "de": "tp71"
+  },
+  {
+    "slug": "tr72",
+    "en": "tr72",
+    "de": "tp72"
+  },
+  {
+    "slug": "tr73",
+    "en": "tr73",
+    "de": "tp73"
+  },
+  {
+    "slug": "tr74",
+    "en": "tr74",
+    "de": "tp74"
+  },
+  {
+    "slug": "tr75",
+    "en": "tr75",
+    "de": "tp75"
+  },
+  {
+    "slug": "tr76",
+    "en": "tr76",
+    "de": "tp76"
+  },
+  {
+    "slug": "tr77",
+    "en": "tr77",
+    "de": "tp77"
+  },
+  {
+    "slug": "tr78",
+    "en": "tr78",
+    "de": "tp78"
+  },
+  {
+    "slug": "tr79",
+    "en": "tr79",
+    "de": "tp79"
+  },
+  {
+    "slug": "tr80",
+    "en": "tr80",
+    "de": "tp80"
+  },
+  {
+    "slug": "tr81",
+    "en": "tr81",
+    "de": "tp81"
+  },
+  {
+    "slug": "tr82",
+    "en": "tr82",
+    "de": "tp82"
+  },
+  {
+    "slug": "tr83",
+    "en": "tr83",
+    "de": "tp83"
+  },
+  {
+    "slug": "tr84",
+    "en": "tr84",
+    "de": "tp84"
+  },
+  {
+    "slug": "tr85",
+    "en": "tr85",
+    "de": "tp85"
+  },
+  {
+    "slug": "tr86",
+    "en": "tr86",
+    "de": "tp86"
+  },
+  {
+    "slug": "tr87",
+    "en": "tr87",
+    "de": "tp87"
+  },
+  {
+    "slug": "tr88",
+    "en": "tr88",
+    "de": "tp88"
+  },
+  {
+    "slug": "tr89",
+    "en": "tr89",
+    "de": "tp89"
+  },
+  {
+    "slug": "tr90",
+    "en": "tr90",
+    "de": "tp90"
+  },
+  {
+    "slug": "tr91",
+    "en": "tr91",
+    "de": "tp91"
+  },
+  {
+    "slug": "tr92",
+    "en": "tr92",
+    "de": "tp92"
+  },
+  {
+    "slug": "tr93",
+    "en": "tr93",
+    "de": "tp93"
+  },
+  {
+    "slug": "tr94",
+    "en": "tr94",
+    "de": "tp94"
+  },
+  {
+    "slug": "tr95",
+    "en": "tr95",
+    "de": "tp95"
+  },
+  {
+    "slug": "tr96",
+    "en": "tr96",
+    "de": "tp96"
+  },
+  {
+    "slug": "tr97",
+    "en": "tr97",
+    "de": "tp97"
+  },
+  {
+    "slug": "tr98",
+    "en": "tr98",
+    "de": "tp98"
+  },
+  {
+    "slug": "tr99",
+    "en": "tr99",
+    "de": "tp99"
+  },
+  {
+    "slug": "tm00",
+    "en": "tm00",
+    "de": "tm00"
+  },
+  {
+    "slug": "tm101",
+    "en": "tm101",
+    "de": "tm101"
+  },
+  {
+    "slug": "tm102",
+    "en": "tm102",
+    "de": "tm102"
+  },
+  {
+    "slug": "tm103",
+    "en": "tm103",
+    "de": "tm103"
+  },
+  {
+    "slug": "tm104",
+    "en": "tm104",
+    "de": "tm104"
+  },
+  {
+    "slug": "tm105",
+    "en": "tm105",
+    "de": "tm105"
+  },
+  {
+    "slug": "tm106",
+    "en": "tm106",
+    "de": "tm106"
+  },
+  {
+    "slug": "tm107",
+    "en": "tm107",
+    "de": "tm107"
+  },
+  {
+    "slug": "tm108",
+    "en": "tm108",
+    "de": "tm108"
+  },
+  {
+    "slug": "tm109",
+    "en": "tm109",
+    "de": "tm109"
+  },
+  {
+    "slug": "tm110",
+    "en": "tm110",
+    "de": "tm110"
+  },
+  {
+    "slug": "tm111",
+    "en": "tm111",
+    "de": "tm111"
+  },
+  {
+    "slug": "tm112",
+    "en": "tm112",
+    "de": "tm112"
+  },
+  {
+    "slug": "tm113",
+    "en": "tm113",
+    "de": "tm113"
+  },
+  {
+    "slug": "tm114",
+    "en": "tm114",
+    "de": "tm114"
+  },
+  {
+    "slug": "tm115",
+    "en": "tm115",
+    "de": "tm115"
+  },
+  {
+    "slug": "tm116",
+    "en": "tm116",
+    "de": "tm116"
+  },
+  {
+    "slug": "tm117",
+    "en": "tm117",
+    "de": "tm117"
+  },
+  {
+    "slug": "tm118",
+    "en": "tm118",
+    "de": "tm118"
+  },
+  {
+    "slug": "tm119",
+    "en": "tm119",
+    "de": "tm119"
+  },
+  {
+    "slug": "tm120",
+    "en": "tm120",
+    "de": "tm120"
+  },
+  {
+    "slug": "tm121",
+    "en": "tm121",
+    "de": "tm121"
+  },
+  {
+    "slug": "tm122",
+    "en": "tm122",
+    "de": "tm122"
+  },
+  {
+    "slug": "tm123",
+    "en": "tm123",
+    "de": "tm123"
+  },
+  {
+    "slug": "tm124",
+    "en": "tm124",
+    "de": "tm124"
+  },
+  {
+    "slug": "tm125",
+    "en": "tm125",
+    "de": "tm125"
+  },
+  {
+    "slug": "tm126",
+    "en": "tm126",
+    "de": "tm126"
+  },
+  {
+    "slug": "tm127",
+    "en": "tm127",
+    "de": "tm127"
+  },
+  {
+    "slug": "tm128",
+    "en": "tm128",
+    "de": "tm128"
+  },
+  {
+    "slug": "tm129",
+    "en": "tm129",
+    "de": "tm129"
+  },
+  {
+    "slug": "tm130",
+    "en": "tm130",
+    "de": "tm130"
+  },
+  {
+    "slug": "tm131",
+    "en": "tm131",
+    "de": "tm131"
+  },
+  {
+    "slug": "tm132",
+    "en": "tm132",
+    "de": "tm132"
+  },
+  {
+    "slug": "tm133",
+    "en": "tm133",
+    "de": "tm133"
+  },
+  {
+    "slug": "tm134",
+    "en": "tm134",
+    "de": "tm134"
+  },
+  {
+    "slug": "tm135",
+    "en": "tm135",
+    "de": "tm135"
+  },
+  {
+    "slug": "tm136",
+    "en": "tm136",
+    "de": "tm136"
+  },
+  {
+    "slug": "tm137",
+    "en": "tm137",
+    "de": "tm137"
+  },
+  {
+    "slug": "tm138",
+    "en": "tm138",
+    "de": "tm138"
+  },
+  {
+    "slug": "tm139",
+    "en": "tm139",
+    "de": "tm139"
+  },
+  {
+    "slug": "tm140",
+    "en": "tm140",
+    "de": "tm140"
+  },
+  {
+    "slug": "tm141",
+    "en": "tm141",
+    "de": "tm141"
+  },
+  {
+    "slug": "tm142",
+    "en": "tm142",
+    "de": "tm142"
+  },
+  {
+    "slug": "tm143",
+    "en": "tm143",
+    "de": "tm143"
+  },
+  {
+    "slug": "tm144",
+    "en": "tm144",
+    "de": "tm144"
+  },
+  {
+    "slug": "tm145",
+    "en": "tm145",
+    "de": "tm145"
+  },
+  {
+    "slug": "tm146",
+    "en": "tm146",
+    "de": "tm146"
+  },
+  {
+    "slug": "tm147",
+    "en": "tm147",
+    "de": "tm147"
+  },
+  {
+    "slug": "tm148",
+    "en": "tm148",
+    "de": "tm148"
+  },
+  {
+    "slug": "tm149",
+    "en": "tm149",
+    "de": "tm149"
+  },
+  {
+    "slug": "tm150",
+    "en": "tm150",
+    "de": "tm150"
+  },
+  {
+    "slug": "tm151",
+    "en": "tm151",
+    "de": "tm151"
+  },
+  {
+    "slug": "tm152",
+    "en": "tm152",
+    "de": "tm152"
+  },
+  {
+    "slug": "tm153",
+    "en": "tm153",
+    "de": "tm153"
+  },
+  {
+    "slug": "tm154",
+    "en": "tm154",
+    "de": "tm154"
+  },
+  {
+    "slug": "tm155",
+    "en": "tm155",
+    "de": "tm155"
+  },
+  {
+    "slug": "tm156",
+    "en": "tm156",
+    "de": "tm156"
+  },
+  {
+    "slug": "tm157",
+    "en": "tm157",
+    "de": "tm157"
+  },
+  {
+    "slug": "tm158",
+    "en": "tm158",
+    "de": "tm158"
+  },
+  {
+    "slug": "tm159",
+    "en": "tm159",
+    "de": "tm159"
+  },
+  {
+    "slug": "tm160",
+    "en": "tm160",
+    "de": "tm160"
+  },
+  {
+    "slug": "tm161",
+    "en": "tm161",
+    "de": "tm161"
+  },
+  {
+    "slug": "tm162",
+    "en": "tm162",
+    "de": "tm162"
+  },
+  {
+    "slug": "tm163",
+    "en": "tm163",
+    "de": "tm163"
+  },
+  {
+    "slug": "tm164",
+    "en": "tm164",
+    "de": "tm164"
+  },
+  {
+    "slug": "tm165",
+    "en": "tm165",
+    "de": "tm165"
+  },
+  {
+    "slug": "tm166",
+    "en": "tm166",
+    "de": "tm166"
+  },
+  {
+    "slug": "tm167",
+    "en": "tm167",
+    "de": "tm167"
+  },
+  {
+    "slug": "tm168",
+    "en": "tm168",
+    "de": "tm168"
+  },
+  {
+    "slug": "tm169",
+    "en": "tm169",
+    "de": "tm169"
+  },
+  {
+    "slug": "tm170",
+    "en": "tm170",
+    "de": "tm170"
+  },
+  {
+    "slug": "tm171",
+    "en": "tm171",
+    "de": "tm171"
+  },
+  {
+    "slug": "tm172",
+    "en": "tm172",
+    "de": "tm172"
+  },
+  {
+    "slug": "tm173",
+    "en": "tm173",
+    "de": "tm173"
+  },
+  {
+    "slug": "tm174",
+    "en": "tm174",
+    "de": "tm174"
+  },
+  {
+    "slug": "tm175",
+    "en": "tm175",
+    "de": "tm175"
+  },
+  {
+    "slug": "tm176",
+    "en": "tm176",
+    "de": "tm176"
+  },
+  {
+    "slug": "tm177",
+    "en": "tm177",
+    "de": "tm177"
+  },
+  {
+    "slug": "tm178",
+    "en": "tm178",
+    "de": "tm178"
+  },
+  {
+    "slug": "tm179",
+    "en": "tm179",
+    "de": "tm179"
+  },
+  {
+    "slug": "tm180",
+    "en": "tm180",
+    "de": "tm180"
+  },
+  {
+    "slug": "tm181",
+    "en": "tm181",
+    "de": "tm181"
+  },
+  {
+    "slug": "tm182",
+    "en": "tm182",
+    "de": "tm182"
+  },
+  {
+    "slug": "tm183",
+    "en": "tm183",
+    "de": "tm183"
+  },
+  {
+    "slug": "tm184",
+    "en": "tm184",
+    "de": "tm184"
+  },
+  {
+    "slug": "tm185",
+    "en": "tm185",
+    "de": "tm185"
+  },
+  {
+    "slug": "tm186",
+    "en": "tm186",
+    "de": "tm186"
+  },
+  {
+    "slug": "tm187",
+    "en": "tm187",
+    "de": "tm187"
+  },
+  {
+    "slug": "tm188",
+    "en": "tm188",
+    "de": "tm188"
+  },
+  {
+    "slug": "tm189",
+    "en": "tm189",
+    "de": "tm189"
+  },
+  {
+    "slug": "tm190",
+    "en": "tm190",
+    "de": "tm190"
+  },
+  {
+    "slug": "tm191",
+    "en": "tm191",
+    "de": "tm191"
+  },
+  {
+    "slug": "tm192",
+    "en": "tm192",
+    "de": "tm192"
+  },
+  {
+    "slug": "tm193",
+    "en": "tm193",
+    "de": "tm193"
+  },
+  {
+    "slug": "tm194",
+    "en": "tm194",
+    "de": "tm194"
+  },
+  {
+    "slug": "tm195",
+    "en": "tm195",
+    "de": "tm195"
+  },
+  {
+    "slug": "tm196",
+    "en": "tm196",
+    "de": "tm196"
+  },
+  {
+    "slug": "tm197",
+    "en": "tm197",
+    "de": "tm197"
+  },
+  {
+    "slug": "tm198",
+    "en": "tm198",
+    "de": "tm198"
+  },
+  {
+    "slug": "tm199",
+    "en": "tm199",
+    "de": "tm199"
+  },
+  {
+    "slug": "tm200",
+    "en": "tm200",
+    "de": "tm200"
+  },
+  {
+    "slug": "tm201",
+    "en": "tm201",
+    "de": "tm201"
+  },
+  {
+    "slug": "tm202",
+    "en": "tm202",
+    "de": "tm202"
+  },
+  {
+    "slug": "tm203",
+    "en": "tm203",
+    "de": "tm203"
+  },
+  {
+    "slug": "tm204",
+    "en": "tm204",
+    "de": "tm204"
+  },
+  {
+    "slug": "tm205",
+    "en": "tm205",
+    "de": "tm205"
+  },
+  {
+    "slug": "tm206",
+    "en": "tm206",
+    "de": "tm206"
+  },
+  {
+    "slug": "tm207",
+    "en": "tm207",
+    "de": "tm207"
+  },
+  {
+    "slug": "tm208",
+    "en": "tm208",
+    "de": "tm208"
+  },
+  {
+    "slug": "tm209",
+    "en": "tm209",
+    "de": "tm209"
+  },
+  {
+    "slug": "tm210",
+    "en": "tm210",
+    "de": "tm210"
+  },
+  {
+    "slug": "tm211",
+    "en": "tm211",
+    "de": "tm211"
+  },
+  {
+    "slug": "tm212",
+    "en": "tm212",
+    "de": "tm212"
+  },
+  {
+    "slug": "tm213",
+    "en": "tm213",
+    "de": "tm213"
+  },
+  {
+    "slug": "tm214",
+    "en": "tm214",
+    "de": "tm214"
+  },
+  {
+    "slug": "tm215",
+    "en": "tm215",
+    "de": "tm215"
+  },
+  {
+    "slug": "tm216",
+    "en": "tm216",
+    "de": "tm216"
+  },
+  {
+    "slug": "tm217",
+    "en": "tm217",
+    "de": "tm217"
+  },
+  {
+    "slug": "tm218",
+    "en": "tm218",
+    "de": "tm218"
+  },
+  {
+    "slug": "tm219",
+    "en": "tm219",
+    "de": "tm219"
+  },
+  {
+    "slug": "tm220",
+    "en": "tm220",
+    "de": "tm220"
+  },
+  {
+    "slug": "tm221",
+    "en": "tm221",
+    "de": "tm221"
+  },
+  {
+    "slug": "tm222",
+    "en": "tm222",
+    "de": "tm222"
+  },
+  {
+    "slug": "tm223",
+    "en": "tm223",
+    "de": "tm223"
+  },
+  {
+    "slug": "tm224",
+    "en": "tm224",
+    "de": "tm224"
+  },
+  {
+    "slug": "tm225",
+    "en": "tm225",
+    "de": "tm225"
+  },
+  {
+    "slug": "tm226",
+    "en": "tm226",
+    "de": "tm226"
+  },
+  {
+    "slug": "tm227",
+    "en": "tm227",
+    "de": "tm227"
+  },
+  {
+    "slug": "tm228",
+    "en": "tm228",
+    "de": "tm228"
+  },
+  {
+    "slug": "tm229",
+    "en": "tm229",
+    "de": "tm229"
+  },
+  {
+    "slug": "silver-razz-berry",
+    "en": "silver razz berry",
+    "de": "silberne himmihbeere"
+  },
+  {
+    "slug": "golden-razz-berry",
+    "en": "golden razz berry",
+    "de": "goldene himmihbeere"
+  },
+  {
+    "slug": "silver-nanab-berry",
+    "en": "silver nanab berry",
+    "de": "silberne nanabbeere"
+  },
+  {
+    "slug": "golden-nanab-berry",
+    "en": "golden nanab berry",
+    "de": "goldene nanabbeere"
+  },
+  {
+    "slug": "silver-pinap-berry",
+    "en": "silver pinap berry",
+    "de": "silberne sananabeere"
+  },
+  {
+    "slug": "golden-pinap-berry",
+    "en": "golden pinap berry",
+    "de": "goldene sananabeere"
+  },
+  {
+    "slug": "max-mushrooms",
+    "en": "max mushrooms",
+    "de": "dyna-pilz"
+  }
+]

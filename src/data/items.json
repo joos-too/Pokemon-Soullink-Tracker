@@ -1,0 +1,2837 @@
+[
+  {
+    "de": "fähigk.-kapsel",
+    "en": "ability capsule",
+    "version": "XY"
+  },
+  {
+    "de": "fäh.-appell",
+    "en": "ability urge",
+    "version": "BW"
+  },
+  {
+    "de": "rexblisarnit",
+    "en": "abomasite",
+    "version": "XY"
+  },
+  {
+    "de": "absolnit",
+    "en": "absolite",
+    "version": "XY"
+  },
+  {
+    "de": "knolle",
+    "en": "absorb bulb",
+    "version": "BW"
+  },
+  {
+    "de": "adamant-orb",
+    "en": "adamant orb",
+    "version": "DP"
+  },
+  {
+    "de": "aerodactylonit",
+    "en": "aerodactylite",
+    "version": "XY"
+  },
+  {
+    "de": "stollossnit",
+    "en": "aggronite",
+    "version": "XY"
+  },
+  {
+    "de": "gauvebeere",
+    "en": "aguav berry",
+    "version": "RUSA"
+  },
+  {
+    "de": "luftballon",
+    "en": "air balloon",
+    "version": "BW"
+  },
+  {
+    "de": "simsalanit",
+    "en": "alakazite",
+    "version": "XY"
+  },
+  {
+    "de": "altarianit",
+    "en": "altarianite",
+    "version": "ORAS"
+  },
+  {
+    "de": "ultramulch",
+    "en": "amaze mulch",
+    "version": "XY"
+  },
+  {
+    "de": "ampharosnit",
+    "en": "ampharosite",
+    "version": "XY"
+  },
+  {
+    "de": "münzamulett",
+    "en": "amulet coin",
+    "version": "GS"
+  },
+  {
+    "de": "gegengift",
+    "en": "antidote",
+    "version": "RBY"
+  },
+  {
+    "de": "apikobeere",
+    "en": "apicot berry",
+    "version": "RUSA"
+  },
+  {
+    "de": "panzerfossil",
+    "en": "armor fossil",
+    "version": "DP"
+  },
+  {
+    "de": "wilbirbeere",
+    "en": "aspear berry",
+    "version": "RUSA"
+  },
+  {
+    "de": "offensivweste",
+    "en": "assault vest",
+    "version": "XY"
+  },
+  {
+    "de": "ohrdochnit",
+    "en": "audinite",
+    "version": "ORAS"
+  },
+  {
+    "de": "aufwecker",
+    "en": "awakening",
+    "version": "RBY"
+  },
+  {
+    "de": "babiribeere",
+    "en": "babiri berry",
+    "version": "DP"
+  },
+  {
+    "de": "duftpilz",
+    "en": "balm mushroom",
+    "version": "XY"
+  },
+  {
+    "de": "banetteonit",
+    "en": "banettite",
+    "version": "XY"
+  },
+  {
+    "de": "bibornit",
+    "en": "beedrillite",
+    "version": "ORAS"
+  },
+  {
+    "de": "myrtilbeere",
+    "en": "belue berry",
+    "version": "RUSA"
+  },
+  {
+    "de": "beerensaft",
+    "en": "berry juice",
+    "version": "GS"
+  },
+  {
+    "de": "riesenpilz",
+    "en": "big mushroom",
+    "version": "GS"
+  },
+  {
+    "de": "riesennugget",
+    "en": "big nugget",
+    "version": "BW"
+  },
+  {
+    "de": "riesenperle",
+    "en": "big pearl",
+    "version": "GS"
+  },
+  {
+    "de": "großwurzel",
+    "en": "big root",
+    "version": "DP"
+  },
+  {
+    "de": "klammerband",
+    "en": "binding band",
+    "version": "BW"
+  },
+  {
+    "de": "schwarzgurt",
+    "en": "black belt",
+    "version": "RUSA"
+  },
+  {
+    "de": "schw. flöte",
+    "en": "black flute",
+    "version": "RUSA"
+  },
+  {
+    "de": "schattenglas",
+    "en": "black glasses",
+    "version": "XY"
+  },
+  {
+    "de": "giftschleim",
+    "en": "black sludge",
+    "version": "DP"
+  },
+  {
+    "de": "turtoknit",
+    "en": "blastoisinite",
+    "version": "XY"
+  },
+  {
+    "de": "lohgocknit",
+    "en": "blazikenite",
+    "version": "XY"
+  },
+  {
+    "de": "blaue flöte",
+    "en": "blue flute",
+    "version": "RUSA"
+  },
+  {
+    "de": "blauer schal",
+    "en": "blue scarf",
+    "version": "RUSA"
+  },
+  {
+    "de": "indigostück",
+    "en": "blue shard",
+    "version": "RUSA"
+  },
+  {
+    "de": "morbbeere",
+    "en": "bluk berry",
+    "version": "RUSA"
+  },
+  {
+    "de": "wuchermulch",
+    "en": "boost mulch",
+    "version": "XY"
+  },
+  {
+    "de": "blendpuder",
+    "en": "bright powder",
+    "version": "XY"
+  },
+  {
+    "de": "käferjuwel",
+    "en": "bug gem",
+    "version": "BW"
+  },
+  {
+    "de": "flammenmodul",
+    "en": "burn drive",
+    "version": "BW"
+  },
+  {
+    "de": "feuerheiler",
+    "en": "burn heal",
+    "version": "RBY"
+  },
+  {
+    "de": "kalzium",
+    "en": "calcium",
+    "version": "RBY"
+  },
+  {
+    "de": "cameruptnit",
+    "en": "cameruptite",
+    "version": "ORAS"
+  },
+  {
+    "de": "carbon",
+    "en": "carbos",
+    "version": "RBY"
+  },
+  {
+    "de": "stratos-eis",
+    "en": "casteliacone",
+    "version": "BW"
+  },
+  {
+    "de": "akku",
+    "en": "cell battery",
+    "version": "BW"
+  },
+  {
+    "de": "holzkohle",
+    "en": "charcoal",
+    "version": "GS"
+  },
+  {
+    "de": "gluraknit x",
+    "en": "charizardite x",
+    "version": "XY"
+  },
+  {
+    "de": "gluraknit y",
+    "en": "charizardite y",
+    "version": "XY"
+  },
+  {
+    "de": "chiaribeere",
+    "en": "charti berry",
+    "version": "DP"
+  },
+  {
+    "de": "amrenabeere",
+    "en": "cheri berry",
+    "version": "RUSA"
+  },
+  {
+    "de": "jubelball",
+    "en": "cherish ball",
+    "version": "DP"
+  },
+  {
+    "de": "maronbeere",
+    "en": "chesto berry",
+    "version": "RUSA"
+  },
+  {
+    "de": "latchibeere",
+    "en": "chilan berry",
+    "version": "DP"
+  },
+  {
+    "de": "gefriermodul",
+    "en": "chill drive",
+    "version": "BW"
+  },
+  {
+    "de": "wahlband",
+    "en": "choice band",
+    "version": "RUSA"
+  },
+  {
+    "de": "wahlschal",
+    "en": "choice scarf",
+    "version": "DP"
+  },
+  {
+    "de": "wahlglas",
+    "en": "choice specs",
+    "version": "DP"
+  },
+  {
+    "de": "rospelbeere",
+    "en": "chople berry",
+    "version": "DP"
+  },
+  {
+    "de": "klauenfossil",
+    "en": "claw fossil",
+    "version": "RUSA"
+  },
+  {
+    "de": "schutzband",
+    "en": "cleanse tag",
+    "version": "GS"
+  },
+  {
+    "de": "espritfeder",
+    "en": "clever wing",
+    "version": "BW"
+  },
+  {
+    "de": "kobabeere",
+    "en": "coba berry",
+    "version": "DP"
+  },
+  {
+    "de": "burleobeere",
+    "en": "colbur berry",
+    "version": "DP"
+  },
+  {
+    "de": "kometstück",
+    "en": "comet shard",
+    "version": "BW"
+  },
+  {
+    "de": "saimbeere",
+    "en": "cornn berry",
+    "version": "RUSA"
+  },
+  {
+    "de": "schildfossil",
+    "en": "cover fossil",
+    "version": "BW"
+  },
+  {
+    "de": "eipfelbeere",
+    "en": "custap berry",
+    "version": "DP"
+  },
+  {
+    "de": "feuchtmulch",
+    "en": "damp mulch",
+    "version": "DP"
+  },
+  {
+    "de": "nassbrocken",
+    "en": "damp rock",
+    "version": "DP"
+  },
+  {
+    "de": "unlichtjuwel",
+    "en": "dark gem",
+    "version": "BW"
+  },
+  {
+    "de": "funkelstein",
+    "en": "dawn stone",
+    "version": "DP"
+  },
+  {
+    "de": "abyssplatte",
+    "en": "deep sea scale",
+    "version": "XY"
+  },
+  {
+    "de": "abysszahn",
+    "en": "deep sea tooth",
+    "version": "XY"
+  },
+  {
+    "de": "fatumknoten",
+    "en": "destiny knot",
+    "version": "DP"
+  },
+  {
+    "de": "diancienit",
+    "en": "diancite",
+    "version": "ORAS"
+  },
+  {
+    "de": "angriffplus",
+    "en": "dire hit",
+    "version": "RBY"
+  },
+  {
+    "de": "angriffplus2",
+    "en": "dire hit 2",
+    "version": "BW"
+  },
+  {
+    "de": "angriffplus3",
+    "en": "dire hit 3",
+    "version": "BW"
+  },
+  {
+    "de": "rabattmarke",
+    "en": "discount coupon",
+    "version": "XY"
+  },
+  {
+    "de": "tauchball",
+    "en": "dive ball",
+    "version": "RUSA"
+  },
+  {
+    "de": "domfossil",
+    "en": "dome fossil",
+    "version": "RBY"
+  },
+  {
+    "de": "aquamodul",
+    "en": "douse drive",
+    "version": "BW"
+  },
+  {
+    "de": "dracotafel",
+    "en": "draco plate",
+    "version": "DP"
+  },
+  {
+    "de": "drachenzahn",
+    "en": "dragon fang",
+    "version": "GS"
+  },
+  {
+    "de": "drakojuwel",
+    "en": "dragon gem",
+    "version": "BW"
+  },
+  {
+    "de": "drachenhaut",
+    "en": "dragon scale",
+    "version": "GS"
+  },
+  {
+    "de": "furchttafel",
+    "en": "dread plate",
+    "version": "DP"
+  },
+  {
+    "de": "traumball",
+    "en": "dream ball",
+    "version": "BW"
+  },
+  {
+    "de": "dubiosdisc",
+    "en": "dubious disc",
+    "version": "DP"
+  },
+  {
+    "de": "durinbeere",
+    "en": "durin berry",
+    "version": "RUSA"
+  },
+  {
+    "de": "finsterball",
+    "en": "dusk ball",
+    "version": "DP"
+  },
+  {
+    "de": "finsterstein",
+    "en": "dusk stone",
+    "version": "DP"
+  },
+  {
+    "de": "erdtafel",
+    "en": "earth plate",
+    "version": "DP"
+  },
+  {
+    "de": "fluchtknopf",
+    "en": "eject button",
+    "version": "BW"
+  },
+  {
+    "de": "stromisierer",
+    "en": "electirizer",
+    "version": "DP"
+  },
+  {
+    "de": "elektrojuwel",
+    "en": "electric gem",
+    "version": "BW"
+  },
+  {
+    "de": "elixier",
+    "en": "elixir",
+    "version": "RUSA"
+  },
+  {
+    "de": "energiestaub",
+    "en": "energy powder",
+    "version": "XY"
+  },
+  {
+    "de": "kraftwurzel",
+    "en": "energy root",
+    "version": "GS"
+  },
+  {
+    "de": "enigmabeere",
+    "en": "enigma berry",
+    "version": "RUSA"
+  },
+  {
+    "de": "fluchtseil",
+    "en": "escape rope",
+    "version": "RBY"
+  },
+  {
+    "de": "äther",
+    "en": "ether",
+    "version": "RBY"
+  },
+  {
+    "de": "ewigstein",
+    "en": "everstone",
+    "version": "GS"
+  },
+  {
+    "de": "evolith",
+    "en": "eviolite",
+    "version": "BW"
+  },
+  {
+    "de": "ep-teiler",
+    "en": "exp.share",
+    "version": "GS"
+  },
+  {
+    "de": "expertengurt",
+    "en": "expert belt",
+    "version": "DP"
+  },
+  {
+    "de": "feenjuwel",
+    "en": "fairy gem",
+    "version": "XY"
+  },
+  {
+    "de": "turboball",
+    "en": "fast ball",
+    "version": "GS"
+  },
+  {
+    "de": "kampfjuwel",
+    "en": "fighting gem",
+    "version": "BW"
+  },
+  {
+    "de": "giefebeere",
+    "en": "figy berry",
+    "version": "RUSA"
+  },
+  {
+    "de": "feuerjuwel",
+    "en": "fire gem",
+    "version": "BW"
+  },
+  {
+    "de": "feuerstein",
+    "en": "fire stone",
+    "version": "RBY"
+  },
+  {
+    "de": "fausttafel",
+    "en": "fist plate",
+    "version": "DP"
+  },
+  {
+    "de": "heiß-orb",
+    "en": "flame orb",
+    "version": "DP"
+  },
+  {
+    "de": "feuertafel",
+    "en": "flame plate",
+    "version": "DP"
+  },
+  {
+    "de": "leichtstein",
+    "en": "float stone",
+    "version": "BW"
+  },
+  {
+    "de": "eneco-rute",
+    "en": "fluffy tail",
+    "version": "RUSA"
+  },
+  {
+    "de": "flugjuwel",
+    "en": "flying gem",
+    "version": "BW"
+  },
+  {
+    "de": "fokus-band",
+    "en": "focus band",
+    "version": "GS"
+  },
+  {
+    "de": "fokusgurt",
+    "en": "focus sash",
+    "version": "DP"
+  },
+  {
+    "de": "tafelwasser",
+    "en": "fresh water",
+    "version": "RBY"
+  },
+  {
+    "de": "freundesball",
+    "en": "friend ball",
+    "version": "GS"
+  },
+  {
+    "de": "hyperheiler",
+    "en": "full heal",
+    "version": "RBY"
+  },
+  {
+    "de": "lahmrauch",
+    "en": "full incense",
+    "version": "DP"
+  },
+  {
+    "de": "top-genesung",
+    "en": "full restore",
+    "version": "RBY"
+  },
+  {
+    "de": "galagladinit",
+    "en": "galladite",
+    "version": "ORAS"
+  },
+  {
+    "de": "linganbeere",
+    "en": "ganlon berry",
+    "version": "RUSA"
+  },
+  {
+    "de": "knakracknit",
+    "en": "garchompite",
+    "version": "XY"
+  },
+  {
+    "de": "guardevoirnit",
+    "en": "gardevoirite",
+    "version": "XY"
+  },
+  {
+    "de": "gengarnit",
+    "en": "gengarite",
+    "version": "XY"
+  },
+  {
+    "de": "geniefeder",
+    "en": "genius wing",
+    "version": "BW"
+  },
+  {
+    "de": "geistjuwel",
+    "en": "ghost gem",
+    "version": "BW"
+  },
+  {
+    "de": "firnontornit",
+    "en": "glalitite",
+    "version": "ORAS"
+  },
+  {
+    "de": "goldblatt",
+    "en": "gold leaf",
+    "version": "GS"
+  },
+  {
+    "de": "neumulch",
+    "en": "gooey mulch",
+    "version": "DP"
+  },
+  {
+    "de": "pflanzjuwel",
+    "en": "grass gem",
+    "version": "BW"
+  },
+  {
+    "de": "superball",
+    "en": "great ball",
+    "version": "RBY"
+  },
+  {
+    "de": "superball",
+    "en": "great ball",
+    "version": "RBY"
+  },
+  {
+    "de": "grüner schal",
+    "en": "green scarf",
+    "version": "RUSA"
+  },
+  {
+    "de": "grünstück",
+    "en": "green shard",
+    "version": "RUSA"
+  },
+  {
+    "de": "labrusbeere",
+    "en": "grepa berry",
+    "version": "RUSA"
+  },
+  {
+    "de": "griffklaue",
+    "en": "grip claw",
+    "version": "DP"
+  },
+  {
+    "de": "platinum-orb",
+    "en": "griseous orb",
+    "version": "PT"
+  },
+  {
+    "de": "bodenjuwel",
+    "en": "ground gem",
+    "version": "BW"
+  },
+  {
+    "de": "wachsmulch",
+    "en": "growth mulch",
+    "version": "DP"
+  },
+  {
+    "de": "megablock",
+    "en": "guard spec.",
+    "version": "RBY"
+  },
+  {
+    "de": "garadosnit",
+    "en": "gyaradosite",
+    "version": "XY"
+  },
+  {
+    "de": "terirobeere",
+    "en": "haban berry",
+    "version": "DP"
+  },
+  {
+    "de": "granitstein",
+    "en": "hard stone",
+    "version": "GS"
+  },
+  {
+    "de": "heilball",
+    "en": "heal ball",
+    "version": "DP"
+  },
+  {
+    "de": "heilpuder",
+    "en": "heal powder",
+    "version": "GS"
+  },
+  {
+    "de": "heilfeder",
+    "en": "health wing",
+    "version": "BW"
+  },
+  {
+    "de": "herzschuppe",
+    "en": "heart scale",
+    "version": "RUSA"
+  },
+  {
+    "de": "heißbrocken",
+    "en": "heat rock",
+    "version": "DP"
+  },
+  {
+    "de": "schwerball",
+    "en": "heavy ball",
+    "version": "GS"
+  },
+  {
+    "de": "schwerball",
+    "en": "heavy ball",
+    "version": "GS"
+  },
+  {
+    "de": "helixfossil",
+    "en": "helix fossil",
+    "version": "RBY"
+  },
+  {
+    "de": "skarabornit",
+    "en": "heracronite",
+    "version": "XY"
+  },
+  {
+    "de": "vm01",
+    "en": "hm01",
+    "version": "RBY"
+  },
+  {
+    "de": "vm02",
+    "en": "hm02",
+    "version": "RBY"
+  },
+  {
+    "de": "vm03",
+    "en": "hm03",
+    "version": "RBY"
+  },
+  {
+    "de": "vm04",
+    "en": "hm04",
+    "version": "RBY"
+  },
+  {
+    "de": "vm05",
+    "en": "hm05",
+    "version": "RBY"
+  },
+  {
+    "de": "vm06",
+    "en": "hm06",
+    "version": "GS"
+  },
+  {
+    "de": "vm07",
+    "en": "hm07",
+    "version": "GS"
+  },
+  {
+    "de": "vm08",
+    "en": "hm08",
+    "version": "RUSA"
+  },
+  {
+    "de": "honmelbeere",
+    "en": "hondew berry",
+    "version": "RUSA"
+  },
+  {
+    "de": "honig",
+    "en": "honey",
+    "version": "DP"
+  },
+  {
+    "de": "hundemonit",
+    "en": "houndoominite",
+    "version": "XY"
+  },
+  {
+    "de": "kp-plus",
+    "en": "hp up",
+    "version": "RBY"
+  },
+  {
+    "de": "hypertrank",
+    "en": "hyper potion",
+    "version": "RBY"
+  },
+  {
+    "de": "yapabeere",
+    "en": "iapapa berry",
+    "version": "RUSA"
+  },
+  {
+    "de": "eisjuwel",
+    "en": "ice gem",
+    "version": "BW"
+  },
+  {
+    "de": "eisheiler",
+    "en": "ice heal",
+    "version": "RBY"
+  },
+  {
+    "de": "frosttafel",
+    "en": "icicle plate",
+    "version": "DP"
+  },
+  {
+    "de": "eisbrocken",
+    "en": "icy rock",
+    "version": "DP"
+  },
+  {
+    "de": "käfertafel",
+    "en": "insect plate",
+    "version": "DP"
+  },
+  {
+    "de": "eisen",
+    "en": "iron",
+    "version": "RBY"
+  },
+  {
+    "de": "eisenkugel",
+    "en": "iron ball",
+    "version": "DP"
+  },
+  {
+    "de": "eisentafel",
+    "en": "iron plate",
+    "version": "DP"
+  },
+  {
+    "de": "itemabwurf",
+    "en": "item drop",
+    "version": "BW"
+  },
+  {
+    "de": "itemappell",
+    "en": "item urge",
+    "version": "BW"
+  },
+  {
+    "de": "jabocabeere",
+    "en": "jaboca berry",
+    "version": "DP"
+  },
+  {
+    "de": "kieferfossil",
+    "en": "jaw fossil",
+    "version": "XY"
+  },
+  {
+    "de": "kangamanit",
+    "en": "kangaskhanite",
+    "version": "XY"
+  },
+  {
+    "de": "zitarzbeere",
+    "en": "kasib berry",
+    "version": "DP"
+  },
+  {
+    "de": "grarzbeere",
+    "en": "kebia berry",
+    "version": "DP"
+  },
+  {
+    "de": "akibeere",
+    "en": "kee berry",
+    "version": "XY"
+  },
+  {
+    "de": "setangbeere",
+    "en": "kelpsy berry",
+    "version": "RUSA"
+  },
+  {
+    "de": "king-stein",
+    "en": "king's rock",
+    "version": "GS"
+  },
+  {
+    "de": "schwerschwf.",
+    "en": "lagging tail",
+    "version": "DP"
+  },
+  {
+    "de": "lansatbeere",
+    "en": "lansat berry",
+    "version": "RUSA"
+  },
+  {
+    "de": "latiasnit",
+    "en": "latiasite",
+    "version": "XY"
+  },
+  {
+    "de": "latiosnit",
+    "en": "latiosite",
+    "version": "XY"
+  },
+  {
+    "de": "lavakeks",
+    "en": "lava cookie",
+    "version": "RUSA"
+  },
+  {
+    "de": "laxrauch",
+    "en": "lax incense",
+    "version": "RUSA"
+  },
+  {
+    "de": "blattstein",
+    "en": "leaf stone",
+    "version": "RBY"
+  },
+  {
+    "de": "überreste",
+    "en": "leftovers",
+    "version": "GS"
+  },
+  {
+    "de": "limonade",
+    "en": "lemonade",
+    "version": "RBY"
+  },
+  {
+    "de": "jonagobeere",
+    "en": "leppa berry",
+    "version": "RUSA"
+  },
+  {
+    "de": "levelball",
+    "en": "level ball",
+    "version": "GS"
+  },
+  {
+    "de": "lydzibeere",
+    "en": "liechi berry",
+    "version": "RUSA"
+  },
+  {
+    "de": "leben-orb",
+    "en": "life orb",
+    "version": "DP"
+  },
+  {
+    "de": "kugelblitz",
+    "en": "light ball",
+    "version": "GS"
+  },
+  {
+    "de": "lichtlehm",
+    "en": "light clay",
+    "version": "DP"
+  },
+  {
+    "de": "schlapornit",
+    "en": "lopunnite",
+    "version": "ORAS"
+  },
+  {
+    "de": "sympaball",
+    "en": "love ball",
+    "version": "GS"
+  },
+  {
+    "de": "lucarionit",
+    "en": "lucarionite",
+    "version": "XY"
+  },
+  {
+    "de": "glücksrauch",
+    "en": "luck incense",
+    "version": "DP"
+  },
+  {
+    "de": "glücks-ei",
+    "en": "lucky egg",
+    "version": "GS"
+  },
+  {
+    "de": "lucky punch",
+    "en": "lucky punch",
+    "version": "GS"
+  },
+  {
+    "de": "prunusbeere",
+    "en": "lum berry",
+    "version": "RUSA"
+  },
+  {
+    "de": "leuchtmoos",
+    "en": "luminous moss",
+    "version": "XY"
+  },
+  {
+    "de": "illumina-galette",
+    "en": "lumiose galette",
+    "version": "XY"
+  },
+  {
+    "de": "köderball",
+    "en": "lure ball",
+    "version": "GS"
+  },
+  {
+    "de": "weiß-orb",
+    "en": "lustrous orb",
+    "version": "DP"
+  },
+  {
+    "de": "luxusball",
+    "en": "luxury ball",
+    "version": "RUSA"
+  },
+  {
+    "de": "machoband",
+    "en": "macho brace",
+    "version": "RUSA"
+  },
+  {
+    "de": "magmaisierer",
+    "en": "magmarizer",
+    "version": "DP"
+  },
+  {
+    "de": "magnet",
+    "en": "magnet",
+    "version": "GS"
+  },
+  {
+    "de": "magobeere",
+    "en": "mago berry",
+    "version": "RUSA"
+  },
+  {
+    "de": "magostbeere",
+    "en": "magost berry",
+    "version": "RUSA"
+  },
+  {
+    "de": "voltensonit",
+    "en": "manectite",
+    "version": "XY"
+  },
+  {
+    "de": "tarabeere",
+    "en": "maranga berry",
+    "version": "XY"
+  },
+  {
+    "de": "meisterball",
+    "en": "master ball",
+    "version": "RBY"
+  },
+  {
+    "de": "flunkifernit",
+    "en": "mawilite",
+    "version": "XY"
+  },
+  {
+    "de": "top-elixier",
+    "en": "max elixir",
+    "version": "RUSA"
+  },
+  {
+    "de": "top-äther",
+    "en": "max ether",
+    "version": "RBY"
+  },
+  {
+    "de": "top-trank",
+    "en": "max potion",
+    "version": "RBY"
+  },
+  {
+    "de": "top-schutz",
+    "en": "max repel",
+    "version": "RBY"
+  },
+  {
+    "de": "top-beleber",
+    "en": "max revive",
+    "version": "RBY"
+  },
+  {
+    "de": "wiesentafel",
+    "en": "meadow plate",
+    "version": "DP"
+  },
+  {
+    "de": "meditalisnit",
+    "en": "medichamite",
+    "version": "XY"
+  },
+  {
+    "de": "mentalkraut",
+    "en": "mental herb",
+    "version": "RUSA"
+  },
+  {
+    "de": "metagrossnit",
+    "en": "metagrossite",
+    "version": "ORAS"
+  },
+  {
+    "de": "metallmantel",
+    "en": "metal coat",
+    "version": "GS"
+  },
+  {
+    "de": "metallstaub",
+    "en": "metal powder",
+    "version": "GS"
+  },
+  {
+    "de": "metronom",
+    "en": "metronome",
+    "version": "DP"
+  },
+  {
+    "de": "mewtunit x",
+    "en": "mewtwonite x",
+    "version": "XY"
+  },
+  {
+    "de": "mewtunit y",
+    "en": "mewtwonite y",
+    "version": "XY"
+  },
+  {
+    "de": "wunfrubeere",
+    "en": "micle berry",
+    "version": "DP"
+  },
+  {
+    "de": "hirntafel",
+    "en": "mind plate",
+    "version": "DP"
+  },
+  {
+    "de": "wundersaat",
+    "en": "miracle seed",
+    "version": "GS"
+  },
+  {
+    "de": "kuhmuh-milch",
+    "en": "moomoo milk",
+    "version": "GS"
+  },
+  {
+    "de": "mondball",
+    "en": "moon ball",
+    "version": "GS"
+  },
+  {
+    "de": "mondstein",
+    "en": "moon stone",
+    "version": "RBY"
+  },
+  {
+    "de": "muskelband",
+    "en": "muscle band",
+    "version": "DP"
+  },
+  {
+    "de": "kraftfeder",
+    "en": "muscle wing",
+    "version": "BW"
+  },
+  {
+    "de": "zauberwasser",
+    "en": "mystic water",
+    "version": "GS"
+  },
+  {
+    "de": "nanabbeere",
+    "en": "nanab berry",
+    "version": "RUSA"
+  },
+  {
+    "de": "nestball",
+    "en": "nest ball",
+    "version": "RUSA"
+  },
+  {
+    "de": "netzball",
+    "en": "net ball",
+    "version": "RUSA"
+  },
+  {
+    "de": "ewiges eis",
+    "en": "never-melt ice",
+    "version": "XY"
+  },
+  {
+    "de": "tronzibeere",
+    "en": "nomel berry",
+    "version": "RUSA"
+  },
+  {
+    "de": "normaljuwel",
+    "en": "normal gem",
+    "version": "BW"
+  },
+  {
+    "de": "nugget",
+    "en": "nugget",
+    "version": "RBY"
+  },
+  {
+    "de": "koakobeere",
+    "en": "occa berry",
+    "version": "DP"
+  },
+  {
+    "de": "schrägrauch",
+    "en": "odd incense",
+    "version": "DP"
+  },
+  {
+    "de": "spiritkern",
+    "en": "odd keystone",
+    "version": "DP"
+  },
+  {
+    "de": "altbernstein",
+    "en": "old amber",
+    "version": "RBY"
+  },
+  {
+    "de": "spezialität",
+    "en": "old gateau",
+    "version": "DP"
+  },
+  {
+    "de": "sinelbeere",
+    "en": "oran berry",
+    "version": "RUSA"
+  },
+  {
+    "de": "ovaler stein",
+    "en": "oval stone",
+    "version": "DP"
+  },
+  {
+    "de": "pallmbeere",
+    "en": "pamtre berry",
+    "version": "RUSA"
+  },
+  {
+    "de": "parkball",
+    "en": "park ball",
+    "version": "GS"
+  },
+  {
+    "de": "para-heiler",
+    "en": "parlyz heal",
+    "version": "RBY"
+  },
+  {
+    "de": "transferorb",
+    "en": "pass orb",
+    "version": "BW"
+  },
+  {
+    "de": "foepasbeere",
+    "en": "passho berry",
+    "version": "DP"
+  },
+  {
+    "de": "pyapabeere",
+    "en": "payapa berry",
+    "version": "DP"
+  },
+  {
+    "de": "perle",
+    "en": "pearl",
+    "version": "GS"
+  },
+  {
+    "de": "triperle",
+    "en": "pearl string",
+    "version": "BW"
+  },
+  {
+    "de": "pirsifbeere",
+    "en": "pecha berry",
+    "version": "RUSA"
+  },
+  {
+    "de": "persimbeere",
+    "en": "persim berry",
+    "version": "RUSA"
+  },
+  {
+    "de": "tahaybeere",
+    "en": "petaya berry",
+    "version": "RUSA"
+  },
+  {
+    "de": "taubossnit",
+    "en": "pidgeotite",
+    "version": "ORAS"
+  },
+  {
+    "de": "sananabeere",
+    "en": "pinap berry",
+    "version": "RUSA"
+  },
+  {
+    "de": "rosa schal",
+    "en": "pink scarf",
+    "version": "RUSA"
+  },
+  {
+    "de": "pinsirnit",
+    "en": "pinsirite",
+    "version": "XY"
+  },
+  {
+    "de": "feentafel",
+    "en": "pixie plate",
+    "version": "XY"
+  },
+  {
+    "de": "federfossil",
+    "en": "plume fossil",
+    "version": "BW"
+  },
+  {
+    "de": "giftstich",
+    "en": "poison barb",
+    "version": "GS"
+  },
+  {
+    "de": "giftjuwel",
+    "en": "poison gem",
+    "version": "BW"
+  },
+  {
+    "de": "pokéball",
+    "en": "poké ball",
+    "version": "RBY"
+  },
+  {
+    "de": "pokéball",
+    "en": "poké ball",
+    "version": "RBY"
+  },
+  {
+    "de": "poképuppe",
+    "en": "poké doll",
+    "version": "RBY"
+  },
+  {
+    "de": "pokéwedel",
+    "en": "poké toy",
+    "version": "BW"
+  },
+  {
+    "de": "granabeere",
+    "en": "pomeg berry",
+    "version": "RUSA"
+  },
+  {
+    "de": "trank",
+    "en": "potion",
+    "version": "RBY"
+  },
+  {
+    "de": "machtkette",
+    "en": "power anklet",
+    "version": "DP"
+  },
+  {
+    "de": "machtband",
+    "en": "power band",
+    "version": "DP"
+  },
+  {
+    "de": "machtgurt",
+    "en": "power belt",
+    "version": "DP"
+  },
+  {
+    "de": "machtreif",
+    "en": "power bracer",
+    "version": "DP"
+  },
+  {
+    "de": "energiekraut",
+    "en": "power herb",
+    "version": "DP"
+  },
+  {
+    "de": "machtlinse",
+    "en": "power lens",
+    "version": "DP"
+  },
+  {
+    "de": "machtgewicht",
+    "en": "power weight",
+    "version": "DP"
+  },
+  {
+    "de": "ap-top",
+    "en": "pp max",
+    "version": "RUSA"
+  },
+  {
+    "de": "ap-plus",
+    "en": "pp up",
+    "version": "RBY"
+  },
+  {
+    "de": "premierball",
+    "en": "premier ball",
+    "version": "RUSA"
+  },
+  {
+    "de": "prachtfeder",
+    "en": "pretty wing",
+    "version": "BW"
+  },
+  {
+    "de": "schönschuppe",
+    "en": "prism scale",
+    "version": "BW"
+  },
+  {
+    "de": "schützer",
+    "en": "protector",
+    "version": "DP"
+  },
+  {
+    "de": "protein",
+    "en": "protein",
+    "version": "RBY"
+  },
+  {
+    "de": "psychojuwel",
+    "en": "psychic gem",
+    "version": "BW"
+  },
+  {
+    "de": "scheuchrauch",
+    "en": "pure incense",
+    "version": "DP"
+  },
+  {
+    "de": "qualotbeere",
+    "en": "qualot berry",
+    "version": "RUSA"
+  },
+  {
+    "de": "flottball",
+    "en": "quick ball",
+    "version": "DP"
+  },
+  {
+    "de": "flinkklaue",
+    "en": "quick claw",
+    "version": "GS"
+  },
+  {
+    "de": "flottstaub",
+    "en": "quick powder",
+    "version": "DP"
+  },
+  {
+    "de": "rabutabeere",
+    "en": "rabuta berry",
+    "version": "RUSA"
+  },
+  {
+    "de": "steinknochen",
+    "en": "rare bone",
+    "version": "DP"
+  },
+  {
+    "de": "sonderbonbon",
+    "en": "rare candy",
+    "version": "RBY"
+  },
+  {
+    "de": "fragiabeere",
+    "en": "rawst berry",
+    "version": "RUSA"
+  },
+  {
+    "de": "scharfklaue",
+    "en": "razor claw",
+    "version": "DP"
+  },
+  {
+    "de": "scharfzahn",
+    "en": "razor fang",
+    "version": "DP"
+  },
+  {
+    "de": "himmihbeere",
+    "en": "razz berry",
+    "version": "RUSA"
+  },
+  {
+    "de": "düsterumhang",
+    "en": "reaper cloth",
+    "version": "DP"
+  },
+  {
+    "de": "rote karte",
+    "en": "red card",
+    "version": "BW"
+  },
+  {
+    "de": "rote flöte",
+    "en": "red flute",
+    "version": "RUSA"
+  },
+  {
+    "de": "roter schal",
+    "en": "red scarf",
+    "version": "RUSA"
+  },
+  {
+    "de": "purpurstück",
+    "en": "red shard",
+    "version": "RUSA"
+  },
+  {
+    "de": "alter reif",
+    "en": "relic band",
+    "version": "BW"
+  },
+  {
+    "de": "alter heller",
+    "en": "relic copper",
+    "version": "BW"
+  },
+  {
+    "de": "alte krone",
+    "en": "relic crown",
+    "version": "BW"
+  },
+  {
+    "de": "alter dukat",
+    "en": "relic gold",
+    "version": "BW"
+  },
+  {
+    "de": "alter taler",
+    "en": "relic silver",
+    "version": "BW"
+  },
+  {
+    "de": "alte statue",
+    "en": "relic statue",
+    "version": "BW"
+  },
+  {
+    "de": "alte vase",
+    "en": "relic vase",
+    "version": "BW"
+  },
+  {
+    "de": "wiederball",
+    "en": "repeat ball",
+    "version": "RUSA"
+  },
+  {
+    "de": "schutz",
+    "en": "repel",
+    "version": "RBY"
+  },
+  {
+    "de": "umkehrappell",
+    "en": "reset urge",
+    "version": "BW"
+  },
+  {
+    "de": "abwehrfeder",
+    "en": "resist wing",
+    "version": "BW"
+  },
+  {
+    "de": "vitalkraut",
+    "en": "revival herb",
+    "version": "GS"
+  },
+  {
+    "de": "beleber",
+    "en": "revive",
+    "version": "RBY"
+  },
+  {
+    "de": "sprießmulch",
+    "en": "rich mulch",
+    "version": "XY"
+  },
+  {
+    "de": "grindobeere",
+    "en": "rindo berry",
+    "version": "DP"
+  },
+  {
+    "de": "zielscheibe",
+    "en": "ring target",
+    "version": "BW"
+  },
+  {
+    "de": "gesteinjuwel",
+    "en": "rock gem",
+    "version": "BW"
+  },
+  {
+    "de": "steinrauch",
+    "en": "rock incense",
+    "version": "DP"
+  },
+  {
+    "de": "beulenhelm",
+    "en": "rocky helmet",
+    "version": "BW"
+  },
+  {
+    "de": "wurzelfossil",
+    "en": "root fossil",
+    "version": "RUSA"
+  },
+  {
+    "de": "rosenrauch",
+    "en": "rose incense",
+    "version": "DP"
+  },
+  {
+    "de": "hibisbeere",
+    "en": "roseli berry",
+    "version": "XY"
+  },
+  {
+    "de": "roselbeere",
+    "en": "rowap berry",
+    "version": "DP"
+  },
+  {
+    "de": "zobirisnit",
+    "en": "sablenite",
+    "version": "ORAS"
+  },
+  {
+    "de": "duftbeutel",
+    "en": "sachet",
+    "version": "XY"
+  },
+  {
+    "de": "zauberasche",
+    "en": "sacred ash",
+    "version": "GS"
+  },
+  {
+    "de": "safariball",
+    "en": "safari ball",
+    "version": "RBY"
+  },
+  {
+    "de": "schutzbrille",
+    "en": "safety goggles",
+    "version": "XY"
+  },
+  {
+    "de": "flossenfossil",
+    "en": "sail fossil",
+    "version": "XY"
+  },
+  {
+    "de": "salkabeere",
+    "en": "salac berry",
+    "version": "RUSA"
+  },
+  {
+    "de": "brutalandanit",
+    "en": "salamencite",
+    "version": "ORAS"
+  },
+  {
+    "de": "gewaldronit",
+    "en": "sceptilite",
+    "version": "ORAS"
+  },
+  {
+    "de": "scheroxnit",
+    "en": "scizorite",
+    "version": "XY"
+  },
+  {
+    "de": "scope-linse",
+    "en": "scope lens",
+    "version": "GS"
+  },
+  {
+    "de": "seerauch",
+    "en": "sea incense",
+    "version": "RUSA"
+  },
+  {
+    "de": "yantara-sablé",
+    "en": "shalour sable",
+    "version": "XY"
+  },
+  {
+    "de": "hackattack",
+    "en": "sharp beak",
+    "version": "GS"
+  },
+  {
+    "de": "tohaidonit",
+    "en": "sharpedonite",
+    "version": "ORAS"
+  },
+  {
+    "de": "wechselhülle",
+    "en": "shed shell",
+    "version": "DP"
+  },
+  {
+    "de": "seegesang",
+    "en": "shell bell",
+    "version": "RUSA"
+  },
+  {
+    "de": "leuchtstein",
+    "en": "shiny stone",
+    "version": "DP"
+  },
+  {
+    "de": "küstensalz",
+    "en": "shoal salt",
+    "version": "RUSA"
+  },
+  {
+    "de": "küstenschale",
+    "en": "shoal shell",
+    "version": "RUSA"
+  },
+  {
+    "de": "blitzmodul",
+    "en": "shock drive",
+    "version": "BW"
+  },
+  {
+    "de": "schukebeere",
+    "en": "shuca berry",
+    "version": "DP"
+  },
+  {
+    "de": "seidenschal",
+    "en": "silk scarf",
+    "version": "RUSA"
+  },
+  {
+    "de": "silberblatt",
+    "en": "silver leaf",
+    "version": "GS"
+  },
+  {
+    "de": "silberstaub",
+    "en": "silver powder",
+    "version": "XY"
+  },
+  {
+    "de": "tsitrubeere",
+    "en": "sitrus berry",
+    "version": "RUSA"
+  },
+  {
+    "de": "kopffossil",
+    "en": "skull fossil",
+    "version": "DP"
+  },
+  {
+    "de": "wolkentafel",
+    "en": "sky plate",
+    "version": "DP"
+  },
+  {
+    "de": "lahmusnit",
+    "en": "slowbronite",
+    "version": "ORAS"
+  },
+  {
+    "de": "rauchball",
+    "en": "smoke ball",
+    "version": "GS"
+  },
+  {
+    "de": "glattbrocken",
+    "en": "smooth rock",
+    "version": "DP"
+  },
+  {
+    "de": "schneeball",
+    "en": "snowball",
+    "version": "XY"
+  },
+  {
+    "de": "sprudel",
+    "en": "soda pop",
+    "version": "RBY"
+  },
+  {
+    "de": "pudersand",
+    "en": "soft sand",
+    "version": "GS"
+  },
+  {
+    "de": "sanftglocke",
+    "en": "soothe bell",
+    "version": "RUSA"
+  },
+  {
+    "de": "seelentau",
+    "en": "soul dew",
+    "version": "RUSA"
+  },
+  {
+    "de": "bannsticker",
+    "en": "spell tag",
+    "version": "GS"
+  },
+  {
+    "de": "kiwanbeere",
+    "en": "spelon berry",
+    "version": "RUSA"
+  },
+  {
+    "de": "wassertafel",
+    "en": "splash plate",
+    "version": "DP"
+  },
+  {
+    "de": "spuktafel",
+    "en": "spooky plate",
+    "version": "DP"
+  },
+  {
+    "de": "turnierball",
+    "en": "sport ball",
+    "version": "HGSS"
+  },
+  {
+    "de": "stabilmulch",
+    "en": "stable mulch",
+    "version": "DP"
+  },
+  {
+    "de": "sternenstück",
+    "en": "star piece",
+    "version": "GS"
+  },
+  {
+    "de": "sternenstaub",
+    "en": "stardust",
+    "version": "GS"
+  },
+  {
+    "de": "krambobeere",
+    "en": "starf berry",
+    "version": "RUSA"
+  },
+  {
+    "de": "stahljuwel",
+    "en": "steel gem",
+    "version": "BW"
+  },
+  {
+    "de": "stahlosnit",
+    "en": "steelixite",
+    "version": "ORAS"
+  },
+  {
+    "de": "lauchstange",
+    "en": "stick",
+    "version": "GS"
+  },
+  {
+    "de": "klettdorn",
+    "en": "sticky barb",
+    "version": "DP"
+  },
+  {
+    "de": "steintafel",
+    "en": "stone plate",
+    "version": "DP"
+  },
+  {
+    "de": "skurriloskulptur",
+    "en": "strange souvenir",
+    "version": "XY"
+  },
+  {
+    "de": "sonnenstein",
+    "en": "sun stone",
+    "version": "GS"
+  },
+  {
+    "de": "supertrank",
+    "en": "super potion",
+    "version": "RBY"
+  },
+  {
+    "de": "superschutz",
+    "en": "super repel",
+    "version": "RBY"
+  },
+  {
+    "de": "wundermulch",
+    "en": "surprise mulch",
+    "version": "XY"
+  },
+  {
+    "de": "sumpexnit",
+    "en": "swampertite",
+    "version": "ORAS"
+  },
+  {
+    "de": "herzkonfekt",
+    "en": "sweet heart",
+    "version": "BW"
+  },
+  {
+    "de": "flinkfeder",
+    "en": "swift wing",
+    "version": "BW"
+  },
+  {
+    "de": "tamotbeere",
+    "en": "tamato berry",
+    "version": "RUSA"
+  },
+  {
+    "de": "tanigabeere",
+    "en": "tanga berry",
+    "version": "DP"
+  },
+  {
+    "de": "kampfknochen",
+    "en": "thick club",
+    "version": "GS"
+  },
+  {
+    "de": "donnerstein",
+    "en": "thunder stone",
+    "version": "XY"
+  },
+  {
+    "de": "timerball",
+    "en": "timer ball",
+    "version": "RUSA"
+  },
+  {
+    "de": "minipilz",
+    "en": "tiny mushroom",
+    "version": "XY"
+  },
+  {
+    "de": "tm01",
+    "en": "tm01",
+    "version": "RBY"
+  },
+  {
+    "de": "tm02",
+    "en": "tm02",
+    "version": "RBY"
+  },
+  {
+    "de": "tm03",
+    "en": "tm03",
+    "version": "RBY"
+  },
+  {
+    "de": "tm04",
+    "en": "tm04",
+    "version": "RBY"
+  },
+  {
+    "de": "tm05",
+    "en": "tm05",
+    "version": "RBY"
+  },
+  {
+    "de": "tm06",
+    "en": "tm06",
+    "version": "RBY"
+  },
+  {
+    "de": "tm07",
+    "en": "tm07",
+    "version": "RBY"
+  },
+  {
+    "de": "tm08",
+    "en": "tm08",
+    "version": "RBY"
+  },
+  {
+    "de": "tm09",
+    "en": "tm09",
+    "version": "RBY"
+  },
+  {
+    "de": "tm10",
+    "en": "tm10",
+    "version": "RBY"
+  },
+  {
+    "de": "tm100",
+    "en": "tm100",
+    "version": "XY"
+  },
+  {
+    "de": "tm11",
+    "en": "tm11",
+    "version": "RBY"
+  },
+  {
+    "de": "tm12",
+    "en": "tm12",
+    "version": "RBY"
+  },
+  {
+    "de": "tm13",
+    "en": "tm13",
+    "version": "RBY"
+  },
+  {
+    "de": "tm14",
+    "en": "tm14",
+    "version": "RBY"
+  },
+  {
+    "de": "tm15",
+    "en": "tm15",
+    "version": "RBY"
+  },
+  {
+    "de": "tm16",
+    "en": "tm16",
+    "version": "RBY"
+  },
+  {
+    "de": "tm17",
+    "en": "tm17",
+    "version": "RBY"
+  },
+  {
+    "de": "tm18",
+    "en": "tm18",
+    "version": "RBY"
+  },
+  {
+    "de": "tm19",
+    "en": "tm19",
+    "version": "RBY"
+  },
+  {
+    "de": "tm20",
+    "en": "tm20",
+    "version": "RBY"
+  },
+  {
+    "de": "tm21",
+    "en": "tm21",
+    "version": "RBY"
+  },
+  {
+    "de": "tm22",
+    "en": "tm22",
+    "version": "RBY"
+  },
+  {
+    "de": "tm23",
+    "en": "tm23",
+    "version": "RBY"
+  },
+  {
+    "de": "tm24",
+    "en": "tm24",
+    "version": "RBY"
+  },
+  {
+    "de": "tm25",
+    "en": "tm25",
+    "version": "RBY"
+  },
+  {
+    "de": "tm26",
+    "en": "tm26",
+    "version": "RBY"
+  },
+  {
+    "de": "tm27",
+    "en": "tm27",
+    "version": "RBY"
+  },
+  {
+    "de": "tm28",
+    "en": "tm28",
+    "version": "RBY"
+  },
+  {
+    "de": "tm29",
+    "en": "tm29",
+    "version": "RBY"
+  },
+  {
+    "de": "tm30",
+    "en": "tm30",
+    "version": "RBY"
+  },
+  {
+    "de": "tm31",
+    "en": "tm31",
+    "version": "RBY"
+  },
+  {
+    "de": "tm32",
+    "en": "tm32",
+    "version": "RBY"
+  },
+  {
+    "de": "tm33",
+    "en": "tm33",
+    "version": "RBY"
+  },
+  {
+    "de": "tm34",
+    "en": "tm34",
+    "version": "RBY"
+  },
+  {
+    "de": "tm35",
+    "en": "tm35",
+    "version": "RBY"
+  },
+  {
+    "de": "tm36",
+    "en": "tm36",
+    "version": "RBY"
+  },
+  {
+    "de": "tm37",
+    "en": "tm37",
+    "version": "RBY"
+  },
+  {
+    "de": "tm38",
+    "en": "tm38",
+    "version": "RBY"
+  },
+  {
+    "de": "tm39",
+    "en": "tm39",
+    "version": "RBY"
+  },
+  {
+    "de": "tm40",
+    "en": "tm40",
+    "version": "RBY"
+  },
+  {
+    "de": "tm41",
+    "en": "tm41",
+    "version": "RBY"
+  },
+  {
+    "de": "tm42",
+    "en": "tm42",
+    "version": "RBY"
+  },
+  {
+    "de": "tm43",
+    "en": "tm43",
+    "version": "RBY"
+  },
+  {
+    "de": "tm44",
+    "en": "tm44",
+    "version": "RBY"
+  },
+  {
+    "de": "tm45",
+    "en": "tm45",
+    "version": "RBY"
+  },
+  {
+    "de": "tm46",
+    "en": "tm46",
+    "version": "RBY"
+  },
+  {
+    "de": "tm47",
+    "en": "tm47",
+    "version": "RBY"
+  },
+  {
+    "de": "tm48",
+    "en": "tm48",
+    "version": "RBY"
+  },
+  {
+    "de": "tm49",
+    "en": "tm49",
+    "version": "RBY"
+  },
+  {
+    "de": "tm50",
+    "en": "tm50",
+    "version": "RBY"
+  },
+  {
+    "de": "tm51",
+    "en": "tm51",
+    "version": "DP"
+  },
+  {
+    "de": "tm52",
+    "en": "tm52",
+    "version": "DP"
+  },
+  {
+    "de": "tm53",
+    "en": "tm53",
+    "version": "DP"
+  },
+  {
+    "de": "tm54",
+    "en": "tm54",
+    "version": "DP"
+  },
+  {
+    "de": "tm55",
+    "en": "tm55",
+    "version": "DP"
+  },
+  {
+    "de": "tm56",
+    "en": "tm56",
+    "version": "DP"
+  },
+  {
+    "de": "tm57",
+    "en": "tm57",
+    "version": "DP"
+  },
+  {
+    "de": "tm58",
+    "en": "tm58",
+    "version": "DP"
+  },
+  {
+    "de": "tm59",
+    "en": "tm59",
+    "version": "DP"
+  },
+  {
+    "de": "tm60",
+    "en": "tm60",
+    "version": "DP"
+  },
+  {
+    "de": "tm61",
+    "en": "tm61",
+    "version": "DP"
+  },
+  {
+    "de": "tm62",
+    "en": "tm62",
+    "version": "DP"
+  },
+  {
+    "de": "tm63",
+    "en": "tm63",
+    "version": "DP"
+  },
+  {
+    "de": "tm64",
+    "en": "tm64",
+    "version": "DP"
+  },
+  {
+    "de": "tm65",
+    "en": "tm65",
+    "version": "DP"
+  },
+  {
+    "de": "tm66",
+    "en": "tm66",
+    "version": "DP"
+  },
+  {
+    "de": "tm67",
+    "en": "tm67",
+    "version": "DP"
+  },
+  {
+    "de": "tm68",
+    "en": "tm68",
+    "version": "DP"
+  },
+  {
+    "de": "tm69",
+    "en": "tm69",
+    "version": "DP"
+  },
+  {
+    "de": "tm70",
+    "en": "tm70",
+    "version": "DP"
+  },
+  {
+    "de": "tm71",
+    "en": "tm71",
+    "version": "DP"
+  },
+  {
+    "de": "tm72",
+    "en": "tm72",
+    "version": "DP"
+  },
+  {
+    "de": "tm73",
+    "en": "tm73",
+    "version": "DP"
+  },
+  {
+    "de": "tm74",
+    "en": "tm74",
+    "version": "DP"
+  },
+  {
+    "de": "tm75",
+    "en": "tm75",
+    "version": "DP"
+  },
+  {
+    "de": "tm76",
+    "en": "tm76",
+    "version": "DP"
+  },
+  {
+    "de": "tm77",
+    "en": "tm77",
+    "version": "DP"
+  },
+  {
+    "de": "tm78",
+    "en": "tm78",
+    "version": "DP"
+  },
+  {
+    "de": "tm79",
+    "en": "tm79",
+    "version": "DP"
+  },
+  {
+    "de": "tm80",
+    "en": "tm80",
+    "version": "DP"
+  },
+  {
+    "de": "tm81",
+    "en": "tm81",
+    "version": "DP"
+  },
+  {
+    "de": "tm82",
+    "en": "tm82",
+    "version": "DP"
+  },
+  {
+    "de": "tm83",
+    "en": "tm83",
+    "version": "DP"
+  },
+  {
+    "de": "tm84",
+    "en": "tm84",
+    "version": "DP"
+  },
+  {
+    "de": "tm85",
+    "en": "tm85",
+    "version": "DP"
+  },
+  {
+    "de": "tm86",
+    "en": "tm86",
+    "version": "DP"
+  },
+  {
+    "de": "tm87",
+    "en": "tm87",
+    "version": "DP"
+  },
+  {
+    "de": "tm88",
+    "en": "tm88",
+    "version": "DP"
+  },
+  {
+    "de": "tm89",
+    "en": "tm89",
+    "version": "DP"
+  },
+  {
+    "de": "tm90",
+    "en": "tm90",
+    "version": "DP"
+  },
+  {
+    "de": "tm91",
+    "en": "tm91",
+    "version": "DP"
+  },
+  {
+    "de": "tm92",
+    "en": "tm92",
+    "version": "DP"
+  },
+  {
+    "de": "tm93",
+    "en": "tm93",
+    "version": "BW"
+  },
+  {
+    "de": "tm94",
+    "en": "tm94",
+    "version": "BW"
+  },
+  {
+    "de": "tm95",
+    "en": "tm95",
+    "version": "BW"
+  },
+  {
+    "de": "tm96",
+    "en": "tm96",
+    "version": "XY"
+  },
+  {
+    "de": "tm97",
+    "en": "tm97",
+    "version": "XY"
+  },
+  {
+    "de": "tm98",
+    "en": "tm98",
+    "version": "XY"
+  },
+  {
+    "de": "tm99",
+    "en": "tm99",
+    "version": "XY"
+  },
+  {
+    "de": "toxik-orb",
+    "en": "toxic orb",
+    "version": "DP"
+  },
+  {
+    "de": "gifttafel",
+    "en": "toxic plate",
+    "version": "DP"
+  },
+  {
+    "de": "krummlöffel",
+    "en": "twisted spoon",
+    "version": "XY"
+  },
+  {
+    "de": "despotarnit",
+    "en": "tyranitarite",
+    "version": "XY"
+  },
+  {
+    "de": "hyperball",
+    "en": "ultra ball",
+    "version": "RBY"
+  },
+  {
+    "de": "hyperball",
+    "en": "ultra ball",
+    "version": "RBY"
+  },
+  {
+    "de": "up-grade",
+    "en": "up-grade",
+    "version": "GS"
+  },
+  {
+    "de": "bisaflornit",
+    "en": "venusaurite",
+    "version": "XY"
+  },
+  {
+    "de": "kerzalbeere",
+    "en": "wacan berry",
+    "version": "DP"
+  },
+  {
+    "de": "wasserjuwel",
+    "en": "water gem",
+    "version": "BW"
+  },
+  {
+    "de": "wasserstein",
+    "en": "water stone",
+    "version": "RBY"
+  },
+  {
+    "de": "wasmelbeere",
+    "en": "watmel berry",
+    "version": "RUSA"
+  },
+  {
+    "de": "wellenrauch",
+    "en": "wave incense",
+    "version": "DP"
+  },
+  {
+    "de": "schwächenschutz",
+    "en": "weakness policy",
+    "version": "XY"
+  },
+  {
+    "de": "nirbebeere",
+    "en": "wepear berry",
+    "version": "RUSA"
+  },
+  {
+    "de": "sahnehäubchen",
+    "en": "whipped dream",
+    "version": "XY"
+  },
+  {
+    "de": "weisse flöte",
+    "en": "white flute",
+    "version": "RUSA"
+  },
+  {
+    "de": "schlohkraut",
+    "en": "white herb",
+    "version": "RUSA"
+  },
+  {
+    "de": "großlinse",
+    "en": "wide lens",
+    "version": "DP"
+  },
+  {
+    "de": "wikibeere",
+    "en": "wiki berry",
+    "version": "RUSA"
+  },
+  {
+    "de": "schlauglas",
+    "en": "wise glasses",
+    "version": "DP"
+  },
+  {
+    "de": "x-treffer",
+    "en": "x accuracy",
+    "version": "RBY"
+  },
+  {
+    "de": "x-treffer2",
+    "en": "x accuracy 2",
+    "version": "BW"
+  },
+  {
+    "de": "x-treffer3",
+    "en": "x accuracy 3",
+    "version": "BW"
+  },
+  {
+    "de": "x-treffer6",
+    "en": "x accuracy 6",
+    "version": "BW"
+  },
+  {
+    "de": "x-angriff",
+    "en": "x attack",
+    "version": "RBY"
+  },
+  {
+    "de": "x-angriff2",
+    "en": "x attack 2",
+    "version": "BW"
+  },
+  {
+    "de": "x-angriff3",
+    "en": "x attack 3",
+    "version": "BW"
+  },
+  {
+    "de": "x-angriff6",
+    "en": "x attack 6",
+    "version": "BW"
+  },
+  {
+    "de": "x-abwehr",
+    "en": "x defense",
+    "version": "XY"
+  },
+  {
+    "de": "x-abwehr2",
+    "en": "x defense 2",
+    "version": "XY"
+  },
+  {
+    "de": "x-abwehr3",
+    "en": "x defense 3",
+    "version": "XY"
+  },
+  {
+    "de": "x-abwehr6",
+    "en": "x defense 6",
+    "version": "XY"
+  },
+  {
+    "de": "x-spezial",
+    "en": "x sp. atk",
+    "version": "XY"
+  },
+  {
+    "de": "x-spezial2",
+    "en": "x sp. atk 2",
+    "version": "XY"
+  },
+  {
+    "de": "x-spezial3",
+    "en": "x sp. atk 3",
+    "version": "XY"
+  },
+  {
+    "de": "x-spezial6",
+    "en": "x sp. atk 6",
+    "version": "XY"
+  },
+  {
+    "de": "x-spezialver",
+    "en": "x sp. def",
+    "version": "DP"
+  },
+  {
+    "de": "x-sp. ver.2",
+    "en": "x sp. def 2",
+    "version": "BW"
+  },
+  {
+    "de": "x-sp. ver.3",
+    "en": "x sp. def 3",
+    "version": "BW"
+  },
+  {
+    "de": "x-sp. ver.6",
+    "en": "x sp. def 6",
+    "version": "BW"
+  },
+  {
+    "de": "x-tempo",
+    "en": "x speed",
+    "version": "RBY"
+  },
+  {
+    "de": "x-tempo2",
+    "en": "x speed 2",
+    "version": "BW"
+  },
+  {
+    "de": "x-tempo3",
+    "en": "x speed 3",
+    "version": "BW"
+  },
+  {
+    "de": "x-tempo6",
+    "en": "x speed 6",
+    "version": "BW"
+  },
+  {
+    "de": "kiroyabeere",
+    "en": "yache berry",
+    "version": "DP"
+  },
+  {
+    "de": "gelbe flöte",
+    "en": "yellow flute",
+    "version": "RUSA"
+  },
+  {
+    "de": "gelber schal",
+    "en": "yellow scarf",
+    "version": "RUSA"
+  },
+  {
+    "de": "gelbstück",
+    "en": "yellow shard",
+    "version": "RUSA"
+  },
+  {
+    "de": "blitztafel",
+    "en": "zap plate",
+    "version": "DP"
+  },
+  {
+    "de": "zink",
+    "en": "zinc",
+    "version": "RUSA"
+  },
+  {
+    "de": "zoomlinse",
+    "en": "zoom lens",
+    "version": "DP"
+  }
+]
