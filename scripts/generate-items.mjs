@@ -36,6 +36,24 @@ const VERSION_FILES = [
   { file: "Gen6 ORAS (Omega Ruby & Alpha Sapphire).json", version: "ORAS" },
 ];
 
+// Gen 7+ files — used only to distinguish "post-Gen6" from "truly unmatched"
+const POST_GEN6_FILES = [
+  { file: "Gen7 SM (Sun & Moon).json", version: "SM" },
+  { file: "Gen7 USUM (Ultra Sun & Ultra Moon).json", version: "USUM" },
+  {
+    file: "Gen7 LGPLGE (Let's Go, Pikachu! & Let's Go, Eevee!).json",
+    version: "LGPLGE",
+  },
+  { file: "Gen8 SWSH (Sword & Shield).json", version: "SWSH" },
+  {
+    file: "Gen8 BDSP (Brilliant Diamond & Shining Pearl).json",
+    version: "BDSP",
+  },
+  { file: "Gen8 PLA (Pokémon Legends Arceus).json", version: "PLA" },
+  { file: "Gen9 SCVI (Scarlet & Violet).json", version: "SCVI" },
+  { file: "Gen9 PLZA (Pokémon Legends Z-A).json", version: "PLZA" },
+];
+
 // ---------------------------------------------------------------------------
 // 2. Manual slug overrides for known mismatches between PokeAPI slugs and
 //    the English names in the Itemlists.
@@ -124,13 +142,33 @@ function buildLocalMap() {
   return map;
 }
 
+/** Build a Set of slugs that appear in Gen 7+ files but NOT in Gen 1–6 */
+function buildPostGen6Set(localMap) {
+  const set = new Set();
+  for (const { file } of POST_GEN6_FILES) {
+    const filePath = path.join(jsonDir, file);
+    if (!fs.existsSync(filePath)) continue;
+    const items = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+    for (const item of items) {
+      const slug = toSlug(item.en);
+      if (!localMap.has(slug)) {
+        set.add(slug);
+      }
+    }
+  }
+  return set;
+}
+
 // ---------------------------------------------------------------------------
 // 5. Main
 // ---------------------------------------------------------------------------
 async function main() {
   console.log("Building local item map from Itemlists/json/ ...");
   const localMap = buildLocalMap();
-  console.log(`  ${localMap.size} unique items from local lists\n`);
+  console.log(`  ${localMap.size} unique items from local lists`);
+
+  const postGen6Slugs = buildPostGen6Set(localMap);
+  console.log(`  ${postGen6Slugs.size} additional slugs in Gen 7+ lists\n`);
 
   // --- Fetch pockets ---
   console.log("Fetching item pockets from PokeAPI ...");
@@ -230,23 +268,47 @@ async function main() {
   );
 
   if (unmatched.length > 0) {
-    const unmatchedPath = path.join(
-      __dirname,
-      "..",
-      "src",
-      "data",
-      "items-unmatched.json",
-    );
-    fs.writeFileSync(
-      unmatchedPath,
-      JSON.stringify(unmatched, null, 2),
-      "utf-8",
-    );
-    console.log(
-      `⚠ ${unmatched.length} items could not be matched to a version.` +
-        `\n  Review: ${unmatchedPath}` +
-        `\n  Add overrides to SLUG_TO_EN_OVERRIDE in this script and re-run.`,
-    );
+    // Separate post-Gen6 items from truly unmatched ones
+    const postGen6Items = [];
+    const trulyUnmatched = [];
+
+    for (const item of unmatched) {
+      if (postGen6Slugs.has(item.slug) || postGen6Slugs.has(toSlug(item.en))) {
+        postGen6Items.push(item);
+      } else {
+        trulyUnmatched.push(item);
+      }
+    }
+
+    const dataDir = path.join(__dirname, "..", "src", "data");
+
+    if (postGen6Items.length > 0) {
+      const postGen6Path = path.join(dataDir, "items-post-gen6.json");
+      fs.writeFileSync(
+        postGen6Path,
+        JSON.stringify(postGen6Items, null, 2),
+        "utf-8",
+      );
+      console.log(
+        `  ℹ ${postGen6Items.length} items are Gen 7+ (excluded by design) → ${postGen6Path}`,
+      );
+    }
+
+    if (trulyUnmatched.length > 0) {
+      const unmatchedPath = path.join(dataDir, "items-unmatched.json");
+      fs.writeFileSync(
+        unmatchedPath,
+        JSON.stringify(trulyUnmatched, null, 2),
+        "utf-8",
+      );
+      console.log(
+        `  ⚠ ${trulyUnmatched.length} items could not be matched to ANY version.` +
+          `\n    Review: ${unmatchedPath}` +
+          `\n    Add overrides to SLUG_TO_EN_OVERRIDE in this script and re-run.`,
+      );
+    } else {
+      console.log("🎉 All non-Gen7+ items matched to a version!");
+    }
   } else {
     console.log("🎉 All items matched to a version!");
   }
