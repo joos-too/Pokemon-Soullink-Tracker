@@ -679,7 +679,7 @@ export const en = {
         6: { location: "Route 22", rival: "Blue" },
       },
     },
-    gen1_g: {
+    gen1_y: {
       name: "Pokémon Yellow",
       selection: {
         gelb: "Yellow",
@@ -739,7 +739,7 @@ export const en = {
         4: { location: "Victory Road", rival: "Silver" },
       },
     },
-    gen2_k: {
+    gen2_c: {
       name: "Pokémon Crystal",
       selection: {
         kristall: "Crystal",
@@ -819,7 +819,7 @@ export const en = {
         5: { location: "Victory Road", rival: "Wally", level: "45/41" },
       },
     },
-    gen3_sm: {
+    gen3_em: {
       name: "Pokémon Emerald",
       selection: {
         smaragd: "Emerald",
@@ -879,7 +879,7 @@ export const en = {
         6: { location: "Victory Road", rival: "Wally" },
       },
     },
-    gen3_frbg: {
+    gen3_frlg: {
       name: "Pokémon FireRed / LeafGreen",
       selection: {
         feuerrot: "FireRed",
@@ -996,7 +996,7 @@ export const en = {
         4: { location: "Victory Road", rival: "Silver" },
       },
     },
-    gen5_sw: {
+    gen5_bw: {
       name: "Pokémon Black / White",
       selection: {
         schwarz: "Black",
@@ -1037,7 +1037,7 @@ export const en = {
         14: { location: "Route 10", rival: "Cheren" },
       },
     },
-    gen5_s2w2: {
+    gen5_b2w2: {
       name: "Pokémon Black 2 / White 2",
       selection: {
         schwarz_2: "Black 2",

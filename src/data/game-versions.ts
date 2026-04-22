@@ -4,7 +4,7 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
   gen1_rb: {
     id: "gen1_rb",
     name: "Pokémon Rot / Blau",
-    badgeSet: "gen1/rbg",
+    badgeSet: "gen1/rby",
     badge: {
       segments: [
         {
@@ -53,10 +53,10 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
       { id: 6, location: "Route 22", rival: "Blau", level: "53/50" },
     ],
   },
-  gen1_g: {
-    id: "gen1_g",
+  gen1_y: {
+    id: "gen1_y",
     name: "Pokémon Gelb",
-    badgeSet: "gen1/rbg",
+    badgeSet: "gen1/rby",
     badge: {
       segments: [
         {
@@ -101,7 +101,7 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
   gen2_gs: {
     id: "gen2_gs",
     name: "Pokémon Gold / Silber",
-    badgeSet: "gen2/gsk",
+    badgeSet: "gen2/gsc",
     badge: {
       segments: [
         {
@@ -152,10 +152,10 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
       { id: 4, location: "Siegesstraße", rival: "Silber", level: "38/35" },
     ],
   },
-  gen2_k: {
-    id: "gen2_k",
+  gen2_c: {
+    id: "gen2_c",
     name: "Pokémon Kristall",
-    badgeSet: "gen2/gsk",
+    badgeSet: "gen2/gsc",
     badge: {
       segments: [
         {
@@ -200,7 +200,7 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
   gen3_rusa: {
     id: "gen3_rusa",
     name: "Pokémon Rubin / Saphir",
-    badgeSet: "gen3/rusasm",
+    badgeSet: "gen3/rusaem",
     badge: {
       segments: [
         {
@@ -279,10 +279,10 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
       { id: 5, location: "Siegesstraße", rival: "Heiko", level: "45/41" },
     ],
   },
-  gen3_sm: {
-    id: "gen3_sm",
+  gen3_em: {
+    id: "gen3_em",
     name: "Pokémon Smaragd",
-    badgeSet: "gen3/rusasm",
+    badgeSet: "gen3/rusaem",
     badge: {
       segments: [
         {
@@ -360,10 +360,10 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
       { id: 6, location: "Siegesstraße", rival: "Heiko", level: "45/41" },
     ],
   },
-  gen3_frbg: {
-    id: "gen3_frbg",
+  gen3_frlg: {
+    id: "gen3_frlg",
     name: "Pokémon Feuerrot / Blattgrün",
-    badgeSet: "gen1/rbg",
+    badgeSet: "gen1/rby",
     badge: {
       segments: [
         {
@@ -571,10 +571,10 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
       // {id: 6, location: 'Indigo Plateau', rival: 'Silber', level: '60/58'},
     ],
   },
-  gen5_sw: {
-    id: "gen5_sw",
+  gen5_bw: {
+    id: "gen5_bw",
     name: "Pokémon Schwarz / Weiß",
-    badgeSet: "gen5/sw",
+    badgeSet: "gen5/bw",
     badge: {
       segments: [
         {
@@ -635,10 +635,10 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
       { id: 14, location: "Route 10", rival: "Cheren", level: "45/43" },
     ],
   },
-  gen5_s2w2: {
-    id: "gen5_s2w2",
+  gen5_b2w2: {
+    id: "gen5_b2w2",
     name: "Pokémon Schwarz 2 / Weiß 2",
-    badgeSet: "gen5/s2w2",
+    badgeSet: "gen5/b2w2",
     badge: {
       segments: [
         {
@@ -686,8 +686,6 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
       { id: 1, location: "Dausing-Hof", rival: "Matisse", level: "8" },
       { id: 2, location: "Ondula", rival: "Matisse", level: "41/39" },
       { id: 3, location: "Siegesstraße", rival: "Matisse", level: "57/55" },
-      // {id: 5, location: 'Ondula', rival: 'Matisse', level: '64/62'},
-      // {id: 6, location: 'Marea City', rival: 'Matisse', level: '67/65'},
     ],
   },
   gen6_xy: {
@@ -792,7 +790,7 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
   gen6_oras: {
     id: "gen6_oras",
     name: "Pokémon Omega Rubin / Alpha Saphir",
-    badgeSet: "gen3/rusasm",
+    badgeSet: "gen3/rusaem",
     badge: {
       segments: [
         {
