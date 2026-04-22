@@ -219,6 +219,7 @@ async function main() {
   console.log(`  ${itemSlugs.size} unique items from PokeAPI\n`);
 
   // --- Match against local map & fetch proper names from API ---
+  const VERSION_ORDER = VERSION_FILES.map((v) => v.version);
   const results = [];
   const postGen6Items = [];
   const trulyUnmatched = [];
@@ -229,20 +230,32 @@ async function main() {
     i++;
     if (i % 100 === 0) console.log(`  Processing ${i}/${itemSlugs.size} ...`);
 
-    // Determine version via local map
+    // Determine version via local map — check both slug and collapsed,
+    // pick the earliest version to handle naming inconsistencies across gens
     const overrideEn = SLUG_TO_EN_OVERRIDE[slug];
     const lookupSlug = overrideEn ? toSlug(overrideEn) : slug;
-    let version = localMap.get(lookupSlug) ?? null;
+    const collapsed = toCollapsed(slug);
+    let version = null;
     let wasFuzzy = false;
 
-    // Collapsed fallback: strip all hyphens and compare
-    if (!version) {
-      const collapsed = toCollapsed(slug);
-      const collapsedVersion = localMap.get(collapsed) ?? null;
-      if (collapsedVersion) {
+    const slugVersion = localMap.get(lookupSlug) ?? null;
+    const collapsedVersion = localMap.get(collapsed) ?? null;
+
+    if (slugVersion && collapsedVersion) {
+      // Both matched — pick the earlier one
+      const slugIdx = VERSION_ORDER.indexOf(slugVersion);
+      const collIdx = VERSION_ORDER.indexOf(collapsedVersion);
+      if (collIdx < slugIdx) {
         version = collapsedVersion;
         wasFuzzy = true;
+      } else {
+        version = slugVersion;
       }
+    } else if (slugVersion) {
+      version = slugVersion;
+    } else if (collapsedVersion) {
+      version = collapsedVersion;
+      wasFuzzy = true;
     }
 
     // Fetch the item detail from PokeAPI for properly cased names
@@ -256,17 +269,27 @@ async function main() {
       deName =
         itemData.names.find((n) => n.language.name === "de")?.name ?? enName;
 
-      // If not matched yet, try the API's official English name as slug
+      // If not matched yet, try the API's official English name
       if (!version) {
         const altSlug = toSlug(enName.toLowerCase());
-        version = localMap.get(altSlug) ?? null;
-        if (!version) {
-          const altCollapsed = toCollapsed(enName.toLowerCase());
-          const cv = localMap.get(altCollapsed) ?? null;
-          if (cv) {
-            version = cv;
+        const altCollapsed = toCollapsed(enName.toLowerCase());
+        const altSlugV = localMap.get(altSlug) ?? null;
+        const altCollV = localMap.get(altCollapsed) ?? null;
+
+        if (altSlugV && altCollV) {
+          const si = VERSION_ORDER.indexOf(altSlugV);
+          const ci = VERSION_ORDER.indexOf(altCollV);
+          if (ci < si) {
+            version = altCollV;
             wasFuzzy = true;
+          } else {
+            version = altSlugV;
           }
+        } else if (altSlugV) {
+          version = altSlugV;
+        } else if (altCollV) {
+          version = altCollV;
+          wasFuzzy = true;
         }
       }
     } catch {
@@ -292,7 +315,6 @@ async function main() {
   }
 
   // Sort by version (release order), then alphabetically by English name
-  const VERSION_ORDER = VERSION_FILES.map((v) => v.version);
   results.sort((a, b) => {
     const vA = VERSION_ORDER.indexOf(a.version);
     const vB = VERSION_ORDER.indexOf(b.version);
