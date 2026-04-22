@@ -1,0 +1,1230 @@
+[
+  {
+    "de": "meisterball",
+    "en": "master ball"
+  },
+  {
+    "de": "hyperball",
+    "en": "ultra ball"
+  },
+  {
+    "de": "superball",
+    "en": "great ball"
+  },
+  {
+    "de": "pokéball",
+    "en": "poké ball"
+  },
+  {
+    "de": "safariball",
+    "en": "safari ball"
+  },
+  {
+    "de": "netzball",
+    "en": "net ball"
+  },
+  {
+    "de": "tauchball",
+    "en": "dive ball"
+  },
+  {
+    "de": "nestball",
+    "en": "nest ball"
+  },
+  {
+    "de": "wiederball",
+    "en": "repeat ball"
+  },
+  {
+    "de": "timerball",
+    "en": "timer ball"
+  },
+  {
+    "de": "luxusball",
+    "en": "luxury ball"
+  },
+  {
+    "de": "premierball",
+    "en": "premier ball"
+  },
+  {
+    "de": "trank",
+    "en": "potion"
+  },
+  {
+    "de": "gegengift",
+    "en": "antidote"
+  },
+  {
+    "de": "feuerheiler",
+    "en": "burn heal"
+  },
+  {
+    "de": "eisheiler",
+    "en": "ice heal"
+  },
+  {
+    "de": "aufwecker",
+    "en": "awakening"
+  },
+  {
+    "de": "para-heiler",
+    "en": "parlyz heal"
+  },
+  {
+    "de": "top-genesung",
+    "en": "full restore"
+  },
+  {
+    "de": "top-trank",
+    "en": "max potion"
+  },
+  {
+    "de": "hypertrank",
+    "en": "hyper potion"
+  },
+  {
+    "de": "supertrank",
+    "en": "super potion"
+  },
+  {
+    "de": "hyperheiler",
+    "en": "full heal"
+  },
+  {
+    "de": "beleber",
+    "en": "revive"
+  },
+  {
+    "de": "top-beleber",
+    "en": "max revive"
+  },
+  {
+    "de": "tafelwasser",
+    "en": "fresh water"
+  },
+  {
+    "de": "sprudel",
+    "en": "soda pop"
+  },
+  {
+    "de": "limonade",
+    "en": "lemonade"
+  },
+  {
+    "de": "kuhmuh-milch",
+    "en": "moomoo milk"
+  },
+  {
+    "de": "energiestaub",
+    "en": "energypowder"
+  },
+  {
+    "de": "kraftwurzel",
+    "en": "energy root"
+  },
+  {
+    "de": "heilpuder",
+    "en": "heal powder"
+  },
+  {
+    "de": "vitalkraut",
+    "en": "revival herb"
+  },
+  {
+    "de": "äther",
+    "en": "ether"
+  },
+  {
+    "de": "top-äther",
+    "en": "max ether"
+  },
+  {
+    "de": "elixier",
+    "en": "elixir"
+  },
+  {
+    "de": "top-elixier",
+    "en": "max elixir"
+  },
+  {
+    "de": "lavakeks",
+    "en": "lava cookie"
+  },
+  {
+    "de": "blaue flöte",
+    "en": "blue flute"
+  },
+  {
+    "de": "gelbe flöte",
+    "en": "yellow flute"
+  },
+  {
+    "de": "rote flöte",
+    "en": "red flute"
+  },
+  {
+    "de": "schw. flöte",
+    "en": "black flute"
+  },
+  {
+    "de": "weisse flöte",
+    "en": "white flute"
+  },
+  {
+    "de": "beerensaft",
+    "en": "berry juice"
+  },
+  {
+    "de": "zauberasche",
+    "en": "sacred ash"
+  },
+  {
+    "de": "küstensalz",
+    "en": "shoal salt"
+  },
+  {
+    "de": "küstenschale",
+    "en": "shoal shell"
+  },
+  {
+    "de": "purpurstück",
+    "en": "red shard"
+  },
+  {
+    "de": "indigostück",
+    "en": "blue shard"
+  },
+  {
+    "de": "gelbstück",
+    "en": "yellow shard"
+  },
+  {
+    "de": "grünstück",
+    "en": "green shard"
+  },
+  {
+    "de": "kp-plus",
+    "en": "hp up"
+  },
+  {
+    "de": "protein",
+    "en": "protein"
+  },
+  {
+    "de": "eisen",
+    "en": "iron"
+  },
+  {
+    "de": "carbon",
+    "en": "carbos"
+  },
+  {
+    "de": "kalzium",
+    "en": "calcium"
+  },
+  {
+    "de": "sonderbonbon",
+    "en": "rare candy"
+  },
+  {
+    "de": "ap-plus",
+    "en": "pp up"
+  },
+  {
+    "de": "zink",
+    "en": "zinc"
+  },
+  {
+    "de": "ap-top",
+    "en": "pp max"
+  },
+  {
+    "de": "megablock",
+    "en": "guard spec."
+  },
+  {
+    "de": "angriffplus",
+    "en": "dire hit"
+  },
+  {
+    "de": "x-angriff",
+    "en": "x attack"
+  },
+  {
+    "de": "x-abwehr",
+    "en": "x defend"
+  },
+  {
+    "de": "x-tempo",
+    "en": "x speed"
+  },
+  {
+    "de": "x-treffer",
+    "en": "x accuracy"
+  },
+  {
+    "de": "x-spezial",
+    "en": "x special"
+  },
+  {
+    "de": "poképuppe",
+    "en": "poké doll"
+  },
+  {
+    "de": "eneco-rute",
+    "en": "fluffy tail"
+  },
+  {
+    "de": "superschutz",
+    "en": "super repel"
+  },
+  {
+    "de": "top-schutz",
+    "en": "max repel"
+  },
+  {
+    "de": "fluchtseil",
+    "en": "escape rope"
+  },
+  {
+    "de": "schutz",
+    "en": "repel"
+  },
+  {
+    "de": "sonnenstein",
+    "en": "sun stone"
+  },
+  {
+    "de": "mondstein",
+    "en": "moon stone"
+  },
+  {
+    "de": "feuerstein",
+    "en": "fire stone"
+  },
+  {
+    "de": "donnerstein",
+    "en": "thunderstone"
+  },
+  {
+    "de": "wasserstein",
+    "en": "water stone"
+  },
+  {
+    "de": "blattstein",
+    "en": "leaf stone"
+  },
+  {
+    "de": "minipilz",
+    "en": "tinymushroom"
+  },
+  {
+    "de": "riesenpilz",
+    "en": "big mushroom"
+  },
+  {
+    "de": "perle",
+    "en": "pearl"
+  },
+  {
+    "de": "riesenperle",
+    "en": "big pearl"
+  },
+  {
+    "de": "sternenstaub",
+    "en": "stardust"
+  },
+  {
+    "de": "sternenstück",
+    "en": "star piece"
+  },
+  {
+    "de": "nugget",
+    "en": "nugget"
+  },
+  {
+    "de": "herzschuppe",
+    "en": "heart scale"
+  },
+  {
+    "de": "zigzagbrief",
+    "en": "orange mail"
+  },
+  {
+    "de": "hafenbrief",
+    "en": "harbor mail"
+  },
+  {
+    "de": "glitzerbrief",
+    "en": "glitter mail"
+  },
+  {
+    "de": "eilbrief",
+    "en": "mech mail"
+  },
+  {
+    "de": "waldbrief",
+    "en": "wood mail"
+  },
+  {
+    "de": "wellenbrief",
+    "en": "wave mail"
+  },
+  {
+    "de": "perlenbrief",
+    "en": "bead mail"
+  },
+  {
+    "de": "dunkelbrief",
+    "en": "shadow mail"
+  },
+  {
+    "de": "tropenbrief",
+    "en": "tropic mail"
+  },
+  {
+    "de": "traumbrief",
+    "en": "dream mail"
+  },
+  {
+    "de": "edelbrief",
+    "en": "fab mail"
+  },
+  {
+    "de": "retrobrief",
+    "en": "retro mail"
+  },
+  {
+    "de": "amrenabeere",
+    "en": "cheri berry"
+  },
+  {
+    "de": "maronbeere",
+    "en": "chesto berry"
+  },
+  {
+    "de": "pirsifbeere",
+    "en": "pecha berry"
+  },
+  {
+    "de": "fragiabeere",
+    "en": "rawst berry"
+  },
+  {
+    "de": "wilbirbeere",
+    "en": "aspear berry"
+  },
+  {
+    "de": "jonagobeere",
+    "en": "leppa berry"
+  },
+  {
+    "de": "sinelbeere",
+    "en": "oran berry"
+  },
+  {
+    "de": "persimbeere",
+    "en": "persim berry"
+  },
+  {
+    "de": "prunusbeere",
+    "en": "lum berry"
+  },
+  {
+    "de": "tsitrubeere",
+    "en": "sitrus berry"
+  },
+  {
+    "de": "giefebeere",
+    "en": "figy berry"
+  },
+  {
+    "de": "wikibeere",
+    "en": "wiki berry"
+  },
+  {
+    "de": "magobeere",
+    "en": "mago berry"
+  },
+  {
+    "de": "gauvebeere",
+    "en": "aguav berry"
+  },
+  {
+    "de": "yapabeere",
+    "en": "iapapa berry"
+  },
+  {
+    "de": "himmihbeere",
+    "en": "razz berry"
+  },
+  {
+    "de": "morbbeere",
+    "en": "bluk berry"
+  },
+  {
+    "de": "nanabbeere",
+    "en": "nanab berry"
+  },
+  {
+    "de": "nirbebeere",
+    "en": "wepear berry"
+  },
+  {
+    "de": "sananabeere",
+    "en": "pinap berry"
+  },
+  {
+    "de": "granabeere",
+    "en": "pomeg berry"
+  },
+  {
+    "de": "setangbeere",
+    "en": "kelpsy berry"
+  },
+  {
+    "de": "qualotbeere",
+    "en": "qualot berry"
+  },
+  {
+    "de": "honmelbeere",
+    "en": "hondew berry"
+  },
+  {
+    "de": "labrusbeere",
+    "en": "grepa berry"
+  },
+  {
+    "de": "tamotbeere",
+    "en": "tamato berry"
+  },
+  {
+    "de": "saimbeere",
+    "en": "cornn berry"
+  },
+  {
+    "de": "magostbeere",
+    "en": "magost berry"
+  },
+  {
+    "de": "rabutabeere",
+    "en": "rabuta berry"
+  },
+  {
+    "de": "tronzibeere",
+    "en": "nomel berry"
+  },
+  {
+    "de": "kiwanbeere",
+    "en": "spelon berry"
+  },
+  {
+    "de": "pallmbeere",
+    "en": "pamtre berry"
+  },
+  {
+    "de": "wasmelbeere",
+    "en": "watmel berry"
+  },
+  {
+    "de": "durinbeere",
+    "en": "durin berry"
+  },
+  {
+    "de": "myrtilbeere",
+    "en": "belue berry"
+  },
+  {
+    "de": "lydzibeere",
+    "en": "liechi berry"
+  },
+  {
+    "de": "linganbeere",
+    "en": "ganlon berry"
+  },
+  {
+    "de": "salkabeere",
+    "en": "salac berry"
+  },
+  {
+    "de": "tahaybeere",
+    "en": "petaya berry"
+  },
+  {
+    "de": "apikobeere",
+    "en": "apicot berry"
+  },
+  {
+    "de": "lansatbeere",
+    "en": "lansat berry"
+  },
+  {
+    "de": "krambobeere",
+    "en": "starf berry"
+  },
+  {
+    "de": "enigmabeere",
+    "en": "enigma berry"
+  },
+  {
+    "de": "blendpuder",
+    "en": "brightpowder"
+  },
+  {
+    "de": "schlohkraut",
+    "en": "white herb"
+  },
+  {
+    "de": "machoband",
+    "en": "macho brace"
+  },
+  {
+    "de": "ep-teiler",
+    "en": "exp. share"
+  },
+  {
+    "de": "flinkklaue",
+    "en": "quick claw"
+  },
+  {
+    "de": "sanftglocke",
+    "en": "soothe bell"
+  },
+  {
+    "de": "mentalkraut",
+    "en": "mental herb"
+  },
+  {
+    "de": "wahlband",
+    "en": "choice band"
+  },
+  {
+    "de": "king-stein",
+    "en": "king’s rock"
+  },
+  {
+    "de": "silberstaub",
+    "en": "silverpowder"
+  },
+  {
+    "de": "münzamulett",
+    "en": "amulet coin"
+  },
+  {
+    "de": "schutzband",
+    "en": "cleanse tag"
+  },
+  {
+    "de": "seelentau",
+    "en": "soul dew"
+  },
+  {
+    "de": "abysszahn",
+    "en": "deepseatooth"
+  },
+  {
+    "de": "abyssplatte",
+    "en": "deepseascale"
+  },
+  {
+    "de": "rauchball",
+    "en": "smoke ball"
+  },
+  {
+    "de": "ewigstein",
+    "en": "everstone"
+  },
+  {
+    "de": "fokus-band",
+    "en": "focus band"
+  },
+  {
+    "de": "glücks-ei",
+    "en": "lucky egg"
+  },
+  {
+    "de": "scope-linse",
+    "en": "scope lens"
+  },
+  {
+    "de": "metallmantel",
+    "en": "metal coat"
+  },
+  {
+    "de": "überreste",
+    "en": "leftovers"
+  },
+  {
+    "de": "drachenhaut",
+    "en": "dragon scale"
+  },
+  {
+    "de": "kugelblitz",
+    "en": "light ball"
+  },
+  {
+    "de": "pudersand",
+    "en": "soft sand"
+  },
+  {
+    "de": "granitstein",
+    "en": "hard stone"
+  },
+  {
+    "de": "wundersaat",
+    "en": "miracle seed"
+  },
+  {
+    "de": "schattenglas",
+    "en": "blackglasses"
+  },
+  {
+    "de": "schwarzgurt",
+    "en": "black belt"
+  },
+  {
+    "de": "magnet",
+    "en": "magnet"
+  },
+  {
+    "de": "zauberwasser",
+    "en": "mystic water"
+  },
+  {
+    "de": "hackattack",
+    "en": "sharp beak"
+  },
+  {
+    "de": "giftstich",
+    "en": "poison barb"
+  },
+  {
+    "de": "ewiges eis",
+    "en": "nevermeltice"
+  },
+  {
+    "de": "bannsticker",
+    "en": "spell tag"
+  },
+  {
+    "de": "krümmlöffel",
+    "en": "twistedspoon"
+  },
+  {
+    "de": "holzkohle",
+    "en": "charcoal"
+  },
+  {
+    "de": "drachenzahn",
+    "en": "dragon fang"
+  },
+  {
+    "de": "seidenschal",
+    "en": "silk scarf"
+  },
+  {
+    "de": "up-grade",
+    "en": "up-grade"
+  },
+  {
+    "de": "seegesang",
+    "en": "shell bell"
+  },
+  {
+    "de": "seerauch",
+    "en": "sea incense"
+  },
+  {
+    "de": "laxrauch",
+    "en": "lax incense"
+  },
+  {
+    "de": "lucky punch",
+    "en": "lucky punch"
+  },
+  {
+    "de": "metallstaub",
+    "en": "metal powder"
+  },
+  {
+    "de": "kampfknochen",
+    "en": "thick club"
+  },
+  {
+    "de": "lauchstange",
+    "en": "stick"
+  },
+  {
+    "de": "roter schal",
+    "en": "red scarf"
+  },
+  {
+    "de": "blauer schal",
+    "en": "blue scarf"
+  },
+  {
+    "de": "rosa schal",
+    "en": "pink scarf"
+  },
+  {
+    "de": "grüner schal",
+    "en": "green scarf"
+  },
+  {
+    "de": "gelber schal",
+    "en": "yellow scarf"
+  },
+  {
+    "de": "eilrad",
+    "en": "mach bike"
+  },
+  {
+    "de": "münzkorb",
+    "en": "coin case"
+  },
+  {
+    "de": "detektor",
+    "en": "itemfinder"
+  },
+  {
+    "de": "angel",
+    "en": "old rod"
+  },
+  {
+    "de": "profiangel",
+    "en": "good rod"
+  },
+  {
+    "de": "superangel",
+    "en": "super rod"
+  },
+  {
+    "de": "bootsticket",
+    "en": "s.s. ticket"
+  },
+  {
+    "de": "wettb.-karte",
+    "en": "contest pass"
+  },
+  {
+    "de": "wailmerkanne",
+    "en": "wailmer pail"
+  },
+  {
+    "de": "devon-waren",
+    "en": "devon goods"
+  },
+  {
+    "de": "aschetasche",
+    "en": "soot sack"
+  },
+  {
+    "de": "kelleröffner",
+    "en": "basement key"
+  },
+  {
+    "de": "kunstrad",
+    "en": "acro bike"
+  },
+  {
+    "de": "<sup>p</sup>o<sup>k</sup>ériegelbox",
+    "en": "<sup>p</sup>o<sup>k</sup>éblock case"
+  },
+  {
+    "de": "brief",
+    "en": "letter"
+  },
+  {
+    "de": "äon-ticket",
+    "en": "eon ticket"
+  },
+  {
+    "de": "rote kugel",
+    "en": "red orb"
+  },
+  {
+    "de": "blaue kugel",
+    "en": "blue orb"
+  },
+  {
+    "de": "scanner",
+    "en": "scanner"
+  },
+  {
+    "de": "wüstenglas",
+    "en": "go-goggles"
+  },
+  {
+    "de": "meteorit",
+    "en": "meteorite"
+  },
+  {
+    "de": "k1-schlüssel",
+    "en": "rm. 1 key"
+  },
+  {
+    "de": "k2-schlüssel",
+    "en": "rm. 2 key"
+  },
+  {
+    "de": "k4-schlüssel",
+    "en": "rm. 4 key"
+  },
+  {
+    "de": "k6-schlüssel",
+    "en": "rm. 6 key"
+  },
+  {
+    "de": "l.-schlüssel",
+    "en": "storage key"
+  },
+  {
+    "de": "wurzelfossil",
+    "en": "root fossil"
+  },
+  {
+    "de": "klauenfossil",
+    "en": "claw fossil"
+  },
+  {
+    "de": "devon-scope",
+    "en": "devon scope"
+  },
+  {
+    "de": "tm01",
+    "en": "tm01"
+  },
+  {
+    "de": "tm02",
+    "en": "tm02"
+  },
+  {
+    "de": "tm03",
+    "en": "tm03"
+  },
+  {
+    "de": "tm04",
+    "en": "tm04"
+  },
+  {
+    "de": "tm05",
+    "en": "tm05"
+  },
+  {
+    "de": "tm06",
+    "en": "tm06"
+  },
+  {
+    "de": "tm07",
+    "en": "tm07"
+  },
+  {
+    "de": "tm08",
+    "en": "tm08"
+  },
+  {
+    "de": "tm09",
+    "en": "tm09"
+  },
+  {
+    "de": "tm10",
+    "en": "tm10"
+  },
+  {
+    "de": "tm11",
+    "en": "tm11"
+  },
+  {
+    "de": "tm12",
+    "en": "tm12"
+  },
+  {
+    "de": "tm13",
+    "en": "tm13"
+  },
+  {
+    "de": "tm14",
+    "en": "tm14"
+  },
+  {
+    "de": "tm15",
+    "en": "tm15"
+  },
+  {
+    "de": "tm16",
+    "en": "tm16"
+  },
+  {
+    "de": "tm17",
+    "en": "tm17"
+  },
+  {
+    "de": "tm18",
+    "en": "tm18"
+  },
+  {
+    "de": "tm19",
+    "en": "tm19"
+  },
+  {
+    "de": "tm20",
+    "en": "tm20"
+  },
+  {
+    "de": "tm21",
+    "en": "tm21"
+  },
+  {
+    "de": "tm22",
+    "en": "tm22"
+  },
+  {
+    "de": "tm23",
+    "en": "tm23"
+  },
+  {
+    "de": "tm24",
+    "en": "tm24"
+  },
+  {
+    "de": "tm25",
+    "en": "tm25"
+  },
+  {
+    "de": "tm26",
+    "en": "tm26"
+  },
+  {
+    "de": "tm27",
+    "en": "tm27"
+  },
+  {
+    "de": "tm28",
+    "en": "tm28"
+  },
+  {
+    "de": "tm29",
+    "en": "tm29"
+  },
+  {
+    "de": "tm30",
+    "en": "tm30"
+  },
+  {
+    "de": "tm31",
+    "en": "tm31"
+  },
+  {
+    "de": "tm32",
+    "en": "tm32"
+  },
+  {
+    "de": "tm33",
+    "en": "tm33"
+  },
+  {
+    "de": "tm34",
+    "en": "tm34"
+  },
+  {
+    "de": "tm35",
+    "en": "tm35"
+  },
+  {
+    "de": "tm36",
+    "en": "tm36"
+  },
+  {
+    "de": "tm37",
+    "en": "tm37"
+  },
+  {
+    "de": "tm38",
+    "en": "tm38"
+  },
+  {
+    "de": "tm39",
+    "en": "tm39"
+  },
+  {
+    "de": "tm40",
+    "en": "tm40"
+  },
+  {
+    "de": "tm41",
+    "en": "tm41"
+  },
+  {
+    "de": "tm42",
+    "en": "tm42"
+  },
+  {
+    "de": "tm43",
+    "en": "tm43"
+  },
+  {
+    "de": "tm44",
+    "en": "tm44"
+  },
+  {
+    "de": "tm45",
+    "en": "tm45"
+  },
+  {
+    "de": "tm46",
+    "en": "tm46"
+  },
+  {
+    "de": "tm47",
+    "en": "tm47"
+  },
+  {
+    "de": "tm48",
+    "en": "tm48"
+  },
+  {
+    "de": "tm49",
+    "en": "tm49"
+  },
+  {
+    "de": "tm50",
+    "en": "tm50"
+  },
+  {
+    "de": "vm01",
+    "en": "hm01"
+  },
+  {
+    "de": "vm02",
+    "en": "hm02"
+  },
+  {
+    "de": "vm03",
+    "en": "hm03"
+  },
+  {
+    "de": "vm04",
+    "en": "hm04"
+  },
+  {
+    "de": "vm05",
+    "en": "hm05"
+  },
+  {
+    "de": "vm06",
+    "en": "hm06"
+  },
+  {
+    "de": "vm07",
+    "en": "hm07"
+  },
+  {
+    "de": "vm08",
+    "en": "hm08"
+  },
+  {
+    "de": "eichs paket",
+    "en": "oak’s parcel"
+  },
+  {
+    "de": "pokéflöte",
+    "en": "poké flute"
+  },
+  {
+    "de": "?-öffner",
+    "en": "secret key"
+  },
+  {
+    "de": "rad-coupon",
+    "en": "bike voucher"
+  },
+  {
+    "de": "goldzähne",
+    "en": "gold teeth"
+  },
+  {
+    "de": "altbernstein",
+    "en": "old amber"
+  },
+  {
+    "de": "türöffner",
+    "en": "card key"
+  },
+  {
+    "de": "liftöffner",
+    "en": "lift key"
+  },
+  {
+    "de": "helixfossil",
+    "en": "helix fossil"
+  },
+  {
+    "de": "domfossil",
+    "en": "dome fossil"
+  },
+  {
+    "de": "silph scope",
+    "en": "silph scope"
+  },
+  {
+    "de": "fahrrad",
+    "en": "bicycle"
+  },
+  {
+    "de": "karte",
+    "en": "town map"
+  },
+  {
+    "de": "kampffahnder",
+    "en": "vs seeker"
+  },
+  {
+    "de": "ruhmesdatei",
+    "en": "fame checker"
+  },
+  {
+    "de": "vm/tm-box",
+    "en": "tm case"
+  },
+  {
+    "de": "beerentüte",
+    "en": "berry pouch"
+  },
+  {
+    "de": "lehrkanal",
+    "en": "teachy tv"
+  },
+  {
+    "de": "tri-pass",
+    "en": "tri-pass"
+  },
+  {
+    "de": "bunt-pass",
+    "en": "rainbow pass"
+  },
+  {
+    "de": "tee",
+    "en": "tea"
+  },
+  {
+    "de": "geheimticket",
+    "en": "mysticticket"
+  },
+  {
+    "de": "auroraticket",
+    "en": "auroraticket"
+  },
+  {
+    "de": "puderdöschen",
+    "en": "powder jar"
+  },
+  {
+    "de": "rubin",
+    "en": "ruby"
+  },
+  {
+    "de": "saphir",
+    "en": "sapphire"
+  }
+]
