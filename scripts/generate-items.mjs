@@ -3,8 +3,11 @@
  *
  * Fetches every item from PokeAPI (excluding "key" and "mail" pockets),
  * matches them against the local Itemlists/json/ files to determine the
- * earliest game version each item appeared in and its German name,
- * then writes a single merged JSON to src/data/items.json.
+ * earliest game version each item appeared in, then fetches the properly
+ * cased English and German names from the API.
+ *
+ * Output format per item:
+ *   { slug, de, en, version }
  *
  * Usage:  node scripts/generate-items.mjs
  */
@@ -56,7 +59,7 @@ const POST_GEN6_FILES = [
 
 // ---------------------------------------------------------------------------
 // 2. Manual slug overrides for known mismatches between PokeAPI slugs and
-//    the English names in the Itemlists.
+//    the English names in the Itemlists (lowercase).
 //    Key = PokeAPI slug, Value = en name (lowercase) as it appears in the JSONs.
 // ---------------------------------------------------------------------------
 const SLUG_TO_EN_OVERRIDE = {
@@ -71,7 +74,7 @@ const SLUG_TO_EN_OVERRIDE = {
   "great-ball": "great ball",
   "ultra-ball": "ultra ball",
   "master-ball": "master ball",
-  // Add more overrides here as needed after reviewing unmatched.json
+  // Add more overrides here as needed after reviewing items-unmatched.json
 };
 
 // Excluded pockets
@@ -118,12 +121,12 @@ async function fetchAllPages(url) {
 }
 
 // ---------------------------------------------------------------------------
-// 4. Build local lookup map  slug → { de, en, version }
+// 4. Build local lookup maps
 // ---------------------------------------------------------------------------
-function buildLocalMap() {
-  // Maps slug → { de, en, version }   (first occurrence wins)
-  const map = new Map();
 
+/** slug → version  (first occurrence wins, Gen 1–6 only) */
+function buildLocalMap() {
+  const map = new Map();
   for (const { file, version } of VERSION_FILES) {
     const filePath = path.join(jsonDir, file);
     if (!fs.existsSync(filePath)) {
@@ -134,11 +137,10 @@ function buildLocalMap() {
     for (const item of items) {
       const slug = toSlug(item.en);
       if (!map.has(slug)) {
-        map.set(slug, { de: item.de, en: item.en, version });
+        map.set(slug, version);
       }
     }
   }
-
   return map;
 }
 
@@ -196,121 +198,105 @@ async function main() {
   for (const url of categoryUrls) {
     const catData = await fetchJson(url);
     for (const item of catData.items) {
-      itemSlugs.add(item.name); // slug
+      itemSlugs.add(item.name);
     }
   }
   console.log(`  ${itemSlugs.size} unique items from PokeAPI\n`);
 
-  // --- Match & fetch missing German names ---
+  // --- Match against local map & fetch proper names from API ---
   const results = [];
-  const unmatched = [];
+  const postGen6Items = [];
+  const trulyUnmatched = [];
   let i = 0;
 
   for (const slug of itemSlugs) {
     i++;
     if (i % 100 === 0) console.log(`  Processing ${i}/${itemSlugs.size} ...`);
 
-    // Check override first
+    // Determine version via local map
     const overrideEn = SLUG_TO_EN_OVERRIDE[slug];
     const lookupSlug = overrideEn ? toSlug(overrideEn) : slug;
-    const local = localMap.get(lookupSlug);
+    let version = localMap.get(lookupSlug) ?? null;
 
-    if (local) {
-      results.push({ de: local.de, en: local.en, version: local.version });
-    } else {
-      // Fetch from API for German name fallback
-      try {
-        const itemData = await fetchJson(
-          `https://pokeapi.co/api/v2/item/${slug}/`,
-        );
-        const deName =
-          itemData.names
-            .find((n) => n.language.name === "de")
-            ?.name?.toLowerCase() ?? slug;
-        const enName =
-          itemData.names
-            .find((n) => n.language.name === "en")
-            ?.name?.toLowerCase() ?? slug;
+    // Fetch the item detail from PokeAPI for properly cased names
+    let enName, deName;
+    try {
+      const itemData = await fetchJson(
+        `https://pokeapi.co/api/v2/item/${slug}/`,
+      );
+      enName =
+        itemData.names.find((n) => n.language.name === "en")?.name ?? slug;
+      deName =
+        itemData.names.find((n) => n.language.name === "de")?.name ?? enName;
 
-        // Try matching the official English name as slug too
-        const altSlug = toSlug(enName);
-        const altLocal = localMap.get(altSlug);
-
-        if (altLocal) {
-          results.push({
-            de: altLocal.de,
-            en: altLocal.en,
-            version: altLocal.version,
-          });
-        } else {
-          // No local version info — mark as unmatched
-          results.push({ de: deName, en: enName, version: "unknown" });
-          unmatched.push({ slug, en: enName, de: deName });
-        }
-      } catch {
-        results.push({ de: slug, en: slug, version: "unknown" });
-        unmatched.push({ slug, en: slug, de: slug });
+      // If not matched yet, try the API's official English name as slug
+      if (!version) {
+        const altSlug = toSlug(enName.toLowerCase());
+        version = localMap.get(altSlug) ?? null;
       }
+    } catch {
+      enName = slug;
+      deName = slug;
+    }
+
+    if (version) {
+      // Gen 1–6 item — include in main output
+      results.push({ slug, de: deName, en: enName, version });
+    } else if (
+      postGen6Slugs.has(slug) ||
+      postGen6Slugs.has(toSlug(enName.toLowerCase()))
+    ) {
+      // Gen 7+ item
+      postGen6Items.push({ slug, de: deName, en: enName });
+    } else {
+      // Truly unmatched
+      trulyUnmatched.push({ slug, de: deName, en: enName });
     }
   }
 
-  // Remove items that couldn't be matched (i.e. not in any Gen 1–6 list)
-  const filtered = results.filter((r) => r.version !== "unknown");
-
-  // Sort alphabetically by English name
-  filtered.sort((a, b) => a.en.localeCompare(b.en));
+  // Sort by version (release order), then alphabetically by English name
+  const VERSION_ORDER = VERSION_FILES.map((v) => v.version);
+  results.sort((a, b) => {
+    const vA = VERSION_ORDER.indexOf(a.version);
+    const vB = VERSION_ORDER.indexOf(b.version);
+    if (vA !== vB) return vA - vB;
+    return a.en.localeCompare(b.en);
+  });
 
   // --- Write output ---
-  fs.mkdirSync(path.dirname(outPath), { recursive: true });
-  fs.writeFileSync(outPath, JSON.stringify(filtered, null, 2), "utf-8");
+  const dataDir = path.join(__dirname, "..", "src", "data");
+  fs.mkdirSync(dataDir, { recursive: true });
+  fs.writeFileSync(outPath, JSON.stringify(results, null, 2), "utf-8");
   console.log(
-    `\n✅ Wrote ${filtered.length} items to ${outPath} (filtered from ${results.length} API items)`,
+    `\n✅ Wrote ${results.length} items to ${outPath} (from ${itemSlugs.size} API items)`,
   );
 
-  if (unmatched.length > 0) {
-    // Separate post-Gen6 items from truly unmatched ones
-    const postGen6Items = [];
-    const trulyUnmatched = [];
+  if (postGen6Items.length > 0) {
+    const postGen6Path = path.join(dataDir, "items-post-gen6.json");
+    fs.writeFileSync(
+      postGen6Path,
+      JSON.stringify(postGen6Items, null, 2),
+      "utf-8",
+    );
+    console.log(
+      `  ℹ ${postGen6Items.length} items are Gen 7+ (excluded by design) → ${postGen6Path}`,
+    );
+  }
 
-    for (const item of unmatched) {
-      if (postGen6Slugs.has(item.slug) || postGen6Slugs.has(toSlug(item.en))) {
-        postGen6Items.push(item);
-      } else {
-        trulyUnmatched.push(item);
-      }
-    }
-
-    const dataDir = path.join(__dirname, "..", "src", "data");
-
-    if (postGen6Items.length > 0) {
-      const postGen6Path = path.join(dataDir, "items-post-gen6.json");
-      fs.writeFileSync(
-        postGen6Path,
-        JSON.stringify(postGen6Items, null, 2),
-        "utf-8",
-      );
-      console.log(
-        `  ℹ ${postGen6Items.length} items are Gen 7+ (excluded by design) → ${postGen6Path}`,
-      );
-    }
-
-    if (trulyUnmatched.length > 0) {
-      const unmatchedPath = path.join(dataDir, "items-unmatched.json");
-      fs.writeFileSync(
-        unmatchedPath,
-        JSON.stringify(trulyUnmatched, null, 2),
-        "utf-8",
-      );
-      console.log(
-        `  ⚠ ${trulyUnmatched.length} items could not be matched to ANY version.` +
-          `\n    Review: ${unmatchedPath}` +
-          `\n    Add overrides to SLUG_TO_EN_OVERRIDE in this script and re-run.`,
-      );
-    } else {
-      console.log("🎉 All non-Gen7+ items matched to a version!");
-    }
+  if (trulyUnmatched.length > 0) {
+    const unmatchedPath = path.join(dataDir, "items-unmatched.json");
+    fs.writeFileSync(
+      unmatchedPath,
+      JSON.stringify(trulyUnmatched, null, 2),
+      "utf-8",
+    );
+    console.log(
+      `  ⚠ ${trulyUnmatched.length} items could not be matched to ANY version.` +
+        `\n    Review: ${unmatchedPath}` +
+        `\n    Add overrides to SLUG_TO_EN_OVERRIDE in this script and re-run.`,
+    );
   } else {
-    console.log("🎉 All items matched to a version!");
+    console.log("🎉 All non-Gen7+ items matched to a version!");
   }
 }
 
