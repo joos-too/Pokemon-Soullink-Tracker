@@ -3,8 +3,8 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const itemlistsDir = path.join(__dirname, "..", "Itemlists");
-const outputDir = path.join(__dirname, "..", "Itemlists", "json");
+const itemlistsDir = path.join(__dirname, "itemlists-source");
+const outputDir = path.join(__dirname, "itemlists-source", "json");
 
 fs.mkdirSync(outputDir, { recursive: true });
 
