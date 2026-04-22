@@ -1,6 +1,6 @@
-import { GERMAN_POKEMON_NAMES } from "@/src/data/pokemon-de";
-import { ENGLISH_POKEMON_NAMES } from "@/src/data/pokemon-en";
-import { GERMAN_TO_ID, ENGLISH_TO_ID } from "@/src/data/pokemon-map";
+import { GERMAN_POKEMON_NAMES } from "@/src/data/pokemon-de.ts";
+import { ENGLISH_POKEMON_NAMES } from "@/src/data/pokemon-en.ts";
+import { GERMAN_TO_ID, ENGLISH_TO_ID } from "@/src/data/pokemon-map.ts";
 
 export type WikiId = "pokewiki" | "bulbapedia" | "pokemondb";
 

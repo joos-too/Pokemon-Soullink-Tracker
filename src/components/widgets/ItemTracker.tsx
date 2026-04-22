@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FossilEntry, StoneEntry } from "@/types";
-import { FOSSILS, STONES, PLAYER_COLORS } from "@/src/services/init";
+import { FossilEntry, StoneEntry } from "@/types.ts";
+import { FOSSILS, STONES, PLAYER_COLORS } from "@/src/services/init.ts";
 import {
   FiPlus,
   FiCheck,
@@ -11,14 +11,14 @@ import {
   FiRefreshCw,
   FiZap,
 } from "react-icons/fi";
-import AddFossilModal from "./AddFossilModal";
-import AddStoneModal from "./AddStoneModal";
+import AddFossilModal from "../modals/AddFossilModal.tsx";
+import AddStoneModal from "../modals/AddStoneModal.tsx";
 import {
   focusRingCardClasses,
   focusRingClasses,
   focusRingRedClasses,
   focusRingTightClasses,
-} from "@/src/styles/focusRing";
+} from "@/src/styles/focusRing.ts";
 
 interface ItemTrackerProps {
   playerNames: string[];

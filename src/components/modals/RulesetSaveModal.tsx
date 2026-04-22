@@ -1,9 +1,9 @@
 import React, { useId } from "react";
 import { FiCopy, FiSave, FiX } from "react-icons/fi";
-import type { Ruleset } from "@/types";
+import type { Ruleset } from "@/types.ts";
 import { useTranslation } from "react-i18next";
-import { focusRingClasses } from "@/src/styles/focusRing";
-import { useFocusTrap } from "@/src/hooks/useFocusTrap";
+import { focusRingClasses } from "@/src/styles/focusRing.ts";
+import { useFocusTrap } from "@/src/hooks/useFocusTrap.ts";
 
 interface RulesetSaveModalProps {
   isOpen: boolean;

@@ -1,11 +1,11 @@
 import React, { useId } from "react";
-import type { PokemonLink } from "@/types";
+import type { PokemonLink } from "@/types.ts";
 import { useTranslation } from "react-i18next";
-import { useFocusTrap } from "@/src/hooks/useFocusTrap";
+import { useFocusTrap } from "@/src/hooks/useFocusTrap.ts";
 import { focusRingClasses } from "@/src/styles/focusRing.ts";
-import { getSpriteUrlForPokemonName } from "@/src/services/sprites";
+import { getSpriteUrlForPokemonName } from "@/src/services/sprites.ts";
 import { FiAlertTriangle, FiInfo } from "react-icons/fi";
-import Tooltip from "./Tooltip";
+import Tooltip from "@/src/components/basic/Tooltip.tsx";
 
 interface DeleteLinkModalProps {
   isOpen: boolean;

@@ -11,7 +11,7 @@ import type {
   TrackerMember,
   UserSettings,
   VariableRival,
-} from "@/types";
+} from "@/types.ts";
 import {
   FiArrowLeft,
   FiAlertTriangle,
@@ -30,14 +30,14 @@ import {
   focusRingClasses,
   focusRingInputClasses,
   focusRingRedClasses,
-} from "@/src/styles/focusRing";
-import ToggleSwitch from "@/src/components/ToggleSwitch";
-import Tooltip from "./Tooltip";
+} from "@/src/styles/focusRing.ts";
+import ToggleSwitch from "@/src/components/basic/ToggleSwitch.tsx";
+import Tooltip from "@/src/components/basic/Tooltip.tsx";
 import { useTranslation } from "react-i18next";
-import { getLocalizedRivalEntry } from "@/src/services/gameLocalization";
-import RulesetPicker from "./RulesetPicker";
-import { useFocusTrap } from "@/src/hooks/useFocusTrap";
-import RulesetSyncModal from "@/src/components/RulesetSyncModal";
+import { getLocalizedRivalEntry } from "@/src/services/gameLocalization.ts";
+import RulesetPicker from "../RulesetPicker.tsx";
+import { useFocusTrap } from "@/src/hooks/useFocusTrap.ts";
+import RulesetSyncModal from "@/src/components/modals/RulesetSyncModal.tsx";
 
 type InviteRoleOption = "editor" | "guest";
 

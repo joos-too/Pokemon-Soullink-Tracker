@@ -5,7 +5,7 @@ import {
   signOut,
   verifyPasswordResetCode,
 } from "firebase/auth";
-import { auth } from "@/src/firebaseConfig";
+import { auth } from "@/src/firebaseConfig.ts";
 import { useTranslation } from "react-i18next";
 
 interface PasswordResetPageProps {

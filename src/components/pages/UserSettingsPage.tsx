@@ -9,13 +9,16 @@ import {
   FiMail,
   FiRefreshCw,
 } from "react-icons/fi";
-import { focusRingClasses, focusRingRedClasses } from "@/src/styles/focusRing";
-import { requestPasswordReset } from "@/src/services/auth";
-import ToggleSwitch from "@/src/components/ToggleSwitch";
+import {
+  focusRingClasses,
+  focusRingRedClasses,
+} from "@/src/styles/focusRing.ts";
+import { requestPasswordReset } from "@/src/services/auth.ts";
+import ToggleSwitch from "@/src/components/basic/ToggleSwitch.tsx";
 import { useTranslation } from "react-i18next";
-import LanguageToggle from "./LanguageToggle";
-import Tooltip from "./Tooltip";
-import { WIKIS, type WikiId } from "@/src/data/wiki";
+import LanguageToggle from "../LanguageToggle.tsx";
+import Tooltip from "@/src/components/basic/Tooltip.tsx";
+import { WIKIS, type WikiId } from "@/src/utils/wiki.ts";
 
 interface UserSettingsPageProps {
   email?: string | null;

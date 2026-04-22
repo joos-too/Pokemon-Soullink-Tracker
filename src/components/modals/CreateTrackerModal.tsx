@@ -1,18 +1,18 @@
 import React, { useCallback, useEffect, useId, useMemo, useState } from "react";
 import { FiPlus, FiUsers, FiX } from "react-icons/fi";
-import { GAME_VERSIONS } from "@/src/data/game-versions";
+import { GAME_VERSIONS } from "@/src/data/game-versions.ts";
 import { PLAYER_COLORS, sanitizeTags } from "@/src/services/init.ts";
 import {
   focusRingClasses,
   focusRingInputClasses,
   focusRingInsetClasses,
-} from "@/src/styles/focusRing";
-import GameVersionPicker from "./GameVersionPicker";
+} from "@/src/styles/focusRing.ts";
+import GameVersionPicker from "../GameVersionPicker.tsx";
 import { useTranslation } from "react-i18next";
 import { getLocalizedGameName } from "@/src/services/gameLocalization.ts";
-import type { Ruleset } from "@/types";
-import RulesetPicker from "./RulesetPicker";
-import { useFocusTrap } from "@/src/hooks/useFocusTrap";
+import type { Ruleset } from "@/types.ts";
+import RulesetPicker from "../RulesetPicker.tsx";
+import { useFocusTrap } from "@/src/hooks/useFocusTrap.ts";
 
 interface CreateTrackerModalProps {
   isOpen: boolean;

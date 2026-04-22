@@ -2,18 +2,18 @@ import React, { useEffect, useId, useMemo, useRef, useState } from "react";
 import {
   getOfficialArtworkUrlById,
   getSpriteUrlById,
-} from "@/src/services/sprites";
+} from "@/src/services/sprites.ts";
 import {
   findPokemonIdByName,
   getPokemonNameById,
-} from "@/src/services/pokemonSearch";
-import type { PokemonLink } from "@/types";
+} from "@/src/services/pokemonSearch.ts";
+import type { PokemonLink } from "@/types.ts";
 import { useTranslation } from "react-i18next";
-import { normalizeLanguage } from "@/src/utils/language";
-import { focusRingClasses } from "@/src/styles/focusRing";
-import { useFocusTrap } from "@/src/hooks/useFocusTrap";
-import { getPokemonTypeSlugsById } from "@/src/services/pokemonTypes";
-import TypeBadge from "@/src/components/TypeBadge";
+import { normalizeLanguage } from "@/src/utils/language.ts";
+import { focusRingClasses } from "@/src/styles/focusRing.ts";
+import { useFocusTrap } from "@/src/hooks/useFocusTrap.ts";
+import { getPokemonTypeSlugsById } from "@/src/services/pokemonTypes.ts";
+import TypeBadge from "@/src/components/TypeBadge.tsx";
 import { getFilteredEvolutionEntriesForPokemon } from "@/src/services/evolutionMethodFilter.ts";
 
 interface SelectEvolveModalProps {

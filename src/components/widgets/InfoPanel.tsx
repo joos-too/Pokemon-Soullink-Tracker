@@ -5,9 +5,9 @@ import type {
   RivalCap,
   Stats,
   UserSettings,
-} from "@/types";
+} from "@/types.ts";
 import { PLAYER_COLORS } from "@/src/services/init.ts";
-import { getLegendariesUpToGeneration } from "@/src/services/legendaryFilter";
+import { getLegendariesUpToGeneration } from "@/src/services/legendaryFilter.ts";
 import {
   FiEdit,
   FiEye,
@@ -19,26 +19,26 @@ import {
   FiSave,
   FiX,
 } from "react-icons/fi";
-import { BadgeImage, LegendaryImage, RivalImage } from "./GameImages";
-import Tooltip from "./Tooltip";
+import { BadgeImage, LegendaryImage, RivalImage } from "../GameImages.tsx";
+import Tooltip from "@/src/components/basic/Tooltip.tsx";
 import { useTranslation } from "react-i18next";
 import {
   getLocalizedArenaLabel,
   getLocalizedRivalEntry,
   getLocalizedRivalLocation,
   resolveRivalDisplayName,
-} from "@/src/services/gameLocalization";
+} from "@/src/services/gameLocalization.ts";
 import {
   canToggleLevelAtIndex,
   canToggleRivalAtIndex,
   formatBestLabel,
-} from "@/src/utils/bestRun";
-import { computeWeightedProgress } from "@/src/utils/progressWeights";
+} from "@/src/utils/bestRun.ts";
+import { computeWeightedProgress } from "@/src/utils/progressWeights.ts";
 import {
   focusRingClasses,
   focusRingInputClasses,
   focusRingTightClasses,
-} from "@/src/styles/focusRing";
+} from "@/src/styles/focusRing.ts";
 
 interface InfoPanelProps {
   playerNames: string[];

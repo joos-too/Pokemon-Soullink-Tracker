@@ -16,18 +16,18 @@ import {
 import DarkModeToggle, {
   getDarkMode,
   setDarkMode,
-} from "@/src/components/DarkModeToggle";
-import type { TrackerMeta, TrackerSummary } from "@/types";
-import GameVersionBadge from "./GameVersionBadge";
+} from "@/src/components/DarkModeToggle.tsx";
+import type { TrackerMeta, TrackerSummary } from "@/types.ts";
+import GameVersionBadge from "../GameVersionBadge.tsx";
 import {
   focusRingCardClasses,
   focusRingClasses,
   focusRingInsetClasses,
-} from "@/src/styles/focusRing";
-import { GAME_VERSIONS } from "@/src/data/game-versions";
-import { formatBestLabel } from "@/src/utils/bestRun";
+} from "@/src/styles/focusRing.ts";
+import { GAME_VERSIONS } from "@/src/data/game-versions.ts";
+import { formatBestLabel } from "@/src/utils/bestRun.ts";
 import { useTranslation } from "react-i18next";
-import { getLocalizedGameName } from "@/src/services/gameLocalization";
+import { getLocalizedGameName } from "@/src/services/gameLocalization.ts";
 
 type SortOption = "date" | "name" | "version";
 type VisibilityFilter = "all" | "public" | "private";

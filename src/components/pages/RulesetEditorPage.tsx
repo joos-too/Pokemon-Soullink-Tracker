@@ -8,18 +8,18 @@ import {
   FiTrash2,
   FiX,
 } from "react-icons/fi";
-import type { Ruleset } from "@/types";
-import type { SaveRulesetPayload } from "@/src/services/rulesets";
+import type { Ruleset } from "@/types.ts";
+import type { SaveRulesetPayload } from "@/src/services/rulesets.ts";
 import { useTranslation } from "react-i18next";
 import {
   focusRingClasses,
   focusRingInputClasses,
   focusRingRedClasses,
-} from "@/src/styles/focusRing";
-import { DEFAULT_RULES, PREDEFINED_RULESET_TAGS } from "@/src/data/rulesets";
-import { sanitizeTags } from "@/src/services/init";
-import RulesetPicker from "./RulesetPicker";
-import { useFocusTrap } from "@/src/hooks/useFocusTrap";
+} from "@/src/styles/focusRing.ts";
+import { DEFAULT_RULES, PREDEFINED_RULESET_TAGS } from "@/src/data/rulesets.ts";
+import { sanitizeTags } from "@/src/services/init.ts";
+import RulesetPicker from "../RulesetPicker.tsx";
+import { useFocusTrap } from "@/src/hooks/useFocusTrap.ts";
 
 interface RulesetEditorPageProps {
   rulesets: Ruleset[];

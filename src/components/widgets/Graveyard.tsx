@@ -1,13 +1,13 @@
 import React, { useEffect, useMemo, useState } from "react";
-import type { Pokemon, PokemonLink } from "@/types";
-import { getSpriteUrlForPokemonName } from "@/src/services/sprites";
+import type { Pokemon, PokemonLink } from "@/types.ts";
+import { getSpriteUrlForPokemonName } from "@/src/services/sprites.ts";
 import { PLAYER_COLORS } from "@/src/services/init.ts";
 import { useTranslation } from "react-i18next";
-import { focusRingClasses } from "@/src/styles/focusRing";
+import { focusRingClasses } from "@/src/styles/focusRing.ts";
 import { FiEdit, FiTrash } from "react-icons/fi";
-import AddLostPokemonModal from "./AddLostPokemonModal";
-import EditPairModal from "./EditPairModal";
-import { getWikiUrl, type WikiId } from "@/src/data/wiki";
+import AddLostPokemonModal from "../modals/AddLostPokemonModal.tsx";
+import EditPairModal from "../modals/EditPairModal.tsx";
+import { getWikiUrl, type WikiId } from "@/src/utils/wiki.ts";
 
 interface GraveyardProps {
   graveyard?: PokemonLink[];

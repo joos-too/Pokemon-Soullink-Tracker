@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
-import type { Pokemon, PokemonLink } from "@/types";
-import EditPairModal from "./EditPairModal.tsx";
-import SelectEvolveModal from "./SelectEvolveModal";
+import type { Pokemon, PokemonLink } from "@/types.ts";
+import EditPairModal from "../modals/EditPairModal.tsx";
+import SelectEvolveModal from "../modals/SelectEvolveModal.tsx";
 import {
   FiArrowDown,
   FiArrowUp,
@@ -14,12 +14,12 @@ import { PiSkullBold } from "react-icons/pi";
 import {
   getOfficialArtworkUrlForPokemonName,
   getSpriteUrlForPokemonName,
-} from "@/src/services/sprites";
-import { getPokemonTypeSlugsForName } from "@/src/services/pokemonTypes";
-import TypeBadge from "@/src/components/TypeBadge";
+} from "@/src/services/sprites.ts";
+import { getPokemonTypeSlugsForName } from "@/src/services/pokemonTypes.ts";
+import TypeBadge from "@/src/components/TypeBadge.tsx";
 import { useTranslation } from "react-i18next";
-import { focusRingClasses } from "@/src/styles/focusRing";
-import { getWikiUrl, type WikiId } from "@/src/data/wiki";
+import { focusRingClasses } from "@/src/styles/focusRing.ts";
+import { getWikiUrl, type WikiId } from "@/src/utils/wiki.ts";
 
 interface TeamTableProps {
   title: string;

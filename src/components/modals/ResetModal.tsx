@@ -1,6 +1,6 @@
 import React, { useId } from "react";
 import { useTranslation } from "react-i18next";
-import { useFocusTrap } from "@/src/hooks/useFocusTrap";
+import { useFocusTrap } from "@/src/hooks/useFocusTrap.ts";
 import { focusRingClasses } from "@/src/styles/focusRing.ts";
 import { FiAlertTriangle } from "react-icons/fi";
 

@@ -1,8 +1,8 @@
 import React, { useId } from "react";
 import { FiAlertTriangle, FiRefreshCw, FiX } from "react-icons/fi";
 import { useTranslation } from "react-i18next";
-import { focusRingClasses } from "@/src/styles/focusRing";
-import { useFocusTrap } from "@/src/hooks/useFocusTrap";
+import { focusRingClasses } from "@/src/styles/focusRing.ts";
+import { useFocusTrap } from "@/src/hooks/useFocusTrap.ts";
 
 interface RulesetSyncModalProps {
   isOpen: boolean;

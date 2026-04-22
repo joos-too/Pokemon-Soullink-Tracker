@@ -1,18 +1,18 @@
 import React, { useEffect, useId, useMemo, useRef, useState } from "react";
-import type { Pokemon } from "@/types";
-import { searchPokemonNames } from "@/src/services/pokemonSearch";
-import { getSpriteUrlForPokemonName } from "@/src/services/sprites";
+import type { Pokemon } from "@/types.ts";
+import { searchPokemonNames } from "@/src/services/pokemonSearch.ts";
+import { getSpriteUrlForPokemonName } from "@/src/services/sprites.ts";
 import {
   focusRingClasses,
   focusRingInputClasses,
-} from "@/src/styles/focusRing";
+} from "@/src/styles/focusRing.ts";
 import { useTranslation } from "react-i18next";
 import {
   normalizeLanguage,
   type SupportedLanguage,
-} from "@/src/utils/language";
-import LocationSuggestionInput from "@/src/components/LocationSuggestionInput";
-import { useFocusTrap } from "@/src/hooks/useFocusTrap";
+} from "@/src/utils/language.ts";
+import LocationSuggestionInput from "@/src/components/LocationSuggestionInput.tsx";
+import { useFocusTrap } from "@/src/hooks/useFocusTrap.ts";
 
 interface EditPairModalProps {
   isOpen: boolean;

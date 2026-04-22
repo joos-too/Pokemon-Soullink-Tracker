@@ -1,16 +1,16 @@
 import React, { useEffect, useId, useMemo, useState } from "react";
-import type { PokemonLink } from "@/types";
+import type { PokemonLink } from "@/types.ts";
 import { useTranslation } from "react-i18next";
-import { useFocusTrap } from "@/src/hooks/useFocusTrap";
+import { useFocusTrap } from "@/src/hooks/useFocusTrap.ts";
 import {
   focusRingClasses,
   focusRingInputClasses,
-} from "@/src/styles/focusRing";
-import { getSpriteUrlForPokemonName } from "@/src/services/sprites";
+} from "@/src/styles/focusRing.ts";
+import { getSpriteUrlForPokemonName } from "@/src/services/sprites.ts";
 import {
   getPokemonFamilyIdsMatchingQuery,
   getPokemonIdFromName,
-} from "@/src/services/pokemonSearch";
+} from "@/src/services/pokemonSearch.ts";
 
 type SearchMode = "pokemon" | "routes";
 type PokemonSectionKey = "team" | "box" | "graveyard";
