@@ -27,6 +27,9 @@ dist-ssr
 .env
 .env.production
 
-# Item list source data (regenerate with scripts/generate-items.mjs)
+# Item list data
 scripts/itemlists-source/*
 !scripts/itemlists-source/.gitkeep
+
+src/data/items-fuzzy-matched.json
+src/data/items-post-gen6.json
