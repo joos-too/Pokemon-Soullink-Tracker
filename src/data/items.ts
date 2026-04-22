@@ -978,6 +978,12 @@ export const ITEMS: {
     version: "GS",
   },
   {
+    slug: "sport-ball",
+    de: "Turnierball",
+    en: "Sport Ball",
+    version: "GS",
+  },
+  {
     slug: "star-piece",
     de: "Sternenstück",
     en: "Star Piece",
@@ -2434,12 +2440,6 @@ export const ITEMS: {
     de: "Platinum-Orb",
     en: "Griseous Orb",
     version: "PT",
-  },
-  {
-    slug: "sport-ball",
-    de: "Turnierball",
-    en: "Sport Ball",
-    version: "HGSS",
   },
   {
     slug: "ability-urge",
