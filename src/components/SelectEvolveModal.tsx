@@ -204,7 +204,7 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
   const handleRadioTabNavigation = (
     event: React.KeyboardEvent<HTMLInputElement>,
     index: number,
-    refs: React.MutableRefObject<(HTMLInputElement | null)[]>,
+    refs: React.RefObject<(HTMLInputElement | null)[]>,
   ) => {
     if (event.key !== "Tab") return;
     const nodes = refs.current.filter((el): el is HTMLInputElement =>
