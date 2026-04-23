@@ -68,8 +68,16 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
   gameVersionId,
 }) => {
   const { t, i18n } = useTranslation();
-  const [showStones, setShowStones] = useState(false);
+  const [showFossils, setShowFossils] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+
+  // --- Stone state ---
+  const [isStoneEditing, setIsStoneEditing] = useState(false);
+  const [draftStones, setDraftStones] = useState<StoneEntry[][]>([]);
+  const [stoneModalOpen, setStoneModalOpen] = useState<{
+    open: boolean;
+    playerIndex: number;
+  }>({ open: false, playerIndex: 0 });
 
   // --- Fossil state ---
   const [isFossilEditing, setIsFossilEditing] = useState(false);
@@ -81,14 +89,6 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
   const [fossilSelections, setFossilSelections] = useState<number[]>(
     playerNames.map(() => -1),
   );
-
-  // --- Stone state ---
-  const [isStoneEditing, setIsStoneEditing] = useState(false);
-  const [draftStones, setDraftStones] = useState<StoneEntry[][]>([]);
-  const [stoneModalOpen, setStoneModalOpen] = useState<{
-    open: boolean;
-    playerIndex: number;
-  }>({ open: false, playerIndex: 0 });
 
   useEffect(() => {
     const mql = window.matchMedia("(max-width: 767px)");
@@ -102,6 +102,28 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
         handler as (e: MediaQueryListEvent) => void,
       );
   }, []);
+
+  // --- Stone helpers ---
+  const startStoneEditing = () => {
+    setDraftStones(JSON.parse(JSON.stringify(stones)));
+    setIsStoneEditing(true);
+  };
+  const cancelStoneEditing = () => {
+    setIsStoneEditing(false);
+    setDraftStones([]);
+  };
+  const saveStoneEditing = () => {
+    onUpdateStones(draftStones);
+    setIsStoneEditing(false);
+  };
+  const deleteStone = (pIdx: number, sIdx: number) => {
+    setDraftStones((prev) => {
+      const next = [...prev];
+      next[pIdx] = next[pIdx].filter((_, i) => i !== sIdx);
+      return next;
+    });
+  };
+  const displayStones = isStoneEditing ? draftStones : stones;
 
   // --- Fossil helpers ---
   const startFossilEditing = () => {
@@ -134,29 +156,40 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
     setFossilSelections(playerNames.map(() => -1));
   };
 
-  // --- Stone helpers ---
-  const startStoneEditing = () => {
-    setDraftStones(JSON.parse(JSON.stringify(stones)));
-    setIsStoneEditing(true);
-  };
-  const cancelStoneEditing = () => {
-    setIsStoneEditing(false);
-    setDraftStones([]);
-  };
-  const saveStoneEditing = () => {
-    onUpdateStones(draftStones);
-    setIsStoneEditing(false);
-  };
-  const deleteStone = (pIdx: number, sIdx: number) => {
-    setDraftStones((prev) => {
-      const next = [...prev];
-      next[pIdx] = next[pIdx].filter((_, i) => i !== sIdx);
-      return next;
-    });
-  };
-  const displayStones = isStoneEditing ? draftStones : stones;
+  const toggleFlip = () => setShowFossils((prev) => !prev);
 
-  const toggleFlip = () => setShowStones((prev) => !prev);
+  // --- Render stone header buttons ---
+  const renderStoneHeaderButtons = () => {
+    if (readOnly) return null;
+    return (
+      <>
+        {!isStoneEditing ? (
+          <button
+            onClick={startStoneEditing}
+            className={`absolute right-10 top-1/2 -translate-y-1/2 p-1 rounded-full text-white/70 hover:text-white hover:bg-black/20 ring-2 ring-white/25 ${focusRingTightClasses}`}
+            title={t("tracker.infoPanel.editItems")}
+          >
+            <FiEdit size={14} />
+          </button>
+        ) : (
+          <div className="absolute right-10 top-1/2 -translate-y-1/2 flex gap-2">
+            <button
+              onClick={cancelStoneEditing}
+              className={`p-1 rounded-full text-white/70 hover:text-white hover:bg-black/20 ring-2 ring-white/25 ${focusRingTightClasses}`}
+            >
+              <FiX size={14} />
+            </button>
+            <button
+              onClick={saveStoneEditing}
+              className={`p-1 rounded-full text-white/70 hover:text-white hover:bg-black/20 ring-2 ring-white/25 ${focusRingTightClasses}`}
+            >
+              <FiSave size={14} />
+            </button>
+          </div>
+        )}
+      </>
+    );
+  };
 
   // --- Render fossil header buttons ---
   const renderFossilHeaderButtons = () => {
@@ -191,38 +224,157 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
     );
   };
 
-  // --- Render stone header buttons ---
-  const renderStoneHeaderButtons = () => {
-    if (readOnly) return null;
-    return (
-      <>
-        {!isStoneEditing ? (
-          <button
-            onClick={startStoneEditing}
-            className={`absolute right-10 top-1/2 -translate-y-1/2 p-1 rounded-full text-white/70 hover:text-white hover:bg-black/20 ring-2 ring-white/25 ${focusRingTightClasses}`}
-            title={t("tracker.infoPanel.editItems")}
-          >
-            <FiEdit size={14} />
-          </button>
-        ) : (
-          <div className="absolute right-10 top-1/2 -translate-y-1/2 flex gap-2">
-            <button
-              onClick={cancelStoneEditing}
-              className={`p-1 rounded-full text-white/70 hover:text-white hover:bg-black/20 ring-2 ring-white/25 ${focusRingTightClasses}`}
-            >
-              <FiX size={14} />
-            </button>
-            <button
-              onClick={saveStoneEditing}
-              className={`p-1 rounded-full text-white/70 hover:text-white hover:bg-black/20 ring-2 ring-white/25 ${focusRingTightClasses}`}
-            >
-              <FiSave size={14} />
-            </button>
-          </div>
-        )}
-      </>
-    );
-  };
+  // --- Render stone content ---
+  const renderStoneContent = () => (
+    <div className="flex flex-col max-h-[350px]">
+      <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar">
+        <div
+          className="grid gap-4 grid-cols-1 px-4 pb-4"
+          style={{
+            gridTemplateColumns:
+              playerNames.length > 1
+                ? `repeat(${playerNames.length}, minmax(0, 1fr))`
+                : undefined,
+          }}
+        >
+          {playerNames.map((name, pIdx) => (
+            <div key={`stone-player-${pIdx}`} className="space-y-2">
+              <div className="sticky top-0 z-10 pt-4 pb-1 bg-white dark:bg-gray-800">
+                <div className="flex items-center justify-between px-2.5 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">
+                  <span
+                    className="text-xs font-press-start truncate mr-2"
+                    style={{ color: PLAYER_COLORS[pIdx] }}
+                  >
+                    {name}
+                  </span>
+                  {!readOnly && (
+                    <button
+                      onClick={() =>
+                        setStoneModalOpen({ open: true, playerIndex: pIdx })
+                      }
+                      disabled={isStoneEditing}
+                      className={`p-1 rounded-md text-white transition-all shrink-0 shadow-sm ${
+                        isStoneEditing
+                          ? "bg-gray-400 cursor-not-allowed opacity-50"
+                          : "hover:scale-110 hover:shadow-md"
+                      } ${focusRingClasses}`}
+                      style={
+                        !isStoneEditing
+                          ? { backgroundColor: PLAYER_COLORS[pIdx] }
+                          : undefined
+                      }
+                    >
+                      <FiPlus size={14} />
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              <div className="space-y-1 px-1">
+                {displayStones[pIdx]?.map((entry, sIdx) => {
+                  const isCustomItem = entry.stoneId.startsWith("item:");
+                  const def = isCustomItem
+                    ? null
+                    : STONES.find((s) => s.id === entry.stoneId);
+                  const locale = normalizeLanguage(i18n.language);
+                  const displayName = isCustomItem
+                    ? getItemName(entry.stoneId.replace("item:", ""), locale)
+                    : t(`stones.${entry.stoneId}`);
+
+                  return (
+                    <div
+                      key={`${pIdx}-${entry.stoneId}-${sIdx}`}
+                      className={`flex items-center gap-2 p-1.5 rounded border text-[10px] transition-all ${
+                        entry.used
+                          ? "border-red-300 bg-red-50 dark:border-red-900/50 dark:bg-red-900/20 text-red-700 dark:text-red-400"
+                          : !entry.inBag && !isStoneEditing
+                            ? "border-gray-200 dark:border-gray-700 opacity-60"
+                            : "border-gray-200 dark:border-gray-700 dark:text-gray-300"
+                      }`}
+                    >
+                      {def ? (
+                        <img
+                          src={`/stone-sprites/${def.sprite}`}
+                          alt=""
+                          className={`w-6 h-6 object-contain ${entry.used ? "grayscale-[0.5]" : ""}`}
+                        />
+                      ) : (
+                        <img
+                          src={getItemSpriteUrl(
+                            entry.stoneId.replace("item:", ""),
+                          )}
+                          alt=""
+                          className={`w-6 h-6 object-contain ${entry.used ? "grayscale-[0.5]" : ""}`}
+                        />
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <div className="font-bold truncate">{displayName}</div>
+                        <div className="opacity-70 truncate">
+                          {entry.used
+                            ? t("tracker.infoPanel.stoneUsed")
+                            : entry.inBag
+                              ? t("tracker.infoPanel.stoneBag")
+                              : t("tracker.infoPanel.stoneLocation", {
+                                  location: entry.location,
+                                })}
+                        </div>
+                      </div>
+
+                      {isStoneEditing && (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            deleteStone(pIdx, sIdx);
+                          }}
+                          className={`p-1 rounded bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300 hover:bg-red-200 shrink-0 ${focusRingRedClasses}`}
+                        >
+                          <FiX size={12} />
+                        </button>
+                      )}
+
+                      {/* Move to bag button */}
+                      {!isStoneEditing &&
+                        !entry.inBag &&
+                        !entry.used &&
+                        !readOnly && (
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onToggleStoneBag(pIdx, sIdx);
+                            }}
+                            className="p-1 rounded bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 hover:bg-blue-200 shrink-0"
+                            title={t("tracker.infoPanel.stoneBag")}
+                          >
+                            <FiCheck size={12} />
+                          </button>
+                        )}
+
+                      {/* Use stone button — per-player, directly on the card */}
+                      {!isStoneEditing &&
+                        entry.inBag &&
+                        !entry.used &&
+                        !readOnly && (
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onUseStone(pIdx, sIdx);
+                            }}
+                            className={`p-1 rounded bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300 hover:bg-red-200 shrink-0 ${focusRingRedClasses}`}
+                            title={t("tracker.infoPanel.stoneUse")}
+                          >
+                            <FiZap size={12} />
+                          </button>
+                        )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 
   // --- Render fossil content ---
   const renderFossilContent = () => (
@@ -388,158 +540,6 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
     </div>
   );
 
-  // --- Render stone content ---
-  const renderStoneContent = () => (
-    <div className="flex flex-col max-h-[350px]">
-      <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar">
-        <div
-          className="grid gap-4 grid-cols-1 px-4 pb-4"
-          style={{
-            gridTemplateColumns:
-              playerNames.length > 1
-                ? `repeat(${playerNames.length}, minmax(0, 1fr))`
-                : undefined,
-          }}
-        >
-          {playerNames.map((name, pIdx) => (
-            <div key={`stone-player-${pIdx}`} className="space-y-2">
-              <div className="sticky top-0 z-10 pt-4 pb-1 bg-white dark:bg-gray-800">
-                <div className="flex items-center justify-between px-2.5 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">
-                  <span
-                    className="text-xs font-press-start truncate mr-2"
-                    style={{ color: PLAYER_COLORS[pIdx] }}
-                  >
-                    {name}
-                  </span>
-                  {!readOnly && (
-                    <button
-                      onClick={() =>
-                        setStoneModalOpen({ open: true, playerIndex: pIdx })
-                      }
-                      disabled={isStoneEditing}
-                      className={`p-1 rounded-md text-white transition-all shrink-0 shadow-sm ${
-                        isStoneEditing
-                          ? "bg-gray-400 cursor-not-allowed opacity-50"
-                          : "hover:scale-110 hover:shadow-md"
-                      } ${focusRingClasses}`}
-                      style={
-                        !isStoneEditing
-                          ? { backgroundColor: PLAYER_COLORS[pIdx] }
-                          : undefined
-                      }
-                    >
-                      <FiPlus size={14} />
-                    </button>
-                  )}
-                </div>
-              </div>
-
-              <div className="space-y-1 px-1">
-                {displayStones[pIdx]?.map((entry, sIdx) => {
-                  const isCustomItem = entry.stoneId.startsWith("item:");
-                  const def = isCustomItem
-                    ? null
-                    : STONES.find((s) => s.id === entry.stoneId);
-                  const locale = normalizeLanguage(i18n.language);
-                  const displayName = isCustomItem
-                    ? getItemName(entry.stoneId.replace("item:", ""), locale)
-                    : t(`stones.${entry.stoneId}`);
-
-                  return (
-                    <div
-                      key={`${pIdx}-${entry.stoneId}-${sIdx}`}
-                      className={`flex items-center gap-2 p-1.5 rounded border text-[10px] transition-all ${
-                        entry.used
-                          ? "border-red-300 bg-red-50 dark:border-red-900/50 dark:bg-red-900/20 text-red-700 dark:text-red-400"
-                          : !entry.inBag && !isStoneEditing
-                            ? "border-gray-200 dark:border-gray-700 opacity-60"
-                            : "border-gray-200 dark:border-gray-700 dark:text-gray-300"
-                      }`}
-                    >
-                      {def ? (
-                        <img
-                          src={`/stone-sprites/${def.sprite}`}
-                          alt=""
-                          className={`w-6 h-6 object-contain ${entry.used ? "grayscale-[0.5]" : ""}`}
-                        />
-                      ) : (
-                        <img
-                          src={getItemSpriteUrl(
-                            entry.stoneId.replace("item:", ""),
-                          )}
-                          alt=""
-                          className={`w-6 h-6 object-contain ${entry.used ? "grayscale-[0.5]" : ""}`}
-                        />
-                      )}
-                      <div className="flex-1 min-w-0">
-                        <div className="font-bold truncate">{displayName}</div>
-                        <div className="opacity-70 truncate">
-                          {entry.used
-                            ? t("tracker.infoPanel.stoneUsed")
-                            : entry.inBag
-                              ? t("tracker.infoPanel.stoneBag")
-                              : t("tracker.infoPanel.stoneLocation", {
-                                  location: entry.location,
-                                })}
-                        </div>
-                      </div>
-
-                      {isStoneEditing && (
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            deleteStone(pIdx, sIdx);
-                          }}
-                          className={`p-1 rounded bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300 hover:bg-red-200 shrink-0 ${focusRingRedClasses}`}
-                        >
-                          <FiX size={12} />
-                        </button>
-                      )}
-
-                      {/* Move to bag button */}
-                      {!isStoneEditing &&
-                        !entry.inBag &&
-                        !entry.used &&
-                        !readOnly && (
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              onToggleStoneBag(pIdx, sIdx);
-                            }}
-                            className="p-1 rounded bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 hover:bg-blue-200 shrink-0"
-                            title={t("tracker.infoPanel.stoneBag")}
-                          >
-                            <FiCheck size={12} />
-                          </button>
-                        )}
-
-                      {/* Use stone button — per-player, directly on the card */}
-                      {!isStoneEditing &&
-                        entry.inBag &&
-                        !entry.used &&
-                        !readOnly && (
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              onUseStone(pIdx, sIdx);
-                            }}
-                            className={`p-1 rounded bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300 hover:bg-red-200 shrink-0 ${focusRingRedClasses}`}
-                            title={t("tracker.infoPanel.stoneUse")}
-                          >
-                            <FiZap size={12} />
-                          </button>
-                        )}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-
   return (
     <>
       <div
@@ -551,38 +551,38 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
           <h2
             className="text-center p-2 text-white font-press-start text-sm transition-colors duration-500"
             style={{
-              backgroundColor: showStones ? "#2c7b90" : "#895338",
+              backgroundColor: showFossils ? "#895338" : "#2c7b90",
             }}
           >
-            {showStones
-              ? t("tracker.infoPanel.itemTracker")
-              : t("tracker.infoPanel.fossilTracker")}
+            {showFossils
+              ? t("tracker.infoPanel.fossilTracker")
+              : t("tracker.infoPanel.itemTracker")}
           </h2>
-          {showStones
-            ? renderStoneHeaderButtons()
-            : renderFossilHeaderButtons()}
+          {showFossils
+            ? renderFossilHeaderButtons()
+            : renderStoneHeaderButtons()}
           <button
             onClick={toggleFlip}
             className={`absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-full text-white/70 hover:text-white hover:bg-black/20 ring-2 ring-white/25 ${focusRingTightClasses}`}
             title={
-              showStones
-                ? t("tracker.infoPanel.flipToFossils")
-                : t("tracker.infoPanel.flipToItems")
+              showFossils
+                ? t("tracker.infoPanel.flipToItems")
+                : t("tracker.infoPanel.flipToFossils")
             }
           >
             <FiRefreshCw
               size={14}
-              className={`transition-transform duration-500 ${showStones ? "rotate-180" : ""}`}
+              className={`transition-transform duration-500 ${showFossils ? "rotate-180" : ""}`}
             />
           </button>
         </div>
 
         {/* Content with flip animation */}
         {isMobile ? (
-          showStones ? (
-            renderStoneContent()
-          ) : (
+          showFossils ? (
             renderFossilContent()
+          ) : (
+            renderStoneContent()
           )
         ) : (
           <div
@@ -590,37 +590,50 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
             style={{
               display: "grid",
               transformStyle: "preserve-3d",
-              transform: showStones ? "rotateY(180deg)" : "rotateY(0deg)",
+              transform: showFossils ? "rotateY(180deg)" : "rotateY(0deg)",
             }}
           >
             <div
-              className={`${showStones ? "pointer-events-none invisible" : "pointer-events-auto"}`}
-              aria-hidden={showStones}
+              className={`${showFossils ? "pointer-events-none invisible" : "pointer-events-auto"}`}
+              aria-hidden={showFossils}
               style={{
                 gridArea: "1 / 1",
                 backfaceVisibility: "hidden",
                 transform: "rotateY(0deg)",
               }}
             >
-              {renderFossilContent()}
+              {renderStoneContent()}
             </div>
 
             <div
-              className={`${showStones ? "pointer-events-auto" : "pointer-events-none invisible"}`}
-              aria-hidden={!showStones}
+              className={`${showFossils ? "pointer-events-auto" : "pointer-events-none invisible"}`}
+              aria-hidden={!showFossils}
               style={{
                 gridArea: "1 / 1",
                 backfaceVisibility: "hidden",
                 transform: "rotateY(180deg)",
               }}
             >
-              {renderStoneContent()}
+              {renderFossilContent()}
             </div>
           </div>
         )}
       </div>
 
       {/* Modals rendered outside the tracker to avoid clipping/containment issues */}
+      <AddStoneModal
+        isOpen={stoneModalOpen.open}
+        onClose={() => setStoneModalOpen({ open: false, playerIndex: 0 })}
+        maxGeneration={maxGeneration}
+        alreadyOwnedIds={
+          stones[stoneModalOpen.playerIndex]?.map((s) => s.stoneId) || []
+        }
+        gameVersionId={gameVersionId}
+        onAdd={(id, loc, bag) => {
+          onAddStone(stoneModalOpen.playerIndex, id, loc, bag);
+          setStoneModalOpen({ open: false, playerIndex: 0 });
+        }}
+      />
       <AddFossilModal
         isOpen={fossilModalOpen.open}
         onClose={() => setFossilModalOpen({ open: false, playerIndex: 0 })}
@@ -633,19 +646,6 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
         onAdd={(id, loc, bag) => {
           onAddFossil(fossilModalOpen.playerIndex, id, loc, bag);
           setFossilModalOpen({ open: false, playerIndex: 0 });
-        }}
-      />
-      <AddStoneModal
-        isOpen={stoneModalOpen.open}
-        onClose={() => setStoneModalOpen({ open: false, playerIndex: 0 })}
-        maxGeneration={maxGeneration}
-        alreadyOwnedIds={
-          stones[stoneModalOpen.playerIndex]?.map((s) => s.stoneId) || []
-        }
-        gameVersionId={gameVersionId}
-        onAdd={(id, loc, bag) => {
-          onAddStone(stoneModalOpen.playerIndex, id, loc, bag);
-          setStoneModalOpen({ open: false, playerIndex: 0 });
         }}
       />
     </>
