@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { searchLocations } from "@/src/services/locationSearch";
-import { focusRingInputClasses } from "@/src/styles/focusRing";
+import { searchLocations } from "@/src/services/locationSearch.ts";
+import { focusRingInputClasses } from "@/src/styles/focusRing.ts";
 import { useTranslation } from "react-i18next";
-import { normalizeLanguage } from "@/src/utils/language";
+import { normalizeLanguage } from "@/src/utils/language.ts";
 
 interface LocationSuggestionInputProps {
   label: string;

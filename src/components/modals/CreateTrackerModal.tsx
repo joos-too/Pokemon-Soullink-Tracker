@@ -7,11 +7,11 @@ import {
   focusRingInputClasses,
   focusRingInsetClasses,
 } from "@/src/styles/focusRing.ts";
-import GameVersionPicker from "../GameVersionPicker.tsx";
+import GameVersionPicker from "../pickers/GameVersionPicker.tsx";
 import { useTranslation } from "react-i18next";
 import { getLocalizedGameName } from "@/src/services/gameLocalization.ts";
 import type { Ruleset } from "@/types.ts";
-import RulesetPicker from "../RulesetPicker.tsx";
+import RulesetPicker from "../pickers/RulesetPicker.tsx";
 import { useFocusTrap } from "@/src/hooks/useFocusTrap.ts";
 
 interface CreateTrackerModalProps {

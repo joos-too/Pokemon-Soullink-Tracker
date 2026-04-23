@@ -54,7 +54,7 @@ import EditPairModal from "@/src/components/modals/EditPairModal.tsx";
 import DarkModeToggle, {
   getDarkMode,
   setDarkMode,
-} from "@/src/components/DarkModeToggle";
+} from "@/src/components/toggles/DarkModeToggle.tsx";
 import HomePage from "@/src/components/pages/HomePage.tsx";
 import CreateTrackerModal from "@/src/components/modals/CreateTrackerModal.tsx";
 import DeleteTrackerModal from "@/src/components/modals/DeleteTrackerModal.tsx";

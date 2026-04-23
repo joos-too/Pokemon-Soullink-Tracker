@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FiMoon, FiSun } from "react-icons/fi";
 import { useTranslation } from "react-i18next";
-import { focusRingClasses } from "@/src/styles/focusRing";
+import { focusRingClasses } from "@/src/styles/focusRing.ts";
 
 export function getSystemPrefersDark(): boolean {
   if (typeof window === "undefined") return false;

@@ -14,10 +14,10 @@ import {
   focusRingRedClasses,
 } from "@/src/styles/focusRing.ts";
 import { requestPasswordReset } from "@/src/services/auth.ts";
-import ToggleSwitch from "@/src/components/basic/ToggleSwitch.tsx";
+import ToggleSwitch from "@/src/components/toggles/ToggleSwitch.tsx";
 import { useTranslation } from "react-i18next";
-import LanguageToggle from "../LanguageToggle.tsx";
-import Tooltip from "@/src/components/basic/Tooltip.tsx";
+import LanguageToggle from "../toggles/LanguageToggle.tsx";
+import Tooltip from "@/src/components/other/Tooltip.tsx";
 import { WIKIS, type WikiId } from "@/src/utils/wiki.ts";
 
 interface UserSettingsPageProps {

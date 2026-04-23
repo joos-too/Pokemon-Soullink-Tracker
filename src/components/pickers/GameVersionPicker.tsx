@@ -1,11 +1,11 @@
 import React, { useMemo } from "react";
-import { GAME_VERSIONS } from "@/src/data/game-versions";
-import { focusRingClasses } from "@/src/styles/focusRing";
+import { GAME_VERSIONS } from "@/src/data/game-versions.ts";
+import { focusRingClasses } from "@/src/styles/focusRing.ts";
 import { useTranslation } from "react-i18next";
 import {
   getLocalizedGameName,
   getLocalizedSelectionLabel,
-} from "@/src/services/gameLocalization";
+} from "@/src/services/gameLocalization.ts";
 
 export type TileDef = { key: string; label: string; versionId: string };
 

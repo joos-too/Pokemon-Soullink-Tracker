@@ -16,7 +16,7 @@ import {
   getSpriteUrlForPokemonName,
 } from "@/src/services/sprites.ts";
 import { getPokemonTypeSlugsForName } from "@/src/services/pokemonTypes.ts";
-import TypeBadge from "@/src/components/TypeBadge.tsx";
+import TypeBadge from "@/src/components/badges/TypeBadge.tsx";
 import { useTranslation } from "react-i18next";
 import { focusRingClasses } from "@/src/styles/focusRing.ts";
 import { getWikiUrl, type WikiId } from "@/src/utils/wiki.ts";

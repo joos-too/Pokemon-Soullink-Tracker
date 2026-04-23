@@ -1,6 +1,6 @@
 import React from "react";
-import type { UserSettings, VariableRival } from "@/types";
-import { getSpriteUrlForPokemonName } from "@/src/services/sprites";
+import type { UserSettings, VariableRival } from "@/types.ts";
+import { getSpriteUrlForPokemonName } from "@/src/services/sprites.ts";
 
 // RivalImage component for displaying rival sprites
 export const RivalImage: React.FC<{

@@ -5,7 +5,7 @@ import { useFocusTrap } from "@/src/hooks/useFocusTrap.ts";
 import { focusRingClasses } from "@/src/styles/focusRing.ts";
 import { getSpriteUrlForPokemonName } from "@/src/services/sprites.ts";
 import { FiInfo } from "react-icons/fi";
-import Tooltip from "@/src/components/basic/Tooltip.tsx";
+import Tooltip from "@/src/components/other/Tooltip.tsx";
 
 interface SelectLossModalProps {
   isOpen: boolean;

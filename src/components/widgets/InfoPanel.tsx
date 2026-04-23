@@ -19,8 +19,12 @@ import {
   FiSave,
   FiX,
 } from "react-icons/fi";
-import { BadgeImage, LegendaryImage, RivalImage } from "../GameImages.tsx";
-import Tooltip from "@/src/components/basic/Tooltip.tsx";
+import {
+  BadgeImage,
+  LegendaryImage,
+  RivalImage,
+} from "@/src/components/other/GameImages.tsx";
+import Tooltip from "@/src/components/other/Tooltip.tsx";
 import { useTranslation } from "react-i18next";
 import {
   getLocalizedArenaLabel,

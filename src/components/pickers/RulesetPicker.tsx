@@ -1,10 +1,13 @@
 import React, { useEffect, useMemo, useState } from "react";
-import type { Ruleset } from "@/types";
-import { focusRingCardClasses, focusRingClasses } from "@/src/styles/focusRing";
+import type { Ruleset } from "@/types.ts";
+import {
+  focusRingCardClasses,
+  focusRingClasses,
+} from "@/src/styles/focusRing.ts";
 import { FiLock, FiTag, FiUser } from "react-icons/fi";
 import { useTranslation } from "react-i18next";
-import { PREDEFINED_RULESET_TAGS } from "@/src/data/rulesets";
-import { sanitizeTags } from "@/src/services/init";
+import { PREDEFINED_RULESET_TAGS } from "@/src/data/rulesets.ts";
+import { sanitizeTags } from "@/src/services/init.ts";
 
 interface RulesetPickerProps {
   value: string;

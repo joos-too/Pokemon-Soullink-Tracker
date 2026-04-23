@@ -31,11 +31,11 @@ import {
   focusRingInputClasses,
   focusRingRedClasses,
 } from "@/src/styles/focusRing.ts";
-import ToggleSwitch from "@/src/components/basic/ToggleSwitch.tsx";
-import Tooltip from "@/src/components/basic/Tooltip.tsx";
+import ToggleSwitch from "@/src/components/toggles/ToggleSwitch.tsx";
+import Tooltip from "@/src/components/other/Tooltip.tsx";
 import { useTranslation } from "react-i18next";
 import { getLocalizedRivalEntry } from "@/src/services/gameLocalization.ts";
-import RulesetPicker from "../RulesetPicker.tsx";
+import RulesetPicker from "../pickers/RulesetPicker.tsx";
 import { useFocusTrap } from "@/src/hooks/useFocusTrap.ts";
 import RulesetSyncModal from "@/src/components/modals/RulesetSyncModal.tsx";
 

@@ -2,8 +2,8 @@ import React, { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { STONES } from "@/src/services/init.ts";
 import { FiX, FiInfo } from "react-icons/fi";
-import LocationSuggestionInput from "../LocationSuggestionInput.tsx";
-import Tooltip from "@/src/components/basic/Tooltip.tsx";
+import LocationSuggestionInput from "../inputs/LocationSuggestionInput.tsx";
+import Tooltip from "@/src/components/other/Tooltip.tsx";
 import { useFocusTrap } from "@/src/hooks/useFocusTrap.ts";
 import {
   focusRingCardClasses,

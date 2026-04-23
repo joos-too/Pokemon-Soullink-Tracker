@@ -11,7 +11,7 @@ import {
   normalizeLanguage,
   type SupportedLanguage,
 } from "@/src/utils/language.ts";
-import LocationSuggestionInput from "@/src/components/LocationSuggestionInput.tsx";
+import LocationSuggestionInput from "@/src/components/inputs/LocationSuggestionInput.tsx";
 import { useFocusTrap } from "@/src/hooks/useFocusTrap.ts";
 
 interface EditPairModalProps {

@@ -18,7 +18,7 @@ import {
 } from "@/src/styles/focusRing.ts";
 import { DEFAULT_RULES, PREDEFINED_RULESET_TAGS } from "@/src/data/rulesets.ts";
 import { sanitizeTags } from "@/src/services/init.ts";
-import RulesetPicker from "../RulesetPicker.tsx";
+import RulesetPicker from "../pickers/RulesetPicker.tsx";
 import { useFocusTrap } from "@/src/hooks/useFocusTrap.ts";
 
 interface RulesetEditorPageProps {

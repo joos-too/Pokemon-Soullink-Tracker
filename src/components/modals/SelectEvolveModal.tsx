@@ -13,7 +13,7 @@ import { normalizeLanguage } from "@/src/utils/language.ts";
 import { focusRingClasses } from "@/src/styles/focusRing.ts";
 import { useFocusTrap } from "@/src/hooks/useFocusTrap.ts";
 import { getPokemonTypeSlugsById } from "@/src/services/pokemonTypes.ts";
-import TypeBadge from "@/src/components/TypeBadge.tsx";
+import TypeBadge from "@/src/components/badges/TypeBadge.tsx";
 import { getFilteredEvolutionEntriesForPokemon } from "@/src/services/evolutionMethodFilter.ts";
 
 interface SelectEvolveModalProps {

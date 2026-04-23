@@ -8,7 +8,7 @@ import {
 import type { Pokemon } from "@/types.ts";
 import { useTranslation } from "react-i18next";
 import { normalizeLanguage } from "@/src/utils/language.ts";
-import LocationSuggestionInput from "@/src/components/LocationSuggestionInput.tsx";
+import LocationSuggestionInput from "@/src/components/inputs/LocationSuggestionInput.tsx";
 import { useFocusTrap } from "@/src/hooks/useFocusTrap.ts";
 
 interface AddLostPokemonModalProps {

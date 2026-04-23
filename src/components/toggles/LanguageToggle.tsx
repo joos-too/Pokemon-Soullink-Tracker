@@ -1,8 +1,8 @@
 import React from "react";
 import { FiChevronDown } from "react-icons/fi";
 import { useTranslation } from "react-i18next";
-import { focusRingClasses } from "@/src/styles/focusRing";
-import { normalizeLanguage } from "@/src/utils/language";
+import { focusRingClasses } from "@/src/styles/focusRing.ts";
+import { normalizeLanguage } from "@/src/utils/language.ts";
 
 const languages = [
   { code: "de", label: "Deutsch" },

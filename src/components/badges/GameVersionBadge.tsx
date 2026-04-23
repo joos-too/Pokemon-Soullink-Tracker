@@ -1,10 +1,10 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { GAME_VERSIONS } from "@/src/data/game-versions";
+import { GAME_VERSIONS } from "@/src/data/game-versions.ts";
 import {
   getLocalizedGameName,
   getLocalizedBadgeLabel,
-} from "@/src/services/gameLocalization";
+} from "@/src/services/gameLocalization.ts";
 import { GameVersionBadgeSegment } from "@/types.ts";
 
 interface GameVersionBadgeProps {

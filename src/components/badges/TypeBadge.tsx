@@ -1,6 +1,6 @@
 import React from "react";
-import { getLocalizedTypeName } from "@/src/services/pokemonTypes";
-import { normalizeLanguage } from "@/src/utils/language";
+import { getLocalizedTypeName } from "@/src/services/pokemonTypes.ts";
+import { normalizeLanguage } from "@/src/utils/language.ts";
 import { useTranslation } from "react-i18next";
 
 /**
