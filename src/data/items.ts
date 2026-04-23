@@ -234,12 +234,6 @@ export const ITEMS: {
     version: "RBY",
   },
   {
-    slug: "lapoke-ball",
-    de: "Poké Ball",
-    en: "Poké Ball",
-    version: "RBY",
-  },
-  {
     slug: "poke-doll",
     de: "Poképuppe",
     en: "Poké Doll",

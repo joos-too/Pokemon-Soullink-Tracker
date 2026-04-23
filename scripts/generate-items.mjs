@@ -80,6 +80,9 @@ const MANUAL_OVERRIDES = {
 // Excluded pockets
 const EXCLUDED_POCKETS = new Set(["key", "mail"]);
 
+// Excluded slugs — bogus or duplicate PokeAPI entries
+const EXCLUDED_SLUGS = new Set(["lapoke-ball"]);
+
 // ---------------------------------------------------------------------------
 // 3. Helpers
 // ---------------------------------------------------------------------------
@@ -228,6 +231,7 @@ async function main() {
 
   for (const slug of itemSlugs) {
     i++;
+    if (EXCLUDED_SLUGS.has(slug)) continue;
     if (i % 100 === 0) console.log(`  Processing ${i}/${itemSlugs.size} ...`);
 
     // Determine version via local map — check both slug and collapsed,
