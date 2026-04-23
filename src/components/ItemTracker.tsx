@@ -594,7 +594,7 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
             }}
           >
             <div
-              className={`${showFossils ? "pointer-events-none invisible" : "pointer-events-auto"}`}
+              className={`${showFossils ? "pointer-events-none" : "pointer-events-auto"}`}
               aria-hidden={showFossils}
               style={{
                 gridArea: "1 / 1",
@@ -606,7 +606,7 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
             </div>
 
             <div
-              className={`${showFossils ? "pointer-events-auto" : "pointer-events-none invisible"}`}
+              className={`${showFossils ? "pointer-events-auto" : "pointer-events-none"}`}
               aria-hidden={!showFossils}
               style={{
                 gridArea: "1 / 1",
