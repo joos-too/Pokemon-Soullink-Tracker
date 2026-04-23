@@ -112,7 +112,7 @@ export const sanitizeTags = (tags?: unknown): string[] => {
   return normalized;
 };
 
-const DEFAULT_GAME_VERSION_ID = "gen5_sw";
+const DEFAULT_GAME_VERSION_ID = "gen5_bw";
 
 const DEFAULT_PLAYER_NAME_SET: string[] = [];
 
