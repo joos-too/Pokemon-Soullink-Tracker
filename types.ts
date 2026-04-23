@@ -157,19 +157,3 @@ export interface TrackerSummary {
   championDone: boolean;
   doneCapsCount: number;
 }
-
-export interface UserProfile {
-  uid: string;
-  createdAt: number;
-  lastLoginAt: number;
-  useGenerationSprites?: boolean;
-  useSpritesInTeamTable?: boolean;
-  wikiId?: string;
-}
-
-export interface MethodGenerationRule {
-  methods: string[];
-  minGeneration?: number;
-  exactGeneration?: number;
-  maxGeneration?: number;
-}
