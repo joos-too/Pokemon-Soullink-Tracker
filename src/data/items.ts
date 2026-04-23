@@ -4,7 +4,6 @@ export const ITEMS: {
   de: string;
   en: string;
   version: string;
-  consumable?: boolean;
 }[] = [
   {
     slug: "antidote",

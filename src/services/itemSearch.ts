@@ -83,13 +83,3 @@ export function getItemName(
 export function getItemSpriteUrl(slug: string): string {
   return getSpriteUrl(slug);
 }
-
-/** Check if a stoneId refers to a consumable item.
- *  Evolution stones (non-prefixed) are always considered usable.
- *  Custom items (item:slug) check the consumable flag from the data. */
-export function isItemConsumable(stoneId: string): boolean {
-  if (!stoneId.startsWith("item:")) return true;
-  const slug = stoneId.replace("item:", "");
-  const item = ITEMS.find((i) => i.slug === slug);
-  return item?.consumable ?? false;
-}

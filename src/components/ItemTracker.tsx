@@ -2,11 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FossilEntry, StoneEntry } from "@/types";
 import { FOSSILS, STONES, PLAYER_COLORS } from "@/src/services/init";
-import {
-  getItemName,
-  getItemSpriteUrl,
-  isItemConsumable,
-} from "@/src/services/itemSearch";
+import { getItemName, getItemSpriteUrl } from "@/src/services/itemSearch";
 import { normalizeLanguage } from "@/src/utils/language";
 import {
   FiPlus,
@@ -517,12 +513,11 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
                           </button>
                         )}
 
-                      {/* Use stone button — only for evolution stones and consumable items */}
+                      {/* Use stone button — per-player, directly on the card */}
                       {!isStoneEditing &&
                         entry.inBag &&
                         !entry.used &&
-                        !readOnly &&
-                        isItemConsumable(entry.stoneId) && (
+                        !readOnly && (
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
