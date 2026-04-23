@@ -165,7 +165,12 @@ export const en = {
     },
     addStone: {
       title: "Add Evolution Stone",
+      itemTitle: "Add Item",
+      tabStones: "Stones",
+      tabItems: "Items",
       stoneLabel: "Select Stone",
+      itemLabel: "Search Item",
+      itemSearchPlaceholder: "Search by name…",
       locationLabel: "Location",
       locationTooltip:
         "If an evolution stone has been discovered but not yet obtained, you can note its location here. You can then move it to your bag later with a single click.",

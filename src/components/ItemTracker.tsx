@@ -3,6 +3,12 @@ import { useTranslation } from "react-i18next";
 import { FossilEntry, StoneEntry } from "@/types";
 import { FOSSILS, STONES, PLAYER_COLORS } from "@/src/services/init";
 import {
+  getItemName,
+  getItemSpriteUrl,
+  isItemConsumable,
+} from "@/src/services/itemSearch";
+import { normalizeLanguage } from "@/src/utils/language";
+import {
   FiPlus,
   FiCheck,
   FiEdit,
@@ -65,7 +71,7 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
   readOnly = false,
   gameVersionId,
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [showStones, setShowStones] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -434,7 +440,14 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
 
               <div className="space-y-1 px-1">
                 {displayStones[pIdx]?.map((entry, sIdx) => {
-                  const def = STONES.find((s) => s.id === entry.stoneId);
+                  const isCustomItem = entry.stoneId.startsWith("item:");
+                  const def = isCustomItem
+                    ? null
+                    : STONES.find((s) => s.id === entry.stoneId);
+                  const locale = normalizeLanguage(i18n.language);
+                  const displayName = isCustomItem
+                    ? getItemName(entry.stoneId.replace("item:", ""), locale)
+                    : t(`stones.${entry.stoneId}`);
 
                   return (
                     <div
@@ -447,15 +460,23 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
                             : "border-gray-200 dark:border-gray-700 dark:text-gray-300"
                       }`}
                     >
-                      <img
-                        src={`/stone-sprites/${def?.sprite}`}
-                        alt=""
-                        className={`w-6 h-6 object-contain ${entry.used ? "grayscale-[0.5]" : ""}`}
-                      />
+                      {def ? (
+                        <img
+                          src={`/stone-sprites/${def.sprite}`}
+                          alt=""
+                          className={`w-6 h-6 object-contain ${entry.used ? "grayscale-[0.5]" : ""}`}
+                        />
+                      ) : (
+                        <img
+                          src={getItemSpriteUrl(
+                            entry.stoneId.replace("item:", ""),
+                          )}
+                          alt=""
+                          className={`w-6 h-6 object-contain ${entry.used ? "grayscale-[0.5]" : ""}`}
+                        />
+                      )}
                       <div className="flex-1 min-w-0">
-                        <div className="font-bold truncate">
-                          {t(`stones.${entry.stoneId}`)}
-                        </div>
+                        <div className="font-bold truncate">{displayName}</div>
                         <div className="opacity-70 truncate">
                           {entry.used
                             ? t("tracker.infoPanel.stoneUsed")
@@ -496,11 +517,12 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
                           </button>
                         )}
 
-                      {/* Use stone button — per-player, directly on the card */}
+                      {/* Use stone button — only for evolution stones and consumable items */}
                       {!isStoneEditing &&
                         entry.inBag &&
                         !entry.used &&
-                        !readOnly && (
+                        !readOnly &&
+                        isItemConsumable(entry.stoneId) && (
                           <button
                             onClick={(e) => {
                               e.stopPropagation();

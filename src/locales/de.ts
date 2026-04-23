@@ -167,7 +167,12 @@ export const de = {
     },
     addStone: {
       title: "Entwicklungsstein hinzufügen",
+      itemTitle: "Item hinzufügen",
+      tabStones: "Steine",
+      tabItems: "Items",
       stoneLabel: "Stein auswählen",
+      itemLabel: "Item suchen",
+      itemSearchPlaceholder: "Nach Name suchen…",
       locationLabel: "Fundort",
       locationTooltip:
         "Falls ein Entwicklungsstein gefunden wurde, aber noch nicht erworben wurde, kann hier der Fundort notiert werden. Später lässt er sich mit einem Klick in den Beutel verschieben.",
