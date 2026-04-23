@@ -386,7 +386,7 @@ const App: React.FC = () => {
   const coerceAppState = useCallback(
     (incoming: any, base: AppState): AppState => {
       const gameVersionForDefaults =
-        activeGameVersion ?? GAME_VERSIONS["gen5_sw"];
+        activeGameVersion ?? GAME_VERSIONS["gen5_bw"];
       const savedLevelCaps = Array.isArray(incoming?.levelCaps)
         ? incoming.levelCaps
         : [];
