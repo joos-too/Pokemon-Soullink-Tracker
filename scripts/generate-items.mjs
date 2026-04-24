@@ -82,8 +82,12 @@ const EXCLUDED_SLUGS = new Set([
   "max-revive",
 ]);
 
-// Excluded slug patterns — items whose slug ends with / starts with / contains
-const EXCLUDED_SLUG_PATTERNS = [(slug) => slug.endsWith("-wing")];
+// Excluded slug patterns — predicate functions checked against each slug
+const EXCLUDED_SLUG_PATTERNS = [
+  (slug) => slug.endsWith("-wing"),
+  (slug) => slug.startsWith("dire-hit"),
+  (slug) => slug.startsWith("x-"),
+];
 
 /** Check whether a slug should be excluded */
 function isSlugExcluded(slug) {
