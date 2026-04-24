@@ -46,10 +46,18 @@ const Progress: React.FC<ProgressProps> = ({
               );
             }
 
+            const arenaLabel = getLocalizedArenaLabel(
+              t,
+              versionId,
+              next.id,
+              next.arena,
+            );
+
             return (
               <div className="flex items-center justify-center px-3 gap-x-4">
                 <BadgeImage
                   arenaLabel={next.arena}
+                  displayName={arenaLabel}
                   posIndex={Math.max(
                     levelCaps.findIndex((cap) => cap.id === next.id),
                     0,
@@ -60,14 +68,7 @@ const Progress: React.FC<ProgressProps> = ({
                 <div className="flex flex-col items-center">
                   <div className="flex flex-wrap justify-center items-baseline gap-x-1">
                     <span>{t("tracker.infoPanel.activeLabel")}</span>
-                    <strong>
-                      {getLocalizedArenaLabel(
-                        t,
-                        versionId,
-                        next.id,
-                        next.arena,
-                      )}
-                    </strong>
+                    <strong>{arenaLabel}</strong>
                   </div>
                   <div>
                     {t("tracker.infoPanel.levelCapLabel")}{" "}

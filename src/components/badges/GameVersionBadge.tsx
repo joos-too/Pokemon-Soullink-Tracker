@@ -28,11 +28,7 @@ const GameVersionBadge: React.FC<GameVersionBadgeProps> = ({
       };
     },
   );
-  const localizedName = getLocalizedGameName(
-    t,
-    version?.id,
-    version?.name ?? gameVersionId,
-  );
+  const localizedName = getLocalizedGameName(t, version?.id, gameVersionId);
 
   return (
     <div

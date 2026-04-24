@@ -452,7 +452,7 @@ const HomePage: React.FC<HomePageProps> = ({
                             const active = versionFilter === versionId;
                             const gv = GAME_VERSIONS[versionId];
                             const label = gv
-                              ? getLocalizedGameName(t, versionId, gv.name)
+                              ? getLocalizedGameName(t, versionId, versionId)
                               : versionId;
                             return (
                               <button

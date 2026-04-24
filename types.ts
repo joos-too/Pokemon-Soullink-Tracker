@@ -30,7 +30,6 @@ export interface LevelCap {
 }
 
 export interface VariableRival {
-  name: string;
   key: string;
   options: {
     male: string;
@@ -121,7 +120,6 @@ export interface GameSelectionColor {
 
 export interface GameVersion {
   id: string;
-  name: string;
   badgeSet: string;
   badge?: {
     segments: GameVersionBadgeSegment[];

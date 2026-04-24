@@ -146,45 +146,40 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
     [playerCount],
   );
 
-  const { variableRivals, rivalKeyToCapId } = useMemo(() => {
+  const variableRivals = useMemo(() => {
     if (!gameVersion) {
-      return {
-        variableRivals: [],
-        rivalKeyToCapId: {} as Record<string, number | string>,
-      };
+      return [];
     }
     const seen = new Set<string>();
     const result: VariableRival[] = [];
-    const keyMap: Record<string, number | string> = {};
     for (const cap of gameVersion.rivalCaps) {
       if (typeof cap.rival === "object" && cap.rival.key) {
         if (!seen.has(cap.rival.key)) {
           result.push(cap.rival);
           seen.add(cap.rival.key);
-          keyMap[cap.rival.key] = cap.id;
         }
       }
     }
-    return { variableRivals: result, rivalKeyToCapId: keyMap };
+    return result;
   }, [gameVersion]);
 
   const versionId = gameVersion?.id;
   const localizedRivalOptions = useMemo(() => {
     if (!versionId) return {} as Record<string, Record<string, string>>;
     const out: Record<string, Record<string, string>> = {};
-    Object.entries(rivalKeyToCapId).forEach(([key, capId]) => {
-      const localized = getLocalizedRivalEntry(t, versionId, capId);
+    variableRivals.forEach((rival) => {
+      const localized = getLocalizedRivalEntry(t, rival);
       if (
         localized &&
         typeof localized === "object" &&
         (localized as any).options &&
-        (localized as any).key === key
+        (localized as any).key === rival.key
       ) {
-        out[key] = { ...(localized as any).options };
+        out[rival.key] = { ...(localized as any).options };
       }
     });
     return out;
-  }, [rivalKeyToCapId, versionId, t]);
+  }, [variableRivals, versionId, t]);
 
   const selectedRuleset = useMemo(
     () => rulesets.find((entry) => entry.id === selectedRulesetId),

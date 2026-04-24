@@ -34,7 +34,7 @@ function buildGroupsFromGameVersions(): Group[] {
           }
         >
       | undefined;
-    const labels = sc ? Object.keys(sc) : [version.name];
+    const labels = sc ? Object.keys(sc) : [versionId];
 
     const row: TileDef[] = labels.map((label) => ({
       key: `${versionId}_${label}`,
@@ -80,11 +80,7 @@ const GameVersionPicker: React.FC<GameVersionPickerProps> = ({
                 const rowVersionId = row[0]?.versionId;
                 const rowSelected = rowVersionId === value;
                 const versionName = rowVersionId
-                  ? getLocalizedGameName(
-                      t,
-                      rowVersionId,
-                      GAME_VERSIONS[rowVersionId]?.name ?? rowVersionId,
-                    )
+                  ? getLocalizedGameName(t, rowVersionId, rowVersionId)
                   : "";
                 return (
                   <button

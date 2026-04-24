@@ -21,7 +21,7 @@ export const RivalImage: React.FC<{
   } else {
     const preference = preferences?.[rival.key] || "male";
     spriteName = rival.options[preference];
-    fallbackDisplayName = rival.name;
+    fallbackDisplayName = rival.key;
   }
   const resolvedDisplayName = displayName || fallbackDisplayName;
 
@@ -43,35 +43,15 @@ export const getBadgeUrl = (
   posIndex: number,
   badgeSet?: string,
 ): string => {
-  const sanitize = (s: string) =>
-    s
-      .toLowerCase()
-      .replace(/ /g, "_")
-      .replace(/ /g, "_")
-      .replace(/[^a-z0-9_]/g, "");
-
   const raw = arenaLabel || "";
   const label = raw.toLowerCase();
 
-  if (label.includes("top 4")) {
-    const parts = raw.split("|");
-    const name = parts[1]?.trim();
-    if (name && name.length > 0) {
-      const sprite = sanitize(name);
-      return `/elite4-sprites/${sprite}.png`;
-    }
+  if (label.startsWith("elite_four_")) {
+    return `/elite4-sprites/${label.replace(/^elite_four_/, "")}.png`;
   }
 
-  if (label.includes("champ")) {
-    const parts = raw.split("|");
-    const name = parts[1]?.trim();
-    if (name && name.length > 0) {
-      const sprite = sanitize(name);
-      return `/champ-sprites/${sprite}.png`;
-    }
-    const set = badgeSet;
-    const pos = 8;
-    return `/badge-sprites/${set}/${pos}.png`;
+  if (label.startsWith("champion_")) {
+    return `/champ-sprites/${label.replace(/^champion_/, "")}.png`;
   }
 
   const set = badgeSet;
@@ -85,22 +65,22 @@ export const BadgeImage: React.FC<{
   posIndex: number;
   badgeSet?: string;
   className?: string;
+  displayName?: string;
 }> = ({
   arenaLabel,
   posIndex,
   badgeSet,
   className = "w-8 h-8 object-contain",
+  displayName,
 }) => {
   const badgeUrl = getBadgeUrl(arenaLabel, posIndex, badgeSet);
-  const isPixelated =
-    !arenaLabel.toLowerCase().includes("arena") ||
-    arenaLabel.toLowerCase().includes("top 4") ||
-    arenaLabel.toLowerCase().includes("champ");
+  const altText = displayName ?? arenaLabel;
+  const isPixelated = !arenaLabel.toLowerCase().includes("gym");
 
   return (
     <img
       src={badgeUrl}
-      alt={`${arenaLabel} Badge`}
+      alt={`${altText} Badge`}
       className={className}
       style={{ imageRendering: isPixelated ? "pixelated" : "inherit" }}
     />

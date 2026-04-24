@@ -116,7 +116,7 @@ const Levelcaps: React.FC<LevelcapsProps> = ({
       return baseName;
     }
     const preference = rivalPreferences?.[cap.rival.key] || "male";
-    const localizedEntry = getLocalizedRivalEntry(t, versionId, cap.id);
+    const localizedEntry = getLocalizedRivalEntry(t, cap.rival);
     const localizedOptions: Record<"male" | "female", string> | undefined =
       localizedEntry &&
       typeof localizedEntry === "object" &&
@@ -224,6 +224,7 @@ const Levelcaps: React.FC<LevelcapsProps> = ({
             <div className="flex items-center justify-end shrink-0 px-3">
               <BadgeImage
                 arenaLabel={cap.arena}
+                displayName={arenaLabel}
                 posIndex={index}
                 badgeSet={gameVersion?.badgeSet}
               />

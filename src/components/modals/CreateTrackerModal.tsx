@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useId, useMemo, useState } from "react";
 import { FiPlus, FiUsers, FiX } from "react-icons/fi";
-import { GAME_VERSIONS } from "@/src/data/game-versions.ts";
 import { PLAYER_COLORS, sanitizeTags } from "@/src/services/init.ts";
 import {
   focusRingClasses,
@@ -253,11 +252,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({
                   className={`text-xs ${gameVersionId ? "text-gray-600 dark:text-gray-300" : "text-gray-400 dark:text-gray-500"}`}
                 >
                   {gameVersionId
-                    ? getLocalizedGameName(
-                        t,
-                        gameVersionId,
-                        GAME_VERSIONS[gameVersionId]?.name ?? gameVersionId,
-                      )
+                    ? getLocalizedGameName(t, gameVersionId, gameVersionId)
                     : t("modals.createTracker.versionPlaceholder")}
                 </span>
               </button>
