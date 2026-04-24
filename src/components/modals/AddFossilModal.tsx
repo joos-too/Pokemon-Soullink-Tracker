@@ -47,7 +47,7 @@ const AddFossilModal: React.FC<AddFossilModalProps> = ({
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.SubmitEvent) => {
     e.preventDefault();
     if (!selectedFossilId) return;
     onAdd(selectedFossilId, inBag ? "" : location, inBag);

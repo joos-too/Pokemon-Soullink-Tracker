@@ -21,7 +21,7 @@ interface ItemsProps {
   readOnly: boolean;
 }
 
-const Items: React.FC<ItemsProps> = ({
+const ItemStats: React.FC<ItemsProps> = ({
   playerNames,
   playerColors,
   stats,
@@ -131,4 +131,4 @@ const Items: React.FC<ItemsProps> = ({
   );
 };
 
-export default Items;
+export default ItemStats;

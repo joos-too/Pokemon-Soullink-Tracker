@@ -1,17 +1,12 @@
-import React, { useEffect, useId, useMemo, useRef, useState } from "react";
+import React, { useEffect, useId, useState } from "react";
 import type { Pokemon } from "@/types.ts";
-import { searchPokemonNames } from "@/src/services/pokemonSearch.ts";
-import { getSpriteUrlForPokemonName } from "@/src/services/sprites.ts";
 import {
   focusRingClasses,
   focusRingInputClasses,
 } from "@/src/styles/focusRing.ts";
 import { useTranslation } from "react-i18next";
-import {
-  normalizeLanguage,
-  type SupportedLanguage,
-} from "@/src/utils/language.ts";
 import LocationSuggestionInput from "@/src/components/inputs/LocationSuggestionInput.tsx";
+import PokemonSuggestionInput from "@/src/components/inputs/PokemonSuggestionInput.tsx";
 import { useFocusTrap } from "@/src/hooks/useFocusTrap.ts";
 
 interface EditPairModalProps {
@@ -37,7 +32,6 @@ interface PokemonFieldProps {
   onNicknameChange: (value: string) => void;
   isOpen: boolean;
   generationLimit?: number;
-  language: SupportedLanguage;
   generationSpritePath?: string | null;
 }
 
@@ -49,151 +43,24 @@ const PokemonField: React.FC<PokemonFieldProps> = ({
   onNicknameChange,
   isOpen,
   generationLimit,
-  language,
   generationSpritePath,
 }) => {
-  const [suggestions, setSuggestions] = useState<string[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [focused, setFocused] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(-1);
-  const searchSeq = useRef(0);
   const { t } = useTranslation();
-
-  useEffect(() => {
-    if (!isOpen) {
-      setSuggestions([]);
-      setLoading(false);
-      setOpen(false);
-      setActiveIndex(-1);
-      return;
-    }
-    if (!focused) {
-      setSuggestions([]);
-      setLoading(false);
-      setOpen(false);
-      setActiveIndex(-1);
-      return;
-    }
-    const seq = ++searchSeq.current;
-    const term = value.trim();
-    if (term.length < 2) {
-      setSuggestions([]);
-      setLoading(false);
-      setOpen(false);
-      setActiveIndex(-1);
-      return;
-    }
-    setLoading(true);
-    setOpen(true);
-    const timer = setTimeout(async () => {
-      const res = await searchPokemonNames(term, 10, {
-        maxGeneration: generationLimit,
-        locale: language,
-      });
-      if (seq === searchSeq.current) {
-        setSuggestions(res);
-        setLoading(false);
-        setOpen(true);
-        setActiveIndex(res.length ? 0 : -1);
-      }
-    }, 250);
-    return () => clearTimeout(timer);
-  }, [value, focused, isOpen, generationLimit, language]);
-
-  const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
-    if (e.key === "Tab") {
-      setOpen(false);
-      return;
-    }
-    if (!open || loading || suggestions.length === 0) return;
-    if (e.key === "ArrowDown") {
-      e.preventDefault();
-      setActiveIndex((prev) => (prev + 1) % suggestions.length);
-    } else if (e.key === "ArrowUp") {
-      e.preventDefault();
-      setActiveIndex(
-        (prev) => (prev - 1 + suggestions.length) % suggestions.length,
-      );
-    } else if (e.key === "Enter" && activeIndex >= 0) {
-      e.preventDefault();
-      onNameChange(suggestions[activeIndex]);
-      setOpen(false);
-    } else if (e.key === "Escape") {
-      setOpen(false);
-    }
-  };
-
-  const spriteUrl = getSpriteUrlForPokemonName(value, generationSpritePath);
 
   return (
     <div className="space-y-2">
-      <div className="mb-1 min-h-[2.5rem] flex items-end">
-        <label className="w-full text-sm font-bold text-gray-700 dark:text-gray-300 leading-tight whitespace-normal break-words">
-          {label} – {t("modals.editPair.pokemonLabel")}{" "}
-          <span className="text-red-500">*</span>
-        </label>
-      </div>
-      <div className="relative">
-        <input
-          type="text"
-          value={value}
-          onChange={(e) => onNameChange(e.target.value)}
-          onFocus={() => setFocused(true)}
-          onBlur={() =>
-            setTimeout(() => {
-              setFocused(false);
-              setOpen(false);
-            }, 150)
-          }
-          onKeyDown={handleKeyDown}
-          className={`w-full pr-14 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
-          placeholder={t("common.pokemonPlaceholder")}
-          required
-          aria-autocomplete="list"
-          aria-expanded={open}
-        />
-        {spriteUrl ? (
-          <img
-            src={spriteUrl}
-            alt=""
-            aria-hidden="true"
-            className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none select-none h-10 w-10"
-            loading="lazy"
-          />
-        ) : null}
-        {open && (
-          <div className="absolute z-10 mt-1 w-full max-h-56 overflow-auto rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-lg">
-            {loading && (
-              <div className="px-3 py-2 text-sm text-gray-500 dark:text-gray-400">
-                {t("modals.common.loadingSuggestions")}
-              </div>
-            )}
-            {!loading &&
-              suggestions.map((s, idx) => (
-                <div
-                  key={s}
-                  role="option"
-                  aria-selected={idx === activeIndex}
-                  tabIndex={-1}
-                  onMouseDown={(e) => e.preventDefault()}
-                  onClick={() => {
-                    onNameChange(s);
-                    setOpen(false);
-                  }}
-                  className={`block w-full text-left px-3 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-indigo-50 dark:hover:bg-gray-700 ${idx === activeIndex ? "bg-indigo-100 dark:bg-gray-700" : ""}`}
-                >
-                  {s}
-                </div>
-              ))}
-            {!loading && suggestions.length === 0 && (
-              <div className="px-3 py-2 text-sm text-gray-500 dark:text-gray-400">
-                {t("modals.common.noMatches")}
-              </div>
-            )}
-          </div>
-        )}
-      </div>
+      <PokemonSuggestionInput
+        label={
+          <span className="inline-block min-h-[2.5rem] leading-tight whitespace-normal break-words">
+            {label} - {t("modals.editPair.pokemonLabel")}
+          </span>
+        }
+        value={value}
+        onChange={onNameChange}
+        isOpen={isOpen}
+        generationLimit={generationLimit}
+        generationSpritePath={generationSpritePath}
+      />
       <label className="block text-xs text-gray-600 dark:text-gray-400">
         {t("modals.editPair.nicknameLabel")}{" "}
         <span className="text-red-500">*</span>
@@ -221,11 +88,7 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
   gameVersionId,
   generationSpritePath,
 }) => {
-  const { t, i18n } = useTranslation();
-  const language = useMemo(
-    () => normalizeLanguage(i18n.language),
-    [i18n.language],
-  );
+  const { t } = useTranslation();
   const { containerRef } = useFocusTrap(isOpen);
   const titleId = useId();
   const [route, setRoute] = useState(initial.route || "");
@@ -246,7 +109,7 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
     }
   }, [isOpen, initial, playerLabels]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.SubmitEvent) => {
     e.preventDefault();
     const trimmedRoute = route.trim();
     const trimmedMembers = playerLabels.map((_, index) => ({
@@ -365,7 +228,6 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
                     }
                     isOpen={isOpen}
                     generationLimit={generationLimit}
-                    language={language}
                     generationSpritePath={generationSpritePath}
                   />
                 </div>

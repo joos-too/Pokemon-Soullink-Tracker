@@ -192,7 +192,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
   );
   const rulesetLabel = selectedRuleset?.name || t("settings.rulesets.fallback");
 
-  const handleInvite = async (event: React.FormEvent) => {
+  const handleInvite = async (event: React.SubmitEvent) => {
     event.preventDefault();
     setInviteError(null);
     setInviteMessage(null);

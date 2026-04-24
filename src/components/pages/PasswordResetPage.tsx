@@ -52,7 +52,7 @@ const PasswordResetPage: React.FC<PasswordResetPageProps> = ({ oobCode }) => {
     };
   }, [oobCode]);
 
-  const handleSubmit = async (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.SubmitEvent) => {
     event.preventDefault();
     if (submittingRef.current || success) return;
     if (!oobCode) {

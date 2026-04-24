@@ -19,7 +19,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onSwitchToRegister }) => {
   const [loading, setLoading] = useState(false);
   const { t } = useTranslation();
 
-  const handleAuthAction = async (e: React.FormEvent) => {
+  const handleAuthAction = async (e: React.SubmitEvent) => {
     e.preventDefault();
     setError(null);
     setLoading(true);

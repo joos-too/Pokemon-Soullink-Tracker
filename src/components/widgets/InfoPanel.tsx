@@ -6,13 +6,13 @@ import type {
   Stats,
   UserSettings,
 } from "@/types.ts";
-import Progress from "@/src/components/widgets/progress.tsx";
-import Levelcaps from "@/src/components/widgets/levelcaps.tsx";
-import RunStats from "@/src/components/widgets/runStats.tsx";
-import Items from "@/src/components/widgets/Items.tsx";
-import DeathCounter from "@/src/components/widgets/deathCounter.tsx";
-import LegendaryTracker from "@/src/components/widgets/legendaryTracker.tsx";
-import Rules from "@/src/components/widgets/rules.tsx";
+import Progress from "@/src/components/widgets/Progress.tsx";
+import Levelcaps from "@/src/components/widgets/Levelcaps.tsx";
+import RunStats from "@/src/components/widgets/RunStats.tsx";
+import ItemStats from "@/src/components/widgets/ItemStats.tsx";
+import DeathCounter from "@/src/components/widgets/DeathCounter.tsx";
+import LegendaryTracker from "@/src/components/widgets/LegendaryTracker.tsx";
+import Rules from "@/src/components/widgets/Rules.tsx";
 
 interface InfoPanelProps {
   playerNames: string[];
@@ -86,7 +86,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
             levelCaps={levelCaps}
             gameVersion={gameVersion}
           />
-          <Items
+          <ItemStats
             playerNames={playerNames}
             playerColors={playerColors}
             stats={stats}

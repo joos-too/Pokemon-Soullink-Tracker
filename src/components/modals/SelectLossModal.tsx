@@ -35,7 +35,7 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.SubmitEvent) => {
     e.preventDefault();
     if (selected === null) return;
     onConfirm(selected);

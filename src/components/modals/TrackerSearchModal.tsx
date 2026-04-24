@@ -11,32 +11,10 @@ import {
   getPokemonFamilyIdsMatchingQuery,
   getPokemonIdFromName,
 } from "@/src/services/pokemonSearch.ts";
+import { compareRoutes } from "@/src/utils/routes.ts";
 
 type SearchMode = "pokemon" | "routes";
 type PokemonSectionKey = "team" | "box" | "graveyard";
-
-const ROUTE_NUMBER_REGEX = /\broute[\s-]*(\d+)\b/i;
-
-const parseRouteNumber = (value: string): number | null => {
-  if (!value) return null;
-  const match = ROUTE_NUMBER_REGEX.exec(value.trim());
-  if (!match) return null;
-  const routeNumber = Number(match[1]);
-  return Number.isFinite(routeNumber) ? routeNumber : null;
-};
-
-const compareRoutes = (a: string, b: string): number => {
-  const aRoute = parseRouteNumber(a);
-  const bRoute = parseRouteNumber(b);
-  if (aRoute !== null && bRoute !== null) {
-    if (aRoute !== bRoute) return aRoute - bRoute;
-  }
-  const aLower = a.toLowerCase();
-  const bLower = b.toLowerCase();
-  if (aLower < bLower) return -1;
-  if (aLower > bLower) return 1;
-  return 0;
-};
 
 interface TrackerSearchModalProps {
   isOpen: boolean;

@@ -180,7 +180,7 @@ const RulesetEditorPage: React.FC<RulesetEditorPageProps> = ({
     setTagInput("");
   };
 
-  const handleTagSubmit = (event: React.FormEvent) => {
+  const handleTagSubmit = (event: React.SubmitEvent) => {
     event.preventDefault();
     handleAddTag(tagInput);
   };

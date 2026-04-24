@@ -172,7 +172,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({
     );
   };
 
-  const handleSubmit = async (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.SubmitEvent) => {
     event.preventDefault();
     if (!gameVersionId) {
       setVersionError(true);

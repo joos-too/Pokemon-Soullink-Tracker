@@ -38,7 +38,7 @@ const AddStoneModal: React.FC<AddStoneModalProps> = ({
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.SubmitEvent) => {
     e.preventDefault();
     if (!selectedStoneId) return;
     onAdd(selectedStoneId, inBag ? "" : location, inBag);

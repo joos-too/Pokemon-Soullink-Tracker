@@ -1,5 +1,28 @@
 import type { GameVersion } from "@/types";
 
+// reused Data Objects across game versions
+const GEN2_LEVELCAPS = [
+  { id: 1, arena: "1. Arena", level: "9/7" },
+  { id: 2, arena: "2. Arena", level: "16/14" },
+  { id: 3, arena: "3. Arena", level: "20/18" },
+  { id: 4, arena: "4. Arena", level: "25/23" },
+  { id: 5, arena: "5. Arena", level: "30/27" },
+  { id: 6, arena: "6. Arena", level: "35/30" },
+  { id: 7, arena: "7. Arena", level: "31/29" },
+  { id: 8, arena: "8. Arena", level: "40/37" },
+  { id: 9, arena: "Top 4 | Willi", level: "42/41" },
+  { id: 10, arena: "Top 4 | Koga", level: "44/43" },
+  { id: 11, arena: "Top 4 | Bruno", level: "46/43" },
+  { id: 12, arena: "Top 4 | Melanie", level: "47/45" },
+  { id: 13, arena: "Champ | Siegfried", level: "50/46" },
+];
+const GEN2_RIVALCAPS = [
+  { id: 1, location: "Azetalea City", rival: "Silber", level: "16/14" },
+  { id: 2, location: "Turmruine", rival: "Silber", level: "22/20" },
+  { id: 3, location: "Dukatia-Passage", rival: "Silber", level: "32/30" },
+  { id: 4, location: "Siegesstraße", rival: "Silber", level: "38/35" },
+];
+
 export const GAME_VERSIONS: Record<string, GameVersion> = {
   gen1_rb: {
     id: "gen1_rb",
@@ -130,27 +153,8 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
         borderColor: "#b0bfc6",
       },
     },
-    levelCaps: [
-      { id: 1, arena: "1. Arena", level: "9/7" },
-      { id: 2, arena: "2. Arena", level: "16/14" },
-      { id: 3, arena: "3. Arena", level: "20/18" },
-      { id: 4, arena: "4. Arena", level: "25/23" },
-      { id: 5, arena: "5. Arena", level: "30/27" },
-      { id: 6, arena: "6. Arena", level: "35/30" },
-      { id: 7, arena: "7. Arena", level: "31/29" },
-      { id: 8, arena: "8. Arena", level: "40/37" },
-      { id: 9, arena: "Top 4 | Willi", level: "42/41" },
-      { id: 10, arena: "Top 4 | Koga", level: "44/43" },
-      { id: 11, arena: "Top 4 | Bruno", level: "46/43" },
-      { id: 12, arena: "Top 4 | Melanie", level: "47/45" },
-      { id: 13, arena: "Champ | Siegfried", level: "50/46" },
-    ],
-    rivalCaps: [
-      { id: 1, location: "Azetalea City", rival: "Silber", level: "16/14" },
-      { id: 2, location: "Turmruine", rival: "Silber", level: "22/20" },
-      { id: 3, location: "Dukatia-Passage", rival: "Silber", level: "32/30" },
-      { id: 4, location: "Siegesstraße", rival: "Silber", level: "38/35" },
-    ],
+    levelCaps: GEN2_LEVELCAPS,
+    rivalCaps: GEN2_RIVALCAPS,
   },
   gen2_k: {
     id: "gen2_k",
@@ -173,29 +177,8 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
         borderColor: "#4dd0e2",
       },
     },
-    levelCaps: [
-      { id: 1, arena: "1. Arena", level: "9/7" },
-      { id: 2, arena: "2. Arena", level: "16/14" },
-      { id: 3, arena: "3. Arena", level: "20/18" },
-      { id: 4, arena: "4. Arena", level: "25/23" },
-      { id: 5, arena: "5. Arena", level: "30/27" },
-      { id: 6, arena: "6. Arena", level: "35/30" },
-      { id: 7, arena: "7. Arena", level: "31/29" },
-      { id: 8, arena: "8. Arena", level: "40/37" },
-      { id: 9, arena: "Top 4 | Willi", level: "42/41" },
-      { id: 10, arena: "Top 4 | Koga", level: "44/43" },
-      { id: 11, arena: "Top 4 | Bruno", level: "46/43" },
-      { id: 12, arena: "Top 4 | Melanie", level: "47/45" },
-      { id: 13, arena: "Champ | Siegfried", level: "50/46" },
-    ],
-    rivalCaps: [
-      { id: 1, location: "Azetalea City", rival: "Silber", level: "16/14" },
-      { id: 2, location: "Turmruine", rival: "Silber", level: "22/20" },
-      { id: 3, location: "Dukatia-Passage", rival: "Silber", level: "32/30" },
-      { id: 4, location: "Siegesstraße", rival: "Silber", level: "38/35" },
-      // {id: 5, location: 'Mondberg', rival: 'Silber', level: '45/43'},
-      // {id: 6, location: 'Indigo Plateau', rival: 'Silber', level: '50/46'},
-    ],
+    levelCaps: GEN2_LEVELCAPS,
+    rivalCaps: GEN2_RIVALCAPS,
   },
   gen3_rusa: {
     id: "gen3_rusa",

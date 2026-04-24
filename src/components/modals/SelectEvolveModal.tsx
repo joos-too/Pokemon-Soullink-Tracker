@@ -218,7 +218,7 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
     nodes[nextIndex]?.focus({ preventScroll: true });
   };
 
-  const handleConfirm = (e: React.FormEvent) => {
+  const handleConfirm = (e: React.SubmitEvent) => {
     e.preventDefault();
     if (selectedPlayer === null || selectedEvoId === null) return;
     const targetName = getPokemonNameById(selectedEvoId, language);

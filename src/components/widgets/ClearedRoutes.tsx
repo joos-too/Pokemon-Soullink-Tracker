@@ -1,32 +1,10 @@
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { compareRoutes } from "@/src/utils/routes.ts";
 
 interface ClearedRoutesProps {
   routes: string[];
 }
-
-const ROUTE_NUMBER_REGEX = /\broute[\s-]*(\d+)\b/i;
-
-const parseRouteNumber = (value: string): number | null => {
-  if (!value) return null;
-  const match = ROUTE_NUMBER_REGEX.exec(value.trim());
-  if (!match) return null;
-  const routeNumber = Number(match[1]);
-  return Number.isFinite(routeNumber) ? routeNumber : null;
-};
-
-const compareRoutes = (a: string, b: string): number => {
-  const aRoute = parseRouteNumber(a);
-  const bRoute = parseRouteNumber(b);
-  if (aRoute !== null && bRoute !== null) {
-    if (aRoute !== bRoute) return aRoute - bRoute;
-  }
-  const aLower = a.toLowerCase();
-  const bLower = b.toLowerCase();
-  if (aLower < bLower) return -1;
-  if (aLower > bLower) return 1;
-  return 0;
-};
 
 const ClearedRoutes: React.FC<ClearedRoutesProps> = ({ routes }) => {
   const { t } = useTranslation();
