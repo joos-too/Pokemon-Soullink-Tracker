@@ -1,4 +1,4 @@
-/**
+﻿/**
  * generate-items.mjs
  *
  * Fetches every item from PokeAPI (excluding "key" and "mail" pockets),
@@ -39,8 +39,9 @@ const VERSION_FILES = [
   { file: "Gen6 ORAS (Omega Ruby & Alpha Sapphire).json", version: "ORAS" },
 ];
 
-// Gen 7+ files — used only to distinguish "post-Gen6" from "truly unmatched"
-const POST_GEN6_FILES = [
+// Excluded version files — Gen 7+; used only to distinguish known post-Gen6
+// items from truly unmatched ones (so they don't pollute items-unmatched.json).
+const EXCLUDED_VERSION_FILES = [
   { file: "Gen7 SM (Sun & Moon).json", version: "SM" },
   { file: "Gen7 USUM (Ultra Sun & Ultra Moon).json", version: "USUM" },
   {
@@ -60,27 +61,21 @@ const POST_GEN6_FILES = [
 // ---------------------------------------------------------------------------
 // 2. Manual overrides for known mismatches between PokeAPI slugs and
 //    the English names in the Itemlists (lowercase).
-//    Key = PokeAPI slug, Value = en name (lowercase) as it appears in the JSONs.
 // ---------------------------------------------------------------------------
 const MANUAL_OVERRIDES = {
   "paralyze-heal": "parlyz heal",
-  "x-attack": "x attack",
   "x-defense": "x defense",
   "x-sp-atk": "x sp. atk",
   "x-sp-def": "x sp. def",
-  "x-speed": "x speed",
-  "x-accuracy": "x accuracy",
-  "poke-ball": "poké ball",
-  "great-ball": "great ball",
-  "ultra-ball": "ultra ball",
-  "master-ball": "master ball",
-  // Add more overrides here as needed after reviewing items-unmatched.json
 };
 
 // Excluded pockets
 const EXCLUDED_POCKETS = new Set(["key", "mail"]);
 
-// Excluded slugs — bogus or duplicate PokeAPI entries
+// Excluded categories: https://pokeapi.co/api/v2/item-category/
+const EXCLUDED_CATEGORIES = new Set(["stat-boosts"]);
+
+// Excluded slugs
 const EXCLUDED_SLUGS = new Set(["lapoke-ball"]);
 
 // ---------------------------------------------------------------------------
@@ -163,7 +158,7 @@ function buildLocalMap() {
 /** Build a Set of slugs that appear in Gen 7+ files but NOT in Gen 1–6 */
 function buildPostGen6Set(localMap) {
   const set = new Set();
-  for (const { file } of POST_GEN6_FILES) {
+  for (const { file } of EXCLUDED_VERSION_FILES) {
     const filePath = path.join(jsonDir, file);
     if (!fs.existsSync(filePath)) continue;
     const items = JSON.parse(fs.readFileSync(filePath, "utf-8"));
@@ -309,7 +304,12 @@ async function main() {
     }
 
     const pocket = meta.pocket;
-    const categories = [...meta.categories].sort();
+    const categories = [...meta.categories]
+      .filter((c) => !EXCLUDED_CATEGORIES.has(c))
+      .sort();
+
+    // If every category was excluded, skip this item entirely
+    if (categories.length === 0) continue;
 
     if (version) {
       results.push({
