@@ -165,7 +165,15 @@ export const en = {
     },
     addStone: {
       title: "Add Evolution Stone",
+      itemTitle: "Add Item",
+      megaTitle: "Add Mega Stone",
+      tabStones: "Stones",
+      tabItems: "Items",
+      tabMegaStones: "Mega Stones",
       stoneLabel: "Select Stone",
+      megaStoneLabel: "Select Mega Stone",
+      itemLabel: "Search Item",
+      itemSearchPlaceholder: "Search by name…",
       locationLabel: "Location",
       locationTooltip:
         "If an evolution stone has been discovered but not yet obtained, you can note its location here. You can then move it to your bag later with a single click.",
@@ -223,9 +231,13 @@ export const en = {
       open: "Open search",
       modePokemon: "Pokémon",
       modeRoutes: "Areas",
+      modeItems: "Items",
       fieldLabel: "Search tracker",
       emptyPokemon: "No Pokémon have been logged yet.",
       emptyRoutes: "No routes have been logged yet.",
+      emptyItems: "No items have been logged yet.",
+      categoryStones: "Evolution Stones",
+      categoryMegaStones: "Mega Stones",
     },
     infoPanel: {
       deathLabel: "Deaths",
@@ -512,6 +524,13 @@ export const en = {
           "By default, each fossil can only be owned once per player. When enabled, players can collect and revive the same fossil multiple times.",
         description:
           "Allow players to collect the same fossils multiple times.",
+      },
+      megaStoneSpriteStyle: {
+        title: "Pokémon Mega Stone Sprites",
+        tooltipLabel: "Mega Stone Sprite Style Info",
+        tooltip:
+          "When enabled, the mega stone selection modal shows the sprite of the corresponding Mega Pokémon instead of the item icon.",
+        description: "Show Pokémon sprites in the mega stone selection modal.",
       },
     },
     members: {

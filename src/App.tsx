@@ -541,6 +541,8 @@ const App: React.FC = () => {
           safe.hardcoreModeEnabled ?? base.hardcoreModeEnabled ?? true,
         infiniteFossilsEnabled:
           safe.infiniteFossilsEnabled ?? base.infiniteFossilsEnabled ?? false,
+        megaStoneSpriteStyle:
+          safe.megaStoneSpriteStyle ?? base.megaStoneSpriteStyle ?? "item",
         fossils: sanitizeFossils(safe.fossils),
         stones: sanitizeStones(safe.stones),
         runStartedAt:
@@ -1097,6 +1099,7 @@ const App: React.FC = () => {
         rivalCensorEnabled: prev.rivalCensorEnabled,
         hardcoreModeEnabled: prev.hardcoreModeEnabled,
         infiniteFossilsEnabled: prev.infiniteFossilsEnabled,
+        megaStoneSpriteStyle: prev.megaStoneSpriteStyle,
         stats: {
           runs: prev.stats.runs + 1, // increase run number by 1
           best: newBest, // persistiertes best
@@ -1563,6 +1566,14 @@ const App: React.FC = () => {
   const handleInfiniteFossilsToggle = (enabled: boolean) => {
     if (isReadOnly) return;
     setData((prev) => ({ ...prev, infiniteFossilsEnabled: enabled }));
+  };
+
+  const handleMegaStoneSpriteStyleToggle = (usePokemon: boolean) => {
+    if (isReadOnly) return;
+    setData((prev) => ({
+      ...prev,
+      megaStoneSpriteStyle: usePokemon ? "pokemon" : "item",
+    }));
   };
 
   const handleAddFossil = (
@@ -2237,6 +2248,8 @@ const App: React.FC = () => {
       onHardcoreModeToggle={handleHardcoreModeToggle}
       infiniteFossilsEnabled={data.infiniteFossilsEnabled ?? false}
       onInfiniteFossilsToggle={handleInfiniteFossilsToggle}
+      megaStoneSpriteStyle={data.megaStoneSpriteStyle ?? "item"}
+      onMegaStoneSpriteStyleToggle={handleMegaStoneSpriteStyleToggle}
       isPublic={activeTrackerMeta?.isPublic ?? false}
       onPublicToggle={handlePublicToggle}
       members={trackerMembers}
@@ -2308,6 +2321,8 @@ const App: React.FC = () => {
         box={data.box}
         graveyard={data.graveyard}
         routes={clearedRoutes}
+        fossils={data.fossils ?? []}
+        stones={data.stones ?? []}
         generationSpritePath={generationSpritePath}
       />
       {readOnlyNotice && (
@@ -2575,6 +2590,8 @@ const App: React.FC = () => {
               onUpdateStones={handleUpdateStoneList}
               readOnly={isReadOnly}
               gameVersionId={activeGameVersionId || undefined}
+              generationSpritePath={generationSpritePath}
+              megaStoneSpriteStyle={data.megaStoneSpriteStyle ?? "item"}
             />
             <Graveyard
               graveyard={data.graveyard}
