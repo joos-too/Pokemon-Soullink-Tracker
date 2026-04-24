@@ -1,4 +1,5 @@
-import { ITEMS, getItemsForVersion } from "@/src/data/items";
+import { ITEMS } from "@/src/data/items";
+import { getItemsForVersion } from "@/src/data/item-versions";
 import { STONES, FOSSILS } from "@/src/services/init";
 import type { SupportedLanguage } from "@/src/utils/language";
 
