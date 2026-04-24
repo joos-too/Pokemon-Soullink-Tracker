@@ -1,4 +1,4 @@
-import { ITEMS } from "./items";
+import { ITEMS } from "@/src/data/items";
 
 /** Item versions in chronological release order */
 export const ITEM_VERSIONS = [

@@ -1,5 +1,5 @@
 import { ITEMS } from "@/src/data/items";
-import { getItemsForVersion } from "@/src/data/item-versions";
+import { getItemsForVersion } from "@/src/services/itemFilter";
 import { STONES, FOSSILS, MEGA_STONES } from "@/src/services/init";
 import type { SupportedLanguage } from "@/src/utils/language";
 
