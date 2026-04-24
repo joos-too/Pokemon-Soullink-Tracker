@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FossilEntry, StoneEntry } from "@/types.ts";
 import { PLAYER_COLORS } from "@/src/services/init.ts";
-import { FOSSILS, STONES } from "@/src/data/items.ts";
+import { FOSSILS } from "@/src/data/fossils.ts";
+import { STONES } from "@/src/data/stones.ts";
 import {
   FiPlus,
   FiCheck,
