@@ -70,10 +70,27 @@ const MANUAL_OVERRIDES = {
 const EXCLUDED_POCKETS = new Set(["key", "mail"]);
 
 // Excluded categories: https://pokeapi.co/api/v2/item-category/
-const EXCLUDED_CATEGORIES = new Set(["stat-boosts"]);
+const EXCLUDED_CATEGORIES = new Set(["stat-boosts", "jewels"]);
 
-// Excluded slugs
-const EXCLUDED_SLUGS = new Set(["lapoke-ball"]);
+// Excluded slugs — exact matches
+const EXCLUDED_SLUGS = new Set([
+  "lapoke-ball",
+  "lagreat-ball",
+  "laultra-ball",
+  "laheavy-ball",
+  "revive",
+  "max-revive",
+]);
+
+// Excluded slug patterns — items whose slug ends with / starts with / contains
+const EXCLUDED_SLUG_PATTERNS = [(slug) => slug.endsWith("-wing")];
+
+/** Check whether a slug should be excluded */
+function isSlugExcluded(slug) {
+  return (
+    EXCLUDED_SLUGS.has(slug) || EXCLUDED_SLUG_PATTERNS.some((fn) => fn(slug))
+  );
+}
 
 // ---------------------------------------------------------------------------
 // 3. Helpers
@@ -230,7 +247,7 @@ async function main() {
 
   for (const [slug, meta] of itemMeta) {
     i++;
-    if (EXCLUDED_SLUGS.has(slug)) continue;
+    if (isSlugExcluded(slug)) continue;
     if (i % 100 === 0) console.log(`  Processing ${i}/${itemMeta.size} ...`);
 
     // Determine version via local map — check both slug and collapsed,
