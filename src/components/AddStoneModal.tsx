@@ -281,7 +281,10 @@ const AddStoneModal: React.FC<AddStoneModalProps> = ({
                   />
                 ) : null}
                 {dropdownOpen && (
-                  <div className="absolute z-10 mt-1 w-full max-h-40 overflow-auto custom-scrollbar rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-lg">
+                  <div
+                    className="absolute z-10 mt-1 w-full max-h-40 overflow-auto custom-scrollbar rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-lg"
+                    onMouseDown={(e) => e.preventDefault()}
+                  >
                     {suggestions.length === 0 &&
                       itemQuery.trim().length >= 1 && (
                         <div className="px-3 py-2 text-sm text-gray-500 dark:text-gray-400">
@@ -294,7 +297,6 @@ const AddStoneModal: React.FC<AddStoneModalProps> = ({
                         role="option"
                         aria-selected={idx === activeIndex}
                         tabIndex={-1}
-                        onMouseDown={(e) => e.preventDefault()}
                         onClick={() => selectItem(result)}
                         className={`flex items-center gap-2 w-full text-left px-3 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-indigo-50 dark:hover:bg-gray-700 cursor-pointer ${
                           idx === activeIndex
