@@ -1,6 +1,6 @@
 import { ITEMS } from "@/src/data/items";
 import { getItemsForVersion } from "@/src/data/item-versions";
-import { STONES, FOSSILS } from "@/src/services/init";
+import { STONES, FOSSILS, MEGA_STONES } from "@/src/services/init";
 import type { SupportedLanguage } from "@/src/utils/language";
 
 /** Slugs already covered by the Stones tab */
@@ -8,6 +8,9 @@ const STONE_SLUGS = new Set(STONES.map((s) => s.id));
 
 /** Slugs already covered by the Fossils tab */
 const FOSSIL_SLUGS = new Set(FOSSILS.map((f) => f.id));
+
+/** Slugs already covered by the Mega Stones tab */
+const MEGA_STONE_SLUGS = new Set(MEGA_STONES.map((m) => m.id));
 
 /** Strip diacritics: é→e, ü→u, etc. */
 function stripDiacritics(s: string): string {
@@ -60,6 +63,7 @@ export function searchItems(
     (entry) =>
       !STONE_SLUGS.has(entry.slug) &&
       !FOSSIL_SLUGS.has(entry.slug) &&
+      !MEGA_STONE_SLUGS.has(entry.slug) &&
       entry[field].includes(q) &&
       (!allowedSlugs || allowedSlugs.has(entry.slug)),
   )

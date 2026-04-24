@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FossilEntry, StoneEntry } from "@/types";
-import { FOSSILS, STONES, PLAYER_COLORS } from "@/src/services/init";
+import {
+  FOSSILS,
+  STONES,
+  MEGA_STONES,
+  PLAYER_COLORS,
+} from "@/src/services/init";
 import { getItemName, getItemSpriteUrl } from "@/src/services/itemSearch";
 import { normalizeLanguage } from "@/src/utils/language";
 import {
@@ -48,6 +53,8 @@ interface ItemTrackerProps {
   onUpdateStones: (newStones: StoneEntry[][]) => void;
   readOnly?: boolean;
   gameVersionId?: string;
+  generationSpritePath?: string | null;
+  megaStoneSpriteStyle?: "item" | "pokemon";
 }
 
 const ItemTracker: React.FC<ItemTrackerProps> = ({
@@ -66,6 +73,8 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
   onUpdateStones,
   readOnly = false,
   gameVersionId,
+  generationSpritePath,
+  megaStoneSpriteStyle = "item",
 }) => {
   const { t, i18n } = useTranslation();
   const [showFossils, setShowFossils] = useState(false);
@@ -273,6 +282,12 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
               <div className="space-y-1 px-1">
                 {displayStones[pIdx]?.map((entry, sIdx) => {
                   const isCustomItem = entry.stoneId.startsWith("item:");
+                  const itemSlug = isCustomItem
+                    ? entry.stoneId.replace("item:", "")
+                    : null;
+                  const megaDef = itemSlug
+                    ? MEGA_STONES.find((m) => m.id === itemSlug)
+                    : null;
                   const def = isCustomItem
                     ? null
                     : STONES.find((s) => s.id === entry.stoneId);
@@ -297,6 +312,15 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
                           src={`/stone-sprites/${def.sprite}`}
                           alt=""
                           className={`w-6 h-6 object-contain ${entry.used ? "grayscale-[0.5]" : ""}`}
+                          style={{ imageRendering: "pixelated" }}
+                        />
+                      ) : megaDef ? (
+                        <img
+                          src={getItemSpriteUrl(megaDef.id)}
+                          alt=""
+                          className={`w-6 h-6 object-contain ${entry.used ? "grayscale-[0.5]" : ""}`}
+                          style={{ imageRendering: "pixelated" }}
+                          loading="lazy"
                         />
                       ) : (
                         <img
@@ -305,6 +329,7 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
                           )}
                           alt=""
                           className={`w-6 h-6 object-contain ${entry.used ? "grayscale-[0.5]" : ""}`}
+                          style={{ imageRendering: "pixelated" }}
                         />
                       )}
                       <div className="flex-1 min-w-0">
@@ -625,10 +650,9 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
         isOpen={stoneModalOpen.open}
         onClose={() => setStoneModalOpen({ open: false, playerIndex: 0 })}
         maxGeneration={maxGeneration}
-        alreadyOwnedIds={
-          stones[stoneModalOpen.playerIndex]?.map((s) => s.stoneId) || []
-        }
         gameVersionId={gameVersionId}
+        generationSpritePath={generationSpritePath}
+        megaStoneSpriteStyle={megaStoneSpriteStyle}
         onAdd={(id, loc, bag) => {
           onAddStone(stoneModalOpen.playerIndex, id, loc, bag);
           setStoneModalOpen({ open: false, playerIndex: 0 });

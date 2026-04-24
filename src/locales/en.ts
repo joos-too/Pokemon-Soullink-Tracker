@@ -166,9 +166,12 @@ export const en = {
     addStone: {
       title: "Add Evolution Stone",
       itemTitle: "Add Item",
+      megaTitle: "Add Mega Stone",
       tabStones: "Stones",
       tabItems: "Items",
+      tabMegaStones: "Mega Stones",
       stoneLabel: "Select Stone",
+      megaStoneLabel: "Select Mega Stone",
       itemLabel: "Search Item",
       itemSearchPlaceholder: "Search by name…",
       locationLabel: "Location",
@@ -517,6 +520,13 @@ export const en = {
           "By default, each fossil can only be owned once per player. When enabled, players can collect and revive the same fossil multiple times.",
         description:
           "Allow players to collect the same fossils multiple times.",
+      },
+      megaStoneSpriteStyle: {
+        title: "Pokémon Mega Stone Sprites",
+        tooltipLabel: "Mega Stone Sprite Style Info",
+        tooltip:
+          "When enabled, the mega stone selection modal shows the sprite of the corresponding Mega Pokémon instead of the item icon.",
+        description: "Show Pokémon sprites in the mega stone selection modal.",
       },
     },
     members: {

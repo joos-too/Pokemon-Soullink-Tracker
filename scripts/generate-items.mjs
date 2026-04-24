@@ -9,7 +9,7 @@
  * Output format per item:
  *   { slug, de, en, version, pocket, categories }
  *
- * Usage:  node scripts/generate-items.mjs
+ * Usage: node scripts/generate-items.mjs
  */
 
 import fs from "fs";
@@ -64,9 +64,6 @@ const EXCLUDED_VERSION_FILES = [
 // ---------------------------------------------------------------------------
 const MANUAL_OVERRIDES = {
   "paralyze-heal": "parlyz heal",
-  "x-defense": "x defense",
-  "x-sp-atk": "x sp. atk",
-  "x-sp-def": "x sp. def",
 };
 
 // Excluded pockets

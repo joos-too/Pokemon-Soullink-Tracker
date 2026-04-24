@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { STONES } from "@/src/services/init";
+import { STONES, MEGA_STONES } from "@/src/services/init";
 import { FiX, FiInfo } from "react-icons/fi";
 import LocationSuggestionInput from "./LocationSuggestionInput";
 import Tooltip from "./Tooltip";
@@ -14,7 +14,9 @@ import {
   searchItems,
   type ItemSearchResult,
   getItemSpriteUrl,
+  getItemName,
 } from "@/src/services/itemSearch";
+import { getSpriteUrlById } from "@/src/services/sprites";
 import { normalizeLanguage } from "@/src/utils/language";
 
 interface AddStoneModalProps {
@@ -22,19 +24,21 @@ interface AddStoneModalProps {
   onClose: () => void;
   onAdd: (stoneId: string, location: string, inBag: boolean) => void;
   maxGeneration: number;
-  alreadyOwnedIds: string[];
   gameVersionId?: string;
+  generationSpritePath?: string | null;
+  megaStoneSpriteStyle?: "item" | "pokemon";
 }
 
-type Tab = "stones" | "items";
+type Tab = "stones" | "items" | "mega";
 
 const AddStoneModal: React.FC<AddStoneModalProps> = ({
   isOpen,
   onClose,
   onAdd,
   maxGeneration,
-  alreadyOwnedIds,
   gameVersionId,
+  generationSpritePath,
+  megaStoneSpriteStyle = "item",
 }) => {
   const { t, i18n } = useTranslation();
   const { containerRef } = useFocusTrap(isOpen);
@@ -57,6 +61,16 @@ const AddStoneModal: React.FC<AddStoneModalProps> = ({
   const availableStones = useMemo(() => {
     return STONES.filter((s) => s.gen <= maxGeneration);
   }, [maxGeneration]);
+
+  const showMegaTab =
+    gameVersionId === "gen6_xy" || gameVersionId === "gen6_oras";
+
+  const availableMegaStones = useMemo(() => {
+    if (!showMegaTab) return [];
+    if (gameVersionId === "gen6_xy")
+      return MEGA_STONES.filter((m) => m.version === "XY");
+    return MEGA_STONES; // ORAS gets all (XY + ORAS)
+  }, [showMegaTab, gameVersionId]);
 
   // Debounced item search — same pattern as PokemonField
   useEffect(() => {
@@ -92,13 +106,21 @@ const AddStoneModal: React.FC<AddStoneModalProps> = ({
     ? getItemSpriteUrl(selectedItemSlug)
     : null;
   const currentSelection =
-    activeTab === "stones" ? selectedStoneId : selectedItemSlug;
+    activeTab === "stones"
+      ? selectedStoneId
+      : activeTab === "mega"
+        ? selectedStoneId
+        : selectedItemSlug;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!currentSelection) return;
     const id =
-      activeTab === "stones" ? selectedStoneId : `item:${selectedItemSlug}`;
+      activeTab === "stones"
+        ? selectedStoneId
+        : activeTab === "mega"
+          ? `item:${selectedStoneId}`
+          : `item:${selectedItemSlug}`;
     onAdd(id, inBag ? "" : location, inBag);
     resetForm();
   };
@@ -163,7 +185,9 @@ const AddStoneModal: React.FC<AddStoneModalProps> = ({
           <h2 className="text-xl font-bold dark:text-gray-100">
             {activeTab === "stones"
               ? t("modals.addStone.title")
-              : t("modals.addStone.itemTitle")}
+              : activeTab === "mega"
+                ? t("modals.addStone.megaTitle")
+                : t("modals.addStone.itemTitle")}
           </h2>
           <button
             onClick={handleClose}
@@ -203,6 +227,22 @@ const AddStoneModal: React.FC<AddStoneModalProps> = ({
           >
             {t("modals.addStone.tabItems")}
           </button>
+          {showMegaTab && (
+            <button
+              type="button"
+              onClick={() => {
+                setActiveTab("mega");
+                resetForm();
+              }}
+              className={`px-3 py-1.5 text-xs font-semibold rounded-t-md transition-colors ${focusRingClasses} ${
+                activeTab === "mega"
+                  ? "bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 border border-b-0 border-gray-200 dark:border-gray-700"
+                  : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+              }`}
+            >
+              {t("modals.addStone.tabMegaStones")}
+            </button>
+          )}
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -244,6 +284,52 @@ const AddStoneModal: React.FC<AddStoneModalProps> = ({
                 </div>
               )}
             </div>
+          ) : activeTab === "mega" ? (
+            /* ── Mega Stone Grid ── */
+            <div>
+              <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
+                {t("modals.addStone.megaStoneLabel")}
+              </label>
+              <div className="grid grid-cols-3 gap-2 p-1 max-h-64 overflow-y-auto custom-scrollbar">
+                {availableMegaStones.map((m) => {
+                  const megaName = getItemName(m.id, locale);
+                  return (
+                    <button
+                      key={m.id}
+                      type="button"
+                      onClick={() => setSelectedStoneId(m.id)}
+                      className={`flex flex-col items-center p-2 rounded-md border transition-all ${focusRingCardClasses} ${
+                        selectedStoneId === m.id
+                          ? "border-green-500 bg-green-50 dark:bg-green-900/20"
+                          : "border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700"
+                      }`}
+                    >
+                      <img
+                        src={
+                          megaStoneSpriteStyle === "pokemon"
+                            ? getSpriteUrlById(
+                                m.pokemonId,
+                                generationSpritePath,
+                              )
+                            : getItemSpriteUrl(m.id)
+                        }
+                        alt={megaName}
+                        className="w-10 h-10 object-contain"
+                        style={
+                          megaStoneSpriteStyle !== "pokemon"
+                            ? { imageRendering: "pixelated" }
+                            : undefined
+                        }
+                        loading="lazy"
+                      />
+                      <span className="text-[10px] mt-1 text-center dark:text-gray-200">
+                        {megaName}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
           ) : (
             /* ── Item Search — same pattern as PokemonField ── */
             <div>
@@ -277,6 +363,7 @@ const AddStoneModal: React.FC<AddStoneModalProps> = ({
                     alt=""
                     aria-hidden="true"
                     className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none select-none h-10 w-10"
+                    style={{ imageRendering: "pixelated" }}
                     loading="lazy"
                   />
                 ) : null}
@@ -308,6 +395,7 @@ const AddStoneModal: React.FC<AddStoneModalProps> = ({
                           src={result.spriteUrl}
                           alt=""
                           className="w-5 h-5 object-contain shrink-0"
+                          style={{ imageRendering: "pixelated" }}
                           loading="lazy"
                         />
                         <span>{result.name}</span>
