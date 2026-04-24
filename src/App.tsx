@@ -2321,6 +2321,8 @@ const App: React.FC = () => {
         box={data.box}
         graveyard={data.graveyard}
         routes={clearedRoutes}
+        fossils={data.fossils ?? []}
+        stones={data.stones ?? []}
         generationSpritePath={generationSpritePath}
       />
       {readOnlyNotice && (

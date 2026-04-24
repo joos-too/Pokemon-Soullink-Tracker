@@ -231,9 +231,13 @@ export const en = {
       open: "Open search",
       modePokemon: "Pokémon",
       modeRoutes: "Areas",
+      modeItems: "Items",
       fieldLabel: "Search tracker",
       emptyPokemon: "No Pokémon have been logged yet.",
       emptyRoutes: "No routes have been logged yet.",
+      emptyItems: "No items have been logged yet.",
+      categoryStones: "Evolution Stones",
+      categoryMegaStones: "Mega Stones",
     },
     infoPanel: {
       deathLabel: "Deaths",

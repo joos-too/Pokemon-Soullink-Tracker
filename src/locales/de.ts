@@ -233,9 +233,13 @@ export const de = {
       open: "Suche öffnen",
       modePokemon: "Pokémon",
       modeRoutes: "Gebiete",
+      modeItems: "Items",
       fieldLabel: "Tracker durchsuchen",
       emptyPokemon: "Noch keine Pokémon eingetragen.",
       emptyRoutes: "Noch keine Gebiete eingetragen.",
+      emptyItems: "Noch keine Items eingetragen.",
+      categoryStones: "Entwicklungssteine",
+      categoryMegaStones: "Mega-Steine",
     },
     infoPanel: {
       deathLabel: "Tode",
