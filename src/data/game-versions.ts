@@ -98,7 +98,7 @@ const GEN2_RIVALCAPS = [
 export const GAME_VERSIONS: Record<string, GameVersion> = {
   gen1_rb: {
     id: "gen1_rb",
-    badgeSet: "gen1/rbg",
+    badgeSet: "gen1/rby",
     badge: {
       segments: [
         {
@@ -233,9 +233,9 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
       },
     ],
   },
-  gen1_g: {
-    id: "gen1_g",
-    badgeSet: "gen1/rbg",
+  gen1_y: {
+    id: "gen1_y",
+    badgeSet: "gen1/rby",
     badge: {
       segments: [
         {
@@ -361,7 +361,7 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
   },
   gen2_gs: {
     id: "gen2_gs",
-    badgeSet: "gen2/gsk",
+    badgeSet: "gen2/gsc",
     badge: {
       segments: [
         {
@@ -393,9 +393,9 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
     levelCaps: GEN2_LEVELCAPS,
     rivalCaps: GEN2_RIVALCAPS,
   },
-  gen2_k: {
-    id: "gen2_k",
-    badgeSet: "gen2/gsk",
+  gen2_c: {
+    id: "gen2_c",
+    badgeSet: "gen2/gsc",
     badge: {
       segments: [
         {
@@ -418,7 +418,7 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
   },
   gen3_rusa: {
     id: "gen3_rusa",
-    badgeSet: "gen3/rusasm",
+    badgeSet: "gen3/rusaem",
     badge: {
       segments: [
         {
@@ -565,9 +565,9 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
       },
     ],
   },
-  gen3_sm: {
-    id: "gen3_sm",
-    badgeSet: "gen3/rusasm",
+  gen3_em: {
+    id: "gen3_em",
+    badgeSet: "gen3/rusaem",
     badge: {
       segments: [
         {
@@ -715,9 +715,9 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
       },
     ],
   },
-  gen3_frbg: {
-    id: "gen3_frbg",
-    badgeSet: "gen1/rbg",
+  gen3_frlg: {
+    id: "gen3_frlg",
+    badgeSet: "gen1/rby",
     badge: {
       segments: [
         {
@@ -1228,9 +1228,9 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
       },
     ],
   },
-  gen5_sw: {
-    id: "gen5_sw",
-    badgeSet: "gen5/sw",
+  gen5_bw: {
+    id: "gen5_bw",
+    badgeSet: "gen5/bw",
     badge: {
       segments: [
         {
@@ -1413,9 +1413,9 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
       },
     ],
   },
-  gen5_s2w2: {
-    id: "gen5_s2w2",
-    badgeSet: "gen5/s2w2",
+  gen5_b2w2: {
+    id: "gen5_b2w2",
+    badgeSet: "gen5/b2w2",
     badge: {
       segments: [
         {
@@ -1731,7 +1731,7 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
   },
   gen6_oras: {
     id: "gen6_oras",
-    badgeSet: "gen3/rusasm",
+    badgeSet: "gen3/rusaem",
     badge: {
       segments: [
         {
