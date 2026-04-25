@@ -1,0 +1,67 @@
+import React, { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { searchPokemonNames } from "@/src/services/pokemonSearch.ts";
+import { getSpriteUrlForPokemonName } from "@/src/services/sprites.ts";
+import { normalizeLanguage } from "@/src/utils/language.ts";
+import SuggestionInput from "@/src/components/inputs/SuggestionInput.tsx";
+
+interface PokemonSuggestionInputProps {
+  label?: React.ReactNode;
+  value: string;
+  onChange: (value: string) => void;
+  isOpen: boolean;
+  generationLimit?: number;
+  generationSpritePath?: string | null;
+  showNoMatches?: boolean;
+}
+
+const PokemonSuggestionInput: React.FC<PokemonSuggestionInputProps> = ({
+  label,
+  value,
+  onChange,
+  isOpen,
+  generationLimit,
+  generationSpritePath,
+  showNoMatches = true,
+}) => {
+  const { t, i18n } = useTranslation();
+  const language = useMemo(
+    () => normalizeLanguage(i18n.language),
+    [i18n.language],
+  );
+  const spriteUrl = getSpriteUrlForPokemonName(value, generationSpritePath);
+  const fetchSuggestions = useCallback(
+    (term: string) =>
+      searchPokemonNames(term, 10, {
+        maxGeneration: generationLimit,
+        locale: language,
+      }),
+    [generationLimit, language],
+  );
+
+  return (
+    <SuggestionInput
+      label={label}
+      value={value}
+      onChange={onChange}
+      fetchSuggestions={fetchSuggestions}
+      isOpen={isOpen}
+      placeholder={t("common.pokemonPlaceholder")}
+      inputClassName="pr-14"
+      showNoMatches={showNoMatches}
+      endAdornment={
+        spriteUrl ? (
+          <img
+            src={spriteUrl}
+            alt=""
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-y-0 right-2 my-auto h-8 w-8 select-none"
+            loading="lazy"
+          />
+        ) : null
+      }
+    />
+  );
+};
+
+export default PokemonSuggestionInput;
