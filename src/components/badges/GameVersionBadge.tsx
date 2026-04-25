@@ -24,7 +24,11 @@ const GameVersionBadge: React.FC<GameVersionBadgeProps> = ({
     (segment) => {
       return {
         ...segment,
-        text: getLocalizedBadgeLabel(t, version?.id, segment.text),
+        badgeSegmentName: getLocalizedBadgeLabel(
+          t,
+          version?.id,
+          segment.badgeSegmentName,
+        ),
       };
     },
   );
@@ -54,7 +58,7 @@ const GameVersionBadge: React.FC<GameVersionBadgeProps> = ({
                 : "none",
           }}
         >
-          {segment.text}
+          {segment.badgeSegmentName}
         </span>
       ))}
     </div>

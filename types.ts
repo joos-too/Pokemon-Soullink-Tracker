@@ -106,7 +106,7 @@ export interface TrackerMember {
 }
 
 export interface GameVersionBadgeSegment {
-  text: string;
+  badgeSegmentName: string;
   bgColor: string;
   textColor: string;
   borderColor: string;

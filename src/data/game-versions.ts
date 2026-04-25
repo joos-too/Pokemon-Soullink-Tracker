@@ -102,13 +102,13 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
     badge: {
       segments: [
         {
-          text: "red",
+          badgeSegmentName: "red",
           bgColor: "#ff6b6b",
           textColor: "#000000",
           borderColor: "#5c0000",
         },
         {
-          text: "blue",
+          badgeSegmentName: "blue",
           bgColor: "#1d89e4",
           textColor: "#000000",
           borderColor: "#053b78",
@@ -239,7 +239,7 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
     badge: {
       segments: [
         {
-          text: "yellow",
+          badgeSegmentName: "yellow",
           bgColor: "#ffff00",
           textColor: "#000000",
           borderColor: "#766a00",
@@ -365,13 +365,13 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
     badge: {
       segments: [
         {
-          text: "gold",
+          badgeSegmentName: "gold",
           bgColor: "#d3af37",
           textColor: "#000000",
           borderColor: "#786200",
         },
         {
-          text: "silver",
+          badgeSegmentName: "silver",
           bgColor: "#b0bfc6",
           textColor: "#000000",
           borderColor: "#5a686e",
@@ -399,7 +399,7 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
     badge: {
       segments: [
         {
-          text: "crystal",
+          badgeSegmentName: "crystal",
           bgColor: "#87cefa",
           textColor: "#000000",
           borderColor: "#064973",
@@ -422,13 +422,13 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
     badge: {
       segments: [
         {
-          text: "ruby",
+          badgeSegmentName: "ruby",
           bgColor: "#bf0109",
           textColor: "#ffffff",
           borderColor: "#490004",
         },
         {
-          text: "sapphire",
+          badgeSegmentName: "sapphire",
           bgColor: "#3862ae",
           textColor: "#ffffff",
           borderColor: "#072660",
@@ -571,7 +571,7 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
     badge: {
       segments: [
         {
-          text: "emerald",
+          badgeSegmentName: "emerald",
           bgColor: "#017f3f",
           textColor: "#ffffff",
           borderColor: "#033d1d",
@@ -721,13 +721,13 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
     badge: {
       segments: [
         {
-          text: "fire_red",
+          badgeSegmentName: "fire_red",
           bgColor: "#dd7521",
           textColor: "#000000",
           borderColor: "#930707",
         },
         {
-          text: "leaf_green",
+          badgeSegmentName: "leaf_green",
           bgColor: "#b9d101",
           textColor: "#000000",
           borderColor: "#738205",
@@ -858,13 +858,13 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
     badge: {
       segments: [
         {
-          text: "diamond",
+          badgeSegmentName: "diamond",
           bgColor: "#00bcd5",
           textColor: "#ffffff",
           borderColor: "#007c8b",
         },
         {
-          text: "pearl",
+          badgeSegmentName: "pearl",
           bgColor: "#aa47bc",
           textColor: "#ffffff",
           borderColor: "#6e2e78",
@@ -989,7 +989,7 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
     badge: {
       segments: [
         {
-          text: "platinum",
+          badgeSegmentName: "platinum",
           bgColor: "#aabbd1",
           textColor: "#000000",
           borderColor: "#6f5454",
@@ -1109,13 +1109,13 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
     badge: {
       segments: [
         {
-          text: "heart_gold",
+          badgeSegmentName: "heart_gold",
           bgColor: "#eedd82",
           textColor: "#000000",
           borderColor: "#877b37",
         },
         {
-          text: "soul_silver",
+          badgeSegmentName: "soul_silver",
           bgColor: "#b9d3ee",
           textColor: "#3f566f",
           borderColor: "#3f566f",
@@ -1234,13 +1234,13 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
     badge: {
       segments: [
         {
-          text: "black",
+          badgeSegmentName: "black",
           bgColor: "#000000",
           textColor: "#ffffff",
           borderColor: "#000000",
         },
         {
-          text: "white",
+          badgeSegmentName: "white",
           bgColor: "#ffffff",
           textColor: "#000000",
           borderColor: "#000000",
@@ -1419,13 +1419,13 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
     badge: {
       segments: [
         {
-          text: "black_2",
+          badgeSegmentName: "black_2",
           bgColor: "#000000",
           textColor: "#bbe7ff",
           borderColor: "#3f566f",
         },
         {
-          text: "white_2",
+          badgeSegmentName: "white_2",
           bgColor: "#ffffff",
           textColor: "#dd151b",
           borderColor: "#ed1c24",
@@ -1538,13 +1538,13 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
     badge: {
       segments: [
         {
-          text: "x",
+          badgeSegmentName: "x",
           bgColor: "#dff3f4",
           textColor: "#005e9b",
           borderColor: "#005e9b",
         },
         {
-          text: "y",
+          badgeSegmentName: "y",
           bgColor: "#e9b2bf",
           textColor: "#871223",
           borderColor: "#871223",
@@ -1735,13 +1735,13 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
     badge: {
       segments: [
         {
-          text: "omega_ruby",
+          badgeSegmentName: "omega_ruby",
           bgColor: "#bf0109",
           textColor: "#f8f688",
           borderColor: "#4f1734",
         },
         {
-          text: "alpha_sapphire",
+          badgeSegmentName: "alpha_sapphire",
           bgColor: "#3862ae",
           textColor: "#f8f688",
           borderColor: "#0a1535",
