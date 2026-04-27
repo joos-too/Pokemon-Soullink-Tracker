@@ -1,8 +1,14 @@
-import { MethodGenerationRule } from "@/types.ts";
 import { SupportedLanguage } from "@/src/utils/language.ts";
 import { TFunction } from "i18next";
 import { EVOLUTIONS_DE, EVOLUTIONS_EN } from "@/src/data/pokemon-evolutions";
 import { POKEMON_ID_TO_GENERATION } from "@/src/data/pokemon-map";
+
+export interface MethodGenerationRule {
+  methods: string[];
+  minGeneration?: number;
+  exactGeneration?: number;
+  maxGeneration?: number;
+}
 
 const EVOLUTION_TABLES: Record<
   SupportedLanguage,

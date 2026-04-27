@@ -1,20 +1,114 @@
 import type { GameVersion } from "@/types";
 
+// reused Data Objects across game versions
+const GEN2_LEVELCAPS = [
+  {
+    id: 1,
+    arena: "gym_1",
+    level: "9/7",
+  },
+  {
+    id: 2,
+    arena: "gym_2",
+    level: "16/14",
+  },
+  {
+    id: 3,
+    arena: "gym_3",
+    level: "20/18",
+  },
+  {
+    id: 4,
+    arena: "gym_4",
+    level: "25/23",
+  },
+  {
+    id: 5,
+    arena: "gym_5",
+    level: "30/27",
+  },
+  {
+    id: 6,
+    arena: "gym_6",
+    level: "35/30",
+  },
+  {
+    id: 7,
+    arena: "gym_7",
+    level: "31/29",
+  },
+  {
+    id: 8,
+    arena: "gym_8",
+    level: "40/37",
+  },
+  {
+    id: 9,
+    arena: "elite_four_will",
+    level: "42/41",
+  },
+  {
+    id: 10,
+    arena: "elite_four_koga",
+    level: "44/43",
+  },
+  {
+    id: 11,
+    arena: "elite_four_bruno",
+    level: "46/43",
+  },
+  {
+    id: 12,
+    arena: "elite_four_karen",
+    level: "47/45",
+  },
+  {
+    id: 13,
+    arena: "champion_lance",
+    level: "50/46",
+  },
+];
+const GEN2_RIVALCAPS = [
+  {
+    id: 1,
+    location: "azalea_town",
+    rival: "silver",
+    level: "16/14",
+  },
+  {
+    id: 2,
+    location: "burned_tower",
+    rival: "silver",
+    level: "22/20",
+  },
+  {
+    id: 3,
+    location: "goldenrod_tunnel",
+    rival: "silver",
+    level: "32/30",
+  },
+  {
+    id: 4,
+    location: "victory_road",
+    rival: "silver",
+    level: "38/35",
+  },
+];
+
 export const GAME_VERSIONS: Record<string, GameVersion> = {
   gen1_rb: {
     id: "gen1_rb",
-    name: "Pokémon Rot / Blau",
     badgeSet: "gen1/rby",
     badge: {
       segments: [
         {
-          text: "R",
+          badgeSegmentName: "red",
           bgColor: "#ff6b6b",
           textColor: "#000000",
           borderColor: "#5c0000",
         },
         {
-          text: "B",
+          badgeSegmentName: "blue",
           bgColor: "#1d89e4",
           textColor: "#000000",
           borderColor: "#053b78",
@@ -22,45 +116,130 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
       ],
     },
     selectionColors: {
-      Rot: { bgColor: "#f44236", textColor: "#ffffff", borderColor: "#f44236" },
-      Blau: {
+      red: {
+        bgColor: "#f44236",
+        textColor: "#ffffff",
+        borderColor: "#f44236",
+      },
+      blue: {
         bgColor: "#1d89e4",
         textColor: "#ffffff",
         borderColor: "#1d89e4",
       },
     },
     levelCaps: [
-      { id: 1, arena: "1. Arena", level: "14/12" },
-      { id: 2, arena: "2. Arena", level: "21/18" },
-      { id: 3, arena: "3. Arena", level: "24/21" },
-      { id: 4, arena: "4. Arena", level: "29/24" },
-      { id: 5, arena: "5. Arena", level: "43/39" },
-      { id: 6, arena: "6. Arena", level: "43/38" },
-      { id: 7, arena: "7. Arena", level: "47/42" },
-      { id: 8, arena: "8. Arena", level: "50/45" },
-      { id: 9, arena: "Top 4 | Lorelei", level: "56/54" },
-      { id: 10, arena: "Top 4 | Bruno", level: "58/56" },
-      { id: 11, arena: "Top 4 | Agathe", level: "60/58" },
-      { id: 12, arena: "Top 4 | Siegfried", level: "62/60" },
-      { id: 13, arena: "Champ | Blau", level: "65/63" },
+      {
+        id: 1,
+        arena: "gym_1",
+        level: "14/12",
+      },
+      {
+        id: 2,
+        arena: "gym_2",
+        level: "21/18",
+      },
+      {
+        id: 3,
+        arena: "gym_3",
+        level: "24/21",
+      },
+      {
+        id: 4,
+        arena: "gym_4",
+        level: "29/24",
+      },
+      {
+        id: 5,
+        arena: "gym_5",
+        level: "43/39",
+      },
+      {
+        id: 6,
+        arena: "gym_6",
+        level: "43/38",
+      },
+      {
+        id: 7,
+        arena: "gym_7",
+        level: "47/42",
+      },
+      {
+        id: 8,
+        arena: "gym_8",
+        level: "50/45",
+      },
+      {
+        id: 9,
+        arena: "elite_four_lorelei",
+        level: "56/54",
+      },
+      {
+        id: 10,
+        arena: "elite_four_bruno",
+        level: "58/56",
+      },
+      {
+        id: 11,
+        arena: "elite_four_agatha",
+        level: "60/58",
+      },
+      {
+        id: 12,
+        arena: "elite_four_lance",
+        level: "62/60",
+      },
+      {
+        id: 13,
+        arena: "champion_blue",
+        level: "65/63",
+      },
     ],
     rivalCaps: [
-      { id: 1, location: "Route 22", rival: "Blau", level: "9/8" },
-      { id: 2, location: "Azuria City", rival: "Blau", level: "18/17" },
-      { id: 3, location: "M.S. Anne", rival: "Blau", level: "20/19" },
-      { id: 4, location: "Pokémon-Turm", rival: "Blau", level: "25/23" },
-      { id: 5, location: "Silph Co.", rival: "Blau", level: "40/38" },
-      { id: 6, location: "Route 22", rival: "Blau", level: "53/50" },
+      {
+        id: 1,
+        location: "route_22",
+        rival: "blue",
+        level: "9/8",
+      },
+      {
+        id: 2,
+        location: "cerulean_city",
+        rival: "blue",
+        level: "18/17",
+      },
+      {
+        id: 3,
+        location: "s_s_anne",
+        rival: "blue",
+        level: "20/19",
+      },
+      {
+        id: 4,
+        location: "pokemon_tower",
+        rival: "blue",
+        level: "25/23",
+      },
+      {
+        id: 5,
+        location: "silph_co",
+        rival: "blue",
+        level: "40/38",
+      },
+      {
+        id: 6,
+        location: "route_22",
+        rival: "blue",
+        level: "53/50",
+      },
     ],
   },
   gen1_y: {
     id: "gen1_y",
-    name: "Pokémon Gelb",
     badgeSet: "gen1/rby",
     badge: {
       segments: [
         {
-          text: "G",
+          badgeSegmentName: "yellow",
           bgColor: "#ffff00",
           textColor: "#000000",
           borderColor: "#766a00",
@@ -68,50 +247,131 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
       ],
     },
     selectionColors: {
-      Gelb: {
+      yellow: {
         bgColor: "#ffbe00",
         textColor: "#ffffff",
         borderColor: "#ffbe00",
       },
     },
     levelCaps: [
-      { id: 1, arena: "1. Arena", level: "12/10" },
-      { id: 2, arena: "2. Arena", level: "21/18" },
-      { id: 3, arena: "3. Arena", level: "28/28" },
-      { id: 4, arena: "4. Arena", level: "32/30" },
-      { id: 5, arena: "5. Arena", level: "50/48" },
-      { id: 6, arena: "6. Arena", level: "50/50" },
-      { id: 7, arena: "7. Arena", level: "54/50" },
-      { id: 8, arena: "8. Arena", level: "55/53" },
-      { id: 9, arena: "Top 4 | Lorelei", level: "56/54" },
-      { id: 10, arena: "Top 4 | Bruno", level: "58/56" },
-      { id: 11, arena: "Top 4 | Agathe", level: "60/58" },
-      { id: 12, arena: "Top 4 | Siegfried", level: "62/60" },
-      { id: 13, arena: "Champ | Blau", level: "65/63" },
+      {
+        id: 1,
+        arena: "gym_1",
+        level: "12/10",
+      },
+      {
+        id: 2,
+        arena: "gym_2",
+        level: "21/18",
+      },
+      {
+        id: 3,
+        arena: "gym_3",
+        level: "28/28",
+      },
+      {
+        id: 4,
+        arena: "gym_4",
+        level: "32/30",
+      },
+      {
+        id: 5,
+        arena: "gym_5",
+        level: "50/48",
+      },
+      {
+        id: 6,
+        arena: "gym_6",
+        level: "50/50",
+      },
+      {
+        id: 7,
+        arena: "gym_7",
+        level: "54/50",
+      },
+      {
+        id: 8,
+        arena: "gym_8",
+        level: "55/53",
+      },
+      {
+        id: 9,
+        arena: "elite_four_lorelei",
+        level: "56/54",
+      },
+      {
+        id: 10,
+        arena: "elite_four_bruno",
+        level: "58/56",
+      },
+      {
+        id: 11,
+        arena: "elite_four_agatha",
+        level: "60/58",
+      },
+      {
+        id: 12,
+        arena: "elite_four_lance",
+        level: "62/60",
+      },
+      {
+        id: 13,
+        arena: "champion_blue",
+        level: "65/63",
+      },
     ],
     rivalCaps: [
-      { id: 1, location: "Route 22", rival: "Blau", level: "9/8" },
-      { id: 2, location: "Azuria City", rival: "Blau", level: "18/17" },
-      { id: 3, location: "M.S. Anne", rival: "Blau", level: "20/19" },
-      { id: 4, location: "Pokémon-Turm", rival: "Blau", level: "25/23" },
-      { id: 5, location: "Silph Co.", rival: "Blau", level: "40/38" },
-      { id: 6, location: "Route 22", rival: "Blau", level: "53/50" },
+      {
+        id: 1,
+        location: "route_22",
+        rival: "blue",
+        level: "9/8",
+      },
+      {
+        id: 2,
+        location: "cerulean_city",
+        rival: "blue",
+        level: "18/17",
+      },
+      {
+        id: 3,
+        location: "s_s_anne",
+        rival: "blue",
+        level: "20/19",
+      },
+      {
+        id: 4,
+        location: "pokemon_tower",
+        rival: "blue",
+        level: "25/23",
+      },
+      {
+        id: 5,
+        location: "silph_co",
+        rival: "blue",
+        level: "40/38",
+      },
+      {
+        id: 6,
+        location: "route_22",
+        rival: "blue",
+        level: "53/50",
+      },
     ],
   },
   gen2_gs: {
     id: "gen2_gs",
-    name: "Pokémon Gold / Silber",
     badgeSet: "gen2/gsc",
     badge: {
       segments: [
         {
-          text: "G",
+          badgeSegmentName: "gold",
           bgColor: "#d3af37",
           textColor: "#000000",
           borderColor: "#786200",
         },
         {
-          text: "S",
+          badgeSegmentName: "silver",
           bgColor: "#b0bfc6",
           textColor: "#000000",
           borderColor: "#5a686e",
@@ -119,47 +379,27 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
       ],
     },
     selectionColors: {
-      Gold: {
+      gold: {
         bgColor: "#d3af37",
         textColor: "#ffffff",
         borderColor: "#d3af37",
       },
-      Silber: {
+      silver: {
         bgColor: "#b0bfc6",
         textColor: "#ffffff",
         borderColor: "#b0bfc6",
       },
     },
-    levelCaps: [
-      { id: 1, arena: "1. Arena", level: "9/7" },
-      { id: 2, arena: "2. Arena", level: "16/14" },
-      { id: 3, arena: "3. Arena", level: "20/18" },
-      { id: 4, arena: "4. Arena", level: "25/23" },
-      { id: 5, arena: "5. Arena", level: "30/27" },
-      { id: 6, arena: "6. Arena", level: "35/30" },
-      { id: 7, arena: "7. Arena", level: "31/29" },
-      { id: 8, arena: "8. Arena", level: "40/37" },
-      { id: 9, arena: "Top 4 | Willi", level: "42/41" },
-      { id: 10, arena: "Top 4 | Koga", level: "44/43" },
-      { id: 11, arena: "Top 4 | Bruno", level: "46/43" },
-      { id: 12, arena: "Top 4 | Melanie", level: "47/45" },
-      { id: 13, arena: "Champ | Siegfried", level: "50/46" },
-    ],
-    rivalCaps: [
-      { id: 1, location: "Azetalea City", rival: "Silber", level: "16/14" },
-      { id: 2, location: "Turmruine", rival: "Silber", level: "22/20" },
-      { id: 3, location: "Dukatia-Passage", rival: "Silber", level: "32/30" },
-      { id: 4, location: "Siegesstraße", rival: "Silber", level: "38/35" },
-    ],
+    levelCaps: GEN2_LEVELCAPS,
+    rivalCaps: GEN2_RIVALCAPS,
   },
   gen2_c: {
     id: "gen2_c",
-    name: "Pokémon Kristall",
     badgeSet: "gen2/gsc",
     badge: {
       segments: [
         {
-          text: "K",
+          badgeSegmentName: "crystal",
           bgColor: "#87cefa",
           textColor: "#000000",
           borderColor: "#064973",
@@ -167,50 +407,28 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
       ],
     },
     selectionColors: {
-      Kristall: {
+      crystal: {
         bgColor: "#4dd0e2",
         textColor: "#ffffff",
         borderColor: "#4dd0e2",
       },
     },
-    levelCaps: [
-      { id: 1, arena: "1. Arena", level: "9/7" },
-      { id: 2, arena: "2. Arena", level: "16/14" },
-      { id: 3, arena: "3. Arena", level: "20/18" },
-      { id: 4, arena: "4. Arena", level: "25/23" },
-      { id: 5, arena: "5. Arena", level: "30/27" },
-      { id: 6, arena: "6. Arena", level: "35/30" },
-      { id: 7, arena: "7. Arena", level: "31/29" },
-      { id: 8, arena: "8. Arena", level: "40/37" },
-      { id: 9, arena: "Top 4 | Willi", level: "42/41" },
-      { id: 10, arena: "Top 4 | Koga", level: "44/43" },
-      { id: 11, arena: "Top 4 | Bruno", level: "46/43" },
-      { id: 12, arena: "Top 4 | Melanie", level: "47/45" },
-      { id: 13, arena: "Champ | Siegfried", level: "50/46" },
-    ],
-    rivalCaps: [
-      { id: 1, location: "Azetalea City", rival: "Silber", level: "16/14" },
-      { id: 2, location: "Turmruine", rival: "Silber", level: "22/20" },
-      { id: 3, location: "Dukatia-Passage", rival: "Silber", level: "32/30" },
-      { id: 4, location: "Siegesstraße", rival: "Silber", level: "38/35" },
-      // {id: 5, location: 'Mondberg', rival: 'Silber', level: '45/43'},
-      // {id: 6, location: 'Indigo Plateau', rival: 'Silber', level: '50/46'},
-    ],
+    levelCaps: GEN2_LEVELCAPS,
+    rivalCaps: GEN2_RIVALCAPS,
   },
   gen3_rusa: {
     id: "gen3_rusa",
-    name: "Pokémon Rubin / Saphir",
     badgeSet: "gen3/rusaem",
     badge: {
       segments: [
         {
-          text: "RU",
+          badgeSegmentName: "ruby",
           bgColor: "#bf0109",
           textColor: "#ffffff",
           borderColor: "#490004",
         },
         {
-          text: "SA",
+          badgeSegmentName: "sapphire",
           bgColor: "#3862ae",
           textColor: "#ffffff",
           borderColor: "#072660",
@@ -218,75 +436,142 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
       ],
     },
     selectionColors: {
-      Rubin: {
+      ruby: {
         bgColor: "#cf0304",
         textColor: "#ffffff",
         borderColor: "#cf0304",
       },
-      Saphir: {
+      sapphire: {
         bgColor: "#3c3696",
         textColor: "#ffffff",
         borderColor: "#3c3696",
       },
     },
     levelCaps: [
-      { id: 1, arena: "1. Arena", level: "15/14" },
-      { id: 2, arena: "2. Arena", level: "18/17" },
-      { id: 3, arena: "3. Arena", level: "23/20" },
-      { id: 4, arena: "4. Arena", level: "28/26" },
-      { id: 5, arena: "5. Arena", level: "31/30" },
-      { id: 6, arena: "6. Arena", level: "33/32" },
-      { id: 7, arena: "7. Arena", level: "42" },
-      { id: 8, arena: "8. Arena", level: "43/42" },
-      { id: 9, arena: "Top 4 | Ulrich", level: "49/48" },
-      { id: 10, arena: "Top 4 | Antonia", level: "51/50" },
-      { id: 11, arena: "Top 4 | Frosina", level: "53/52" },
-      { id: 12, arena: "Top 4 | Dragan", level: "55/54" },
-      { id: 13, arena: "Champ | Troy", level: "58/56" },
-    ],
-    rivalCaps: [
-      { id: 1, location: "Malvenfroh City", rival: "Heiko", level: "16" },
+      {
+        id: 1,
+        arena: "gym_1",
+        level: "15/14",
+      },
       {
         id: 2,
-        location: "Route 110",
+        arena: "gym_2",
+        level: "18/17",
+      },
+      {
+        id: 3,
+        arena: "gym_3",
+        level: "23/20",
+      },
+      {
+        id: 4,
+        arena: "gym_4",
+        level: "28/26",
+      },
+      {
+        id: 5,
+        arena: "gym_5",
+        level: "31/30",
+      },
+      {
+        id: 6,
+        arena: "gym_6",
+        level: "33/32",
+      },
+      {
+        id: 7,
+        arena: "gym_7",
+        level: "42",
+      },
+      {
+        id: 8,
+        arena: "gym_8",
+        level: "43/42",
+      },
+      {
+        id: 9,
+        arena: "elite_four_sidney",
+        level: "49/48",
+      },
+      {
+        id: 10,
+        arena: "elite_four_phoebe",
+        level: "51/50",
+      },
+      {
+        id: 11,
+        arena: "elite_four_glacia",
+        level: "53/52",
+      },
+      {
+        id: 12,
+        arena: "elite_four_drake",
+        level: "55/54",
+      },
+      {
+        id: 13,
+        arena: "champion_steven",
+        level: "58/56",
+      },
+    ],
+    rivalCaps: [
+      {
+        id: 1,
+        location: "mauville_city",
+        rival: "wally",
+        level: "16",
+      },
+      {
+        id: 2,
+        location: "route_110",
         rival: {
-          name: "Brix / Maike",
-          key: "brix_maike",
-          options: { male: "brix", female: "maike" },
+          key: "brendan_may",
+          options: {
+            male: "brendan",
+            female: "may",
+          },
         },
         level: "20/18",
       },
       {
         id: 3,
-        location: "Route 119",
+        location: "route_119",
         rival: {
-          name: "Brix / Maike",
-          key: "brix_maike",
-          options: { male: "brix", female: "maike" },
+          key: "brendan_may",
+          options: {
+            male: "brendan",
+            female: "may",
+          },
         },
         level: "31/29",
       },
       {
         id: 4,
-        location: "Seegrasulb City",
+        location: "lilycove_city",
         rival: {
-          name: "Brix / Maike",
-          key: "brix_maike",
-          options: { male: "brix", female: "maike" },
+          key: "brendan_may",
+          options: {
+            male: "brendan",
+            female: "may",
+          },
         },
         level: "34/32",
       },
-      { id: 5, location: "Siegesstraße", rival: "Heiko", level: "45/41" },
+      {
+        id: 5,
+        location: "victory_road",
+        rival: "wally",
+        level: "45/41",
+      },
     ],
   },
   gen3_em: {
     id: "gen3_em",
-    name: "Pokémon Smaragd",
     badgeSet: "gen3/rusaem",
     badge: {
       segments: [
         {
-          text: "SM",
+          badgeSegmentName: "emerald",
           bgColor: "#017f3f",
           textColor: "#ffffff",
           borderColor: "#033d1d",
@@ -294,86 +579,155 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
       ],
     },
     selectionColors: {
-      Smaragd: {
+      emerald: {
         bgColor: "#078347",
         textColor: "#ffffff",
         borderColor: "#078347",
       },
     },
     levelCaps: [
-      { id: 1, arena: "1. Arena", level: "15/12" },
-      { id: 2, arena: "2. Arena", level: "19/16" },
-      { id: 3, arena: "3. Arena", level: "24/22" },
-      { id: 4, arena: "4. Arena", level: "29/26" },
-      { id: 5, arena: "5. Arena", level: "31/29" },
-      { id: 6, arena: "6. Arena", level: "33/31" },
-      { id: 7, arena: "7. Arena", level: "42" },
-      { id: 8, arena: "8. Arena", level: "46/43" },
-      { id: 9, arena: "Top 4 | Ulrich", level: "49/48" },
-      { id: 10, arena: "Top 4 | Antonia", level: "51/50" },
-      { id: 11, arena: "Top 4 | Frosina", level: "53/52" },
-      { id: 12, arena: "Top 4 | Dragan", level: "55/54" },
-      { id: 13, arena: "Champ | Wassili", level: "58/56" },
-    ],
-    rivalCaps: [
-      { id: 1, location: "Malvenfroh City", rival: "Heiko", level: "16" },
+      {
+        id: 1,
+        arena: "gym_1",
+        level: "15/12",
+      },
       {
         id: 2,
-        location: "Metarost City",
+        arena: "gym_2",
+        level: "19/16",
+      },
+      {
+        id: 3,
+        arena: "gym_3",
+        level: "24/22",
+      },
+      {
+        id: 4,
+        arena: "gym_4",
+        level: "29/26",
+      },
+      {
+        id: 5,
+        arena: "gym_5",
+        level: "31/29",
+      },
+      {
+        id: 6,
+        arena: "gym_6",
+        level: "33/31",
+      },
+      {
+        id: 7,
+        arena: "gym_7",
+        level: "42",
+      },
+      {
+        id: 8,
+        arena: "gym_8",
+        level: "46/43",
+      },
+      {
+        id: 9,
+        arena: "elite_four_sidney",
+        level: "49/48",
+      },
+      {
+        id: 10,
+        arena: "elite_four_phoebe",
+        level: "51/50",
+      },
+      {
+        id: 11,
+        arena: "elite_four_glacia",
+        level: "53/52",
+      },
+      {
+        id: 12,
+        arena: "elite_four_drake",
+        level: "55/54",
+      },
+      {
+        id: 13,
+        arena: "champion_wallace",
+        level: "58/56",
+      },
+    ],
+    rivalCaps: [
+      {
+        id: 1,
+        location: "mauville_city",
+        rival: "wally",
+        level: "16",
+      },
+      {
+        id: 2,
+        location: "rustboro_city",
         rival: {
-          name: "Brix / Maike",
-          key: "brix_maike",
-          options: { male: "brix", female: "maike" },
+          key: "brendan_may",
+          options: {
+            male: "brendan",
+            female: "may",
+          },
         },
         level: "15/13",
       },
       {
         id: 3,
-        location: "Route 110",
+        location: "route_110",
         rival: {
-          name: "Brix / Maike",
-          key: "brix_maike",
-          options: { male: "brix", female: "maike" },
+          key: "brendan_may",
+          options: {
+            male: "brendan",
+            female: "may",
+          },
         },
         level: "20/18",
       },
       {
         id: 4,
-        location: "Route 119",
+        location: "route_119",
         rival: {
-          name: "Brix / Maike",
-          key: "brix_maike",
-          options: { male: "brix", female: "maike" },
+          key: "brendan_may",
+          options: {
+            male: "brendan",
+            female: "may",
+          },
         },
         level: "31/29",
       },
       {
         id: 5,
-        location: "Seegrasulb City",
+        location: "lilycove_city",
         rival: {
-          name: "Brix / Maike",
-          key: "brix_maike",
-          options: { male: "brix", female: "maike" },
+          key: "brendan_may",
+          options: {
+            male: "brendan",
+            female: "may",
+          },
         },
         level: "34/32",
       },
-      { id: 6, location: "Siegesstraße", rival: "Heiko", level: "45/41" },
+      {
+        id: 6,
+        location: "victory_road",
+        rival: "wally",
+        level: "45/41",
+      },
     ],
   },
   gen3_frlg: {
     id: "gen3_frlg",
-    name: "Pokémon Feuerrot / Blattgrün",
     badgeSet: "gen1/rby",
     badge: {
       segments: [
         {
-          text: "FR",
+          badgeSegmentName: "fire_red",
           bgColor: "#dd7521",
           textColor: "#000000",
           borderColor: "#930707",
         },
         {
-          text: "BG",
+          badgeSegmentName: "leaf_green",
           bgColor: "#b9d101",
           textColor: "#000000",
           borderColor: "#738205",
@@ -381,55 +735,136 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
       ],
     },
     selectionColors: {
-      Feuerrot: {
+      fire_red: {
         bgColor: "#f44236",
         textColor: "#ffffff",
         borderColor: "#f44236",
       },
-      Blattgrün: {
+      leaf_green: {
         bgColor: "#4cb050",
         textColor: "#ffffff",
         borderColor: "#4cb050",
       },
     },
     levelCaps: [
-      { id: 1, arena: "1. Arena", level: "14/12" },
-      { id: 2, arena: "2. Arena", level: "21/18" },
-      { id: 3, arena: "3. Arena", level: "24/21" },
-      { id: 4, arena: "4. Arena", level: "29/24" },
-      { id: 5, arena: "5. Arena", level: "43/39" },
-      { id: 6, arena: "6. Arena", level: "43/38" },
-      { id: 7, arena: "7. Arena", level: "47/42" },
-      { id: 8, arena: "8. Arena", level: "50/45" },
-      { id: 9, arena: "Top 4 | Lorelei", level: "54/52" },
-      { id: 10, arena: "Top 4 | Bruno", level: "56/54" },
-      { id: 11, arena: "Top 4 | Agathe", level: "58/56" },
-      { id: 12, arena: "Top 4 | Siegfried", level: "60/58" },
-      { id: 13, arena: "Champ | Blau", level: "63/61" },
+      {
+        id: 1,
+        arena: "gym_1",
+        level: "14/12",
+      },
+      {
+        id: 2,
+        arena: "gym_2",
+        level: "21/18",
+      },
+      {
+        id: 3,
+        arena: "gym_3",
+        level: "24/21",
+      },
+      {
+        id: 4,
+        arena: "gym_4",
+        level: "29/24",
+      },
+      {
+        id: 5,
+        arena: "gym_5",
+        level: "43/39",
+      },
+      {
+        id: 6,
+        arena: "gym_6",
+        level: "43/38",
+      },
+      {
+        id: 7,
+        arena: "gym_7",
+        level: "47/42",
+      },
+      {
+        id: 8,
+        arena: "gym_8",
+        level: "50/45",
+      },
+      {
+        id: 9,
+        arena: "elite_four_lorelei",
+        level: "54/52",
+      },
+      {
+        id: 10,
+        arena: "elite_four_bruno",
+        level: "56/54",
+      },
+      {
+        id: 11,
+        arena: "elite_four_agatha",
+        level: "58/56",
+      },
+      {
+        id: 12,
+        arena: "elite_four_lance",
+        level: "60/58",
+      },
+      {
+        id: 13,
+        arena: "champion_blue",
+        level: "63/61",
+      },
     ],
     rivalCaps: [
-      { id: 1, location: "Route 22", rival: "Blau", level: "9/8" },
-      { id: 1, location: "Azuria City", rival: "Blau", level: "18/17" },
-      { id: 2, location: "M.S. Anne", rival: "Blau", level: "20/19" },
-      { id: 3, location: "Pokémon-Turm", rival: "Blau", level: "25/23" },
-      { id: 4, location: "Silph Co.", rival: "Blau", level: "40/38" },
-      { id: 5, location: "Route 22", rival: "Blau", level: "53/47" },
+      {
+        id: 1,
+        location: "route_22",
+        rival: "blue",
+        level: "9/8",
+      },
+      {
+        id: 1,
+        location: "cerulean_city",
+        rival: "blue",
+        level: "18/17",
+      },
+      {
+        id: 2,
+        location: "s_s_anne",
+        rival: "blue",
+        level: "20/19",
+      },
+      {
+        id: 3,
+        location: "pokemon_tower",
+        rival: "blue",
+        level: "25/23",
+      },
+      {
+        id: 4,
+        location: "silph_co",
+        rival: "blue",
+        level: "40/38",
+      },
+      {
+        id: 5,
+        location: "route_22",
+        rival: "blue",
+        level: "53/47",
+      },
     ],
   },
   gen4_dp: {
     id: "gen4_dp",
-    name: "Pokémon Diamant / Perl",
     badgeSet: "gen4/dppt",
     badge: {
       segments: [
         {
-          text: "D",
+          badgeSegmentName: "diamond",
           bgColor: "#00bcd5",
           textColor: "#ffffff",
           borderColor: "#007c8b",
         },
         {
-          text: "P",
+          badgeSegmentName: "pearl",
           bgColor: "#aa47bc",
           textColor: "#ffffff",
           borderColor: "#6e2e78",
@@ -437,48 +872,124 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
       ],
     },
     selectionColors: {
-      Diamant: {
+      diamond: {
         bgColor: "#00bcd5",
         textColor: "#ffffff",
         borderColor: "#00bcd5",
       },
-      Perl: {
+      pearl: {
         bgColor: "#aa47bc",
         textColor: "#ffffff",
         borderColor: "#aa47bc",
       },
     },
     levelCaps: [
-      { id: 1, arena: "1. Arena", level: "14/12" },
-      { id: 2, arena: "2. Arena", level: "22/19" },
-      { id: 3, arena: "3. Arena", level: "30/27" },
-      { id: 4, arena: "4. Arena", level: "30/27" },
-      { id: 5, arena: "5. Arena", level: "36/34" },
-      { id: 6, arena: "6. Arena", level: "39/36" },
-      { id: 7, arena: "7. Arena", level: "42/40" },
-      { id: 8, arena: "8. Arena", level: "49/47" },
-      { id: 9, arena: "Top 4 | Herbaro", level: "57/54" },
-      { id: 10, arena: "Top 4 | Teresa", level: "59/56" },
-      { id: 11, arena: "Top 4 | Ignaz", level: "61/58" },
-      { id: 12, arena: "Top 4 | Lucian", level: "63/60" },
-      { id: 13, arena: "Champ | Cynthia", level: "66/63" },
+      {
+        id: 1,
+        arena: "gym_1",
+        level: "14/12",
+      },
+      {
+        id: 2,
+        arena: "gym_2",
+        level: "22/19",
+      },
+      {
+        id: 3,
+        arena: "gym_3",
+        level: "30/27",
+      },
+      {
+        id: 4,
+        arena: "gym_4",
+        level: "30/27",
+      },
+      {
+        id: 5,
+        arena: "gym_5",
+        level: "36/34",
+      },
+      {
+        id: 6,
+        arena: "gym_6",
+        level: "39/36",
+      },
+      {
+        id: 7,
+        arena: "gym_7",
+        level: "42/40",
+      },
+      {
+        id: 8,
+        arena: "gym_8",
+        level: "49/47",
+      },
+      {
+        id: 9,
+        arena: "elite_four_aaron",
+        level: "57/54",
+      },
+      {
+        id: 10,
+        arena: "elite_four_bertha",
+        level: "59/56",
+      },
+      {
+        id: 11,
+        arena: "elite_four_flint",
+        level: "61/58",
+      },
+      {
+        id: 12,
+        arena: "elite_four_lucian",
+        level: "63/60",
+      },
+      {
+        id: 13,
+        arena: "champion_cynthia",
+        level: "66/63",
+      },
     ],
     rivalCaps: [
-      { id: 1, location: "Route 209", rival: "Barry", level: "9/7" },
-      { id: 2, location: "Herzhofen", rival: "Barry", level: "21/20" },
-      { id: 3, location: "Weideburg", rival: "Barry", level: "28/26" },
-      { id: 4, location: "Fleetburg", rival: "Barry", level: "35/32" },
-      { id: 5, location: "Pokémon Liga", rival: "Barry", level: "53/51" },
+      {
+        id: 1,
+        location: "route_209",
+        rival: "barry",
+        level: "9/7",
+      },
+      {
+        id: 2,
+        location: "hearthome_city",
+        rival: "barry",
+        level: "21/20",
+      },
+      {
+        id: 3,
+        location: "pastoria_city",
+        rival: "barry",
+        level: "28/26",
+      },
+      {
+        id: 4,
+        location: "canalive_city",
+        rival: "barry",
+        level: "35/32",
+      },
+      {
+        id: 5,
+        location: "pokemon_league",
+        rival: "barry",
+        level: "53/51",
+      },
     ],
   },
   gen4_pt: {
     id: "gen4_pt",
-    name: "Pokémon Platin",
     badgeSet: "gen4/dppt",
     badge: {
       segments: [
         {
-          text: "PT",
+          badgeSegmentName: "platinum",
           bgColor: "#aabbd1",
           textColor: "#000000",
           borderColor: "#6f5454",
@@ -486,49 +997,125 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
       ],
     },
     selectionColors: {
-      Platin: {
+      platinum: {
         bgColor: "#c9c1b6",
         textColor: "#ffffff",
         borderColor: "#c9c1b6",
       },
     },
     levelCaps: [
-      { id: 1, arena: "1. Arena", level: "14/12" },
-      { id: 2, arena: "2. Arena", level: "22/20" },
-      { id: 3, arena: "3. Arena", level: "26/24" },
-      { id: 4, arena: "4. Arena", level: "32/29" },
-      { id: 5, arena: "5. Arena", level: "37/34" },
-      { id: 6, arena: "6. Arena", level: "41/38" },
-      { id: 7, arena: "7. Arena", level: "44/42" },
-      { id: 8, arena: "8. Arena", level: "50/48" },
-      { id: 9, arena: "Top 4 | Herbaro", level: "53/51" },
-      { id: 10, arena: "Top 4 | Teresa", level: "55/53" },
-      { id: 11, arena: "Top 4 | Ignaz", level: "57/55" },
-      { id: 12, arena: "Top 4 | Lucian", level: "59/56" },
-      { id: 13, arena: "Champ | Cynthia", level: "62/58" },
+      {
+        id: 1,
+        arena: "gym_1",
+        level: "14/12",
+      },
+      {
+        id: 2,
+        arena: "gym_2",
+        level: "22/20",
+      },
+      {
+        id: 3,
+        arena: "gym_3",
+        level: "26/24",
+      },
+      {
+        id: 4,
+        arena: "gym_4",
+        level: "32/29",
+      },
+      {
+        id: 5,
+        arena: "gym_5",
+        level: "37/34",
+      },
+      {
+        id: 6,
+        arena: "gym_6",
+        level: "41/38",
+      },
+      {
+        id: 7,
+        arena: "gym_7",
+        level: "44/42",
+      },
+      {
+        id: 8,
+        arena: "gym_8",
+        level: "50/48",
+      },
+      {
+        id: 9,
+        arena: "elite_four_aaron",
+        level: "53/51",
+      },
+      {
+        id: 10,
+        arena: "elite_four_bertha",
+        level: "55/53",
+      },
+      {
+        id: 11,
+        arena: "elite_four_flint",
+        level: "57/55",
+      },
+      {
+        id: 12,
+        arena: "elite_four_lucian",
+        level: "59/56",
+      },
+      {
+        id: 13,
+        arena: "champion_cynthia",
+        level: "62/58",
+      },
     ],
     rivalCaps: [
-      { id: 1, location: "Route 209", rival: "Barry", level: "9/7" },
-      { id: 2, location: "Herzhofen", rival: "Barry", level: "27/25" },
-      { id: 3, location: "Weideburg", rival: "Barry", level: "36/34" },
-      { id: 4, location: "Fleetburg", rival: "Barry", level: "38/37" },
-      { id: 5, location: "Pokémon Liga", rival: "Barry", level: "51/49" },
+      {
+        id: 1,
+        location: "route_209",
+        rival: "barry",
+        level: "9/7",
+      },
+      {
+        id: 2,
+        location: "hearthome_city",
+        rival: "barry",
+        level: "27/25",
+      },
+      {
+        id: 3,
+        location: "pastoria_city",
+        rival: "barry",
+        level: "36/34",
+      },
+      {
+        id: 4,
+        location: "canalive_city",
+        rival: "barry",
+        level: "38/37",
+      },
+      {
+        id: 5,
+        location: "pokemon_league",
+        rival: "barry",
+        level: "51/49",
+      },
     ],
   },
   gen4_hgss: {
     id: "gen4_hgss",
-    name: "Pokémon HeartGold / SoulSilver",
     badgeSet: "gen2/gsk",
     badge: {
       segments: [
         {
-          text: "HG",
+          badgeSegmentName: "heart_gold",
           bgColor: "#eedd82",
           textColor: "#000000",
           borderColor: "#877b37",
         },
         {
-          text: "SS",
+          badgeSegmentName: "soul_silver",
           bgColor: "#b9d3ee",
           textColor: "#3f566f",
           borderColor: "#3f566f",
@@ -536,55 +1123,124 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
       ],
     },
     selectionColors: {
-      "Heart Gold": {
+      heart_gold: {
         bgColor: "#d3af37",
         textColor: "#ffffff",
         borderColor: "#d3af37",
       },
-      "Soul Silver": {
+      soul_silver: {
         bgColor: "#b0bfc6",
         textColor: "#ffffff",
         borderColor: "#b0bfc6",
       },
     },
     levelCaps: [
-      { id: 1, arena: "1. Arena", level: "13/9" },
-      { id: 2, arena: "2. Arena", level: "17/15" },
-      { id: 3, arena: "3. Arena", level: "19/17" },
-      { id: 4, arena: "4. Arena", level: "25/23" },
-      { id: 5, arena: "5. Arena", level: "31/29" },
-      { id: 6, arena: "6. Arena", level: "35/30" },
-      { id: 7, arena: "7. Arena", level: "34/32" },
-      { id: 8, arena: "8. Arena", level: "41/38" },
-      { id: 9, arena: "Top 4 | Willi", level: "42/41" },
-      { id: 10, arena: "Top 4 | Koga", level: "44/43" },
-      { id: 11, arena: "Top 4 | Bruno", level: "46/43" },
-      { id: 12, arena: "Top 4 | Melanie", level: "47/45" },
-      { id: 13, arena: "Champ | Siegfried", level: "50/49" },
+      {
+        id: 1,
+        arena: "gym_1",
+        level: "13/9",
+      },
+      {
+        id: 2,
+        arena: "gym_2",
+        level: "17/15",
+      },
+      {
+        id: 3,
+        arena: "gym_3",
+        level: "19/17",
+      },
+      {
+        id: 4,
+        arena: "gym_4",
+        level: "25/23",
+      },
+      {
+        id: 5,
+        arena: "gym_5",
+        level: "31/29",
+      },
+      {
+        id: 6,
+        arena: "gym_6",
+        level: "35/30",
+      },
+      {
+        id: 7,
+        arena: "gym_7",
+        level: "34/32",
+      },
+      {
+        id: 8,
+        arena: "gym_8",
+        level: "41/38",
+      },
+      {
+        id: 9,
+        arena: "elite_four_will",
+        level: "42/41",
+      },
+      {
+        id: 10,
+        arena: "elite_four_koga",
+        level: "44/43",
+      },
+      {
+        id: 11,
+        arena: "elite_four_bruno",
+        level: "46/43",
+      },
+      {
+        id: 12,
+        arena: "elite_four_karen",
+        level: "47/45",
+      },
+      {
+        id: 13,
+        arena: "champion_lance",
+        level: "50/49",
+      },
     ],
     rivalCaps: [
-      { id: 1, location: "Azetalea City", rival: "Silber", level: "18/16" },
-      { id: 2, location: "Turmruine", rival: "Silber", level: "22/20" },
-      { id: 3, location: "Dukatia-Passage", rival: "Silber", level: "34/32" },
-      { id: 4, location: "Siegesstraße", rival: "Silber", level: "40/38" },
-      // {id: 5, location: 'Mondberg', rival: 'Silber', level: '50/48'},
-      // {id: 6, location: 'Indigo Plateau', rival: 'Silber', level: '60/58'},
+      {
+        id: 1,
+        location: "azalea_town",
+        rival: "silver",
+        level: "18/16",
+      },
+      {
+        id: 2,
+        location: "burned_tower",
+        rival: "silver",
+        level: "22/20",
+      },
+      {
+        id: 3,
+        location: "goldenrod_tunnel",
+        rival: "silver",
+        level: "34/32",
+      },
+      {
+        id: 4,
+        location: "victory_road",
+        rival: "silver",
+        level: "40/38",
+      },
     ],
   },
   gen5_bw: {
     id: "gen5_bw",
-    name: "Pokémon Schwarz / Weiß",
     badgeSet: "gen5/bw",
     badge: {
       segments: [
         {
-          text: "S",
+          badgeSegmentName: "black",
           bgColor: "#000000",
           textColor: "#ffffff",
           borderColor: "#000000",
         },
         {
-          text: "W",
+          badgeSegmentName: "white",
           bgColor: "#ffffff",
           textColor: "#000000",
           borderColor: "#000000",
@@ -592,63 +1248,184 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
       ],
     },
     selectionColors: {
-      Schwarz: {
+      black: {
         bgColor: "#424242",
         textColor: "#ffffff",
         borderColor: "#424242",
       },
-      Weiß: {
+      white: {
         bgColor: "#eeeeee",
         textColor: "#000000",
         borderColor: "#eeeeee",
       },
     },
     levelCaps: [
-      { id: 1, arena: "1. Arena", level: "14/12" },
-      { id: 2, arena: "2. Arena", level: "20/18" },
-      { id: 3, arena: "3. Arena", level: "23/21" },
-      { id: 4, arena: "4. Arena", level: "27/25" },
-      { id: 5, arena: "5. Arena", level: "31/29" },
-      { id: 6, arena: "6. Arena", level: "35/33" },
-      { id: 7, arena: "7. Arena", level: "39/37" },
-      { id: 8, arena: "8. Arena", level: "43/41" },
-      { id: 9, arena: "Top 4 | Anissa", level: "50/48" },
-      { id: 10, arena: "Top 4 | Astor", level: "50/48" },
-      { id: 11, arena: "Top 4 | Kattlea", level: "50/48" },
-      { id: 12, arena: "Top 4 | Eugen", level: "50/48" },
-      { id: 13, arena: "Champ | N", level: "52/50" },
+      {
+        id: 1,
+        arena: "gym_1",
+        level: "14/12",
+      },
+      {
+        id: 2,
+        arena: "gym_2",
+        level: "20/18",
+      },
+      {
+        id: 3,
+        arena: "gym_3",
+        level: "23/21",
+      },
+      {
+        id: 4,
+        arena: "gym_4",
+        level: "27/25",
+      },
+      {
+        id: 5,
+        arena: "gym_5",
+        level: "31/29",
+      },
+      {
+        id: 6,
+        arena: "gym_6",
+        level: "35/33",
+      },
+      {
+        id: 7,
+        arena: "gym_7",
+        level: "39/37",
+      },
+      {
+        id: 8,
+        arena: "gym_8",
+        level: "43/41",
+      },
+      {
+        id: 9,
+        arena: "elite_four_shauntal",
+        level: "50/48",
+      },
+      {
+        id: 10,
+        arena: "elite_four_grimsley",
+        level: "50/48",
+      },
+      {
+        id: 11,
+        arena: "elite_four_caitlin",
+        level: "50/48",
+      },
+      {
+        id: 12,
+        arena: "elite_four_marshal",
+        level: "50/48",
+      },
+      {
+        id: 13,
+        arena: "champion_n",
+        level: "52/50",
+      },
     ],
     rivalCaps: [
-      { id: 1, location: "Gavina", rival: "N", level: "7" },
-      { id: 2, location: "Route 2", rival: "Bell", level: "7/6" },
-      { id: 3, location: "Orion City", rival: "Cheren", level: "8" },
-      { id: 5, location: "Route 3", rival: "Cheren", level: "14/12" },
-      { id: 4, location: "Septerna City", rival: "N", level: "13" },
-      { id: 6, location: "Route 4", rival: "Bell", level: "20/18" },
-      { id: 7, location: "Route 4", rival: "Cheren", level: "22/20" },
-      { id: 8, location: "Rayono City", rival: "N", level: "22" },
-      { id: 9, location: "Route 5", rival: "Cheren", level: "26/24" },
-      { id: 10, location: "Marea City", rival: "Bell", level: "28/26" },
-      { id: 11, location: "Elektrolithhöhle", rival: "N", level: "28" },
-      { id: 12, location: "Wendelberg", rival: "Cheren", level: "35/33" },
-      { id: 13, location: "Route 8", rival: "Bell", level: "40/38" },
-      { id: 14, location: "Route 10", rival: "Cheren", level: "45/43" },
+      {
+        id: 1,
+        location: "accumula_town",
+        rival: "n",
+        level: "7",
+      },
+      {
+        id: 2,
+        location: "route_2",
+        rival: "bianca",
+        level: "7/6",
+      },
+      {
+        id: 3,
+        location: "striation_city",
+        rival: "cheren",
+        level: "8",
+      },
+      {
+        id: 5,
+        location: "route_3",
+        rival: "cheren",
+        level: "14/12",
+      },
+      {
+        id: 4,
+        location: "nacrene_city",
+        rival: "n",
+        level: "13",
+      },
+      {
+        id: 6,
+        location: "route_4",
+        rival: "bianca",
+        level: "20/18",
+      },
+      {
+        id: 7,
+        location: "route_4",
+        rival: "cheren",
+        level: "22/20",
+      },
+      {
+        id: 8,
+        location: "nimbasa_city",
+        rival: "n",
+        level: "22",
+      },
+      {
+        id: 9,
+        location: "route_5",
+        rival: "cheren",
+        level: "26/24",
+      },
+      {
+        id: 10,
+        location: "driftveil_city",
+        rival: "bianca",
+        level: "28/26",
+      },
+      {
+        id: 11,
+        location: "chargestone_cave",
+        rival: "n",
+        level: "28",
+      },
+      {
+        id: 12,
+        location: "twist_mountain",
+        rival: "cheren",
+        level: "35/33",
+      },
+      {
+        id: 13,
+        location: "route_8",
+        rival: "bianca",
+        level: "40/38",
+      },
+      {
+        id: 14,
+        location: "route_10",
+        rival: "cheren",
+        level: "45/43",
+      },
     ],
   },
   gen5_b2w2: {
     id: "gen5_b2w2",
-    name: "Pokémon Schwarz 2 / Weiß 2",
     badgeSet: "gen5/b2w2",
     badge: {
       segments: [
         {
-          text: "S2",
+          badgeSegmentName: "black_2",
           bgColor: "#000000",
           textColor: "#bbe7ff",
           borderColor: "#3f566f",
         },
         {
-          text: "W2",
+          badgeSegmentName: "white_2",
           bgColor: "#ffffff",
           textColor: "#dd151b",
           borderColor: "#ed1c24",
@@ -656,52 +1433,118 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
       ],
     },
     selectionColors: {
-      "Schwarz 2": {
+      black_2: {
         bgColor: "#424242",
         textColor: "#ffffff",
         borderColor: "#424242",
       },
-      "Weiß 2": {
+      white_2: {
         bgColor: "#eeeeee",
         textColor: "#000000",
         borderColor: "#eeeeee",
       },
     },
     levelCaps: [
-      { id: 1, arena: "1. Arena", level: "13/11" },
-      { id: 2, arena: "2. Arena", level: "18/16" },
-      { id: 3, arena: "3. Arena", level: "24/22" },
-      { id: 4, arena: "4. Arena", level: "30/28" },
-      { id: 5, arena: "5. Arena", level: "33/31" },
-      { id: 6, arena: "6. Arena", level: "39/37" },
-      { id: 7, arena: "7. Arena", level: "48/46" },
-      { id: 8, arena: "8. Arena", level: "51/49" },
-      { id: 9, arena: "Top 4 | Anissa", level: "58/56" },
-      { id: 10, arena: "Top 4 | Astor", level: "58/56" },
-      { id: 11, arena: "Top 4 | Kattlea", level: "58/56" },
-      { id: 12, arena: "Top 4 | Eugen", level: "58/56" },
-      { id: 13, arena: "Champ | Lilia", level: "59/57" },
+      {
+        id: 1,
+        arena: "gym_1",
+        level: "13/11",
+      },
+      {
+        id: 2,
+        arena: "gym_2",
+        level: "18/16",
+      },
+      {
+        id: 3,
+        arena: "gym_3",
+        level: "24/22",
+      },
+      {
+        id: 4,
+        arena: "gym_4",
+        level: "30/28",
+      },
+      {
+        id: 5,
+        arena: "gym_5",
+        level: "33/31",
+      },
+      {
+        id: 6,
+        arena: "gym_6",
+        level: "39/37",
+      },
+      {
+        id: 7,
+        arena: "gym_7",
+        level: "48/46",
+      },
+      {
+        id: 8,
+        arena: "gym_8",
+        level: "51/49",
+      },
+      {
+        id: 9,
+        arena: "elite_four_shauntal",
+        level: "58/56",
+      },
+      {
+        id: 10,
+        arena: "elite_four_grimsley",
+        level: "58/56",
+      },
+      {
+        id: 11,
+        arena: "elite_four_caitlin",
+        level: "58/56",
+      },
+      {
+        id: 12,
+        arena: "elite_four_marshal",
+        level: "58/56",
+      },
+      {
+        id: 13,
+        arena: "champion_iris",
+        level: "59/57",
+      },
     ],
     rivalCaps: [
-      { id: 1, location: "Dausing-Hof", rival: "Matisse", level: "8" },
-      { id: 2, location: "Ondula", rival: "Matisse", level: "41/39" },
-      { id: 3, location: "Siegesstraße", rival: "Matisse", level: "57/55" },
+      {
+        id: 1,
+        location: "floccesy_ranch",
+        rival: "hugh",
+        level: "8",
+      },
+      {
+        id: 2,
+        location: "undella_town",
+        rival: "hugh",
+        level: "41/39",
+      },
+      {
+        id: 3,
+        location: "victory_road",
+        rival: "hugh",
+        level: "57/55",
+      },
     ],
   },
   gen6_xy: {
     id: "gen6_xy",
-    name: "Pokémon X / Y",
     badgeSet: "gen6/xy",
     badge: {
       segments: [
         {
-          text: "X",
+          badgeSegmentName: "x",
           bgColor: "#dff3f4",
           textColor: "#005e9b",
           borderColor: "#005e9b",
         },
         {
-          text: "Y",
+          badgeSegmentName: "y",
           bgColor: "#e9b2bf",
           textColor: "#871223",
           borderColor: "#871223",
@@ -709,98 +1552,196 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
       ],
     },
     selectionColors: {
-      X: { bgColor: "#325ca6", textColor: "#ffffff", borderColor: "#325ca6" },
-      Y: { bgColor: "#d41235", textColor: "#ffffff", borderColor: "#d41235" },
+      x: {
+        bgColor: "#325ca6",
+        textColor: "#ffffff",
+        borderColor: "#325ca6",
+      },
+      y: {
+        bgColor: "#d41235",
+        textColor: "#ffffff",
+        borderColor: "#d41235",
+      },
     },
     levelCaps: [
-      { id: 1, arena: "1. Arena", level: "12/10" },
-      { id: 2, arena: "2. Arena", level: "25" },
-      { id: 3, arena: "3. Arena", level: "32/29" },
-      { id: 4, arena: "4. Arena", level: "34/31" },
-      { id: 5, arena: "5. Arena", level: "37/35" },
-      { id: 6, arena: "6. Arena", level: "42/39" },
-      { id: 7, arena: "7. Arena", level: "48/45" },
-      { id: 8, arena: "8. Arena", level: "59/56" },
-      { id: 9, arena: "Top 4 | Thymelot", level: "65/63" },
-      { id: 10, arena: "Top 4 | Pachira", level: "65/63" },
-      { id: 11, arena: "Top 4 | Dracena", level: "65/63" },
-      { id: 12, arena: "Top 4 | Narcisse", level: "65/63" },
-      { id: 13, arena: "Champ | Diantha", level: "68/66" },
-    ],
-    rivalCaps: [
-      { id: 1, location: "Route 5", rival: "Tierno", level: "12" },
-      { id: 2, location: "Route 7", rival: "Tierno", level: "16/14" },
-      { id: 3, location: "Route 7", rival: "Trovato", level: "16/14" },
+      {
+        id: 1,
+        arena: "gym_1",
+        level: "12/10",
+      },
+      {
+        id: 2,
+        arena: "gym_2",
+        level: "25",
+      },
+      {
+        id: 3,
+        arena: "gym_3",
+        level: "32/29",
+      },
+      {
+        id: 4,
+        arena: "gym_4",
+        level: "34/31",
+      },
+      {
+        id: 5,
+        arena: "gym_5",
+        level: "37/35",
+      },
       {
         id: 6,
-        location: "Turm der Erkenntnis",
+        arena: "gym_6",
+        level: "42/39",
+      },
+      {
+        id: 7,
+        arena: "gym_7",
+        level: "48/45",
+      },
+      {
+        id: 8,
+        arena: "gym_8",
+        level: "59/56",
+      },
+      {
+        id: 9,
+        arena: "elite_four_wikstrom",
+        level: "65/63",
+      },
+      {
+        id: 10,
+        arena: "elite_four_malva",
+        level: "65/63",
+      },
+      {
+        id: 11,
+        arena: "elite_four_drasna",
+        level: "65/63",
+      },
+      {
+        id: 12,
+        arena: "elite_four_siebold",
+        level: "65/63",
+      },
+      {
+        id: 13,
+        arena: "champion_diantha",
+        level: "68/66",
+      },
+    ],
+    rivalCaps: [
+      {
+        id: 1,
+        location: "route_5",
+        rival: "tierno",
+        level: "12",
+      },
+      {
+        id: 2,
+        location: "route_7",
+        rival: "tierno",
+        level: "16/14",
+      },
+      {
+        id: 3,
+        location: "route_7",
+        rival: "trevor",
+        level: "16/14",
+      },
+      {
+        id: 6,
+        location: "tower_of_mastery",
         rival: {
-          name: "Kalem / Serena",
-          key: "kalem_serena",
-          options: { male: "kalem", female: "serena" },
+          key: "calem_serena",
+          options: {
+            male: "calem",
+            female: "serena",
+          },
         },
         level: "30/28",
       },
       {
         id: 7,
-        location: "Tempera City",
+        location: "coumarine_city",
         rival: {
-          name: "Kalem / Serena",
-          key: "kalem_serena",
-          options: { male: "kalem", female: "serena" },
+          key: "calem_serena",
+          options: {
+            male: "calem",
+            female: "serena",
+          },
         },
         level: "33/31",
       },
       {
         id: 8,
-        location: "Route 14",
+        location: "route_14",
         rival: {
-          name: "Kalem / Serena",
-          key: "kalem_serena",
-          options: { male: "kalem", female: "serena" },
+          key: "calem_serena",
+          options: {
+            male: "calem",
+            female: "serena",
+          },
         },
         level: "37/35",
       },
       {
         id: 9,
-        location: "Fluxia City",
+        location: "anistar_city",
         rival: {
-          name: "Kalem / Serena",
-          key: "kalem_serena",
-          options: { male: "kalem", female: "serena" },
+          key: "calem_serena",
+          options: {
+            male: "calem",
+            female: "serena",
+          },
         },
         level: "46/44",
       },
-      { id: 10, location: "Route 19", rival: "Sannah", level: "51/49" },
-      { id: 11, location: "Route 19", rival: "Trovato", level: "51/49" },
-      { id: 12, location: "Route 19", rival: "Tierno", level: "52/49" },
+      {
+        id: 10,
+        location: "route_19",
+        rival: "shauna",
+        level: "51/49",
+      },
+      {
+        id: 11,
+        location: "route_19",
+        rival: "trevor",
+        level: "51/49",
+      },
+      {
+        id: 12,
+        location: "route_19",
+        rival: "tierno",
+        level: "52/49",
+      },
       {
         id: 13,
-        location: "Siegesstraße",
+        location: "victory_road",
         rival: {
-          name: "Kalem / Serena",
-          key: "kalem_serena",
-          options: { male: "kalem", female: "serena" },
+          key: "calem_serena",
+          options: {
+            male: "calem",
+            female: "serena",
+          },
         },
         level: "61/59",
       },
-      // {id: 14, location: 'Batika City', rival: {name: 'Kalem / Serena', key: 'kalem_serena', options: {male: 'kalem', female: 'serena'}}, level: '70/68'},
     ],
   },
   gen6_oras: {
     id: "gen6_oras",
-    name: "Pokémon Omega Rubin / Alpha Saphir",
     badgeSet: "gen3/rusaem",
     badge: {
       segments: [
         {
-          text: "ΩR",
+          badgeSegmentName: "omega_ruby",
           bgColor: "#bf0109",
           textColor: "#f8f688",
           borderColor: "#4f1734",
         },
         {
-          text: "αS",
+          badgeSegmentName: "alpha_sapphire",
           bgColor: "#3862ae",
           textColor: "#f8f688",
           borderColor: "#0a1535",
@@ -808,72 +1749,142 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
       ],
     },
     selectionColors: {
-      "Omega Rubin": {
+      omega_ruby: {
         bgColor: "#cf0304",
         textColor: "#ffffff",
         borderColor: "#cf0304",
       },
-      "Alpha Saphir": {
+      alpha_sapphire: {
         bgColor: "#3c3696",
         textColor: "#ffffff",
         borderColor: "#3c3696",
       },
     },
     levelCaps: [
-      { id: 1, arena: "1. Arena", level: "14/12" },
-      { id: 2, arena: "2. Arena", level: "16/14" },
-      { id: 3, arena: "3. Arena", level: "21/19" },
-      { id: 4, arena: "4. Arena", level: "28/26" },
-      { id: 5, arena: "5. Arena", level: "30/28" },
-      { id: 6, arena: "6. Arena", level: "35/33" },
-      { id: 7, arena: "7. Arena", level: "45/45" },
-      { id: 8, arena: "8. Arena", level: "46/44" },
-      { id: 9, arena: "Top 4 | Ulrich", level: "52/50" },
-      { id: 10, arena: "Top 4 | Antonia", level: "53/51" },
-      { id: 11, arena: "Top 4 | Frosina", level: "54/52" },
-      { id: 12, arena: "Top 4 | Dragan", level: "55/53" },
-      { id: 13, arena: "Champ | Troy", level: "59/57" },
+      {
+        id: 1,
+        arena: "gym_1",
+        level: "14/12",
+      },
+      {
+        id: 2,
+        arena: "gym_2",
+        level: "16/14",
+      },
+      {
+        id: 3,
+        arena: "gym_3",
+        level: "21/19",
+      },
+      {
+        id: 4,
+        arena: "gym_4",
+        level: "28/26",
+      },
+      {
+        id: 5,
+        arena: "gym_5",
+        level: "30/28",
+      },
+      {
+        id: 6,
+        arena: "gym_6",
+        level: "35/33",
+      },
+      {
+        id: 7,
+        arena: "gym_7",
+        level: "45/45",
+      },
+      {
+        id: 8,
+        arena: "gym_8",
+        level: "46/44",
+      },
+      {
+        id: 9,
+        arena: "elite_four_sidney",
+        level: "52/50",
+      },
+      {
+        id: 10,
+        arena: "elite_four_phoebe",
+        level: "53/51",
+      },
+      {
+        id: 11,
+        arena: "elite_four_glacia",
+        level: "54/52",
+      },
+      {
+        id: 12,
+        arena: "elite_four_drake",
+        level: "55/53",
+      },
+      {
+        id: 13,
+        arena: "champion_steven",
+        level: "59/57",
+      },
     ],
     rivalCaps: [
       {
         id: 1,
-        location: "Route 110",
+        location: "route_110",
         rival: {
-          name: "Brix / Maike",
-          key: "brix_maike",
-          options: { male: "brix", female: "maike" },
+          key: "brendan_may",
+          options: {
+            male: "brendan",
+            female: "may",
+          },
         },
         level: "20/18",
       },
-      { id: 2, location: "Malvenfroh City", rival: "Heiko", level: "17" },
+      {
+        id: 2,
+        location: "mauville_city",
+        rival: "wally",
+        level: "17",
+      },
       {
         id: 3,
-        location: "Route 119",
+        location: "route_119",
         rival: {
-          name: "Brix / Maike",
-          key: "brix_maike",
-          options: { male: "brix", female: "maike" },
+          key: "brendan_may",
+          options: {
+            male: "brendan",
+            female: "may",
+          },
         },
         level: "33/31",
       },
       {
         id: 4,
-        location: "Seegrasulb City",
+        location: "lilycove_city",
         rival: {
-          name: "Brix / Maike",
-          key: "brix_maike",
-          options: { male: "brix", female: "maike" },
+          key: "brendan_may",
+          options: {
+            male: "brendan",
+            female: "may",
+          },
         },
         level: "38/37",
       },
-      { id: 5, location: "Siegesstraße", rival: "Heiko", level: "48/46" },
+      {
+        id: 5,
+        location: "victory_road",
+        rival: "wally",
+        level: "48/46",
+      },
       {
         id: 6,
-        location: "Route 103",
+        location: "route_103",
         rival: {
-          name: "Brix / Maike",
-          key: "brix_maike",
-          options: { male: "brix", female: "maike" },
+          key: "brendan_may",
+          options: {
+            male: "brendan",
+            female: "may",
+          },
         },
         level: "50/48",
       },

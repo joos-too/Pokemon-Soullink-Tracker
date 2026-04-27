@@ -411,10 +411,3 @@ export async function seedEmulatorData(): Promise<void> {
     seedingAttempted = false;
   }
 }
-
-/**
- * Resets the seeding flag for testing purposes
- */
-export function resetSeedingFlag(): void {
-  seedingAttempted = false;
-}
