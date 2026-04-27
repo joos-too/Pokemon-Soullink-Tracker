@@ -1,5 +1,5 @@
 import React, { useEffect, useId, useMemo, useState } from "react";
-import type { PokemonLink } from "@/types";
+import type { FossilEntry, PokemonLink, StoneEntry } from "@/types";
 import { useTranslation } from "react-i18next";
 import { useFocusTrap } from "@/src/hooks/useFocusTrap";
 import {
@@ -11,9 +11,13 @@ import {
   getPokemonFamilyIdsMatchingQuery,
   getPokemonIdFromName,
 } from "@/src/services/pokemonSearch";
+import { FOSSILS, STONES, MEGA_STONES } from "@/src/services/init";
+import { getItemName, getItemSpriteUrl } from "@/src/services/itemSearch";
+import { normalizeLanguage } from "@/src/utils/language";
 
-type SearchMode = "pokemon" | "routes";
+type SearchMode = "pokemon" | "routes" | "items";
 type PokemonSectionKey = "team" | "box" | "graveyard";
+type ItemCategory = "fossils" | "stones" | "megaStones" | "items";
 
 const ROUTE_NUMBER_REGEX = /\broute[\s-]*(\d+)\b/i;
 
@@ -47,6 +51,8 @@ interface TrackerSearchModalProps {
   box: PokemonLink[];
   graveyard: PokemonLink[];
   routes: string[];
+  fossils: FossilEntry[][];
+  stones: StoneEntry[][];
   generationSpritePath?: string | null;
 }
 
@@ -59,6 +65,19 @@ interface PokemonSection {
 const SEARCH_MODE_BUTTON_CLASS =
   "px-3 py-2 rounded-md text-sm font-semibold transition-colors";
 
+interface ItemRow {
+  category: ItemCategory;
+  id: string;
+  name: string;
+  spriteUrl: string;
+  playerIndex: number;
+  status: string;
+  location: string;
+  pixelated: boolean;
+}
+
+const MEGA_STONE_IDS = new Set(MEGA_STONES.map((m) => m.id));
+
 const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
   isOpen,
   onClose,
@@ -68,9 +87,11 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
   box,
   graveyard,
   routes,
+  fossils,
+  stones,
   generationSpritePath,
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { containerRef } = useFocusTrap(isOpen);
   const titleId = useId();
   const [mode, setMode] = useState<SearchMode>("pokemon");
@@ -146,8 +167,121 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
     );
   }, [normalizedQuery, routes]);
 
+  const locale = normalizeLanguage(i18n.language);
+
+  const allItems = useMemo<ItemRow[]>(() => {
+    const rows: ItemRow[] = [];
+
+    // Fossils
+    (fossils ?? []).forEach((playerFossils, pIdx) => {
+      (playerFossils ?? []).forEach((entry) => {
+        const def = FOSSILS.find((f) => f.id === entry.fossilId);
+        const status = entry.revived
+          ? entry.pokemonName
+            ? `${t("tracker.infoPanel.fossilRevived")}: ${entry.pokemonName}`
+            : t("tracker.infoPanel.fossilRevived")
+          : entry.inBag
+            ? t("tracker.infoPanel.fossilBag")
+            : t("tracker.infoPanel.fossilLocation", {
+                location: entry.location,
+              });
+        rows.push({
+          category: "fossils",
+          id: entry.fossilId,
+          name: t(`fossils.${entry.fossilId}`),
+          spriteUrl: def ? `/fossil-sprites/${def.sprite}` : "",
+          playerIndex: pIdx,
+          status,
+          location: entry.location,
+          pixelated: true,
+        });
+      });
+    });
+
+    // Stones & items
+    (stones ?? []).forEach((playerStones, pIdx) => {
+      (playerStones ?? []).forEach((entry) => {
+        const isCustomItem = entry.stoneId.startsWith("item:");
+        const itemSlug = isCustomItem
+          ? entry.stoneId.replace("item:", "")
+          : null;
+        const isMega = itemSlug ? MEGA_STONE_IDS.has(itemSlug) : false;
+        const stoneDef = isCustomItem
+          ? null
+          : STONES.find((s) => s.id === entry.stoneId);
+
+        let category: ItemCategory;
+        let name: string;
+        let spriteUrl: string;
+
+        if (!isCustomItem && stoneDef) {
+          category = "stones";
+          name = t(`stones.${entry.stoneId}`);
+          spriteUrl = `/stone-sprites/${stoneDef.sprite}`;
+        } else if (isMega && itemSlug) {
+          category = "megaStones";
+          name = getItemName(itemSlug, locale);
+          spriteUrl = getItemSpriteUrl(itemSlug);
+        } else if (itemSlug) {
+          category = "items";
+          name = getItemName(itemSlug, locale);
+          spriteUrl = getItemSpriteUrl(itemSlug);
+        } else {
+          category = "items";
+          name = entry.stoneId;
+          spriteUrl = "";
+        }
+
+        const status = entry.used
+          ? t("tracker.infoPanel.stoneUsed")
+          : entry.inBag
+            ? t("tracker.infoPanel.stoneBag")
+            : t("tracker.infoPanel.stoneLocation", {
+                location: entry.location,
+              });
+
+        rows.push({
+          category,
+          id: entry.stoneId,
+          name,
+          spriteUrl,
+          playerIndex: pIdx,
+          status,
+          location: entry.location,
+          pixelated: true,
+        });
+      });
+    });
+
+    return rows;
+  }, [fossils, stones, t, locale]);
+
+  const itemSections = useMemo(() => {
+    const categories: { key: ItemCategory; titleKey: string }[] = [
+      { key: "fossils", titleKey: "tracker.infoPanel.fossilTracker" },
+      { key: "stones", titleKey: "tracker.search.categoryStones" },
+      { key: "megaStones", titleKey: "tracker.search.categoryMegaStones" },
+      { key: "items", titleKey: "tracker.infoPanel.itemTracker" },
+    ];
+
+    return categories
+      .map(({ key, titleKey }) => {
+        const items = allItems.filter((item) => {
+          if (item.category !== key) return false;
+          if (!normalizedQuery) return true;
+          return (
+            item.name.toLowerCase().includes(normalizedQuery) ||
+            item.location.toLowerCase().includes(normalizedQuery)
+          );
+        });
+        return { key, title: t(titleKey), items };
+      })
+      .filter((section) => section.items.length > 0);
+  }, [allItems, normalizedQuery, t]);
+
   const hasPokemonResults = pokemonSections.length > 0;
   const hasRouteResults = filteredRoutes.length > 0;
+  const hasItemResults = itemSections.length > 0;
 
   if (!isOpen) return null;
 
@@ -159,7 +293,7 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
         aria-modal="true"
         aria-labelledby={titleId}
         tabIndex={-1}
-        className="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-[40rem] max-h-[85vh] overflow-hidden"
+        className="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-160 max-h-[85vh] overflow-hidden"
       >
         <div className="px-6 py-4 flex justify-between items-center border-b border-gray-100 dark:border-gray-700">
           <h2 id={titleId} className="text-lg font-bold dark:text-gray-100">
@@ -211,6 +345,17 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
             >
               {t("tracker.search.modeRoutes")}
             </button>
+            <button
+              type="button"
+              onClick={() => setMode("items")}
+              className={`${SEARCH_MODE_BUTTON_CLASS} ${
+                mode === "items"
+                  ? "bg-green-600 text-white"
+                  : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600"
+              } ${focusRingClasses}`}
+            >
+              {t("tracker.search.modeItems")}
+            </button>
           </div>
 
           <input
@@ -230,7 +375,7 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
               <div className="space-y-6 pb-2">
                 {pokemonSections.map((section) => (
                   <div key={section.key} className="space-y-3">
-                    <h3 className="text-sm font-press-start text-gray-800 dark:text-gray-200">
+                    <h3 className="text-lg font-bold text-gray-800 dark:text-gray-200">
                       {section.title}
                     </h3>
                     <div className="space-y-3">
@@ -314,22 +459,80 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
                   : t("tracker.search.emptyPokemon")}
               </p>
             )
-          ) : hasRouteResults ? (
-            <ul className="grid grid-cols-1 gap-2 pb-2 text-sm text-gray-800 dark:text-gray-200">
-              {filteredRoutes.map((route) => (
-                <li
-                  key={route}
-                  className="px-3 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-md"
-                >
-                  {route}
-                </li>
+          ) : mode === "routes" ? (
+            hasRouteResults ? (
+              <ul className="grid grid-cols-1 gap-2 pb-2 text-sm text-gray-800 dark:text-gray-200">
+                {filteredRoutes.map((route) => (
+                  <li
+                    key={route}
+                    className="px-3 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-md"
+                  >
+                    {route}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-center text-gray-500 dark:text-gray-400 text-sm py-8">
+                {normalizedQuery
+                  ? t("modals.common.noMatches")
+                  : t("tracker.search.emptyRoutes")}
+              </p>
+            )
+          ) : hasItemResults ? (
+            <div className="space-y-6 pb-2">
+              {itemSections.map((section) => (
+                <div key={section.key} className="space-y-2">
+                  <h3 className="text-lg font-bold text-gray-800 dark:text-gray-200">
+                    {section.title}
+                  </h3>
+                  <div className="space-y-1">
+                    {section.items.map((item, idx) => (
+                      <div
+                        key={`${section.key}-${item.id}-${item.playerIndex}-${idx}`}
+                        className="flex items-center gap-2 px-3 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-md text-xs"
+                      >
+                        {item.spriteUrl ? (
+                          <img
+                            src={item.spriteUrl}
+                            alt=""
+                            className="w-6 h-6 object-contain shrink-0"
+                            style={
+                              item.pixelated
+                                ? { imageRendering: "pixelated" }
+                                : undefined
+                            }
+                            loading="lazy"
+                          />
+                        ) : (
+                          <div className="w-6 h-6 shrink-0" />
+                        )}
+                        <div className="flex-1 min-w-0">
+                          <span className="font-bold text-gray-800 dark:text-gray-100">
+                            {item.name}
+                          </span>
+                          <span className="ml-2 text-gray-500 dark:text-gray-400">
+                            {item.status}
+                          </span>
+                        </div>
+                        <span
+                          className="text-xs font-semibold shrink-0"
+                          style={{
+                            color: playerColors[item.playerIndex] ?? "#4b5563",
+                          }}
+                        >
+                          {playerNames[item.playerIndex] ?? ""}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               ))}
-            </ul>
+            </div>
           ) : (
             <p className="text-center text-gray-500 dark:text-gray-400 text-sm py-8">
               {normalizedQuery
                 ? t("modals.common.noMatches")
-                : t("tracker.search.emptyRoutes")}
+                : t("tracker.search.emptyItems")}
             </p>
           )}
         </div>
