@@ -22,11 +22,13 @@ import type {
   LevelCap,
   Pokemon,
   PokemonLink,
+  RivalCap,
   RivalGender,
   Ruleset,
   TrackerMeta,
   TrackerSummary,
 } from "@/types";
+import { computeWeightedProgress } from "@/src/utils/progressWeights";
 import {
   createInitialState,
   ensureStatsForPlayers,
@@ -134,7 +136,11 @@ const computeTrackerSummary = (
   const levelCaps = Array.isArray(state?.levelCaps)
     ? (state.levelCaps as LevelCap[])
     : [];
+  const rivalCaps = Array.isArray(state?.rivalCaps)
+    ? (state.rivalCaps as RivalCap[])
+    : [];
   const doneCapsCount = levelCaps.filter((cap) => cap?.done).length;
+  const { pct: progressPct } = computeWeightedProgress(levelCaps, rivalCaps);
 
   const deathCount = Array.isArray(state?.stats?.deaths)
     ? state!.stats!.deaths.reduce((sum, value) => sum + Number(value || 0), 0)
@@ -147,6 +153,7 @@ const computeTrackerSummary = (
     runs,
     championDone: doneCapsCount > 12,
     doneCapsCount,
+    progressPct,
   };
 };
 

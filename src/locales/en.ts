@@ -42,6 +42,7 @@ export const en = {
     runCount: "Run {{count}}",
     activePokemon: "Active",
     fallenPokemon: "Lost",
+    completedBadge: "Completed",
     progressFallback: "No gyms cleared",
     privateTracker: "Private tracker",
     publicTracker: "Public tracker",

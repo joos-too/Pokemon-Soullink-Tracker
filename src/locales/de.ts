@@ -43,6 +43,7 @@ export const de = {
     runCount: "Run {{count}}",
     activePokemon: "Aktiv",
     fallenPokemon: "Tot",
+    completedBadge: "Abgeschlossen",
     progressFallback: "Noch keine Arena",
     privateTracker: "Privater Tracker",
     publicTracker: "Öffentlicher Tracker",

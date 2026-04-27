@@ -155,4 +155,5 @@ export interface TrackerSummary {
   runs: number;
   championDone: boolean;
   doneCapsCount: number;
+  progressPct: number;
 }
