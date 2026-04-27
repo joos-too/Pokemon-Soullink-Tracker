@@ -619,8 +619,14 @@ const HomePage: React.FC<HomePageProps> = ({
                           )}
                         </span>
                         {isCompleted && (
-                          <span className="inline-flex items-center gap-1 rounded-full bg-yellow-100 dark:bg-yellow-300/5 text-yellow-700 dark:text-yellow-400 px-2 py-1 text-xs font-semibold">
-                            <FiAward size={14} /> {t("home.completedBadge")}
+                          <span
+                            className="inline-flex items-center gap-1 rounded-full bg-yellow-100 dark:bg-yellow-300/5 text-yellow-700 dark:text-yellow-400 px-2 py-1 text-xs font-semibold"
+                            title={t("home.completedBadge")}
+                          >
+                            <FiAward size={14} />{" "}
+                            <span className="hidden min-[480px]:inline">
+                              {t("home.completedBadge")}
+                            </span>
                           </span>
                         )}
                         <div className="ml-auto shrink-0">
