@@ -33,7 +33,7 @@ interface AddStoneModalProps {
 
 type Tab = "stones" | "items" | "mega";
 
-const AddStoneModal: React.FC<AddStoneModalProps> = ({
+const AddItemModal: React.FC<AddStoneModalProps> = ({
   isOpen,
   onClose,
   onAdd,
@@ -511,4 +511,4 @@ const AddStoneModal: React.FC<AddStoneModalProps> = ({
   );
 };
 
-export default AddStoneModal;
+export default AddItemModal;

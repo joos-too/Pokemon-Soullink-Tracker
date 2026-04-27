@@ -15,7 +15,7 @@ import {
   FiZap,
 } from "react-icons/fi";
 import AddFossilModal from "../modals/AddFossilModal.tsx";
-import AddStoneModal from "../modals/AddStoneModal.tsx";
+import AddItemModal from "../modals/AddItemModal.tsx";
 import {
   focusRingCardClasses,
   focusRingClasses,
@@ -233,7 +233,7 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
 
   // --- Render stone content ---
   const renderStoneContent = () => (
-    <div className="flex flex-col max-h-[350px]">
+    <div className="flex flex-col max-h-87.5">
       <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar">
         <div
           className="grid gap-4 grid-cols-1 px-4 pb-4"
@@ -401,7 +401,7 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
 
   // --- Render fossil content ---
   const renderFossilContent = () => (
-    <div className="flex flex-col max-h-[350px]">
+    <div className="flex flex-col max-h-87.5">
       <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar">
         <div
           className="grid gap-4 grid-cols-1 px-4 pb-4"
@@ -644,7 +644,7 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
       </div>
 
       {/* Modals rendered outside the tracker to avoid clipping/containment issues */}
-      <AddStoneModal
+      <AddItemModal
         isOpen={stoneModalOpen.open}
         onClose={() => setStoneModalOpen({ open: false, playerIndex: 0 })}
         maxGeneration={maxGeneration}
