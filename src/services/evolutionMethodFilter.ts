@@ -1,6 +1,16 @@
 import { SupportedLanguage } from "@/src/utils/language.ts";
 import { TFunction } from "i18next";
-import { POKEMON_DATA } from "@/src/data/pokemon";
+import { POKEMON_DATA, PokemonDataEntry } from "@/src/data/pokemon";
+
+const getEvolutionEntries = (
+  pokemon: PokemonDataEntry,
+  language: SupportedLanguage,
+) =>
+  (pokemon.evolutions ?? []).map((entry) => ({
+    id: entry.id,
+    methods:
+      entry.methods[language] ?? entry.methods.de ?? entry.methods.en ?? [],
+  }));
 
 export interface MethodGenerationRule {
   methods: string[];
@@ -16,13 +26,13 @@ const EVOLUTION_TABLES: Record<
   de: Object.fromEntries(
     Object.entries(POKEMON_DATA).map(([id, pokemon]) => [
       Number(id),
-      pokemon.evolutions.de,
+      getEvolutionEntries(pokemon, "de"),
     ]),
   ),
   en: Object.fromEntries(
     Object.entries(POKEMON_DATA).map(([id, pokemon]) => [
       Number(id),
-      pokemon.evolutions.en,
+      getEvolutionEntries(pokemon, "en"),
     ]),
   ),
 };

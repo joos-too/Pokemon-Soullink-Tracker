@@ -3,7 +3,7 @@ export type PokemonLanguage = "de" | "en";
 
 export interface PokemonEvolutionEntry {
   id: number;
-  methods: string[];
+  methods: Record<PokemonLanguage, string[]>;
 }
 
 export interface PokemonPastTypesEntry {
@@ -16,8 +16,8 @@ export interface PokemonDataEntry {
   names: Record<PokemonLanguage, string>;
   generation: number;
   types: string[];
-  pastTypes: PokemonPastTypesEntry[];
-  evolutions: Record<PokemonLanguage, PokemonEvolutionEntry[]>;
+  pastTypes?: PokemonPastTypesEntry[];
+  evolutions?: PokemonEvolutionEntry[];
 }
 
 export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
@@ -29,21 +29,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["grass", "poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 2,
-          methods: ["Level-Up - Level 16"],
+    evolutions: [
+      {
+        id: 2,
+        methods: {
+          de: ["Level-Up - Level 16"],
+          en: ["Level-Up - Level 16"],
         },
-      ],
-      en: [
-        {
-          id: 2,
-          methods: ["Level-Up - Level 16"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "2": {
     id: 2,
@@ -53,21 +47,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["grass", "poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 3,
-          methods: ["Level-Up - Level 32"],
+    evolutions: [
+      {
+        id: 3,
+        methods: {
+          de: ["Level-Up - Level 32"],
+          en: ["Level-Up - Level 32"],
         },
-      ],
-      en: [
-        {
-          id: 3,
-          methods: ["Level-Up - Level 32"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "3": {
     id: 3,
@@ -77,11 +65,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["grass", "poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "4": {
     id: 4,
@@ -91,21 +74,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["fire"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 5,
-          methods: ["Level-Up - Level 16"],
+    evolutions: [
+      {
+        id: 5,
+        methods: {
+          de: ["Level-Up - Level 16"],
+          en: ["Level-Up - Level 16"],
         },
-      ],
-      en: [
-        {
-          id: 5,
-          methods: ["Level-Up - Level 16"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "5": {
     id: 5,
@@ -115,21 +92,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["fire"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 6,
-          methods: ["Level-Up - Level 36"],
+    evolutions: [
+      {
+        id: 6,
+        methods: {
+          de: ["Level-Up - Level 36"],
+          en: ["Level-Up - Level 36"],
         },
-      ],
-      en: [
-        {
-          id: 6,
-          methods: ["Level-Up - Level 36"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "6": {
     id: 6,
@@ -139,11 +110,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["fire", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "7": {
     id: 7,
@@ -153,21 +119,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 8,
-          methods: ["Level-Up - Level 16"],
+    evolutions: [
+      {
+        id: 8,
+        methods: {
+          de: ["Level-Up - Level 16"],
+          en: ["Level-Up - Level 16"],
         },
-      ],
-      en: [
-        {
-          id: 8,
-          methods: ["Level-Up - Level 16"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "8": {
     id: 8,
@@ -177,21 +137,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 9,
-          methods: ["Level-Up - Level 36"],
+    evolutions: [
+      {
+        id: 9,
+        methods: {
+          de: ["Level-Up - Level 36"],
+          en: ["Level-Up - Level 36"],
         },
-      ],
-      en: [
-        {
-          id: 9,
-          methods: ["Level-Up - Level 36"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "9": {
     id: 9,
@@ -201,11 +155,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "10": {
     id: 10,
@@ -215,21 +164,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["bug"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 11,
-          methods: ["Level-Up - Level 7"],
+    evolutions: [
+      {
+        id: 11,
+        methods: {
+          de: ["Level-Up - Level 7"],
+          en: ["Level-Up - Level 7"],
         },
-      ],
-      en: [
-        {
-          id: 11,
-          methods: ["Level-Up - Level 7"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "11": {
     id: 11,
@@ -239,21 +182,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["bug"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 12,
-          methods: ["Level-Up - Level 10"],
+    evolutions: [
+      {
+        id: 12,
+        methods: {
+          de: ["Level-Up - Level 10"],
+          en: ["Level-Up - Level 10"],
         },
-      ],
-      en: [
-        {
-          id: 12,
-          methods: ["Level-Up - Level 10"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "12": {
     id: 12,
@@ -263,11 +200,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["bug", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "13": {
     id: 13,
@@ -277,21 +209,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["bug", "poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 14,
-          methods: ["Level-Up - Level 7"],
+    evolutions: [
+      {
+        id: 14,
+        methods: {
+          de: ["Level-Up - Level 7"],
+          en: ["Level-Up - Level 7"],
         },
-      ],
-      en: [
-        {
-          id: 14,
-          methods: ["Level-Up - Level 7"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "14": {
     id: 14,
@@ -301,21 +227,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["bug", "poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 15,
-          methods: ["Level-Up - Level 10"],
+    evolutions: [
+      {
+        id: 15,
+        methods: {
+          de: ["Level-Up - Level 10"],
+          en: ["Level-Up - Level 10"],
         },
-      ],
-      en: [
-        {
-          id: 15,
-          methods: ["Level-Up - Level 10"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "15": {
     id: 15,
@@ -325,11 +245,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["bug", "poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "16": {
     id: 16,
@@ -339,21 +254,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["normal", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 17,
-          methods: ["Level-Up - Level 18"],
+    evolutions: [
+      {
+        id: 17,
+        methods: {
+          de: ["Level-Up - Level 18"],
+          en: ["Level-Up - Level 18"],
         },
-      ],
-      en: [
-        {
-          id: 17,
-          methods: ["Level-Up - Level 18"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "17": {
     id: 17,
@@ -363,21 +272,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["normal", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 18,
-          methods: ["Level-Up - Level 36"],
+    evolutions: [
+      {
+        id: 18,
+        methods: {
+          de: ["Level-Up - Level 36"],
+          en: ["Level-Up - Level 36"],
         },
-      ],
-      en: [
-        {
-          id: 18,
-          methods: ["Level-Up - Level 36"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "18": {
     id: 18,
@@ -387,11 +290,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["normal", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "19": {
     id: 19,
@@ -401,27 +299,18 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 20,
-          methods: [
-            "Level-Up - Level 20",
-            "Level-Up - Level 20, Tageszeit: Nacht",
-          ],
-        },
-      ],
-      en: [
-        {
-          id: 20,
-          methods: [
+    evolutions: [
+      {
+        id: 20,
+        methods: {
+          de: ["Level-Up - Level 20", "Level-Up - Level 20, Tageszeit: Nacht"],
+          en: [
             "Level-Up - Level 20",
             "Level-Up - Level 20, Time of day: Night",
           ],
         },
-      ],
-    },
+      },
+    ],
   },
   "20": {
     id: 20,
@@ -431,11 +320,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "21": {
     id: 21,
@@ -445,21 +329,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["normal", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 22,
-          methods: ["Level-Up - Level 20"],
+    evolutions: [
+      {
+        id: 22,
+        methods: {
+          de: ["Level-Up - Level 20"],
+          en: ["Level-Up - Level 20"],
         },
-      ],
-      en: [
-        {
-          id: 22,
-          methods: ["Level-Up - Level 20"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "22": {
     id: 22,
@@ -469,11 +347,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["normal", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "23": {
     id: 23,
@@ -483,21 +356,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 24,
-          methods: ["Level-Up - Level 22"],
+    evolutions: [
+      {
+        id: 24,
+        methods: {
+          de: ["Level-Up - Level 22"],
+          en: ["Level-Up - Level 22"],
         },
-      ],
-      en: [
-        {
-          id: 24,
-          methods: ["Level-Up - Level 22"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "24": {
     id: 24,
@@ -507,11 +374,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "25": {
     id: 25,
@@ -521,21 +383,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["electric"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 26,
-          methods: ["Item: Donnerstein"],
+    evolutions: [
+      {
+        id: 26,
+        methods: {
+          de: ["Item: Donnerstein"],
+          en: ["Item: Thunder Stone"],
         },
-      ],
-      en: [
-        {
-          id: 26,
-          methods: ["Item: Thunder Stone"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "26": {
     id: 26,
@@ -545,11 +401,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["electric"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "27": {
     id: 27,
@@ -559,21 +410,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["ground"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 28,
-          methods: ["Item: Eisstein", "Level-Up - Level 22"],
+    evolutions: [
+      {
+        id: 28,
+        methods: {
+          de: ["Item: Eisstein", "Level-Up - Level 22"],
+          en: ["Item: Ice Stone", "Level-Up - Level 22"],
         },
-      ],
-      en: [
-        {
-          id: 28,
-          methods: ["Item: Ice Stone", "Level-Up - Level 22"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "28": {
     id: 28,
@@ -583,11 +428,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["ground"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "29": {
     id: 29,
@@ -597,21 +437,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 30,
-          methods: ["Level-Up - Level 16"],
+    evolutions: [
+      {
+        id: 30,
+        methods: {
+          de: ["Level-Up - Level 16"],
+          en: ["Level-Up - Level 16"],
         },
-      ],
-      en: [
-        {
-          id: 30,
-          methods: ["Level-Up - Level 16"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "30": {
     id: 30,
@@ -621,21 +455,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 31,
-          methods: ["Item: Mondstein"],
+    evolutions: [
+      {
+        id: 31,
+        methods: {
+          de: ["Item: Mondstein"],
+          en: ["Item: Moon Stone"],
         },
-      ],
-      en: [
-        {
-          id: 31,
-          methods: ["Item: Moon Stone"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "31": {
     id: 31,
@@ -645,11 +473,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["poison", "ground"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "32": {
     id: 32,
@@ -659,21 +482,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 33,
-          methods: ["Level-Up - Level 16"],
+    evolutions: [
+      {
+        id: 33,
+        methods: {
+          de: ["Level-Up - Level 16"],
+          en: ["Level-Up - Level 16"],
         },
-      ],
-      en: [
-        {
-          id: 33,
-          methods: ["Level-Up - Level 16"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "33": {
     id: 33,
@@ -683,21 +500,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 34,
-          methods: ["Item: Mondstein"],
+    evolutions: [
+      {
+        id: 34,
+        methods: {
+          de: ["Item: Mondstein"],
+          en: ["Item: Moon Stone"],
         },
-      ],
-      en: [
-        {
-          id: 34,
-          methods: ["Item: Moon Stone"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "34": {
     id: 34,
@@ -707,11 +518,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["poison", "ground"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "35": {
     id: 35,
@@ -727,20 +533,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
         types: ["normal"],
       },
     ],
-    evolutions: {
-      de: [
-        {
-          id: 36,
-          methods: ["Item: Mondstein"],
+    evolutions: [
+      {
+        id: 36,
+        methods: {
+          de: ["Item: Mondstein"],
+          en: ["Item: Moon Stone"],
         },
-      ],
-      en: [
-        {
-          id: 36,
-          methods: ["Item: Moon Stone"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "36": {
     id: 36,
@@ -756,10 +557,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
         types: ["normal"],
       },
     ],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "37": {
     id: 37,
@@ -769,21 +566,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["fire"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 38,
-          methods: ["Item: Eisstein", "Item: Feuerstein"],
+    evolutions: [
+      {
+        id: 38,
+        methods: {
+          de: ["Item: Eisstein", "Item: Feuerstein"],
+          en: ["Item: Fire Stone", "Item: Ice Stone"],
         },
-      ],
-      en: [
-        {
-          id: 38,
-          methods: ["Item: Fire Stone", "Item: Ice Stone"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "38": {
     id: 38,
@@ -793,11 +584,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["fire"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "39": {
     id: 39,
@@ -813,20 +599,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
         types: ["normal"],
       },
     ],
-    evolutions: {
-      de: [
-        {
-          id: 40,
-          methods: ["Item: Mondstein"],
+    evolutions: [
+      {
+        id: 40,
+        methods: {
+          de: ["Item: Mondstein"],
+          en: ["Item: Moon Stone"],
         },
-      ],
-      en: [
-        {
-          id: 40,
-          methods: ["Item: Moon Stone"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "40": {
     id: 40,
@@ -842,10 +623,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
         types: ["normal"],
       },
     ],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "41": {
     id: 41,
@@ -855,21 +632,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["poison", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 42,
-          methods: ["Level-Up - Level 22"],
+    evolutions: [
+      {
+        id: 42,
+        methods: {
+          de: ["Level-Up - Level 22"],
+          en: ["Level-Up - Level 22"],
         },
-      ],
-      en: [
-        {
-          id: 42,
-          methods: ["Level-Up - Level 22"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "42": {
     id: 42,
@@ -879,21 +650,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["poison", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 169,
-          methods: ["Level-Up - Freundschaft ≥ 160"],
+    evolutions: [
+      {
+        id: 169,
+        methods: {
+          de: ["Level-Up - Freundschaft ≥ 160"],
+          en: ["Level-Up - Friendship ≥ 160"],
         },
-      ],
-      en: [
-        {
-          id: 169,
-          methods: ["Level-Up - Friendship ≥ 160"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "43": {
     id: 43,
@@ -903,21 +668,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["grass", "poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 44,
-          methods: ["Level-Up - Level 21"],
+    evolutions: [
+      {
+        id: 44,
+        methods: {
+          de: ["Level-Up - Level 21"],
+          en: ["Level-Up - Level 21"],
         },
-      ],
-      en: [
-        {
-          id: 44,
-          methods: ["Level-Up - Level 21"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "44": {
     id: 44,
@@ -927,29 +686,22 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["grass", "poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 45,
-          methods: ["Item: Blattstein"],
+    evolutions: [
+      {
+        id: 45,
+        methods: {
+          de: ["Item: Blattstein"],
+          en: ["Item: Leaf Stone"],
         },
-        {
-          id: 182,
-          methods: ["Item: Sonnenstein"],
+      },
+      {
+        id: 182,
+        methods: {
+          de: ["Item: Sonnenstein"],
+          en: ["Item: Sun Stone"],
         },
-      ],
-      en: [
-        {
-          id: 45,
-          methods: ["Item: Leaf Stone"],
-        },
-        {
-          id: 182,
-          methods: ["Item: Sun Stone"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "45": {
     id: 45,
@@ -959,11 +711,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["grass", "poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "46": {
     id: 46,
@@ -973,21 +720,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["bug", "grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 47,
-          methods: ["Level-Up - Level 24"],
+    evolutions: [
+      {
+        id: 47,
+        methods: {
+          de: ["Level-Up - Level 24"],
+          en: ["Level-Up - Level 24"],
         },
-      ],
-      en: [
-        {
-          id: 47,
-          methods: ["Level-Up - Level 24"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "47": {
     id: 47,
@@ -997,11 +738,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["bug", "grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "48": {
     id: 48,
@@ -1011,21 +747,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["bug", "poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 49,
-          methods: ["Level-Up - Level 31"],
+    evolutions: [
+      {
+        id: 49,
+        methods: {
+          de: ["Level-Up - Level 31"],
+          en: ["Level-Up - Level 31"],
         },
-      ],
-      en: [
-        {
-          id: 49,
-          methods: ["Level-Up - Level 31"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "49": {
     id: 49,
@@ -1035,11 +765,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["bug", "poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "50": {
     id: 50,
@@ -1049,21 +774,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["ground"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 51,
-          methods: ["Level-Up - Level 26"],
+    evolutions: [
+      {
+        id: 51,
+        methods: {
+          de: ["Level-Up - Level 26"],
+          en: ["Level-Up - Level 26"],
         },
-      ],
-      en: [
-        {
-          id: 51,
-          methods: ["Level-Up - Level 26"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "51": {
     id: 51,
@@ -1073,11 +792,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["ground"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "52": {
     id: 52,
@@ -1087,21 +801,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 53,
-          methods: ["Level-Up - Freundschaft ≥ 160", "Level-Up - Level 28"],
+    evolutions: [
+      {
+        id: 53,
+        methods: {
+          de: ["Level-Up - Freundschaft ≥ 160", "Level-Up - Level 28"],
+          en: ["Level-Up - Friendship ≥ 160", "Level-Up - Level 28"],
         },
-      ],
-      en: [
-        {
-          id: 53,
-          methods: ["Level-Up - Friendship ≥ 160", "Level-Up - Level 28"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "53": {
     id: 53,
@@ -1111,11 +819,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "54": {
     id: 54,
@@ -1125,21 +828,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 55,
-          methods: ["Level-Up - Level 33"],
+    evolutions: [
+      {
+        id: 55,
+        methods: {
+          de: ["Level-Up - Level 33"],
+          en: ["Level-Up - Level 33"],
         },
-      ],
-      en: [
-        {
-          id: 55,
-          methods: ["Level-Up - Level 33"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "55": {
     id: 55,
@@ -1149,11 +846,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "56": {
     id: 56,
@@ -1163,21 +855,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["fighting"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 57,
-          methods: ["Level-Up - Level 28"],
+    evolutions: [
+      {
+        id: 57,
+        methods: {
+          de: ["Level-Up - Level 28"],
+          en: ["Level-Up - Level 28"],
         },
-      ],
-      en: [
-        {
-          id: 57,
-          methods: ["Level-Up - Level 28"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "57": {
     id: 57,
@@ -1187,11 +873,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["fighting"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "58": {
     id: 58,
@@ -1201,21 +882,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["fire"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 59,
-          methods: ["Item: Feuerstein"],
+    evolutions: [
+      {
+        id: 59,
+        methods: {
+          de: ["Item: Feuerstein"],
+          en: ["Item: Fire Stone"],
         },
-      ],
-      en: [
-        {
-          id: 59,
-          methods: ["Item: Fire Stone"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "59": {
     id: 59,
@@ -1225,11 +900,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["fire"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "60": {
     id: 60,
@@ -1239,21 +909,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 61,
-          methods: ["Level-Up - Level 25"],
+    evolutions: [
+      {
+        id: 61,
+        methods: {
+          de: ["Level-Up - Level 25"],
+          en: ["Level-Up - Level 25"],
         },
-      ],
-      en: [
-        {
-          id: 61,
-          methods: ["Level-Up - Level 25"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "61": {
     id: 61,
@@ -1263,29 +927,22 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 62,
-          methods: ["Item: Wasserstein"],
+    evolutions: [
+      {
+        id: 62,
+        methods: {
+          de: ["Item: Wasserstein"],
+          en: ["Item: Water Stone"],
         },
-        {
-          id: 186,
-          methods: ["Tausch - Trägt King-Stein"],
+      },
+      {
+        id: 186,
+        methods: {
+          de: ["Tausch - Trägt King-Stein"],
+          en: ["Trade - Holds King’s Rock"],
         },
-      ],
-      en: [
-        {
-          id: 62,
-          methods: ["Item: Water Stone"],
-        },
-        {
-          id: 186,
-          methods: ["Trade - Holds King’s Rock"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "62": {
     id: 62,
@@ -1295,11 +952,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["water", "fighting"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "63": {
     id: 63,
@@ -1309,21 +961,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 64,
-          methods: ["Level-Up - Level 16"],
+    evolutions: [
+      {
+        id: 64,
+        methods: {
+          de: ["Level-Up - Level 16"],
+          en: ["Level-Up - Level 16"],
         },
-      ],
-      en: [
-        {
-          id: 64,
-          methods: ["Level-Up - Level 16"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "64": {
     id: 64,
@@ -1333,21 +979,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 65,
-          methods: ["Tausch"],
+    evolutions: [
+      {
+        id: 65,
+        methods: {
+          de: ["Tausch"],
+          en: ["Trade"],
         },
-      ],
-      en: [
-        {
-          id: 65,
-          methods: ["Trade"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "65": {
     id: 65,
@@ -1357,11 +997,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "66": {
     id: 66,
@@ -1371,21 +1006,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["fighting"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 67,
-          methods: ["Level-Up - Level 28"],
+    evolutions: [
+      {
+        id: 67,
+        methods: {
+          de: ["Level-Up - Level 28"],
+          en: ["Level-Up - Level 28"],
         },
-      ],
-      en: [
-        {
-          id: 67,
-          methods: ["Level-Up - Level 28"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "67": {
     id: 67,
@@ -1395,21 +1024,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["fighting"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 68,
-          methods: ["Tausch"],
+    evolutions: [
+      {
+        id: 68,
+        methods: {
+          de: ["Tausch"],
+          en: ["Trade"],
         },
-      ],
-      en: [
-        {
-          id: 68,
-          methods: ["Trade"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "68": {
     id: 68,
@@ -1419,11 +1042,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["fighting"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "69": {
     id: 69,
@@ -1433,21 +1051,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["grass", "poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 70,
-          methods: ["Level-Up - Level 21"],
+    evolutions: [
+      {
+        id: 70,
+        methods: {
+          de: ["Level-Up - Level 21"],
+          en: ["Level-Up - Level 21"],
         },
-      ],
-      en: [
-        {
-          id: 70,
-          methods: ["Level-Up - Level 21"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "70": {
     id: 70,
@@ -1457,21 +1069,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["grass", "poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 71,
-          methods: ["Item: Blattstein"],
+    evolutions: [
+      {
+        id: 71,
+        methods: {
+          de: ["Item: Blattstein"],
+          en: ["Item: Leaf Stone"],
         },
-      ],
-      en: [
-        {
-          id: 71,
-          methods: ["Item: Leaf Stone"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "71": {
     id: 71,
@@ -1481,11 +1087,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["grass", "poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "72": {
     id: 72,
@@ -1495,21 +1096,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["water", "poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 73,
-          methods: ["Level-Up - Level 30"],
+    evolutions: [
+      {
+        id: 73,
+        methods: {
+          de: ["Level-Up - Level 30"],
+          en: ["Level-Up - Level 30"],
         },
-      ],
-      en: [
-        {
-          id: 73,
-          methods: ["Level-Up - Level 30"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "73": {
     id: 73,
@@ -1519,11 +1114,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["water", "poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "74": {
     id: 74,
@@ -1533,21 +1123,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["rock", "ground"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 75,
-          methods: ["Level-Up - Level 25"],
+    evolutions: [
+      {
+        id: 75,
+        methods: {
+          de: ["Level-Up - Level 25"],
+          en: ["Level-Up - Level 25"],
         },
-      ],
-      en: [
-        {
-          id: 75,
-          methods: ["Level-Up - Level 25"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "75": {
     id: 75,
@@ -1557,21 +1141,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["rock", "ground"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 76,
-          methods: ["Tausch"],
+    evolutions: [
+      {
+        id: 76,
+        methods: {
+          de: ["Tausch"],
+          en: ["Trade"],
         },
-      ],
-      en: [
-        {
-          id: 76,
-          methods: ["Trade"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "76": {
     id: 76,
@@ -1581,11 +1159,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["rock", "ground"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "77": {
     id: 77,
@@ -1595,21 +1168,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["fire"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 78,
-          methods: ["Level-Up - Level 40"],
+    evolutions: [
+      {
+        id: 78,
+        methods: {
+          de: ["Level-Up - Level 40"],
+          en: ["Level-Up - Level 40"],
         },
-      ],
-      en: [
-        {
-          id: 78,
-          methods: ["Level-Up - Level 40"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "78": {
     id: 78,
@@ -1619,11 +1186,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["fire"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "79": {
     id: 79,
@@ -1633,29 +1195,22 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["water", "psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 80,
-          methods: ["Item: Galarnuss-Reif", "Level-Up - Level 37"],
+    evolutions: [
+      {
+        id: 80,
+        methods: {
+          de: ["Item: Galarnuss-Reif", "Level-Up - Level 37"],
+          en: ["Item: Galarica Cuff", "Level-Up - Level 37"],
         },
-        {
-          id: 199,
-          methods: ["Item: Galarnuss-Kranz", "Tausch - Trägt King-Stein"],
+      },
+      {
+        id: 199,
+        methods: {
+          de: ["Item: Galarnuss-Kranz", "Tausch - Trägt King-Stein"],
+          en: ["Item: Galarica Wreath", "Trade - Holds King’s Rock"],
         },
-      ],
-      en: [
-        {
-          id: 80,
-          methods: ["Item: Galarica Cuff", "Level-Up - Level 37"],
-        },
-        {
-          id: 199,
-          methods: ["Item: Galarica Wreath", "Trade - Holds King’s Rock"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "80": {
     id: 80,
@@ -1665,11 +1220,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["water", "psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "81": {
     id: 81,
@@ -1685,20 +1235,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
         types: ["electric"],
       },
     ],
-    evolutions: {
-      de: [
-        {
-          id: 82,
-          methods: ["Level-Up - Level 30"],
+    evolutions: [
+      {
+        id: 82,
+        methods: {
+          de: ["Level-Up - Level 30"],
+          en: ["Level-Up - Level 30"],
         },
-      ],
-      en: [
-        {
-          id: 82,
-          methods: ["Level-Up - Level 30"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "82": {
     id: 82,
@@ -1714,32 +1259,29 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
         types: ["electric"],
       },
     ],
-    evolutions: {
-      de: [
-        {
-          id: 462,
-          methods: [
+    evolutions: [
+      {
+        id: 462,
+        methods: {
+          de: [
             "Item: Donnerstein",
-            "Level-Up",
+            "Level-Up - Ort: Blush Mountain",
             "Level-Up - Ort: Elektrolithhöhle",
             "Level-Up - Ort: Kraterberg",
             "Level-Up - Ort: Route 13",
+            "Level-Up - Ort: Vast Poni Canyon",
           ],
-        },
-      ],
-      en: [
-        {
-          id: 462,
-          methods: [
+          en: [
             "Item: Thunder Stone",
-            "Level-Up",
+            "Level-Up - Location: Blush Mountain",
             "Level-Up - Location: Chargestone Cave",
             "Level-Up - Location: Mt. Coronet",
             "Level-Up - Location: Route 13",
+            "Level-Up - Location: Vast Poni Canyon",
           ],
         },
-      ],
-    },
+      },
+    ],
   },
   "83": {
     id: 83,
@@ -1749,11 +1291,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["normal", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "84": {
     id: 84,
@@ -1763,21 +1300,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["normal", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 85,
-          methods: ["Level-Up - Level 31"],
+    evolutions: [
+      {
+        id: 85,
+        methods: {
+          de: ["Level-Up - Level 31"],
+          en: ["Level-Up - Level 31"],
         },
-      ],
-      en: [
-        {
-          id: 85,
-          methods: ["Level-Up - Level 31"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "85": {
     id: 85,
@@ -1787,11 +1318,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["normal", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "86": {
     id: 86,
@@ -1801,21 +1327,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 87,
-          methods: ["Level-Up - Level 34"],
+    evolutions: [
+      {
+        id: 87,
+        methods: {
+          de: ["Level-Up - Level 34"],
+          en: ["Level-Up - Level 34"],
         },
-      ],
-      en: [
-        {
-          id: 87,
-          methods: ["Level-Up - Level 34"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "87": {
     id: 87,
@@ -1825,11 +1345,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["water", "ice"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "88": {
     id: 88,
@@ -1839,21 +1354,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 89,
-          methods: ["Level-Up - Level 38"],
+    evolutions: [
+      {
+        id: 89,
+        methods: {
+          de: ["Level-Up - Level 38"],
+          en: ["Level-Up - Level 38"],
         },
-      ],
-      en: [
-        {
-          id: 89,
-          methods: ["Level-Up - Level 38"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "89": {
     id: 89,
@@ -1863,11 +1372,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "90": {
     id: 90,
@@ -1877,21 +1381,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 91,
-          methods: ["Item: Wasserstein"],
+    evolutions: [
+      {
+        id: 91,
+        methods: {
+          de: ["Item: Wasserstein"],
+          en: ["Item: Water Stone"],
         },
-      ],
-      en: [
-        {
-          id: 91,
-          methods: ["Item: Water Stone"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "91": {
     id: 91,
@@ -1901,11 +1399,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["water", "ice"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "92": {
     id: 92,
@@ -1915,21 +1408,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["ghost", "poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 93,
-          methods: ["Level-Up - Level 25"],
+    evolutions: [
+      {
+        id: 93,
+        methods: {
+          de: ["Level-Up - Level 25"],
+          en: ["Level-Up - Level 25"],
         },
-      ],
-      en: [
-        {
-          id: 93,
-          methods: ["Level-Up - Level 25"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "93": {
     id: 93,
@@ -1939,21 +1426,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["ghost", "poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 94,
-          methods: ["Tausch"],
+    evolutions: [
+      {
+        id: 94,
+        methods: {
+          de: ["Tausch"],
+          en: ["Trade"],
         },
-      ],
-      en: [
-        {
-          id: 94,
-          methods: ["Trade"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "94": {
     id: 94,
@@ -1963,11 +1444,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["ghost", "poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "95": {
     id: 95,
@@ -1977,21 +1453,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["rock", "ground"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 208,
-          methods: ["Tausch - Trägt Metallmantel"],
+    evolutions: [
+      {
+        id: 208,
+        methods: {
+          de: ["Tausch - Trägt Metallmantel"],
+          en: ["Trade - Holds Metal Coat"],
         },
-      ],
-      en: [
-        {
-          id: 208,
-          methods: ["Trade - Holds Metal Coat"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "96": {
     id: 96,
@@ -2001,21 +1471,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 97,
-          methods: ["Level-Up - Level 26"],
+    evolutions: [
+      {
+        id: 97,
+        methods: {
+          de: ["Level-Up - Level 26"],
+          en: ["Level-Up - Level 26"],
         },
-      ],
-      en: [
-        {
-          id: 97,
-          methods: ["Level-Up - Level 26"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "97": {
     id: 97,
@@ -2025,11 +1489,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "98": {
     id: 98,
@@ -2039,21 +1498,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 99,
-          methods: ["Level-Up - Level 28"],
+    evolutions: [
+      {
+        id: 99,
+        methods: {
+          de: ["Level-Up - Level 28"],
+          en: ["Level-Up - Level 28"],
         },
-      ],
-      en: [
-        {
-          id: 99,
-          methods: ["Level-Up - Level 28"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "99": {
     id: 99,
@@ -2063,11 +1516,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "100": {
     id: 100,
@@ -2077,21 +1525,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["electric"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 101,
-          methods: ["Level-Up - Level 30"],
+    evolutions: [
+      {
+        id: 101,
+        methods: {
+          de: ["Item: Blattstein", "Level-Up - Level 30"],
+          en: ["Item: Leaf Stone", "Level-Up - Level 30"],
         },
-      ],
-      en: [
-        {
-          id: 101,
-          methods: ["Level-Up - Level 30"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "101": {
     id: 101,
@@ -2101,11 +1543,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["electric"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "102": {
     id: 102,
@@ -2115,21 +1552,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["grass", "psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 103,
-          methods: ["Item: Blattstein"],
+    evolutions: [
+      {
+        id: 103,
+        methods: {
+          de: ["Item: Blattstein"],
+          en: ["Item: Leaf Stone"],
         },
-      ],
-      en: [
-        {
-          id: 103,
-          methods: ["Item: Leaf Stone"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "103": {
     id: 103,
@@ -2139,11 +1570,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["grass", "psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "104": {
     id: 104,
@@ -2153,27 +1579,18 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["ground"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 105,
-          methods: [
-            "Level-Up - Level 28",
-            "Level-Up - Level 28, Tageszeit: Nacht",
-          ],
-        },
-      ],
-      en: [
-        {
-          id: 105,
-          methods: [
+    evolutions: [
+      {
+        id: 105,
+        methods: {
+          de: ["Level-Up - Level 28", "Level-Up - Level 28, Tageszeit: Nacht"],
+          en: [
             "Level-Up - Level 28",
             "Level-Up - Level 28, Time of day: Night",
           ],
         },
-      ],
-    },
+      },
+    ],
   },
   "105": {
     id: 105,
@@ -2183,11 +1600,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["ground"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "106": {
     id: 106,
@@ -2197,11 +1609,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["fighting"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "107": {
     id: 107,
@@ -2211,11 +1618,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["fighting"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "108": {
     id: 108,
@@ -2225,21 +1627,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 463,
-          methods: ["Level-Up - Kennt Walzer"],
+    evolutions: [
+      {
+        id: 463,
+        methods: {
+          de: ["Level-Up - Kennt Walzer"],
+          en: ["Level-Up - Knows Rollout"],
         },
-      ],
-      en: [
-        {
-          id: 463,
-          methods: ["Level-Up - Knows Rollout"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "109": {
     id: 109,
@@ -2249,21 +1645,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 110,
-          methods: ["Level-Up - Level 35"],
+    evolutions: [
+      {
+        id: 110,
+        methods: {
+          de: ["Level-Up - Level 35"],
+          en: ["Level-Up - Level 35"],
         },
-      ],
-      en: [
-        {
-          id: 110,
-          methods: ["Level-Up - Level 35"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "110": {
     id: 110,
@@ -2273,11 +1663,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "111": {
     id: 111,
@@ -2287,21 +1672,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["ground", "rock"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 112,
-          methods: ["Level-Up - Level 42"],
+    evolutions: [
+      {
+        id: 112,
+        methods: {
+          de: ["Level-Up - Level 42"],
+          en: ["Level-Up - Level 42"],
         },
-      ],
-      en: [
-        {
-          id: 112,
-          methods: ["Level-Up - Level 42"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "112": {
     id: 112,
@@ -2311,21 +1690,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["ground", "rock"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 464,
-          methods: ["Tausch - Trägt Schützer"],
+    evolutions: [
+      {
+        id: 464,
+        methods: {
+          de: ["Tausch - Trägt Schützer"],
+          en: ["Trade - Holds Protector"],
         },
-      ],
-      en: [
-        {
-          id: 464,
-          methods: ["Trade - Holds Protector"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "113": {
     id: 113,
@@ -2335,21 +1708,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 242,
-          methods: ["Level-Up - Freundschaft ≥ 160"],
+    evolutions: [
+      {
+        id: 242,
+        methods: {
+          de: ["Level-Up - Freundschaft ≥ 160"],
+          en: ["Level-Up - Friendship ≥ 160"],
         },
-      ],
-      en: [
-        {
-          id: 242,
-          methods: ["Level-Up - Friendship ≥ 160"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "114": {
     id: 114,
@@ -2359,21 +1726,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 465,
-          methods: ["Level-Up - Kennt Antik-Kraft"],
+    evolutions: [
+      {
+        id: 465,
+        methods: {
+          de: ["Level-Up - Kennt Antik-Kraft"],
+          en: ["Level-Up - Knows Ancient Power"],
         },
-      ],
-      en: [
-        {
-          id: 465,
-          methods: ["Level-Up - Knows Ancient Power"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "115": {
     id: 115,
@@ -2383,11 +1744,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "116": {
     id: 116,
@@ -2397,21 +1753,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 117,
-          methods: ["Level-Up - Level 32"],
+    evolutions: [
+      {
+        id: 117,
+        methods: {
+          de: ["Level-Up - Level 32"],
+          en: ["Level-Up - Level 32"],
         },
-      ],
-      en: [
-        {
-          id: 117,
-          methods: ["Level-Up - Level 32"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "117": {
     id: 117,
@@ -2421,21 +1771,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 230,
-          methods: ["Tausch - Trägt Drachenhaut"],
+    evolutions: [
+      {
+        id: 230,
+        methods: {
+          de: ["Tausch - Trägt Drachenhaut"],
+          en: ["Trade - Holds Dragon Scale"],
         },
-      ],
-      en: [
-        {
-          id: 230,
-          methods: ["Trade - Holds Dragon Scale"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "118": {
     id: 118,
@@ -2445,21 +1789,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 119,
-          methods: ["Level-Up - Level 33"],
+    evolutions: [
+      {
+        id: 119,
+        methods: {
+          de: ["Level-Up - Level 33"],
+          en: ["Level-Up - Level 33"],
         },
-      ],
-      en: [
-        {
-          id: 119,
-          methods: ["Level-Up - Level 33"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "119": {
     id: 119,
@@ -2469,11 +1807,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "120": {
     id: 120,
@@ -2483,21 +1816,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 121,
-          methods: ["Item: Wasserstein"],
+    evolutions: [
+      {
+        id: 121,
+        methods: {
+          de: ["Item: Wasserstein"],
+          en: ["Item: Water Stone"],
         },
-      ],
-      en: [
-        {
-          id: 121,
-          methods: ["Item: Water Stone"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "121": {
     id: 121,
@@ -2507,11 +1834,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["water", "psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "122": {
     id: 122,
@@ -2527,10 +1849,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
         types: ["psychic"],
       },
     ],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "123": {
     id: 123,
@@ -2540,21 +1858,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["bug", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 212,
-          methods: ["Tausch - Trägt Metallmantel"],
+    evolutions: [
+      {
+        id: 212,
+        methods: {
+          de: ["Tausch - Trägt Metallmantel"],
+          en: ["Trade - Holds Metal Coat"],
         },
-      ],
-      en: [
-        {
-          id: 212,
-          methods: ["Trade - Holds Metal Coat"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "124": {
     id: 124,
@@ -2564,11 +1876,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["ice", "psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "125": {
     id: 125,
@@ -2578,21 +1885,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["electric"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 466,
-          methods: ["Tausch - Trägt Stromisierer"],
+    evolutions: [
+      {
+        id: 466,
+        methods: {
+          de: ["Tausch - Trägt Stromisierer"],
+          en: ["Trade - Holds Electirizer"],
         },
-      ],
-      en: [
-        {
-          id: 466,
-          methods: ["Trade - Holds Electirizer"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "126": {
     id: 126,
@@ -2602,21 +1903,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["fire"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 467,
-          methods: ["Tausch - Trägt Magmaisierer"],
+    evolutions: [
+      {
+        id: 467,
+        methods: {
+          de: ["Tausch - Trägt Magmaisierer"],
+          en: ["Trade - Holds Magmarizer"],
         },
-      ],
-      en: [
-        {
-          id: 467,
-          methods: ["Trade - Holds Magmarizer"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "127": {
     id: 127,
@@ -2626,11 +1921,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["bug"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "128": {
     id: 128,
@@ -2640,11 +1930,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "129": {
     id: 129,
@@ -2654,21 +1939,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 130,
-          methods: ["Level-Up - Level 20"],
+    evolutions: [
+      {
+        id: 130,
+        methods: {
+          de: ["Level-Up - Level 20"],
+          en: ["Level-Up - Level 20"],
         },
-      ],
-      en: [
-        {
-          id: 130,
-          methods: ["Level-Up - Level 20"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "130": {
     id: 130,
@@ -2678,11 +1957,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["water", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "131": {
     id: 131,
@@ -2692,11 +1966,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["water", "ice"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "132": {
     id: 132,
@@ -2706,11 +1975,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "133": {
     id: 133,
@@ -2720,103 +1984,90 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 134,
-          methods: ["Item: Wasserstein"],
+    evolutions: [
+      {
+        id: 134,
+        methods: {
+          de: ["Item: Wasserstein"],
+          en: ["Item: Water Stone"],
         },
-        {
-          id: 135,
-          methods: ["Item: Donnerstein"],
+      },
+      {
+        id: 135,
+        methods: {
+          de: ["Item: Donnerstein"],
+          en: ["Item: Thunder Stone"],
         },
-        {
-          id: 136,
-          methods: ["Item: Feuerstein"],
+      },
+      {
+        id: 136,
+        methods: {
+          de: ["Item: Feuerstein"],
+          en: ["Item: Fire Stone"],
         },
-        {
-          id: 196,
-          methods: ["Level-Up - Freundschaft ≥ 160, Tageszeit: Tag"],
+      },
+      {
+        id: 196,
+        methods: {
+          de: ["Level-Up - Freundschaft ≥ 160, Tageszeit: Tag"],
+          en: ["Level-Up - Friendship ≥ 160, Time of day: Day"],
         },
-        {
-          id: 197,
-          methods: ["Level-Up - Freundschaft ≥ 160, Tageszeit: Nacht"],
+      },
+      {
+        id: 197,
+        methods: {
+          de: ["Level-Up - Freundschaft ≥ 160, Tageszeit: Nacht"],
+          en: ["Level-Up - Friendship ≥ 160, Time of day: Night"],
         },
-        {
-          id: 470,
-          methods: [
+      },
+      {
+        id: 470,
+        methods: {
+          de: [
             "Item: Blattstein",
             "Level-Up - Ort: Ewigenwald",
             "Level-Up - Ort: Ewigwald",
             "Level-Up - Ort: Route 20",
           ],
-        },
-        {
-          id: 471,
-          methods: [
-            "Item: Eisstein",
-            "Level-Up - Ort: Frosthöhle",
-            "Level-Up - Ort: Route 217",
-            "Level-Up - Ort: Wendelberg",
-          ],
-        },
-        {
-          id: 700,
-          methods: [
-            "Level-Up - Freundschaft ≥ 160, Kennt Attacke vom Typ Fee",
-            "Level-Up - Zutrauen ≥ 2, Kennt Attacke vom Typ Fee",
-          ],
-        },
-      ],
-      en: [
-        {
-          id: 134,
-          methods: ["Item: Water Stone"],
-        },
-        {
-          id: 135,
-          methods: ["Item: Thunder Stone"],
-        },
-        {
-          id: 136,
-          methods: ["Item: Fire Stone"],
-        },
-        {
-          id: 196,
-          methods: ["Level-Up - Friendship ≥ 160, Time of day: Day"],
-        },
-        {
-          id: 197,
-          methods: ["Level-Up - Friendship ≥ 160, Time of day: Night"],
-        },
-        {
-          id: 470,
-          methods: [
+          en: [
             "Item: Leaf Stone",
             "Level-Up - Location: Eterna Forest",
             "Level-Up - Location: Pinwheel Forest",
             "Level-Up - Location: Route 20",
           ],
         },
-        {
-          id: 471,
-          methods: [
+      },
+      {
+        id: 471,
+        methods: {
+          de: [
+            "Item: Eisstein",
+            "Level-Up - Ort: Frosthöhle",
+            "Level-Up - Ort: Route 217",
+            "Level-Up - Ort: Wendelberg",
+          ],
+          en: [
             "Item: Ice Stone",
             "Level-Up - Location: Frost Cavern",
             "Level-Up - Location: Route 217",
             "Level-Up - Location: Twist Mountain",
           ],
         },
-        {
-          id: 700,
-          methods: [
+      },
+      {
+        id: 700,
+        methods: {
+          de: [
+            "Level-Up - Freundschaft ≥ 160, Kennt Attacke vom Typ Fee",
+            "Level-Up - Zutrauen ≥ 2, Kennt Attacke vom Typ Fee",
+          ],
+          en: [
             "Level-Up - Affection ≥ 2, Knows move of type Fairy",
             "Level-Up - Friendship ≥ 160, Knows move of type Fairy",
           ],
         },
-      ],
-    },
+      },
+    ],
   },
   "134": {
     id: 134,
@@ -2826,11 +2077,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "135": {
     id: 135,
@@ -2840,11 +2086,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["electric"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "136": {
     id: 136,
@@ -2854,11 +2095,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["fire"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "137": {
     id: 137,
@@ -2868,21 +2104,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 233,
-          methods: ["Tausch - Trägt Up-Grade"],
+    evolutions: [
+      {
+        id: 233,
+        methods: {
+          de: ["Tausch - Trägt Up-Grade"],
+          en: ["Trade - Holds Upgrade"],
         },
-      ],
-      en: [
-        {
-          id: 233,
-          methods: ["Trade - Holds Upgrade"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "138": {
     id: 138,
@@ -2892,21 +2122,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["rock", "water"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 139,
-          methods: ["Level-Up - Level 40"],
+    evolutions: [
+      {
+        id: 139,
+        methods: {
+          de: ["Level-Up - Level 40"],
+          en: ["Level-Up - Level 40"],
         },
-      ],
-      en: [
-        {
-          id: 139,
-          methods: ["Level-Up - Level 40"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "139": {
     id: 139,
@@ -2916,11 +2140,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["rock", "water"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "140": {
     id: 140,
@@ -2930,21 +2149,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["rock", "water"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 141,
-          methods: ["Level-Up - Level 40"],
+    evolutions: [
+      {
+        id: 141,
+        methods: {
+          de: ["Level-Up - Level 40"],
+          en: ["Level-Up - Level 40"],
         },
-      ],
-      en: [
-        {
-          id: 141,
-          methods: ["Level-Up - Level 40"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "141": {
     id: 141,
@@ -2954,11 +2167,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["rock", "water"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "142": {
     id: 142,
@@ -2968,11 +2176,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["rock", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "143": {
     id: 143,
@@ -2982,11 +2185,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "144": {
     id: 144,
@@ -2996,11 +2194,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["ice", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "145": {
     id: 145,
@@ -3010,11 +2203,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["electric", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "146": {
     id: 146,
@@ -3024,11 +2212,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["fire", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "147": {
     id: 147,
@@ -3038,21 +2221,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["dragon"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 148,
-          methods: ["Level-Up - Level 30"],
+    evolutions: [
+      {
+        id: 148,
+        methods: {
+          de: ["Level-Up - Level 30"],
+          en: ["Level-Up - Level 30"],
         },
-      ],
-      en: [
-        {
-          id: 148,
-          methods: ["Level-Up - Level 30"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "148": {
     id: 148,
@@ -3062,21 +2239,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["dragon"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 149,
-          methods: ["Level-Up - Level 55"],
+    evolutions: [
+      {
+        id: 149,
+        methods: {
+          de: ["Level-Up - Level 55"],
+          en: ["Level-Up - Level 55"],
         },
-      ],
-      en: [
-        {
-          id: 149,
-          methods: ["Level-Up - Level 55"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "149": {
     id: 149,
@@ -3086,11 +2257,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["dragon", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "150": {
     id: 150,
@@ -3100,11 +2266,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "151": {
     id: 151,
@@ -3114,11 +2275,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "152": {
     id: 152,
@@ -3128,21 +2284,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 153,
-          methods: ["Level-Up - Level 16"],
+    evolutions: [
+      {
+        id: 153,
+        methods: {
+          de: ["Level-Up - Level 16"],
+          en: ["Level-Up - Level 16"],
         },
-      ],
-      en: [
-        {
-          id: 153,
-          methods: ["Level-Up - Level 16"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "153": {
     id: 153,
@@ -3152,21 +2302,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 154,
-          methods: ["Level-Up - Level 32"],
+    evolutions: [
+      {
+        id: 154,
+        methods: {
+          de: ["Level-Up - Level 32"],
+          en: ["Level-Up - Level 32"],
         },
-      ],
-      en: [
-        {
-          id: 154,
-          methods: ["Level-Up - Level 32"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "154": {
     id: 154,
@@ -3176,11 +2320,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "155": {
     id: 155,
@@ -3190,21 +2329,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["fire"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 156,
-          methods: ["Level-Up - Level 14"],
+    evolutions: [
+      {
+        id: 156,
+        methods: {
+          de: ["Level-Up - Level 14", "Level-Up - Level 17"],
+          en: ["Level-Up - Level 14", "Level-Up - Level 17"],
         },
-      ],
-      en: [
-        {
-          id: 156,
-          methods: ["Level-Up - Level 14"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "156": {
     id: 156,
@@ -3214,21 +2347,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["fire"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 157,
-          methods: ["Level-Up - Level 36"],
+    evolutions: [
+      {
+        id: 157,
+        methods: {
+          de: ["Level-Up - Level 36"],
+          en: ["Level-Up - Level 36"],
         },
-      ],
-      en: [
-        {
-          id: 157,
-          methods: ["Level-Up - Level 36"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "157": {
     id: 157,
@@ -3238,11 +2365,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["fire"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "158": {
     id: 158,
@@ -3252,21 +2374,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 159,
-          methods: ["Level-Up - Level 18"],
+    evolutions: [
+      {
+        id: 159,
+        methods: {
+          de: ["Level-Up - Level 18"],
+          en: ["Level-Up - Level 18"],
         },
-      ],
-      en: [
-        {
-          id: 159,
-          methods: ["Level-Up - Level 18"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "159": {
     id: 159,
@@ -3276,21 +2392,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 160,
-          methods: ["Level-Up - Level 30"],
+    evolutions: [
+      {
+        id: 160,
+        methods: {
+          de: ["Level-Up - Level 30"],
+          en: ["Level-Up - Level 30"],
         },
-      ],
-      en: [
-        {
-          id: 160,
-          methods: ["Level-Up - Level 30"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "160": {
     id: 160,
@@ -3300,11 +2410,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "161": {
     id: 161,
@@ -3314,21 +2419,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 162,
-          methods: ["Level-Up - Level 15"],
+    evolutions: [
+      {
+        id: 162,
+        methods: {
+          de: ["Level-Up - Level 15"],
+          en: ["Level-Up - Level 15"],
         },
-      ],
-      en: [
-        {
-          id: 162,
-          methods: ["Level-Up - Level 15"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "162": {
     id: 162,
@@ -3338,11 +2437,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "163": {
     id: 163,
@@ -3352,21 +2446,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["normal", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 164,
-          methods: ["Level-Up - Level 20"],
+    evolutions: [
+      {
+        id: 164,
+        methods: {
+          de: ["Level-Up - Level 20"],
+          en: ["Level-Up - Level 20"],
         },
-      ],
-      en: [
-        {
-          id: 164,
-          methods: ["Level-Up - Level 20"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "164": {
     id: 164,
@@ -3376,11 +2464,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["normal", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "165": {
     id: 165,
@@ -3390,21 +2473,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["bug", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 166,
-          methods: ["Level-Up - Level 18"],
+    evolutions: [
+      {
+        id: 166,
+        methods: {
+          de: ["Level-Up - Level 18"],
+          en: ["Level-Up - Level 18"],
         },
-      ],
-      en: [
-        {
-          id: 166,
-          methods: ["Level-Up - Level 18"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "166": {
     id: 166,
@@ -3414,11 +2491,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["bug", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "167": {
     id: 167,
@@ -3428,21 +2500,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["bug", "poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 168,
-          methods: ["Level-Up - Level 22"],
+    evolutions: [
+      {
+        id: 168,
+        methods: {
+          de: ["Level-Up - Level 22"],
+          en: ["Level-Up - Level 22"],
         },
-      ],
-      en: [
-        {
-          id: 168,
-          methods: ["Level-Up - Level 22"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "168": {
     id: 168,
@@ -3452,11 +2518,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["bug", "poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "169": {
     id: 169,
@@ -3466,11 +2527,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["poison", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "170": {
     id: 170,
@@ -3480,21 +2536,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["water", "electric"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 171,
-          methods: ["Level-Up - Level 27"],
+    evolutions: [
+      {
+        id: 171,
+        methods: {
+          de: ["Level-Up - Level 27"],
+          en: ["Level-Up - Level 27"],
         },
-      ],
-      en: [
-        {
-          id: 171,
-          methods: ["Level-Up - Level 27"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "171": {
     id: 171,
@@ -3504,11 +2554,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["water", "electric"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "172": {
     id: 172,
@@ -3518,21 +2563,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["electric"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 25,
-          methods: ["Level-Up - Freundschaft ≥ 220"],
+    evolutions: [
+      {
+        id: 25,
+        methods: {
+          de: ["Level-Up - Freundschaft ≥ 220"],
+          en: ["Level-Up - Friendship ≥ 220"],
         },
-      ],
-      en: [
-        {
-          id: 25,
-          methods: ["Level-Up - Friendship ≥ 220"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "173": {
     id: 173,
@@ -3548,20 +2587,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
         types: ["normal"],
       },
     ],
-    evolutions: {
-      de: [
-        {
-          id: 35,
-          methods: ["Level-Up - Freundschaft ≥ 160"],
+    evolutions: [
+      {
+        id: 35,
+        methods: {
+          de: ["Level-Up - Freundschaft ≥ 160"],
+          en: ["Level-Up - Friendship ≥ 160"],
         },
-      ],
-      en: [
-        {
-          id: 35,
-          methods: ["Level-Up - Friendship ≥ 160"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "174": {
     id: 174,
@@ -3577,20 +2611,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
         types: ["normal"],
       },
     ],
-    evolutions: {
-      de: [
-        {
-          id: 39,
-          methods: ["Level-Up - Freundschaft ≥ 160"],
+    evolutions: [
+      {
+        id: 39,
+        methods: {
+          de: ["Level-Up - Freundschaft ≥ 160"],
+          en: ["Level-Up - Friendship ≥ 160"],
         },
-      ],
-      en: [
-        {
-          id: 39,
-          methods: ["Level-Up - Friendship ≥ 160"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "175": {
     id: 175,
@@ -3606,20 +2635,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
         types: ["normal"],
       },
     ],
-    evolutions: {
-      de: [
-        {
-          id: 176,
-          methods: ["Level-Up - Freundschaft ≥ 160"],
+    evolutions: [
+      {
+        id: 176,
+        methods: {
+          de: ["Level-Up - Freundschaft ≥ 160"],
+          en: ["Level-Up - Friendship ≥ 160"],
         },
-      ],
-      en: [
-        {
-          id: 176,
-          methods: ["Level-Up - Friendship ≥ 160"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "176": {
     id: 176,
@@ -3635,20 +2659,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
         types: ["normal", "flying"],
       },
     ],
-    evolutions: {
-      de: [
-        {
-          id: 468,
-          methods: ["Item: Leuchtstein"],
+    evolutions: [
+      {
+        id: 468,
+        methods: {
+          de: ["Item: Leuchtstein"],
+          en: ["Item: Shiny Stone"],
         },
-      ],
-      en: [
-        {
-          id: 468,
-          methods: ["Item: Shiny Stone"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "177": {
     id: 177,
@@ -3658,21 +2677,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["psychic", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 178,
-          methods: ["Level-Up - Level 25"],
+    evolutions: [
+      {
+        id: 178,
+        methods: {
+          de: ["Level-Up - Level 25"],
+          en: ["Level-Up - Level 25"],
         },
-      ],
-      en: [
-        {
-          id: 178,
-          methods: ["Level-Up - Level 25"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "178": {
     id: 178,
@@ -3682,11 +2695,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["psychic", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "179": {
     id: 179,
@@ -3696,21 +2704,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["electric"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 180,
-          methods: ["Level-Up - Level 15"],
+    evolutions: [
+      {
+        id: 180,
+        methods: {
+          de: ["Level-Up - Level 15"],
+          en: ["Level-Up - Level 15"],
         },
-      ],
-      en: [
-        {
-          id: 180,
-          methods: ["Level-Up - Level 15"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "180": {
     id: 180,
@@ -3720,21 +2722,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["electric"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 181,
-          methods: ["Level-Up - Level 30"],
+    evolutions: [
+      {
+        id: 181,
+        methods: {
+          de: ["Level-Up - Level 30"],
+          en: ["Level-Up - Level 30"],
         },
-      ],
-      en: [
-        {
-          id: 181,
-          methods: ["Level-Up - Level 30"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "181": {
     id: 181,
@@ -3744,11 +2740,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["electric"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "182": {
     id: 182,
@@ -3758,11 +2749,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "183": {
     id: 183,
@@ -3778,20 +2764,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
         types: ["water"],
       },
     ],
-    evolutions: {
-      de: [
-        {
-          id: 184,
-          methods: ["Level-Up - Level 18"],
+    evolutions: [
+      {
+        id: 184,
+        methods: {
+          de: ["Level-Up - Level 18"],
+          en: ["Level-Up - Level 18"],
         },
-      ],
-      en: [
-        {
-          id: 184,
-          methods: ["Level-Up - Level 18"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "184": {
     id: 184,
@@ -3807,10 +2788,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
         types: ["water"],
       },
     ],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "185": {
     id: 185,
@@ -3820,11 +2797,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["rock"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "186": {
     id: 186,
@@ -3834,11 +2806,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "187": {
     id: 187,
@@ -3848,21 +2815,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["grass", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 188,
-          methods: ["Level-Up - Level 18"],
+    evolutions: [
+      {
+        id: 188,
+        methods: {
+          de: ["Level-Up - Level 18"],
+          en: ["Level-Up - Level 18"],
         },
-      ],
-      en: [
-        {
-          id: 188,
-          methods: ["Level-Up - Level 18"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "188": {
     id: 188,
@@ -3872,21 +2833,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["grass", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 189,
-          methods: ["Level-Up - Level 27"],
+    evolutions: [
+      {
+        id: 189,
+        methods: {
+          de: ["Level-Up - Level 27"],
+          en: ["Level-Up - Level 27"],
         },
-      ],
-      en: [
-        {
-          id: 189,
-          methods: ["Level-Up - Level 27"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "189": {
     id: 189,
@@ -3896,11 +2851,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["grass", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "190": {
     id: 190,
@@ -3910,21 +2860,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 424,
-          methods: ["Level-Up - Kennt Doppelschlag"],
+    evolutions: [
+      {
+        id: 424,
+        methods: {
+          de: ["Level-Up - Kennt Doppelschlag"],
+          en: ["Level-Up - Knows Double Hit"],
         },
-      ],
-      en: [
-        {
-          id: 424,
-          methods: ["Level-Up - Knows Double Hit"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "191": {
     id: 191,
@@ -3934,21 +2878,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 192,
-          methods: ["Item: Sonnenstein"],
+    evolutions: [
+      {
+        id: 192,
+        methods: {
+          de: ["Item: Sonnenstein"],
+          en: ["Item: Sun Stone"],
         },
-      ],
-      en: [
-        {
-          id: 192,
-          methods: ["Item: Sun Stone"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "192": {
     id: 192,
@@ -3958,11 +2896,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "193": {
     id: 193,
@@ -3972,21 +2905,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["bug", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 469,
-          methods: ["Level-Up - Kennt Antik-Kraft"],
+    evolutions: [
+      {
+        id: 469,
+        methods: {
+          de: ["Level-Up - Kennt Antik-Kraft"],
+          en: ["Level-Up - Knows Ancient Power"],
         },
-      ],
-      en: [
-        {
-          id: 469,
-          methods: ["Level-Up - Knows Ancient Power"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "194": {
     id: 194,
@@ -3996,21 +2923,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["water", "ground"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 195,
-          methods: ["Level-Up - Level 20"],
+    evolutions: [
+      {
+        id: 195,
+        methods: {
+          de: ["Level-Up - Level 20"],
+          en: ["Level-Up - Level 20"],
         },
-      ],
-      en: [
-        {
-          id: 195,
-          methods: ["Level-Up - Level 20"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "195": {
     id: 195,
@@ -4020,11 +2941,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["water", "ground"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "196": {
     id: 196,
@@ -4034,11 +2950,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "197": {
     id: 197,
@@ -4048,11 +2959,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["dark"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "198": {
     id: 198,
@@ -4062,21 +2968,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["dark", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 430,
-          methods: ["Item: Finsterstein"],
+    evolutions: [
+      {
+        id: 430,
+        methods: {
+          de: ["Item: Finsterstein"],
+          en: ["Item: Dusk Stone"],
         },
-      ],
-      en: [
-        {
-          id: 430,
-          methods: ["Item: Dusk Stone"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "199": {
     id: 199,
@@ -4086,11 +2986,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["water", "psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "200": {
     id: 200,
@@ -4100,21 +2995,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["ghost"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 429,
-          methods: ["Item: Finsterstein"],
+    evolutions: [
+      {
+        id: 429,
+        methods: {
+          de: ["Item: Finsterstein"],
+          en: ["Item: Dusk Stone"],
         },
-      ],
-      en: [
-        {
-          id: 429,
-          methods: ["Item: Dusk Stone"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "201": {
     id: 201,
@@ -4124,11 +3013,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "202": {
     id: 202,
@@ -4138,11 +3022,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "203": {
     id: 203,
@@ -4152,11 +3031,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["normal", "psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "204": {
     id: 204,
@@ -4166,21 +3040,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["bug"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 205,
-          methods: ["Level-Up - Level 31"],
+    evolutions: [
+      {
+        id: 205,
+        methods: {
+          de: ["Level-Up - Level 31"],
+          en: ["Level-Up - Level 31"],
         },
-      ],
-      en: [
-        {
-          id: 205,
-          methods: ["Level-Up - Level 31"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "205": {
     id: 205,
@@ -4190,11 +3058,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["bug", "steel"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "206": {
     id: 206,
@@ -4204,11 +3067,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "207": {
     id: 207,
@@ -4218,21 +3076,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["ground", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 472,
-          methods: ["Level-Up - Tageszeit: Nacht, Trägt Scharfzahn"],
+    evolutions: [
+      {
+        id: 472,
+        methods: {
+          de: ["Level-Up - Tageszeit: Nacht, Trägt Scharfzahn"],
+          en: ["Level-Up - Time of day: Night, Holds Razor Fang"],
         },
-      ],
-      en: [
-        {
-          id: 472,
-          methods: ["Level-Up - Time of day: Night, Holds Razor Fang"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "208": {
     id: 208,
@@ -4242,11 +3094,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["steel", "ground"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "209": {
     id: 209,
@@ -4262,20 +3109,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
         types: ["normal"],
       },
     ],
-    evolutions: {
-      de: [
-        {
-          id: 210,
-          methods: ["Level-Up - Level 23"],
+    evolutions: [
+      {
+        id: 210,
+        methods: {
+          de: ["Level-Up - Level 23"],
+          en: ["Level-Up - Level 23"],
         },
-      ],
-      en: [
-        {
-          id: 210,
-          methods: ["Level-Up - Level 23"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "210": {
     id: 210,
@@ -4291,10 +3133,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
         types: ["normal"],
       },
     ],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "211": {
     id: 211,
@@ -4304,11 +3142,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["water", "poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "212": {
     id: 212,
@@ -4318,11 +3151,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["bug", "steel"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "213": {
     id: 213,
@@ -4332,11 +3160,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["bug", "rock"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "214": {
     id: 214,
@@ -4346,11 +3169,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["bug", "fighting"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "215": {
     id: 215,
@@ -4360,21 +3178,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["dark", "ice"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 461,
-          methods: ["Level-Up - Tageszeit: Nacht, Trägt Scharfklaue"],
+    evolutions: [
+      {
+        id: 461,
+        methods: {
+          de: ["Level-Up - Tageszeit: Nacht, Trägt Scharfklaue"],
+          en: ["Level-Up - Time of day: Night, Holds Razor Claw"],
         },
-      ],
-      en: [
-        {
-          id: 461,
-          methods: ["Level-Up - Time of day: Night, Holds Razor Claw"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "216": {
     id: 216,
@@ -4384,21 +3196,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 217,
-          methods: ["Level-Up - Level 30"],
+    evolutions: [
+      {
+        id: 217,
+        methods: {
+          de: ["Level-Up - Level 30"],
+          en: ["Level-Up - Level 30"],
         },
-      ],
-      en: [
-        {
-          id: 217,
-          methods: ["Level-Up - Level 30"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "217": {
     id: 217,
@@ -4408,11 +3214,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "218": {
     id: 218,
@@ -4422,21 +3223,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["fire"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 219,
-          methods: ["Level-Up - Level 38"],
+    evolutions: [
+      {
+        id: 219,
+        methods: {
+          de: ["Level-Up - Level 38"],
+          en: ["Level-Up - Level 38"],
         },
-      ],
-      en: [
-        {
-          id: 219,
-          methods: ["Level-Up - Level 38"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "219": {
     id: 219,
@@ -4446,11 +3241,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["fire", "rock"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "220": {
     id: 220,
@@ -4460,21 +3250,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["ice", "ground"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 221,
-          methods: ["Level-Up - Level 33"],
+    evolutions: [
+      {
+        id: 221,
+        methods: {
+          de: ["Level-Up - Level 33"],
+          en: ["Level-Up - Level 33"],
         },
-      ],
-      en: [
-        {
-          id: 221,
-          methods: ["Level-Up - Level 33"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "221": {
     id: 221,
@@ -4484,21 +3268,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["ice", "ground"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 473,
-          methods: ["Level-Up - Kennt Antik-Kraft"],
+    evolutions: [
+      {
+        id: 473,
+        methods: {
+          de: ["Level-Up - Kennt Antik-Kraft"],
+          en: ["Level-Up - Knows Ancient Power"],
         },
-      ],
-      en: [
-        {
-          id: 473,
-          methods: ["Level-Up - Knows Ancient Power"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "222": {
     id: 222,
@@ -4508,11 +3286,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["water", "rock"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "223": {
     id: 223,
@@ -4522,21 +3295,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 224,
-          methods: ["Level-Up - Level 25"],
+    evolutions: [
+      {
+        id: 224,
+        methods: {
+          de: ["Level-Up - Level 25"],
+          en: ["Level-Up - Level 25"],
         },
-      ],
-      en: [
-        {
-          id: 224,
-          methods: ["Level-Up - Level 25"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "224": {
     id: 224,
@@ -4546,11 +3313,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "225": {
     id: 225,
@@ -4560,11 +3322,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["ice", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "226": {
     id: 226,
@@ -4574,11 +3331,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["water", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "227": {
     id: 227,
@@ -4588,11 +3340,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["steel", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "228": {
     id: 228,
@@ -4602,21 +3349,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["dark", "fire"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 229,
-          methods: ["Level-Up - Level 24"],
+    evolutions: [
+      {
+        id: 229,
+        methods: {
+          de: ["Level-Up - Level 24"],
+          en: ["Level-Up - Level 24"],
         },
-      ],
-      en: [
-        {
-          id: 229,
-          methods: ["Level-Up - Level 24"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "229": {
     id: 229,
@@ -4626,11 +3367,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["dark", "fire"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "230": {
     id: 230,
@@ -4640,11 +3376,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["water", "dragon"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "231": {
     id: 231,
@@ -4654,21 +3385,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["ground"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 232,
-          methods: ["Level-Up - Level 25"],
+    evolutions: [
+      {
+        id: 232,
+        methods: {
+          de: ["Level-Up - Level 25"],
+          en: ["Level-Up - Level 25"],
         },
-      ],
-      en: [
-        {
-          id: 232,
-          methods: ["Level-Up - Level 25"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "232": {
     id: 232,
@@ -4678,11 +3403,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["ground"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "233": {
     id: 233,
@@ -4692,21 +3412,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 474,
-          methods: ["Tausch - Trägt Dubiosdisc"],
+    evolutions: [
+      {
+        id: 474,
+        methods: {
+          de: ["Tausch - Trägt Dubiosdisc"],
+          en: ["Trade - Holds Dubious Disc"],
         },
-      ],
-      en: [
-        {
-          id: 474,
-          methods: ["Trade - Holds Dubious Disc"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "234": {
     id: 234,
@@ -4716,11 +3430,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "235": {
     id: 235,
@@ -4730,11 +3439,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "236": {
     id: 236,
@@ -4744,37 +3448,29 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["fighting"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 106,
-          methods: ["Level-Up - Level 20, Angriff > Verteidigung"],
+    evolutions: [
+      {
+        id: 106,
+        methods: {
+          de: ["Level-Up - Level 20, Angriff > Verteidigung"],
+          en: ["Level-Up - Level 20, Attack > Defense"],
         },
-        {
-          id: 107,
-          methods: ["Level-Up - Level 20, Angriff < Verteidigung"],
+      },
+      {
+        id: 107,
+        methods: {
+          de: ["Level-Up - Level 20, Angriff < Verteidigung"],
+          en: ["Level-Up - Level 20, Attack < Defense"],
         },
-        {
-          id: 237,
-          methods: ["Level-Up - Level 20, Angriff = Verteidigung"],
+      },
+      {
+        id: 237,
+        methods: {
+          de: ["Level-Up - Level 20, Angriff = Verteidigung"],
+          en: ["Level-Up - Level 20, Attack = Defense"],
         },
-      ],
-      en: [
-        {
-          id: 106,
-          methods: ["Level-Up - Level 20, Attack > Defense"],
-        },
-        {
-          id: 107,
-          methods: ["Level-Up - Level 20, Attack < Defense"],
-        },
-        {
-          id: 237,
-          methods: ["Level-Up - Level 20, Attack = Defense"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "237": {
     id: 237,
@@ -4784,11 +3480,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["fighting"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "238": {
     id: 238,
@@ -4798,21 +3489,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["ice", "psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 124,
-          methods: ["Level-Up - Level 30"],
+    evolutions: [
+      {
+        id: 124,
+        methods: {
+          de: ["Level-Up - Level 30"],
+          en: ["Level-Up - Level 30"],
         },
-      ],
-      en: [
-        {
-          id: 124,
-          methods: ["Level-Up - Level 30"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "239": {
     id: 239,
@@ -4822,21 +3507,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["electric"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 125,
-          methods: ["Level-Up - Level 30"],
+    evolutions: [
+      {
+        id: 125,
+        methods: {
+          de: ["Level-Up - Level 30"],
+          en: ["Level-Up - Level 30"],
         },
-      ],
-      en: [
-        {
-          id: 125,
-          methods: ["Level-Up - Level 30"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "240": {
     id: 240,
@@ -4846,21 +3525,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["fire"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 126,
-          methods: ["Level-Up - Level 30"],
+    evolutions: [
+      {
+        id: 126,
+        methods: {
+          de: ["Level-Up - Level 30"],
+          en: ["Level-Up - Level 30"],
         },
-      ],
-      en: [
-        {
-          id: 126,
-          methods: ["Level-Up - Level 30"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "241": {
     id: 241,
@@ -4870,11 +3543,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "242": {
     id: 242,
@@ -4884,11 +3552,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "243": {
     id: 243,
@@ -4898,11 +3561,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["electric"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "244": {
     id: 244,
@@ -4912,11 +3570,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["fire"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "245": {
     id: 245,
@@ -4926,11 +3579,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "246": {
     id: 246,
@@ -4940,21 +3588,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["rock", "ground"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 247,
-          methods: ["Level-Up - Level 30"],
+    evolutions: [
+      {
+        id: 247,
+        methods: {
+          de: ["Level-Up - Level 30"],
+          en: ["Level-Up - Level 30"],
         },
-      ],
-      en: [
-        {
-          id: 247,
-          methods: ["Level-Up - Level 30"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "247": {
     id: 247,
@@ -4964,21 +3606,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["rock", "ground"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 248,
-          methods: ["Level-Up - Level 55"],
+    evolutions: [
+      {
+        id: 248,
+        methods: {
+          de: ["Level-Up - Level 55"],
+          en: ["Level-Up - Level 55"],
         },
-      ],
-      en: [
-        {
-          id: 248,
-          methods: ["Level-Up - Level 55"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "248": {
     id: 248,
@@ -4988,11 +3624,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["rock", "dark"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "249": {
     id: 249,
@@ -5002,11 +3633,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["psychic", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "250": {
     id: 250,
@@ -5016,11 +3642,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["fire", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "251": {
     id: 251,
@@ -5030,11 +3651,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["psychic", "grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "252": {
     id: 252,
@@ -5044,21 +3660,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 253,
-          methods: ["Level-Up - Level 16"],
+    evolutions: [
+      {
+        id: 253,
+        methods: {
+          de: ["Level-Up - Level 16"],
+          en: ["Level-Up - Level 16"],
         },
-      ],
-      en: [
-        {
-          id: 253,
-          methods: ["Level-Up - Level 16"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "253": {
     id: 253,
@@ -5068,21 +3678,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 254,
-          methods: ["Level-Up - Level 36"],
+    evolutions: [
+      {
+        id: 254,
+        methods: {
+          de: ["Level-Up - Level 36"],
+          en: ["Level-Up - Level 36"],
         },
-      ],
-      en: [
-        {
-          id: 254,
-          methods: ["Level-Up - Level 36"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "254": {
     id: 254,
@@ -5092,11 +3696,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "255": {
     id: 255,
@@ -5106,21 +3705,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["fire"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 256,
-          methods: ["Level-Up - Level 16"],
+    evolutions: [
+      {
+        id: 256,
+        methods: {
+          de: ["Level-Up - Level 16"],
+          en: ["Level-Up - Level 16"],
         },
-      ],
-      en: [
-        {
-          id: 256,
-          methods: ["Level-Up - Level 16"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "256": {
     id: 256,
@@ -5130,21 +3723,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["fire", "fighting"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 257,
-          methods: ["Level-Up - Level 36"],
+    evolutions: [
+      {
+        id: 257,
+        methods: {
+          de: ["Level-Up - Level 36"],
+          en: ["Level-Up - Level 36"],
         },
-      ],
-      en: [
-        {
-          id: 257,
-          methods: ["Level-Up - Level 36"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "257": {
     id: 257,
@@ -5154,11 +3741,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["fire", "fighting"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "258": {
     id: 258,
@@ -5168,21 +3750,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 259,
-          methods: ["Level-Up - Level 16"],
+    evolutions: [
+      {
+        id: 259,
+        methods: {
+          de: ["Level-Up - Level 16"],
+          en: ["Level-Up - Level 16"],
         },
-      ],
-      en: [
-        {
-          id: 259,
-          methods: ["Level-Up - Level 16"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "259": {
     id: 259,
@@ -5192,21 +3768,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["water", "ground"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 260,
-          methods: ["Level-Up - Level 36"],
+    evolutions: [
+      {
+        id: 260,
+        methods: {
+          de: ["Level-Up - Level 36"],
+          en: ["Level-Up - Level 36"],
         },
-      ],
-      en: [
-        {
-          id: 260,
-          methods: ["Level-Up - Level 36"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "260": {
     id: 260,
@@ -5216,11 +3786,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["water", "ground"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "261": {
     id: 261,
@@ -5230,21 +3795,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["dark"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 262,
-          methods: ["Level-Up - Level 18"],
+    evolutions: [
+      {
+        id: 262,
+        methods: {
+          de: ["Level-Up - Level 18"],
+          en: ["Level-Up - Level 18"],
         },
-      ],
-      en: [
-        {
-          id: 262,
-          methods: ["Level-Up - Level 18"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "262": {
     id: 262,
@@ -5254,11 +3813,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["dark"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "263": {
     id: 263,
@@ -5268,21 +3822,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 264,
-          methods: ["Level-Up - Level 20"],
+    evolutions: [
+      {
+        id: 264,
+        methods: {
+          de: ["Level-Up - Level 20"],
+          en: ["Level-Up - Level 20"],
         },
-      ],
-      en: [
-        {
-          id: 264,
-          methods: ["Level-Up - Level 20"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "264": {
     id: 264,
@@ -5292,11 +3840,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "265": {
     id: 265,
@@ -5306,29 +3849,22 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["bug"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 266,
-          methods: ["Level-Up - Level 7"],
+    evolutions: [
+      {
+        id: 266,
+        methods: {
+          de: ["Level-Up - Level 7"],
+          en: ["Level-Up - Level 7"],
         },
-        {
-          id: 268,
-          methods: ["Level-Up - Level 7"],
+      },
+      {
+        id: 268,
+        methods: {
+          de: ["Level-Up - Level 7"],
+          en: ["Level-Up - Level 7"],
         },
-      ],
-      en: [
-        {
-          id: 266,
-          methods: ["Level-Up - Level 7"],
-        },
-        {
-          id: 268,
-          methods: ["Level-Up - Level 7"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "266": {
     id: 266,
@@ -5338,21 +3874,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["bug"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 267,
-          methods: ["Level-Up - Level 10"],
+    evolutions: [
+      {
+        id: 267,
+        methods: {
+          de: ["Level-Up - Level 10"],
+          en: ["Level-Up - Level 10"],
         },
-      ],
-      en: [
-        {
-          id: 267,
-          methods: ["Level-Up - Level 10"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "267": {
     id: 267,
@@ -5362,11 +3892,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["bug", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "268": {
     id: 268,
@@ -5376,21 +3901,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["bug"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 269,
-          methods: ["Level-Up - Level 10"],
+    evolutions: [
+      {
+        id: 269,
+        methods: {
+          de: ["Level-Up - Level 10"],
+          en: ["Level-Up - Level 10"],
         },
-      ],
-      en: [
-        {
-          id: 269,
-          methods: ["Level-Up - Level 10"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "269": {
     id: 269,
@@ -5400,11 +3919,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["bug", "poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "270": {
     id: 270,
@@ -5414,21 +3928,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["water", "grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 271,
-          methods: ["Level-Up - Level 14"],
+    evolutions: [
+      {
+        id: 271,
+        methods: {
+          de: ["Level-Up - Level 14"],
+          en: ["Level-Up - Level 14"],
         },
-      ],
-      en: [
-        {
-          id: 271,
-          methods: ["Level-Up - Level 14"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "271": {
     id: 271,
@@ -5438,21 +3946,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["water", "grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 272,
-          methods: ["Item: Wasserstein"],
+    evolutions: [
+      {
+        id: 272,
+        methods: {
+          de: ["Item: Wasserstein"],
+          en: ["Item: Water Stone"],
         },
-      ],
-      en: [
-        {
-          id: 272,
-          methods: ["Item: Water Stone"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "272": {
     id: 272,
@@ -5462,11 +3964,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["water", "grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "273": {
     id: 273,
@@ -5476,21 +3973,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 274,
-          methods: ["Level-Up - Level 14"],
+    evolutions: [
+      {
+        id: 274,
+        methods: {
+          de: ["Level-Up - Level 14"],
+          en: ["Level-Up - Level 14"],
         },
-      ],
-      en: [
-        {
-          id: 274,
-          methods: ["Level-Up - Level 14"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "274": {
     id: 274,
@@ -5500,21 +3991,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["grass", "dark"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 275,
-          methods: ["Item: Blattstein"],
+    evolutions: [
+      {
+        id: 275,
+        methods: {
+          de: ["Item: Blattstein"],
+          en: ["Item: Leaf Stone"],
         },
-      ],
-      en: [
-        {
-          id: 275,
-          methods: ["Item: Leaf Stone"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "275": {
     id: 275,
@@ -5524,11 +4009,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["grass", "dark"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "276": {
     id: 276,
@@ -5538,21 +4018,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["normal", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 277,
-          methods: ["Level-Up - Level 22"],
+    evolutions: [
+      {
+        id: 277,
+        methods: {
+          de: ["Level-Up - Level 22"],
+          en: ["Level-Up - Level 22"],
         },
-      ],
-      en: [
-        {
-          id: 277,
-          methods: ["Level-Up - Level 22"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "277": {
     id: 277,
@@ -5562,11 +4036,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["normal", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "278": {
     id: 278,
@@ -5576,21 +4045,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["water", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 279,
-          methods: ["Level-Up - Level 25"],
+    evolutions: [
+      {
+        id: 279,
+        methods: {
+          de: ["Level-Up - Level 25"],
+          en: ["Level-Up - Level 25"],
         },
-      ],
-      en: [
-        {
-          id: 279,
-          methods: ["Level-Up - Level 25"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "279": {
     id: 279,
@@ -5600,11 +4063,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["water", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "280": {
     id: 280,
@@ -5620,20 +4078,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
         types: ["psychic"],
       },
     ],
-    evolutions: {
-      de: [
-        {
-          id: 281,
-          methods: ["Level-Up - Level 20"],
+    evolutions: [
+      {
+        id: 281,
+        methods: {
+          de: ["Level-Up - Level 20"],
+          en: ["Level-Up - Level 20"],
         },
-      ],
-      en: [
-        {
-          id: 281,
-          methods: ["Level-Up - Level 20"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "281": {
     id: 281,
@@ -5649,28 +4102,22 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
         types: ["psychic"],
       },
     ],
-    evolutions: {
-      de: [
-        {
-          id: 282,
-          methods: ["Level-Up - Level 30"],
+    evolutions: [
+      {
+        id: 282,
+        methods: {
+          de: ["Level-Up - Level 30"],
+          en: ["Level-Up - Level 30"],
         },
-        {
-          id: 475,
-          methods: ["Item: Funkelstein - Nur männlich"],
+      },
+      {
+        id: 475,
+        methods: {
+          de: ["Item: Funkelstein - Nur männlich"],
+          en: ["Item: Dawn Stone - Only male"],
         },
-      ],
-      en: [
-        {
-          id: 282,
-          methods: ["Level-Up - Level 30"],
-        },
-        {
-          id: 475,
-          methods: ["Item: Dawn Stone - Only male"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "282": {
     id: 282,
@@ -5686,10 +4133,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
         types: ["psychic"],
       },
     ],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "283": {
     id: 283,
@@ -5699,21 +4142,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["bug", "water"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 284,
-          methods: ["Level-Up - Level 22"],
+    evolutions: [
+      {
+        id: 284,
+        methods: {
+          de: ["Level-Up - Level 22"],
+          en: ["Level-Up - Level 22"],
         },
-      ],
-      en: [
-        {
-          id: 284,
-          methods: ["Level-Up - Level 22"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "284": {
     id: 284,
@@ -5723,11 +4160,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["bug", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "285": {
     id: 285,
@@ -5737,21 +4169,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 286,
-          methods: ["Level-Up - Level 23"],
+    evolutions: [
+      {
+        id: 286,
+        methods: {
+          de: ["Level-Up - Level 23"],
+          en: ["Level-Up - Level 23"],
         },
-      ],
-      en: [
-        {
-          id: 286,
-          methods: ["Level-Up - Level 23"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "286": {
     id: 286,
@@ -5761,11 +4187,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["grass", "fighting"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "287": {
     id: 287,
@@ -5775,21 +4196,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 288,
-          methods: ["Level-Up - Level 18"],
+    evolutions: [
+      {
+        id: 288,
+        methods: {
+          de: ["Level-Up - Level 18"],
+          en: ["Level-Up - Level 18"],
         },
-      ],
-      en: [
-        {
-          id: 288,
-          methods: ["Level-Up - Level 18"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "288": {
     id: 288,
@@ -5799,21 +4214,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 289,
-          methods: ["Level-Up - Level 36"],
+    evolutions: [
+      {
+        id: 289,
+        methods: {
+          de: ["Level-Up - Level 36"],
+          en: ["Level-Up - Level 36"],
         },
-      ],
-      en: [
-        {
-          id: 289,
-          methods: ["Level-Up - Level 36"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "289": {
     id: 289,
@@ -5823,11 +4232,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "290": {
     id: 290,
@@ -5837,29 +4241,22 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["bug", "ground"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 291,
-          methods: ["Level-Up - Level 20"],
+    evolutions: [
+      {
+        id: 291,
+        methods: {
+          de: ["Level-Up - Level 20"],
+          en: ["Level-Up - Level 20"],
         },
-        {
-          id: 292,
-          methods: ["Spezial: Ninjatom"],
+      },
+      {
+        id: 292,
+        methods: {
+          de: ["Spezial: Ninjatom"],
+          en: ["Special: Shedinja"],
         },
-      ],
-      en: [
-        {
-          id: 291,
-          methods: ["Level-Up - Level 20"],
-        },
-        {
-          id: 292,
-          methods: ["Special: Shedinja"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "291": {
     id: 291,
@@ -5869,11 +4266,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["bug", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "292": {
     id: 292,
@@ -5883,11 +4275,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["bug", "ghost"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "293": {
     id: 293,
@@ -5897,21 +4284,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 294,
-          methods: ["Level-Up - Level 20"],
+    evolutions: [
+      {
+        id: 294,
+        methods: {
+          de: ["Level-Up - Level 20"],
+          en: ["Level-Up - Level 20"],
         },
-      ],
-      en: [
-        {
-          id: 294,
-          methods: ["Level-Up - Level 20"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "294": {
     id: 294,
@@ -5921,21 +4302,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 295,
-          methods: ["Level-Up - Level 40"],
+    evolutions: [
+      {
+        id: 295,
+        methods: {
+          de: ["Level-Up - Level 40"],
+          en: ["Level-Up - Level 40"],
         },
-      ],
-      en: [
-        {
-          id: 295,
-          methods: ["Level-Up - Level 40"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "295": {
     id: 295,
@@ -5945,11 +4320,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "296": {
     id: 296,
@@ -5959,21 +4329,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["fighting"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 297,
-          methods: ["Level-Up - Level 24"],
+    evolutions: [
+      {
+        id: 297,
+        methods: {
+          de: ["Level-Up - Level 24"],
+          en: ["Level-Up - Level 24"],
         },
-      ],
-      en: [
-        {
-          id: 297,
-          methods: ["Level-Up - Level 24"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "297": {
     id: 297,
@@ -5983,11 +4347,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["fighting"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "298": {
     id: 298,
@@ -6003,20 +4362,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
         types: ["normal"],
       },
     ],
-    evolutions: {
-      de: [
-        {
-          id: 183,
-          methods: ["Level-Up - Freundschaft ≥ 160"],
+    evolutions: [
+      {
+        id: 183,
+        methods: {
+          de: ["Level-Up - Freundschaft ≥ 160"],
+          en: ["Level-Up - Friendship ≥ 160"],
         },
-      ],
-      en: [
-        {
-          id: 183,
-          methods: ["Level-Up - Friendship ≥ 160"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "299": {
     id: 299,
@@ -6026,31 +4380,29 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["rock"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 476,
-          methods: [
-            "Level-Up",
+    evolutions: [
+      {
+        id: 476,
+        methods: {
+          de: [
+            "Item: Donnerstein",
+            "Level-Up - Ort: Blush Mountain",
             "Level-Up - Ort: Elektrolithhöhle",
             "Level-Up - Ort: Kraterberg",
             "Level-Up - Ort: Route 13",
+            "Level-Up - Ort: Vast Poni Canyon",
           ],
-        },
-      ],
-      en: [
-        {
-          id: 476,
-          methods: [
-            "Level-Up",
+          en: [
+            "Item: Thunder Stone",
+            "Level-Up - Location: Blush Mountain",
             "Level-Up - Location: Chargestone Cave",
             "Level-Up - Location: Mt. Coronet",
             "Level-Up - Location: Route 13",
+            "Level-Up - Location: Vast Poni Canyon",
           ],
         },
-      ],
-    },
+      },
+    ],
   },
   "300": {
     id: 300,
@@ -6060,21 +4412,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 301,
-          methods: ["Item: Mondstein"],
+    evolutions: [
+      {
+        id: 301,
+        methods: {
+          de: ["Item: Mondstein"],
+          en: ["Item: Moon Stone"],
         },
-      ],
-      en: [
-        {
-          id: 301,
-          methods: ["Item: Moon Stone"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "301": {
     id: 301,
@@ -6084,11 +4430,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "302": {
     id: 302,
@@ -6098,11 +4439,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["dark", "ghost"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "303": {
     id: 303,
@@ -6118,10 +4454,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
         types: ["steel"],
       },
     ],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "304": {
     id: 304,
@@ -6131,21 +4463,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["steel", "rock"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 305,
-          methods: ["Level-Up - Level 32"],
+    evolutions: [
+      {
+        id: 305,
+        methods: {
+          de: ["Level-Up - Level 32"],
+          en: ["Level-Up - Level 32"],
         },
-      ],
-      en: [
-        {
-          id: 305,
-          methods: ["Level-Up - Level 32"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "305": {
     id: 305,
@@ -6155,21 +4481,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["steel", "rock"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 306,
-          methods: ["Level-Up - Level 42"],
+    evolutions: [
+      {
+        id: 306,
+        methods: {
+          de: ["Level-Up - Level 42"],
+          en: ["Level-Up - Level 42"],
         },
-      ],
-      en: [
-        {
-          id: 306,
-          methods: ["Level-Up - Level 42"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "306": {
     id: 306,
@@ -6179,11 +4499,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["steel", "rock"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "307": {
     id: 307,
@@ -6193,21 +4508,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["fighting", "psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 308,
-          methods: ["Level-Up - Level 37"],
+    evolutions: [
+      {
+        id: 308,
+        methods: {
+          de: ["Level-Up - Level 37"],
+          en: ["Level-Up - Level 37"],
         },
-      ],
-      en: [
-        {
-          id: 308,
-          methods: ["Level-Up - Level 37"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "308": {
     id: 308,
@@ -6217,11 +4526,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["fighting", "psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "309": {
     id: 309,
@@ -6231,21 +4535,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["electric"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 310,
-          methods: ["Level-Up - Level 26"],
+    evolutions: [
+      {
+        id: 310,
+        methods: {
+          de: ["Level-Up - Level 26"],
+          en: ["Level-Up - Level 26"],
         },
-      ],
-      en: [
-        {
-          id: 310,
-          methods: ["Level-Up - Level 26"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "310": {
     id: 310,
@@ -6255,11 +4553,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["electric"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "311": {
     id: 311,
@@ -6269,11 +4562,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["electric"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "312": {
     id: 312,
@@ -6283,11 +4571,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["electric"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "313": {
     id: 313,
@@ -6297,11 +4580,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["bug"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "314": {
     id: 314,
@@ -6311,11 +4589,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["bug"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "315": {
     id: 315,
@@ -6325,21 +4598,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["grass", "poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 407,
-          methods: ["Item: Leuchtstein"],
+    evolutions: [
+      {
+        id: 407,
+        methods: {
+          de: ["Item: Leuchtstein"],
+          en: ["Item: Shiny Stone"],
         },
-      ],
-      en: [
-        {
-          id: 407,
-          methods: ["Item: Shiny Stone"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "316": {
     id: 316,
@@ -6349,21 +4616,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 317,
-          methods: ["Level-Up - Level 26"],
+    evolutions: [
+      {
+        id: 317,
+        methods: {
+          de: ["Level-Up - Level 26"],
+          en: ["Level-Up - Level 26"],
         },
-      ],
-      en: [
-        {
-          id: 317,
-          methods: ["Level-Up - Level 26"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "317": {
     id: 317,
@@ -6373,11 +4634,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "318": {
     id: 318,
@@ -6387,21 +4643,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["water", "dark"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 319,
-          methods: ["Level-Up - Level 30"],
+    evolutions: [
+      {
+        id: 319,
+        methods: {
+          de: ["Level-Up - Level 30"],
+          en: ["Level-Up - Level 30"],
         },
-      ],
-      en: [
-        {
-          id: 319,
-          methods: ["Level-Up - Level 30"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "319": {
     id: 319,
@@ -6411,11 +4661,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["water", "dark"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "320": {
     id: 320,
@@ -6425,21 +4670,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 321,
-          methods: ["Level-Up - Level 40"],
+    evolutions: [
+      {
+        id: 321,
+        methods: {
+          de: ["Level-Up - Level 40"],
+          en: ["Level-Up - Level 40"],
         },
-      ],
-      en: [
-        {
-          id: 321,
-          methods: ["Level-Up - Level 40"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "321": {
     id: 321,
@@ -6449,11 +4688,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "322": {
     id: 322,
@@ -6463,21 +4697,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["fire", "ground"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 323,
-          methods: ["Level-Up - Level 33"],
+    evolutions: [
+      {
+        id: 323,
+        methods: {
+          de: ["Level-Up - Level 33"],
+          en: ["Level-Up - Level 33"],
         },
-      ],
-      en: [
-        {
-          id: 323,
-          methods: ["Level-Up - Level 33"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "323": {
     id: 323,
@@ -6487,11 +4715,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["fire", "ground"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "324": {
     id: 324,
@@ -6501,11 +4724,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["fire"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "325": {
     id: 325,
@@ -6515,21 +4733,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 326,
-          methods: ["Level-Up - Level 32"],
+    evolutions: [
+      {
+        id: 326,
+        methods: {
+          de: ["Level-Up - Level 32"],
+          en: ["Level-Up - Level 32"],
         },
-      ],
-      en: [
-        {
-          id: 326,
-          methods: ["Level-Up - Level 32"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "326": {
     id: 326,
@@ -6539,11 +4751,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "327": {
     id: 327,
@@ -6553,11 +4760,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "328": {
     id: 328,
@@ -6567,21 +4769,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["ground"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 329,
-          methods: ["Level-Up - Level 35"],
+    evolutions: [
+      {
+        id: 329,
+        methods: {
+          de: ["Level-Up - Level 35"],
+          en: ["Level-Up - Level 35"],
         },
-      ],
-      en: [
-        {
-          id: 329,
-          methods: ["Level-Up - Level 35"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "329": {
     id: 329,
@@ -6591,21 +4787,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["ground", "dragon"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 330,
-          methods: ["Level-Up - Level 45"],
+    evolutions: [
+      {
+        id: 330,
+        methods: {
+          de: ["Level-Up - Level 45"],
+          en: ["Level-Up - Level 45"],
         },
-      ],
-      en: [
-        {
-          id: 330,
-          methods: ["Level-Up - Level 45"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "330": {
     id: 330,
@@ -6615,11 +4805,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["ground", "dragon"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "331": {
     id: 331,
@@ -6629,21 +4814,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 332,
-          methods: ["Level-Up - Level 32"],
+    evolutions: [
+      {
+        id: 332,
+        methods: {
+          de: ["Level-Up - Level 32"],
+          en: ["Level-Up - Level 32"],
         },
-      ],
-      en: [
-        {
-          id: 332,
-          methods: ["Level-Up - Level 32"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "332": {
     id: 332,
@@ -6653,11 +4832,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["grass", "dark"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "333": {
     id: 333,
@@ -6667,21 +4841,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["normal", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 334,
-          methods: ["Level-Up - Level 35"],
+    evolutions: [
+      {
+        id: 334,
+        methods: {
+          de: ["Level-Up - Level 35"],
+          en: ["Level-Up - Level 35"],
         },
-      ],
-      en: [
-        {
-          id: 334,
-          methods: ["Level-Up - Level 35"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "334": {
     id: 334,
@@ -6691,11 +4859,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["dragon", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "335": {
     id: 335,
@@ -6705,11 +4868,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "336": {
     id: 336,
@@ -6719,11 +4877,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "337": {
     id: 337,
@@ -6733,11 +4886,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["rock", "psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "338": {
     id: 338,
@@ -6747,11 +4895,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["rock", "psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "339": {
     id: 339,
@@ -6761,21 +4904,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["water", "ground"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 340,
-          methods: ["Level-Up - Level 30"],
+    evolutions: [
+      {
+        id: 340,
+        methods: {
+          de: ["Level-Up - Level 30"],
+          en: ["Level-Up - Level 30"],
         },
-      ],
-      en: [
-        {
-          id: 340,
-          methods: ["Level-Up - Level 30"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "340": {
     id: 340,
@@ -6785,11 +4922,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["water", "ground"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "341": {
     id: 341,
@@ -6799,21 +4931,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 342,
-          methods: ["Level-Up - Level 30"],
+    evolutions: [
+      {
+        id: 342,
+        methods: {
+          de: ["Level-Up - Level 30"],
+          en: ["Level-Up - Level 30"],
         },
-      ],
-      en: [
-        {
-          id: 342,
-          methods: ["Level-Up - Level 30"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "342": {
     id: 342,
@@ -6823,11 +4949,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["water", "dark"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "343": {
     id: 343,
@@ -6837,21 +4958,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["ground", "psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 344,
-          methods: ["Level-Up - Level 36"],
+    evolutions: [
+      {
+        id: 344,
+        methods: {
+          de: ["Level-Up - Level 36"],
+          en: ["Level-Up - Level 36"],
         },
-      ],
-      en: [
-        {
-          id: 344,
-          methods: ["Level-Up - Level 36"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "344": {
     id: 344,
@@ -6861,11 +4976,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["ground", "psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "345": {
     id: 345,
@@ -6875,21 +4985,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["rock", "grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 346,
-          methods: ["Level-Up - Level 40"],
+    evolutions: [
+      {
+        id: 346,
+        methods: {
+          de: ["Level-Up - Level 40"],
+          en: ["Level-Up - Level 40"],
         },
-      ],
-      en: [
-        {
-          id: 346,
-          methods: ["Level-Up - Level 40"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "346": {
     id: 346,
@@ -6899,11 +5003,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["rock", "grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "347": {
     id: 347,
@@ -6913,21 +5012,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["rock", "bug"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 348,
-          methods: ["Level-Up - Level 40"],
+    evolutions: [
+      {
+        id: 348,
+        methods: {
+          de: ["Level-Up - Level 40"],
+          en: ["Level-Up - Level 40"],
         },
-      ],
-      en: [
-        {
-          id: 348,
-          methods: ["Level-Up - Level 40"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "348": {
     id: 348,
@@ -6937,11 +5030,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["rock", "bug"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "349": {
     id: 349,
@@ -6951,24 +5039,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 350,
-          methods: [
-            "Level-Up - Schönheit ≥ 170",
-            "Tausch - Trägt Schönschuppe",
-          ],
+    evolutions: [
+      {
+        id: 350,
+        methods: {
+          de: ["Level-Up - Schönheit ≥ 170", "Tausch - Trägt Schönschuppe"],
+          en: ["Level-Up - Beauty ≥ 170", "Trade - Holds Prism Scale"],
         },
-      ],
-      en: [
-        {
-          id: 350,
-          methods: ["Level-Up - Beauty ≥ 170", "Trade - Holds Prism Scale"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "350": {
     id: 350,
@@ -6978,11 +5057,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "351": {
     id: 351,
@@ -6992,11 +5066,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "352": {
     id: 352,
@@ -7006,11 +5075,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "353": {
     id: 353,
@@ -7020,21 +5084,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["ghost"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 354,
-          methods: ["Level-Up - Level 37"],
+    evolutions: [
+      {
+        id: 354,
+        methods: {
+          de: ["Level-Up - Level 37"],
+          en: ["Level-Up - Level 37"],
         },
-      ],
-      en: [
-        {
-          id: 354,
-          methods: ["Level-Up - Level 37"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "354": {
     id: 354,
@@ -7044,11 +5102,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["ghost"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "355": {
     id: 355,
@@ -7058,21 +5111,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["ghost"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 356,
-          methods: ["Level-Up - Level 37"],
+    evolutions: [
+      {
+        id: 356,
+        methods: {
+          de: ["Level-Up - Level 37"],
+          en: ["Level-Up - Level 37"],
         },
-      ],
-      en: [
-        {
-          id: 356,
-          methods: ["Level-Up - Level 37"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "356": {
     id: 356,
@@ -7082,21 +5129,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["ghost"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 477,
-          methods: ["Tausch - Trägt Düsterumhang"],
+    evolutions: [
+      {
+        id: 477,
+        methods: {
+          de: ["Tausch - Trägt Düsterumhang"],
+          en: ["Trade - Holds Reaper Cloth"],
         },
-      ],
-      en: [
-        {
-          id: 477,
-          methods: ["Trade - Holds Reaper Cloth"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "357": {
     id: 357,
@@ -7106,11 +5147,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["grass", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "358": {
     id: 358,
@@ -7120,11 +5156,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "359": {
     id: 359,
@@ -7134,11 +5165,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["dark"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "360": {
     id: 360,
@@ -7148,21 +5174,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 202,
-          methods: ["Level-Up - Level 15"],
+    evolutions: [
+      {
+        id: 202,
+        methods: {
+          de: ["Level-Up - Level 15"],
+          en: ["Level-Up - Level 15"],
         },
-      ],
-      en: [
-        {
-          id: 202,
-          methods: ["Level-Up - Level 15"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "361": {
     id: 361,
@@ -7172,29 +5192,22 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["ice"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 362,
-          methods: ["Level-Up - Level 42"],
+    evolutions: [
+      {
+        id: 362,
+        methods: {
+          de: ["Level-Up - Level 42"],
+          en: ["Level-Up - Level 42"],
         },
-        {
-          id: 478,
-          methods: ["Item: Funkelstein - Nur weiblich"],
+      },
+      {
+        id: 478,
+        methods: {
+          de: ["Item: Funkelstein - Nur weiblich"],
+          en: ["Item: Dawn Stone - Only female"],
         },
-      ],
-      en: [
-        {
-          id: 362,
-          methods: ["Level-Up - Level 42"],
-        },
-        {
-          id: 478,
-          methods: ["Item: Dawn Stone - Only female"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "362": {
     id: 362,
@@ -7204,11 +5217,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["ice"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "363": {
     id: 363,
@@ -7218,21 +5226,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["ice", "water"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 364,
-          methods: ["Level-Up - Level 32"],
+    evolutions: [
+      {
+        id: 364,
+        methods: {
+          de: ["Level-Up - Level 32"],
+          en: ["Level-Up - Level 32"],
         },
-      ],
-      en: [
-        {
-          id: 364,
-          methods: ["Level-Up - Level 32"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "364": {
     id: 364,
@@ -7242,21 +5244,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["ice", "water"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 365,
-          methods: ["Level-Up - Level 44"],
+    evolutions: [
+      {
+        id: 365,
+        methods: {
+          de: ["Level-Up - Level 44"],
+          en: ["Level-Up - Level 44"],
         },
-      ],
-      en: [
-        {
-          id: 365,
-          methods: ["Level-Up - Level 44"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "365": {
     id: 365,
@@ -7266,11 +5262,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["ice", "water"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "366": {
     id: 366,
@@ -7280,29 +5271,22 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 367,
-          methods: ["Tausch - Trägt Abysszahn"],
+    evolutions: [
+      {
+        id: 367,
+        methods: {
+          de: ["Tausch - Trägt Abysszahn"],
+          en: ["Trade - Holds Deep Sea Tooth"],
         },
-        {
-          id: 368,
-          methods: ["Tausch - Trägt Abyssplatte"],
+      },
+      {
+        id: 368,
+        methods: {
+          de: ["Tausch - Trägt Abyssplatte"],
+          en: ["Trade - Holds Deep Sea Scale"],
         },
-      ],
-      en: [
-        {
-          id: 367,
-          methods: ["Trade - Holds Deep Sea Tooth"],
-        },
-        {
-          id: 368,
-          methods: ["Trade - Holds Deep Sea Scale"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "367": {
     id: 367,
@@ -7312,11 +5296,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "368": {
     id: 368,
@@ -7326,11 +5305,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "369": {
     id: 369,
@@ -7340,11 +5314,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["water", "rock"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "370": {
     id: 370,
@@ -7354,11 +5323,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "371": {
     id: 371,
@@ -7368,21 +5332,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["dragon"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 372,
-          methods: ["Level-Up - Level 30"],
+    evolutions: [
+      {
+        id: 372,
+        methods: {
+          de: ["Level-Up - Level 30"],
+          en: ["Level-Up - Level 30"],
         },
-      ],
-      en: [
-        {
-          id: 372,
-          methods: ["Level-Up - Level 30"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "372": {
     id: 372,
@@ -7392,21 +5350,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["dragon"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 373,
-          methods: ["Level-Up - Level 50"],
+    evolutions: [
+      {
+        id: 373,
+        methods: {
+          de: ["Level-Up - Level 50"],
+          en: ["Level-Up - Level 50"],
         },
-      ],
-      en: [
-        {
-          id: 373,
-          methods: ["Level-Up - Level 50"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "373": {
     id: 373,
@@ -7416,11 +5368,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["dragon", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "374": {
     id: 374,
@@ -7430,21 +5377,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["steel", "psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 375,
-          methods: ["Level-Up - Level 20"],
+    evolutions: [
+      {
+        id: 375,
+        methods: {
+          de: ["Level-Up - Level 20"],
+          en: ["Level-Up - Level 20"],
         },
-      ],
-      en: [
-        {
-          id: 375,
-          methods: ["Level-Up - Level 20"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "375": {
     id: 375,
@@ -7454,21 +5395,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["steel", "psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 376,
-          methods: ["Level-Up - Level 45"],
+    evolutions: [
+      {
+        id: 376,
+        methods: {
+          de: ["Level-Up - Level 45"],
+          en: ["Level-Up - Level 45"],
         },
-      ],
-      en: [
-        {
-          id: 376,
-          methods: ["Level-Up - Level 45"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "376": {
     id: 376,
@@ -7478,11 +5413,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["steel", "psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "377": {
     id: 377,
@@ -7492,11 +5422,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["rock"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "378": {
     id: 378,
@@ -7506,11 +5431,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["ice"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "379": {
     id: 379,
@@ -7520,11 +5440,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["steel"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "380": {
     id: 380,
@@ -7534,11 +5449,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["dragon", "psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "381": {
     id: 381,
@@ -7548,11 +5458,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["dragon", "psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "382": {
     id: 382,
@@ -7562,11 +5467,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "383": {
     id: 383,
@@ -7576,11 +5476,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["ground"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "384": {
     id: 384,
@@ -7590,11 +5485,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["dragon", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "385": {
     id: 385,
@@ -7604,11 +5494,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["steel", "psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "386": {
     id: 386,
@@ -7618,11 +5503,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "387": {
     id: 387,
@@ -7632,21 +5512,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 388,
-          methods: ["Level-Up - Level 18"],
+    evolutions: [
+      {
+        id: 388,
+        methods: {
+          de: ["Level-Up - Level 18"],
+          en: ["Level-Up - Level 18"],
         },
-      ],
-      en: [
-        {
-          id: 388,
-          methods: ["Level-Up - Level 18"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "388": {
     id: 388,
@@ -7656,21 +5530,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 389,
-          methods: ["Level-Up - Level 32"],
+    evolutions: [
+      {
+        id: 389,
+        methods: {
+          de: ["Level-Up - Level 32"],
+          en: ["Level-Up - Level 32"],
         },
-      ],
-      en: [
-        {
-          id: 389,
-          methods: ["Level-Up - Level 32"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "389": {
     id: 389,
@@ -7680,11 +5548,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["grass", "ground"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "390": {
     id: 390,
@@ -7694,21 +5557,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["fire"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 391,
-          methods: ["Level-Up - Level 14"],
+    evolutions: [
+      {
+        id: 391,
+        methods: {
+          de: ["Level-Up - Level 14"],
+          en: ["Level-Up - Level 14"],
         },
-      ],
-      en: [
-        {
-          id: 391,
-          methods: ["Level-Up - Level 14"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "391": {
     id: 391,
@@ -7718,21 +5575,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["fire", "fighting"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 392,
-          methods: ["Level-Up - Level 36"],
+    evolutions: [
+      {
+        id: 392,
+        methods: {
+          de: ["Level-Up - Level 36"],
+          en: ["Level-Up - Level 36"],
         },
-      ],
-      en: [
-        {
-          id: 392,
-          methods: ["Level-Up - Level 36"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "392": {
     id: 392,
@@ -7742,11 +5593,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["fire", "fighting"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "393": {
     id: 393,
@@ -7756,21 +5602,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 394,
-          methods: ["Level-Up - Level 16"],
+    evolutions: [
+      {
+        id: 394,
+        methods: {
+          de: ["Level-Up - Level 16"],
+          en: ["Level-Up - Level 16"],
         },
-      ],
-      en: [
-        {
-          id: 394,
-          methods: ["Level-Up - Level 16"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "394": {
     id: 394,
@@ -7780,21 +5620,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 395,
-          methods: ["Level-Up - Level 36"],
+    evolutions: [
+      {
+        id: 395,
+        methods: {
+          de: ["Level-Up - Level 36"],
+          en: ["Level-Up - Level 36"],
         },
-      ],
-      en: [
-        {
-          id: 395,
-          methods: ["Level-Up - Level 36"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "395": {
     id: 395,
@@ -7804,11 +5638,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["water", "steel"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "396": {
     id: 396,
@@ -7818,21 +5647,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["normal", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 397,
-          methods: ["Level-Up - Level 14"],
+    evolutions: [
+      {
+        id: 397,
+        methods: {
+          de: ["Level-Up - Level 14"],
+          en: ["Level-Up - Level 14"],
         },
-      ],
-      en: [
-        {
-          id: 397,
-          methods: ["Level-Up - Level 14"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "397": {
     id: 397,
@@ -7842,21 +5665,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["normal", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 398,
-          methods: ["Level-Up - Level 34"],
+    evolutions: [
+      {
+        id: 398,
+        methods: {
+          de: ["Level-Up - Level 34"],
+          en: ["Level-Up - Level 34"],
         },
-      ],
-      en: [
-        {
-          id: 398,
-          methods: ["Level-Up - Level 34"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "398": {
     id: 398,
@@ -7866,11 +5683,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["normal", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "399": {
     id: 399,
@@ -7880,21 +5692,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 400,
-          methods: ["Level-Up - Level 15"],
+    evolutions: [
+      {
+        id: 400,
+        methods: {
+          de: ["Level-Up - Level 15"],
+          en: ["Level-Up - Level 15"],
         },
-      ],
-      en: [
-        {
-          id: 400,
-          methods: ["Level-Up - Level 15"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "400": {
     id: 400,
@@ -7904,11 +5710,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["normal", "water"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "401": {
     id: 401,
@@ -7918,21 +5719,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["bug"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 402,
-          methods: ["Level-Up - Level 10"],
+    evolutions: [
+      {
+        id: 402,
+        methods: {
+          de: ["Level-Up - Level 10"],
+          en: ["Level-Up - Level 10"],
         },
-      ],
-      en: [
-        {
-          id: 402,
-          methods: ["Level-Up - Level 10"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "402": {
     id: 402,
@@ -7942,11 +5737,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["bug"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "403": {
     id: 403,
@@ -7956,21 +5746,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["electric"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 404,
-          methods: ["Level-Up - Level 15"],
+    evolutions: [
+      {
+        id: 404,
+        methods: {
+          de: ["Level-Up - Level 15"],
+          en: ["Level-Up - Level 15"],
         },
-      ],
-      en: [
-        {
-          id: 404,
-          methods: ["Level-Up - Level 15"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "404": {
     id: 404,
@@ -7980,21 +5764,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["electric"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 405,
-          methods: ["Level-Up - Level 30"],
+    evolutions: [
+      {
+        id: 405,
+        methods: {
+          de: ["Level-Up - Level 30"],
+          en: ["Level-Up - Level 30"],
         },
-      ],
-      en: [
-        {
-          id: 405,
-          methods: ["Level-Up - Level 30"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "405": {
     id: 405,
@@ -8004,11 +5782,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["electric"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "406": {
     id: 406,
@@ -8018,21 +5791,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["grass", "poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 315,
-          methods: ["Level-Up - Freundschaft ≥ 160, Tageszeit: Tag"],
+    evolutions: [
+      {
+        id: 315,
+        methods: {
+          de: ["Level-Up - Freundschaft ≥ 160, Tageszeit: Tag"],
+          en: ["Level-Up - Friendship ≥ 160, Time of day: Day"],
         },
-      ],
-      en: [
-        {
-          id: 315,
-          methods: ["Level-Up - Friendship ≥ 160, Time of day: Day"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "407": {
     id: 407,
@@ -8042,11 +5809,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["grass", "poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "408": {
     id: 408,
@@ -8056,21 +5818,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["rock"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 409,
-          methods: ["Level-Up - Level 30"],
+    evolutions: [
+      {
+        id: 409,
+        methods: {
+          de: ["Level-Up - Level 30"],
+          en: ["Level-Up - Level 30"],
         },
-      ],
-      en: [
-        {
-          id: 409,
-          methods: ["Level-Up - Level 30"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "409": {
     id: 409,
@@ -8080,11 +5836,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["rock"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "410": {
     id: 410,
@@ -8094,21 +5845,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["rock", "steel"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 411,
-          methods: ["Level-Up - Level 30"],
+    evolutions: [
+      {
+        id: 411,
+        methods: {
+          de: ["Level-Up - Level 30"],
+          en: ["Level-Up - Level 30"],
         },
-      ],
-      en: [
-        {
-          id: 411,
-          methods: ["Level-Up - Level 30"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "411": {
     id: 411,
@@ -8118,11 +5863,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["rock", "steel"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "412": {
     id: 412,
@@ -8132,29 +5872,22 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["bug"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 413,
-          methods: ["Level-Up - Level 20, Nur weiblich"],
+    evolutions: [
+      {
+        id: 413,
+        methods: {
+          de: ["Level-Up - Level 20, Nur weiblich"],
+          en: ["Level-Up - Level 20, Only female"],
         },
-        {
-          id: 414,
-          methods: ["Level-Up - Level 20, Nur männlich"],
+      },
+      {
+        id: 414,
+        methods: {
+          de: ["Level-Up - Level 20, Nur männlich"],
+          en: ["Level-Up - Level 20, Only male"],
         },
-      ],
-      en: [
-        {
-          id: 413,
-          methods: ["Level-Up - Level 20, Only female"],
-        },
-        {
-          id: 414,
-          methods: ["Level-Up - Level 20, Only male"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "413": {
     id: 413,
@@ -8164,11 +5897,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["bug", "grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "414": {
     id: 414,
@@ -8178,11 +5906,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["bug", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "415": {
     id: 415,
@@ -8192,21 +5915,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["bug", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 416,
-          methods: ["Level-Up - Level 21, Nur weiblich"],
+    evolutions: [
+      {
+        id: 416,
+        methods: {
+          de: ["Level-Up - Level 21, Nur weiblich"],
+          en: ["Level-Up - Level 21, Only female"],
         },
-      ],
-      en: [
-        {
-          id: 416,
-          methods: ["Level-Up - Level 21, Only female"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "416": {
     id: 416,
@@ -8216,11 +5933,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["bug", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "417": {
     id: 417,
@@ -8230,11 +5942,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["electric"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "418": {
     id: 418,
@@ -8244,21 +5951,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 419,
-          methods: ["Level-Up - Level 26"],
+    evolutions: [
+      {
+        id: 419,
+        methods: {
+          de: ["Level-Up - Level 26"],
+          en: ["Level-Up - Level 26"],
         },
-      ],
-      en: [
-        {
-          id: 419,
-          methods: ["Level-Up - Level 26"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "419": {
     id: 419,
@@ -8268,11 +5969,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "420": {
     id: 420,
@@ -8282,21 +5978,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 421,
-          methods: ["Level-Up - Level 25"],
+    evolutions: [
+      {
+        id: 421,
+        methods: {
+          de: ["Level-Up - Level 25"],
+          en: ["Level-Up - Level 25"],
         },
-      ],
-      en: [
-        {
-          id: 421,
-          methods: ["Level-Up - Level 25"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "421": {
     id: 421,
@@ -8306,11 +5996,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "422": {
     id: 422,
@@ -8320,21 +6005,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 423,
-          methods: ["Level-Up - Level 30"],
+    evolutions: [
+      {
+        id: 423,
+        methods: {
+          de: ["Level-Up - Level 30"],
+          en: ["Level-Up - Level 30"],
         },
-      ],
-      en: [
-        {
-          id: 423,
-          methods: ["Level-Up - Level 30"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "423": {
     id: 423,
@@ -8344,11 +6023,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["water", "ground"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "424": {
     id: 424,
@@ -8358,11 +6032,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "425": {
     id: 425,
@@ -8372,21 +6041,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["ghost", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 426,
-          methods: ["Level-Up - Level 28"],
+    evolutions: [
+      {
+        id: 426,
+        methods: {
+          de: ["Level-Up - Level 28"],
+          en: ["Level-Up - Level 28"],
         },
-      ],
-      en: [
-        {
-          id: 426,
-          methods: ["Level-Up - Level 28"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "426": {
     id: 426,
@@ -8396,11 +6059,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["ghost", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "427": {
     id: 427,
@@ -8410,21 +6068,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 428,
-          methods: ["Level-Up - Freundschaft ≥ 160"],
+    evolutions: [
+      {
+        id: 428,
+        methods: {
+          de: ["Level-Up - Freundschaft ≥ 160"],
+          en: ["Level-Up - Friendship ≥ 160"],
         },
-      ],
-      en: [
-        {
-          id: 428,
-          methods: ["Level-Up - Friendship ≥ 160"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "428": {
     id: 428,
@@ -8434,11 +6086,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "429": {
     id: 429,
@@ -8448,11 +6095,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["ghost"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "430": {
     id: 430,
@@ -8462,11 +6104,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["dark", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "431": {
     id: 431,
@@ -8476,21 +6113,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 432,
-          methods: ["Level-Up - Level 38"],
+    evolutions: [
+      {
+        id: 432,
+        methods: {
+          de: ["Level-Up - Level 38"],
+          en: ["Level-Up - Level 38"],
         },
-      ],
-      en: [
-        {
-          id: 432,
-          methods: ["Level-Up - Level 38"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "432": {
     id: 432,
@@ -8500,11 +6131,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "433": {
     id: 433,
@@ -8514,21 +6140,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 358,
-          methods: ["Level-Up - Freundschaft ≥ 220, Tageszeit: Nacht"],
+    evolutions: [
+      {
+        id: 358,
+        methods: {
+          de: ["Level-Up - Freundschaft ≥ 220, Tageszeit: Nacht"],
+          en: ["Level-Up - Friendship ≥ 220, Time of day: Night"],
         },
-      ],
-      en: [
-        {
-          id: 358,
-          methods: ["Level-Up - Friendship ≥ 220, Time of day: Night"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "434": {
     id: 434,
@@ -8538,21 +6158,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["poison", "dark"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 435,
-          methods: ["Level-Up - Level 34"],
+    evolutions: [
+      {
+        id: 435,
+        methods: {
+          de: ["Level-Up - Level 34"],
+          en: ["Level-Up - Level 34"],
         },
-      ],
-      en: [
-        {
-          id: 435,
-          methods: ["Level-Up - Level 34"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "435": {
     id: 435,
@@ -8562,11 +6176,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["poison", "dark"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "436": {
     id: 436,
@@ -8576,21 +6185,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["steel", "psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 437,
-          methods: ["Level-Up - Level 33"],
+    evolutions: [
+      {
+        id: 437,
+        methods: {
+          de: ["Level-Up - Level 33"],
+          en: ["Level-Up - Level 33"],
         },
-      ],
-      en: [
-        {
-          id: 437,
-          methods: ["Level-Up - Level 33"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "437": {
     id: 437,
@@ -8600,11 +6203,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["steel", "psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "438": {
     id: 438,
@@ -8614,21 +6212,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["rock"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 185,
-          methods: ["Level-Up - Kennt Mimikry"],
+    evolutions: [
+      {
+        id: 185,
+        methods: {
+          de: ["Level-Up - Kennt Mimikry"],
+          en: ["Level-Up - Knows Mimic"],
         },
-      ],
-      en: [
-        {
-          id: 185,
-          methods: ["Level-Up - Knows Mimic"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "439": {
     id: 439,
@@ -8644,20 +6236,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
         types: ["psychic"],
       },
     ],
-    evolutions: {
-      de: [
-        {
-          id: 122,
-          methods: ["Level-Up - Kennt Mimikry"],
+    evolutions: [
+      {
+        id: 122,
+        methods: {
+          de: ["Level-Up - Kennt Mimikry"],
+          en: ["Level-Up - Knows Mimic"],
         },
-      ],
-      en: [
-        {
-          id: 122,
-          methods: ["Level-Up - Knows Mimic"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "440": {
     id: 440,
@@ -8667,21 +6254,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 113,
-          methods: ["Level-Up - Tageszeit: Tag, Trägt Ovaler Stein"],
+    evolutions: [
+      {
+        id: 113,
+        methods: {
+          de: ["Level-Up - Tageszeit: Tag, Trägt Ovaler Stein"],
+          en: ["Level-Up - Time of day: Day, Holds Oval Stone"],
         },
-      ],
-      en: [
-        {
-          id: 113,
-          methods: ["Level-Up - Time of day: Day, Holds Oval Stone"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "441": {
     id: 441,
@@ -8691,11 +6272,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["normal", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "442": {
     id: 442,
@@ -8705,11 +6281,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["ghost", "dark"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "443": {
     id: 443,
@@ -8719,21 +6290,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["dragon", "ground"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 444,
-          methods: ["Level-Up - Level 24"],
+    evolutions: [
+      {
+        id: 444,
+        methods: {
+          de: ["Level-Up - Level 24"],
+          en: ["Level-Up - Level 24"],
         },
-      ],
-      en: [
-        {
-          id: 444,
-          methods: ["Level-Up - Level 24"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "444": {
     id: 444,
@@ -8743,21 +6308,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["dragon", "ground"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 445,
-          methods: ["Level-Up - Level 48"],
+    evolutions: [
+      {
+        id: 445,
+        methods: {
+          de: ["Level-Up - Level 48"],
+          en: ["Level-Up - Level 48"],
         },
-      ],
-      en: [
-        {
-          id: 445,
-          methods: ["Level-Up - Level 48"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "445": {
     id: 445,
@@ -8767,11 +6326,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["dragon", "ground"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "446": {
     id: 446,
@@ -8781,21 +6335,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 143,
-          methods: ["Level-Up - Freundschaft ≥ 160"],
+    evolutions: [
+      {
+        id: 143,
+        methods: {
+          de: ["Level-Up - Freundschaft ≥ 160"],
+          en: ["Level-Up - Friendship ≥ 160"],
         },
-      ],
-      en: [
-        {
-          id: 143,
-          methods: ["Level-Up - Friendship ≥ 160"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "447": {
     id: 447,
@@ -8805,21 +6353,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["fighting"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 448,
-          methods: ["Level-Up - Freundschaft ≥ 160, Tageszeit: Tag"],
+    evolutions: [
+      {
+        id: 448,
+        methods: {
+          de: ["Level-Up - Freundschaft ≥ 160, Tageszeit: Tag"],
+          en: ["Level-Up - Friendship ≥ 160, Time of day: Day"],
         },
-      ],
-      en: [
-        {
-          id: 448,
-          methods: ["Level-Up - Friendship ≥ 160, Time of day: Day"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "448": {
     id: 448,
@@ -8829,11 +6371,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["fighting", "steel"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "449": {
     id: 449,
@@ -8843,21 +6380,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["ground"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 450,
-          methods: ["Level-Up - Level 34"],
+    evolutions: [
+      {
+        id: 450,
+        methods: {
+          de: ["Level-Up - Level 34"],
+          en: ["Level-Up - Level 34"],
         },
-      ],
-      en: [
-        {
-          id: 450,
-          methods: ["Level-Up - Level 34"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "450": {
     id: 450,
@@ -8867,11 +6398,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["ground"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "451": {
     id: 451,
@@ -8881,21 +6407,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["poison", "bug"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 452,
-          methods: ["Level-Up - Level 40"],
+    evolutions: [
+      {
+        id: 452,
+        methods: {
+          de: ["Level-Up - Level 40"],
+          en: ["Level-Up - Level 40"],
         },
-      ],
-      en: [
-        {
-          id: 452,
-          methods: ["Level-Up - Level 40"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "452": {
     id: 452,
@@ -8905,11 +6425,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["poison", "dark"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "453": {
     id: 453,
@@ -8919,21 +6434,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["poison", "fighting"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 454,
-          methods: ["Level-Up - Level 37"],
+    evolutions: [
+      {
+        id: 454,
+        methods: {
+          de: ["Level-Up - Level 37"],
+          en: ["Level-Up - Level 37"],
         },
-      ],
-      en: [
-        {
-          id: 454,
-          methods: ["Level-Up - Level 37"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "454": {
     id: 454,
@@ -8943,11 +6452,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["poison", "fighting"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "455": {
     id: 455,
@@ -8957,11 +6461,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "456": {
     id: 456,
@@ -8971,21 +6470,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 457,
-          methods: ["Level-Up - Level 31"],
+    evolutions: [
+      {
+        id: 457,
+        methods: {
+          de: ["Level-Up - Level 31"],
+          en: ["Level-Up - Level 31"],
         },
-      ],
-      en: [
-        {
-          id: 457,
-          methods: ["Level-Up - Level 31"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "457": {
     id: 457,
@@ -8995,11 +6488,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "458": {
     id: 458,
@@ -9009,21 +6497,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["water", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 226,
-          methods: ["Level-Up - Team: Remoraid"],
+    evolutions: [
+      {
+        id: 226,
+        methods: {
+          de: ["Level-Up - Team: Remoraid"],
+          en: ["Level-Up - Party: Remoraid"],
         },
-      ],
-      en: [
-        {
-          id: 226,
-          methods: ["Level-Up - Party: Remoraid"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "459": {
     id: 459,
@@ -9033,21 +6515,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["grass", "ice"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 460,
-          methods: ["Level-Up - Level 40"],
+    evolutions: [
+      {
+        id: 460,
+        methods: {
+          de: ["Level-Up - Level 40"],
+          en: ["Level-Up - Level 40"],
         },
-      ],
-      en: [
-        {
-          id: 460,
-          methods: ["Level-Up - Level 40"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "460": {
     id: 460,
@@ -9057,11 +6533,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["grass", "ice"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "461": {
     id: 461,
@@ -9071,11 +6542,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["dark", "ice"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "462": {
     id: 462,
@@ -9085,11 +6551,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["electric", "steel"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "463": {
     id: 463,
@@ -9099,11 +6560,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "464": {
     id: 464,
@@ -9113,11 +6569,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["ground", "rock"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "465": {
     id: 465,
@@ -9127,11 +6578,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "466": {
     id: 466,
@@ -9141,11 +6587,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["electric"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "467": {
     id: 467,
@@ -9155,11 +6596,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["fire"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "468": {
     id: 468,
@@ -9175,10 +6611,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
         types: ["normal", "flying"],
       },
     ],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "469": {
     id: 469,
@@ -9188,11 +6620,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["bug", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "470": {
     id: 470,
@@ -9202,11 +6629,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "471": {
     id: 471,
@@ -9216,11 +6638,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["ice"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "472": {
     id: 472,
@@ -9230,11 +6647,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["ground", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "473": {
     id: 473,
@@ -9244,11 +6656,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["ice", "ground"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "474": {
     id: 474,
@@ -9258,11 +6665,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "475": {
     id: 475,
@@ -9272,11 +6674,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["psychic", "fighting"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "476": {
     id: 476,
@@ -9286,11 +6683,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["rock", "steel"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "477": {
     id: 477,
@@ -9300,11 +6692,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["ghost"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "478": {
     id: 478,
@@ -9314,11 +6701,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["ice", "ghost"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "479": {
     id: 479,
@@ -9328,11 +6710,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["electric", "ghost"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "480": {
     id: 480,
@@ -9342,11 +6719,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "481": {
     id: 481,
@@ -9356,11 +6728,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "482": {
     id: 482,
@@ -9370,11 +6737,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "483": {
     id: 483,
@@ -9384,11 +6746,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["steel", "dragon"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "484": {
     id: 484,
@@ -9398,11 +6755,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["water", "dragon"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "485": {
     id: 485,
@@ -9412,11 +6764,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["fire", "steel"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "486": {
     id: 486,
@@ -9426,11 +6773,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "487": {
     id: 487,
@@ -9440,11 +6782,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["ghost", "dragon"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "488": {
     id: 488,
@@ -9454,11 +6791,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "489": {
     id: 489,
@@ -9468,11 +6800,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "490": {
     id: 490,
@@ -9482,11 +6809,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "491": {
     id: 491,
@@ -9496,11 +6818,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["dark"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "492": {
     id: 492,
@@ -9510,11 +6827,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "493": {
     id: 493,
@@ -9524,11 +6836,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 4,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "494": {
     id: 494,
@@ -9538,11 +6845,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["psychic", "fire"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "495": {
     id: 495,
@@ -9552,21 +6854,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 496,
-          methods: ["Level-Up - Level 17"],
+    evolutions: [
+      {
+        id: 496,
+        methods: {
+          de: ["Level-Up - Level 17"],
+          en: ["Level-Up - Level 17"],
         },
-      ],
-      en: [
-        {
-          id: 496,
-          methods: ["Level-Up - Level 17"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "496": {
     id: 496,
@@ -9576,21 +6872,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 497,
-          methods: ["Level-Up - Level 36"],
+    evolutions: [
+      {
+        id: 497,
+        methods: {
+          de: ["Level-Up - Level 36"],
+          en: ["Level-Up - Level 36"],
         },
-      ],
-      en: [
-        {
-          id: 497,
-          methods: ["Level-Up - Level 36"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "497": {
     id: 497,
@@ -9600,11 +6890,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "498": {
     id: 498,
@@ -9614,21 +6899,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["fire"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 499,
-          methods: ["Level-Up - Level 17"],
+    evolutions: [
+      {
+        id: 499,
+        methods: {
+          de: ["Level-Up - Level 17"],
+          en: ["Level-Up - Level 17"],
         },
-      ],
-      en: [
-        {
-          id: 499,
-          methods: ["Level-Up - Level 17"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "499": {
     id: 499,
@@ -9638,21 +6917,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["fire", "fighting"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 500,
-          methods: ["Level-Up - Level 36"],
+    evolutions: [
+      {
+        id: 500,
+        methods: {
+          de: ["Level-Up - Level 36"],
+          en: ["Level-Up - Level 36"],
         },
-      ],
-      en: [
-        {
-          id: 500,
-          methods: ["Level-Up - Level 36"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "500": {
     id: 500,
@@ -9662,11 +6935,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["fire", "fighting"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "501": {
     id: 501,
@@ -9676,21 +6944,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 502,
-          methods: ["Level-Up - Level 17"],
+    evolutions: [
+      {
+        id: 502,
+        methods: {
+          de: ["Level-Up - Level 17"],
+          en: ["Level-Up - Level 17"],
         },
-      ],
-      en: [
-        {
-          id: 502,
-          methods: ["Level-Up - Level 17"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "502": {
     id: 502,
@@ -9700,21 +6962,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 503,
-          methods: ["Level-Up - Level 36"],
+    evolutions: [
+      {
+        id: 503,
+        methods: {
+          de: ["Level-Up - Level 36"],
+          en: ["Level-Up - Level 36"],
         },
-      ],
-      en: [
-        {
-          id: 503,
-          methods: ["Level-Up - Level 36"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "503": {
     id: 503,
@@ -9724,11 +6980,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "504": {
     id: 504,
@@ -9738,21 +6989,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 505,
-          methods: ["Level-Up - Level 20"],
+    evolutions: [
+      {
+        id: 505,
+        methods: {
+          de: ["Level-Up - Level 20"],
+          en: ["Level-Up - Level 20"],
         },
-      ],
-      en: [
-        {
-          id: 505,
-          methods: ["Level-Up - Level 20"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "505": {
     id: 505,
@@ -9762,11 +7007,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "506": {
     id: 506,
@@ -9776,21 +7016,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 507,
-          methods: ["Level-Up - Level 16"],
+    evolutions: [
+      {
+        id: 507,
+        methods: {
+          de: ["Level-Up - Level 16"],
+          en: ["Level-Up - Level 16"],
         },
-      ],
-      en: [
-        {
-          id: 507,
-          methods: ["Level-Up - Level 16"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "507": {
     id: 507,
@@ -9800,21 +7034,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 508,
-          methods: ["Level-Up - Level 32"],
+    evolutions: [
+      {
+        id: 508,
+        methods: {
+          de: ["Level-Up - Level 32"],
+          en: ["Level-Up - Level 32"],
         },
-      ],
-      en: [
-        {
-          id: 508,
-          methods: ["Level-Up - Level 32"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "508": {
     id: 508,
@@ -9824,11 +7052,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "509": {
     id: 509,
@@ -9838,21 +7061,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["dark"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 510,
-          methods: ["Level-Up - Level 20"],
+    evolutions: [
+      {
+        id: 510,
+        methods: {
+          de: ["Level-Up - Level 20"],
+          en: ["Level-Up - Level 20"],
         },
-      ],
-      en: [
-        {
-          id: 510,
-          methods: ["Level-Up - Level 20"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "510": {
     id: 510,
@@ -9862,11 +7079,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["dark"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "511": {
     id: 511,
@@ -9876,21 +7088,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 512,
-          methods: ["Item: Blattstein"],
+    evolutions: [
+      {
+        id: 512,
+        methods: {
+          de: ["Item: Blattstein"],
+          en: ["Item: Leaf Stone"],
         },
-      ],
-      en: [
-        {
-          id: 512,
-          methods: ["Item: Leaf Stone"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "512": {
     id: 512,
@@ -9900,11 +7106,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "513": {
     id: 513,
@@ -9914,21 +7115,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["fire"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 514,
-          methods: ["Item: Feuerstein"],
+    evolutions: [
+      {
+        id: 514,
+        methods: {
+          de: ["Item: Feuerstein"],
+          en: ["Item: Fire Stone"],
         },
-      ],
-      en: [
-        {
-          id: 514,
-          methods: ["Item: Fire Stone"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "514": {
     id: 514,
@@ -9938,11 +7133,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["fire"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "515": {
     id: 515,
@@ -9952,21 +7142,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 516,
-          methods: ["Item: Wasserstein"],
+    evolutions: [
+      {
+        id: 516,
+        methods: {
+          de: ["Item: Wasserstein"],
+          en: ["Item: Water Stone"],
         },
-      ],
-      en: [
-        {
-          id: 516,
-          methods: ["Item: Water Stone"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "516": {
     id: 516,
@@ -9976,11 +7160,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "517": {
     id: 517,
@@ -9990,21 +7169,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 518,
-          methods: ["Item: Mondstein"],
+    evolutions: [
+      {
+        id: 518,
+        methods: {
+          de: ["Item: Mondstein"],
+          en: ["Item: Moon Stone"],
         },
-      ],
-      en: [
-        {
-          id: 518,
-          methods: ["Item: Moon Stone"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "518": {
     id: 518,
@@ -10014,11 +7187,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "519": {
     id: 519,
@@ -10028,21 +7196,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["normal", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 520,
-          methods: ["Level-Up - Level 21"],
+    evolutions: [
+      {
+        id: 520,
+        methods: {
+          de: ["Level-Up - Level 21"],
+          en: ["Level-Up - Level 21"],
         },
-      ],
-      en: [
-        {
-          id: 520,
-          methods: ["Level-Up - Level 21"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "520": {
     id: 520,
@@ -10052,21 +7214,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["normal", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 521,
-          methods: ["Level-Up - Level 32"],
+    evolutions: [
+      {
+        id: 521,
+        methods: {
+          de: ["Level-Up - Level 32"],
+          en: ["Level-Up - Level 32"],
         },
-      ],
-      en: [
-        {
-          id: 521,
-          methods: ["Level-Up - Level 32"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "521": {
     id: 521,
@@ -10076,11 +7232,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["normal", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "522": {
     id: 522,
@@ -10090,21 +7241,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["electric"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 523,
-          methods: ["Level-Up - Level 27"],
+    evolutions: [
+      {
+        id: 523,
+        methods: {
+          de: ["Level-Up - Level 27"],
+          en: ["Level-Up - Level 27"],
         },
-      ],
-      en: [
-        {
-          id: 523,
-          methods: ["Level-Up - Level 27"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "523": {
     id: 523,
@@ -10114,11 +7259,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["electric"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "524": {
     id: 524,
@@ -10128,21 +7268,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["rock"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 525,
-          methods: ["Level-Up - Level 25"],
+    evolutions: [
+      {
+        id: 525,
+        methods: {
+          de: ["Level-Up - Level 25"],
+          en: ["Level-Up - Level 25"],
         },
-      ],
-      en: [
-        {
-          id: 525,
-          methods: ["Level-Up - Level 25"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "525": {
     id: 525,
@@ -10152,21 +7286,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["rock"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 526,
-          methods: ["Tausch"],
+    evolutions: [
+      {
+        id: 526,
+        methods: {
+          de: ["Tausch"],
+          en: ["Trade"],
         },
-      ],
-      en: [
-        {
-          id: 526,
-          methods: ["Trade"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "526": {
     id: 526,
@@ -10176,11 +7304,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["rock"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "527": {
     id: 527,
@@ -10190,21 +7313,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["psychic", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 528,
-          methods: ["Level-Up - Freundschaft ≥ 160"],
+    evolutions: [
+      {
+        id: 528,
+        methods: {
+          de: ["Level-Up - Freundschaft ≥ 160"],
+          en: ["Level-Up - Friendship ≥ 160"],
         },
-      ],
-      en: [
-        {
-          id: 528,
-          methods: ["Level-Up - Friendship ≥ 160"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "528": {
     id: 528,
@@ -10214,11 +7331,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["psychic", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "529": {
     id: 529,
@@ -10228,21 +7340,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["ground"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 530,
-          methods: ["Level-Up - Level 31"],
+    evolutions: [
+      {
+        id: 530,
+        methods: {
+          de: ["Level-Up - Level 31"],
+          en: ["Level-Up - Level 31"],
         },
-      ],
-      en: [
-        {
-          id: 530,
-          methods: ["Level-Up - Level 31"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "530": {
     id: 530,
@@ -10252,11 +7358,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["ground", "steel"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "531": {
     id: 531,
@@ -10266,11 +7367,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "532": {
     id: 532,
@@ -10280,21 +7376,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["fighting"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 533,
-          methods: ["Level-Up - Level 25"],
+    evolutions: [
+      {
+        id: 533,
+        methods: {
+          de: ["Level-Up - Level 25"],
+          en: ["Level-Up - Level 25"],
         },
-      ],
-      en: [
-        {
-          id: 533,
-          methods: ["Level-Up - Level 25"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "533": {
     id: 533,
@@ -10304,21 +7394,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["fighting"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 534,
-          methods: ["Tausch"],
+    evolutions: [
+      {
+        id: 534,
+        methods: {
+          de: ["Tausch"],
+          en: ["Trade"],
         },
-      ],
-      en: [
-        {
-          id: 534,
-          methods: ["Trade"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "534": {
     id: 534,
@@ -10328,11 +7412,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["fighting"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "535": {
     id: 535,
@@ -10342,21 +7421,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 536,
-          methods: ["Level-Up - Level 25"],
+    evolutions: [
+      {
+        id: 536,
+        methods: {
+          de: ["Level-Up - Level 25"],
+          en: ["Level-Up - Level 25"],
         },
-      ],
-      en: [
-        {
-          id: 536,
-          methods: ["Level-Up - Level 25"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "536": {
     id: 536,
@@ -10366,21 +7439,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["water", "ground"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 537,
-          methods: ["Level-Up - Level 36"],
+    evolutions: [
+      {
+        id: 537,
+        methods: {
+          de: ["Level-Up - Level 36"],
+          en: ["Level-Up - Level 36"],
         },
-      ],
-      en: [
-        {
-          id: 537,
-          methods: ["Level-Up - Level 36"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "537": {
     id: 537,
@@ -10390,11 +7457,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["water", "ground"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "538": {
     id: 538,
@@ -10404,11 +7466,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["fighting"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "539": {
     id: 539,
@@ -10418,11 +7475,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["fighting"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "540": {
     id: 540,
@@ -10432,21 +7484,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["bug", "grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 541,
-          methods: ["Level-Up - Level 20"],
+    evolutions: [
+      {
+        id: 541,
+        methods: {
+          de: ["Level-Up - Level 20"],
+          en: ["Level-Up - Level 20"],
         },
-      ],
-      en: [
-        {
-          id: 541,
-          methods: ["Level-Up - Level 20"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "541": {
     id: 541,
@@ -10456,21 +7502,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["bug", "grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 542,
-          methods: ["Level-Up - Freundschaft ≥ 220"],
+    evolutions: [
+      {
+        id: 542,
+        methods: {
+          de: ["Level-Up - Freundschaft ≥ 220"],
+          en: ["Level-Up - Friendship ≥ 220"],
         },
-      ],
-      en: [
-        {
-          id: 542,
-          methods: ["Level-Up - Friendship ≥ 220"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "542": {
     id: 542,
@@ -10480,11 +7520,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["bug", "grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "543": {
     id: 543,
@@ -10494,21 +7529,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["bug", "poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 544,
-          methods: ["Level-Up - Level 22"],
+    evolutions: [
+      {
+        id: 544,
+        methods: {
+          de: ["Level-Up - Level 22"],
+          en: ["Level-Up - Level 22"],
         },
-      ],
-      en: [
-        {
-          id: 544,
-          methods: ["Level-Up - Level 22"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "544": {
     id: 544,
@@ -10518,21 +7547,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["bug", "poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 545,
-          methods: ["Level-Up - Level 30"],
+    evolutions: [
+      {
+        id: 545,
+        methods: {
+          de: ["Level-Up - Level 30"],
+          en: ["Level-Up - Level 30"],
         },
-      ],
-      en: [
-        {
-          id: 545,
-          methods: ["Level-Up - Level 30"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "545": {
     id: 545,
@@ -10542,11 +7565,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["bug", "poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "546": {
     id: 546,
@@ -10562,20 +7580,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
         types: ["grass"],
       },
     ],
-    evolutions: {
-      de: [
-        {
-          id: 547,
-          methods: ["Item: Sonnenstein"],
+    evolutions: [
+      {
+        id: 547,
+        methods: {
+          de: ["Item: Sonnenstein"],
+          en: ["Item: Sun Stone"],
         },
-      ],
-      en: [
-        {
-          id: 547,
-          methods: ["Item: Sun Stone"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "547": {
     id: 547,
@@ -10591,10 +7604,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
         types: ["grass"],
       },
     ],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "548": {
     id: 548,
@@ -10604,21 +7613,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 549,
-          methods: ["Item: Sonnenstein"],
+    evolutions: [
+      {
+        id: 549,
+        methods: {
+          de: ["Item: Sonnenstein"],
+          en: ["Item: Sun Stone"],
         },
-      ],
-      en: [
-        {
-          id: 549,
-          methods: ["Item: Sun Stone"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "549": {
     id: 549,
@@ -10628,11 +7631,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "550": {
     id: 550,
@@ -10642,11 +7640,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "551": {
     id: 551,
@@ -10656,21 +7649,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["ground", "dark"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 552,
-          methods: ["Level-Up - Level 29"],
+    evolutions: [
+      {
+        id: 552,
+        methods: {
+          de: ["Level-Up - Level 29"],
+          en: ["Level-Up - Level 29"],
         },
-      ],
-      en: [
-        {
-          id: 552,
-          methods: ["Level-Up - Level 29"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "552": {
     id: 552,
@@ -10680,21 +7667,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["ground", "dark"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 553,
-          methods: ["Level-Up - Level 40"],
+    evolutions: [
+      {
+        id: 553,
+        methods: {
+          de: ["Level-Up - Level 40"],
+          en: ["Level-Up - Level 40"],
         },
-      ],
-      en: [
-        {
-          id: 553,
-          methods: ["Level-Up - Level 40"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "553": {
     id: 553,
@@ -10704,11 +7685,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["ground", "dark"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "554": {
     id: 554,
@@ -10718,21 +7694,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["fire"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 555,
-          methods: ["Item: Eisstein", "Level-Up - Level 35"],
+    evolutions: [
+      {
+        id: 555,
+        methods: {
+          de: ["Item: Eisstein", "Level-Up - Level 35"],
+          en: ["Item: Ice Stone", "Level-Up - Level 35"],
         },
-      ],
-      en: [
-        {
-          id: 555,
-          methods: ["Item: Ice Stone", "Level-Up - Level 35"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "555": {
     id: 555,
@@ -10742,11 +7712,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["fire"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "556": {
     id: 556,
@@ -10756,11 +7721,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "557": {
     id: 557,
@@ -10770,21 +7730,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["bug", "rock"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 558,
-          methods: ["Level-Up - Level 34"],
+    evolutions: [
+      {
+        id: 558,
+        methods: {
+          de: ["Level-Up - Level 34"],
+          en: ["Level-Up - Level 34"],
         },
-      ],
-      en: [
-        {
-          id: 558,
-          methods: ["Level-Up - Level 34"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "558": {
     id: 558,
@@ -10794,11 +7748,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["bug", "rock"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "559": {
     id: 559,
@@ -10808,21 +7757,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["dark", "fighting"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 560,
-          methods: ["Level-Up - Level 39"],
+    evolutions: [
+      {
+        id: 560,
+        methods: {
+          de: ["Level-Up - Level 39"],
+          en: ["Level-Up - Level 39"],
         },
-      ],
-      en: [
-        {
-          id: 560,
-          methods: ["Level-Up - Level 39"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "560": {
     id: 560,
@@ -10832,11 +7775,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["dark", "fighting"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "561": {
     id: 561,
@@ -10846,11 +7784,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["psychic", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "562": {
     id: 562,
@@ -10860,21 +7793,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["ghost"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 563,
-          methods: ["Level-Up - Level 34"],
+    evolutions: [
+      {
+        id: 563,
+        methods: {
+          de: ["Level-Up - Level 34"],
+          en: ["Level-Up - Level 34"],
         },
-      ],
-      en: [
-        {
-          id: 563,
-          methods: ["Level-Up - Level 34"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "563": {
     id: 563,
@@ -10884,11 +7811,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["ghost"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "564": {
     id: 564,
@@ -10898,21 +7820,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["water", "rock"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 565,
-          methods: ["Level-Up - Level 37"],
+    evolutions: [
+      {
+        id: 565,
+        methods: {
+          de: ["Level-Up - Level 37"],
+          en: ["Level-Up - Level 37"],
         },
-      ],
-      en: [
-        {
-          id: 565,
-          methods: ["Level-Up - Level 37"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "565": {
     id: 565,
@@ -10922,11 +7838,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["water", "rock"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "566": {
     id: 566,
@@ -10936,21 +7847,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["rock", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 567,
-          methods: ["Level-Up - Level 37"],
+    evolutions: [
+      {
+        id: 567,
+        methods: {
+          de: ["Level-Up - Level 37"],
+          en: ["Level-Up - Level 37"],
         },
-      ],
-      en: [
-        {
-          id: 567,
-          methods: ["Level-Up - Level 37"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "567": {
     id: 567,
@@ -10960,11 +7865,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["rock", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "568": {
     id: 568,
@@ -10974,21 +7874,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 569,
-          methods: ["Level-Up - Level 36"],
+    evolutions: [
+      {
+        id: 569,
+        methods: {
+          de: ["Level-Up - Level 36"],
+          en: ["Level-Up - Level 36"],
         },
-      ],
-      en: [
-        {
-          id: 569,
-          methods: ["Level-Up - Level 36"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "569": {
     id: 569,
@@ -10998,11 +7892,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "570": {
     id: 570,
@@ -11012,21 +7901,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["dark"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 571,
-          methods: ["Level-Up - Level 30"],
+    evolutions: [
+      {
+        id: 571,
+        methods: {
+          de: ["Level-Up - Level 30"],
+          en: ["Level-Up - Level 30"],
         },
-      ],
-      en: [
-        {
-          id: 571,
-          methods: ["Level-Up - Level 30"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "571": {
     id: 571,
@@ -11036,11 +7919,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["dark"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "572": {
     id: 572,
@@ -11050,21 +7928,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 573,
-          methods: ["Item: Leuchtstein"],
+    evolutions: [
+      {
+        id: 573,
+        methods: {
+          de: ["Item: Leuchtstein"],
+          en: ["Item: Shiny Stone"],
         },
-      ],
-      en: [
-        {
-          id: 573,
-          methods: ["Item: Shiny Stone"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "573": {
     id: 573,
@@ -11074,11 +7946,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "574": {
     id: 574,
@@ -11088,21 +7955,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 575,
-          methods: ["Level-Up - Level 32"],
+    evolutions: [
+      {
+        id: 575,
+        methods: {
+          de: ["Level-Up - Level 32"],
+          en: ["Level-Up - Level 32"],
         },
-      ],
-      en: [
-        {
-          id: 575,
-          methods: ["Level-Up - Level 32"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "575": {
     id: 575,
@@ -11112,21 +7973,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 576,
-          methods: ["Level-Up - Level 41"],
+    evolutions: [
+      {
+        id: 576,
+        methods: {
+          de: ["Level-Up - Level 41"],
+          en: ["Level-Up - Level 41"],
         },
-      ],
-      en: [
-        {
-          id: 576,
-          methods: ["Level-Up - Level 41"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "576": {
     id: 576,
@@ -11136,11 +7991,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "577": {
     id: 577,
@@ -11150,21 +8000,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 578,
-          methods: ["Level-Up - Level 32"],
+    evolutions: [
+      {
+        id: 578,
+        methods: {
+          de: ["Level-Up - Level 32"],
+          en: ["Level-Up - Level 32"],
         },
-      ],
-      en: [
-        {
-          id: 578,
-          methods: ["Level-Up - Level 32"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "578": {
     id: 578,
@@ -11174,21 +8018,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 579,
-          methods: ["Level-Up - Level 41"],
+    evolutions: [
+      {
+        id: 579,
+        methods: {
+          de: ["Level-Up - Level 41"],
+          en: ["Level-Up - Level 41"],
         },
-      ],
-      en: [
-        {
-          id: 579,
-          methods: ["Level-Up - Level 41"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "579": {
     id: 579,
@@ -11198,11 +8036,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "580": {
     id: 580,
@@ -11212,21 +8045,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["water", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 581,
-          methods: ["Level-Up - Level 35"],
+    evolutions: [
+      {
+        id: 581,
+        methods: {
+          de: ["Level-Up - Level 35"],
+          en: ["Level-Up - Level 35"],
         },
-      ],
-      en: [
-        {
-          id: 581,
-          methods: ["Level-Up - Level 35"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "581": {
     id: 581,
@@ -11236,11 +8063,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["water", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "582": {
     id: 582,
@@ -11250,21 +8072,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["ice"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 583,
-          methods: ["Level-Up - Level 35"],
+    evolutions: [
+      {
+        id: 583,
+        methods: {
+          de: ["Level-Up - Level 35"],
+          en: ["Level-Up - Level 35"],
         },
-      ],
-      en: [
-        {
-          id: 583,
-          methods: ["Level-Up - Level 35"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "583": {
     id: 583,
@@ -11274,21 +8090,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["ice"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 584,
-          methods: ["Level-Up - Level 47"],
+    evolutions: [
+      {
+        id: 584,
+        methods: {
+          de: ["Level-Up - Level 47"],
+          en: ["Level-Up - Level 47"],
         },
-      ],
-      en: [
-        {
-          id: 584,
-          methods: ["Level-Up - Level 47"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "584": {
     id: 584,
@@ -11298,11 +8108,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["ice"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "585": {
     id: 585,
@@ -11312,21 +8117,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["normal", "grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 586,
-          methods: ["Level-Up - Level 34"],
+    evolutions: [
+      {
+        id: 586,
+        methods: {
+          de: ["Level-Up - Level 34"],
+          en: ["Level-Up - Level 34"],
         },
-      ],
-      en: [
-        {
-          id: 586,
-          methods: ["Level-Up - Level 34"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "586": {
     id: 586,
@@ -11336,11 +8135,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["normal", "grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "587": {
     id: 587,
@@ -11350,11 +8144,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["electric", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "588": {
     id: 588,
@@ -11364,21 +8153,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["bug"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 589,
-          methods: ["Tausch mit Schnuthelm"],
+    evolutions: [
+      {
+        id: 589,
+        methods: {
+          de: ["Tausch mit Schnuthelm"],
+          en: ["Trade with Shelmet"],
         },
-      ],
-      en: [
-        {
-          id: 589,
-          methods: ["Trade with Shelmet"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "589": {
     id: 589,
@@ -11388,11 +8171,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["bug", "steel"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "590": {
     id: 590,
@@ -11402,21 +8180,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["grass", "poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 591,
-          methods: ["Level-Up - Level 39"],
+    evolutions: [
+      {
+        id: 591,
+        methods: {
+          de: ["Level-Up - Level 39"],
+          en: ["Level-Up - Level 39"],
         },
-      ],
-      en: [
-        {
-          id: 591,
-          methods: ["Level-Up - Level 39"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "591": {
     id: 591,
@@ -11426,11 +8198,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["grass", "poison"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "592": {
     id: 592,
@@ -11440,21 +8207,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["water", "ghost"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 593,
-          methods: ["Level-Up - Level 40"],
+    evolutions: [
+      {
+        id: 593,
+        methods: {
+          de: ["Level-Up - Level 40"],
+          en: ["Level-Up - Level 40"],
         },
-      ],
-      en: [
-        {
-          id: 593,
-          methods: ["Level-Up - Level 40"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "593": {
     id: 593,
@@ -11464,11 +8225,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["water", "ghost"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "594": {
     id: 594,
@@ -11478,11 +8234,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "595": {
     id: 595,
@@ -11492,21 +8243,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["bug", "electric"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 596,
-          methods: ["Level-Up - Level 36"],
+    evolutions: [
+      {
+        id: 596,
+        methods: {
+          de: ["Level-Up - Level 36"],
+          en: ["Level-Up - Level 36"],
         },
-      ],
-      en: [
-        {
-          id: 596,
-          methods: ["Level-Up - Level 36"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "596": {
     id: 596,
@@ -11516,11 +8261,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["bug", "electric"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "597": {
     id: 597,
@@ -11530,21 +8270,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["grass", "steel"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 598,
-          methods: ["Level-Up - Level 40"],
+    evolutions: [
+      {
+        id: 598,
+        methods: {
+          de: ["Level-Up - Level 40"],
+          en: ["Level-Up - Level 40"],
         },
-      ],
-      en: [
-        {
-          id: 598,
-          methods: ["Level-Up - Level 40"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "598": {
     id: 598,
@@ -11554,11 +8288,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["grass", "steel"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "599": {
     id: 599,
@@ -11568,21 +8297,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["steel"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 600,
-          methods: ["Level-Up - Level 38"],
+    evolutions: [
+      {
+        id: 600,
+        methods: {
+          de: ["Level-Up - Level 38"],
+          en: ["Level-Up - Level 38"],
         },
-      ],
-      en: [
-        {
-          id: 600,
-          methods: ["Level-Up - Level 38"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "600": {
     id: 600,
@@ -11592,21 +8315,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["steel"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 601,
-          methods: ["Level-Up - Level 49"],
+    evolutions: [
+      {
+        id: 601,
+        methods: {
+          de: ["Level-Up - Level 49"],
+          en: ["Level-Up - Level 49"],
         },
-      ],
-      en: [
-        {
-          id: 601,
-          methods: ["Level-Up - Level 49"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "601": {
     id: 601,
@@ -11616,11 +8333,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["steel"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "602": {
     id: 602,
@@ -11630,21 +8342,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["electric"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 603,
-          methods: ["Level-Up - Level 39"],
+    evolutions: [
+      {
+        id: 603,
+        methods: {
+          de: ["Level-Up - Level 39"],
+          en: ["Level-Up - Level 39"],
         },
-      ],
-      en: [
-        {
-          id: 603,
-          methods: ["Level-Up - Level 39"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "603": {
     id: 603,
@@ -11654,21 +8360,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["electric"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 604,
-          methods: ["Item: Donnerstein"],
+    evolutions: [
+      {
+        id: 604,
+        methods: {
+          de: ["Item: Donnerstein"],
+          en: ["Item: Thunder Stone"],
         },
-      ],
-      en: [
-        {
-          id: 604,
-          methods: ["Item: Thunder Stone"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "604": {
     id: 604,
@@ -11678,11 +8378,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["electric"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "605": {
     id: 605,
@@ -11692,21 +8387,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 606,
-          methods: ["Level-Up - Level 42"],
+    evolutions: [
+      {
+        id: 606,
+        methods: {
+          de: ["Level-Up - Level 42"],
+          en: ["Level-Up - Level 42"],
         },
-      ],
-      en: [
-        {
-          id: 606,
-          methods: ["Level-Up - Level 42"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "606": {
     id: 606,
@@ -11716,11 +8405,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "607": {
     id: 607,
@@ -11730,21 +8414,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["ghost", "fire"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 608,
-          methods: ["Level-Up - Level 41"],
+    evolutions: [
+      {
+        id: 608,
+        methods: {
+          de: ["Level-Up - Level 41"],
+          en: ["Level-Up - Level 41"],
         },
-      ],
-      en: [
-        {
-          id: 608,
-          methods: ["Level-Up - Level 41"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "608": {
     id: 608,
@@ -11754,21 +8432,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["ghost", "fire"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 609,
-          methods: ["Item: Finsterstein"],
+    evolutions: [
+      {
+        id: 609,
+        methods: {
+          de: ["Item: Finsterstein"],
+          en: ["Item: Dusk Stone"],
         },
-      ],
-      en: [
-        {
-          id: 609,
-          methods: ["Item: Dusk Stone"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "609": {
     id: 609,
@@ -11778,11 +8450,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["ghost", "fire"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "610": {
     id: 610,
@@ -11792,21 +8459,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["dragon"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 611,
-          methods: ["Level-Up - Level 38"],
+    evolutions: [
+      {
+        id: 611,
+        methods: {
+          de: ["Level-Up - Level 38"],
+          en: ["Level-Up - Level 38"],
         },
-      ],
-      en: [
-        {
-          id: 611,
-          methods: ["Level-Up - Level 38"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "611": {
     id: 611,
@@ -11816,21 +8477,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["dragon"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 612,
-          methods: ["Level-Up - Level 48"],
+    evolutions: [
+      {
+        id: 612,
+        methods: {
+          de: ["Level-Up - Level 48"],
+          en: ["Level-Up - Level 48"],
         },
-      ],
-      en: [
-        {
-          id: 612,
-          methods: ["Level-Up - Level 48"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "612": {
     id: 612,
@@ -11840,11 +8495,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["dragon"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "613": {
     id: 613,
@@ -11854,21 +8504,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["ice"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 614,
-          methods: ["Level-Up - Level 37"],
+    evolutions: [
+      {
+        id: 614,
+        methods: {
+          de: ["Level-Up - Level 37"],
+          en: ["Level-Up - Level 37"],
         },
-      ],
-      en: [
-        {
-          id: 614,
-          methods: ["Level-Up - Level 37"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "614": {
     id: 614,
@@ -11878,11 +8522,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["ice"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "615": {
     id: 615,
@@ -11892,11 +8531,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["ice"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "616": {
     id: 616,
@@ -11906,21 +8540,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["bug"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 617,
-          methods: ["Tausch mit Laukaps"],
+    evolutions: [
+      {
+        id: 617,
+        methods: {
+          de: ["Tausch mit Laukaps"],
+          en: ["Trade with Karrablast"],
         },
-      ],
-      en: [
-        {
-          id: 617,
-          methods: ["Trade with Karrablast"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "617": {
     id: 617,
@@ -11930,11 +8558,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["bug"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "618": {
     id: 618,
@@ -11944,11 +8567,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["ground", "electric"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "619": {
     id: 619,
@@ -11958,21 +8576,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["fighting"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 620,
-          methods: ["Level-Up - Level 50"],
+    evolutions: [
+      {
+        id: 620,
+        methods: {
+          de: ["Level-Up - Level 50"],
+          en: ["Level-Up - Level 50"],
         },
-      ],
-      en: [
-        {
-          id: 620,
-          methods: ["Level-Up - Level 50"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "620": {
     id: 620,
@@ -11982,11 +8594,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["fighting"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "621": {
     id: 621,
@@ -11996,11 +8603,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["dragon"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "622": {
     id: 622,
@@ -12010,21 +8612,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["ground", "ghost"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 623,
-          methods: ["Level-Up - Level 43"],
+    evolutions: [
+      {
+        id: 623,
+        methods: {
+          de: ["Level-Up - Level 43"],
+          en: ["Level-Up - Level 43"],
         },
-      ],
-      en: [
-        {
-          id: 623,
-          methods: ["Level-Up - Level 43"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "623": {
     id: 623,
@@ -12034,11 +8630,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["ground", "ghost"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "624": {
     id: 624,
@@ -12048,21 +8639,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["dark", "steel"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 625,
-          methods: ["Level-Up - Level 52"],
+    evolutions: [
+      {
+        id: 625,
+        methods: {
+          de: ["Level-Up - Level 52"],
+          en: ["Level-Up - Level 52"],
         },
-      ],
-      en: [
-        {
-          id: 625,
-          methods: ["Level-Up - Level 52"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "625": {
     id: 625,
@@ -12072,11 +8657,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["dark", "steel"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "626": {
     id: 626,
@@ -12086,11 +8666,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "627": {
     id: 627,
@@ -12100,21 +8675,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["normal", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 628,
-          methods: ["Level-Up - Level 54"],
+    evolutions: [
+      {
+        id: 628,
+        methods: {
+          de: ["Level-Up - Level 54"],
+          en: ["Level-Up - Level 54"],
         },
-      ],
-      en: [
-        {
-          id: 628,
-          methods: ["Level-Up - Level 54"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "628": {
     id: 628,
@@ -12124,11 +8693,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["normal", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "629": {
     id: 629,
@@ -12138,21 +8702,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["dark", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 630,
-          methods: ["Level-Up - Level 54"],
+    evolutions: [
+      {
+        id: 630,
+        methods: {
+          de: ["Level-Up - Level 54"],
+          en: ["Level-Up - Level 54"],
         },
-      ],
-      en: [
-        {
-          id: 630,
-          methods: ["Level-Up - Level 54"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "630": {
     id: 630,
@@ -12162,11 +8720,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["dark", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "631": {
     id: 631,
@@ -12176,11 +8729,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["fire"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "632": {
     id: 632,
@@ -12190,11 +8738,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["bug", "steel"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "633": {
     id: 633,
@@ -12204,21 +8747,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["dark", "dragon"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 634,
-          methods: ["Level-Up - Level 50"],
+    evolutions: [
+      {
+        id: 634,
+        methods: {
+          de: ["Level-Up - Level 50"],
+          en: ["Level-Up - Level 50"],
         },
-      ],
-      en: [
-        {
-          id: 634,
-          methods: ["Level-Up - Level 50"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "634": {
     id: 634,
@@ -12228,21 +8765,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["dark", "dragon"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 635,
-          methods: ["Level-Up - Level 64"],
+    evolutions: [
+      {
+        id: 635,
+        methods: {
+          de: ["Level-Up - Level 64"],
+          en: ["Level-Up - Level 64"],
         },
-      ],
-      en: [
-        {
-          id: 635,
-          methods: ["Level-Up - Level 64"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "635": {
     id: 635,
@@ -12252,11 +8783,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["dark", "dragon"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "636": {
     id: 636,
@@ -12266,21 +8792,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["bug", "fire"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 637,
-          methods: ["Level-Up - Level 59"],
+    evolutions: [
+      {
+        id: 637,
+        methods: {
+          de: ["Level-Up - Level 59"],
+          en: ["Level-Up - Level 59"],
         },
-      ],
-      en: [
-        {
-          id: 637,
-          methods: ["Level-Up - Level 59"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "637": {
     id: 637,
@@ -12290,11 +8810,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["bug", "fire"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "638": {
     id: 638,
@@ -12304,11 +8819,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["steel", "fighting"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "639": {
     id: 639,
@@ -12318,11 +8828,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["rock", "fighting"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "640": {
     id: 640,
@@ -12332,11 +8837,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["grass", "fighting"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "641": {
     id: 641,
@@ -12346,11 +8846,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "642": {
     id: 642,
@@ -12360,11 +8855,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["electric", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "643": {
     id: 643,
@@ -12374,11 +8864,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["dragon", "fire"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "644": {
     id: 644,
@@ -12388,11 +8873,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["dragon", "electric"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "645": {
     id: 645,
@@ -12402,11 +8882,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["ground", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "646": {
     id: 646,
@@ -12416,11 +8891,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["dragon", "ice"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "647": {
     id: 647,
@@ -12430,11 +8900,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["water", "fighting"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "648": {
     id: 648,
@@ -12444,11 +8909,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["normal", "psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "649": {
     id: 649,
@@ -12458,11 +8918,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["bug", "steel"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "650": {
     id: 650,
@@ -12472,21 +8927,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 651,
-          methods: ["Level-Up - Level 16"],
+    evolutions: [
+      {
+        id: 651,
+        methods: {
+          de: ["Level-Up - Level 16"],
+          en: ["Level-Up - Level 16"],
         },
-      ],
-      en: [
-        {
-          id: 651,
-          methods: ["Level-Up - Level 16"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "651": {
     id: 651,
@@ -12496,21 +8945,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 652,
-          methods: ["Level-Up - Level 36"],
+    evolutions: [
+      {
+        id: 652,
+        methods: {
+          de: ["Level-Up - Level 36"],
+          en: ["Level-Up - Level 36"],
         },
-      ],
-      en: [
-        {
-          id: 652,
-          methods: ["Level-Up - Level 36"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "652": {
     id: 652,
@@ -12520,11 +8963,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["grass", "fighting"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "653": {
     id: 653,
@@ -12534,21 +8972,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["fire"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 654,
-          methods: ["Level-Up - Level 16"],
+    evolutions: [
+      {
+        id: 654,
+        methods: {
+          de: ["Level-Up - Level 16"],
+          en: ["Level-Up - Level 16"],
         },
-      ],
-      en: [
-        {
-          id: 654,
-          methods: ["Level-Up - Level 16"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "654": {
     id: 654,
@@ -12558,21 +8990,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["fire"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 655,
-          methods: ["Level-Up - Level 36"],
+    evolutions: [
+      {
+        id: 655,
+        methods: {
+          de: ["Level-Up - Level 36"],
+          en: ["Level-Up - Level 36"],
         },
-      ],
-      en: [
-        {
-          id: 655,
-          methods: ["Level-Up - Level 36"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "655": {
     id: 655,
@@ -12582,11 +9008,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["fire", "psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "656": {
     id: 656,
@@ -12596,21 +9017,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 657,
-          methods: ["Level-Up - Level 16"],
+    evolutions: [
+      {
+        id: 657,
+        methods: {
+          de: ["Level-Up - Level 16"],
+          en: ["Level-Up - Level 16"],
         },
-      ],
-      en: [
-        {
-          id: 657,
-          methods: ["Level-Up - Level 16"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "657": {
     id: 657,
@@ -12620,21 +9035,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 658,
-          methods: ["Level-Up - Level 36"],
+    evolutions: [
+      {
+        id: 658,
+        methods: {
+          de: ["Level-Up - Level 36"],
+          en: ["Level-Up - Level 36"],
         },
-      ],
-      en: [
-        {
-          id: 658,
-          methods: ["Level-Up - Level 36"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "658": {
     id: 658,
@@ -12644,11 +9053,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["water", "dark"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "659": {
     id: 659,
@@ -12658,21 +9062,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 660,
-          methods: ["Level-Up - Level 20"],
+    evolutions: [
+      {
+        id: 660,
+        methods: {
+          de: ["Level-Up - Level 20"],
+          en: ["Level-Up - Level 20"],
         },
-      ],
-      en: [
-        {
-          id: 660,
-          methods: ["Level-Up - Level 20"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "660": {
     id: 660,
@@ -12682,11 +9080,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["normal", "ground"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "661": {
     id: 661,
@@ -12696,21 +9089,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["normal", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 662,
-          methods: ["Level-Up - Level 17"],
+    evolutions: [
+      {
+        id: 662,
+        methods: {
+          de: ["Level-Up - Level 17"],
+          en: ["Level-Up - Level 17"],
         },
-      ],
-      en: [
-        {
-          id: 662,
-          methods: ["Level-Up - Level 17"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "662": {
     id: 662,
@@ -12720,21 +9107,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["fire", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 663,
-          methods: ["Level-Up - Level 35"],
+    evolutions: [
+      {
+        id: 663,
+        methods: {
+          de: ["Level-Up - Level 35"],
+          en: ["Level-Up - Level 35"],
         },
-      ],
-      en: [
-        {
-          id: 663,
-          methods: ["Level-Up - Level 35"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "663": {
     id: 663,
@@ -12744,11 +9125,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["fire", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "664": {
     id: 664,
@@ -12758,21 +9134,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["bug"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 665,
-          methods: ["Level-Up - Level 9"],
+    evolutions: [
+      {
+        id: 665,
+        methods: {
+          de: ["Level-Up - Level 9"],
+          en: ["Level-Up - Level 9"],
         },
-      ],
-      en: [
-        {
-          id: 665,
-          methods: ["Level-Up - Level 9"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "665": {
     id: 665,
@@ -12782,21 +9152,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["bug"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 666,
-          methods: ["Level-Up - Level 12"],
+    evolutions: [
+      {
+        id: 666,
+        methods: {
+          de: ["Level-Up - Level 12"],
+          en: ["Level-Up - Level 12"],
         },
-      ],
-      en: [
-        {
-          id: 666,
-          methods: ["Level-Up - Level 12"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "666": {
     id: 666,
@@ -12806,11 +9170,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["bug", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "667": {
     id: 667,
@@ -12820,21 +9179,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["fire", "normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 668,
-          methods: ["Level-Up - Level 35"],
+    evolutions: [
+      {
+        id: 668,
+        methods: {
+          de: ["Level-Up - Level 35"],
+          en: ["Level-Up - Level 35"],
         },
-      ],
-      en: [
-        {
-          id: 668,
-          methods: ["Level-Up - Level 35"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "668": {
     id: 668,
@@ -12844,11 +9197,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["fire", "normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "669": {
     id: 669,
@@ -12858,21 +9206,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["fairy"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 670,
-          methods: ["Level-Up - Level 19"],
+    evolutions: [
+      {
+        id: 670,
+        methods: {
+          de: ["Level-Up - Level 19"],
+          en: ["Level-Up - Level 19"],
         },
-      ],
-      en: [
-        {
-          id: 670,
-          methods: ["Level-Up - Level 19"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "670": {
     id: 670,
@@ -12882,21 +9224,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["fairy"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 671,
-          methods: ["Item: Leuchtstein"],
+    evolutions: [
+      {
+        id: 671,
+        methods: {
+          de: ["Item: Leuchtstein"],
+          en: ["Item: Shiny Stone"],
         },
-      ],
-      en: [
-        {
-          id: 671,
-          methods: ["Item: Shiny Stone"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "671": {
     id: 671,
@@ -12906,11 +9242,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["fairy"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "672": {
     id: 672,
@@ -12920,21 +9251,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 673,
-          methods: ["Level-Up - Level 32"],
+    evolutions: [
+      {
+        id: 673,
+        methods: {
+          de: ["Level-Up - Level 32"],
+          en: ["Level-Up - Level 32"],
         },
-      ],
-      en: [
-        {
-          id: 673,
-          methods: ["Level-Up - Level 32"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "673": {
     id: 673,
@@ -12944,11 +9269,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "674": {
     id: 674,
@@ -12958,21 +9278,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["fighting"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 675,
-          methods: ["Level-Up - Level 32, Pokémon von Typ Unlicht im Team"],
+    evolutions: [
+      {
+        id: 675,
+        methods: {
+          de: ["Level-Up - Level 32, Pokémon von Typ Unlicht im Team"],
+          en: ["Level-Up - Level 32, Pokémon of type Dark in party"],
         },
-      ],
-      en: [
-        {
-          id: 675,
-          methods: ["Level-Up - Level 32, Pokémon of type Dark in party"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "675": {
     id: 675,
@@ -12982,11 +9296,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["fighting", "dark"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "676": {
     id: 676,
@@ -12996,11 +9305,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "677": {
     id: 677,
@@ -13010,21 +9314,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 678,
-          methods: ["Level-Up - Level 25"],
+    evolutions: [
+      {
+        id: 678,
+        methods: {
+          de: ["Level-Up - Level 25"],
+          en: ["Level-Up - Level 25"],
         },
-      ],
-      en: [
-        {
-          id: 678,
-          methods: ["Level-Up - Level 25"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "678": {
     id: 678,
@@ -13034,11 +9332,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "679": {
     id: 679,
@@ -13048,21 +9341,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["steel", "ghost"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 680,
-          methods: ["Level-Up - Level 35"],
+    evolutions: [
+      {
+        id: 680,
+        methods: {
+          de: ["Level-Up - Level 35"],
+          en: ["Level-Up - Level 35"],
         },
-      ],
-      en: [
-        {
-          id: 680,
-          methods: ["Level-Up - Level 35"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "680": {
     id: 680,
@@ -13072,21 +9359,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["steel", "ghost"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 681,
-          methods: ["Item: Finsterstein"],
+    evolutions: [
+      {
+        id: 681,
+        methods: {
+          de: ["Item: Finsterstein"],
+          en: ["Item: Dusk Stone"],
         },
-      ],
-      en: [
-        {
-          id: 681,
-          methods: ["Item: Dusk Stone"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "681": {
     id: 681,
@@ -13096,11 +9377,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["steel", "ghost"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "682": {
     id: 682,
@@ -13110,21 +9386,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["fairy"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 683,
-          methods: ["Tausch - Trägt Duftbeutel"],
+    evolutions: [
+      {
+        id: 683,
+        methods: {
+          de: ["Tausch - Trägt Duftbeutel"],
+          en: ["Trade - Holds Sachet"],
         },
-      ],
-      en: [
-        {
-          id: 683,
-          methods: ["Trade - Holds Sachet"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "683": {
     id: 683,
@@ -13134,11 +9404,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["fairy"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "684": {
     id: 684,
@@ -13148,21 +9413,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["fairy"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 685,
-          methods: ["Tausch - Trägt Sahnehäubchen"],
+    evolutions: [
+      {
+        id: 685,
+        methods: {
+          de: ["Tausch - Trägt Sahnehäubchen"],
+          en: ["Trade - Holds Whipped Dream"],
         },
-      ],
-      en: [
-        {
-          id: 685,
-          methods: ["Trade - Holds Whipped Dream"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "685": {
     id: 685,
@@ -13172,11 +9431,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["fairy"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "686": {
     id: 686,
@@ -13186,21 +9440,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["dark", "psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 687,
-          methods: ["Level-Up - Level 30, Konsole umdrehen"],
+    evolutions: [
+      {
+        id: 687,
+        methods: {
+          de: ["Level-Up - Level 30, Konsole umdrehen"],
+          en: ["Level-Up - Level 30, Turn console upside down"],
         },
-      ],
-      en: [
-        {
-          id: 687,
-          methods: ["Level-Up - Level 30, Turn console upside down"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "687": {
     id: 687,
@@ -13210,11 +9458,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["dark", "psychic"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "688": {
     id: 688,
@@ -13224,21 +9467,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["rock", "water"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 689,
-          methods: ["Level-Up - Level 39"],
+    evolutions: [
+      {
+        id: 689,
+        methods: {
+          de: ["Level-Up - Level 39"],
+          en: ["Level-Up - Level 39"],
         },
-      ],
-      en: [
-        {
-          id: 689,
-          methods: ["Level-Up - Level 39"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "689": {
     id: 689,
@@ -13248,11 +9485,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["rock", "water"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "690": {
     id: 690,
@@ -13262,21 +9494,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["poison", "water"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 691,
-          methods: ["Level-Up - Level 48"],
+    evolutions: [
+      {
+        id: 691,
+        methods: {
+          de: ["Level-Up - Level 48"],
+          en: ["Level-Up - Level 48"],
         },
-      ],
-      en: [
-        {
-          id: 691,
-          methods: ["Level-Up - Level 48"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "691": {
     id: 691,
@@ -13286,11 +9512,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["poison", "dragon"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "692": {
     id: 692,
@@ -13300,21 +9521,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 693,
-          methods: ["Level-Up - Level 37"],
+    evolutions: [
+      {
+        id: 693,
+        methods: {
+          de: ["Level-Up - Level 37"],
+          en: ["Level-Up - Level 37"],
         },
-      ],
-      en: [
-        {
-          id: 693,
-          methods: ["Level-Up - Level 37"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "693": {
     id: 693,
@@ -13324,11 +9539,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["water"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "694": {
     id: 694,
@@ -13338,21 +9548,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["electric", "normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 695,
-          methods: ["Item: Sonnenstein"],
+    evolutions: [
+      {
+        id: 695,
+        methods: {
+          de: ["Item: Sonnenstein"],
+          en: ["Item: Sun Stone"],
         },
-      ],
-      en: [
-        {
-          id: 695,
-          methods: ["Item: Sun Stone"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "695": {
     id: 695,
@@ -13362,11 +9566,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["electric", "normal"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "696": {
     id: 696,
@@ -13376,21 +9575,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["rock", "dragon"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 697,
-          methods: ["Level-Up - Level 39, Tageszeit: Tag"],
+    evolutions: [
+      {
+        id: 697,
+        methods: {
+          de: ["Level-Up - Level 39, Tageszeit: Tag"],
+          en: ["Level-Up - Level 39, Time of day: Day"],
         },
-      ],
-      en: [
-        {
-          id: 697,
-          methods: ["Level-Up - Level 39, Time of day: Day"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "697": {
     id: 697,
@@ -13400,11 +9593,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["rock", "dragon"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "698": {
     id: 698,
@@ -13414,21 +9602,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["rock", "ice"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 699,
-          methods: ["Level-Up - Level 39, Tageszeit: Nacht"],
+    evolutions: [
+      {
+        id: 699,
+        methods: {
+          de: ["Level-Up - Level 39, Tageszeit: Nacht"],
+          en: ["Level-Up - Level 39, Time of day: Night"],
         },
-      ],
-      en: [
-        {
-          id: 699,
-          methods: ["Level-Up - Level 39, Time of day: Night"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "699": {
     id: 699,
@@ -13438,11 +9620,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["rock", "ice"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "700": {
     id: 700,
@@ -13452,11 +9629,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["fairy"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "701": {
     id: 701,
@@ -13466,11 +9638,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["fighting", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "702": {
     id: 702,
@@ -13480,11 +9647,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["electric", "fairy"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "703": {
     id: 703,
@@ -13494,11 +9656,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["rock", "fairy"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "704": {
     id: 704,
@@ -13508,21 +9665,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["dragon"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 705,
-          methods: ["Level-Up - Level 40"],
+    evolutions: [
+      {
+        id: 705,
+        methods: {
+          de: ["Level-Up - Level 40"],
+          en: ["Level-Up - Level 40"],
         },
-      ],
-      en: [
-        {
-          id: 705,
-          methods: ["Level-Up - Level 40"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "705": {
     id: 705,
@@ -13532,21 +9683,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["dragon"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 706,
-          methods: ["Level-Up - Level 50, Regen in der Oberwelt"],
+    evolutions: [
+      {
+        id: 706,
+        methods: {
+          de: ["Level-Up - Level 50, Regen in der Oberwelt"],
+          en: ["Level-Up - Level 50, Overworld rain"],
         },
-      ],
-      en: [
-        {
-          id: 706,
-          methods: ["Level-Up - Level 50, Overworld rain"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "706": {
     id: 706,
@@ -13556,11 +9701,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["dragon"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "707": {
     id: 707,
@@ -13570,11 +9710,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["steel", "fairy"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "708": {
     id: 708,
@@ -13584,21 +9719,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["ghost", "grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 709,
-          methods: ["Tausch"],
+    evolutions: [
+      {
+        id: 709,
+        methods: {
+          de: ["Tausch"],
+          en: ["Trade"],
         },
-      ],
-      en: [
-        {
-          id: 709,
-          methods: ["Trade"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "709": {
     id: 709,
@@ -13608,11 +9737,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["ghost", "grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "710": {
     id: 710,
@@ -13622,21 +9746,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["ghost", "grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 711,
-          methods: ["Tausch"],
+    evolutions: [
+      {
+        id: 711,
+        methods: {
+          de: ["Tausch"],
+          en: ["Trade"],
         },
-      ],
-      en: [
-        {
-          id: 711,
-          methods: ["Trade"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "711": {
     id: 711,
@@ -13646,11 +9764,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["ghost", "grass"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "712": {
     id: 712,
@@ -13660,21 +9773,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["ice"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 713,
-          methods: ["Level-Up - Level 37"],
+    evolutions: [
+      {
+        id: 713,
+        methods: {
+          de: ["Level-Up - Level 37"],
+          en: ["Level-Up - Level 37"],
         },
-      ],
-      en: [
-        {
-          id: 713,
-          methods: ["Level-Up - Level 37"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "713": {
     id: 713,
@@ -13684,11 +9791,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["ice"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "714": {
     id: 714,
@@ -13698,21 +9800,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["flying", "dragon"],
-    pastTypes: [],
-    evolutions: {
-      de: [
-        {
-          id: 715,
-          methods: ["Level-Up - Level 48"],
+    evolutions: [
+      {
+        id: 715,
+        methods: {
+          de: ["Level-Up - Level 48"],
+          en: ["Level-Up - Level 48"],
         },
-      ],
-      en: [
-        {
-          id: 715,
-          methods: ["Level-Up - Level 48"],
-        },
-      ],
-    },
+      },
+    ],
   },
   "715": {
     id: 715,
@@ -13722,11 +9818,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["flying", "dragon"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "716": {
     id: 716,
@@ -13736,11 +9827,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["fairy"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "717": {
     id: 717,
@@ -13750,11 +9836,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["dark", "flying"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "718": {
     id: 718,
@@ -13764,11 +9845,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["dragon", "ground"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "719": {
     id: 719,
@@ -13778,11 +9854,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["rock", "fairy"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "720": {
     id: 720,
@@ -13792,11 +9863,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["psychic", "ghost"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
   "721": {
     id: 721,
@@ -13806,11 +9872,6 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["fire", "water"],
-    pastTypes: [],
-    evolutions: {
-      de: [],
-      en: [],
-    },
   },
 };
 
@@ -13819,43 +9880,43 @@ export const POKEMON_TYPE_NAMES: Record<
   Record<string, string>
 > = {
   de: {
-    normal: "Normal",
-    fire: "Feuer",
-    water: "Wasser",
-    electric: "Elektro",
     grass: "Pflanze",
-    ice: "Eis",
-    fighting: "Kampf",
     poison: "Gift",
-    ground: "Boden",
+    fire: "Feuer",
     flying: "Flug",
-    psychic: "Psycho",
+    water: "Wasser",
     bug: "Käfer",
+    normal: "Normal",
+    electric: "Elektro",
+    ground: "Boden",
+    fairy: "Fee",
+    fighting: "Kampf",
+    psychic: "Psycho",
     rock: "Gestein",
+    steel: "Stahl",
+    ice: "Eis",
     ghost: "Geist",
     dragon: "Drache",
     dark: "Unlicht",
-    steel: "Stahl",
-    fairy: "Fee",
   },
   en: {
-    normal: "Normal",
-    fire: "Fire",
-    water: "Water",
-    electric: "Electric",
     grass: "Grass",
-    ice: "Ice",
-    fighting: "Fighting",
     poison: "Poison",
-    ground: "Ground",
+    fire: "Fire",
     flying: "Flying",
-    psychic: "Psychic",
+    water: "Water",
     bug: "Bug",
+    normal: "Normal",
+    electric: "Electric",
+    ground: "Ground",
+    fairy: "Fairy",
+    fighting: "Fighting",
+    psychic: "Psychic",
     rock: "Rock",
+    steel: "Steel",
+    ice: "Ice",
     ghost: "Ghost",
     dragon: "Dragon",
     dark: "Dark",
-    steel: "Steel",
-    fairy: "Fairy",
   },
 };

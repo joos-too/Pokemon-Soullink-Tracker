@@ -991,7 +991,7 @@ export const LOCATION_SUGGESTIONS: Record<
     },
     {
       name: "Kraftwerk",
-      slug: "power-plant",
+      slug: "kanto-power-plant",
       region: "kanto",
     },
     {
@@ -4618,7 +4618,7 @@ export const LOCATION_SUGGESTIONS: Record<
     },
     {
       name: "Power Plant",
-      slug: "power-plant",
+      slug: "kanto-power-plant",
       region: "kanto",
     },
     {

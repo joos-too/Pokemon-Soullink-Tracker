@@ -49,7 +49,7 @@ const EVOLUTION_GRAPH = Object.entries(POKEMON_DATA).reduce<
   Record<number, number[]>
 >((acc, [sourceId, pokemon]) => {
   const numericSourceId = Number(sourceId);
-  pokemon.evolutions.en.forEach(({ id }) => {
+  (pokemon.evolutions ?? []).forEach(({ id }) => {
     acc[numericSourceId] = [...(acc[numericSourceId] || []), id];
     acc[id] = [...(acc[id] || []), numericSourceId];
   });
