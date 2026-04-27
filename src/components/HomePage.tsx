@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
+  FiAward,
   FiEdit,
   FiEye,
   FiFilter,
@@ -53,7 +54,6 @@ const HomePage: React.FC<HomePageProps> = ({
   isLoading,
   onOpenUserSettings,
   onOpenRulesetEditor,
-  activeTrackerId,
   trackerSummaries,
   currentUserId,
 }) => {
@@ -547,7 +547,6 @@ const HomePage: React.FC<HomePageProps> = ({
                 const playerCount = Object.keys(
                   tracker.playerNames ?? {},
                 ).length;
-                const isActive = tracker.id === activeTrackerId;
                 const summary = trackerSummaries[tracker.id];
                 const activePokemon =
                   (summary?.teamCount ?? 0) + (summary?.boxCount ?? 0);
@@ -568,6 +567,8 @@ const HomePage: React.FC<HomePageProps> = ({
                     tracker.guests?.[currentUserId] &&
                     !tracker.members?.[currentUserId],
                 );
+                const isCompleted = summary?.championDone === true;
+                const progressPct = summary?.progressPct ?? 0;
                 return (
                   <div
                     key={tracker.id}
@@ -580,11 +581,7 @@ const HomePage: React.FC<HomePageProps> = ({
                         onOpenTracker(tracker.id);
                       }
                     }}
-                    className={`rounded-lg border px-4 py-5 shadow-sm transition cursor-pointer ${focusRingCardClasses} hover:transform hover:scale-[1.02] hover:shadow-md ${
-                      isActive
-                        ? "border-green-500 bg-green-50/70 dark:border-green-500 dark:bg-green-900/10"
-                        : "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900"
-                    }`}
+                    className={`rounded-lg border px-4 py-5 shadow-sm transition cursor-pointer ${focusRingCardClasses} hover:transform hover:scale-[1.02] hover:shadow-md border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900`}
                   >
                     <div className="flex flex-col gap-4">
                       <div className="flex flex-wrap items-center gap-3 text-sm text-gray-600 dark:text-gray-300">
@@ -621,6 +618,11 @@ const HomePage: React.FC<HomePageProps> = ({
                             <FiLock size={14} />
                           )}
                         </span>
+                        {isCompleted && (
+                          <span className="inline-flex items-center gap-1 rounded-full bg-yellow-100 dark:bg-yellow-300/5 text-yellow-700 dark:text-yellow-400 px-2 py-1 text-xs font-semibold">
+                            <FiAward size={14} /> {t("home.completedBadge")}
+                          </span>
+                        )}
                         <div className="ml-auto shrink-0">
                           <GameVersionBadge
                             gameVersionId={tracker.gameVersionId}
@@ -664,6 +666,19 @@ const HomePage: React.FC<HomePageProps> = ({
                                 {progressLabel}
                               </p>
                             </div>
+                            {summary && (
+                              <div className="mt-2 flex items-center gap-2">
+                                <div className="flex-1 h-1.5 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+                                  <div
+                                    className={`h-full rounded-full transition-all ${isCompleted ? "bg-yellow-400 dark:bg-yellow-500" : "bg-green-500 dark:bg-green-400"}`}
+                                    style={{ width: `${progressPct}%` }}
+                                  />
+                                </div>
+                                <span className="text-[0.6rem] font-semibold text-gray-500 dark:text-gray-400 tabular-nums">
+                                  {progressPct}%
+                                </span>
+                              </div>
+                            )}
                           </div>
 
                           {/* Stats fields (1 column each) */}
