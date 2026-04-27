@@ -55,15 +55,3 @@ export function getLocalizedTypeName(
 ): string {
   return TYPE_NAMES[locale]?.[slug] ?? slug;
 }
-
-/**
- * Returns localized type names for a Pokemon by display name.
- */
-export function getPokemonTypeNamesForName(
-  name: string | undefined | null,
-  locale: SupportedLanguage,
-  generation?: number | null,
-): string[] {
-  const slugs = getPokemonTypeSlugsForName(name, generation);
-  return slugs.map((s) => getLocalizedTypeName(s, locale));
-}

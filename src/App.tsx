@@ -36,31 +36,31 @@ import {
   sanitizePlayerNames,
   sanitizeRules,
 } from "@/src/services/init.ts";
-import TeamTable from "@/src/components/TeamTable";
-import InfoPanel from "@/src/components/InfoPanel";
-import Graveyard from "@/src/components/Graveyard";
-import ClearedRoutes from "@/src/components/ClearedRoutes";
-import AddLostPokemonModal from "@/src/components/AddLostPokemonModal";
-import RulesetSaveModal from "@/src/components/RulesetSaveModal";
-import ItemTracker from "@/src/components/ItemTracker";
+import TeamTable from "@/src/components/widgets/TeamTable.tsx";
+import InfoPanel from "@/src/components/widgets/InfoPanel.tsx";
+import Graveyard from "@/src/components/widgets/Graveyard.tsx";
+import ClearedRoutes from "@/src/components/widgets/ClearedRoutes.tsx";
+import AddLostPokemonModal from "@/src/components/modals/AddLostPokemonModal.tsx";
+import RulesetSaveModal from "@/src/components/modals/RulesetSaveModal.tsx";
+import ItemTracker from "@/src/components/widgets/ItemTracker.tsx";
 import { getGenerationSpritePath } from "@/src/services/sprites";
-import SelectLossModal from "@/src/components/SelectLossModal";
-import DeleteLinkModal from "@/src/components/DeleteLinkModal";
-import LoginPage from "@/src/components/LoginPage";
-import RegisterPage from "@/src/components/RegisterPage";
-import SettingsPage from "@/src/components/SettingsPage";
-import UserSettingsPage from "@/src/components/UserSettingsPage";
-import PasswordResetPage from "@/src/components/PasswordResetPage";
-import ResetModal from "@/src/components/ResetModal";
-import EditPairModal from "@/src/components/EditPairModal";
+import SelectLossModal from "@/src/components/modals/SelectLossModal.tsx";
+import DeleteLinkModal from "@/src/components/modals/DeleteLinkModal.tsx";
+import LoginPage from "@/src/components/pages/LoginPage.tsx";
+import RegisterPage from "@/src/components/pages/RegisterPage.tsx";
+import SettingsPage from "@/src/components/pages/SettingsPage.tsx";
+import UserSettingsPage from "@/src/components/pages/UserSettingsPage.tsx";
+import PasswordResetPage from "@/src/components/pages/PasswordResetPage.tsx";
+import ResetModal from "@/src/components/modals/ResetModal.tsx";
+import EditPairModal from "@/src/components/modals/EditPairModal.tsx";
 import DarkModeToggle, {
   getDarkMode,
   setDarkMode,
-} from "@/src/components/DarkModeToggle";
-import HomePage from "@/src/components/HomePage";
-import CreateTrackerModal from "@/src/components/CreateTrackerModal";
-import DeleteTrackerModal from "@/src/components/DeleteTrackerModal";
-import TrackerSearchModal from "@/src/components/TrackerSearchModal";
+} from "@/src/components/toggles/DarkModeToggle.tsx";
+import HomePage from "@/src/components/pages/HomePage.tsx";
+import CreateTrackerModal from "@/src/components/modals/CreateTrackerModal.tsx";
+import DeleteTrackerModal from "@/src/components/modals/DeleteTrackerModal.tsx";
+import TrackerSearchModal from "@/src/components/modals/TrackerSearchModal.tsx";
 import { focusRingClasses } from "@/src/styles/focusRing";
 import {
   Navigate,
@@ -103,9 +103,13 @@ import {
   saveRuleset,
   SaveRulesetPayload,
 } from "@/src/services/rulesets";
-import RulesetEditorPage from "@/src/components/RulesetEditorPage";
+import RulesetEditorPage from "@/src/components/pages/RulesetEditorPage.tsx";
 import { useTranslation } from "react-i18next";
-import { DEFAULT_WIKI_DE, DEFAULT_WIKI_EN, type WikiId } from "@/src/data/wiki";
+import {
+  DEFAULT_WIKI_DE,
+  DEFAULT_WIKI_EN,
+  type WikiId,
+} from "@/src/utils/wiki.ts";
 import "@/src/pokeapi"; // initialize Pokedex once so sprite caching SW gets registered
 
 const LAST_TRACKER_STORAGE_KEY = "soullink:lastTrackerId";
