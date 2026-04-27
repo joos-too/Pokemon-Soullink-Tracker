@@ -2,12 +2,12 @@ import React, { useEffect, useId, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { focusRingInputClasses } from "@/src/styles/focusRing.ts";
 
-interface SuggestionInputProps {
+interface SuggestionInputProps<TSuggestion = string> {
   id?: string;
   label?: React.ReactNode;
   value: string;
   onChange: (value: string) => void;
-  fetchSuggestions: (term: string) => Promise<string[]>;
+  fetchSuggestions: (term: string) => Promise<TSuggestion[]>;
   isOpen: boolean;
   placeholder?: string;
   disabled?: boolean;
@@ -17,9 +17,13 @@ interface SuggestionInputProps {
   showNoMatches?: boolean;
   inputClassName?: string;
   endAdornment?: React.ReactNode;
+  getSuggestionValue?: (suggestion: TSuggestion) => string;
+  getSuggestionKey?: (suggestion: TSuggestion, index: number) => React.Key;
+  renderSuggestion?: (suggestion: TSuggestion) => React.ReactNode;
+  onSelectSuggestion?: (suggestion: TSuggestion) => void;
 }
 
-const SuggestionInput: React.FC<SuggestionInputProps> = ({
+const SuggestionInput = <TSuggestion,>({
   id,
   label,
   value,
@@ -34,10 +38,14 @@ const SuggestionInput: React.FC<SuggestionInputProps> = ({
   showNoMatches = false,
   inputClassName = "",
   endAdornment,
-}) => {
+  getSuggestionValue = (suggestion) => String(suggestion),
+  getSuggestionKey,
+  renderSuggestion,
+  onSelectSuggestion,
+}: SuggestionInputProps<TSuggestion>) => {
   const generatedId = useId();
   const inputId = id ?? generatedId;
-  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [suggestions, setSuggestions] = useState<TSuggestion[]>([]);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [focused, setFocused] = useState(false);
@@ -107,7 +115,9 @@ const SuggestionInput: React.FC<SuggestionInputProps> = ({
       );
     } else if (e.key === "Enter" && activeIndex >= 0) {
       e.preventDefault();
-      onChange(suggestions[activeIndex]);
+      const suggestion = suggestions[activeIndex];
+      onChange(getSuggestionValue(suggestion));
+      onSelectSuggestion?.(suggestion);
       setOpen(false);
     } else if (e.key === "Escape") {
       setOpen(false);
@@ -160,18 +170,24 @@ const SuggestionInput: React.FC<SuggestionInputProps> = ({
             {!loading
               ? suggestions.map((suggestion, idx) => (
                   <div
-                    key={`${suggestion}-${idx}`}
+                    key={
+                      getSuggestionKey?.(suggestion, idx) ??
+                      `${getSuggestionValue(suggestion)}-${idx}`
+                    }
                     role="option"
                     aria-selected={idx === activeIndex}
                     tabIndex={-1}
                     onMouseDown={(e) => e.preventDefault()}
                     onClick={() => {
-                      onChange(suggestion);
+                      onChange(getSuggestionValue(suggestion));
+                      onSelectSuggestion?.(suggestion);
                       setOpen(false);
                     }}
                     className={`block w-full text-left px-3 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-indigo-50 dark:hover:bg-gray-700 ${idx === activeIndex ? "bg-indigo-100 dark:bg-gray-700" : ""}`}
                   >
-                    {suggestion}
+                    {renderSuggestion
+                      ? renderSuggestion(suggestion)
+                      : getSuggestionValue(suggestion)}
                   </div>
                 ))
               : null}

@@ -1,22 +1,17 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { STONES, MEGA_STONES } from "@/src/data/special-items.ts";
 import { FiX, FiInfo } from "react-icons/fi";
 import ToggleSwitch from "@/src/components/toggles/ToggleSwitch";
 import LocationSuggestionInput from "../inputs/LocationSuggestionInput.tsx";
+import ItemSuggestionInput from "@/src/components/inputs/ItemSuggestionInput.tsx";
 import Tooltip from "@/src/components/other/Tooltip.tsx";
 import { useFocusTrap } from "@/src/hooks/useFocusTrap.ts";
 import {
   focusRingCardClasses,
   focusRingClasses,
-  focusRingInputClasses,
 } from "@/src/styles/focusRing.ts";
-import {
-  searchItems,
-  type ItemSearchResult,
-  getItemSpriteUrl,
-  getItemName,
-} from "@/src/services/itemSearch";
+import { getItemSpriteUrl, getItemName } from "@/src/services/itemSearch";
 import { getSpriteUrlById } from "@/src/services/sprites";
 import { normalizeLanguage } from "@/src/utils/language";
 
@@ -50,14 +45,8 @@ const AddItemModal: React.FC<AddStoneModalProps> = ({
   const [location, setLocation] = useState("");
   const [inBag, setInBag] = useState(true);
 
-  // Item search state — mirrors EditPairModal's PokemonField pattern
   const [itemQuery, setItemQuery] = useState("");
   const [selectedItemSlug, setSelectedItemSlug] = useState("");
-  const [suggestions, setSuggestions] = useState<ItemSearchResult[]>([]);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [focused, setFocused] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(-1);
-  const searchSeq = useRef(0);
 
   const locale = normalizeLanguage(i18n.language);
 
@@ -75,39 +64,8 @@ const AddItemModal: React.FC<AddStoneModalProps> = ({
     return MEGA_STONES; // ORAS gets all (XY + ORAS)
   }, [showMegaTab, gameVersionId]);
 
-  // Debounced item search — same pattern as PokemonField
-  useEffect(() => {
-    if (!isOpen || !focused) {
-      setSuggestions([]);
-      setDropdownOpen(false);
-      setActiveIndex(-1);
-      return;
-    }
-    const seq = ++searchSeq.current;
-    const term = itemQuery.trim();
-    if (term.length < 1) {
-      setSuggestions([]);
-      setDropdownOpen(false);
-      setActiveIndex(-1);
-      return;
-    }
-    setDropdownOpen(true);
-    const timer = setTimeout(() => {
-      const res = searchItems(term, locale, gameVersionId, 20);
-      if (seq === searchSeq.current) {
-        setSuggestions(res);
-        setDropdownOpen(true);
-        setActiveIndex(res.length ? 0 : -1);
-      }
-    }, 150);
-    return () => clearTimeout(timer);
-  }, [itemQuery, focused, isOpen, locale, gameVersionId]);
-
   if (!isOpen) return null;
 
-  const spriteUrl = selectedItemSlug
-    ? getItemSpriteUrl(selectedItemSlug)
-    : null;
   const currentSelection =
     activeTab === "stones"
       ? selectedStoneId
@@ -132,9 +90,6 @@ const AddItemModal: React.FC<AddStoneModalProps> = ({
     setSelectedStoneId("");
     setSelectedItemSlug("");
     setItemQuery("");
-    setSuggestions([]);
-    setDropdownOpen(false);
-    setActiveIndex(-1);
     setLocation("");
     setInBag(true);
   };
@@ -143,36 +98,6 @@ const AddItemModal: React.FC<AddStoneModalProps> = ({
     resetForm();
     setActiveTab("stones");
     onClose();
-  };
-
-  const selectItem = (result: ItemSearchResult) => {
-    setSelectedItemSlug(result.slug);
-    setItemQuery(result.name);
-    setDropdownOpen(false);
-  };
-
-  const handleItemKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (
-    e,
-  ) => {
-    if (e.key === "Tab") {
-      setDropdownOpen(false);
-      return;
-    }
-    if (!dropdownOpen || suggestions.length === 0) return;
-    if (e.key === "ArrowDown") {
-      e.preventDefault();
-      setActiveIndex((prev) => (prev + 1) % suggestions.length);
-    } else if (e.key === "ArrowUp") {
-      e.preventDefault();
-      setActiveIndex(
-        (prev) => (prev - 1 + suggestions.length) % suggestions.length,
-      );
-    } else if (e.key === "Enter" && activeIndex >= 0) {
-      e.preventDefault();
-      selectItem(suggestions[activeIndex]);
-    } else if (e.key === "Escape") {
-      setDropdownOpen(false);
-    }
   };
 
   return (
@@ -351,79 +276,16 @@ const AddItemModal: React.FC<AddStoneModalProps> = ({
               </div>
             </div>
           ) : (
-            /* ── Item Search — same pattern as PokemonField ── */
             <div>
-              <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
-                {t("modals.addStone.itemLabel")}
-              </label>
-              <div className="relative">
-                <input
-                  type="text"
-                  value={itemQuery}
-                  onChange={(e) => {
-                    setItemQuery(e.target.value);
-                    setSelectedItemSlug("");
-                  }}
-                  onFocus={() => setFocused(true)}
-                  onBlur={() =>
-                    setTimeout(() => {
-                      setFocused(false);
-                      setDropdownOpen(false);
-                    }, 150)
-                  }
-                  onKeyDown={handleItemKeyDown}
-                  className={`w-full pr-14 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
-                  placeholder={t("modals.addStone.itemSearchPlaceholder")}
-                  aria-autocomplete="list"
-                  aria-expanded={dropdownOpen}
-                />
-                {spriteUrl ? (
-                  <img
-                    src={spriteUrl}
-                    alt=""
-                    aria-hidden="true"
-                    className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none select-none h-10 w-10"
-                    style={{ imageRendering: "pixelated" }}
-                    loading="lazy"
-                  />
-                ) : null}
-                {dropdownOpen && (
-                  <div
-                    className="absolute z-10 mt-1 w-full max-h-40 overflow-auto custom-scrollbar rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-lg"
-                    onMouseDown={(e) => e.preventDefault()}
-                  >
-                    {suggestions.length === 0 &&
-                      itemQuery.trim().length >= 1 && (
-                        <div className="px-3 py-2 text-sm text-gray-500 dark:text-gray-400">
-                          {t("modals.common.noMatches")}
-                        </div>
-                      )}
-                    {suggestions.map((result, idx) => (
-                      <div
-                        key={result.slug}
-                        role="option"
-                        aria-selected={idx === activeIndex}
-                        tabIndex={-1}
-                        onClick={() => selectItem(result)}
-                        className={`flex items-center gap-2 w-full text-left px-3 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-indigo-50 dark:hover:bg-gray-700 cursor-pointer ${
-                          idx === activeIndex
-                            ? "bg-indigo-100 dark:bg-gray-700"
-                            : ""
-                        }`}
-                      >
-                        <img
-                          src={result.spriteUrl}
-                          alt=""
-                          className="w-5 h-5 object-contain shrink-0"
-                          style={{ imageRendering: "pixelated" }}
-                          loading="lazy"
-                        />
-                        <span>{result.name}</span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
+              <ItemSuggestionInput
+                label={t("modals.addStone.itemLabel")}
+                value={itemQuery}
+                selectedSlug={selectedItemSlug}
+                onChange={setItemQuery}
+                onSelectedSlugChange={setSelectedItemSlug}
+                isOpen={isOpen}
+                gameVersionId={gameVersionId}
+              />
             </div>
           )}
 

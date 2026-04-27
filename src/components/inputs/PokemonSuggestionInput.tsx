@@ -49,6 +49,25 @@ const PokemonSuggestionInput: React.FC<PokemonSuggestionInputProps> = ({
       placeholder={t("common.pokemonPlaceholder")}
       inputClassName="pr-14"
       showNoMatches={showNoMatches}
+      renderSuggestion={(suggestion) => {
+        const suggestionSpriteUrl = getSpriteUrlForPokemonName(
+          suggestion,
+          generationSpritePath,
+        );
+        return (
+          <div className="flex items-center gap-2">
+            {suggestionSpriteUrl ? (
+              <img
+                src={suggestionSpriteUrl}
+                alt=""
+                className="h-6 w-6 shrink-0 object-contain"
+                loading="lazy"
+              />
+            ) : null}
+            <span>{suggestion}</span>
+          </div>
+        );
+      }}
       endAdornment={
         spriteUrl ? (
           <img
