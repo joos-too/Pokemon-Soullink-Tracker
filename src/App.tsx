@@ -108,6 +108,7 @@ import {
   DEFAULT_WIKI_EN,
   type WikiId,
 } from "@/src/utils/wiki.ts";
+import { getPokemonIdFromName } from "@/src/services/pokemonSearch.ts";
 import "@/src/pokeapi"; // initialize Pokedex once so sprite caching SW gets registered
 
 const LAST_TRACKER_STORAGE_KEY = "soullink:lastTrackerId";
@@ -439,8 +440,21 @@ const App: React.FC = () => {
       );
       const playerCount = normalizedNames.length;
 
+      const resolvePokemonId = (pokemon: any): number | null => {
+        if (Number.isFinite(Number(pokemon?.id)) && Number(pokemon?.id) > 0) {
+          return Number(pokemon.id);
+        }
+        if (typeof pokemon?.pokemonId === "number" && pokemon.pokemonId > 0) {
+          return pokemon.pokemonId;
+        }
+        if (typeof pokemon?.name === "string") {
+          return getPokemonIdFromName(pokemon.name);
+        }
+        return null;
+      };
+
       const sanitizePokemon = (pokemon: any): Pokemon => ({
-        name: typeof pokemon?.name === "string" ? pokemon.name : "",
+        id: resolvePokemonId(pokemon),
         nickname: typeof pokemon?.nickname === "string" ? pokemon.nickname : "",
       });
 
@@ -490,7 +504,10 @@ const App: React.FC = () => {
             location: f.location || "",
             inBag: !!f.inBag,
             revived: !!f.revived,
-            pokemonName: f.pokemonName || "",
+            pokemonId:
+              Number.isFinite(Number(f.pokemonId)) && Number(f.pokemonId) > 0
+                ? Number(f.pokemonId)
+                : getPokemonIdFromName(f.pokemonName),
           }));
         });
       };
@@ -1221,7 +1238,7 @@ const App: React.FC = () => {
       index: number,
       playerIndex: number,
       field: keyof Pokemon,
-      value: string,
+      value: string | number | null,
     ) => {
       if (isReadOnly) return;
       setData((prev) => {
@@ -1230,7 +1247,7 @@ const App: React.FC = () => {
         if (!target) return prev;
         const members = [...target.members];
         members[playerIndex] = {
-          ...(members[playerIndex] ?? { name: "", nickname: "" }),
+          ...(members[playerIndex] ?? { id: null, nickname: "" }),
           [field]: value,
         };
         list[index] = { ...target, members };
@@ -1259,7 +1276,7 @@ const App: React.FC = () => {
       index: number,
       playerIndex: number,
       field: keyof Pokemon,
-      value: string,
+      value: string | number | null,
     ) => {
       updateLinkMember("team", index, playerIndex, field, value);
     },
@@ -1278,7 +1295,7 @@ const App: React.FC = () => {
       index: number,
       playerIndex: number,
       field: keyof Pokemon,
-      value: string,
+      value: string | number | null,
     ) => {
       updateLinkMember("box", index, playerIndex, field, value);
     },
@@ -1430,7 +1447,7 @@ const App: React.FC = () => {
       id: Date.now(),
       route: route.trim(),
       members: members.map((member) => ({
-        name: member.name.trim(),
+        id: member.id,
         nickname: "",
       })),
       isLost: true,
@@ -1450,7 +1467,7 @@ const App: React.FC = () => {
         if (pair.id !== pairId) return pair;
         const isLost = pair.isLost ?? false;
         const members = payload.members.map((member) => ({
-          name: member.name.trim(),
+          id: member.id,
           nickname: isLost ? "" : member.nickname.trim(),
         }));
         return {
@@ -1478,7 +1495,7 @@ const App: React.FC = () => {
             id: Date.now(),
             route: payload.route.trim(),
             members: payload.members.map((member) => ({
-              name: member.name.trim(),
+              id: member.id,
               nickname: member.nickname.trim(),
             })),
           },
@@ -1497,7 +1514,7 @@ const App: React.FC = () => {
           id: Date.now(),
           route: payload.route.trim(),
           members: payload.members.map((member) => ({
-            name: member.name.trim(),
+            id: member.id,
             nickname: member.nickname.trim(),
           })),
         },
@@ -1627,7 +1644,7 @@ const App: React.FC = () => {
     setAddRevivedPokemonOpen(true);
   };
 
-  const confirmRevival = (revivedNames: string[]) => {
+  const confirmRevival = (revivedIds: (number | null)[]) => {
     if (!pendingReviveIndices) return;
 
     setData((prev) => {
@@ -1636,7 +1653,7 @@ const App: React.FC = () => {
         if (newFossils[pIdx] && newFossils[pIdx][fIdx]) {
           newFossils[pIdx] = newFossils[pIdx].map((f, i) =>
             i === fIdx
-              ? { ...f, revived: true, pokemonName: revivedNames[pIdx] }
+              ? { ...f, revived: true, pokemonId: revivedIds[pIdx] ?? null }
               : f,
           );
         }
@@ -2636,15 +2653,15 @@ const App: React.FC = () => {
         }}
         onSave={(payload) => {
           handleAddBoxPair(payload);
-          const names = payload.members.map((m) => m.name);
-          confirmRevival(names);
+          const pokemonIds = payload.members.map((m) => m.id);
+          confirmRevival(pokemonIds);
           setAddRevivedPokemonOpen(false);
         }}
         playerLabels={resolvedPlayerNames}
         mode="create"
         initial={{
           route: reviveArea,
-          members: resolvedPlayerNames.map(() => ({ name: "", nickname: "" })),
+          members: resolvedPlayerNames.map(() => ({ id: null, nickname: "" })),
         }}
         generationLimit={pokemonGenerationLimit}
         gameVersionId={activeGameVersionId || undefined}

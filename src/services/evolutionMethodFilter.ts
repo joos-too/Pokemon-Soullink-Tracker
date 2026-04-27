@@ -1,7 +1,6 @@
 import { SupportedLanguage } from "@/src/utils/language.ts";
 import { TFunction } from "i18next";
-import { EVOLUTIONS_DE, EVOLUTIONS_EN } from "@/src/data/pokemon-evolutions";
-import { POKEMON_ID_TO_GENERATION } from "@/src/data/pokemon-map";
+import { POKEMON_DATA } from "@/src/data/pokemon";
 
 export interface MethodGenerationRule {
   methods: string[];
@@ -14,8 +13,18 @@ const EVOLUTION_TABLES: Record<
   SupportedLanguage,
   Record<number, { id: number; methods: string[] }[]>
 > = {
-  de: EVOLUTIONS_DE,
-  en: EVOLUTIONS_EN,
+  de: Object.fromEntries(
+    Object.entries(POKEMON_DATA).map(([id, pokemon]) => [
+      Number(id),
+      pokemon.evolutions.de,
+    ]),
+  ),
+  en: Object.fromEntries(
+    Object.entries(POKEMON_DATA).map(([id, pokemon]) => [
+      Number(id),
+      pokemon.evolutions.en,
+    ]),
+  ),
 };
 
 // id = pokemon which evolution results in
@@ -205,7 +214,7 @@ export function getFilteredEvolutionEntriesForPokemon(
     generationLimit === null
       ? evoEntries
       : evoEntries.filter((entry) => {
-          const gen = POKEMON_ID_TO_GENERATION[entry.id];
+          const gen = POKEMON_DATA[entry.id]?.generation;
           if (typeof gen !== "number") return true;
           return gen <= generationLimit;
         });

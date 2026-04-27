@@ -8,6 +8,11 @@ import { useTranslation } from "react-i18next";
 import LocationSuggestionInput from "@/src/components/inputs/LocationSuggestionInput.tsx";
 import PokemonSuggestionInput from "@/src/components/inputs/PokemonSuggestionInput.tsx";
 import { useFocusTrap } from "@/src/hooks/useFocusTrap.ts";
+import {
+  getPokemonIdFromName,
+  getPokemonNameById,
+} from "@/src/services/pokemonSearch.ts";
+import { normalizeLanguage } from "@/src/utils/language.ts";
 
 interface EditPairModalProps {
   isOpen: boolean;
@@ -33,6 +38,11 @@ interface PokemonFieldProps {
   isOpen: boolean;
   generationLimit?: number;
   generationSpritePath?: string | null;
+}
+
+interface PokemonDraft {
+  name: string;
+  nickname: string;
 }
 
 const PokemonField: React.FC<PokemonFieldProps> = ({
@@ -88,38 +98,44 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
   gameVersionId,
   generationSpritePath,
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const language = normalizeLanguage(i18n.language);
   const { containerRef } = useFocusTrap(isOpen);
   const titleId = useId();
   const [route, setRoute] = useState(initial.route || "");
-  const [members, setMembers] = useState<Pokemon[]>(() =>
-    playerLabels.map(
-      (_, index) => initial.members?.[index] ?? { name: "", nickname: "" },
-    ),
+  const memberToDraft = (member?: Pokemon): PokemonDraft => ({
+    name:
+      getPokemonNameById(member?.id, language) ||
+      (typeof member?.name === "string" ? member.name : ""),
+    nickname: member?.nickname ?? "",
+  });
+  const [members, setMembers] = useState<PokemonDraft[]>(() =>
+    playerLabels.map((_, index) => memberToDraft(initial.members?.[index])),
   );
 
   useEffect(() => {
     if (isOpen) {
       setRoute(initial.route || "");
       setMembers(
-        playerLabels.map(
-          (_, index) => initial.members?.[index] ?? { name: "", nickname: "" },
-        ),
+        playerLabels.map((_, index) => memberToDraft(initial.members?.[index])),
       );
     }
-  }, [isOpen, initial, playerLabels]);
+  }, [isOpen, initial, playerLabels, language]);
 
   const handleSubmit = (e: React.SubmitEvent) => {
     e.preventDefault();
     const trimmedRoute = route.trim();
-    const trimmedMembers = playerLabels.map((_, index) => ({
-      name: members[index]?.name.trim() ?? "",
-      nickname: members[index]?.nickname.trim() ?? "",
-    }));
+    const trimmedMembers = playerLabels.map((_, index) => {
+      const name = members[index]?.name.trim() ?? "";
+      return {
+        id: getPokemonIdFromName(name),
+        nickname: members[index]?.nickname.trim() ?? "",
+      };
+    });
     if (
       !trimmedRoute ||
       trimmedMembers.some(
-        (member) => member.name.length === 0 || member.nickname.length === 0,
+        (member) => member.id === null || member.nickname.length === 0,
       )
     ) {
       return;
@@ -140,7 +156,10 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
     route.trim().length > 0 &&
     playerLabels.every((_, index) => {
       const member = members[index];
-      return Boolean(member?.name.trim()) && Boolean(member?.nickname.trim());
+      return (
+        getPokemonIdFromName(member?.name) !== null &&
+        Boolean(member?.nickname.trim())
+      );
     });
   const useTwoColumnLayout = playerLabels.length > 1;
   const gridClasses = useTwoColumnLayout

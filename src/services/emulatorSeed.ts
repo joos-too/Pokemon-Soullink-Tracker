@@ -20,6 +20,7 @@ import {
 import { get, ref, update } from "firebase/database";
 import { createInitialState } from "@/src/services/init.ts";
 import { FossilEntry } from "@/types";
+import { getPokemonIdFromName } from "@/src/services/pokemonSearch";
 
 // Test user credentials for emulator mode
 const TEST_USER_EMAIL = "test@example.com";
@@ -139,13 +140,29 @@ async function createTracker(
   );
 
   // Add sample data
-  initialState.team = config.teamPokemon;
-  initialState.box = config.boxPokemon;
-  initialState.graveyard = config.graveyardPokemon;
+  const normalizeSampleLinks = (
+    links: typeof config.teamPokemon,
+  ): typeof initialState.team =>
+    links.map((link) => ({
+      ...link,
+      members: link.members.map((member) => ({
+        id: getPokemonIdFromName(member.name),
+        nickname: member.nickname,
+      })),
+    }));
+
+  initialState.team = normalizeSampleLinks(config.teamPokemon);
+  initialState.box = normalizeSampleLinks(config.boxPokemon);
+  initialState.graveyard = normalizeSampleLinks(config.graveyardPokemon);
 
   // Add fossil data if provided
   if (config.fossilEntries) {
-    initialState.fossils = config.fossilEntries;
+    initialState.fossils = config.fossilEntries.map((playerFossils) =>
+      playerFossils.map((entry) => ({
+        ...entry,
+        pokemonId: entry.pokemonId ?? getPokemonIdFromName(entry.pokemonName),
+      })),
+    );
   }
 
   // Update stats to show progress
@@ -241,7 +258,7 @@ async function createSampleTrackerData(userId: string): Promise<void> {
           location: "",
           inBag: true,
           revived: true,
-          pokemonName: "Ottaro",
+          pokemonId: 501,
         },
       ],
       // Player 2 Fossils
@@ -258,7 +275,7 @@ async function createSampleTrackerData(userId: string): Promise<void> {
           location: "",
           inBag: true,
           revived: true,
-          pokemonName: "Floink",
+          pokemonId: 498,
         },
       ],
     ],
@@ -332,7 +349,7 @@ async function createSampleTrackerData(userId: string): Promise<void> {
           location: "",
           inBag: true,
           revived: true,
-          pokemonName: "Karpador",
+          pokemonId: 129,
         },
         { fossilId: "helix-fossil", location: "", inBag: true, revived: false },
       ],
@@ -343,7 +360,7 @@ async function createSampleTrackerData(userId: string): Promise<void> {
           location: "",
           inBag: true,
           revived: true,
-          pokemonName: "Zubat",
+          pokemonId: 41,
         },
         {
           fossilId: "old-amber",

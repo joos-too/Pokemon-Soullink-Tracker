@@ -3,9 +3,17 @@ import type { PokemonLink } from "@/types.ts";
 import { useTranslation } from "react-i18next";
 import { useFocusTrap } from "@/src/hooks/useFocusTrap.ts";
 import { focusRingClasses } from "@/src/styles/focusRing.ts";
-import { getSpriteUrlForPokemonName } from "@/src/services/sprites.ts";
+import {
+  getSpriteUrlById,
+  getSpriteUrlForPokemonName,
+} from "@/src/services/sprites.ts";
 import { FiAlertTriangle, FiInfo } from "react-icons/fi";
 import Tooltip from "@/src/components/other/Tooltip.tsx";
+import {
+  getPokemonIdFromName,
+  getPokemonNameById,
+} from "@/src/services/pokemonSearch.ts";
+import { normalizeLanguage } from "@/src/utils/language.ts";
 
 interface DeleteLinkModalProps {
   isOpen: boolean;
@@ -22,7 +30,8 @@ const DeleteLinkModal: React.FC<DeleteLinkModalProps> = ({
   pair,
   playerNames,
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const language = normalizeLanguage(i18n.language);
   const { containerRef } = useFocusTrap(isOpen);
   const titleId = useId();
 
@@ -84,10 +93,15 @@ const DeleteLinkModal: React.FC<DeleteLinkModalProps> = ({
           <div className="flex flex-col gap-1.5">
             {playerNames.map((name, index) => {
               const member = pair.members?.[index] ?? {
-                name: "",
+                id: null,
                 nickname: "",
               };
-              const spriteUrl = getSpriteUrlForPokemonName(member.name);
+              const pokemonId = member.id ?? getPokemonIdFromName(member.name);
+              const displayName =
+                getPokemonNameById(pokemonId, language) || member.name || "";
+              const spriteUrl = pokemonId
+                ? getSpriteUrlById(pokemonId)
+                : getSpriteUrlForPokemonName(member.name);
               return (
                 <div
                   key={`delete-preview-${index}`}
@@ -98,12 +112,12 @@ const DeleteLinkModal: React.FC<DeleteLinkModalProps> = ({
                     {spriteUrl && (
                       <img
                         src={spriteUrl}
-                        alt={member.name}
+                        alt={displayName}
                         className="w-8 h-8"
                       />
                     )}
                     <span>
-                      {member.name || "-"}
+                      {displayName || "-"}
                       {member.nickname ? ` (${member.nickname})` : ""}
                     </span>
                   </div>
