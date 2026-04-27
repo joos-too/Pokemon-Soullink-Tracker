@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { STONES } from "@/src/data/stones.ts";
-import { MEGA_STONES } from "@/src/data/megastones.ts";
+import { STONES, MEGA_STONES } from "@/src/data/special-items.ts";
 import { FiX, FiInfo } from "react-icons/fi";
 import ToggleSwitch from "@/src/components/toggles/ToggleSwitch";
 import LocationSuggestionInput from "../inputs/LocationSuggestionInput.tsx";

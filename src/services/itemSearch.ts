@@ -1,8 +1,6 @@
 import { ITEMS } from "@/src/data/items";
 import { getItemsForVersion } from "@/src/services/itemFilter";
-import { MEGA_STONES } from "@/src/data/megastones.ts";
-import { FOSSILS } from "@/src/data/fossils.ts";
-import { STONES } from "@/src/data/stones.ts";
+import { MEGA_STONES, FOSSILS, STONES } from "@/src/data/special-items.ts";
 import type { SupportedLanguage } from "@/src/utils/language";
 
 /** Slugs already covered by the Stones tab */

@@ -2,9 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FossilEntry, StoneEntry } from "@/types";
 import { PLAYER_COLORS } from "@/src/services/init";
-import { MEGA_STONES } from "@/src/data/megastones.ts";
-import { FOSSILS } from "@/src/data/fossils.ts";
-import { STONES } from "@/src/data/stones.ts";
+import { MEGA_STONES, FOSSILS, STONES } from "@/src/data/special-items.ts";
 import { getItemName, getItemSpriteUrl } from "@/src/services/itemSearch";
 import { normalizeLanguage } from "@/src/utils/language";
 import {
