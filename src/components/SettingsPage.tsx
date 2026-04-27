@@ -55,8 +55,6 @@ interface SettingsPageProps {
   onHardcoreModeToggle: (enabled: boolean) => void;
   infiniteFossilsEnabled: boolean;
   onInfiniteFossilsToggle: (enabled: boolean) => void;
-  megaStoneSpriteStyle?: "item" | "pokemon";
-  onMegaStoneSpriteStyleToggle: (usePokemon: boolean) => void;
   isPublic: boolean;
   onPublicToggle: (enabled: boolean) => void;
   members: TrackerMember[];
@@ -94,8 +92,6 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
   onHardcoreModeToggle,
   infiniteFossilsEnabled,
   onInfiniteFossilsToggle,
-  megaStoneSpriteStyle,
-  onMegaStoneSpriteStyleToggle,
   isPublic,
   onPublicToggle,
   members,
@@ -522,45 +518,6 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                   disabled={isGuest}
                 />
               </div>
-              {(gameVersion?.id === "gen6_xy" ||
-                gameVersion?.id === "gen6_oras") && (
-                <div className="flex items-center justify-between mb-4">
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <div className="font-medium text-gray-800 dark:text-gray-200">
-                        {t("settings.features.megaStoneSpriteStyle.title")}
-                      </div>
-                      <Tooltip
-                        side="top"
-                        content={t(
-                          "settings.features.megaStoneSpriteStyle.tooltip",
-                        )}
-                      >
-                        <span
-                          className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-help"
-                          aria-label={t(
-                            "settings.features.megaStoneSpriteStyle.tooltipLabel",
-                          )}
-                        >
-                          <FiInfo size={16} />
-                        </span>
-                      </Tooltip>
-                    </div>
-                    <div className="text-xs text-gray-500 dark:text-gray-400">
-                      {t("settings.features.megaStoneSpriteStyle.description")}
-                    </div>
-                  </div>
-                  <ToggleSwitch
-                    id="mega-stone-sprite-toggle"
-                    checked={megaStoneSpriteStyle === "pokemon"}
-                    onChange={onMegaStoneSpriteStyleToggle}
-                    ariaLabel={t(
-                      "settings.features.megaStoneSpriteStyle.title",
-                    )}
-                    disabled={isGuest}
-                  />
-                </div>
-              )}
               <div className="flex items-center justify-between">
                 <div>
                   <div className="flex items-center gap-2">

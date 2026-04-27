@@ -2248,8 +2248,6 @@ const App: React.FC = () => {
       onHardcoreModeToggle={handleHardcoreModeToggle}
       infiniteFossilsEnabled={data.infiniteFossilsEnabled ?? false}
       onInfiniteFossilsToggle={handleInfiniteFossilsToggle}
-      megaStoneSpriteStyle={data.megaStoneSpriteStyle ?? "item"}
-      onMegaStoneSpriteStyleToggle={handleMegaStoneSpriteStyleToggle}
       isPublic={activeTrackerMeta?.isPublic ?? false}
       onPublicToggle={handlePublicToggle}
       members={trackerMembers}
@@ -2592,6 +2590,7 @@ const App: React.FC = () => {
               gameVersionId={activeGameVersionId || undefined}
               generationSpritePath={generationSpritePath}
               megaStoneSpriteStyle={data.megaStoneSpriteStyle ?? "item"}
+              onMegaStoneSpriteStyleToggle={handleMegaStoneSpriteStyleToggle}
             />
             <Graveyard
               graveyard={data.graveyard}

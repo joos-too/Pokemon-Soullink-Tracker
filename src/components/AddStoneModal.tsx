@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { STONES, MEGA_STONES } from "@/src/services/init";
 import { FiX, FiInfo } from "react-icons/fi";
+import ToggleSwitch from "./ToggleSwitch";
 import LocationSuggestionInput from "./LocationSuggestionInput";
 import Tooltip from "./Tooltip";
 import { useFocusTrap } from "@/src/hooks/useFocusTrap";
@@ -27,6 +28,7 @@ interface AddStoneModalProps {
   gameVersionId?: string;
   generationSpritePath?: string | null;
   megaStoneSpriteStyle?: "item" | "pokemon";
+  onMegaStoneSpriteStyleToggle?: (usePokemon: boolean) => void;
 }
 
 type Tab = "stones" | "items" | "mega";
@@ -39,6 +41,7 @@ const AddStoneModal: React.FC<AddStoneModalProps> = ({
   gameVersionId,
   generationSpritePath,
   megaStoneSpriteStyle = "item",
+  onMegaStoneSpriteStyleToggle,
 }) => {
   const { t, i18n } = useTranslation();
   const { containerRef } = useFocusTrap(isOpen);
@@ -249,12 +252,14 @@ const AddStoneModal: React.FC<AddStoneModalProps> = ({
           {activeTab === "stones" ? (
             /* ── Stone Grid ── */
             <div>
-              <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
-                {t("modals.addStone.stoneLabel")}
-              </label>
+              <div className="flex items-center justify-between mb-2 h-8">
+                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300">
+                  {t("modals.addStone.stoneLabel")}
+                </label>
+              </div>
 
               {availableStones.length > 0 ? (
-                <div className="grid grid-cols-3 gap-2 p-1">
+                <div className="grid grid-cols-3 gap-2 p-1 max-h-64 overflow-y-auto custom-scrollbar">
                   {availableStones.map((s) => (
                     <button
                       key={s.id}
@@ -287,9 +292,24 @@ const AddStoneModal: React.FC<AddStoneModalProps> = ({
           ) : activeTab === "mega" ? (
             /* ── Mega Stone Grid ── */
             <div>
-              <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
-                {t("modals.addStone.megaStoneLabel")}
-              </label>
+              <div className="flex items-center justify-between mb-2 h-8">
+                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300">
+                  {t("modals.addStone.megaStoneLabel")}
+                </label>
+                {onMegaStoneSpriteStyleToggle && (
+                  <div className="flex items-center gap-1.5 scale-75 origin-right">
+                    <span className="text-[15px] font-semibold text-gray-500 dark:text-gray-400 whitespace-nowrap">
+                      {t("modals.addStone.showPokemon")}
+                    </span>
+                    <ToggleSwitch
+                      id="mega-sprite-toggle"
+                      checked={megaStoneSpriteStyle === "pokemon"}
+                      onChange={(val) => onMegaStoneSpriteStyleToggle(val)}
+                      ariaLabel={t("modals.addStone.showPokemon")}
+                    />
+                  </div>
+                )}
+              </div>
               <div className="grid grid-cols-3 gap-2 p-1 max-h-64 overflow-y-auto custom-scrollbar">
                 {availableMegaStones.map((m) => {
                   const megaName = getItemName(m.id, locale);

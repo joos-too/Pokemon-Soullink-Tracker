@@ -55,6 +55,7 @@ interface ItemTrackerProps {
   gameVersionId?: string;
   generationSpritePath?: string | null;
   megaStoneSpriteStyle?: "item" | "pokemon";
+  onMegaStoneSpriteStyleToggle?: (usePokemon: boolean) => void;
 }
 
 const ItemTracker: React.FC<ItemTrackerProps> = ({
@@ -75,6 +76,7 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
   gameVersionId,
   generationSpritePath,
   megaStoneSpriteStyle = "item",
+  onMegaStoneSpriteStyleToggle,
 }) => {
   const { t, i18n } = useTranslation();
   const [showFossils, setShowFossils] = useState(false);
@@ -653,6 +655,7 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
         gameVersionId={gameVersionId}
         generationSpritePath={generationSpritePath}
         megaStoneSpriteStyle={megaStoneSpriteStyle}
+        onMegaStoneSpriteStyleToggle={onMegaStoneSpriteStyleToggle}
         onAdd={(id, loc, bag) => {
           onAddStone(stoneModalOpen.playerIndex, id, loc, bag);
           setStoneModalOpen({ open: false, playerIndex: 0 });
