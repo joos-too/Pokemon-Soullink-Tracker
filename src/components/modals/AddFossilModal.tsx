@@ -2,7 +2,7 @@ import React, { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FOSSILS } from "@/src/data/special-items.ts";
 import { FiX, FiInfo } from "react-icons/fi";
-import LocationSuggestionInput from "../inputs/LocationSuggestionInput.tsx";
+import LocationSuggestionInput from "@/src/components/inputs/LocationSuggestionInput.tsx";
 import Tooltip from "@/src/components/other/Tooltip.tsx";
 import { useFocusTrap } from "@/src/hooks/useFocusTrap.ts";
 import {

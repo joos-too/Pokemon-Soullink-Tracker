@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import type { Pokemon, PokemonLink } from "@/types.ts";
-import EditPairModal from "../modals/EditPairModal.tsx";
-import SelectEvolveModal from "../modals/SelectEvolveModal.tsx";
+import EditPairModal from "@/src/components/modals/EditPairModal.tsx";
+import SelectEvolveModal from "@/src/components/modals/SelectEvolveModal.tsx";
 import {
   FiArrowDown,
   FiArrowUp,

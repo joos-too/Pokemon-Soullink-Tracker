@@ -5,8 +5,8 @@ import { PLAYER_COLORS } from "@/src/services/init.ts";
 import { useTranslation } from "react-i18next";
 import { focusRingClasses } from "@/src/styles/focusRing.ts";
 import { FiEdit, FiTrash } from "react-icons/fi";
-import AddLostPokemonModal from "../modals/AddLostPokemonModal.tsx";
-import EditPairModal from "../modals/EditPairModal.tsx";
+import AddLostPokemonModal from "@/src/components/modals/AddLostPokemonModal.tsx";
+import EditPairModal from "@/src/components/modals/EditPairModal.tsx";
 import { getWikiUrl, type WikiId } from "@/src/utils/wiki.ts";
 
 interface GraveyardProps {

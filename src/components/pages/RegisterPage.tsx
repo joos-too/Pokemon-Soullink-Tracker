@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import type { FirebaseError } from "firebase/app";
-import { auth } from "../../firebaseConfig.ts";
+import { auth } from "@/src/firebaseConfig.ts";
 import {
   focusRingBlueClasses,
   focusRingClasses,

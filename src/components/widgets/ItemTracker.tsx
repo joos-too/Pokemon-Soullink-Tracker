@@ -14,8 +14,8 @@ import {
   FiRefreshCw,
   FiZap,
 } from "react-icons/fi";
-import AddFossilModal from "../modals/AddFossilModal.tsx";
-import AddItemModal from "../modals/AddItemModal.tsx";
+import AddFossilModal from "@/src/components/modals/AddFossilModal.tsx";
+import AddItemModal from "@/src/components/modals/AddItemModal.tsx";
 import {
   focusRingCardClasses,
   focusRingClasses,

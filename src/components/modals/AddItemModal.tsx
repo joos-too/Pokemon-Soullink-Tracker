@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { STONES, MEGA_STONES } from "@/src/data/special-items.ts";
 import { FiX, FiInfo } from "react-icons/fi";
 import ToggleSwitch from "@/src/components/toggles/ToggleSwitch";
-import LocationSuggestionInput from "../inputs/LocationSuggestionInput.tsx";
+import LocationSuggestionInput from "@/src/components/inputs/LocationSuggestionInput.tsx";
 import ItemSuggestionInput from "@/src/components/inputs/ItemSuggestionInput.tsx";
 import Tooltip from "@/src/components/other/Tooltip.tsx";
 import { useFocusTrap } from "@/src/hooks/useFocusTrap.ts";
