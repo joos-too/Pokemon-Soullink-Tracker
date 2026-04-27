@@ -167,7 +167,18 @@ export const de = {
     },
     addStone: {
       title: "Entwicklungsstein hinzufügen",
+      itemTitle: "Item hinzufügen",
+      megaTitle: "Mega-Stein hinzufügen",
+      tabStones: "Steine",
+      tabItems: "Items",
+      tabMegaStones: "Mega-Steine",
       stoneLabel: "Stein auswählen",
+      megaStoneLabel: "Mega-Stein auswählen",
+      spritePokemon: "Pokémon",
+      spriteItem: "Steine",
+      showPokemon: "Pokémon zeigen?",
+      itemLabel: "Item suchen",
+      itemSearchPlaceholder: "Nach Name suchen…",
       locationLabel: "Fundort",
       locationTooltip:
         "Falls ein Entwicklungsstein gefunden wurde, aber noch nicht erworben wurde, kann hier der Fundort notiert werden. Später lässt er sich mit einem Klick in den Beutel verschieben.",
@@ -225,9 +236,13 @@ export const de = {
       open: "Suche öffnen",
       modePokemon: "Pokémon",
       modeRoutes: "Gebiete",
+      modeItems: "Items",
       fieldLabel: "Tracker durchsuchen",
       emptyPokemon: "Noch keine Pokémon eingetragen.",
       emptyRoutes: "Noch keine Gebiete eingetragen.",
+      emptyItems: "Noch keine Items eingetragen.",
+      categoryStones: "Entwicklungssteine",
+      categoryMegaStones: "Mega-Steine",
     },
     infoPanel: {
       deathLabel: "Tode",
@@ -516,6 +531,13 @@ export const de = {
         tooltip:
           "Standardmäßig kann jedes Fossil pro Spieler nur einmal wiederbelebt werden. Wenn aktiviert, können Spieler das gleiche Fossil unendlich oft sammeln und wiederbeleben.",
         description: "Erlaube Spielern, Fossile mehrfach zu sammeln.",
+      },
+      megaStoneSpriteStyle: {
+        title: "Pokémon Mega-Stein Sprites",
+        tooltipLabel: "Info Mega-Stein Sprite-Stil",
+        tooltip:
+          "Wenn aktiviert, zeigt das Mega-Stein-Auswahlmenü den Sprite des entsprechenden Mega-Pokémon statt des Item-Symbols.",
+        description: "Zeige Pokémon-Sprites im Mega-Stein-Auswahlmenü.",
       },
     },
     members: {

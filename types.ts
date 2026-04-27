@@ -84,6 +84,7 @@ export interface AppState {
   rivalCensorEnabled?: boolean;
   hardcoreModeEnabled?: boolean;
   infiniteFossilsEnabled?: boolean;
+  megaStoneSpriteStyle?: "item" | "pokemon";
   fossils?: FossilEntry[][];
   stones?: StoneEntry[][];
   runStartedAt?: number;
