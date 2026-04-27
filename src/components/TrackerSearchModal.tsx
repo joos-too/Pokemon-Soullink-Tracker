@@ -293,7 +293,7 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
         aria-modal="true"
         aria-labelledby={titleId}
         tabIndex={-1}
-        className="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-[40rem] max-h-[85vh] overflow-hidden"
+        className="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-160 max-h-[85vh] overflow-hidden"
       >
         <div className="px-6 py-4 flex justify-between items-center border-b border-gray-100 dark:border-gray-700">
           <h2 id={titleId} className="text-lg font-bold dark:text-gray-100">
@@ -375,7 +375,7 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
               <div className="space-y-6 pb-2">
                 {pokemonSections.map((section) => (
                   <div key={section.key} className="space-y-3">
-                    <h3 className="text-sm font-press-start text-gray-800 dark:text-gray-200">
+                    <h3 className="text-lg font-bold text-gray-800 dark:text-gray-200">
                       {section.title}
                     </h3>
                     <div className="space-y-3">
@@ -482,7 +482,7 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
             <div className="space-y-6 pb-2">
               {itemSections.map((section) => (
                 <div key={section.key} className="space-y-2">
-                  <h3 className="text-sm font-press-start text-gray-800 dark:text-gray-200">
+                  <h3 className="text-lg font-bold text-gray-800 dark:text-gray-200">
                     {section.title}
                   </h3>
                   <div className="space-y-1">
@@ -515,7 +515,7 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
                           </span>
                         </div>
                         <span
-                          className="text-[10px] font-press-start shrink-0"
+                          className="text-xs font-semibold shrink-0"
                           style={{
                             color: playerColors[item.playerIndex] ?? "#4b5563",
                           }}
