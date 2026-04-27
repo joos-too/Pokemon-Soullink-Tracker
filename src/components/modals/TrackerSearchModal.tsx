@@ -11,7 +11,7 @@ import {
   getPokemonFamilyIdsMatchingQuery,
   getPokemonIdFromName,
 } from "@/src/services/pokemonSearch";
-import { FOSSILS, STONES, MEGA_STONES } from "@/src/services/init";
+import { FOSSILS, STONES, MEGA_STONES } from "@/src/data/special-items.ts";
 import { getItemName, getItemSpriteUrl } from "@/src/services/itemSearch";
 import { normalizeLanguage } from "@/src/utils/language";
 import { compareRoutes } from "@/src/utils/routes.ts";

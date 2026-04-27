@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FossilEntry, StoneEntry } from "@/types";
-import { MEGA_STONES, PLAYER_COLORS } from "@/src/services/init";
+import { PLAYER_COLORS } from "@/src/services/init";
+import { MEGA_STONES } from "@/src/data/megastones.ts";
 import { FOSSILS } from "@/src/data/fossils.ts";
 import { STONES } from "@/src/data/stones.ts";
 import { getItemName, getItemSpriteUrl } from "@/src/services/itemSearch";
