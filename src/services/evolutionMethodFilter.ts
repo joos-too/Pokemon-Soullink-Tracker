@@ -2,14 +2,30 @@ import { SupportedLanguage } from "@/src/utils/language.ts";
 import { TFunction } from "i18next";
 import { POKEMON_DATA, PokemonDataEntry } from "@/src/data/pokemon";
 
+interface EvolutionMethodRecord {
+  slug: string;
+  names: Record<SupportedLanguage, string>;
+}
+
+const getEvolutionMethodLabels = (
+  methods: unknown,
+  language: SupportedLanguage,
+): string[] => {
+  if (!Array.isArray(methods)) return [];
+  return (methods as EvolutionMethodRecord[])
+    .map(
+      (method) => method.names[language] ?? method.names.de ?? method.names.en,
+    )
+    .filter((method): method is string => !!method);
+};
+
 const getEvolutionEntries = (
   pokemon: PokemonDataEntry,
   language: SupportedLanguage,
 ) =>
   (pokemon.evolutions ?? []).map((entry) => ({
     id: entry.id,
-    methods:
-      entry.methods[language] ?? entry.methods.de ?? entry.methods.en ?? [],
+    methods: getEvolutionMethodLabels(entry.methods, language),
   }));
 
 export interface MethodGenerationRule {

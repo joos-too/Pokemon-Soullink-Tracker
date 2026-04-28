@@ -1,14 +1,16 @@
 #!/usr/bin/env node
 import Pokedex from "pokedex-promise-v2";
-import { writeFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
+import ts from "typescript";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const outPokemonPath = path.resolve(__dirname, "../src/data/pokemon.ts");
 const outLocationsPath = path.resolve(__dirname, "../src/data/locations.ts");
+const localItemsPath = path.resolve(__dirname, "../src/data/items.ts");
 
 const MAX_GENERATION = 9;
 const REGION_TO_GENERATION = {
@@ -31,24 +33,19 @@ const POKEDEX_OPTIONS = {
 
 const MANUAL_TRANSLATIONS = {
   de: {
-    location: {
-      "chargestone-cave": "Elektrolithhöhle",
-      "mt-coronet": "Kraterberg",
-      "eterna-forest": "Ewigwald",
-      "pinwheel-forest": "Ewigenwald",
-      "twist-mountain": "Wendelberg",
-    },
-    species: {
-      shedinja: "Ninjatom",
-    },
+    location: {},
+    species: {},
     trigger: {
       "three-critical-hits": "3 Kritische Treffer",
     },
-    item: {
-      "dusk-stone": "Finsterstein",
-      "thunder-stone": "Donnerstein",
+    item: {},
+    move: {
+      "rage-fist": "Zornesfaust",
+      "twin-beam": "Doppelstrahl",
+      "hyper-drill": "Hyperbohrer",
+      "barb-barrage": "Giftstachelregen",
+      "psyshield-bash": "Barrierenstoß",
     },
-    move: {},
     type: {},
   },
   en: {
@@ -152,6 +149,63 @@ function resolveTranslationFromRecord(recordMap, slug, locale, category) {
   return formatSlugName(slug);
 }
 
+function getObjectStringProperty(node, propertyName) {
+  if (!ts.isObjectLiteralExpression(node)) return "";
+  const property = node.properties.find((prop) => {
+    if (!ts.isPropertyAssignment(prop)) return false;
+    const name = prop.name;
+    return (
+      (ts.isIdentifier(name) && name.text === propertyName) ||
+      (ts.isStringLiteral(name) && name.text === propertyName)
+    );
+  });
+  if (!property || !ts.isPropertyAssignment(property)) return "";
+  const initializer = property.initializer;
+  return ts.isStringLiteral(initializer) ? initializer.text : "";
+}
+
+async function loadLocalItemTranslations() {
+  const result = new Map();
+  let sourceText;
+  try {
+    sourceText = await readFile(localItemsPath, "utf8");
+  } catch {
+    return result;
+  }
+
+  const sourceFile = ts.createSourceFile(
+    localItemsPath,
+    sourceText,
+    ts.ScriptTarget.Latest,
+    true,
+    ts.ScriptKind.TS,
+  );
+
+  const visit = (node) => {
+    if (!ts.isVariableDeclaration(node) || node.name?.getText() !== "ITEMS") {
+      ts.forEachChild(node, visit);
+      return;
+    }
+    const initializer = node.initializer;
+    if (!initializer || !ts.isArrayLiteralExpression(initializer)) return;
+    initializer.elements.forEach((element) => {
+      if (!ts.isObjectLiteralExpression(element)) return;
+      const slug = getObjectStringProperty(element, "slug");
+      const de = getObjectStringProperty(element, "de");
+      const en = getObjectStringProperty(element, "en");
+      if (slug && (de || en)) {
+        result.set(slug, {
+          de: de || en || formatSlugName(slug),
+          en: en || de || formatSlugName(slug),
+        });
+      }
+    });
+  };
+
+  visit(sourceFile);
+  return result;
+}
+
 function createTranslators(locale, resources) {
   const {
     itemTranslations,
@@ -191,18 +245,26 @@ function createTranslators(locale, resources) {
 async function loadItemTranslations(P, slugs) {
   const result = new Map();
   if (!slugs || slugs.size === 0) return result;
+  const localTranslations = await loadLocalItemTranslations();
+  for (const slug of slugs) {
+    const record = localTranslations.get(slug);
+    if (record) result.set(slug, record);
+  }
   const arr = Array.from(slugs);
   const ITEM_CHUNK = 50;
   for (let i = 0; i < arr.length; i += ITEM_CHUNK) {
     const slice = arr.slice(i, i + ITEM_CHUNK);
     const items = await Promise.all(
       slice.map((slug) =>
-        withRetry(() => P.getItemByName(slug), 3, 600).catch(() => null),
+        result.has(slug)
+          ? Promise.resolve(null)
+          : withRetry(() => P.getItemByName(slug), 3, 600).catch(() => null),
       ),
     );
     items.forEach((item, idx) => {
       const slug = slice[idx];
       if (!slug) return;
+      if (result.has(slug) && !item) return;
       const names = item?.names || [];
       result.set(slug, buildLocalizedRecord(slug, names, "item"));
     });
@@ -297,13 +359,28 @@ const LANGUAGE_TEXT = {
     baseTradeWith: (name) => `Tausch mit ${name}`,
     baseUseItem: "Item verwenden",
     baseItemWithName: (name) => `Item: ${name}`,
+    baseUseMove: "Attacke einsetzen",
+    baseUseMoveWithName: (name) => `Attacke einsetzen: ${name}`,
+    baseUseMoveWithCount: (count, name) =>
+      `Attacke einsetzen: ${count} x ${name}`,
+    strongStyleMove: "Krafttechnik",
+    agileStyleMove: "Tempotechnik",
+    styleMoveWithName: (name, style) =>
+      `Attacke einsetzen: ${name} als ${style}`,
+    styleMoveWithCount: (count, name, style) =>
+      `Attacke einsetzen: ${count} x ${name} als ${style}`,
     baseSpecial: "Spezial",
     baseSpecialSpecies: (name) => `Spezial: ${name}`,
     level: (value) => `Level ${value}`,
     friendship: (value) => `Freundschaft ≥ ${value}`,
     affection: (value) => `Zutrauen ≥ ${value}`,
     beauty: (value) => `Schönheit ≥ ${value}`,
-    timeOfDayMap: { day: "Tag", night: "Nacht", dusk: "Abend" },
+    timeOfDayMap: {
+      day: "Tag",
+      night: "Nacht",
+      dusk: "Abend",
+      "full moon": "Vollmond",
+    },
     timeOfDay: (value) => `Tageszeit: ${value}`,
     overworldRain: "Regen in der Oberwelt",
     genderFemale: "Nur weiblich",
@@ -330,6 +407,14 @@ const LANGUAGE_TEXT = {
     baseTradeWith: (name) => `Trade with ${name}`,
     baseUseItem: "Use item",
     baseItemWithName: (name) => `Item: ${name}`,
+    baseUseMove: "Use move",
+    baseUseMoveWithName: (name) => `Use move: ${name}`,
+    baseUseMoveWithCount: (count, name) => `Use move: ${count} x ${name}`,
+    strongStyleMove: "Strong Style Move",
+    agileStyleMove: "Agile Style Move",
+    styleMoveWithName: (name, style) => `Use move: ${name} as ${style}`,
+    styleMoveWithCount: (count, name, style) =>
+      `Use move: ${count} x ${name} as ${style}`,
     baseSpecial: "Special",
     baseSpecialSpecies: (name) => `Special: ${name}`,
     level: (value) => `Level ${value}`,
@@ -451,6 +536,36 @@ function describeEvolutionDetail(detail, translators = {}, locale = "de") {
         ? langText.baseItemWithName(translateItem(detail.item.name))
         : langText.baseUseItem;
       break;
+    case "use-move":
+      base = detail.used_move?.name
+        ? typeof detail.min_move_count === "number"
+          ? langText.baseUseMoveWithCount(
+              detail.min_move_count,
+              translateMove(detail.used_move.name),
+            )
+          : langText.baseUseMoveWithName(translateMove(detail.used_move.name))
+        : langText.baseUseMove;
+      break;
+    case "strong-style-move":
+    case "agile-style-move": {
+      const style =
+        trigger === "strong-style-move"
+          ? langText.strongStyleMove
+          : langText.agileStyleMove;
+      base = detail.used_move?.name
+        ? typeof detail.min_move_count === "number"
+          ? langText.styleMoveWithCount(
+              detail.min_move_count,
+              translateMove(detail.used_move.name),
+              style,
+            )
+          : langText.styleMoveWithName(
+              translateMove(detail.used_move.name),
+              style,
+            )
+        : style;
+      break;
+    }
     case "shed":
       base = langText.baseSpecialSpecies(
         translateSpecies("shedinja") || formatSlugName("shedinja"),
@@ -475,6 +590,60 @@ function describeEvolutionDetail(detail, translators = {}, locale = "de") {
     extras.push(langText.unknownCondition);
   }
   return extras.length ? `${base} - ${extras.join(", ")}` : base;
+}
+
+function slugPart(value) {
+  return String(value)
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function createEvolutionMethodSlug(detail) {
+  if (!detail) return "unknown-requirement";
+  const trigger = detail.trigger?.name || "special";
+  const parts = [slugPart(trigger)];
+  const add = (key, value) => {
+    if (value === null || value === undefined || value === "") return;
+    const normalizedValue = slugPart(value);
+    if (normalizedValue) {
+      parts.push(key ? `${key}-${normalizedValue}` : normalizedValue);
+    }
+  };
+
+  add("min-level", detail.min_level);
+  add("min-happiness", detail.min_happiness);
+  add("min-affection", detail.min_affection);
+  add("min-beauty", detail.min_beauty);
+  add("time", detail.time_of_day);
+  if (detail.needs_overworld_rain) parts.push("overworld-rain");
+  add("gender", detail.gender);
+  add("critical-hits", detail.min_critical_hits);
+  if (trigger === "use-item") {
+    add("", detail.item?.name);
+  } else {
+    add("item", detail.item?.name);
+  }
+  add("held-item", detail.held_item?.name);
+  add("known-move", detail.known_move?.name);
+  if (trigger === "use-move") {
+    add("", detail.used_move?.name);
+    if (typeof detail.min_move_count === "number") {
+      add("", `${detail.min_move_count}-times`);
+    }
+  } else {
+    add("used-move", detail.used_move?.name);
+    add("min-move-count", detail.min_move_count);
+  }
+  add("known-move-type", detail.known_move_type?.name);
+  add("location", detail.location?.name);
+  add("party-species", detail.party_species?.name);
+  add("party-type", detail.party_type?.name);
+  add("trade-species", detail.trade_species?.name);
+  if (detail.turn_upside_down) parts.push("turn-upside-down");
+
+  return parts.join("-");
 }
 
 async function main() {
@@ -702,6 +871,8 @@ async function main() {
                     itemSlugs.add(detail.held_item.name);
                   if (detail?.known_move?.name)
                     moveSlugs.add(detail.known_move.name);
+                  if (detail?.used_move?.name)
+                    moveSlugs.add(detail.used_move.name);
                   if (detail?.known_move_type?.name)
                     typeSlugs.add(detail.known_move_type.name);
                   if (detail?.party_type?.name)
@@ -771,8 +942,20 @@ async function main() {
     return result;
   };
 
-  const buildEvolutionTable = (locale) => {
-    const translators = createTranslators(locale, translatorResources);
+  const buildEvolutionMethod = (detail) => {
+    const slug = createEvolutionMethodSlug(detail);
+    const names = {};
+    SUPPORTED_LANGUAGES.forEach((locale) => {
+      const translators = createTranslators(locale, translatorResources);
+      names[locale] =
+        describeEvolutionDetail(detail, translators, locale) ||
+        LANGUAGE_TEXT[locale]?.unknownRequirement ||
+        LANGUAGE_TEXT.de.unknownRequirement;
+    });
+    return { slug, names };
+  };
+
+  const buildEvolutionTable = () => {
     return Object.fromEntries(
       [...evoMap.entries()]
         .sort(([a], [b]) => Number(a) - Number(b))
@@ -780,26 +963,22 @@ async function main() {
           fromId,
           [...toMap.entries()]
             .map(([toId, detailList]) => {
-              const methodSet = new Set();
+              const methodMap = new Map();
               const normalized =
                 detailList && detailList.length ? detailList : [null];
               normalized.forEach((detail) => {
-                const text = describeEvolutionDetail(
-                  detail,
-                  translators,
-                  locale,
-                );
-                if (text) methodSet.add(text);
+                const method = buildEvolutionMethod(detail);
+                methodMap.set(method.slug, method);
               });
-              if (!methodSet.size)
-                methodSet.add(
-                  LANGUAGE_TEXT[locale]?.unknownRequirement ||
-                    LANGUAGE_TEXT.de.unknownRequirement,
+              if (!methodMap.size)
+                methodMap.set(
+                  "unknown-requirement",
+                  buildEvolutionMethod(null),
                 );
               return {
                 id: Number(toId),
-                methods: Array.from(methodSet).sort((a, b) =>
-                  a.localeCompare(b, locale === "en" ? "en" : "de"),
+                methods: Array.from(methodMap.values()).sort((a, b) =>
+                  a.names.de.localeCompare(b.names.de, "de"),
                 ),
               };
             })
@@ -808,25 +987,10 @@ async function main() {
     );
   };
 
-  const evolutionTables = {
-    de: buildEvolutionTable("de"),
-    en: buildEvolutionTable("en"),
-  };
+  const evolutionTable = buildEvolutionTable();
 
   const buildEvolutionEntries = (id) => {
-    const entriesById = new Map();
-    SUPPORTED_LANGUAGES.forEach((locale) => {
-      (evolutionTables[locale][id] || []).forEach((entry) => {
-        if (!entriesById.has(entry.id)) {
-          entriesById.set(entry.id, {
-            id: entry.id,
-            methods: {},
-          });
-        }
-        entriesById.get(entry.id).methods[locale] = entry.methods;
-      });
-    });
-    return Array.from(entriesById.values()).sort((a, b) => a.id - b.id);
+    return (evolutionTable[id] || []).sort((a, b) => a.id - b.id);
   };
 
   const locationSuggestions = buildLocationSuggestions();
@@ -867,7 +1031,7 @@ async function main() {
     }),
   );
 
-  const pokemonFile = `// Generated by scripts/generate-pokemon-de.mjs\nexport type PokemonLanguage = "de" | "en";\n\nexport interface PokemonEvolutionEntry {\n  id: number;\n  methods: Record<PokemonLanguage, string[]>;\n}\n\nexport interface PokemonPastTypesEntry {\n  generation: number;\n  types: string[];\n}\n\nexport interface PokemonDataEntry {\n  id: number;\n  names: Record<PokemonLanguage, string>;\n  generation: number;\n  types: string[];\n  pastTypes?: PokemonPastTypesEntry[];\n  evolutions?: PokemonEvolutionEntry[];\n}\n\nexport const POKEMON_DATA: Record<number, PokemonDataEntry> = ${JSON.stringify(pokemonData, null, 2)};\n\nexport const POKEMON_TYPE_NAMES: Record<PokemonLanguage, Record<string, string>> = ${JSON.stringify(typeNamesByLocale, null, 2)};\n`;
+  const pokemonFile = `// Generated by scripts/generate-pokemon-de.mjs\nexport type PokemonLanguage = "de" | "en";\n\nexport interface PokemonEvolutionMethod {\n  slug: string;\n  names: Record<PokemonLanguage, string>;\n}\n\nexport interface PokemonEvolutionEntry {\n  id: number;\n  methods: PokemonEvolutionMethod[];\n}\n\nexport interface PokemonPastTypesEntry {\n  generation: number;\n  types: string[];\n}\n\nexport interface PokemonDataEntry {\n  id: number;\n  names: Record<PokemonLanguage, string>;\n  generation: number;\n  types: string[];\n  pastTypes?: PokemonPastTypesEntry[];\n  evolutions?: PokemonEvolutionEntry[];\n}\n\nexport const POKEMON_DATA: Record<number, PokemonDataEntry> = ${JSON.stringify(pokemonData, null, 2)};\n\nexport const POKEMON_TYPE_NAMES: Record<PokemonLanguage, Record<string, string>> = ${JSON.stringify(typeNamesByLocale, null, 2)};\n`;
   await writeFile(outPokemonPath, pokemonFile, "utf8");
 
   console.log(
