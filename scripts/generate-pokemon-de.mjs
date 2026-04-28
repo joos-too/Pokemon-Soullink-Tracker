@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 const outPokemonPath = path.resolve(__dirname, "../src/data/pokemon.ts");
 const outLocationsPath = path.resolve(__dirname, "../src/data/locations.ts");
 
-const MAX_GENERATION = 6;
+const MAX_GENERATION = 9;
 const REGION_TO_GENERATION = {
   kanto: 1,
   johto: 2,

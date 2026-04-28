@@ -20,6 +20,21 @@ export const LOCATIONS: Record<
       region: "unova",
     },
     {
+      name: "Æther-Paradies",
+      slug: "aether-paradise",
+      region: "alola",
+    },
+    {
+      name: "Akala-Blumenmeer",
+      slug: "akala-meadow",
+      region: "alola",
+    },
+    {
+      name: "Akala-Küstenstreifen",
+      slug: "akala-outskirts",
+      region: "alola",
+    },
+    {
       name: "Alabastia",
       slug: "pallet-town",
       region: "kanto",
@@ -45,9 +60,29 @@ export const LOCATIONS: Record<
       region: "unova",
     },
     {
+      name: "Alter Pfad von Poni",
+      slug: "ancient-poni-path",
+      region: "alola",
+    },
+    {
+      name: "Ambitionshügel",
+      slug: "aspiration-hill",
+      region: "hisui",
+    },
+    {
       name: "Anemonia City",
       slug: "cianwood-city",
       region: "johto",
+    },
+    {
+      name: "Anhöhenbasis",
+      slug: "heights-camp",
+      region: "hisui",
+    },
+    {
+      name: "Apfelhügel",
+      slug: "apple-hills",
+      region: "paldea",
     },
     {
       name: "Aquarellia",
@@ -55,14 +90,49 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "Arktilas-Eisblock",
+      slug: "avaluggs-legacy",
+      region: "hisui",
+    },
+    {
+      name: "Asarilla",
+      slug: "alfornada",
+      region: "paldea",
+    },
+    {
+      name: "Asarilla-Grotte",
+      slug: "alfornada-cavern",
+      region: "paldea",
+    },
+    {
       name: "Auen von Flori",
       slug: "floaroma-meadow",
       region: "sinnoh",
     },
     {
+      name: "Aufstiegstunnel",
+      slug: "tunnel-to-the-top",
+      region: "galar",
+    },
+    {
+      name: "Aufwärmtunnel",
+      slug: "warm-up-tunnel",
+      region: "galar",
+    },
+    {
       name: "Avenitia",
       slug: "nuvema-town",
       region: "unova",
+    },
+    {
+      name: "Avenue Royale",
+      slug: "royal-avenue",
+      region: "alola",
+    },
+    {
+      name: "Avenue Royale",
+      slug: "thrifty-megamart",
+      region: "alola",
     },
     {
       name: "Azalea City",
@@ -90,6 +160,11 @@ export const LOCATIONS: Record<
       region: "hoenn",
     },
     {
+      name: "Badelagune",
+      slug: "bathers-lagoon",
+      region: "hisui",
+    },
+    {
       name: "Bahnhof von Batika",
       slug: "kiloude-station",
       region: "kalos",
@@ -100,6 +175,21 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "Ballsee-Höhle",
+      slug: "lakeside-cave",
+      region: "galar",
+    },
+    {
+      name: "Ballsee-Ufer",
+      slug: "ballimere-lake",
+      region: "galar",
+    },
+    {
+      name: "Balsamsumpf",
+      slug: "soothing-wetlands",
+      region: "galar",
+    },
+    {
       name: "Batika City",
       slug: "kiloude-city",
       region: "kalos",
@@ -108,6 +198,16 @@ export const LOCATIONS: Record<
       name: "Baumhausen City",
       slug: "fortree-city",
       region: "hoenn",
+    },
+    {
+      name: "Baumriesenkampffeld",
+      slug: "grandtree-arena",
+      region: "hisui",
+    },
+    {
+      name: "Beerenfelder",
+      slug: "berry-fields",
+      region: "alola",
     },
     {
       name: "Beerenforst",
@@ -125,14 +225,29 @@ export const LOCATIONS: Record<
       region: "sinnoh",
     },
     {
+      name: "Beschwerlicher Pfad",
+      slug: "poni-gauntlet",
+      region: "alola",
+    },
+    {
       name: "Beschwörungshöhle",
       slug: "cave-of-being",
       region: "unova",
     },
     {
+      name: "Bett des Giganten",
+      slug: "giants-bed",
+      region: "galar",
+    },
+    {
       name: "Bizarre Höhle",
       slug: "wayward-cave",
       region: "sinnoh",
+    },
+    {
+      name: "Bizarre Höhle",
+      slug: "hisui-wayward-cave",
+      region: "hisui",
     },
     {
       name: "Bizarro-Haus",
@@ -148,6 +263,16 @@ export const LOCATIONS: Record<
       name: "Blizzach-Tempel",
       slug: "snowpoint-temple",
       region: "sinnoh",
+    },
+    {
+      name: "Blizzach-Tempel",
+      slug: "hisui-snowpoint-temple",
+      region: "hisui",
+    },
+    {
+      name: "Blizzardtal",
+      slug: "whiteout-valley",
+      region: "hisui",
     },
     {
       name: "Blumenladen",
@@ -170,6 +295,21 @@ export const LOCATIONS: Record<
       region: "hoenn",
     },
     {
+      name: "Bolardin",
+      slug: "artazon",
+      region: "paldea",
+    },
+    {
+      name: "Brassbury",
+      slug: "wedgehurst",
+      region: "galar",
+    },
+    {
+      name: "Brückental",
+      slug: "bridge-field",
+      region: "galar",
+    },
+    {
       name: "Brückentor",
       slug: "bridge-gate",
       region: "unova",
@@ -180,9 +320,19 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "Brutzelwüste",
+      slug: "asado-desert",
+      region: "paldea",
+    },
+    {
       name: "Bucht von Ondula",
       slug: "undella-bay",
       region: "unova",
+    },
+    {
+      name: "Bühnenkampffeld",
+      slug: "brava-arena",
+      region: "hisui",
     },
     {
       name: "Buhnenpfad",
@@ -200,9 +350,44 @@ export const LOCATIONS: Record<
       region: "sinnoh",
     },
     {
+      name: "Caldero-See",
+      slug: "casseroya-lake",
+      region: "paldea",
+    },
+    {
+      name: "Canyon von Poni",
+      slug: "vast-poni-canyon",
+      region: "alola",
+    },
+    {
+      name: "Canyon-Areal",
+      slug: "canyon-biome",
+      region: "paldea",
+    },
+    {
+      name: "Canyon-Platz",
+      slug: "canyon-plaza",
+      region: "paldea",
+    },
+    {
       name: "Château Tristesse",
       slug: "shabboneau-castle",
       region: "kalos",
+    },
+    {
+      name: "Circhester",
+      slug: "circhester",
+      region: "galar",
+    },
+    {
+      name: "Claw City",
+      slug: "hammerlocke",
+      region: "galar",
+    },
+    {
+      name: "Claw-Plateau",
+      slug: "hammerlocke-hills",
+      region: "galar",
     },
     {
       name: "Coteau-Weg",
@@ -213,6 +398,16 @@ export const LOCATIONS: Record<
       name: "Cromlexia",
       slug: "geosenge-town",
       region: "kalos",
+    },
+    {
+      name: "Cucharico",
+      slug: "cabo-poco",
+      region: "paldea",
+    },
+    {
+      name: "Cucharico-Pfad",
+      slug: "poco-path",
+      region: "paldea",
     },
     {
       name: "Dausing",
@@ -235,9 +430,39 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "Diamant-Ebene",
+      slug: "diamond-heath",
+      region: "hisui",
+    },
+    {
+      name: "Diamant-Siedlung",
+      slug: "diamond-settlement",
+      region: "hisui",
+    },
+    {
       name: "Digda-Höhle",
       slug: "digletts-cave",
       region: "kanto",
+    },
+    {
+      name: "Digda-Tunnel",
+      slug: "digletts-tunnel",
+      region: "alola",
+    },
+    {
+      name: "Dome Royale",
+      slug: "battle-royal-dome",
+      region: "alola",
+    },
+    {
+      name: "Dorf der Kapu",
+      slug: "tapu-village",
+      region: "alola",
+    },
+    {
+      name: "Dorf des Seevolkes",
+      slug: "seafolk-village",
+      region: "alola",
     },
     {
       name: "Dorfbrücke",
@@ -265,6 +490,11 @@ export const LOCATIONS: Record<
       region: "kanto",
     },
     {
+      name: "Dreiwegpass",
+      slug: "three-point-pass",
+      region: "galar",
+    },
+    {
       name: "Duellareal",
       slug: "battleground",
       region: "sinnoh",
@@ -285,6 +515,11 @@ export const LOCATIONS: Record<
       region: "hoenn",
     },
     {
+      name: "Duellturm",
+      slug: "battle-tower",
+      region: "galar",
+    },
+    {
       name: "Dukatia City",
       slug: "goldenrod-city",
       region: "johto",
@@ -298,6 +533,16 @@ export const LOCATIONS: Record<
       name: "Dunkelhöhle",
       slug: "dark-cave",
       region: "johto",
+    },
+    {
+      name: "Dyna-Riesennest",
+      slug: "max-lair",
+      region: "galar",
+    },
+    {
+      name: "Ebene von Poni",
+      slug: "poni-plains",
+      region: "alola",
     },
     {
       name: "Ebenholz City",
@@ -365,9 +610,19 @@ export const LOCATIONS: Record<
       region: "unova",
     },
     {
+      name: "Einsame Quelle",
+      slug: "lonely-spring",
+      region: "hisui",
+    },
+    {
       name: "Eisberg-Ruinen",
       slug: "iceberg-ruins",
       region: "sinnoh",
+    },
+    {
+      name: "Eisberg-Ruinen",
+      slug: "galar-iceberg-ruins",
+      region: "galar",
     },
     {
       name: "Eisbergkammer",
@@ -380,6 +635,11 @@ export const LOCATIONS: Record<
       region: "sinnoh",
     },
     {
+      name: "Eisen-Ruinen",
+      slug: "galar-iron-ruins",
+      region: "galar",
+    },
+    {
       name: "Eiseninsel",
       slug: "iron-island",
       region: "sinnoh",
@@ -388,6 +648,21 @@ export const LOCATIONS: Record<
       name: "Eisenkammer",
       slug: "iron-room",
       region: "unova",
+    },
+    {
+      name: "Eisgipfelhöhle",
+      slug: "icepeak-cavern",
+      region: "hisui",
+    },
+    {
+      name: "Eisgipfelkampffeld",
+      slug: "icepeak-arena",
+      region: "hisui",
+    },
+    {
+      name: "Eisige Ödnis",
+      slug: "bonechill-wastes",
+      region: "hisui",
     },
     {
       name: "Eiskaskadenhöhle",
@@ -400,6 +675,16 @@ export const LOCATIONS: Record<
       region: "johto",
     },
     {
+      name: "Eissäulenkammer",
+      slug: "ice-column-chamber",
+      region: "hisui",
+    },
+    {
+      name: "Elektrolithgrotte",
+      slug: "chargestone-cavern",
+      region: "paldea",
+    },
+    {
       name: "Elektrolithhöhle",
       slug: "chargestone-cave",
       region: "unova",
@@ -408,6 +693,31 @@ export const LOCATIONS: Record<
       name: "Elyses",
       slug: "celestic-town",
       region: "sinnoh",
+    },
+    {
+      name: "Elysien-Bergpfad",
+      slug: "celestica-trail",
+      region: "hisui",
+    },
+    {
+      name: "Elysien-Tempelruinen",
+      slug: "celestica-ruins",
+      region: "hisui",
+    },
+    {
+      name: "Engine City",
+      slug: "motostoke",
+      region: "galar",
+    },
+    {
+      name: "Engine-Flussufer",
+      slug: "motostoke-riverbank",
+      region: "galar",
+    },
+    {
+      name: "Engine-Ortsrand",
+      slug: "motostoke-outskirts",
+      region: "galar",
     },
     {
       name: "Entfernter Ort",
@@ -438,6 +748,11 @@ export const LOCATIONS: Record<
       name: "Erzelingen-Tor",
       slug: "oreburgh-gate",
       region: "sinnoh",
+    },
+    {
+      name: "Erztunnel",
+      slug: "oreburrow-tunnel",
+      region: "hisui",
     },
     {
       name: "Escissia",
@@ -475,9 +790,19 @@ export const LOCATIONS: Record<
       region: "sinnoh",
     },
     {
+      name: "Fackellabyrinth",
+      slug: "torchlit-labyrinth",
+      region: "paldea",
+    },
+    {
       name: "Fahrradladen",
       slug: "sinnoh-cycle-shop",
       region: "sinnoh",
+    },
+    {
+      name: "Fairballey",
+      slug: "ballonlea",
+      region: "galar",
     },
     {
       name: "Faustauhaven",
@@ -485,14 +810,29 @@ export const LOCATIONS: Record<
       region: "hoenn",
     },
     {
+      name: "Feenweiher",
+      slug: "fabled-spring",
+      region: "hisui",
+    },
+    {
       name: "Feld der Besinnung",
       slug: "rumination-field",
       region: "unova",
     },
     {
+      name: "Felsenbrücke",
+      slug: "worn-bridge",
+      region: "hisui",
+    },
+    {
       name: "Felsenherzturm",
       slug: "embedded-tower",
       region: "johto",
+    },
+    {
+      name: "Felsenküste von Poni",
+      slug: "poni-breaker-coast",
+      region: "alola",
     },
     {
       name: "Felsklippentor",
@@ -515,9 +855,19 @@ export const LOCATIONS: Record<
       region: "kanto",
     },
     {
+      name: "Fermanca City",
+      slug: "levincia",
+      region: "paldea",
+    },
+    {
       name: "Fern-Eiland",
       slug: "outcast-island",
       region: "kanto",
+    },
+    {
+      name: "Fernarchipel",
+      slug: "insular-sea",
+      region: "galar",
     },
     {
       name: "Ferneiland",
@@ -530,6 +880,11 @@ export const LOCATIONS: Record<
       region: "unova",
     },
     {
+      name: "Feuerspei-Insel",
+      slug: "firespit-island",
+      region: "hisui",
+    },
+    {
       name: "Feuriger Pfad",
       slug: "fiery-path",
       region: "hoenn",
@@ -538,6 +893,21 @@ export const LOCATIONS: Record<
       name: "Feurio-Hütte",
       slug: "fuego-ironworks",
       region: "sinnoh",
+    },
+    {
+      name: "Finalhöhle",
+      slug: "resolution-cave",
+      region: "alola",
+    },
+    {
+      name: "Firnfälle",
+      slug: "icebound-falls",
+      region: "hisui",
+    },
+    {
+      name: "Fitnessmeer",
+      slug: "workout-sea",
+      region: "galar",
     },
     {
       name: "Flammen-Saal",
@@ -565,6 +935,16 @@ export const LOCATIONS: Record<
       region: "johto",
     },
     {
+      name: "Fleißebene",
+      slug: "training-lowlands",
+      region: "galar",
+    },
+    {
+      name: "Flora-Rodefläche",
+      slug: "floaro-gardens",
+      region: "hisui",
+    },
+    {
       name: "Flori",
       slug: "floaroma-town",
       region: "sinnoh",
@@ -585,6 +965,11 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "Fokusforst",
+      slug: "forest-of-focus",
+      region: "galar",
+    },
+    {
       name: "Fourrage-Weg",
       slug: "fourrage-road",
       region: "kalos",
@@ -598,6 +983,11 @@ export const LOCATIONS: Record<
       name: "Fractalia-Tor",
       slug: "snowbelle-gate",
       region: "kalos",
+    },
+    {
+      name: "Freezedale",
+      slug: "freezington",
+      region: "galar",
     },
     {
       name: "Freiheitsgarten",
@@ -615,6 +1005,16 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "Frigomonta",
+      slug: "montenevera",
+      region: "paldea",
+    },
+    {
+      name: "Frostfeld",
+      slug: "frostpoint-field",
+      region: "galar",
+    },
+    {
       name: "Frosthöhle",
       slug: "frost-cavern",
       region: "kalos",
@@ -630,9 +1030,29 @@ export const LOCATIONS: Record<
       region: "kanto",
     },
     {
+      name: "Furlongham",
+      slug: "postwick",
+      region: "galar",
+    },
+    {
       name: "Galaktik-Gebäude von Ewigenau",
       slug: "tg-eterna-bldg",
       region: "sinnoh",
+    },
+    {
+      name: "Galar-Mine",
+      slug: "galar-mine",
+      region: "galar",
+    },
+    {
+      name: "Galar-Mine 2",
+      slug: "galar-mine-no-2",
+      region: "galar",
+    },
+    {
+      name: "Garrafosa City",
+      slug: "cascarrafa",
+      region: "paldea",
     },
     {
       name: "Gavina",
@@ -648,6 +1068,11 @@ export const LOCATIONS: Record<
       name: "Gedenksäule",
       slug: "memorial-pillar",
       region: "kanto",
+    },
+    {
+      name: "Gefährten-Platz",
+      slug: "loyalty-plaza",
+      region: "paldea",
     },
     {
       name: "Geheimbasis",
@@ -675,14 +1100,59 @@ export const LOCATIONS: Record<
       region: "hoenn",
     },
     {
+      name: "Geistesfelsen",
+      slug: "hearts-crag",
+      region: "hisui",
+    },
+    {
       name: "Geolinkhöhle",
       slug: "connecting-cave",
       region: "kalos",
     },
     {
+      name: "Geröllberge",
+      slug: "bolderoll-ravine",
+      region: "hisui",
+    },
+    {
+      name: "Geröllhügel",
+      slug: "bolderoll-slope",
+      region: "hisui",
+    },
+    {
+      name: "Geweihanhöhe",
+      slug: "deertrack-heights",
+      region: "hisui",
+    },
+    {
+      name: "Geweihbergweg",
+      slug: "deertrack-path",
+      region: "hisui",
+    },
+    {
+      name: "Ginkgo-Strand",
+      slug: "ginkgo-landing",
+      region: "hisui",
+    },
+    {
       name: "Gipfelruinen",
       slug: "rock-peak-ruins",
       region: "sinnoh",
+    },
+    {
+      name: "Gipfelruinen",
+      slug: "galar-rock-peak-ruins",
+      region: "galar",
+    },
+    {
+      name: "Gipfelschwadentunnel",
+      slug: "cloudcap-pass",
+      region: "hisui",
+    },
+    {
+      name: "Gletscherstufen",
+      slug: "glacier-terrace",
+      region: "hisui",
     },
     {
       name: "Global Trade System",
@@ -703,6 +1173,11 @@ export const LOCATIONS: Record<
       name: "Glockenturm",
       slug: "bell-tower",
       region: "johto",
+    },
+    {
+      name: "Glühberg",
+      slug: "blush-mountain",
+      region: "alola",
     },
     {
       name: "Glühweg",
@@ -730,9 +1205,24 @@ export const LOCATIONS: Record<
       region: "hoenn",
     },
     {
+      name: "Griffel-Hügel",
+      slug: "aipom-hill",
+      region: "hisui",
+    },
+    {
       name: "Großer See",
       slug: "grand-lake",
       region: "sinnoh",
+    },
+    {
+      name: "Großfischfelsen",
+      slug: "lunkers-lair",
+      region: "hisui",
+    },
+    {
+      name: "Großmaulmoor",
+      slug: "gapejaw-bog",
+      region: "hisui",
     },
     {
       name: "Großmoor",
@@ -750,9 +1240,24 @@ export const LOCATIONS: Record<
       region: "kanto",
     },
     {
+      name: "Grußgefilde",
+      slug: "fields-of-honor",
+      region: "galar",
+    },
+    {
+      name: "Güldene Felder",
+      slug: "golden-lowlands",
+      region: "hisui",
+    },
+    {
       name: "Hain der Täuschung",
       slug: "lostlorn-forest",
       region: "unova",
+    },
+    {
+      name: "Haina-Wüste",
+      slug: "haina-desert",
+      region: "alola",
     },
     {
       name: "Halle des Beginns",
@@ -763,6 +1268,46 @@ export const LOCATIONS: Record<
       name: "Halle des Beginns",
       slug: "sinnoh-hall-of-origin-2",
       region: "sinnoh",
+    },
+    {
+      name: "Hamanasu-Insel",
+      slug: "ramanas-island",
+      region: "hisui",
+    },
+    {
+      name: "Hanohano-Resort",
+      slug: "hano-grand-resort",
+      region: "alola",
+    },
+    {
+      name: "Hanohano-Strand",
+      slug: "hano-beach",
+      region: "alola",
+    },
+    {
+      name: "Hauholi City",
+      slug: "hauoli-city--beachfront",
+      region: "alola",
+    },
+    {
+      name: "Hauholi City",
+      slug: "hauoli-city--shopping-district",
+      region: "alola",
+    },
+    {
+      name: "Hauholi City",
+      slug: "hauoli-city--marina",
+      region: "alola",
+    },
+    {
+      name: "Hauholi City",
+      slug: "hauoli-city",
+      region: "alola",
+    },
+    {
+      name: "Hauholi-Friedhof",
+      slug: "hauoli-cemetery",
+      region: "alola",
     },
     {
       name: "Herzhofen",
@@ -795,14 +1340,54 @@ export const LOCATIONS: Record<
       region: "sinnoh",
     },
     {
+      name: "Höhle der Umkehr",
+      slug: "hisui-turnback-cave",
+      region: "hisui",
+    },
+    {
       name: "Höhlenatelier",
       slug: "artisan-cave",
       region: "hoenn",
     },
     {
+      name: "Hokulani-Berg",
+      slug: "mount-hokulani",
+      region: "alola",
+    },
+    {
+      name: "Hokulani-Sternwarte",
+      slug: "hokulani-observatory",
+      region: "alola",
+    },
+    {
+      name: "Hornschlucht",
+      slug: "fellhorn-gorge",
+      region: "paldea",
+    },
+    {
       name: "Hotelruine",
       slug: "lost-hotel",
       region: "kalos",
+    },
+    {
+      name: "Hufeisenwiesen",
+      slug: "horseshoe-plains",
+      region: "hisui",
+    },
+    {
+      name: "Hügel des Dyna-Baums",
+      slug: "dyna-tree-hill",
+      region: "galar",
+    },
+    {
+      name: "Hügel des Gedenkens",
+      slug: "memorial-hill",
+      region: "alola",
+    },
+    {
+      name: "Hut des Giganten",
+      slug: "giants-cap",
+      region: "galar",
     },
     {
       name: "Illumina City",
@@ -820,9 +1405,24 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "Immerwald",
+      slug: "timeless-woods",
+      region: "paldea",
+    },
+    {
       name: "Indigo-Plateau",
       slug: "indigo-plateau",
       region: "kanto",
+    },
+    {
+      name: "Infernopass",
+      slug: "infernal-pass",
+      region: "paldea",
+    },
+    {
+      name: "Innerwald",
+      slug: "the-heartwood",
+      region: "hisui",
     },
     {
       name: "Insel im Süden",
@@ -830,9 +1430,19 @@ export const LOCATIONS: Record<
       region: "hoenn",
     },
     {
+      name: "Inselblickufer",
+      slug: "islespy-shore",
+      region: "hisui",
+    },
+    {
       name: "Inselhöhle",
       slug: "island-cave",
       region: "hoenn",
+    },
+    {
+      name: "Inselkettenmeer",
+      slug: "stepping-stone-sea",
+      region: "galar",
     },
     {
       name: "Irrwald",
@@ -843,6 +1453,11 @@ export const LOCATIONS: Record<
       name: "Janusberg",
       slug: "reversal-mountain",
       region: "unova",
+    },
+    {
+      name: "Jubeldorf",
+      slug: "jubilife-village",
+      region: "hisui",
     },
     {
       name: "Jubelstadt",
@@ -860,6 +1475,11 @@ export const LOCATIONS: Record<
       region: "sinnoh",
     },
     {
+      name: "Kala’e-Bucht",
+      slug: "kalae-bay",
+      region: "alola",
+    },
+    {
       name: "Kalos (wandernd)",
       slug: "roaming-kalos",
       region: "kalos",
@@ -868,6 +1488,11 @@ export const LOCATIONS: Record<
       name: "Kalos-Kraftwerk",
       slug: "kalos-power-plant",
       region: "kalos",
+    },
+    {
+      name: "Kaltwasserkarst",
+      slug: "chilling-waterhead",
+      region: "paldea",
     },
     {
       name: "Kammer der Leere",
@@ -893,6 +1518,16 @@ export const LOCATIONS: Record<
       name: "Kampfarkaden",
       slug: "battle-arcade",
       region: "sinnoh",
+    },
+    {
+      name: "Kampfbaum",
+      slug: "battle-tree",
+      region: "alola",
+    },
+    {
+      name: "Kämpfergrotte",
+      slug: "brawlers-cave",
+      region: "galar",
     },
     {
       name: "Kampffabrik",
@@ -950,6 +1585,16 @@ export const LOCATIONS: Record<
       region: "johto",
     },
     {
+      name: "Kantai City",
+      slug: "heahea-city",
+      region: "alola",
+    },
+    {
+      name: "Kantai-Strand",
+      slug: "heahea-beach",
+      region: "alola",
+    },
+    {
       name: "Kanto Underground Path",
       slug: "kanto-underground-path",
       region: "kanto",
@@ -965,9 +1610,34 @@ export const LOCATIONS: Record<
       region: "unova",
     },
     {
+      name: "Keelton",
+      slug: "hulbury",
+      region: "galar",
+    },
+    {
       name: "Kesselberg",
       slug: "mt-mortar",
       region: "johto",
+    },
+    {
+      name: "Kitakami-Kulturzentrum",
+      slug: "kitakami-hall",
+      region: "paldea",
+    },
+    {
+      name: "Kitakami-Straße",
+      slug: "kitakami-road",
+      region: "paldea",
+    },
+    {
+      name: "Kleine Meeresgrotte",
+      slug: "seaside-hollow",
+      region: "hisui",
+    },
+    {
+      name: "Kletterklippe",
+      slug: "clamberclaw-cliffs",
+      region: "hisui",
     },
     {
       name: "Knofensa-Turm",
@@ -978,6 +1648,21 @@ export const LOCATIONS: Record<
       name: "Knursperei",
       slug: "poffin-house",
       region: "sinnoh",
+    },
+    {
+      name: "Knusperwaldweg",
+      slug: "socarrat-trail",
+      region: "paldea",
+    },
+    {
+      name: "Kokowei-Eiland",
+      slug: "exeggutor-island",
+      region: "alola",
+    },
+    {
+      name: "Konikoni City",
+      slug: "konikoni-city",
+      region: "alola",
     },
     {
       name: "Kontaktebene",
@@ -1005,6 +1690,16 @@ export const LOCATIONS: Record<
       region: "sinnoh",
     },
     {
+      name: "Kristallsee",
+      slug: "crystal-pool",
+      region: "paldea",
+    },
+    {
+      name: "Kronentempel",
+      slug: "crown-shrine",
+      region: "galar",
+    },
+    {
       name: "Kühnheitsgrotte",
       slug: "valor-cavern",
       region: "sinnoh",
@@ -1015,9 +1710,44 @@ export const LOCATIONS: Record<
       region: "sinnoh",
     },
     {
+      name: "Küste der Verirrten",
+      slug: "castaway-shore",
+      region: "hisui",
+    },
+    {
+      name: "Küste von Poni",
+      slug: "poni-coast",
+      region: "alola",
+    },
+    {
+      name: "Küste von Ula-Ula",
+      slug: "secluded-shore",
+      region: "alola",
+    },
+    {
+      name: "Küsten-Areal",
+      slug: "coastal-biome",
+      region: "paldea",
+    },
+    {
+      name: "Küsten-Platz",
+      slug: "coastal-plaza",
+      region: "paldea",
+    },
+    {
       name: "Küstenhöhle",
       slug: "shoal-cave",
       region: "hoenn",
+    },
+    {
+      name: "Küstenlandbasis",
+      slug: "coastlands-camp",
+      region: "hisui",
+    },
+    {
+      name: "Labor Null",
+      slug: "zero-lab",
+      region: "paldea",
     },
     {
       name: "Labor von Flordelis",
@@ -1030,9 +1760,19 @@ export const LOCATIONS: Record<
       region: "hoenn",
     },
     {
+      name: "Lavakampffeld",
+      slug: "molten-arena",
+      region: "hisui",
+    },
+    {
       name: "Lavandia",
       slug: "lavender-town",
       region: "kanto",
+    },
+    {
+      name: "Lawinenhügel",
+      slug: "avalanche-slopes",
+      region: "hisui",
     },
     {
       name: "Leuchthöhle",
@@ -1055,9 +1795,24 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "Liga-AG Raum",
+      slug: "league-club-room",
+      region: "paldea",
+    },
+    {
       name: "Lilechs-Kammer",
       slug: "rixy-chamber",
       region: "kanto",
+    },
+    {
+      name: "Lili’i",
+      slug: "iki-town",
+      region: "alola",
+    },
+    {
+      name: "Lottervilla",
+      slug: "shady-house",
+      region: "alola",
     },
     {
       name: "Luftraum",
@@ -1078,6 +1833,36 @@ export const LOCATIONS: Record<
       name: "Mahagonia City",
       slug: "mahogany-town",
       region: "johto",
+    },
+    {
+      name: "Mahalo-Bergpfad",
+      slug: "mahalo-trail",
+      region: "alola",
+    },
+    {
+      name: "Mahalo-Bergpfad",
+      slug: "mahalo-trail--plank-bridge",
+      region: "alola",
+    },
+    {
+      name: "Malihe City",
+      slug: "malie-city-proper",
+      region: "alola",
+    },
+    {
+      name: "Malihe City",
+      slug: "malie-city--outer-cape",
+      region: "alola",
+    },
+    {
+      name: "Malihe City",
+      slug: "malie-city",
+      region: "alola",
+    },
+    {
+      name: "Malihe-Ziergarten",
+      slug: "malie-garden",
+      region: "alola",
     },
     {
       name: "Malvenfroh City",
@@ -1115,9 +1900,29 @@ export const LOCATIONS: Record<
       region: "kanto",
     },
     {
+      name: "Master-Dojo",
+      slug: "master-dojo",
+      region: "galar",
+    },
+    {
       name: "Medaillenamt",
       slug: "medal-secretariat",
       region: "unova",
+    },
+    {
+      name: "Meer von Mele-Mele",
+      slug: "melemele-sea",
+      region: "alola",
+    },
+    {
+      name: "Meeresbuchthöhle",
+      slug: "inlet-grotto",
+      region: "paldea",
+    },
+    {
+      name: "Meereshöhle",
+      slug: "seaward-cave",
+      region: "alola",
     },
     {
       name: "Meerestitanenhöhle",
@@ -1125,9 +1930,34 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "Megalithen-Ebene",
+      slug: "stony-wilderness",
+      region: "galar",
+    },
+    {
+      name: "Mele-Mele-Blumenmeer",
+      slug: "melemele-meadow",
+      region: "alola",
+    },
+    {
       name: "Menhir-Weg",
       slug: "menhir-trail",
       region: "kalos",
+    },
+    {
+      name: "Mesalona City",
+      slug: "mesagoza",
+      region: "paldea",
+    },
+    {
+      name: "Mesclarra",
+      slug: "medali",
+      region: "paldea",
+    },
+    {
+      name: "Mesclores-Passage",
+      slug: "dalizapa-passage",
+      region: "paldea",
     },
     {
       name: "Metaflurtunnel",
@@ -1145,6 +1975,36 @@ export const LOCATIONS: Record<
       region: "hoenn",
     },
     {
+      name: "Midoriya",
+      slug: "mossui-town",
+      region: "paldea",
+    },
+    {
+      name: "Milotic-See (Norden)",
+      slug: "north-lake-miloch",
+      region: "galar",
+    },
+    {
+      name: "Milotic-See (Süden)",
+      slug: "south-lake-miloch",
+      region: "galar",
+    },
+    {
+      name: "Milza-See (Auge)",
+      slug: "axews-eye",
+      region: "galar",
+    },
+    {
+      name: "Milza-See (Osten)",
+      slug: "east-lake-axewell",
+      region: "galar",
+    },
+    {
+      name: "Milza-See (Westen)",
+      slug: "west-lake-axewell",
+      region: "galar",
+    },
+    {
       name: "Mirage Island",
       slug: "mirage-island",
       region: "hoenn",
@@ -1155,14 +2015,39 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "Moldrid",
+      slug: "cortondo",
+      region: "paldea",
+    },
+    {
       name: "Mondberg",
       slug: "mt-moon",
       region: "kanto",
     },
     {
+      name: "Mondgrußkampffeld",
+      slug: "moonview-arena",
+      region: "hisui",
+    },
+    {
+      name: "Mondscheiben-Podium",
+      slug: "altar-of-the-moone",
+      region: "alola",
+    },
+    {
+      name: "Mondscheiben-See",
+      slug: "lake-of-the-moone",
+      region: "alola",
+    },
+    {
       name: "Monsentiero",
       slug: "lentimas-town",
       region: "unova",
+    },
+    {
+      name: "Montanata",
+      slug: "glaseado-mountain",
+      region: "paldea",
     },
     {
       name: "Moor von Nevaio",
@@ -1190,6 +2075,11 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "Mount Lanakila",
+      slug: "mount-lanakila",
+      region: "alola",
+    },
+    {
       name: "MS Anne",
       slug: "ss-anne",
       region: "kanto",
@@ -1203,6 +2093,16 @@ export const LOCATIONS: Record<
       name: "MS Tide",
       slug: "ss-tidal",
       region: "hoenn",
+    },
+    {
+      name: "Mündungsdamm",
+      slug: "tidewater-dam",
+      region: "hisui",
+    },
+    {
+      name: "Mündungsufer",
+      slug: "mossfell-confluence",
+      region: "paldea",
     },
     {
       name: "Muraille-Küstenpfad",
@@ -1245,6 +2145,11 @@ export const LOCATIONS: Record<
       region: "unova",
     },
     {
+      name: "Nebelruinen",
+      slug: "shrouded-ruins",
+      region: "hisui",
+    },
+    {
       name: "Neu Malvenfroh",
       slug: "new-mauville",
       region: "hoenn",
@@ -1265,6 +2170,26 @@ export const LOCATIONS: Record<
       region: "unova",
     },
     {
+      name: "Nördliche Zone 1",
+      slug: "paldea-north-province-area-one",
+      region: "paldea",
+    },
+    {
+      name: "Nördliche Zone 2",
+      slug: "paldea-north-province-area-two",
+      region: "paldea",
+    },
+    {
+      name: "Nördliche Zone 3",
+      slug: "paldea-north-province-area-three",
+      region: "paldea",
+    },
+    {
+      name: "Nördliches Meer von Paldea",
+      slug: "north-paldean-sea",
+      region: "paldea",
+    },
+    {
       name: "Nouvaria City",
       slug: "santalune-city",
       region: "kalos",
@@ -1273,6 +2198,21 @@ export const LOCATIONS: Record<
       name: "Nouvaria-Wald",
       slug: "santalune-forest",
       region: "kalos",
+    },
+    {
+      name: "Obsidian-Wasserfall",
+      slug: "obsidian-falls",
+      region: "hisui",
+    },
+    {
+      name: "Ohana",
+      slug: "paniola-town",
+      region: "alola",
+    },
+    {
+      name: "Ohana-Farm",
+      slug: "paniola-ranch",
+      region: "alola",
     },
     {
       name: "Oliviana City",
@@ -1295,6 +2235,16 @@ export const LOCATIONS: Record<
       region: "unova",
     },
     {
+      name: "Oniyama",
+      slug: "oni-mountain",
+      region: "paldea",
+    },
+    {
+      name: "Orangen-Akademie",
+      slug: "naranja-academy",
+      region: "paldea",
+    },
+    {
       name: "Orania City",
       slug: "vermilion-city",
       region: "kanto",
@@ -1303,6 +2253,26 @@ export const LOCATIONS: Record<
       name: "Orion City",
       slug: "striaton-city",
       region: "unova",
+    },
+    {
+      name: "Östliche Zone 1",
+      slug: "paldea-east-province-area-one",
+      region: "paldea",
+    },
+    {
+      name: "Östliche Zone 2",
+      slug: "paldea-east-province-area-two",
+      region: "paldea",
+    },
+    {
+      name: "Östliche Zone 3",
+      slug: "paldea-east-province-area-three",
+      region: "paldea",
+    },
+    {
+      name: "Östliches Meer von Paldea",
+      slug: "east-paldean-sea",
+      region: "paldea",
     },
     {
       name: "Ouvert-Weg",
@@ -1335,6 +2305,11 @@ export const LOCATIONS: Record<
       region: "unova",
     },
     {
+      name: "Paradiesebene",
+      slug: "paradise-barrens",
+      region: "paldea",
+    },
+    {
       name: "Park der Freunde",
       slug: "pal-park",
       region: "sinnoh",
@@ -1343,6 +2318,16 @@ export const LOCATIONS: Record<
       name: "Parterre-Weg",
       slug: "parterre-way",
       region: "kalos",
+    },
+    {
+      name: "Passbeck",
+      slug: "stow-on-side",
+      region: "galar",
+    },
+    {
+      name: "Perl-Siedlung",
+      slug: "pearl-settlement",
+      region: "hisui",
     },
     {
       name: "Petrophia",
@@ -1365,14 +2350,59 @@ export const LOCATIONS: Record<
       region: "kanto",
     },
     {
+      name: "Pfad der Prüfung",
+      slug: "challenge-road",
+      region: "galar",
+    },
+    {
+      name: "Pfad des Tanzes",
+      slug: "revelers-road",
+      region: "paldea",
+    },
+    {
+      name: "Pfad zum Kampffeld",
+      slug: "arenas-approach",
+      region: "hisui",
+    },
+    {
+      name: "Pilgerpfad",
+      slug: "sonorous-path",
+      region: "hisui",
+    },
+    {
+      name: "Pinchores",
+      slug: "zapapico",
+      region: "paldea",
+    },
+    {
       name: "Plasma-Fregatte",
       slug: "plasma-frigate",
       region: "unova",
     },
     {
+      name: "Plätscherhügel",
+      slug: "brooklet-hill",
+      region: "alola",
+    },
+    {
+      name: "Plätscherhügel",
+      slug: "brooklet-hill--totems-den",
+      region: "alola",
+    },
+    {
+      name: "Platz der Huldigung",
+      slug: "sacred-plaza",
+      region: "hisui",
+    },
+    {
       name: "Platz der Treue",
       slug: "amity-square",
       region: "sinnoh",
+    },
+    {
+      name: "Po’u",
+      slug: "po-town",
+      region: "alola",
     },
     {
       name: "Pokéathlon",
@@ -1415,9 +2445,24 @@ export const LOCATIONS: Record<
       region: "unova",
     },
     {
+      name: "Pokémon-Liga",
+      slug: "alola-pokemon-league",
+      region: "alola",
+    },
+    {
+      name: "Pokémon-Liga",
+      slug: "pokemon-league",
+      region: "paldea",
+    },
+    {
       name: "Pokémon-Pension",
       slug: "pokemon-day-care",
       region: "sinnoh",
+    },
+    {
+      name: "Pokémon-Resort",
+      slug: "poke-pelago",
+      region: "alola",
     },
     {
       name: "Pokémon-Turm",
@@ -1445,6 +2490,21 @@ export const LOCATIONS: Record<
       region: "unova",
     },
     {
+      name: "Polar-Areal",
+      slug: "polar-biome",
+      region: "paldea",
+    },
+    {
+      name: "Polar-Platz",
+      slug: "polar-plaza",
+      region: "paldea",
+    },
+    {
+      name: "Poni-Blumenmeer",
+      slug: "poni-meadow",
+      region: "alola",
+    },
+    {
       name: "Porterlabor",
       slug: "poke-transfer-lab",
       region: "unova",
@@ -1453,6 +2513,16 @@ export const LOCATIONS: Record<
       name: "Prachtpolis City",
       slug: "ever-grande-city",
       region: "hoenn",
+    },
+    {
+      name: "Prankenplatz",
+      slug: "ursas-ring",
+      region: "hisui",
+    },
+    {
+      name: "Pratolido",
+      slug: "los-platos",
+      region: "paldea",
     },
     {
       name: "Prismania City",
@@ -1470,6 +2540,21 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "Prüfungsbarre",
+      slug: "holm-of-trials",
+      region: "hisui",
+    },
+    {
+      name: "Puerto Marinedo",
+      slug: "porto-marinada",
+      region: "paldea",
+    },
+    {
+      name: "Purpurrotes Moor",
+      slug: "scarlet-bog",
+      region: "hisui",
+    },
+    {
       name: "Pyroberg",
       slug: "mt-pyre",
       region: "hoenn",
@@ -1480,6 +2565,16 @@ export const LOCATIONS: Record<
       region: "sinnoh",
     },
     {
+      name: "Quellenpfad",
+      slug: "hisui-spring-path",
+      region: "hisui",
+    },
+    {
+      name: "Rachen des Oni",
+      slug: "onis-maw",
+      region: "paldea",
+    },
+    {
       name: "Radio-Turm",
       slug: "radio-tower",
       region: "johto",
@@ -1488,6 +2583,16 @@ export const LOCATIONS: Record<
       name: "Rätselhafte Höhle",
       slug: "fabled-cave",
       region: "hoenn",
+    },
+    {
+      name: "Raum-Zeit-Verzerrung",
+      slug: "space-time-distortion",
+      region: "hisui",
+    },
+    {
+      name: "Rauschende Höhlen",
+      slug: "roaring-sea-caves",
+      region: "galar",
     },
     {
       name: "Rayono City",
@@ -1520,9 +2625,19 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "Ringbucht",
+      slug: "loop-lagoon",
+      region: "galar",
+    },
+    {
       name: "Rivière-Promenade",
       slug: "riviere-walk",
       region: "kalos",
+    },
+    {
+      name: "Rocket-Schloss",
+      slug: "team-rockets-castle",
+      region: "alola",
     },
     {
       name: "Romantia City",
@@ -1570,6 +2685,21 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "Route 1",
+      slug: "alola-route-1--hauoli-outskirts",
+      region: "alola",
+    },
+    {
+      name: "Route 1",
+      slug: "alola-route-1",
+      region: "alola",
+    },
+    {
+      name: "Route 1",
+      slug: "galar-route-1",
+      region: "galar",
+    },
+    {
       name: "Route 10",
       slug: "kanto-route-10",
       region: "kanto",
@@ -1583,6 +2713,16 @@ export const LOCATIONS: Record<
       name: "Route 10",
       slug: "kalos-route-10",
       region: "kalos",
+    },
+    {
+      name: "Route 10",
+      slug: "alola-route-10",
+      region: "alola",
+    },
+    {
+      name: "Route 10",
+      slug: "galar-route-10",
+      region: "galar",
     },
     {
       name: "Route 101",
@@ -1643,6 +2783,11 @@ export const LOCATIONS: Record<
       name: "Route 11",
       slug: "kalos-route-11",
       region: "kalos",
+    },
+    {
+      name: "Route 11",
+      slug: "alola-route-11",
+      region: "alola",
     },
     {
       name: "Route 110",
@@ -1710,6 +2855,11 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "Route 12",
+      slug: "alola-route-12",
+      region: "alola",
+    },
+    {
       name: "Route 120",
       slug: "hoenn-route-120",
       region: "hoenn",
@@ -1775,6 +2925,11 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "Route 13",
+      slug: "alola-route-13",
+      region: "alola",
+    },
+    {
       name: "Route 130",
       slug: "hoenn-route-130",
       region: "hoenn",
@@ -1815,6 +2970,11 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "Route 14",
+      slug: "alola-route-14",
+      region: "alola",
+    },
+    {
       name: "Route 15",
       slug: "kanto-route-15",
       region: "kanto",
@@ -1828,6 +2988,11 @@ export const LOCATIONS: Record<
       name: "Route 15",
       slug: "kalos-route-15",
       region: "kalos",
+    },
+    {
+      name: "Route 15 (Wasserweg)",
+      slug: "alola-route-15",
+      region: "alola",
     },
     {
       name: "Route 16",
@@ -1845,6 +3010,11 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "Route 16",
+      slug: "alola-route-16",
+      region: "alola",
+    },
+    {
       name: "Route 17",
       slug: "kanto-route-17",
       region: "kanto",
@@ -1858,6 +3028,11 @@ export const LOCATIONS: Record<
       name: "Route 17",
       slug: "kalos-route-17",
       region: "kalos",
+    },
+    {
+      name: "Route 17",
+      slug: "alola-route-17",
+      region: "alola",
     },
     {
       name: "Route 18",
@@ -1903,6 +3078,16 @@ export const LOCATIONS: Record<
       name: "Route 2",
       slug: "kalos-route-2",
       region: "kalos",
+    },
+    {
+      name: "Route 2",
+      slug: "alola-route-2",
+      region: "alola",
+    },
+    {
+      name: "Route 2",
+      slug: "galar-route-2",
+      region: "galar",
     },
     {
       name: "Route 20",
@@ -2155,6 +3340,16 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "Route 3",
+      slug: "alola-route-3",
+      region: "alola",
+    },
+    {
+      name: "Route 3",
+      slug: "galar-route-3",
+      region: "galar",
+    },
+    {
       name: "Route 30",
       slug: "johto-route-30",
       region: "johto",
@@ -2220,6 +3415,16 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "Route 4",
+      slug: "alola-route-4",
+      region: "alola",
+    },
+    {
+      name: "Route 4",
+      slug: "galar-route-4",
+      region: "galar",
+    },
+    {
       name: "Route 40",
       slug: "johto-sea-route-40",
       region: "johto",
@@ -2280,6 +3485,16 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "Route 5",
+      slug: "alola-route-5",
+      region: "alola",
+    },
+    {
+      name: "Route 5",
+      slug: "galar-route-5",
+      region: "galar",
+    },
+    {
       name: "Route 6",
       slug: "kanto-route-6",
       region: "kanto",
@@ -2293,6 +3508,16 @@ export const LOCATIONS: Record<
       name: "Route 6",
       slug: "kalos-route-6",
       region: "kalos",
+    },
+    {
+      name: "Route 6",
+      slug: "alola-route-6",
+      region: "alola",
+    },
+    {
+      name: "Route 6",
+      slug: "galar-route-6",
+      region: "galar",
     },
     {
       name: "Route 7",
@@ -2310,6 +3535,16 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "Route 7",
+      slug: "alola-route-7",
+      region: "alola",
+    },
+    {
+      name: "Route 7",
+      slug: "galar-route-7",
+      region: "galar",
+    },
+    {
       name: "Route 8",
       slug: "kanto-route-8",
       region: "kanto",
@@ -2323,6 +3558,21 @@ export const LOCATIONS: Record<
       name: "Route 8",
       slug: "kalos-route-8",
       region: "kalos",
+    },
+    {
+      name: "Route 8",
+      slug: "alola-route-8",
+      region: "alola",
+    },
+    {
+      name: "Route 8",
+      slug: "galar-route-8",
+      region: "galar",
+    },
+    {
+      name: "Route 8",
+      slug: "steamdrift-way",
+      region: "galar",
     },
     {
       name: "Route 9",
@@ -2340,9 +3590,39 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "Route 9",
+      slug: "alola-route-9",
+      region: "alola",
+    },
+    {
+      name: "Route 9",
+      slug: "galar-route-9",
+      region: "galar",
+    },
+    {
       name: "Route Gate",
       slug: "route-gate",
       region: "unova",
+    },
+    {
+      name: "Ruinen der Heimkehr",
+      slug: "ruins-of-hope",
+      region: "alola",
+    },
+    {
+      name: "Ruinen des Gedeihens",
+      slug: "ruins-of-abundance",
+      region: "alola",
+    },
+    {
+      name: "Ruinen des Krieges",
+      slug: "ruins-of-conflict",
+      region: "alola",
+    },
+    {
+      name: "Ruinen des Lebens",
+      slug: "ruins-of-life",
+      region: "alola",
     },
     {
       name: "Ruinental",
@@ -2380,14 +3660,59 @@ export const LOCATIONS: Record<
       region: "kanto",
     },
     {
+      name: "Sakralplateau",
+      slug: "heavenward-lookout",
+      region: "hisui",
+    },
+    {
+      name: "Sandfinger",
+      slug: "sands-reach",
+      region: "hisui",
+    },
+    {
       name: "Sandgemme",
       slug: "sandgem-town",
       region: "sinnoh",
     },
     {
+      name: "Sandgemmenheide",
+      slug: "sandgem-flats",
+      region: "hisui",
+    },
+    {
+      name: "Sandhöhle",
+      slug: "sandy-cave",
+      region: "alola",
+    },
+    {
+      name: "Sandsturmkessel",
+      slug: "dusty-bowl",
+      region: "galar",
+    },
+    {
+      name: "Savannen-Areal",
+      slug: "savanna-biome",
+      region: "paldea",
+    },
+    {
+      name: "Savannen-Platz",
+      slug: "savanna-plaza",
+      region: "paldea",
+    },
+    {
+      name: "Schattendschungel",
+      slug: "lush-jungle",
+      region: "alola",
+    },
+    {
       name: "Schatzgestade",
       slug: "treasure-beach",
       region: "kanto",
+    },
+    {
+      name: "Schauriger Welkwald",
+      slug: "deadwood-haunt",
+      region: "hisui",
     },
     {
       name: "Scheidequelle",
@@ -2400,6 +3725,11 @@ export const LOCATIONS: Record<
       region: "hoenn",
     },
     {
+      name: "Schlammplateau",
+      slug: "sludge-mound",
+      region: "hisui",
+    },
+    {
       name: "Schleiede",
       slug: "veilstone-city",
       region: "sinnoh",
@@ -2410,9 +3740,19 @@ export const LOCATIONS: Record<
       region: "sinnoh",
     },
     {
+      name: "Schleierkap",
+      slug: "veilstone-cape",
+      region: "hisui",
+    },
+    {
       name: "Schleusen-Saal",
       slug: "flood-chamber",
       region: "kalos",
+    },
+    {
+      name: "Schlitterfeld",
+      slug: "slippery-slope",
+      region: "galar",
     },
     {
       name: "Schloss von N",
@@ -2430,9 +3770,69 @@ export const LOCATIONS: Record<
       region: "kanto",
     },
     {
+      name: "Schlummerwald",
+      slug: "slumbering-weald",
+      region: "galar",
+    },
+    {
+      name: "Schmierhain",
+      slug: "tagtree-thicket",
+      region: "paldea",
+    },
+    {
+      name: "Schnäppchenparadies",
+      slug: "thrifty-megamart--abandoned-site",
+      region: "alola",
+    },
+    {
+      name: "Schneeblicktherme",
+      slug: "snowfall-hot-spring",
+      region: "hisui",
+    },
+    {
+      name: "Schneegipfelpfad",
+      slug: "path-to-the-peak",
+      region: "galar",
+    },
+    {
+      name: "Schneeschlucht",
+      slug: "snowslide-slope",
+      region: "galar",
+    },
+    {
+      name: "Schollenmeer",
+      slug: "frigid-sea",
+      region: "galar",
+    },
+    {
+      name: "Schreckenshöhle",
+      slug: "dreaded-den",
+      region: "paldea",
+    },
+    {
       name: "Schrein der Ernte",
       slug: "abundant-shrine",
       region: "unova",
+    },
+    {
+      name: "Schrein der finsteren Flamme",
+      slug: "firescourge-shrine",
+      region: "paldea",
+    },
+    {
+      name: "Schrein der unreinen Erde",
+      slug: "groundblight-shrine",
+      region: "paldea",
+    },
+    {
+      name: "Schrein des entzweiten Eises",
+      slug: "icerend-shrine",
+      region: "paldea",
+    },
+    {
+      name: "Schrein des modrigen Holzes",
+      slug: "grasswither-shrine",
+      region: "paldea",
     },
     {
       name: "Schrittritt-Haus",
@@ -2460,9 +3860,19 @@ export const LOCATIONS: Record<
       region: "unova",
     },
     {
+      name: "Score City",
+      slug: "wyndon",
+      region: "galar",
+    },
+    {
       name: "See der Kühnheit",
       slug: "lake-valor",
       region: "sinnoh",
+    },
+    {
+      name: "See der Kühnheit",
+      slug: "hisui-lake-valor",
+      region: "hisui",
     },
     {
       name: "See der Stärke",
@@ -2470,14 +3880,29 @@ export const LOCATIONS: Record<
       region: "sinnoh",
     },
     {
+      name: "See der Stärke",
+      slug: "hisui-lake-acuity",
+      region: "hisui",
+    },
+    {
       name: "See der Wahrheit",
       slug: "lake-verity",
       region: "sinnoh",
     },
     {
+      name: "See der Wahrheit",
+      slug: "hisui-lake-verity",
+      region: "hisui",
+    },
+    {
       name: "See des Zorns",
       slug: "lake-of-rage",
       region: "johto",
+    },
+    {
+      name: "Seegrasidyll",
+      slug: "seagrass-haven",
+      region: "hisui",
     },
     {
       name: "Seegrasulb City",
@@ -2570,9 +3995,34 @@ export const LOCATIONS: Record<
       region: "johto",
     },
     {
+      name: "Sinnoh-Tempel",
+      slug: "temple-of-sinnoh",
+      region: "hisui",
+    },
+    {
+      name: "Sitz des Giganten",
+      slug: "giants-seat",
+      region: "galar",
+    },
+    {
+      name: "Sohle des Giganten",
+      slug: "giants-foot",
+      region: "galar",
+    },
+    {
       name: "Sonnengrotte",
       slug: "scorched-slab",
       region: "hoenn",
+    },
+    {
+      name: "Sonnenkreis-Podium",
+      slug: "altar-of-the-sunne",
+      region: "alola",
+    },
+    {
+      name: "Sonnenkreis-See",
+      slug: "lake-of-the-sunne",
+      region: "alola",
     },
     {
       name: "Sonnewik",
@@ -2585,9 +4035,19 @@ export const LOCATIONS: Record<
       region: "sinnoh",
     },
     {
+      name: "Spaltberg-Tunnel",
+      slug: "dividing-peak-tunnel",
+      region: "alola",
+    },
+    {
       name: "Speersäule",
       slug: "spear-pillar",
       region: "sinnoh",
+    },
+    {
+      name: "Spiegel des Giganten",
+      slug: "giants-mirror",
+      region: "galar",
     },
     {
       name: "Spiegelhöhle",
@@ -2598,6 +4058,11 @@ export const LOCATIONS: Record<
       name: "Spielhalle",
       slug: "sinnoh-game-corner",
       region: "sinnoh",
+    },
+    {
+      name: "Spikeford",
+      slug: "spikemuth",
+      region: "galar",
     },
     {
       name: "Stärkegrötte",
@@ -2625,9 +4090,34 @@ export const LOCATIONS: Record<
       region: "unova",
     },
     {
+      name: "Steinplattenpass",
+      slug: "stonetooth-rows",
+      region: "hisui",
+    },
+    {
+      name: "Stilles Binnenmeer",
+      slug: "tranquility-cove",
+      region: "hisui",
+    },
+    {
+      name: "Strand der Prüfung",
+      slug: "challenge-beach",
+      region: "galar",
+    },
+    {
+      name: "Strand von Ula-Ula",
+      slug: "ulaula-beach",
+      region: "alola",
+    },
+    {
       name: "Strandgrotte",
       slug: "seaside-cave",
       region: "unova",
+    },
+    {
+      name: "Strapazenhain",
+      slug: "grueling-grove",
+      region: "hisui",
     },
     {
       name: "Stratos City",
@@ -2650,9 +4140,54 @@ export const LOCATIONS: Record<
       region: "johto",
     },
     {
+      name: "Südliche Zone 1",
+      slug: "paldea-south-province-area-one",
+      region: "paldea",
+    },
+    {
+      name: "Südliche Zone 2",
+      slug: "paldea-south-province-area-two",
+      region: "paldea",
+    },
+    {
+      name: "Südliche Zone 3",
+      slug: "paldea-south-province-area-three",
+      region: "paldea",
+    },
+    {
+      name: "Südliche Zone 4",
+      slug: "paldea-south-province-area-four",
+      region: "paldea",
+    },
+    {
+      name: "Südliche Zone 5",
+      slug: "paldea-south-province-area-five",
+      region: "paldea",
+    },
+    {
+      name: "Südliche Zone 6",
+      slug: "paldea-south-province-area-six",
+      region: "paldea",
+    },
+    {
+      name: "Südliches Meer von Paldea",
+      slug: "south-paldean-sea",
+      region: "paldea",
+    },
+    {
+      name: "Surrende Felder",
+      slug: "droning-meadow",
+      region: "hisui",
+    },
+    {
       name: "Tanibo-Ruinen",
       slug: "tanoby-ruins",
       region: "kanto",
+    },
+    {
+      name: "Tapferkeitshöhle",
+      slug: "courageous-cavern",
+      region: "galar",
     },
     {
       name: "Teak City",
@@ -2695,6 +4230,16 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "Tenkarat-Hügel",
+      slug: "ten-carat-hill",
+      region: "alola",
+    },
+    {
+      name: "Tenkarat-Hügel",
+      slug: "ten-carat-hill--farthest-hollow",
+      region: "alola",
+    },
+    {
       name: "Terrahöhle",
       slug: "terra-cave",
       region: "hoenn",
@@ -2720,6 +4265,11 @@ export const LOCATIONS: Record<
       region: "johto",
     },
     {
+      name: "Tombolo-Weg",
+      slug: "tombolo-walk",
+      region: "hisui",
+    },
+    {
       name: "Tor zur Pokémon Liga",
       slug: "pokemon-league-gate",
       region: "kalos",
@@ -2733,6 +4283,11 @@ export const LOCATIONS: Record<
       name: "Trainerturm",
       slug: "trainer-tower",
       region: "kanto",
+    },
+    {
+      name: "Trauben-Akademie",
+      slug: "uva-academy",
+      region: "paldea",
     },
     {
       name: "Traumbrache",
@@ -2765,6 +4320,16 @@ export const LOCATIONS: Record<
       region: "sinnoh",
     },
     {
+      name: "Trostu-Ruinen",
+      slug: "hisui-solaceon-ruins",
+      region: "hisui",
+    },
+    {
+      name: "Turffield",
+      slug: "turffield",
+      region: "galar",
+    },
+    {
       name: "Turm der Einheit",
       slug: "unity-tower",
       region: "unova",
@@ -2783,6 +4348,16 @@ export const LOCATIONS: Record<
       name: "Turm des Himmels",
       slug: "celestial-tower",
       region: "unova",
+    },
+    {
+      name: "Turm des Unlichts",
+      slug: "tower-of-darkness",
+      region: "galar",
+    },
+    {
+      name: "Turm des Wassers",
+      slug: "tower-of-waters",
+      region: "galar",
     },
     {
       name: "Turmruine",
@@ -2805,9 +4380,34 @@ export const LOCATIONS: Record<
       region: "unova",
     },
     {
+      name: "Übergangshang",
+      slug: "crossing-slope",
+      region: "hisui",
+    },
+    {
       name: "Überlebensareal",
       slug: "survival-area",
       region: "sinnoh",
+    },
+    {
+      name: "Ula-Ula-Blumenmeer",
+      slug: "ulaula-meadow",
+      region: "alola",
+    },
+    {
+      name: "Ultradimension",
+      slug: "ultra-space",
+      region: "alola",
+    },
+    {
+      name: "Ultradimension Zero",
+      slug: "ultra-space-wilds",
+      region: "alola",
+    },
+    {
+      name: "Ultrametropolis",
+      slug: "ultra-megalopolis",
+      region: "alola",
     },
     {
       name: "Unbekannt; nur Käfer",
@@ -2850,9 +4450,24 @@ export const LOCATIONS: Record<
       region: "unova",
     },
     {
+      name: "Uralter Friedhof",
+      slug: "old-cemetery",
+      region: "galar",
+    },
+    {
+      name: "Uralter Steinbruch",
+      slug: "ancient-quarry",
+      region: "hisui",
+    },
+    {
       name: "Urzeithöhle",
       slug: "cave-of-origin",
       region: "hoenn",
+    },
+    {
+      name: "Urzeitliche Höhle",
+      slug: "primeval-grotto",
+      region: "hisui",
     },
     {
       name: "Vallée-Étroite-Weg",
@@ -2885,9 +4500,54 @@ export const LOCATIONS: Record<
       region: "unova",
     },
     {
+      name: "Vegetationshöhle",
+      slug: "verdant-cavern--trial-site",
+      region: "alola",
+    },
+    {
+      name: "Vegetationshöhle",
+      slug: "verdant-cavern--totems-den",
+      region: "alola",
+    },
+    {
+      name: "Vegetationshöhle",
+      slug: "verdant-cavern",
+      region: "alola",
+    },
+    {
       name: "Verlorene Höhle",
       slug: "lost-cave",
       region: "kanto",
+    },
+    {
+      name: "Versteck der Caph-Bamde",
+      slug: "caph-squads-base",
+      region: "paldea",
+    },
+    {
+      name: "Versteck der Rukbat-Bande",
+      slug: "ruchbah-squads-base",
+      region: "paldea",
+    },
+    {
+      name: "Versteck der Schedir-Bande",
+      slug: "schedar-squads-base",
+      region: "paldea",
+    },
+    {
+      name: "Versteck der Segin-Bande",
+      slug: "segin-squads-base",
+      region: "paldea",
+    },
+    {
+      name: "Versteck der Tsih-Bande",
+      slug: "navi-squads-base",
+      region: "paldea",
+    },
+    {
+      name: "Versteckte Bucht",
+      slug: "hideaway-bay",
+      region: "hisui",
     },
     {
       name: "Versteckte Lichtung",
@@ -2930,6 +4590,21 @@ export const LOCATIONS: Record<
       region: "sinnoh",
     },
     {
+      name: "Wabeninsel",
+      slug: "honeycalm-island",
+      region: "galar",
+    },
+    {
+      name: "Wabenmeer",
+      slug: "honeycalm-sea",
+      region: "galar",
+    },
+    {
+      name: "Wachturmruine",
+      slug: "watchtower-ruins",
+      region: "galar",
+    },
+    {
       name: "Wahrheitsgrotte",
       slug: "verity-cavern",
       region: "sinnoh",
@@ -2938,6 +4613,16 @@ export const LOCATIONS: Record<
       name: "Wahrheitsufer",
       slug: "verity-lakefront",
       region: "sinnoh",
+    },
+    {
+      name: "Wald von Poni",
+      slug: "poni-grove",
+      region: "alola",
+    },
+    {
+      name: "Waldesküche",
+      slug: "natures-pantry",
+      region: "hisui",
     },
     {
       name: "Wandelhöhle",
@@ -3000,9 +4685,39 @@ export const LOCATIONS: Record<
       region: "unova",
     },
     {
+      name: "Wela-Vulkanpark",
+      slug: "wela-volcano-park",
+      region: "alola",
+    },
+    {
+      name: "Wela-Vulkanpark",
+      slug: "wela-volcano-park--totems-den",
+      region: "alola",
+    },
+    {
       name: "Wendelberg",
       slug: "twist-mountain",
       region: "unova",
+    },
+    {
+      name: "Westliche Zone 1",
+      slug: "paldea-west-province-area-one",
+      region: "paldea",
+    },
+    {
+      name: "Westliche Zone 2",
+      slug: "paldea-west-province-area-two",
+      region: "paldea",
+    },
+    {
+      name: "Westliche Zone 3",
+      slug: "paldea-west-province-area-three",
+      region: "paldea",
+    },
+    {
+      name: "Westliches Meer von Paldea",
+      slug: "west-paldean-sea",
+      region: "paldea",
     },
     {
       name: "Wettbewerbshalle",
@@ -3020,9 +4735,64 @@ export const LOCATIONS: Record<
       region: "hoenn",
     },
     {
+      name: "Wildnis von Kitakami",
+      slug: "kitakami-wilds",
+      region: "paldea",
+    },
+    {
+      name: "Wildnis von Poni",
+      slug: "poni-wilds",
+      region: "alola",
+    },
+    {
+      name: "Windbruchwald",
+      slug: "windbreak-stand",
+      region: "hisui",
+    },
+    {
       name: "Windkraftwerk",
       slug: "valley-windworks",
       region: "sinnoh",
+    },
+    {
+      name: "Windpassage",
+      slug: "windswept-run",
+      region: "hisui",
+    },
+    {
+      name: "Wipfelscheinwald",
+      slug: "dappled-grove",
+      region: "galar",
+    },
+    {
+      name: "Wirrschein-Wald",
+      slug: "glimwood-tangle",
+      region: "galar",
+    },
+    {
+      name: "Wirrwald",
+      slug: "wayward-wood",
+      region: "hisui",
+    },
+    {
+      name: "Wisterienfelder",
+      slug: "wistful-fields",
+      region: "paldea",
+    },
+    {
+      name: "Wolkenmeerkamm",
+      slug: "cloudpool-ridge",
+      region: "hisui",
+    },
+    {
+      name: "Wollgraswiese",
+      slug: "cottonsedge-prairie",
+      region: "hisui",
+    },
+    {
+      name: "Wonnewiesen",
+      slug: "rolling-fields",
+      region: "galar",
     },
     {
       name: "Wunderberg",
@@ -3070,9 +4840,19 @@ export const LOCATIONS: Record<
       region: "hoenn",
     },
     {
+      name: "Wüstensenke",
+      slug: "potbottom-desert",
+      region: "galar",
+    },
+    {
       name: "Wüstentunnel",
       slug: "desert-underpass",
       region: "hoenn",
+    },
+    {
+      name: "Wutanfall-See",
+      slug: "lake-of-outrage",
+      region: "galar",
     },
     {
       name: "Xeneroville",
@@ -3090,6 +4870,11 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "Zentralplatz",
+      slug: "central-plaza",
+      region: "paldea",
+    },
+    {
       name: "Zerrwelt",
       slug: "distortion-world",
       region: "sinnoh",
@@ -3100,6 +4885,11 @@ export const LOCATIONS: Record<
       region: "kanto",
     },
     {
+      name: "Zone Null",
+      slug: "area-zero",
+      region: "paldea",
+    },
+    {
       name: "Zubat-Nest",
       slug: "zubat-roost",
       region: "kalos",
@@ -3108,6 +4898,11 @@ export const LOCATIONS: Record<
       name: "Zweiblattdorf",
       slug: "twinleaf-town",
       region: "sinnoh",
+    },
+    {
+      name: "Zwiespaltruinen",
+      slug: "split-decision-ruins",
+      region: "galar",
     },
     {
       name: "Zylinderbrücke",
@@ -3157,6 +4952,46 @@ export const LOCATIONS: Record<
       region: "sinnoh",
     },
     {
+      name: "Aether Paradise",
+      slug: "aether-paradise",
+      region: "alola",
+    },
+    {
+      name: "Aipom Hill",
+      slug: "aipom-hill",
+      region: "hisui",
+    },
+    {
+      name: "Akala Meadow",
+      slug: "akala-meadow",
+      region: "alola",
+    },
+    {
+      name: "Akala Outskirts",
+      slug: "akala-outskirts",
+      region: "alola",
+    },
+    {
+      name: "Alfornada",
+      slug: "alfornada",
+      region: "paldea",
+    },
+    {
+      name: "Alfornada Cavern",
+      slug: "alfornada-cavern",
+      region: "paldea",
+    },
+    {
+      name: "Altar of the Moone",
+      slug: "altar-of-the-moone",
+      region: "alola",
+    },
+    {
+      name: "Altar of the Sunne",
+      slug: "altar-of-the-sunne",
+      region: "alola",
+    },
+    {
       name: "Altering Cave",
       slug: "hoenn-altering-cave",
       region: "hoenn",
@@ -3187,6 +5022,16 @@ export const LOCATIONS: Record<
       region: "sinnoh",
     },
     {
+      name: "Ancient Poni Path",
+      slug: "ancient-poni-path",
+      region: "alola",
+    },
+    {
+      name: "Ancient Quarry",
+      slug: "ancient-quarry",
+      region: "hisui",
+    },
+    {
       name: "Ancient Tomb",
       slug: "ancient-tomb",
       region: "hoenn",
@@ -3207,14 +5052,39 @@ export const LOCATIONS: Record<
       region: "unova",
     },
     {
+      name: "Apple Hills",
+      slug: "apple-hills",
+      region: "paldea",
+    },
+    {
       name: "Aquacorde Town",
       slug: "aquacorde-town",
       region: "kalos",
     },
     {
+      name: "Area Zero",
+      slug: "area-zero",
+      region: "paldea",
+    },
+    {
+      name: "Arena's Approach",
+      slug: "arenas-approach",
+      region: "hisui",
+    },
+    {
+      name: "Artazon",
+      slug: "artazon",
+      region: "paldea",
+    },
+    {
       name: "Artisan Cave",
       slug: "artisan-cave",
       region: "hoenn",
+    },
+    {
+      name: "Asado Desert",
+      slug: "asado-desert",
+      region: "paldea",
     },
     {
       name: "Aspertia City",
@@ -3227,9 +5097,29 @@ export const LOCATIONS: Record<
       region: "unova",
     },
     {
+      name: "Aspiration Hill",
+      slug: "aspiration-hill",
+      region: "hisui",
+    },
+    {
+      name: "Avalanche Slopes",
+      slug: "avalanche-slopes",
+      region: "hisui",
+    },
+    {
+      name: "Avalugg's Legacy",
+      slug: "avaluggs-legacy",
+      region: "hisui",
+    },
+    {
       name: "Avance Trail",
       slug: "avance-trail",
       region: "kalos",
+    },
+    {
+      name: "Axew's Eye",
+      slug: "axews-eye",
+      region: "galar",
     },
     {
       name: "Azalea Town",
@@ -3240,6 +5130,21 @@ export const LOCATIONS: Record<
       name: "Azure Bay",
       slug: "azure-bay",
       region: "kalos",
+    },
+    {
+      name: "Ballimere Lake",
+      slug: "ballimere-lake",
+      region: "galar",
+    },
+    {
+      name: "Ballonlea",
+      slug: "ballonlea",
+      region: "galar",
+    },
+    {
+      name: "Bathers' Lagoon",
+      slug: "bathers-lagoon",
+      region: "hisui",
     },
     {
       name: "Battle Arcade",
@@ -3287,6 +5192,11 @@ export const LOCATIONS: Record<
       region: "hoenn",
     },
     {
+      name: "Battle Royal Dome",
+      slug: "battle-royal-dome",
+      region: "alola",
+    },
+    {
       name: "Battle Subway",
       slug: "battle-subway",
       region: "unova",
@@ -3302,6 +5212,16 @@ export const LOCATIONS: Record<
       region: "hoenn",
     },
     {
+      name: "Battle Tower",
+      slug: "battle-tower",
+      region: "galar",
+    },
+    {
+      name: "Battle Tree",
+      slug: "battle-tree",
+      region: "alola",
+    },
+    {
       name: "Battleground",
       slug: "battleground",
       region: "sinnoh",
@@ -3315,6 +5235,11 @@ export const LOCATIONS: Record<
       name: "Bellchime Trail",
       slug: "bellchime-trail",
       region: "johto",
+    },
+    {
+      name: "Berry Fields",
+      slug: "berry-fields",
+      region: "alola",
     },
     {
       name: "Berry Forest",
@@ -3352,14 +5277,59 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "Blush Mountain",
+      slug: "blush-mountain",
+      region: "alola",
+    },
+    {
+      name: "Bolderoll Ravine",
+      slug: "bolderoll-ravine",
+      region: "hisui",
+    },
+    {
+      name: "Bolderoll Slope",
+      slug: "bolderoll-slope",
+      region: "hisui",
+    },
+    {
       name: "Bond Bridge",
       slug: "bond-bridge",
       region: "kanto",
     },
     {
+      name: "Bonechill Wastes",
+      slug: "bonechill-wastes",
+      region: "hisui",
+    },
+    {
+      name: "Brava Arena",
+      slug: "brava-arena",
+      region: "hisui",
+    },
+    {
+      name: "Brawlers' Cave",
+      slug: "brawlers-cave",
+      region: "galar",
+    },
+    {
+      name: "Bridge Field",
+      slug: "bridge-field",
+      region: "galar",
+    },
+    {
       name: "Bridge Gate",
       slug: "bridge-gate",
       region: "unova",
+    },
+    {
+      name: "Brooklet Hill",
+      slug: "brooklet-hill",
+      region: "alola",
+    },
+    {
+      name: "Brooklet Hill",
+      slug: "brooklet-hill--totems-den",
+      region: "alola",
     },
     {
       name: "Brun Way",
@@ -3370,6 +5340,11 @@ export const LOCATIONS: Record<
       name: "Burned Tower",
       slug: "burned-tower",
       region: "johto",
+    },
+    {
+      name: "Cabo Poco",
+      slug: "cabo-poco",
+      region: "paldea",
     },
     {
       name: "Café",
@@ -3392,14 +5367,44 @@ export const LOCATIONS: Record<
       region: "sinnoh",
     },
     {
+      name: "Canyon Biome",
+      slug: "canyon-biome",
+      region: "paldea",
+    },
+    {
       name: "Canyon Entrance",
       slug: "canyon-entrance",
       region: "kanto",
     },
     {
+      name: "Canyon Plaza",
+      slug: "canyon-plaza",
+      region: "paldea",
+    },
+    {
       name: "Cape Brink",
       slug: "cape-brink",
       region: "kanto",
+    },
+    {
+      name: "Caph Squad's Base",
+      slug: "caph-squads-base",
+      region: "paldea",
+    },
+    {
+      name: "Cascarrafa",
+      slug: "cascarrafa",
+      region: "paldea",
+    },
+    {
+      name: "Casseroya Lake",
+      slug: "casseroya-lake",
+      region: "paldea",
+    },
+    {
+      name: "Castaway Shore",
+      slug: "castaway-shore",
+      region: "hisui",
     },
     {
       name: "Castelia City",
@@ -3442,6 +5447,21 @@ export const LOCATIONS: Record<
       region: "sinnoh",
     },
     {
+      name: "Celestica Ruins",
+      slug: "celestica-ruins",
+      region: "hisui",
+    },
+    {
+      name: "Celestica Trail",
+      slug: "celestica-trail",
+      region: "hisui",
+    },
+    {
+      name: "Central Plaza",
+      slug: "central-plaza",
+      region: "paldea",
+    },
+    {
       name: "Cerulean Cave",
       slug: "cerulean-cave",
       region: "kanto",
@@ -3450,6 +5470,16 @@ export const LOCATIONS: Record<
       name: "Cerulean City",
       slug: "cerulean-city",
       region: "kanto",
+    },
+    {
+      name: "Challenge Beach",
+      slug: "challenge-beach",
+      region: "galar",
+    },
+    {
+      name: "Challenge Road",
+      slug: "challenge-road",
+      region: "galar",
     },
     {
       name: "Challenger's Cave",
@@ -3467,9 +5497,19 @@ export const LOCATIONS: Record<
       region: "unova",
     },
     {
+      name: "Chargestone Cavern",
+      slug: "chargestone-cavern",
+      region: "paldea",
+    },
+    {
       name: "Cherrygrove City",
       slug: "cherrygrove-city",
       region: "johto",
+    },
+    {
+      name: "Chilling Waterhead",
+      slug: "chilling-waterhead",
+      region: "paldea",
     },
     {
       name: "Cianwood City",
@@ -3480,6 +5520,16 @@ export const LOCATIONS: Record<
       name: "Cinnabar Island",
       slug: "cinnabar-island",
       region: "kanto",
+    },
+    {
+      name: "Circhester",
+      slug: "circhester",
+      region: "galar",
+    },
+    {
+      name: "Clamberclaw Cliffs",
+      slug: "clamberclaw-cliffs",
+      region: "hisui",
     },
     {
       name: "Clay Tunnel",
@@ -3497,6 +5547,31 @@ export const LOCATIONS: Record<
       region: "johto",
     },
     {
+      name: "Cloudcap Pass",
+      slug: "cloudcap-pass",
+      region: "hisui",
+    },
+    {
+      name: "Cloudpool Ridge",
+      slug: "cloudpool-ridge",
+      region: "hisui",
+    },
+    {
+      name: "Coastal Biome",
+      slug: "coastal-biome",
+      region: "paldea",
+    },
+    {
+      name: "Coastal Plaza",
+      slug: "coastal-plaza",
+      region: "paldea",
+    },
+    {
+      name: "Coastlands Base Camp",
+      slug: "coastlands-camp",
+      region: "hisui",
+    },
+    {
       name: "Cold Storage",
       slug: "cold-storage",
       region: "unova",
@@ -3512,6 +5587,16 @@ export const LOCATIONS: Record<
       region: "sinnoh",
     },
     {
+      name: "Cortondo",
+      slug: "cortondo",
+      region: "paldea",
+    },
+    {
+      name: "Cottonsedge Prairie",
+      slug: "cottonsedge-prairie",
+      region: "hisui",
+    },
+    {
       name: "Coumarine City",
       slug: "coumarine-city",
       region: "kalos",
@@ -3520,6 +5605,11 @@ export const LOCATIONS: Record<
       name: "Coumarine Gate",
       slug: "coumarine-gate",
       region: "kalos",
+    },
+    {
+      name: "Courageous Cavern",
+      slug: "courageous-cavern",
+      region: "galar",
     },
     {
       name: "Couriway Gate",
@@ -3537,6 +5627,21 @@ export const LOCATIONS: Record<
       region: "hoenn",
     },
     {
+      name: "Crossing Slope",
+      slug: "crossing-slope",
+      region: "hisui",
+    },
+    {
+      name: "Crown Shrine",
+      slug: "crown-shrine",
+      region: "galar",
+    },
+    {
+      name: "Crystal Pool",
+      slug: "crystal-pool",
+      region: "paldea",
+    },
+    {
       name: "Cycle Shop",
       slug: "sinnoh-cycle-shop",
       region: "sinnoh",
@@ -3547,9 +5652,34 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "Dalizapa Passage",
+      slug: "dalizapa-passage",
+      region: "paldea",
+    },
+    {
+      name: "Dappled Grove",
+      slug: "dappled-grove",
+      region: "galar",
+    },
+    {
       name: "Dark Cave",
       slug: "dark-cave",
       region: "johto",
+    },
+    {
+      name: "Deadwood Haunt",
+      slug: "deadwood-haunt",
+      region: "hisui",
+    },
+    {
+      name: "Deertrack Heights",
+      slug: "deertrack-heights",
+      region: "hisui",
+    },
+    {
+      name: "Deertrack Path",
+      slug: "deertrack-path",
+      region: "hisui",
     },
     {
       name: "Dendemille Gate",
@@ -3592,9 +5722,24 @@ export const LOCATIONS: Record<
       region: "hoenn",
     },
     {
+      name: "Diamond Heath",
+      slug: "diamond-heath",
+      region: "hisui",
+    },
+    {
+      name: "Diamond Settlement",
+      slug: "diamond-settlement",
+      region: "hisui",
+    },
+    {
       name: "Diglett's Cave",
       slug: "digletts-cave",
       region: "kanto",
+    },
+    {
+      name: "Diglett’s Tunnel",
+      slug: "digletts-tunnel",
+      region: "alola",
     },
     {
       name: "Dilford Chamber",
@@ -3605,6 +5750,11 @@ export const LOCATIONS: Record<
       name: "Distortion World",
       slug: "distortion-world",
       region: "sinnoh",
+    },
+    {
+      name: "Dividing Peak Tunnel",
+      slug: "dividing-peak-tunnel",
+      region: "alola",
     },
     {
       name: "Dragon's Den",
@@ -3622,6 +5772,11 @@ export const LOCATIONS: Record<
       region: "unova",
     },
     {
+      name: "Dreaded Den",
+      slug: "dreaded-den",
+      region: "paldea",
+    },
+    {
       name: "Dreamyard",
       slug: "dreamyard",
       region: "unova",
@@ -3635,6 +5790,46 @@ export const LOCATIONS: Record<
       name: "Driftveil Drawbridge",
       slug: "driftveil-drawbridge",
       region: "unova",
+    },
+    {
+      name: "Droning Meadow",
+      slug: "droning-meadow",
+      region: "hisui",
+    },
+    {
+      name: "Dusty Bowl",
+      slug: "dusty-bowl",
+      region: "galar",
+    },
+    {
+      name: "Dyna Tree Hill",
+      slug: "dyna-tree-hill",
+      region: "galar",
+    },
+    {
+      name: "East Lake Axewell",
+      slug: "east-lake-axewell",
+      region: "galar",
+    },
+    {
+      name: "East Paldean Sea",
+      slug: "east-paldean-sea",
+      region: "paldea",
+    },
+    {
+      name: "East Province (Area One)",
+      slug: "paldea-east-province-area-one",
+      region: "paldea",
+    },
+    {
+      name: "East Province (Area Three)",
+      slug: "paldea-east-province-area-three",
+      region: "paldea",
+    },
+    {
+      name: "East Province (Area Two)",
+      slug: "paldea-east-province-area-two",
+      region: "paldea",
     },
     {
       name: "Ecruteak City",
@@ -3672,9 +5867,19 @@ export const LOCATIONS: Record<
       region: "hoenn",
     },
     {
+      name: "Exeggutor Island",
+      slug: "exeggutor-island",
+      region: "alola",
+    },
+    {
       name: "Fabled Cave",
       slug: "fabled-cave",
       region: "hoenn",
+    },
+    {
+      name: "Fabled Spring",
+      slug: "fabled-spring",
+      region: "hisui",
     },
     {
       name: "Fallarbor Town",
@@ -3692,6 +5897,16 @@ export const LOCATIONS: Record<
       region: "unova",
     },
     {
+      name: "Fellhorn Gorge",
+      slug: "fellhorn-gorge",
+      region: "paldea",
+    },
+    {
+      name: "Fields of Honor",
+      slug: "fields-of-honor",
+      region: "galar",
+    },
+    {
       name: "Fiery Path",
       slug: "fiery-path",
       region: "hoenn",
@@ -3702,6 +5917,16 @@ export const LOCATIONS: Record<
       region: "sinnoh",
     },
     {
+      name: "Firescourge Shrine",
+      slug: "firescourge-shrine",
+      region: "paldea",
+    },
+    {
+      name: "Firespit Island",
+      slug: "firespit-island",
+      region: "hisui",
+    },
+    {
       name: "Five Island",
       slug: "five-island",
       region: "kanto",
@@ -3710,6 +5935,11 @@ export const LOCATIONS: Record<
       name: "Five Isle Meadow",
       slug: "five-isle-meadow",
       region: "kanto",
+    },
+    {
+      name: "Floaro Gardens",
+      slug: "floaro-gardens",
+      region: "hisui",
     },
     {
       name: "Floaroma Meadow",
@@ -3757,6 +5987,11 @@ export const LOCATIONS: Record<
       region: "sinnoh",
     },
     {
+      name: "Forest of Focus",
+      slug: "forest-of-focus",
+      region: "galar",
+    },
+    {
       name: "Fortree City",
       slug: "fortree-city",
       region: "hoenn",
@@ -3772,9 +6007,19 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "Freezington",
+      slug: "freezington",
+      region: "galar",
+    },
+    {
       name: "Friend Safari",
       slug: "friend-safari",
       region: "kalos",
+    },
+    {
+      name: "Frigid Sea",
+      slug: "frigid-sea",
+      region: "galar",
     },
     {
       name: "Frontier Access",
@@ -3785,6 +6030,11 @@ export const LOCATIONS: Record<
       name: "Frost Cavern",
       slug: "frost-cavern",
       region: "kalos",
+    },
+    {
+      name: "Frostpoint Field",
+      slug: "frostpoint-field",
+      region: "galar",
     },
     {
       name: "Fuchsia City",
@@ -3807,9 +6057,24 @@ export const LOCATIONS: Record<
       region: "sinnoh",
     },
     {
+      name: "Galar Mine",
+      slug: "galar-mine",
+      region: "galar",
+    },
+    {
+      name: "Galar Mine No. 2",
+      slug: "galar-mine-no-2",
+      region: "galar",
+    },
+    {
       name: "Game Corner",
       slug: "sinnoh-game-corner",
       region: "sinnoh",
+    },
+    {
+      name: "Gapejaw Bog",
+      slug: "gapejaw-bog",
+      region: "hisui",
     },
     {
       name: "Gear Station",
@@ -3827,9 +6092,54 @@ export const LOCATIONS: Record<
       region: "unova",
     },
     {
+      name: "Giant's Bed",
+      slug: "giants-bed",
+      region: "galar",
+    },
+    {
+      name: "Giant's Cap",
+      slug: "giants-cap",
+      region: "galar",
+    },
+    {
+      name: "Giant's Foot",
+      slug: "giants-foot",
+      region: "galar",
+    },
+    {
+      name: "Giant's Mirror",
+      slug: "giants-mirror",
+      region: "galar",
+    },
+    {
+      name: "Giant's Seat",
+      slug: "giants-seat",
+      region: "galar",
+    },
+    {
+      name: "Ginkgo Landing",
+      slug: "ginkgo-landing",
+      region: "hisui",
+    },
+    {
       name: "Glacier Room",
       slug: "glacier-room",
       region: "unova",
+    },
+    {
+      name: "Glacier Terrace",
+      slug: "glacier-terrace",
+      region: "hisui",
+    },
+    {
+      name: "Glaseado Mountain",
+      slug: "glaseado-mountain",
+      region: "paldea",
+    },
+    {
+      name: "Glimwood Tangle",
+      slug: "glimwood-tangle",
+      region: "galar",
     },
     {
       name: "Glittering Cave",
@@ -3845,6 +6155,11 @@ export const LOCATIONS: Record<
       name: "Gnarled Den",
       slug: "gnarled-den",
       region: "hoenn",
+    },
+    {
+      name: "Golden Lowlands",
+      slug: "golden-lowlands",
+      region: "hisui",
     },
     {
       name: "Goldenrod City",
@@ -3867,9 +6182,19 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "Grandtree Arena",
+      slug: "grandtree-arena",
+      region: "hisui",
+    },
+    {
       name: "Granite Cave",
       slug: "granite-cave",
       region: "hoenn",
+    },
+    {
+      name: "Grasswither Shrine",
+      slug: "grasswither-shrine",
+      region: "paldea",
     },
     {
       name: "Great Marsh",
@@ -3882,6 +6207,16 @@ export const LOCATIONS: Record<
       region: "kanto",
     },
     {
+      name: "Groundblight Shrine",
+      slug: "groundblight-shrine",
+      region: "paldea",
+    },
+    {
+      name: "Grueling Grove",
+      slug: "grueling-grove",
+      region: "hisui",
+    },
+    {
       name: "GTS",
       slug: "gts",
       region: "sinnoh",
@@ -3890,6 +6225,11 @@ export const LOCATIONS: Record<
       name: "Guidance Chamber",
       slug: "guidance-chamber",
       region: "unova",
+    },
+    {
+      name: "Haina Desert",
+      slug: "haina-desert",
+      region: "alola",
     },
     {
       name: "Hall of Origin",
@@ -3902,9 +6242,79 @@ export const LOCATIONS: Record<
       region: "sinnoh",
     },
     {
+      name: "Hammerlocke",
+      slug: "hammerlocke",
+      region: "galar",
+    },
+    {
+      name: "Hammerlocke Hills",
+      slug: "hammerlocke-hills",
+      region: "galar",
+    },
+    {
+      name: "Hano Beach",
+      slug: "hano-beach",
+      region: "alola",
+    },
+    {
+      name: "Hano Grand Resort",
+      slug: "hano-grand-resort",
+      region: "alola",
+    },
+    {
+      name: "Hau’oli Cemetery",
+      slug: "hauoli-cemetery",
+      region: "alola",
+    },
+    {
+      name: "Hau'oli City",
+      slug: "hauoli-city",
+      region: "alola",
+    },
+    {
+      name: "Hau’oli City",
+      slug: "hauoli-city--beachfront",
+      region: "alola",
+    },
+    {
+      name: "Hau’oli City",
+      slug: "hauoli-city--shopping-district",
+      region: "alola",
+    },
+    {
+      name: "Hau’oli City",
+      slug: "hauoli-city--marina",
+      region: "alola",
+    },
+    {
+      name: "Heahea Beach",
+      slug: "heahea-beach",
+      region: "alola",
+    },
+    {
+      name: "Heahea City",
+      slug: "heahea-city",
+      region: "alola",
+    },
+    {
+      name: "Heart's Crag",
+      slug: "hearts-crag",
+      region: "hisui",
+    },
+    {
       name: "Hearthome City",
       slug: "hearthome-city",
       region: "sinnoh",
+    },
+    {
+      name: "Heavenward Lookout",
+      slug: "heavenward-lookout",
+      region: "hisui",
+    },
+    {
+      name: "Heights Base Camp",
+      slug: "heights-camp",
+      region: "hisui",
     },
     {
       name: "Hidden Grotto",
@@ -3912,14 +6322,54 @@ export const LOCATIONS: Record<
       region: "unova",
     },
     {
+      name: "Hideaway Bay",
+      slug: "hideaway-bay",
+      region: "hisui",
+    },
+    {
       name: "Hoenn Battle Frontier",
       slug: "hoenn-battle-frontier",
       region: "hoenn",
     },
     {
+      name: "Hokulani Observatory",
+      slug: "hokulani-observatory",
+      region: "alola",
+    },
+    {
+      name: "Holm of Trials",
+      slug: "holm-of-trials",
+      region: "hisui",
+    },
+    {
+      name: "Honeycalm Island",
+      slug: "honeycalm-island",
+      region: "galar",
+    },
+    {
+      name: "Honeycalm Sea",
+      slug: "honeycalm-sea",
+      region: "galar",
+    },
+    {
+      name: "Horseshoe Plains",
+      slug: "horseshoe-plains",
+      region: "hisui",
+    },
+    {
+      name: "Hulbury",
+      slug: "hulbury",
+      region: "galar",
+    },
+    {
       name: "Humilau City",
       slug: "humilau-city",
       region: "unova",
+    },
+    {
+      name: "Ice Column Chamber",
+      slug: "ice-column-chamber",
+      region: "hisui",
     },
     {
       name: "Ice Path",
@@ -3932,14 +6382,44 @@ export const LOCATIONS: Record<
       region: "sinnoh",
     },
     {
+      name: "Iceberg Ruins",
+      slug: "galar-iceberg-ruins",
+      region: "galar",
+    },
+    {
+      name: "Icebound Falls",
+      slug: "icebound-falls",
+      region: "hisui",
+    },
+    {
       name: "Icefall Cave",
       slug: "icefall-cave",
       region: "kanto",
     },
     {
+      name: "Icepeak Arena",
+      slug: "icepeak-arena",
+      region: "hisui",
+    },
+    {
+      name: "Icepeak Cavern",
+      slug: "icepeak-cavern",
+      region: "hisui",
+    },
+    {
+      name: "Icerend Shrine",
+      slug: "icerend-shrine",
+      region: "paldea",
+    },
+    {
       name: "Icirrus City",
       slug: "icirrus-city",
       region: "unova",
+    },
+    {
+      name: "Iki Town",
+      slug: "iki-town",
+      region: "alola",
     },
     {
       name: "Ilex Forest",
@@ -3950,6 +6430,21 @@ export const LOCATIONS: Record<
       name: "Indigo Plateau",
       slug: "indigo-plateau",
       region: "kanto",
+    },
+    {
+      name: "Infernal Pass",
+      slug: "infernal-pass",
+      region: "paldea",
+    },
+    {
+      name: "Inlet Grotto",
+      slug: "inlet-grotto",
+      region: "paldea",
+    },
+    {
+      name: "Insular Sea",
+      slug: "insular-sea",
+      region: "galar",
     },
     {
       name: "Iron Island",
@@ -3967,6 +6462,11 @@ export const LOCATIONS: Record<
       region: "sinnoh",
     },
     {
+      name: "Iron Ruins",
+      slug: "galar-iron-ruins",
+      region: "galar",
+    },
+    {
       name: "Ironworks Chamber",
       slug: "ironworks-chamber",
       region: "kalos",
@@ -3975,6 +6475,11 @@ export const LOCATIONS: Record<
       name: "Island Cave",
       slug: "island-cave",
       region: "hoenn",
+    },
+    {
+      name: "Islespy Shore",
+      slug: "islespy-shore",
+      region: "hisui",
     },
     {
       name: "Jagged Pass",
@@ -4000,6 +6505,16 @@ export const LOCATIONS: Record<
       name: "Jubilife TV",
       slug: "jubilife-tv",
       region: "sinnoh",
+    },
+    {
+      name: "Jubilife Village",
+      slug: "jubilife-village",
+      region: "hisui",
+    },
+    {
+      name: "Kala’e Bay",
+      slug: "kalae-bay",
+      region: "alola",
     },
     {
       name: "Kalos (Roaming)",
@@ -4037,6 +6552,26 @@ export const LOCATIONS: Record<
       region: "kanto",
     },
     {
+      name: "Kitakami Hall",
+      slug: "kitakami-hall",
+      region: "paldea",
+    },
+    {
+      name: "Kitakami Road",
+      slug: "kitakami-road",
+      region: "paldea",
+    },
+    {
+      name: "Kitakami Wilds",
+      slug: "kitakami-wilds",
+      region: "paldea",
+    },
+    {
+      name: "Konikoni City",
+      slug: "konikoni-city",
+      region: "alola",
+    },
+    {
       name: "Lacunosa Town",
       slug: "lacunosa-town",
       region: "unova",
@@ -4047,9 +6582,29 @@ export const LOCATIONS: Record<
       region: "sinnoh",
     },
     {
+      name: "Lake Acuity",
+      slug: "hisui-lake-acuity",
+      region: "hisui",
+    },
+    {
+      name: "Lake of Outrage",
+      slug: "lake-of-outrage",
+      region: "galar",
+    },
+    {
       name: "Lake of Rage",
       slug: "lake-of-rage",
       region: "johto",
+    },
+    {
+      name: "Lake of the Moone",
+      slug: "lake-of-the-moone",
+      region: "alola",
+    },
+    {
+      name: "Lake of the Sunne",
+      slug: "lake-of-the-sunne",
+      region: "alola",
     },
     {
       name: "Lake Valor",
@@ -4057,9 +6612,24 @@ export const LOCATIONS: Record<
       region: "sinnoh",
     },
     {
+      name: "Lake Valor",
+      slug: "hisui-lake-valor",
+      region: "hisui",
+    },
+    {
       name: "Lake Verity",
       slug: "lake-verity",
       region: "sinnoh",
+    },
+    {
+      name: "Lake Verity",
+      slug: "hisui-lake-verity",
+      region: "hisui",
+    },
+    {
+      name: "Lakeside Cave",
+      slug: "lakeside-cave",
+      region: "galar",
     },
     {
       name: "Lavaridge Town",
@@ -4087,9 +6657,19 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "League Club Room",
+      slug: "league-club-room",
+      region: "paldea",
+    },
+    {
       name: "Lentimas Town",
       slug: "lentimas-town",
       region: "unova",
+    },
+    {
+      name: "Levincia",
+      slug: "levincia",
+      region: "paldea",
     },
     {
       name: "Liberty Garden",
@@ -4117,6 +6697,21 @@ export const LOCATIONS: Record<
       region: "hoenn",
     },
     {
+      name: "Lonely Spring",
+      slug: "lonely-spring",
+      region: "hisui",
+    },
+    {
+      name: "Loop Lagoon",
+      slug: "loop-lagoon",
+      region: "galar",
+    },
+    {
+      name: "Los Platos",
+      slug: "los-platos",
+      region: "paldea",
+    },
+    {
       name: "Lost Cave",
       slug: "lost-cave",
       region: "kanto",
@@ -4135,6 +6730,11 @@ export const LOCATIONS: Record<
       name: "Lostlorn Forest",
       slug: "lostlorn-forest",
       region: "unova",
+    },
+    {
+      name: "Loyalty Plaza",
+      slug: "loyalty-plaza",
+      region: "paldea",
     },
     {
       name: "Lumiose Badlands",
@@ -4157,6 +6757,16 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "Lunker's Lair",
+      slug: "lunkers-lair",
+      region: "hisui",
+    },
+    {
+      name: "Lush Jungle",
+      slug: "lush-jungle",
+      region: "alola",
+    },
+    {
       name: "Lysandre Labs",
       slug: "lysandre-labs",
       region: "kalos",
@@ -4167,9 +6777,39 @@ export const LOCATIONS: Record<
       region: "hoenn",
     },
     {
+      name: "Mahalo Trail",
+      slug: "mahalo-trail",
+      region: "alola",
+    },
+    {
+      name: "Mahalo Trail",
+      slug: "mahalo-trail--plank-bridge",
+      region: "alola",
+    },
+    {
       name: "Mahogany Town",
       slug: "mahogany-town",
       region: "johto",
+    },
+    {
+      name: "Malie City",
+      slug: "malie-city-proper",
+      region: "alola",
+    },
+    {
+      name: "Malie City",
+      slug: "malie-city--outer-cape",
+      region: "alola",
+    },
+    {
+      name: "Malie City",
+      slug: "malie-city",
+      region: "alola",
+    },
+    {
+      name: "Malie Garden",
+      slug: "malie-garden",
+      region: "alola",
     },
     {
       name: "Mamoswine Road",
@@ -4197,9 +6837,19 @@ export const LOCATIONS: Record<
       region: "unova",
     },
     {
+      name: "Master Dojo",
+      slug: "master-dojo",
+      region: "galar",
+    },
+    {
       name: "Mauville City",
       slug: "mauville-city",
       region: "hoenn",
+    },
+    {
+      name: "Max Lair",
+      slug: "max-lair",
+      region: "galar",
     },
     {
       name: "Medal Secretariat",
@@ -4207,9 +6857,29 @@ export const LOCATIONS: Record<
       region: "unova",
     },
     {
+      name: "Medali",
+      slug: "medali",
+      region: "paldea",
+    },
+    {
       name: "Mélancolie Path",
       slug: "melancolie-path",
       region: "kalos",
+    },
+    {
+      name: "Melemele Meadow",
+      slug: "melemele-meadow",
+      region: "alola",
+    },
+    {
+      name: "Melemele Sea",
+      slug: "melemele-sea",
+      region: "alola",
+    },
+    {
+      name: "Memorial Hill",
+      slug: "memorial-hill",
+      region: "alola",
     },
     {
       name: "Memorial Pillar",
@@ -4220,6 +6890,11 @@ export const LOCATIONS: Record<
       name: "Menhir Trail",
       slug: "menhir-trail",
       region: "kalos",
+    },
+    {
+      name: "Mesagoza",
+      slug: "mesagoza",
+      region: "paldea",
     },
     {
       name: "Meteor Falls",
@@ -4277,9 +6952,24 @@ export const LOCATIONS: Record<
       region: "unova",
     },
     {
+      name: "Molten Arena",
+      slug: "molten-arena",
+      region: "hisui",
+    },
+    {
       name: "Monean Chamber",
       slug: "monean-chamber",
       region: "kanto",
+    },
+    {
+      name: "Montenevera",
+      slug: "montenevera",
+      region: "paldea",
+    },
+    {
+      name: "Moonview Arena",
+      slug: "moonview-arena",
+      region: "hisui",
     },
     {
       name: "Moor of Icirrus",
@@ -4295,6 +6985,41 @@ export const LOCATIONS: Record<
       name: "Mossdeep Space Center",
       slug: "mossdeep-space-center",
       region: "hoenn",
+    },
+    {
+      name: "Mossfell Confluence",
+      slug: "mossfell-confluence",
+      region: "paldea",
+    },
+    {
+      name: "Mossui Town",
+      slug: "mossui-town",
+      region: "paldea",
+    },
+    {
+      name: "Motostoke",
+      slug: "motostoke",
+      region: "galar",
+    },
+    {
+      name: "Motostoke Outskirts",
+      slug: "motostoke-outskirts",
+      region: "galar",
+    },
+    {
+      name: "Motostoke Riverbank",
+      slug: "motostoke-riverbank",
+      region: "galar",
+    },
+    {
+      name: "Mount Hokulani",
+      slug: "mount-hokulani",
+      region: "alola",
+    },
+    {
+      name: "Mount Lanakila",
+      slug: "mount-lanakila",
+      region: "alola",
     },
     {
       name: "Mt. Chimney",
@@ -4372,6 +7097,11 @@ export const LOCATIONS: Record<
       region: "hoenn",
     },
     {
+      name: "Naranja Academy",
+      slug: "naranja-academy",
+      region: "paldea",
+    },
+    {
       name: "National Park",
       slug: "national-park",
       region: "johto",
@@ -4382,9 +7112,19 @@ export const LOCATIONS: Record<
       region: "unova",
     },
     {
+      name: "Nature's Pantry",
+      slug: "natures-pantry",
+      region: "hisui",
+    },
+    {
       name: "Navel Rock",
       slug: "navel-rock",
       region: "kanto",
+    },
+    {
+      name: "Navi Squad's Base",
+      slug: "navi-squads-base",
+      region: "paldea",
     },
     {
       name: "New Bark Town",
@@ -4412,9 +7152,44 @@ export const LOCATIONS: Record<
       region: "unova",
     },
     {
+      name: "North Lake Miloch",
+      slug: "north-lake-miloch",
+      region: "galar",
+    },
+    {
+      name: "North Paldean Sea",
+      slug: "north-paldean-sea",
+      region: "paldea",
+    },
+    {
+      name: "North Province (Area One)",
+      slug: "paldea-north-province-area-one",
+      region: "paldea",
+    },
+    {
+      name: "North Province (Area Three)",
+      slug: "paldea-north-province-area-three",
+      region: "paldea",
+    },
+    {
+      name: "North Province (Area Two)",
+      slug: "paldea-north-province-area-two",
+      region: "paldea",
+    },
+    {
       name: "Nuvema Town",
       slug: "nuvema-town",
       region: "unova",
+    },
+    {
+      name: "Obsidian Falls",
+      slug: "obsidian-falls",
+      region: "hisui",
+    },
+    {
+      name: "Old Cemetery",
+      slug: "old-cemetery",
+      region: "galar",
     },
     {
       name: "Old Chateau",
@@ -4435,6 +7210,16 @@ export const LOCATIONS: Record<
       name: "One Island",
       slug: "one-island",
       region: "kanto",
+    },
+    {
+      name: "Oni Mountain",
+      slug: "oni-mountain",
+      region: "paldea",
+    },
+    {
+      name: "Oni's Maw",
+      slug: "onis-maw",
+      region: "paldea",
     },
     {
       name: "Opelucid City",
@@ -4460,6 +7245,11 @@ export const LOCATIONS: Record<
       name: "Oreburgh Mine",
       slug: "oreburgh-mine",
       region: "sinnoh",
+    },
+    {
+      name: "Oreburrow Tunnel",
+      slug: "oreburrow-tunnel",
+      region: "hisui",
     },
     {
       name: "Outcast Island",
@@ -4497,6 +7287,21 @@ export const LOCATIONS: Record<
       region: "kanto",
     },
     {
+      name: "Paniola Ranch",
+      slug: "paniola-ranch",
+      region: "alola",
+    },
+    {
+      name: "Paniola Town",
+      slug: "paniola-town",
+      region: "alola",
+    },
+    {
+      name: "Paradise Barrens",
+      slug: "paradise-barrens",
+      region: "paldea",
+    },
+    {
       name: "Parfum Palace",
       slug: "parfum-palace",
       region: "kalos",
@@ -4512,6 +7317,11 @@ export const LOCATIONS: Record<
       region: "sinnoh",
     },
     {
+      name: "Path to the Peak",
+      slug: "path-to-the-peak",
+      region: "galar",
+    },
+    {
       name: "Pathless Plain",
       slug: "pathless-plain",
       region: "hoenn",
@@ -4520,6 +7330,11 @@ export const LOCATIONS: Record<
       name: "Pattern Bush",
       slug: "pattern-bush",
       region: "kanto",
+    },
+    {
+      name: "Pearl Settlement",
+      slug: "pearl-settlement",
+      region: "hisui",
     },
     {
       name: "Petalburg City",
@@ -4552,6 +7367,16 @@ export const LOCATIONS: Record<
       region: "unova",
     },
     {
+      name: "Po Town",
+      slug: "po-town",
+      region: "alola",
+    },
+    {
+      name: "Poco Path",
+      slug: "poco-path",
+      region: "paldea",
+    },
+    {
       name: "Poffin House",
       slug: "poffin-house",
       region: "sinnoh",
@@ -4560,6 +7385,11 @@ export const LOCATIONS: Record<
       name: "Poké Ball Factory",
       slug: "poke-ball-factory",
       region: "kalos",
+    },
+    {
+      name: "Poké Pelago",
+      slug: "poke-pelago",
+      region: "alola",
     },
     {
       name: "Poké Transfer Lab",
@@ -4597,6 +7427,16 @@ export const LOCATIONS: Record<
       region: "hoenn",
     },
     {
+      name: "Pokémon League",
+      slug: "alola-pokemon-league",
+      region: "alola",
+    },
+    {
+      name: "Pokémon League",
+      slug: "pokemon-league",
+      region: "paldea",
+    },
+    {
       name: "Pokémon League Gate",
       slug: "pokemon-league-gate",
       region: "kalos",
@@ -4632,6 +7472,71 @@ export const LOCATIONS: Record<
       region: "johto",
     },
     {
+      name: "Polar Biome",
+      slug: "polar-biome",
+      region: "paldea",
+    },
+    {
+      name: "Polar Plaza",
+      slug: "polar-plaza",
+      region: "paldea",
+    },
+    {
+      name: "Poni Breaker Coast",
+      slug: "poni-breaker-coast",
+      region: "alola",
+    },
+    {
+      name: "Poni Coast",
+      slug: "poni-coast",
+      region: "alola",
+    },
+    {
+      name: "Poni Gauntlet",
+      slug: "poni-gauntlet",
+      region: "alola",
+    },
+    {
+      name: "Poni Grove",
+      slug: "poni-grove",
+      region: "alola",
+    },
+    {
+      name: "Poni Meadow",
+      slug: "poni-meadow",
+      region: "alola",
+    },
+    {
+      name: "Poni Plains",
+      slug: "poni-plains",
+      region: "alola",
+    },
+    {
+      name: "Poni Wilds",
+      slug: "poni-wilds",
+      region: "alola",
+    },
+    {
+      name: "Porto Marinada",
+      slug: "porto-marinada",
+      region: "paldea",
+    },
+    {
+      name: "Postwick",
+      slug: "postwick",
+      region: "galar",
+    },
+    {
+      name: "Potbottom Desert",
+      slug: "potbottom-desert",
+      region: "galar",
+    },
+    {
+      name: "Primeval Grotto",
+      slug: "primeval-grotto",
+      region: "hisui",
+    },
+    {
       name: "Prism Tower",
       slug: "prism-tower",
       region: "kalos",
@@ -4645,6 +7550,11 @@ export const LOCATIONS: Record<
       name: "Radio Tower",
       slug: "radio-tower",
       region: "johto",
+    },
+    {
+      name: "Ramanas Island",
+      slug: "ramanas-island",
+      region: "hisui",
     },
     {
       name: "Ravaged Path",
@@ -4667,6 +7577,11 @@ export const LOCATIONS: Record<
       region: "unova",
     },
     {
+      name: "Resolution Cave",
+      slug: "resolution-cave",
+      region: "alola",
+    },
+    {
       name: "Resort Area",
       slug: "resort-area",
       region: "sinnoh",
@@ -4680,6 +7595,11 @@ export const LOCATIONS: Record<
       name: "Restaurant",
       slug: "sinnoh-restaurant",
       region: "sinnoh",
+    },
+    {
+      name: "Reveler's Road",
+      slug: "revelers-road",
+      region: "paldea",
     },
     {
       name: "Reversal Mountain",
@@ -4717,9 +7637,19 @@ export const LOCATIONS: Record<
       region: "sinnoh",
     },
     {
+      name: "Roaring-Sea Caves",
+      slug: "roaring-sea-caves",
+      region: "galar",
+    },
+    {
       name: "Rock Peak Ruins",
       slug: "rock-peak-ruins",
       region: "sinnoh",
+    },
+    {
+      name: "Rock Peak Ruins",
+      slug: "galar-rock-peak-ruins",
+      region: "galar",
     },
     {
       name: "Rock Tunnel",
@@ -4730,6 +7660,11 @@ export const LOCATIONS: Record<
       name: "Rocky Mountain Room",
       slug: "rocky-mountain-room",
       region: "unova",
+    },
+    {
+      name: "Rolling Fields",
+      slug: "rolling-fields",
+      region: "galar",
     },
     {
       name: "ROTOM's Room",
@@ -4752,6 +7687,21 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "Route 1",
+      slug: "alola-route-1--hauoli-outskirts",
+      region: "alola",
+    },
+    {
+      name: "Route 1",
+      slug: "alola-route-1",
+      region: "alola",
+    },
+    {
+      name: "Route 1",
+      slug: "galar-route-1",
+      region: "galar",
+    },
+    {
       name: "Route 10",
       slug: "kanto-route-10",
       region: "kanto",
@@ -4765,6 +7715,16 @@ export const LOCATIONS: Record<
       name: "Route 10",
       slug: "kalos-route-10",
       region: "kalos",
+    },
+    {
+      name: "Route 10",
+      slug: "alola-route-10",
+      region: "alola",
+    },
+    {
+      name: "Route 10",
+      slug: "galar-route-10",
+      region: "galar",
     },
     {
       name: "Route 101",
@@ -4825,6 +7785,11 @@ export const LOCATIONS: Record<
       name: "Route 11",
       slug: "kalos-route-11",
       region: "kalos",
+    },
+    {
+      name: "Route 11",
+      slug: "alola-route-11",
+      region: "alola",
     },
     {
       name: "Route 110",
@@ -4892,6 +7857,11 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "Route 12",
+      slug: "alola-route-12",
+      region: "alola",
+    },
+    {
       name: "Route 120",
       slug: "hoenn-route-120",
       region: "hoenn",
@@ -4957,6 +7927,11 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "Route 13",
+      slug: "alola-route-13",
+      region: "alola",
+    },
+    {
       name: "Route 130",
       slug: "hoenn-route-130",
       region: "hoenn",
@@ -4997,6 +7972,11 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "Route 14",
+      slug: "alola-route-14",
+      region: "alola",
+    },
+    {
       name: "Route 15",
       slug: "kanto-route-15",
       region: "kanto",
@@ -5010,6 +7990,11 @@ export const LOCATIONS: Record<
       name: "Route 15",
       slug: "kalos-route-15",
       region: "kalos",
+    },
+    {
+      name: "Route 15",
+      slug: "alola-route-15",
+      region: "alola",
     },
     {
       name: "Route 16",
@@ -5027,6 +8012,11 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "Route 16",
+      slug: "alola-route-16",
+      region: "alola",
+    },
+    {
       name: "Route 17",
       slug: "kanto-route-17",
       region: "kanto",
@@ -5040,6 +8030,11 @@ export const LOCATIONS: Record<
       name: "Route 17",
       slug: "kalos-route-17",
       region: "kalos",
+    },
+    {
+      name: "Route 17",
+      slug: "alola-route-17",
+      region: "alola",
     },
     {
       name: "Route 18",
@@ -5080,6 +8075,16 @@ export const LOCATIONS: Record<
       name: "Route 2",
       slug: "kalos-route-2",
       region: "kalos",
+    },
+    {
+      name: "Route 2",
+      slug: "alola-route-2",
+      region: "alola",
+    },
+    {
+      name: "Route 2",
+      slug: "galar-route-2",
+      region: "galar",
     },
     {
       name: "Route 20",
@@ -5302,6 +8307,16 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "Route 3",
+      slug: "alola-route-3",
+      region: "alola",
+    },
+    {
+      name: "Route 3",
+      slug: "galar-route-3",
+      region: "galar",
+    },
+    {
       name: "Route 30",
       slug: "johto-route-30",
       region: "johto",
@@ -5367,6 +8382,16 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "Route 4",
+      slug: "alola-route-4",
+      region: "alola",
+    },
+    {
+      name: "Route 4",
+      slug: "galar-route-4",
+      region: "galar",
+    },
+    {
       name: "Route 42",
       slug: "johto-route-42",
       region: "johto",
@@ -5417,6 +8442,16 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "Route 5",
+      slug: "alola-route-5",
+      region: "alola",
+    },
+    {
+      name: "Route 5",
+      slug: "galar-route-5",
+      region: "galar",
+    },
+    {
       name: "Route 6",
       slug: "kanto-route-6",
       region: "kanto",
@@ -5430,6 +8465,16 @@ export const LOCATIONS: Record<
       name: "Route 6",
       slug: "kalos-route-6",
       region: "kalos",
+    },
+    {
+      name: "Route 6",
+      slug: "alola-route-6",
+      region: "alola",
+    },
+    {
+      name: "Route 6",
+      slug: "galar-route-6",
+      region: "galar",
     },
     {
       name: "Route 7",
@@ -5447,6 +8492,16 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "Route 7",
+      slug: "alola-route-7",
+      region: "alola",
+    },
+    {
+      name: "Route 7",
+      slug: "galar-route-7",
+      region: "galar",
+    },
+    {
       name: "Route 8",
       slug: "kanto-route-8",
       region: "kanto",
@@ -5460,6 +8515,21 @@ export const LOCATIONS: Record<
       name: "Route 8",
       slug: "kalos-route-8",
       region: "kalos",
+    },
+    {
+      name: "Route 8",
+      slug: "alola-route-8",
+      region: "alola",
+    },
+    {
+      name: "Route 8",
+      slug: "galar-route-8",
+      region: "galar",
+    },
+    {
+      name: "Route 8",
+      slug: "steamdrift-way",
+      region: "galar",
     },
     {
       name: "Route 9",
@@ -5477,14 +8547,39 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "Route 9",
+      slug: "alola-route-9",
+      region: "alola",
+    },
+    {
+      name: "Route 9",
+      slug: "galar-route-9",
+      region: "galar",
+    },
+    {
       name: "Route Gate",
       slug: "route-gate",
       region: "unova",
     },
     {
+      name: "Royal Avenue",
+      slug: "royal-avenue",
+      region: "alola",
+    },
+    {
+      name: "Royal Avenue",
+      slug: "thrifty-megamart",
+      region: "alola",
+    },
+    {
       name: "Royal Unova",
       slug: "royal-unova",
       region: "unova",
+    },
+    {
+      name: "Ruchbah Squad's Base",
+      slug: "ruchbah-squads-base",
+      region: "paldea",
     },
     {
       name: "Ruin Maniac Cave",
@@ -5497,9 +8592,29 @@ export const LOCATIONS: Record<
       region: "kanto",
     },
     {
+      name: "Ruins of Abundance",
+      slug: "ruins-of-abundance",
+      region: "alola",
+    },
+    {
       name: "Ruins of Alph",
       slug: "ruins-of-alph",
       region: "johto",
+    },
+    {
+      name: "Ruins of Conflict",
+      slug: "ruins-of-conflict",
+      region: "alola",
+    },
+    {
+      name: "Ruins of Hope",
+      slug: "ruins-of-hope",
+      region: "alola",
+    },
+    {
+      name: "Ruins of Life",
+      slug: "ruins-of-life",
+      region: "alola",
     },
     {
       name: "Rumination Field",
@@ -5532,6 +8647,11 @@ export const LOCATIONS: Record<
       region: "hoenn",
     },
     {
+      name: "Sacred Plaza",
+      slug: "sacred-plaza",
+      region: "hisui",
+    },
+    {
       name: "Safari Zone",
       slug: "kanto-safari-zone",
       region: "kanto",
@@ -5552,9 +8672,24 @@ export const LOCATIONS: Record<
       region: "kanto",
     },
     {
+      name: "Sand's Reach",
+      slug: "sands-reach",
+      region: "hisui",
+    },
+    {
+      name: "Sandgem Flats",
+      slug: "sandgem-flats",
+      region: "hisui",
+    },
+    {
       name: "Sandgem Town",
       slug: "sandgem-town",
       region: "sinnoh",
+    },
+    {
+      name: "Sandy Cave",
+      slug: "sandy-cave",
+      region: "alola",
     },
     {
       name: "Santalune City",
@@ -5565,6 +8700,26 @@ export const LOCATIONS: Record<
       name: "Santalune Forest",
       slug: "santalune-forest",
       region: "kalos",
+    },
+    {
+      name: "Savanna Biome",
+      slug: "savanna-biome",
+      region: "paldea",
+    },
+    {
+      name: "Savanna Plaza",
+      slug: "savanna-plaza",
+      region: "paldea",
+    },
+    {
+      name: "Scarlet Bog",
+      slug: "scarlet-bog",
+      region: "hisui",
+    },
+    {
+      name: "Schedar Squad's Base",
+      slug: "schedar-squads-base",
+      region: "paldea",
     },
     {
       name: "Scorched Slab",
@@ -5647,6 +8802,16 @@ export const LOCATIONS: Record<
       region: "kanto",
     },
     {
+      name: "Seafolk Village",
+      slug: "seafolk-village",
+      region: "alola",
+    },
+    {
+      name: "Seagrass Haven",
+      slug: "seagrass-haven",
+      region: "hisui",
+    },
+    {
       name: "Sealed Chamber",
       slug: "sealed-chamber",
       region: "hoenn",
@@ -5655,6 +8820,21 @@ export const LOCATIONS: Record<
       name: "Seaside Cave",
       slug: "seaside-cave",
       region: "unova",
+    },
+    {
+      name: "Seaside Hollow",
+      slug: "seaside-hollow",
+      region: "hisui",
+    },
+    {
+      name: "Seaward Cave",
+      slug: "seaward-cave",
+      region: "alola",
+    },
+    {
+      name: "Secluded Shore",
+      slug: "secluded-shore",
+      region: "alola",
     },
     {
       name: "Secret Base",
@@ -5677,6 +8857,11 @@ export const LOCATIONS: Record<
       region: "hoenn",
     },
     {
+      name: "Segin Squad's Base",
+      slug: "segin-squads-base",
+      region: "paldea",
+    },
+    {
       name: "Sendoff Spring",
       slug: "sendoff-spring",
       region: "sinnoh",
@@ -5697,6 +8882,11 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "Shady House",
+      slug: "shady-house",
+      region: "alola",
+    },
+    {
       name: "Shalour City",
       slug: "shalour-city",
       region: "kalos",
@@ -5715,6 +8905,11 @@ export const LOCATIONS: Record<
       name: "Shopping Mall",
       slug: "unova-shopping-mall",
       region: "unova",
+    },
+    {
+      name: "Shrouded Ruins",
+      slug: "shrouded-ruins",
+      region: "hisui",
     },
     {
       name: "Sinjoh Ruins",
@@ -5742,9 +8937,24 @@ export const LOCATIONS: Record<
       region: "hoenn",
     },
     {
+      name: "Slippery Slope",
+      slug: "slippery-slope",
+      region: "galar",
+    },
+    {
       name: "Slowpoke Well",
       slug: "slowpoke-well",
       region: "johto",
+    },
+    {
+      name: "Sludge Mound",
+      slug: "sludge-mound",
+      region: "hisui",
+    },
+    {
+      name: "Slumbering Weald",
+      slug: "slumbering-weald",
+      region: "galar",
     },
     {
       name: "Snowbelle City",
@@ -5757,6 +8967,11 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "Snowfall Hot Spring",
+      slug: "snowfall-hot-spring",
+      region: "hisui",
+    },
+    {
       name: "Snowpoint City",
       slug: "snowpoint-city",
       region: "sinnoh",
@@ -5767,9 +8982,24 @@ export const LOCATIONS: Record<
       region: "sinnoh",
     },
     {
+      name: "Snowpoint Temple",
+      slug: "hisui-snowpoint-temple",
+      region: "hisui",
+    },
+    {
+      name: "Snowslide Slope",
+      slug: "snowslide-slope",
+      region: "galar",
+    },
+    {
       name: "Soaring in the sky",
       slug: "soaring-in-the-sky",
       region: "hoenn",
+    },
+    {
+      name: "Socarrat Trail",
+      slug: "socarrat-trail",
+      region: "paldea",
     },
     {
       name: "Solaceon Ruins",
@@ -5777,9 +9007,24 @@ export const LOCATIONS: Record<
       region: "sinnoh",
     },
     {
+      name: "Solaceon Ruins",
+      slug: "hisui-solaceon-ruins",
+      region: "hisui",
+    },
+    {
       name: "Solaceon Town",
       slug: "solaceon-town",
       region: "sinnoh",
+    },
+    {
+      name: "Sonorous Path",
+      slug: "sonorous-path",
+      region: "hisui",
+    },
+    {
+      name: "Soothing Wetlands",
+      slug: "soothing-wetlands",
+      region: "galar",
     },
     {
       name: "Sootopolis City",
@@ -5787,9 +9032,54 @@ export const LOCATIONS: Record<
       region: "hoenn",
     },
     {
+      name: "South Lake Miloch",
+      slug: "south-lake-miloch",
+      region: "galar",
+    },
+    {
+      name: "South Paldean Sea",
+      slug: "south-paldean-sea",
+      region: "paldea",
+    },
+    {
+      name: "South Province (Area Five)",
+      slug: "paldea-south-province-area-five",
+      region: "paldea",
+    },
+    {
+      name: "South Province (Area Four)",
+      slug: "paldea-south-province-area-four",
+      region: "paldea",
+    },
+    {
+      name: "South Province (Area One)",
+      slug: "paldea-south-province-area-one",
+      region: "paldea",
+    },
+    {
+      name: "South Province (Area Six)",
+      slug: "paldea-south-province-area-six",
+      region: "paldea",
+    },
+    {
+      name: "South Province (Area Three)",
+      slug: "paldea-south-province-area-three",
+      region: "paldea",
+    },
+    {
+      name: "South Province (Area Two)",
+      slug: "paldea-south-province-area-two",
+      region: "paldea",
+    },
+    {
       name: "Southern Island",
       slug: "southern-island",
       region: "hoenn",
+    },
+    {
+      name: "Space-time distortion",
+      slug: "space-time-distortion",
+      region: "hisui",
     },
     {
       name: "Spear Pillar",
@@ -5797,14 +9087,29 @@ export const LOCATIONS: Record<
       region: "sinnoh",
     },
     {
+      name: "Spikemuth",
+      slug: "spikemuth",
+      region: "galar",
+    },
+    {
       name: "Spikes Passage",
       slug: "spikes-passage",
       region: "kalos",
     },
     {
+      name: "Split-Decision Ruins",
+      slug: "split-decision-ruins",
+      region: "galar",
+    },
+    {
       name: "Spring Path",
       slug: "spring-path",
       region: "sinnoh",
+    },
+    {
+      name: "Spring Path",
+      slug: "hisui-spring-path",
+      region: "hisui",
     },
     {
       name: "Sprout Tower",
@@ -5815,6 +9120,26 @@ export const LOCATIONS: Record<
       name: "Stark Mountain",
       slug: "stark-mountain",
       region: "sinnoh",
+    },
+    {
+      name: "Stepping-Stone Sea",
+      slug: "stepping-stone-sea",
+      region: "galar",
+    },
+    {
+      name: "Stonetooth Rows",
+      slug: "stonetooth-rows",
+      region: "hisui",
+    },
+    {
+      name: "Stony Wilderness",
+      slug: "stony-wilderness",
+      region: "galar",
+    },
+    {
+      name: "Stow-on-Side",
+      slug: "stow-on-side",
+      region: "galar",
     },
     {
       name: "Strange House",
@@ -5847,9 +9172,19 @@ export const LOCATIONS: Record<
       region: "sinnoh",
     },
     {
+      name: "Tagtree Thicket",
+      slug: "tagtree-thicket",
+      region: "paldea",
+    },
+    {
       name: "Tanoby Ruins",
       slug: "tanoby-ruins",
       region: "kanto",
+    },
+    {
+      name: "Tapu Village",
+      slug: "tapu-village",
+      region: "alola",
     },
     {
       name: "Team Aqua Hideout",
@@ -5872,6 +9207,26 @@ export const LOCATIONS: Record<
       region: "johto",
     },
     {
+      name: "Team Rocket's Castle",
+      slug: "team-rockets-castle",
+      region: "alola",
+    },
+    {
+      name: "Temple of Sinnoh",
+      slug: "temple-of-sinnoh",
+      region: "hisui",
+    },
+    {
+      name: "Ten Carat Hill",
+      slug: "ten-carat-hill",
+      region: "alola",
+    },
+    {
+      name: "Ten Carat Hill",
+      slug: "ten-carat-hill--farthest-hollow",
+      region: "alola",
+    },
+    {
       name: "Terminus Cave",
       slug: "terminus-cave",
       region: "kalos",
@@ -5880,6 +9235,11 @@ export const LOCATIONS: Record<
       name: "Terra Cave",
       slug: "terra-cave",
       region: "hoenn",
+    },
+    {
+      name: "The Heartwood",
+      slug: "the-heartwood",
+      region: "hisui",
     },
     {
       name: "Three Island",
@@ -5897,14 +9257,54 @@ export const LOCATIONS: Record<
       region: "kanto",
     },
     {
+      name: "Three-Point Pass",
+      slug: "three-point-pass",
+      region: "galar",
+    },
+    {
+      name: "Thrifty Megamart",
+      slug: "thrifty-megamart--abandoned-site",
+      region: "alola",
+    },
+    {
+      name: "Tidewater Dam",
+      slug: "tidewater-dam",
+      region: "hisui",
+    },
+    {
+      name: "Timeless Woods",
+      slug: "timeless-woods",
+      region: "paldea",
+    },
+    {
       name: "Tohjo Falls",
       slug: "tohjo-falls",
       region: "johto",
     },
     {
+      name: "Tombolo Walk",
+      slug: "tombolo-walk",
+      region: "hisui",
+    },
+    {
+      name: "Torchlit Labyrinth",
+      slug: "torchlit-labyrinth",
+      region: "paldea",
+    },
+    {
+      name: "Tower of Darkness",
+      slug: "tower-of-darkness",
+      region: "galar",
+    },
+    {
       name: "Tower of Mastery",
       slug: "tower-of-mastery",
       region: "kalos",
+    },
+    {
+      name: "Tower of Waters",
+      slug: "tower-of-waters",
+      region: "galar",
     },
     {
       name: "Trackless Forest",
@@ -5920,6 +9320,16 @@ export const LOCATIONS: Record<
       name: "Trainers’ School",
       slug: "trainers-school",
       region: "sinnoh",
+    },
+    {
+      name: "Training Lowlands",
+      slug: "training-lowlands",
+      region: "galar",
+    },
+    {
+      name: "Tranquility Cove",
+      slug: "tranquility-cove",
+      region: "hisui",
     },
     {
       name: "Treasure Beach",
@@ -5942,9 +9352,24 @@ export const LOCATIONS: Record<
       region: "unova",
     },
     {
+      name: "Tunnel to the Top",
+      slug: "tunnel-to-the-top",
+      region: "galar",
+    },
+    {
+      name: "Turffield",
+      slug: "turffield",
+      region: "galar",
+    },
+    {
       name: "Turnback Cave",
       slug: "turnback-cave",
       region: "sinnoh",
+    },
+    {
+      name: "Turnback Cave",
+      slug: "hisui-turnback-cave",
+      region: "hisui",
     },
     {
       name: "Twinleaf Town",
@@ -5960,6 +9385,31 @@ export const LOCATIONS: Record<
       name: "Two Island",
       slug: "two-island",
       region: "kanto",
+    },
+    {
+      name: "Ula'ula Beach",
+      slug: "ulaula-beach",
+      region: "alola",
+    },
+    {
+      name: "Ula’ula Meadow",
+      slug: "ulaula-meadow",
+      region: "alola",
+    },
+    {
+      name: "Ultra Megalopolis",
+      slug: "ultra-megalopolis",
+      region: "alola",
+    },
+    {
+      name: "Ultra Space",
+      slug: "ultra-space",
+      region: "alola",
+    },
+    {
+      name: "Ultra Space Wilds",
+      slug: "ultra-space-wilds",
+      region: "alola",
     },
     {
       name: "Undella Bay",
@@ -6022,6 +9472,16 @@ export const LOCATIONS: Record<
       region: "unova",
     },
     {
+      name: "Ursa's Ring",
+      slug: "ursas-ring",
+      region: "hisui",
+    },
+    {
+      name: "Uva Academy",
+      slug: "uva-academy",
+      region: "paldea",
+    },
+    {
       name: "Vallée Étroite Way",
       slug: "vallee-etroite-way",
       region: "kalos",
@@ -6052,6 +9512,16 @@ export const LOCATIONS: Record<
       region: "kalos",
     },
     {
+      name: "Vast Poni Canyon",
+      slug: "vast-poni-canyon",
+      region: "alola",
+    },
+    {
+      name: "Veilstone Cape",
+      slug: "veilstone-cape",
+      region: "hisui",
+    },
+    {
       name: "Veilstone City",
       slug: "veilstone-city",
       region: "sinnoh",
@@ -6060,6 +9530,21 @@ export const LOCATIONS: Record<
       name: "Veilstone Store",
       slug: "veilstone-store",
       region: "sinnoh",
+    },
+    {
+      name: "Verdant Cavern",
+      slug: "verdant-cavern--trial-site",
+      region: "alola",
+    },
+    {
+      name: "Verdant Cavern",
+      slug: "verdant-cavern--totems-den",
+      region: "alola",
+    },
+    {
+      name: "Verdant Cavern",
+      slug: "verdant-cavern",
+      region: "alola",
     },
     {
       name: "Verdanturf Town",
@@ -6172,6 +9657,16 @@ export const LOCATIONS: Record<
       region: "sinnoh",
     },
     {
+      name: "Warm-Up Tunnel",
+      slug: "warm-up-tunnel",
+      region: "galar",
+    },
+    {
+      name: "Watchtower Ruins",
+      slug: "watchtower-ruins",
+      region: "galar",
+    },
+    {
       name: "Water Labyrinth",
       slug: "water-labyrinth",
       region: "kanto",
@@ -6187,14 +9682,64 @@ export const LOCATIONS: Record<
       region: "sinnoh",
     },
     {
+      name: "Wayward Cave",
+      slug: "hisui-wayward-cave",
+      region: "hisui",
+    },
+    {
+      name: "Wayward Wood",
+      slug: "wayward-wood",
+      region: "hisui",
+    },
+    {
+      name: "Wedgehurst",
+      slug: "wedgehurst",
+      region: "galar",
+    },
+    {
       name: "Weepth Chamber",
       slug: "weepth-chamber",
       region: "kanto",
     },
     {
+      name: "Wela Volcano Park",
+      slug: "wela-volcano-park",
+      region: "alola",
+    },
+    {
+      name: "Wela Volcano Park",
+      slug: "wela-volcano-park--totems-den",
+      region: "alola",
+    },
+    {
       name: "Wellspring Cave",
       slug: "wellspring-cave",
       region: "unova",
+    },
+    {
+      name: "West Lake Axewell",
+      slug: "west-lake-axewell",
+      region: "galar",
+    },
+    {
+      name: "West Paldean Sea",
+      slug: "west-paldean-sea",
+      region: "paldea",
+    },
+    {
+      name: "West Province (Area One)",
+      slug: "paldea-west-province-area-one",
+      region: "paldea",
+    },
+    {
+      name: "West Province (Area Three)",
+      slug: "paldea-west-province-area-three",
+      region: "paldea",
+    },
+    {
+      name: "West Province (Area Two)",
+      slug: "paldea-west-province-area-two",
+      region: "paldea",
     },
     {
       name: "Whirl Islands",
@@ -6217,9 +9762,54 @@ export const LOCATIONS: Record<
       region: "unova",
     },
     {
+      name: "Whiteout Valley",
+      slug: "whiteout-valley",
+      region: "hisui",
+    },
+    {
+      name: "Windbreak Stand",
+      slug: "windbreak-stand",
+      region: "hisui",
+    },
+    {
       name: "Winding Woods",
       slug: "winding-woods",
       region: "kalos",
+    },
+    {
+      name: "Windswept Run",
+      slug: "windswept-run",
+      region: "hisui",
+    },
+    {
+      name: "Wistful Fields",
+      slug: "wistful-fields",
+      region: "paldea",
+    },
+    {
+      name: "Workout Sea",
+      slug: "workout-sea",
+      region: "galar",
+    },
+    {
+      name: "Worn Bridge",
+      slug: "worn-bridge",
+      region: "hisui",
+    },
+    {
+      name: "Wyndon",
+      slug: "wyndon",
+      region: "galar",
+    },
+    {
+      name: "Zapapico",
+      slug: "zapapico",
+      region: "paldea",
+    },
+    {
+      name: "Zero Lab",
+      slug: "zero-lab",
+      region: "paldea",
     },
     {
       name: "Zubat Roost",

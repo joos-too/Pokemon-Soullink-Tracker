@@ -1,20 +1,14 @@
 import React, { useEffect, useMemo, useState } from "react";
 import type { Pokemon, PokemonLink } from "@/types.ts";
-import {
-  getSpriteUrlById,
-  getSpriteUrlForPokemonName,
-} from "@/src/services/sprites.ts";
+import { getSpriteUrlById } from "@/src/services/sprites.ts";
 import { PLAYER_COLORS } from "@/src/services/init.ts";
 import { useTranslation } from "react-i18next";
 import { focusRingClasses } from "@/src/styles/focusRing.ts";
 import { FiEdit, FiTrash } from "react-icons/fi";
 import AddLostPokemonModal from "@/src/components/modals/AddLostPokemonModal.tsx";
 import EditPairModal from "@/src/components/modals/EditPairModal.tsx";
-import { getWikiUrl, getWikiUrlById, type WikiId } from "@/src/utils/wiki.ts";
-import {
-  getPokemonIdFromName,
-  getPokemonNameById,
-} from "@/src/services/pokemonSearch.ts";
+import { getWikiUrlById, type WikiId } from "@/src/utils/wiki.ts";
+import { getPokemonNameById } from "@/src/services/pokemonSearch.ts";
 import { normalizeLanguage } from "@/src/utils/language.ts";
 
 interface GraveyardProps {
@@ -196,24 +190,19 @@ const Graveyard: React.FC<GraveyardProps> = ({
                         id: null,
                         nickname: "",
                       };
-                      const pokemonId =
-                        member.id ?? getPokemonIdFromName(member.name);
+                      const pokemonId = member.id;
                       const displayName =
                         getPokemonNameById(pokemonId, language) ||
                         member.name ||
                         "";
-                      const spriteUrl = pokemonId
-                        ? getSpriteUrlById(pokemonId, generationSpritePath)
-                        : getSpriteUrlForPokemonName(
-                            member.name,
-                            generationSpritePath,
-                          );
+                      const spriteUrl = getSpriteUrlById(
+                        pokemonId,
+                        generationSpritePath,
+                      );
                       const wikiUrl =
                         pokemonId && wikiId
                           ? getWikiUrlById(pokemonId, wikiId as WikiId)
-                          : member.name && wikiId
-                            ? getWikiUrl(member.name, wikiId as WikiId)
-                            : null;
+                          : null;
                       return (
                         <div
                           key={`${pair.id}-player-${index}`}

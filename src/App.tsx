@@ -108,12 +108,11 @@ import {
   DEFAULT_WIKI_EN,
   type WikiId,
 } from "@/src/utils/wiki.ts";
-import { getPokemonIdFromName } from "@/src/services/pokemonSearch.ts";
 import "@/src/pokeapi"; // initialize Pokedex once so sprite caching SW gets registered
 
 const LAST_TRACKER_STORAGE_KEY = "soullink:lastTrackerId";
 
-const MAX_DATA_GENERATION = 6;
+const MAX_DATA_GENERATION = 9;
 const resolveGenerationFromVersionId = (versionId?: string | null): number => {
   if (!versionId) return MAX_DATA_GENERATION;
   const match = /^gen(\d+)/i.exec(versionId);
@@ -447,9 +446,6 @@ const App: React.FC = () => {
         if (typeof pokemon?.pokemonId === "number" && pokemon.pokemonId > 0) {
           return pokemon.pokemonId;
         }
-        if (typeof pokemon?.name === "string") {
-          return getPokemonIdFromName(pokemon.name);
-        }
         return null;
       };
 
@@ -507,7 +503,7 @@ const App: React.FC = () => {
             pokemonId:
               Number.isFinite(Number(f.pokemonId)) && Number(f.pokemonId) > 0
                 ? Number(f.pokemonId)
-                : getPokemonIdFromName(f.pokemonName),
+                : null,
           }));
         });
       };

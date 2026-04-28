@@ -8,6 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "generate-pokemon": "node scripts/generate-pokemon-de.mjs",
+    "migrate-pokemon-ids": "node scripts/migrate-pokemon-names-to-ids.mjs",
     "emulators": "firebase emulators:start",
     "prettier": "prettier --write .",
     "prettier:check": "prettier --check .",

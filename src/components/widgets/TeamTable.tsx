@@ -12,20 +12,15 @@ import {
 import { LuCircleFadingArrowUp } from "react-icons/lu";
 import { PiSkullBold } from "react-icons/pi";
 import {
-  getOfficialArtworkUrlForPokemonName,
   getOfficialArtworkUrlById,
   getSpriteUrlById,
-  getSpriteUrlForPokemonName,
 } from "@/src/services/sprites.ts";
 import { getPokemonTypeSlugsById } from "@/src/services/pokemonTypes.ts";
 import TypeBadge from "@/src/components/badges/TypeBadge.tsx";
 import { useTranslation } from "react-i18next";
 import { focusRingClasses } from "@/src/styles/focusRing.ts";
-import { getWikiUrl, getWikiUrlById, type WikiId } from "@/src/utils/wiki.ts";
-import {
-  getPokemonIdFromName,
-  getPokemonNameById,
-} from "@/src/services/pokemonSearch.ts";
+import { getWikiUrlById, type WikiId } from "@/src/utils/wiki.ts";
+import { getPokemonNameById } from "@/src/services/pokemonSearch.ts";
 import { normalizeLanguage } from "@/src/utils/language.ts";
 
 interface TeamTableProps {
@@ -236,8 +231,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                     id: null,
                     nickname: "",
                   };
-                  const pokemonId =
-                    member.id ?? getPokemonIdFromName(member.name);
+                  const pokemonId = member.id;
                   const displayName =
                     getPokemonNameById(pokemonId, language) ||
                     member.name ||
@@ -246,20 +240,11 @@ const TeamTable: React.FC<TeamTableProps> = ({
                     ? useSpritesInTeamTable
                       ? getSpriteUrlById(pokemonId, generationSpritePath)
                       : getOfficialArtworkUrlById(pokemonId)
-                    : member.name
-                      ? useSpritesInTeamTable
-                        ? getSpriteUrlForPokemonName(
-                            member.name,
-                            generationSpritePath,
-                          )
-                        : getOfficialArtworkUrlForPokemonName(member.name)
-                      : null;
+                    : null;
                   const wikiUrl =
                     pokemonId && wikiId
                       ? getWikiUrlById(pokemonId, wikiId as WikiId)
-                      : member.name && wikiId
-                        ? getWikiUrl(member.name, wikiId as WikiId)
-                        : null;
+                      : null;
                   return (
                     <React.Fragment
                       key={`player-cell-${pair.id}-${playerIndex}`}

@@ -6,13 +6,9 @@ import {
   focusRingClasses,
   focusRingInputClasses,
 } from "@/src/styles/focusRing.ts";
-import {
-  getSpriteUrlById,
-  getSpriteUrlForPokemonName,
-} from "@/src/services/sprites.ts";
+import { getSpriteUrlById } from "@/src/services/sprites.ts";
 import {
   getPokemonFamilyIdsMatchingQuery,
-  getPokemonIdFromName,
   getPokemonNameById,
 } from "@/src/services/pokemonSearch";
 import { FOSSILS, STONES, MEGA_STONES } from "@/src/data/special-items.ts";
@@ -109,7 +105,7 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
 
     return pair.members.some((member) => {
       const name = member?.name || "";
-      const pokemonId = member?.id ?? getPokemonIdFromName(name);
+      const pokemonId = member?.id;
       const displayName = getPokemonNameById(pokemonId, locale) || name;
       const nickname = member?.nickname || "";
       if (
@@ -386,21 +382,16 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
                                 id: null,
                                 nickname: "",
                               };
-                              const pokemonId =
-                                member.id ?? getPokemonIdFromName(member.name);
+                              const pokemonId = member.id;
                               const displayName =
                                 getPokemonNameById(pokemonId, locale) ||
                                 member.name ||
                                 "";
-                              const spriteUrl = pokemonId
-                                ? getSpriteUrlById(
-                                    pokemonId,
-                                    generationSpritePath,
-                                  )
-                                : getSpriteUrlForPokemonName(
-                                    member.name,
-                                    generationSpritePath,
-                                  );
+                              const spriteUrl = getSpriteUrlById(
+                                pokemonId,
+                                generationSpritePath,
+                              );
+
                               return (
                                 <div
                                   key={`${section.key}-${pair.id}-player-${index}`}

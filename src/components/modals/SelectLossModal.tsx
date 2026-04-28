@@ -3,16 +3,10 @@ import type { PokemonLink } from "@/types.ts";
 import { Trans, useTranslation } from "react-i18next";
 import { useFocusTrap } from "@/src/hooks/useFocusTrap.ts";
 import { focusRingClasses } from "@/src/styles/focusRing.ts";
-import {
-  getSpriteUrlById,
-  getSpriteUrlForPokemonName,
-} from "@/src/services/sprites.ts";
+import { getSpriteUrlById } from "@/src/services/sprites.ts";
 import { FiInfo } from "react-icons/fi";
 import Tooltip from "@/src/components/other/Tooltip.tsx";
-import {
-  getPokemonIdFromName,
-  getPokemonNameById,
-} from "@/src/services/pokemonSearch.ts";
+import { getPokemonNameById } from "@/src/services/pokemonSearch.ts";
 import { normalizeLanguage } from "@/src/utils/language.ts";
 
 interface SelectLossModalProps {
@@ -112,15 +106,13 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({
                       id: null,
                       nickname: "",
                     };
-                    const pokemonId =
-                      member.id ?? getPokemonIdFromName(member.name);
+                    const pokemonId = member.id;
                     const displayName =
                       getPokemonNameById(pokemonId, language) ||
                       member.name ||
                       "";
-                    const spriteUrl = pokemonId
-                      ? getSpriteUrlById(pokemonId)
-                      : getSpriteUrlForPokemonName(member.name);
+                    const spriteUrl = getSpriteUrlById(pokemonId);
+
                     return (
                       <div
                         key={`loss-preview-${index}`}
@@ -151,15 +143,11 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({
                       id: null,
                       nickname: "",
                     };
-                    const pokemonId =
-                      member.id ?? getPokemonIdFromName(member.name);
                     const displayName =
-                      getPokemonNameById(pokemonId, language) ||
+                      getPokemonNameById(member.id, language) ||
                       member.name ||
                       "";
-                    const spriteUrl = pokemonId
-                      ? getSpriteUrlById(pokemonId)
-                      : getSpriteUrlForPokemonName(member.name);
+                    const spriteUrl = getSpriteUrlById(member.id);
                     const isSelected = selected === index;
                     return (
                       <label

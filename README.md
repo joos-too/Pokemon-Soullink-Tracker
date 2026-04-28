@@ -117,7 +117,7 @@ The same `database.rules.json` file is loaded automatically when you run the loc
 npm run generate-pokemon
 ```
 
-The script fetches all supported Pokémon species and evolution chains (up to Gen 6), translates the names, stores IDs/generation metadata, and persists the evolutions so the app can apply generation/version filters offline.
+The script fetches all supported Pokémon species and evolution chains (up to Gen 9), translates the names, stores IDs/generation metadata, and persists the evolutions so the app can apply generation/version filters offline.
 
 ## Image caching
 

@@ -809,6 +809,13 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           en: ["Level-Up - Friendship ≥ 160", "Level-Up - Level 28"],
         },
       },
+      {
+        id: 863,
+        methods: {
+          de: ["Level-Up - Level 28"],
+          en: ["Level-Up - Level 28"],
+        },
+      },
     ],
   },
   "53": {
@@ -873,6 +880,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["fighting"],
+    evolutions: [
+      {
+        id: 979,
+        methods: {
+          de: ["Use Move"],
+          en: ["Use Move"],
+        },
+      },
+    ],
   },
   "58": {
     id: 58,
@@ -1265,11 +1281,11 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
         methods: {
           de: [
             "Item: Donnerstein",
-            "Level-Up - Ort: Blush Mountain",
+            "Level-Up - Ort: Canyon von Poni",
             "Level-Up - Ort: Elektrolithhöhle",
+            "Level-Up - Ort: Glühberg",
             "Level-Up - Ort: Kraterberg",
             "Level-Up - Ort: Route 13",
-            "Level-Up - Ort: Vast Poni Canyon",
           ],
           en: [
             "Item: Thunder Stone",
@@ -1291,6 +1307,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 1,
     types: ["normal", "flying"],
+    evolutions: [
+      {
+        id: 865,
+        methods: {
+          de: ["3 Kritische Treffer"],
+          en: ["3 Critical Hits"],
+        },
+      },
+    ],
   },
   "84": {
     id: 84,
@@ -1849,6 +1874,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
         types: ["psychic"],
       },
     ],
+    evolutions: [
+      {
+        id: 866,
+        methods: {
+          de: ["Level-Up - Level 42"],
+          en: ["Level-Up - Level 42"],
+        },
+      },
+    ],
   },
   "123": {
     id: 123,
@@ -1864,6 +1898,13 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
         methods: {
           de: ["Tausch - Trägt Metallmantel"],
           en: ["Trade - Holds Metal Coat"],
+        },
+      },
+      {
+        id: 900,
+        methods: {
+          de: ["Item: Black Augurite"],
+          en: ["Item: Black Augurite"],
         },
       },
     ],
@@ -2931,6 +2972,13 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           en: ["Level-Up - Level 20"],
         },
       },
+      {
+        id: 980,
+        methods: {
+          de: ["Level-Up - Level 20"],
+          en: ["Level-Up - Level 20"],
+        },
+      },
     ],
   },
   "195": {
@@ -3031,6 +3079,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["normal", "psychic"],
+    evolutions: [
+      {
+        id: 981,
+        methods: {
+          de: ["Level-Up - Kennt Twin Beam"],
+          en: ["Level-Up - Knows Twin Beam"],
+        },
+      },
+    ],
   },
   "204": {
     id: 204,
@@ -3067,6 +3124,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["normal"],
+    evolutions: [
+      {
+        id: 982,
+        methods: {
+          de: ["Level-Up - Kennt Hyper Drill"],
+          en: ["Level-Up - Knows Hyper Drill"],
+        },
+      },
+    ],
   },
   "207": {
     id: 207,
@@ -3142,6 +3208,23 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["water", "poison"],
+    evolutions: [
+      {
+        id: 904,
+        methods: {
+          de: [
+            "Level-Up - Kennt Barb Barrage",
+            "Strong Style Move",
+            "Use Move",
+          ],
+          en: [
+            "Level-Up - Knows Barb Barrage",
+            "Strong Style Move",
+            "Use Move",
+          ],
+        },
+      },
+    ],
   },
   "212": {
     id: 212,
@@ -3186,6 +3269,13 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           en: ["Level-Up - Time of day: Night, Holds Razor Claw"],
         },
       },
+      {
+        id: 903,
+        methods: {
+          de: ["Level-Up - Tageszeit: Tag, Trägt Scharfklaue"],
+          en: ["Level-Up - Time of day: Day, Holds Razor Claw"],
+        },
+      },
     ],
   },
   "216": {
@@ -3214,6 +3304,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["normal"],
+    evolutions: [
+      {
+        id: 901,
+        methods: {
+          de: ["Item: Peat Block - Tageszeit: Full Moon"],
+          en: ["Item: Peat Block - Time of day: Full Moon"],
+        },
+      },
+    ],
   },
   "218": {
     id: 218,
@@ -3286,6 +3385,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["water", "rock"],
+    evolutions: [
+      {
+        id: 864,
+        methods: {
+          de: ["Level-Up - Level 38"],
+          en: ["Level-Up - Level 38"],
+        },
+      },
+    ],
   },
   "223": {
     id: 223,
@@ -3430,6 +3538,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 2,
     types: ["normal"],
+    evolutions: [
+      {
+        id: 899,
+        methods: {
+          de: ["Agile Style Move"],
+          en: ["Agile Style Move"],
+        },
+      },
+    ],
   },
   "235": {
     id: 235,
@@ -3840,6 +3957,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 3,
     types: ["normal"],
+    evolutions: [
+      {
+        id: 862,
+        methods: {
+          de: ["Level-Up - Level 35, Tageszeit: Nacht"],
+          en: ["Level-Up - Level 35, Time of day: Night"],
+        },
+      },
+    ],
   },
   "265": {
     id: 265,
@@ -4386,11 +4512,11 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
         methods: {
           de: [
             "Item: Donnerstein",
-            "Level-Up - Ort: Blush Mountain",
+            "Level-Up - Ort: Canyon von Poni",
             "Level-Up - Ort: Elektrolithhöhle",
+            "Level-Up - Ort: Glühberg",
             "Level-Up - Ort: Kraterberg",
             "Level-Up - Ort: Route 13",
-            "Level-Up - Ort: Vast Poni Canyon",
           ],
           en: [
             "Item: Thunder Stone",
@@ -7640,6 +7766,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["water"],
+    evolutions: [
+      {
+        id: 902,
+        methods: {
+          de: ["Recoil Damage"],
+          en: ["Recoil Damage"],
+        },
+      },
+    ],
   },
   "551": {
     id: 551,
@@ -7799,6 +7934,13 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
         methods: {
           de: ["Level-Up - Level 34"],
           en: ["Level-Up - Level 34"],
+        },
+      },
+      {
+        id: 867,
+        methods: {
+          de: ["Take Damage"],
+          en: ["Take Damage"],
         },
       },
     ],
@@ -8657,6 +8799,15 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 5,
     types: ["dark", "steel"],
+    evolutions: [
+      {
+        id: 983,
+        methods: {
+          de: ["Three Defeated Bisharp"],
+          en: ["Three Defeated Bisharp"],
+        },
+      },
+    ],
   },
   "626": {
     id: 626,
@@ -9872,6 +10023,3759 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
     },
     generation: 6,
     types: ["fire", "water"],
+  },
+  "722": {
+    id: 722,
+    names: {
+      de: "Bauz",
+      en: "Rowlet",
+    },
+    generation: 7,
+    types: ["grass", "flying"],
+    evolutions: [
+      {
+        id: 723,
+        methods: {
+          de: ["Level-Up - Level 17"],
+          en: ["Level-Up - Level 17"],
+        },
+      },
+    ],
+  },
+  "723": {
+    id: 723,
+    names: {
+      de: "Arboretoss",
+      en: "Dartrix",
+    },
+    generation: 7,
+    types: ["grass", "flying"],
+    evolutions: [
+      {
+        id: 724,
+        methods: {
+          de: ["Level-Up - Level 34", "Level-Up - Level 36"],
+          en: ["Level-Up - Level 34", "Level-Up - Level 36"],
+        },
+      },
+    ],
+  },
+  "724": {
+    id: 724,
+    names: {
+      de: "Silvarro",
+      en: "Decidueye",
+    },
+    generation: 7,
+    types: ["grass", "ghost"],
+  },
+  "725": {
+    id: 725,
+    names: {
+      de: "Flamiau",
+      en: "Litten",
+    },
+    generation: 7,
+    types: ["fire"],
+    evolutions: [
+      {
+        id: 726,
+        methods: {
+          de: ["Level-Up - Level 17"],
+          en: ["Level-Up - Level 17"],
+        },
+      },
+    ],
+  },
+  "726": {
+    id: 726,
+    names: {
+      de: "Miezunder",
+      en: "Torracat",
+    },
+    generation: 7,
+    types: ["fire"],
+    evolutions: [
+      {
+        id: 727,
+        methods: {
+          de: ["Level-Up - Level 34"],
+          en: ["Level-Up - Level 34"],
+        },
+      },
+    ],
+  },
+  "727": {
+    id: 727,
+    names: {
+      de: "Fuegro",
+      en: "Incineroar",
+    },
+    generation: 7,
+    types: ["fire", "dark"],
+  },
+  "728": {
+    id: 728,
+    names: {
+      de: "Robball",
+      en: "Popplio",
+    },
+    generation: 7,
+    types: ["water"],
+    evolutions: [
+      {
+        id: 729,
+        methods: {
+          de: ["Level-Up - Level 17"],
+          en: ["Level-Up - Level 17"],
+        },
+      },
+    ],
+  },
+  "729": {
+    id: 729,
+    names: {
+      de: "Marikeck",
+      en: "Brionne",
+    },
+    generation: 7,
+    types: ["water"],
+    evolutions: [
+      {
+        id: 730,
+        methods: {
+          de: ["Level-Up - Level 34"],
+          en: ["Level-Up - Level 34"],
+        },
+      },
+    ],
+  },
+  "730": {
+    id: 730,
+    names: {
+      de: "Primarene",
+      en: "Primarina",
+    },
+    generation: 7,
+    types: ["water", "fairy"],
+  },
+  "731": {
+    id: 731,
+    names: {
+      de: "Peppeck",
+      en: "Pikipek",
+    },
+    generation: 7,
+    types: ["normal", "flying"],
+    evolutions: [
+      {
+        id: 732,
+        methods: {
+          de: ["Level-Up - Level 14"],
+          en: ["Level-Up - Level 14"],
+        },
+      },
+    ],
+  },
+  "732": {
+    id: 732,
+    names: {
+      de: "Trompeck",
+      en: "Trumbeak",
+    },
+    generation: 7,
+    types: ["normal", "flying"],
+    evolutions: [
+      {
+        id: 733,
+        methods: {
+          de: ["Level-Up - Level 28"],
+          en: ["Level-Up - Level 28"],
+        },
+      },
+    ],
+  },
+  "733": {
+    id: 733,
+    names: {
+      de: "Tukanon",
+      en: "Toucannon",
+    },
+    generation: 7,
+    types: ["normal", "flying"],
+  },
+  "734": {
+    id: 734,
+    names: {
+      de: "Mangunior",
+      en: "Yungoos",
+    },
+    generation: 7,
+    types: ["normal"],
+    evolutions: [
+      {
+        id: 735,
+        methods: {
+          de: ["Level-Up - Level 20, Tageszeit: Tag"],
+          en: ["Level-Up - Level 20, Time of day: Day"],
+        },
+      },
+    ],
+  },
+  "735": {
+    id: 735,
+    names: {
+      de: "Manguspektor",
+      en: "Gumshoos",
+    },
+    generation: 7,
+    types: ["normal"],
+  },
+  "736": {
+    id: 736,
+    names: {
+      de: "Mabula",
+      en: "Grubbin",
+    },
+    generation: 7,
+    types: ["bug"],
+    evolutions: [
+      {
+        id: 737,
+        methods: {
+          de: ["Level-Up - Level 20"],
+          en: ["Level-Up - Level 20"],
+        },
+      },
+    ],
+  },
+  "737": {
+    id: 737,
+    names: {
+      de: "Akkup",
+      en: "Charjabug",
+    },
+    generation: 7,
+    types: ["bug", "electric"],
+    evolutions: [
+      {
+        id: 738,
+        methods: {
+          de: [
+            "Item: Donnerstein",
+            "Level-Up - Ort: Canyon von Poni",
+            "Level-Up - Ort: Glühberg",
+          ],
+          en: [
+            "Item: Thunder Stone",
+            "Level-Up - Location: Blush Mountain",
+            "Level-Up - Location: Vast Poni Canyon",
+          ],
+        },
+      },
+    ],
+  },
+  "738": {
+    id: 738,
+    names: {
+      de: "Donarion",
+      en: "Vikavolt",
+    },
+    generation: 7,
+    types: ["bug", "electric"],
+  },
+  "739": {
+    id: 739,
+    names: {
+      de: "Krabbox",
+      en: "Crabrawler",
+    },
+    generation: 7,
+    types: ["fighting"],
+    evolutions: [
+      {
+        id: 740,
+        methods: {
+          de: ["Item: Eisstein", "Level-Up - Ort: Mount Lanakila"],
+          en: ["Item: Ice Stone", "Level-Up - Location: Mount Lanakila"],
+        },
+      },
+    ],
+  },
+  "740": {
+    id: 740,
+    names: {
+      de: "Krawell",
+      en: "Crabominable",
+    },
+    generation: 7,
+    types: ["fighting", "ice"],
+  },
+  "741": {
+    id: 741,
+    names: {
+      de: "Choreogel",
+      en: "Oricorio",
+    },
+    generation: 7,
+    types: ["fire", "flying"],
+  },
+  "742": {
+    id: 742,
+    names: {
+      de: "Wommel",
+      en: "Cutiefly",
+    },
+    generation: 7,
+    types: ["bug", "fairy"],
+    evolutions: [
+      {
+        id: 743,
+        methods: {
+          de: ["Level-Up - Level 25"],
+          en: ["Level-Up - Level 25"],
+        },
+      },
+    ],
+  },
+  "743": {
+    id: 743,
+    names: {
+      de: "Bandelby",
+      en: "Ribombee",
+    },
+    generation: 7,
+    types: ["bug", "fairy"],
+  },
+  "744": {
+    id: 744,
+    names: {
+      de: "Wuffels",
+      en: "Rockruff",
+    },
+    generation: 7,
+    types: ["rock"],
+    evolutions: [
+      {
+        id: 745,
+        methods: {
+          de: [
+            "Level-Up - Level 25, Tageszeit: Abend",
+            "Level-Up - Level 25, Tageszeit: Nacht",
+            "Level-Up - Level 25, Tageszeit: Tag",
+          ],
+          en: [
+            "Level-Up - Level 25, Time of day: Day",
+            "Level-Up - Level 25, Time of day: Dusk",
+            "Level-Up - Level 25, Time of day: Night",
+          ],
+        },
+      },
+    ],
+  },
+  "745": {
+    id: 745,
+    names: {
+      de: "Wolwerock",
+      en: "Lycanroc",
+    },
+    generation: 7,
+    types: ["rock"],
+  },
+  "746": {
+    id: 746,
+    names: {
+      de: "Lusardin",
+      en: "Wishiwashi",
+    },
+    generation: 7,
+    types: ["water"],
+  },
+  "747": {
+    id: 747,
+    names: {
+      de: "Garstella",
+      en: "Mareanie",
+    },
+    generation: 7,
+    types: ["poison", "water"],
+    evolutions: [
+      {
+        id: 748,
+        methods: {
+          de: ["Level-Up - Level 38"],
+          en: ["Level-Up - Level 38"],
+        },
+      },
+    ],
+  },
+  "748": {
+    id: 748,
+    names: {
+      de: "Aggrostella",
+      en: "Toxapex",
+    },
+    generation: 7,
+    types: ["poison", "water"],
+  },
+  "749": {
+    id: 749,
+    names: {
+      de: "Pampuli",
+      en: "Mudbray",
+    },
+    generation: 7,
+    types: ["ground"],
+    evolutions: [
+      {
+        id: 750,
+        methods: {
+          de: ["Level-Up - Level 30"],
+          en: ["Level-Up - Level 30"],
+        },
+      },
+    ],
+  },
+  "750": {
+    id: 750,
+    names: {
+      de: "Pampross",
+      en: "Mudsdale",
+    },
+    generation: 7,
+    types: ["ground"],
+  },
+  "751": {
+    id: 751,
+    names: {
+      de: "Araqua",
+      en: "Dewpider",
+    },
+    generation: 7,
+    types: ["water", "bug"],
+    evolutions: [
+      {
+        id: 752,
+        methods: {
+          de: ["Level-Up - Level 22"],
+          en: ["Level-Up - Level 22"],
+        },
+      },
+    ],
+  },
+  "752": {
+    id: 752,
+    names: {
+      de: "Aranestro",
+      en: "Araquanid",
+    },
+    generation: 7,
+    types: ["water", "bug"],
+  },
+  "753": {
+    id: 753,
+    names: {
+      de: "Imantis",
+      en: "Fomantis",
+    },
+    generation: 7,
+    types: ["grass"],
+    evolutions: [
+      {
+        id: 754,
+        methods: {
+          de: ["Level-Up - Level 34, Tageszeit: Tag"],
+          en: ["Level-Up - Level 34, Time of day: Day"],
+        },
+      },
+    ],
+  },
+  "754": {
+    id: 754,
+    names: {
+      de: "Mantidea",
+      en: "Lurantis",
+    },
+    generation: 7,
+    types: ["grass"],
+  },
+  "755": {
+    id: 755,
+    names: {
+      de: "Bubungus",
+      en: "Morelull",
+    },
+    generation: 7,
+    types: ["grass", "fairy"],
+    evolutions: [
+      {
+        id: 756,
+        methods: {
+          de: ["Level-Up - Level 24"],
+          en: ["Level-Up - Level 24"],
+        },
+      },
+    ],
+  },
+  "756": {
+    id: 756,
+    names: {
+      de: "Lamellux",
+      en: "Shiinotic",
+    },
+    generation: 7,
+    types: ["grass", "fairy"],
+  },
+  "757": {
+    id: 757,
+    names: {
+      de: "Molunk",
+      en: "Salandit",
+    },
+    generation: 7,
+    types: ["poison", "fire"],
+    evolutions: [
+      {
+        id: 758,
+        methods: {
+          de: ["Level-Up - Level 33, Nur weiblich"],
+          en: ["Level-Up - Level 33, Only female"],
+        },
+      },
+    ],
+  },
+  "758": {
+    id: 758,
+    names: {
+      de: "Amfira",
+      en: "Salazzle",
+    },
+    generation: 7,
+    types: ["poison", "fire"],
+  },
+  "759": {
+    id: 759,
+    names: {
+      de: "Velursi",
+      en: "Stufful",
+    },
+    generation: 7,
+    types: ["normal", "fighting"],
+    evolutions: [
+      {
+        id: 760,
+        methods: {
+          de: ["Level-Up - Level 27"],
+          en: ["Level-Up - Level 27"],
+        },
+      },
+    ],
+  },
+  "760": {
+    id: 760,
+    names: {
+      de: "Kosturso",
+      en: "Bewear",
+    },
+    generation: 7,
+    types: ["normal", "fighting"],
+  },
+  "761": {
+    id: 761,
+    names: {
+      de: "Frubberl",
+      en: "Bounsweet",
+    },
+    generation: 7,
+    types: ["grass"],
+    evolutions: [
+      {
+        id: 762,
+        methods: {
+          de: ["Level-Up - Level 18"],
+          en: ["Level-Up - Level 18"],
+        },
+      },
+    ],
+  },
+  "762": {
+    id: 762,
+    names: {
+      de: "Frubaila",
+      en: "Steenee",
+    },
+    generation: 7,
+    types: ["grass"],
+    evolutions: [
+      {
+        id: 763,
+        methods: {
+          de: ["Level-Up - Kennt Stampfer"],
+          en: ["Level-Up - Knows Stomp"],
+        },
+      },
+    ],
+  },
+  "763": {
+    id: 763,
+    names: {
+      de: "Fruyal",
+      en: "Tsareena",
+    },
+    generation: 7,
+    types: ["grass"],
+  },
+  "764": {
+    id: 764,
+    names: {
+      de: "Curelei",
+      en: "Comfey",
+    },
+    generation: 7,
+    types: ["fairy"],
+  },
+  "765": {
+    id: 765,
+    names: {
+      de: "Kommandutan",
+      en: "Oranguru",
+    },
+    generation: 7,
+    types: ["normal", "psychic"],
+  },
+  "766": {
+    id: 766,
+    names: {
+      de: "Quartermak",
+      en: "Passimian",
+    },
+    generation: 7,
+    types: ["fighting"],
+  },
+  "767": {
+    id: 767,
+    names: {
+      de: "Reißlaus",
+      en: "Wimpod",
+    },
+    generation: 7,
+    types: ["bug", "water"],
+    evolutions: [
+      {
+        id: 768,
+        methods: {
+          de: ["Level-Up - Level 30"],
+          en: ["Level-Up - Level 30"],
+        },
+      },
+    ],
+  },
+  "768": {
+    id: 768,
+    names: {
+      de: "Tectass",
+      en: "Golisopod",
+    },
+    generation: 7,
+    types: ["bug", "water"],
+  },
+  "769": {
+    id: 769,
+    names: {
+      de: "Sankabuh",
+      en: "Sandygast",
+    },
+    generation: 7,
+    types: ["ghost", "ground"],
+    evolutions: [
+      {
+        id: 770,
+        methods: {
+          de: ["Level-Up - Level 42"],
+          en: ["Level-Up - Level 42"],
+        },
+      },
+    ],
+  },
+  "770": {
+    id: 770,
+    names: {
+      de: "Colossand",
+      en: "Palossand",
+    },
+    generation: 7,
+    types: ["ghost", "ground"],
+  },
+  "771": {
+    id: 771,
+    names: {
+      de: "Gufa",
+      en: "Pyukumuku",
+    },
+    generation: 7,
+    types: ["water"],
+  },
+  "772": {
+    id: 772,
+    names: {
+      de: "Typ:Null",
+      en: "Type: Null",
+    },
+    generation: 7,
+    types: ["normal"],
+    evolutions: [
+      {
+        id: 773,
+        methods: {
+          de: ["Level-Up - Freundschaft ≥ 160"],
+          en: ["Level-Up - Friendship ≥ 160"],
+        },
+      },
+    ],
+  },
+  "773": {
+    id: 773,
+    names: {
+      de: "Amigento",
+      en: "Silvally",
+    },
+    generation: 7,
+    types: ["normal"],
+  },
+  "774": {
+    id: 774,
+    names: {
+      de: "Meteno",
+      en: "Minior",
+    },
+    generation: 7,
+    types: ["rock", "flying"],
+  },
+  "775": {
+    id: 775,
+    names: {
+      de: "Koalelu",
+      en: "Komala",
+    },
+    generation: 7,
+    types: ["normal"],
+  },
+  "776": {
+    id: 776,
+    names: {
+      de: "Tortunator",
+      en: "Turtonator",
+    },
+    generation: 7,
+    types: ["fire", "dragon"],
+  },
+  "777": {
+    id: 777,
+    names: {
+      de: "Togedemaru",
+      en: "Togedemaru",
+    },
+    generation: 7,
+    types: ["electric", "steel"],
+  },
+  "778": {
+    id: 778,
+    names: {
+      de: "Mimigma",
+      en: "Mimikyu",
+    },
+    generation: 7,
+    types: ["ghost", "fairy"],
+  },
+  "779": {
+    id: 779,
+    names: {
+      de: "Knirfish",
+      en: "Bruxish",
+    },
+    generation: 7,
+    types: ["water", "psychic"],
+  },
+  "780": {
+    id: 780,
+    names: {
+      de: "Sen-Long",
+      en: "Drampa",
+    },
+    generation: 7,
+    types: ["normal", "dragon"],
+  },
+  "781": {
+    id: 781,
+    names: {
+      de: "Moruda",
+      en: "Dhelmise",
+    },
+    generation: 7,
+    types: ["ghost", "grass"],
+  },
+  "782": {
+    id: 782,
+    names: {
+      de: "Miniras",
+      en: "Jangmo-o",
+    },
+    generation: 7,
+    types: ["dragon"],
+    evolutions: [
+      {
+        id: 783,
+        methods: {
+          de: ["Level-Up - Level 35"],
+          en: ["Level-Up - Level 35"],
+        },
+      },
+    ],
+  },
+  "783": {
+    id: 783,
+    names: {
+      de: "Mediras",
+      en: "Hakamo-o",
+    },
+    generation: 7,
+    types: ["dragon", "fighting"],
+    evolutions: [
+      {
+        id: 784,
+        methods: {
+          de: ["Level-Up - Level 45"],
+          en: ["Level-Up - Level 45"],
+        },
+      },
+    ],
+  },
+  "784": {
+    id: 784,
+    names: {
+      de: "Grandiras",
+      en: "Kommo-o",
+    },
+    generation: 7,
+    types: ["dragon", "fighting"],
+  },
+  "785": {
+    id: 785,
+    names: {
+      de: "Kapu-Riki",
+      en: "Tapu Koko",
+    },
+    generation: 7,
+    types: ["electric", "fairy"],
+  },
+  "786": {
+    id: 786,
+    names: {
+      de: "Kapu-Fala",
+      en: "Tapu Lele",
+    },
+    generation: 7,
+    types: ["psychic", "fairy"],
+  },
+  "787": {
+    id: 787,
+    names: {
+      de: "Kapu-Toro",
+      en: "Tapu Bulu",
+    },
+    generation: 7,
+    types: ["grass", "fairy"],
+  },
+  "788": {
+    id: 788,
+    names: {
+      de: "Kapu-Kime",
+      en: "Tapu Fini",
+    },
+    generation: 7,
+    types: ["water", "fairy"],
+  },
+  "789": {
+    id: 789,
+    names: {
+      de: "Cosmog",
+      en: "Cosmog",
+    },
+    generation: 7,
+    types: ["psychic"],
+    evolutions: [
+      {
+        id: 790,
+        methods: {
+          de: ["Level-Up - Level 43"],
+          en: ["Level-Up - Level 43"],
+        },
+      },
+    ],
+  },
+  "790": {
+    id: 790,
+    names: {
+      de: "Cosmovum",
+      en: "Cosmoem",
+    },
+    generation: 7,
+    types: ["psychic"],
+    evolutions: [
+      {
+        id: 791,
+        methods: {
+          de: ["Level-Up - Level 53"],
+          en: ["Level-Up - Level 53"],
+        },
+      },
+      {
+        id: 792,
+        methods: {
+          de: ["Level-Up - Level 53"],
+          en: ["Level-Up - Level 53"],
+        },
+      },
+    ],
+  },
+  "791": {
+    id: 791,
+    names: {
+      de: "Solgaleo",
+      en: "Solgaleo",
+    },
+    generation: 7,
+    types: ["psychic", "steel"],
+  },
+  "792": {
+    id: 792,
+    names: {
+      de: "Lunala",
+      en: "Lunala",
+    },
+    generation: 7,
+    types: ["psychic", "ghost"],
+  },
+  "793": {
+    id: 793,
+    names: {
+      de: "Anego",
+      en: "Nihilego",
+    },
+    generation: 7,
+    types: ["rock", "poison"],
+  },
+  "794": {
+    id: 794,
+    names: {
+      de: "Masskito",
+      en: "Buzzwole",
+    },
+    generation: 7,
+    types: ["bug", "fighting"],
+  },
+  "795": {
+    id: 795,
+    names: {
+      de: "Schabelle",
+      en: "Pheromosa",
+    },
+    generation: 7,
+    types: ["bug", "fighting"],
+  },
+  "796": {
+    id: 796,
+    names: {
+      de: "Voltriant",
+      en: "Xurkitree",
+    },
+    generation: 7,
+    types: ["electric"],
+  },
+  "797": {
+    id: 797,
+    names: {
+      de: "Kaguron",
+      en: "Celesteela",
+    },
+    generation: 7,
+    types: ["steel", "flying"],
+  },
+  "798": {
+    id: 798,
+    names: {
+      de: "Katagami",
+      en: "Kartana",
+    },
+    generation: 7,
+    types: ["grass", "steel"],
+  },
+  "799": {
+    id: 799,
+    names: {
+      de: "Schlingking",
+      en: "Guzzlord",
+    },
+    generation: 7,
+    types: ["dark", "dragon"],
+  },
+  "800": {
+    id: 800,
+    names: {
+      de: "Necrozma",
+      en: "Necrozma",
+    },
+    generation: 7,
+    types: ["psychic"],
+  },
+  "801": {
+    id: 801,
+    names: {
+      de: "Magearna",
+      en: "Magearna",
+    },
+    generation: 7,
+    types: ["steel", "fairy"],
+  },
+  "802": {
+    id: 802,
+    names: {
+      de: "Marshadow",
+      en: "Marshadow",
+    },
+    generation: 7,
+    types: ["fighting", "ghost"],
+  },
+  "803": {
+    id: 803,
+    names: {
+      de: "Venicro",
+      en: "Poipole",
+    },
+    generation: 7,
+    types: ["poison"],
+    evolutions: [
+      {
+        id: 804,
+        methods: {
+          de: ["Level-Up - Kennt Drachenpuls"],
+          en: ["Level-Up - Knows Dragon Pulse"],
+        },
+      },
+    ],
+  },
+  "804": {
+    id: 804,
+    names: {
+      de: "Agoyon",
+      en: "Naganadel",
+    },
+    generation: 7,
+    types: ["poison", "dragon"],
+  },
+  "805": {
+    id: 805,
+    names: {
+      de: "Muramura",
+      en: "Stakataka",
+    },
+    generation: 7,
+    types: ["rock", "steel"],
+  },
+  "806": {
+    id: 806,
+    names: {
+      de: "Kopplosio",
+      en: "Blacephalon",
+    },
+    generation: 7,
+    types: ["fire", "ghost"],
+  },
+  "807": {
+    id: 807,
+    names: {
+      de: "Zeraora",
+      en: "Zeraora",
+    },
+    generation: 7,
+    types: ["electric"],
+  },
+  "808": {
+    id: 808,
+    names: {
+      de: "Meltan",
+      en: "Meltan",
+    },
+    generation: 7,
+    types: ["steel"],
+  },
+  "809": {
+    id: 809,
+    names: {
+      de: "Melmetal",
+      en: "Melmetal",
+    },
+    generation: 7,
+    types: ["steel"],
+  },
+  "810": {
+    id: 810,
+    names: {
+      de: "Chimpep",
+      en: "Grookey",
+    },
+    generation: 8,
+    types: ["grass"],
+    evolutions: [
+      {
+        id: 811,
+        methods: {
+          de: ["Level-Up - Level 16"],
+          en: ["Level-Up - Level 16"],
+        },
+      },
+    ],
+  },
+  "811": {
+    id: 811,
+    names: {
+      de: "Chimstix",
+      en: "Thwackey",
+    },
+    generation: 8,
+    types: ["grass"],
+    evolutions: [
+      {
+        id: 812,
+        methods: {
+          de: ["Level-Up - Level 35"],
+          en: ["Level-Up - Level 35"],
+        },
+      },
+    ],
+  },
+  "812": {
+    id: 812,
+    names: {
+      de: "Gortrom",
+      en: "Rillaboom",
+    },
+    generation: 8,
+    types: ["grass"],
+  },
+  "813": {
+    id: 813,
+    names: {
+      de: "Hopplo",
+      en: "Scorbunny",
+    },
+    generation: 8,
+    types: ["fire"],
+    evolutions: [
+      {
+        id: 814,
+        methods: {
+          de: ["Level-Up - Level 16"],
+          en: ["Level-Up - Level 16"],
+        },
+      },
+    ],
+  },
+  "814": {
+    id: 814,
+    names: {
+      de: "Kickerlo",
+      en: "Raboot",
+    },
+    generation: 8,
+    types: ["fire"],
+    evolutions: [
+      {
+        id: 815,
+        methods: {
+          de: ["Level-Up - Level 35"],
+          en: ["Level-Up - Level 35"],
+        },
+      },
+    ],
+  },
+  "815": {
+    id: 815,
+    names: {
+      de: "Liberlo",
+      en: "Cinderace",
+    },
+    generation: 8,
+    types: ["fire"],
+  },
+  "816": {
+    id: 816,
+    names: {
+      de: "Memmeon",
+      en: "Sobble",
+    },
+    generation: 8,
+    types: ["water"],
+    evolutions: [
+      {
+        id: 817,
+        methods: {
+          de: ["Level-Up - Level 16"],
+          en: ["Level-Up - Level 16"],
+        },
+      },
+    ],
+  },
+  "817": {
+    id: 817,
+    names: {
+      de: "Phlegleon",
+      en: "Drizzile",
+    },
+    generation: 8,
+    types: ["water"],
+    evolutions: [
+      {
+        id: 818,
+        methods: {
+          de: ["Level-Up - Level 35"],
+          en: ["Level-Up - Level 35"],
+        },
+      },
+    ],
+  },
+  "818": {
+    id: 818,
+    names: {
+      de: "Intelleon",
+      en: "Inteleon",
+    },
+    generation: 8,
+    types: ["water"],
+  },
+  "819": {
+    id: 819,
+    names: {
+      de: "Raffel",
+      en: "Skwovet",
+    },
+    generation: 8,
+    types: ["normal"],
+    evolutions: [
+      {
+        id: 820,
+        methods: {
+          de: ["Level-Up - Level 24"],
+          en: ["Level-Up - Level 24"],
+        },
+      },
+    ],
+  },
+  "820": {
+    id: 820,
+    names: {
+      de: "Schlaraffel",
+      en: "Greedent",
+    },
+    generation: 8,
+    types: ["normal"],
+  },
+  "821": {
+    id: 821,
+    names: {
+      de: "Meikro",
+      en: "Rookidee",
+    },
+    generation: 8,
+    types: ["flying"],
+    evolutions: [
+      {
+        id: 822,
+        methods: {
+          de: ["Level-Up - Level 18"],
+          en: ["Level-Up - Level 18"],
+        },
+      },
+    ],
+  },
+  "822": {
+    id: 822,
+    names: {
+      de: "Kranoviz",
+      en: "Corvisquire",
+    },
+    generation: 8,
+    types: ["flying"],
+    evolutions: [
+      {
+        id: 823,
+        methods: {
+          de: ["Level-Up - Level 38"],
+          en: ["Level-Up - Level 38"],
+        },
+      },
+    ],
+  },
+  "823": {
+    id: 823,
+    names: {
+      de: "Krarmor",
+      en: "Corviknight",
+    },
+    generation: 8,
+    types: ["flying", "steel"],
+  },
+  "824": {
+    id: 824,
+    names: {
+      de: "Sensect",
+      en: "Blipbug",
+    },
+    generation: 8,
+    types: ["bug"],
+    evolutions: [
+      {
+        id: 825,
+        methods: {
+          de: ["Level-Up - Level 10"],
+          en: ["Level-Up - Level 10"],
+        },
+      },
+    ],
+  },
+  "825": {
+    id: 825,
+    names: {
+      de: "Keradar",
+      en: "Dottler",
+    },
+    generation: 8,
+    types: ["bug", "psychic"],
+    evolutions: [
+      {
+        id: 826,
+        methods: {
+          de: ["Level-Up - Level 30"],
+          en: ["Level-Up - Level 30"],
+        },
+      },
+    ],
+  },
+  "826": {
+    id: 826,
+    names: {
+      de: "Maritellit",
+      en: "Orbeetle",
+    },
+    generation: 8,
+    types: ["bug", "psychic"],
+  },
+  "827": {
+    id: 827,
+    names: {
+      de: "Kleptifux",
+      en: "Nickit",
+    },
+    generation: 8,
+    types: ["dark"],
+    evolutions: [
+      {
+        id: 828,
+        methods: {
+          de: ["Level-Up - Level 18"],
+          en: ["Level-Up - Level 18"],
+        },
+      },
+    ],
+  },
+  "828": {
+    id: 828,
+    names: {
+      de: "Gaunux",
+      en: "Thievul",
+    },
+    generation: 8,
+    types: ["dark"],
+  },
+  "829": {
+    id: 829,
+    names: {
+      de: "Cottini",
+      en: "Gossifleur",
+    },
+    generation: 8,
+    types: ["grass"],
+    evolutions: [
+      {
+        id: 830,
+        methods: {
+          de: ["Level-Up - Level 20"],
+          en: ["Level-Up - Level 20"],
+        },
+      },
+    ],
+  },
+  "830": {
+    id: 830,
+    names: {
+      de: "Cottomi",
+      en: "Eldegoss",
+    },
+    generation: 8,
+    types: ["grass"],
+  },
+  "831": {
+    id: 831,
+    names: {
+      de: "Wolly",
+      en: "Wooloo",
+    },
+    generation: 8,
+    types: ["normal"],
+    evolutions: [
+      {
+        id: 832,
+        methods: {
+          de: ["Level-Up - Level 24"],
+          en: ["Level-Up - Level 24"],
+        },
+      },
+    ],
+  },
+  "832": {
+    id: 832,
+    names: {
+      de: "Zwollock",
+      en: "Dubwool",
+    },
+    generation: 8,
+    types: ["normal"],
+  },
+  "833": {
+    id: 833,
+    names: {
+      de: "Kamehaps",
+      en: "Chewtle",
+    },
+    generation: 8,
+    types: ["water"],
+    evolutions: [
+      {
+        id: 834,
+        methods: {
+          de: ["Level-Up - Level 22"],
+          en: ["Level-Up - Level 22"],
+        },
+      },
+    ],
+  },
+  "834": {
+    id: 834,
+    names: {
+      de: "Kamalm",
+      en: "Drednaw",
+    },
+    generation: 8,
+    types: ["water", "rock"],
+  },
+  "835": {
+    id: 835,
+    names: {
+      de: "Voldi",
+      en: "Yamper",
+    },
+    generation: 8,
+    types: ["electric"],
+    evolutions: [
+      {
+        id: 836,
+        methods: {
+          de: ["Level-Up - Level 25"],
+          en: ["Level-Up - Level 25"],
+        },
+      },
+    ],
+  },
+  "836": {
+    id: 836,
+    names: {
+      de: "Bellektro",
+      en: "Boltund",
+    },
+    generation: 8,
+    types: ["electric"],
+  },
+  "837": {
+    id: 837,
+    names: {
+      de: "Klonkett",
+      en: "Rolycoly",
+    },
+    generation: 8,
+    types: ["rock"],
+    evolutions: [
+      {
+        id: 838,
+        methods: {
+          de: ["Level-Up - Level 18"],
+          en: ["Level-Up - Level 18"],
+        },
+      },
+    ],
+  },
+  "838": {
+    id: 838,
+    names: {
+      de: "Wagong",
+      en: "Carkol",
+    },
+    generation: 8,
+    types: ["rock", "fire"],
+    evolutions: [
+      {
+        id: 839,
+        methods: {
+          de: ["Level-Up - Level 34"],
+          en: ["Level-Up - Level 34"],
+        },
+      },
+    ],
+  },
+  "839": {
+    id: 839,
+    names: {
+      de: "Montecarbo",
+      en: "Coalossal",
+    },
+    generation: 8,
+    types: ["rock", "fire"],
+  },
+  "840": {
+    id: 840,
+    names: {
+      de: "Knapfel",
+      en: "Applin",
+    },
+    generation: 8,
+    types: ["grass", "dragon"],
+    evolutions: [
+      {
+        id: 841,
+        methods: {
+          de: ["Item: Saurer Apfel"],
+          en: ["Item: Tart Apple"],
+        },
+      },
+      {
+        id: 842,
+        methods: {
+          de: ["Item: Süßer Apfel"],
+          en: ["Item: Sweet Apple"],
+        },
+      },
+      {
+        id: 1011,
+        methods: {
+          de: ["Bedingung unbekannt"],
+          en: ["Requirement unknown"],
+        },
+      },
+    ],
+  },
+  "841": {
+    id: 841,
+    names: {
+      de: "Drapfel",
+      en: "Flapple",
+    },
+    generation: 8,
+    types: ["grass", "dragon"],
+  },
+  "842": {
+    id: 842,
+    names: {
+      de: "Schlapfel",
+      en: "Appletun",
+    },
+    generation: 8,
+    types: ["grass", "dragon"],
+  },
+  "843": {
+    id: 843,
+    names: {
+      de: "Salanga",
+      en: "Silicobra",
+    },
+    generation: 8,
+    types: ["ground"],
+    evolutions: [
+      {
+        id: 844,
+        methods: {
+          de: ["Level-Up - Level 36"],
+          en: ["Level-Up - Level 36"],
+        },
+      },
+    ],
+  },
+  "844": {
+    id: 844,
+    names: {
+      de: "Sanaconda",
+      en: "Sandaconda",
+    },
+    generation: 8,
+    types: ["ground"],
+  },
+  "845": {
+    id: 845,
+    names: {
+      de: "Urgl",
+      en: "Cramorant",
+    },
+    generation: 8,
+    types: ["flying", "water"],
+  },
+  "846": {
+    id: 846,
+    names: {
+      de: "Pikuda",
+      en: "Arrokuda",
+    },
+    generation: 8,
+    types: ["water"],
+    evolutions: [
+      {
+        id: 847,
+        methods: {
+          de: ["Level-Up - Level 26"],
+          en: ["Level-Up - Level 26"],
+        },
+      },
+    ],
+  },
+  "847": {
+    id: 847,
+    names: {
+      de: "Barrakiefa",
+      en: "Barraskewda",
+    },
+    generation: 8,
+    types: ["water"],
+  },
+  "848": {
+    id: 848,
+    names: {
+      de: "Toxel",
+      en: "Toxel",
+    },
+    generation: 8,
+    types: ["electric", "poison"],
+    evolutions: [
+      {
+        id: 849,
+        methods: {
+          de: ["Level-Up - Level 30"],
+          en: ["Level-Up - Level 30"],
+        },
+      },
+    ],
+  },
+  "849": {
+    id: 849,
+    names: {
+      de: "Riffex",
+      en: "Toxtricity",
+    },
+    generation: 8,
+    types: ["electric", "poison"],
+  },
+  "850": {
+    id: 850,
+    names: {
+      de: "Thermopod",
+      en: "Sizzlipede",
+    },
+    generation: 8,
+    types: ["fire", "bug"],
+    evolutions: [
+      {
+        id: 851,
+        methods: {
+          de: ["Level-Up - Level 28"],
+          en: ["Level-Up - Level 28"],
+        },
+      },
+    ],
+  },
+  "851": {
+    id: 851,
+    names: {
+      de: "Infernopod",
+      en: "Centiskorch",
+    },
+    generation: 8,
+    types: ["fire", "bug"],
+  },
+  "852": {
+    id: 852,
+    names: {
+      de: "Klopptopus",
+      en: "Clobbopus",
+    },
+    generation: 8,
+    types: ["fighting"],
+    evolutions: [
+      {
+        id: 853,
+        methods: {
+          de: ["Level-Up - Kennt Verhöhner"],
+          en: ["Level-Up - Knows Taunt"],
+        },
+      },
+    ],
+  },
+  "853": {
+    id: 853,
+    names: {
+      de: "Kaocto",
+      en: "Grapploct",
+    },
+    generation: 8,
+    types: ["fighting"],
+  },
+  "854": {
+    id: 854,
+    names: {
+      de: "Fatalitee",
+      en: "Sinistea",
+    },
+    generation: 8,
+    types: ["ghost"],
+    evolutions: [
+      {
+        id: 855,
+        methods: {
+          de: ["Item: Rissige Kanne"],
+          en: ["Item: Cracked Pot"],
+        },
+      },
+    ],
+  },
+  "855": {
+    id: 855,
+    names: {
+      de: "Mortipot",
+      en: "Polteageist",
+    },
+    generation: 8,
+    types: ["ghost"],
+  },
+  "856": {
+    id: 856,
+    names: {
+      de: "Brimova",
+      en: "Hatenna",
+    },
+    generation: 8,
+    types: ["psychic"],
+    evolutions: [
+      {
+        id: 857,
+        methods: {
+          de: ["Level-Up - Level 32"],
+          en: ["Level-Up - Level 32"],
+        },
+      },
+    ],
+  },
+  "857": {
+    id: 857,
+    names: {
+      de: "Brimano",
+      en: "Hattrem",
+    },
+    generation: 8,
+    types: ["psychic"],
+    evolutions: [
+      {
+        id: 858,
+        methods: {
+          de: ["Level-Up - Level 42"],
+          en: ["Level-Up - Level 42"],
+        },
+      },
+    ],
+  },
+  "858": {
+    id: 858,
+    names: {
+      de: "Silembrim",
+      en: "Hatterene",
+    },
+    generation: 8,
+    types: ["psychic", "fairy"],
+  },
+  "859": {
+    id: 859,
+    names: {
+      de: "Bähmon",
+      en: "Impidimp",
+    },
+    generation: 8,
+    types: ["dark", "fairy"],
+    evolutions: [
+      {
+        id: 860,
+        methods: {
+          de: ["Level-Up - Level 32"],
+          en: ["Level-Up - Level 32"],
+        },
+      },
+    ],
+  },
+  "860": {
+    id: 860,
+    names: {
+      de: "Pelzebub",
+      en: "Morgrem",
+    },
+    generation: 8,
+    types: ["dark", "fairy"],
+    evolutions: [
+      {
+        id: 861,
+        methods: {
+          de: ["Level-Up - Level 42"],
+          en: ["Level-Up - Level 42"],
+        },
+      },
+    ],
+  },
+  "861": {
+    id: 861,
+    names: {
+      de: "Olangaar",
+      en: "Grimmsnarl",
+    },
+    generation: 8,
+    types: ["dark", "fairy"],
+  },
+  "862": {
+    id: 862,
+    names: {
+      de: "Barrikadax",
+      en: "Obstagoon",
+    },
+    generation: 8,
+    types: ["dark", "normal"],
+  },
+  "863": {
+    id: 863,
+    names: {
+      de: "Mauzinger",
+      en: "Perrserker",
+    },
+    generation: 8,
+    types: ["steel"],
+  },
+  "864": {
+    id: 864,
+    names: {
+      de: "Gorgasonn",
+      en: "Cursola",
+    },
+    generation: 8,
+    types: ["ghost"],
+  },
+  "865": {
+    id: 865,
+    names: {
+      de: "Lauchzelot",
+      en: "Sirfetch’d",
+    },
+    generation: 8,
+    types: ["fighting"],
+  },
+  "866": {
+    id: 866,
+    names: {
+      de: "Pantifrost",
+      en: "Mr. Rime",
+    },
+    generation: 8,
+    types: ["ice", "psychic"],
+  },
+  "867": {
+    id: 867,
+    names: {
+      de: "Oghnatoll",
+      en: "Runerigus",
+    },
+    generation: 8,
+    types: ["ground", "ghost"],
+  },
+  "868": {
+    id: 868,
+    names: {
+      de: "Hokumil",
+      en: "Milcery",
+    },
+    generation: 8,
+    types: ["fairy"],
+    evolutions: [
+      {
+        id: 869,
+        methods: {
+          de: ["Spin"],
+          en: ["Spin"],
+        },
+      },
+    ],
+  },
+  "869": {
+    id: 869,
+    names: {
+      de: "Pokusan",
+      en: "Alcremie",
+    },
+    generation: 8,
+    types: ["fairy"],
+  },
+  "870": {
+    id: 870,
+    names: {
+      de: "Legios",
+      en: "Falinks",
+    },
+    generation: 8,
+    types: ["fighting"],
+  },
+  "871": {
+    id: 871,
+    names: {
+      de: "Britzigel",
+      en: "Pincurchin",
+    },
+    generation: 8,
+    types: ["electric"],
+  },
+  "872": {
+    id: 872,
+    names: {
+      de: "Snomnom",
+      en: "Snom",
+    },
+    generation: 8,
+    types: ["ice", "bug"],
+    evolutions: [
+      {
+        id: 873,
+        methods: {
+          de: ["Level-Up - Freundschaft ≥ 160, Tageszeit: Nacht"],
+          en: ["Level-Up - Friendship ≥ 160, Time of day: Night"],
+        },
+      },
+    ],
+  },
+  "873": {
+    id: 873,
+    names: {
+      de: "Mottineva",
+      en: "Frosmoth",
+    },
+    generation: 8,
+    types: ["ice", "bug"],
+  },
+  "874": {
+    id: 874,
+    names: {
+      de: "Humanolith",
+      en: "Stonjourner",
+    },
+    generation: 8,
+    types: ["rock"],
+  },
+  "875": {
+    id: 875,
+    names: {
+      de: "Kubuin",
+      en: "Eiscue",
+    },
+    generation: 8,
+    types: ["ice"],
+  },
+  "876": {
+    id: 876,
+    names: {
+      de: "Servol",
+      en: "Indeedee",
+    },
+    generation: 8,
+    types: ["psychic", "normal"],
+  },
+  "877": {
+    id: 877,
+    names: {
+      de: "Morpeko",
+      en: "Morpeko",
+    },
+    generation: 8,
+    types: ["electric", "dark"],
+  },
+  "878": {
+    id: 878,
+    names: {
+      de: "Kupfanti",
+      en: "Cufant",
+    },
+    generation: 8,
+    types: ["steel"],
+    evolutions: [
+      {
+        id: 879,
+        methods: {
+          de: ["Level-Up - Level 34"],
+          en: ["Level-Up - Level 34"],
+        },
+      },
+    ],
+  },
+  "879": {
+    id: 879,
+    names: {
+      de: "Patinaraja",
+      en: "Copperajah",
+    },
+    generation: 8,
+    types: ["steel"],
+  },
+  "880": {
+    id: 880,
+    names: {
+      de: "Lectragon",
+      en: "Dracozolt",
+    },
+    generation: 8,
+    types: ["electric", "dragon"],
+  },
+  "881": {
+    id: 881,
+    names: {
+      de: "Lecryodon",
+      en: "Arctozolt",
+    },
+    generation: 8,
+    types: ["electric", "ice"],
+  },
+  "882": {
+    id: 882,
+    names: {
+      de: "Pescragon",
+      en: "Dracovish",
+    },
+    generation: 8,
+    types: ["water", "dragon"],
+  },
+  "883": {
+    id: 883,
+    names: {
+      de: "Pescryodon",
+      en: "Arctovish",
+    },
+    generation: 8,
+    types: ["water", "ice"],
+  },
+  "884": {
+    id: 884,
+    names: {
+      de: "Duraludon",
+      en: "Duraludon",
+    },
+    generation: 8,
+    types: ["steel", "dragon"],
+    evolutions: [
+      {
+        id: 1018,
+        methods: {
+          de: ["Bedingung unbekannt"],
+          en: ["Requirement unknown"],
+        },
+      },
+    ],
+  },
+  "885": {
+    id: 885,
+    names: {
+      de: "Grolldra",
+      en: "Dreepy",
+    },
+    generation: 8,
+    types: ["dragon", "ghost"],
+    evolutions: [
+      {
+        id: 886,
+        methods: {
+          de: ["Level-Up - Level 50"],
+          en: ["Level-Up - Level 50"],
+        },
+      },
+    ],
+  },
+  "886": {
+    id: 886,
+    names: {
+      de: "Phandra",
+      en: "Drakloak",
+    },
+    generation: 8,
+    types: ["dragon", "ghost"],
+    evolutions: [
+      {
+        id: 887,
+        methods: {
+          de: ["Level-Up - Level 60"],
+          en: ["Level-Up - Level 60"],
+        },
+      },
+    ],
+  },
+  "887": {
+    id: 887,
+    names: {
+      de: "Katapuldra",
+      en: "Dragapult",
+    },
+    generation: 8,
+    types: ["dragon", "ghost"],
+  },
+  "888": {
+    id: 888,
+    names: {
+      de: "Zacian",
+      en: "Zacian",
+    },
+    generation: 8,
+    types: ["fairy"],
+  },
+  "889": {
+    id: 889,
+    names: {
+      de: "Zamazenta",
+      en: "Zamazenta",
+    },
+    generation: 8,
+    types: ["fighting"],
+  },
+  "890": {
+    id: 890,
+    names: {
+      de: "Endynalos",
+      en: "Eternatus",
+    },
+    generation: 8,
+    types: ["poison", "dragon"],
+  },
+  "891": {
+    id: 891,
+    names: {
+      de: "Dakuma",
+      en: "Kubfu",
+    },
+    generation: 8,
+    types: ["fighting"],
+    evolutions: [
+      {
+        id: 892,
+        methods: {
+          de: [
+            "Item: Scroll of Darkness",
+            "Item: Scroll of Waters",
+            "Tower Of Darkness",
+            "Tower Of Waters",
+          ],
+          en: [
+            "Item: Scroll of Darkness",
+            "Item: Scroll of Waters",
+            "Tower Of Darkness",
+            "Tower Of Waters",
+          ],
+        },
+      },
+    ],
+  },
+  "892": {
+    id: 892,
+    names: {
+      de: "Wulaosu",
+      en: "Urshifu",
+    },
+    generation: 8,
+    types: ["fighting", "dark"],
+  },
+  "893": {
+    id: 893,
+    names: {
+      de: "Zarude",
+      en: "Zarude",
+    },
+    generation: 8,
+    types: ["dark", "grass"],
+  },
+  "894": {
+    id: 894,
+    names: {
+      de: "Regieleki",
+      en: "Regieleki",
+    },
+    generation: 8,
+    types: ["electric"],
+  },
+  "895": {
+    id: 895,
+    names: {
+      de: "Regidrago",
+      en: "Regidrago",
+    },
+    generation: 8,
+    types: ["dragon"],
+  },
+  "896": {
+    id: 896,
+    names: {
+      de: "Polaross",
+      en: "Glastrier",
+    },
+    generation: 8,
+    types: ["ice"],
+  },
+  "897": {
+    id: 897,
+    names: {
+      de: "Phantoross",
+      en: "Spectrier",
+    },
+    generation: 8,
+    types: ["ghost"],
+  },
+  "898": {
+    id: 898,
+    names: {
+      de: "Coronospa",
+      en: "Calyrex",
+    },
+    generation: 8,
+    types: ["psychic", "grass"],
+  },
+  "899": {
+    id: 899,
+    names: {
+      de: "Damythir",
+      en: "Wyrdeer",
+    },
+    generation: 8,
+    types: ["normal", "psychic"],
+  },
+  "900": {
+    id: 900,
+    names: {
+      de: "Axantor",
+      en: "Kleavor",
+    },
+    generation: 8,
+    types: ["bug", "rock"],
+  },
+  "901": {
+    id: 901,
+    names: {
+      de: "Ursaluna",
+      en: "Ursaluna",
+    },
+    generation: 8,
+    types: ["ground", "normal"],
+  },
+  "902": {
+    id: 902,
+    names: {
+      de: "Salmagnis",
+      en: "Basculegion",
+    },
+    generation: 8,
+    types: ["water", "ghost"],
+  },
+  "903": {
+    id: 903,
+    names: {
+      de: "Snieboss",
+      en: "Sneasler",
+    },
+    generation: 8,
+    types: ["fighting", "poison"],
+  },
+  "904": {
+    id: 904,
+    names: {
+      de: "Myriador",
+      en: "Overqwil",
+    },
+    generation: 8,
+    types: ["dark", "poison"],
+  },
+  "905": {
+    id: 905,
+    names: {
+      de: "Cupidos",
+      en: "Enamorus",
+    },
+    generation: 8,
+    types: ["fairy", "flying"],
+  },
+  "906": {
+    id: 906,
+    names: {
+      de: "Felori",
+      en: "Sprigatito",
+    },
+    generation: 9,
+    types: ["grass"],
+    evolutions: [
+      {
+        id: 907,
+        methods: {
+          de: ["Level-Up - Level 16"],
+          en: ["Level-Up - Level 16"],
+        },
+      },
+    ],
+  },
+  "907": {
+    id: 907,
+    names: {
+      de: "Feliospa",
+      en: "Floragato",
+    },
+    generation: 9,
+    types: ["grass"],
+    evolutions: [
+      {
+        id: 908,
+        methods: {
+          de: ["Level-Up - Level 36"],
+          en: ["Level-Up - Level 36"],
+        },
+      },
+    ],
+  },
+  "908": {
+    id: 908,
+    names: {
+      de: "Maskagato",
+      en: "Meowscarada",
+    },
+    generation: 9,
+    types: ["grass", "dark"],
+  },
+  "909": {
+    id: 909,
+    names: {
+      de: "Krokel",
+      en: "Fuecoco",
+    },
+    generation: 9,
+    types: ["fire"],
+    evolutions: [
+      {
+        id: 910,
+        methods: {
+          de: ["Level-Up - Level 16"],
+          en: ["Level-Up - Level 16"],
+        },
+      },
+    ],
+  },
+  "910": {
+    id: 910,
+    names: {
+      de: "Lokroko",
+      en: "Crocalor",
+    },
+    generation: 9,
+    types: ["fire"],
+    evolutions: [
+      {
+        id: 911,
+        methods: {
+          de: ["Level-Up - Level 36"],
+          en: ["Level-Up - Level 36"],
+        },
+      },
+    ],
+  },
+  "911": {
+    id: 911,
+    names: {
+      de: "Skelokrok",
+      en: "Skeledirge",
+    },
+    generation: 9,
+    types: ["fire", "ghost"],
+  },
+  "912": {
+    id: 912,
+    names: {
+      de: "Kwaks",
+      en: "Quaxly",
+    },
+    generation: 9,
+    types: ["water"],
+    evolutions: [
+      {
+        id: 913,
+        methods: {
+          de: ["Level-Up - Level 16"],
+          en: ["Level-Up - Level 16"],
+        },
+      },
+    ],
+  },
+  "913": {
+    id: 913,
+    names: {
+      de: "Fuentente",
+      en: "Quaxwell",
+    },
+    generation: 9,
+    types: ["water"],
+    evolutions: [
+      {
+        id: 914,
+        methods: {
+          de: ["Level-Up - Level 36"],
+          en: ["Level-Up - Level 36"],
+        },
+      },
+    ],
+  },
+  "914": {
+    id: 914,
+    names: {
+      de: "Bailonda",
+      en: "Quaquaval",
+    },
+    generation: 9,
+    types: ["water", "fighting"],
+  },
+  "915": {
+    id: 915,
+    names: {
+      de: "Ferkuli",
+      en: "Lechonk",
+    },
+    generation: 9,
+    types: ["normal"],
+    evolutions: [
+      {
+        id: 916,
+        methods: {
+          de: ["Level-Up - Level 18"],
+          en: ["Level-Up - Level 18"],
+        },
+      },
+    ],
+  },
+  "916": {
+    id: 916,
+    names: {
+      de: "Fragrunz",
+      en: "Oinkologne",
+    },
+    generation: 9,
+    types: ["normal"],
+  },
+  "917": {
+    id: 917,
+    names: {
+      de: "Tarundel",
+      en: "Tarountula",
+    },
+    generation: 9,
+    types: ["bug"],
+    evolutions: [
+      {
+        id: 918,
+        methods: {
+          de: ["Level-Up - Level 15"],
+          en: ["Level-Up - Level 15"],
+        },
+      },
+    ],
+  },
+  "918": {
+    id: 918,
+    names: {
+      de: "Spinsidias",
+      en: "Spidops",
+    },
+    generation: 9,
+    types: ["bug"],
+  },
+  "919": {
+    id: 919,
+    names: {
+      de: "Micrick",
+      en: "Nymble",
+    },
+    generation: 9,
+    types: ["bug"],
+    evolutions: [
+      {
+        id: 920,
+        methods: {
+          de: ["Level-Up - Level 24"],
+          en: ["Level-Up - Level 24"],
+        },
+      },
+    ],
+  },
+  "920": {
+    id: 920,
+    names: {
+      de: "Lextremo",
+      en: "Lokix",
+    },
+    generation: 9,
+    types: ["bug", "dark"],
+  },
+  "921": {
+    id: 921,
+    names: {
+      de: "Pamo",
+      en: "Pawmi",
+    },
+    generation: 9,
+    types: ["electric"],
+    evolutions: [
+      {
+        id: 922,
+        methods: {
+          de: ["Level-Up - Level 18"],
+          en: ["Level-Up - Level 18"],
+        },
+      },
+    ],
+  },
+  "922": {
+    id: 922,
+    names: {
+      de: "Pamamo",
+      en: "Pawmo",
+    },
+    generation: 9,
+    types: ["electric", "fighting"],
+    evolutions: [
+      {
+        id: 923,
+        methods: {
+          de: ["Level-Up"],
+          en: ["Level-Up"],
+        },
+      },
+    ],
+  },
+  "923": {
+    id: 923,
+    names: {
+      de: "Pamomamo",
+      en: "Pawmot",
+    },
+    generation: 9,
+    types: ["electric", "fighting"],
+  },
+  "924": {
+    id: 924,
+    names: {
+      de: "Zwieps",
+      en: "Tandemaus",
+    },
+    generation: 9,
+    types: ["normal"],
+    evolutions: [
+      {
+        id: 925,
+        methods: {
+          de: ["Spezial - Level 25"],
+          en: ["Special - Level 25"],
+        },
+      },
+    ],
+  },
+  "925": {
+    id: 925,
+    names: {
+      de: "Famieps",
+      en: "Maushold",
+    },
+    generation: 9,
+    types: ["normal"],
+  },
+  "926": {
+    id: 926,
+    names: {
+      de: "Hefel",
+      en: "Fidough",
+    },
+    generation: 9,
+    types: ["fairy"],
+    evolutions: [
+      {
+        id: 927,
+        methods: {
+          de: ["Level-Up - Level 26"],
+          en: ["Level-Up - Level 26"],
+        },
+      },
+    ],
+  },
+  "927": {
+    id: 927,
+    names: {
+      de: "Backel",
+      en: "Dachsbun",
+    },
+    generation: 9,
+    types: ["fairy"],
+  },
+  "928": {
+    id: 928,
+    names: {
+      de: "Olini",
+      en: "Smoliv",
+    },
+    generation: 9,
+    types: ["grass", "normal"],
+    evolutions: [
+      {
+        id: 929,
+        methods: {
+          de: ["Level-Up - Level 25"],
+          en: ["Level-Up - Level 25"],
+        },
+      },
+    ],
+  },
+  "929": {
+    id: 929,
+    names: {
+      de: "Olivinio",
+      en: "Dolliv",
+    },
+    generation: 9,
+    types: ["grass", "normal"],
+    evolutions: [
+      {
+        id: 930,
+        methods: {
+          de: ["Level-Up - Level 35"],
+          en: ["Level-Up - Level 35"],
+        },
+      },
+    ],
+  },
+  "930": {
+    id: 930,
+    names: {
+      de: "Olithena",
+      en: "Arboliva",
+    },
+    generation: 9,
+    types: ["grass", "normal"],
+  },
+  "931": {
+    id: 931,
+    names: {
+      de: "Krawalloro",
+      en: "Squawkabilly",
+    },
+    generation: 9,
+    types: ["normal", "flying"],
+  },
+  "932": {
+    id: 932,
+    names: {
+      de: "Geosali",
+      en: "Nacli",
+    },
+    generation: 9,
+    types: ["rock"],
+    evolutions: [
+      {
+        id: 933,
+        methods: {
+          de: ["Level-Up - Level 24"],
+          en: ["Level-Up - Level 24"],
+        },
+      },
+    ],
+  },
+  "933": {
+    id: 933,
+    names: {
+      de: "Sedisal",
+      en: "Naclstack",
+    },
+    generation: 9,
+    types: ["rock"],
+    evolutions: [
+      {
+        id: 934,
+        methods: {
+          de: ["Level-Up - Level 38"],
+          en: ["Level-Up - Level 38"],
+        },
+      },
+    ],
+  },
+  "934": {
+    id: 934,
+    names: {
+      de: "Saltigant",
+      en: "Garganacl",
+    },
+    generation: 9,
+    types: ["rock"],
+  },
+  "935": {
+    id: 935,
+    names: {
+      de: "Knarbon",
+      en: "Charcadet",
+    },
+    generation: 9,
+    types: ["fire"],
+    evolutions: [
+      {
+        id: 936,
+        methods: {
+          de: ["Item: Auspicious Armor"],
+          en: ["Item: Auspicious Armor"],
+        },
+      },
+      {
+        id: 937,
+        methods: {
+          de: ["Item: Malicious Armor"],
+          en: ["Item: Malicious Armor"],
+        },
+      },
+    ],
+  },
+  "936": {
+    id: 936,
+    names: {
+      de: "Crimanzo",
+      en: "Armarouge",
+    },
+    generation: 9,
+    types: ["fire", "psychic"],
+  },
+  "937": {
+    id: 937,
+    names: {
+      de: "Azugladis",
+      en: "Ceruledge",
+    },
+    generation: 9,
+    types: ["fire", "ghost"],
+  },
+  "938": {
+    id: 938,
+    names: {
+      de: "Blipp",
+      en: "Tadbulb",
+    },
+    generation: 9,
+    types: ["electric"],
+    evolutions: [
+      {
+        id: 939,
+        methods: {
+          de: ["Item: Donnerstein"],
+          en: ["Item: Thunder Stone"],
+        },
+      },
+    ],
+  },
+  "939": {
+    id: 939,
+    names: {
+      de: "Wampitz",
+      en: "Bellibolt",
+    },
+    generation: 9,
+    types: ["electric"],
+  },
+  "940": {
+    id: 940,
+    names: {
+      de: "Voltrel",
+      en: "Wattrel",
+    },
+    generation: 9,
+    types: ["electric", "flying"],
+    evolutions: [
+      {
+        id: 941,
+        methods: {
+          de: ["Level-Up - Level 25"],
+          en: ["Level-Up - Level 25"],
+        },
+      },
+    ],
+  },
+  "941": {
+    id: 941,
+    names: {
+      de: "Voltrean",
+      en: "Kilowattrel",
+    },
+    generation: 9,
+    types: ["electric", "flying"],
+  },
+  "942": {
+    id: 942,
+    names: {
+      de: "Mobtiff",
+      en: "Maschiff",
+    },
+    generation: 9,
+    types: ["dark"],
+    evolutions: [
+      {
+        id: 943,
+        methods: {
+          de: ["Level-Up - Level 30"],
+          en: ["Level-Up - Level 30"],
+        },
+      },
+    ],
+  },
+  "943": {
+    id: 943,
+    names: {
+      de: "Mastifioso",
+      en: "Mabosstiff",
+    },
+    generation: 9,
+    types: ["dark"],
+  },
+  "944": {
+    id: 944,
+    names: {
+      de: "Sproxi",
+      en: "Shroodle",
+    },
+    generation: 9,
+    types: ["poison", "normal"],
+    evolutions: [
+      {
+        id: 945,
+        methods: {
+          de: ["Level-Up - Level 28"],
+          en: ["Level-Up - Level 28"],
+        },
+      },
+    ],
+  },
+  "945": {
+    id: 945,
+    names: {
+      de: "Affiti",
+      en: "Grafaiai",
+    },
+    generation: 9,
+    types: ["poison", "normal"],
+  },
+  "946": {
+    id: 946,
+    names: {
+      de: "Weherba",
+      en: "Bramblin",
+    },
+    generation: 9,
+    types: ["grass", "ghost"],
+    evolutions: [
+      {
+        id: 947,
+        methods: {
+          de: ["Level-Up"],
+          en: ["Level-Up"],
+        },
+      },
+    ],
+  },
+  "947": {
+    id: 947,
+    names: {
+      de: "Horrerba",
+      en: "Brambleghast",
+    },
+    generation: 9,
+    types: ["grass", "ghost"],
+  },
+  "948": {
+    id: 948,
+    names: {
+      de: "Tentagra",
+      en: "Toedscool",
+    },
+    generation: 9,
+    types: ["ground", "grass"],
+    evolutions: [
+      {
+        id: 949,
+        methods: {
+          de: ["Level-Up - Level 30"],
+          en: ["Level-Up - Level 30"],
+        },
+      },
+    ],
+  },
+  "949": {
+    id: 949,
+    names: {
+      de: "Tenterra",
+      en: "Toedscruel",
+    },
+    generation: 9,
+    types: ["ground", "grass"],
+  },
+  "950": {
+    id: 950,
+    names: {
+      de: "Klibbe",
+      en: "Klawf",
+    },
+    generation: 9,
+    types: ["rock"],
+  },
+  "951": {
+    id: 951,
+    names: {
+      de: "Chilingel",
+      en: "Capsakid",
+    },
+    generation: 9,
+    types: ["grass"],
+    evolutions: [
+      {
+        id: 952,
+        methods: {
+          de: ["Item: Feuerstein"],
+          en: ["Item: Fire Stone"],
+        },
+      },
+    ],
+  },
+  "952": {
+    id: 952,
+    names: {
+      de: "Halupenjo",
+      en: "Scovillain",
+    },
+    generation: 9,
+    types: ["grass", "fire"],
+  },
+  "953": {
+    id: 953,
+    names: {
+      de: "Relluk",
+      en: "Rellor",
+    },
+    generation: 9,
+    types: ["bug"],
+    evolutions: [
+      {
+        id: 954,
+        methods: {
+          de: ["Level-Up"],
+          en: ["Level-Up"],
+        },
+      },
+    ],
+  },
+  "954": {
+    id: 954,
+    names: {
+      de: "Skarabaks",
+      en: "Rabsca",
+    },
+    generation: 9,
+    types: ["bug", "psychic"],
+  },
+  "955": {
+    id: 955,
+    names: {
+      de: "Flattutu",
+      en: "Flittle",
+    },
+    generation: 9,
+    types: ["psychic"],
+    evolutions: [
+      {
+        id: 956,
+        methods: {
+          de: ["Level-Up - Level 35"],
+          en: ["Level-Up - Level 35"],
+        },
+      },
+    ],
+  },
+  "956": {
+    id: 956,
+    names: {
+      de: "Psiopatra",
+      en: "Espathra",
+    },
+    generation: 9,
+    types: ["psychic"],
+  },
+  "957": {
+    id: 957,
+    names: {
+      de: "Forgita",
+      en: "Tinkatink",
+    },
+    generation: 9,
+    types: ["fairy", "steel"],
+    evolutions: [
+      {
+        id: 958,
+        methods: {
+          de: ["Level-Up - Level 24"],
+          en: ["Level-Up - Level 24"],
+        },
+      },
+    ],
+  },
+  "958": {
+    id: 958,
+    names: {
+      de: "Tafforgita",
+      en: "Tinkatuff",
+    },
+    generation: 9,
+    types: ["fairy", "steel"],
+    evolutions: [
+      {
+        id: 959,
+        methods: {
+          de: ["Level-Up - Level 38"],
+          en: ["Level-Up - Level 38"],
+        },
+      },
+    ],
+  },
+  "959": {
+    id: 959,
+    names: {
+      de: "Granforgita",
+      en: "Tinkaton",
+    },
+    generation: 9,
+    types: ["fairy", "steel"],
+  },
+  "960": {
+    id: 960,
+    names: {
+      de: "Schligda",
+      en: "Wiglett",
+    },
+    generation: 9,
+    types: ["water"],
+    evolutions: [
+      {
+        id: 961,
+        methods: {
+          de: ["Level-Up - Level 26"],
+          en: ["Level-Up - Level 26"],
+        },
+      },
+    ],
+  },
+  "961": {
+    id: 961,
+    names: {
+      de: "Schligdri",
+      en: "Wugtrio",
+    },
+    generation: 9,
+    types: ["water"],
+  },
+  "962": {
+    id: 962,
+    names: {
+      de: "Adebom",
+      en: "Bombirdier",
+    },
+    generation: 9,
+    types: ["flying", "dark"],
+  },
+  "963": {
+    id: 963,
+    names: {
+      de: "Normifin",
+      en: "Finizen",
+    },
+    generation: 9,
+    types: ["water"],
+    evolutions: [
+      {
+        id: 964,
+        methods: {
+          de: ["Level-Up - Level 38"],
+          en: ["Level-Up - Level 38"],
+        },
+      },
+    ],
+  },
+  "964": {
+    id: 964,
+    names: {
+      de: "Delfinator",
+      en: "Palafin",
+    },
+    generation: 9,
+    types: ["water"],
+  },
+  "965": {
+    id: 965,
+    names: {
+      de: "Knattox",
+      en: "Varoom",
+    },
+    generation: 9,
+    types: ["steel", "poison"],
+    evolutions: [
+      {
+        id: 966,
+        methods: {
+          de: ["Level-Up - Level 40"],
+          en: ["Level-Up - Level 40"],
+        },
+      },
+    ],
+  },
+  "966": {
+    id: 966,
+    names: {
+      de: "Knattatox",
+      en: "Revavroom",
+    },
+    generation: 9,
+    types: ["steel", "poison"],
+  },
+  "967": {
+    id: 967,
+    names: {
+      de: "Mopex",
+      en: "Cyclizar",
+    },
+    generation: 9,
+    types: ["dragon", "normal"],
+  },
+  "968": {
+    id: 968,
+    names: {
+      de: "Schlurm",
+      en: "Orthworm",
+    },
+    generation: 9,
+    types: ["steel"],
+  },
+  "969": {
+    id: 969,
+    names: {
+      de: "Lumispross",
+      en: "Glimmet",
+    },
+    generation: 9,
+    types: ["rock", "poison"],
+    evolutions: [
+      {
+        id: 970,
+        methods: {
+          de: ["Level-Up - Level 35"],
+          en: ["Level-Up - Level 35"],
+        },
+      },
+    ],
+  },
+  "970": {
+    id: 970,
+    names: {
+      de: "Lumiflora",
+      en: "Glimmora",
+    },
+    generation: 9,
+    types: ["rock", "poison"],
+  },
+  "971": {
+    id: 971,
+    names: {
+      de: "Gruff",
+      en: "Greavard",
+    },
+    generation: 9,
+    types: ["ghost"],
+    evolutions: [
+      {
+        id: 972,
+        methods: {
+          de: ["Level-Up - Level 30, Tageszeit: Nacht"],
+          en: ["Level-Up - Level 30, Time of day: Night"],
+        },
+      },
+    ],
+  },
+  "972": {
+    id: 972,
+    names: {
+      de: "Friedwuff",
+      en: "Houndstone",
+    },
+    generation: 9,
+    types: ["ghost"],
+  },
+  "973": {
+    id: 973,
+    names: {
+      de: "Flaminkno",
+      en: "Flamigo",
+    },
+    generation: 9,
+    types: ["flying", "fighting"],
+  },
+  "974": {
+    id: 974,
+    names: {
+      de: "Flaniwal",
+      en: "Cetoddle",
+    },
+    generation: 9,
+    types: ["ice"],
+    evolutions: [
+      {
+        id: 975,
+        methods: {
+          de: ["Item: Eisstein"],
+          en: ["Item: Ice Stone"],
+        },
+      },
+    ],
+  },
+  "975": {
+    id: 975,
+    names: {
+      de: "Kolowal",
+      en: "Cetitan",
+    },
+    generation: 9,
+    types: ["ice"],
+  },
+  "976": {
+    id: 976,
+    names: {
+      de: "Agiluza",
+      en: "Veluza",
+    },
+    generation: 9,
+    types: ["water", "psychic"],
+  },
+  "977": {
+    id: 977,
+    names: {
+      de: "Heerashai",
+      en: "Dondozo",
+    },
+    generation: 9,
+    types: ["water"],
+  },
+  "978": {
+    id: 978,
+    names: {
+      de: "Nigiragi",
+      en: "Tatsugiri",
+    },
+    generation: 9,
+    types: ["dragon", "water"],
+  },
+  "979": {
+    id: 979,
+    names: {
+      de: "Epitaff",
+      en: "Annihilape",
+    },
+    generation: 9,
+    types: ["fighting", "ghost"],
+  },
+  "980": {
+    id: 980,
+    names: {
+      de: "Suelord",
+      en: "Clodsire",
+    },
+    generation: 9,
+    types: ["poison", "ground"],
+  },
+  "981": {
+    id: 981,
+    names: {
+      de: "Farigiraf",
+      en: "Farigiraf",
+    },
+    generation: 9,
+    types: ["normal", "psychic"],
+  },
+  "982": {
+    id: 982,
+    names: {
+      de: "Dummimisel",
+      en: "Dudunsparce",
+    },
+    generation: 9,
+    types: ["normal"],
+  },
+  "983": {
+    id: 983,
+    names: {
+      de: "Gladimperio",
+      en: "Kingambit",
+    },
+    generation: 9,
+    types: ["dark", "steel"],
+  },
+  "984": {
+    id: 984,
+    names: {
+      de: "Riesenzahn",
+      en: "Great Tusk",
+    },
+    generation: 9,
+    types: ["ground", "fighting"],
+  },
+  "985": {
+    id: 985,
+    names: {
+      de: "Brüllschweif",
+      en: "Scream Tail",
+    },
+    generation: 9,
+    types: ["fairy", "psychic"],
+  },
+  "986": {
+    id: 986,
+    names: {
+      de: "Wutpilz",
+      en: "Brute Bonnet",
+    },
+    generation: 9,
+    types: ["grass", "dark"],
+  },
+  "987": {
+    id: 987,
+    names: {
+      de: "Flatterhaar",
+      en: "Flutter Mane",
+    },
+    generation: 9,
+    types: ["ghost", "fairy"],
+  },
+  "988": {
+    id: 988,
+    names: {
+      de: "Kriechflügel",
+      en: "Slither Wing",
+    },
+    generation: 9,
+    types: ["bug", "fighting"],
+  },
+  "989": {
+    id: 989,
+    names: {
+      de: "Sandfell",
+      en: "Sandy Shocks",
+    },
+    generation: 9,
+    types: ["electric", "ground"],
+  },
+  "990": {
+    id: 990,
+    names: {
+      de: "Eisenrad",
+      en: "Iron Treads",
+    },
+    generation: 9,
+    types: ["ground", "steel"],
+  },
+  "991": {
+    id: 991,
+    names: {
+      de: "Eisenbündel",
+      en: "Iron Bundle",
+    },
+    generation: 9,
+    types: ["ice", "water"],
+  },
+  "992": {
+    id: 992,
+    names: {
+      de: "Eisenhand",
+      en: "Iron Hands",
+    },
+    generation: 9,
+    types: ["fighting", "electric"],
+  },
+  "993": {
+    id: 993,
+    names: {
+      de: "Eisenhals",
+      en: "Iron Jugulis",
+    },
+    generation: 9,
+    types: ["dark", "flying"],
+  },
+  "994": {
+    id: 994,
+    names: {
+      de: "Eisenfalter",
+      en: "Iron Moth",
+    },
+    generation: 9,
+    types: ["fire", "poison"],
+  },
+  "995": {
+    id: 995,
+    names: {
+      de: "Eisendorn",
+      en: "Iron Thorns",
+    },
+    generation: 9,
+    types: ["rock", "electric"],
+  },
+  "996": {
+    id: 996,
+    names: {
+      de: "Frospino",
+      en: "Frigibax",
+    },
+    generation: 9,
+    types: ["dragon", "ice"],
+    evolutions: [
+      {
+        id: 997,
+        methods: {
+          de: ["Level-Up - Level 35"],
+          en: ["Level-Up - Level 35"],
+        },
+      },
+    ],
+  },
+  "997": {
+    id: 997,
+    names: {
+      de: "Cryospino",
+      en: "Arctibax",
+    },
+    generation: 9,
+    types: ["dragon", "ice"],
+    evolutions: [
+      {
+        id: 998,
+        methods: {
+          de: ["Level-Up - Level 54"],
+          en: ["Level-Up - Level 54"],
+        },
+      },
+    ],
+  },
+  "998": {
+    id: 998,
+    names: {
+      de: "Espinodon",
+      en: "Baxcalibur",
+    },
+    generation: 9,
+    types: ["dragon", "ice"],
+  },
+  "999": {
+    id: 999,
+    names: {
+      de: "Gierspenst",
+      en: "Gimmighoul",
+    },
+    generation: 9,
+    types: ["ghost"],
+    evolutions: [
+      {
+        id: 1000,
+        methods: {
+          de: ["Gimmmighoul Coins"],
+          en: ["Gimmmighoul Coins"],
+        },
+      },
+    ],
+  },
+  "1000": {
+    id: 1000,
+    names: {
+      de: "Monetigo",
+      en: "Gholdengo",
+    },
+    generation: 9,
+    types: ["steel", "ghost"],
+  },
+  "1001": {
+    id: 1001,
+    names: {
+      de: "Chongjian",
+      en: "Wo-Chien",
+    },
+    generation: 9,
+    types: ["dark", "grass"],
+  },
+  "1002": {
+    id: 1002,
+    names: {
+      de: "Baojian",
+      en: "Chien-Pao",
+    },
+    generation: 9,
+    types: ["dark", "ice"],
+  },
+  "1003": {
+    id: 1003,
+    names: {
+      de: "Dinglu",
+      en: "Ting-Lu",
+    },
+    generation: 9,
+    types: ["dark", "ground"],
+  },
+  "1004": {
+    id: 1004,
+    names: {
+      de: "Yuyu",
+      en: "Chi-Yu",
+    },
+    generation: 9,
+    types: ["dark", "fire"],
+  },
+  "1005": {
+    id: 1005,
+    names: {
+      de: "Donnersichel",
+      en: "Roaring Moon",
+    },
+    generation: 9,
+    types: ["dragon", "dark"],
+  },
+  "1006": {
+    id: 1006,
+    names: {
+      de: "Eisenkrieger",
+      en: "Iron Valiant",
+    },
+    generation: 9,
+    types: ["fairy", "fighting"],
+  },
+  "1007": {
+    id: 1007,
+    names: {
+      de: "Koraidon",
+      en: "Koraidon",
+    },
+    generation: 9,
+    types: ["fighting", "dragon"],
+  },
+  "1008": {
+    id: 1008,
+    names: {
+      de: "Miraidon",
+      en: "Miraidon",
+    },
+    generation: 9,
+    types: ["electric", "dragon"],
+  },
+  "1009": {
+    id: 1009,
+    names: {
+      de: "Windewoge",
+      en: "Walking Wake",
+    },
+    generation: 9,
+    types: ["water", "dragon"],
+  },
+  "1010": {
+    id: 1010,
+    names: {
+      de: "Eisenblatt",
+      en: "Iron Leaves",
+    },
+    generation: 9,
+    types: ["grass", "psychic"],
+  },
+  "1011": {
+    id: 1011,
+    names: {
+      de: "Sirapfel",
+      en: "Dipplin",
+    },
+    generation: 9,
+    types: ["grass", "dragon"],
+    evolutions: [
+      {
+        id: 1019,
+        methods: {
+          de: ["Bedingung unbekannt"],
+          en: ["Requirement unknown"],
+        },
+      },
+    ],
+  },
+  "1012": {
+    id: 1012,
+    names: {
+      de: "Mortcha",
+      en: "Poltchageist",
+    },
+    generation: 9,
+    types: ["grass", "ghost"],
+    evolutions: [
+      {
+        id: 1013,
+        methods: {
+          de: ["Bedingung unbekannt"],
+          en: ["Requirement unknown"],
+        },
+      },
+    ],
+  },
+  "1013": {
+    id: 1013,
+    names: {
+      de: "Fatalitcha",
+      en: "Sinistcha",
+    },
+    generation: 9,
+    types: ["grass", "ghost"],
+  },
+  "1014": {
+    id: 1014,
+    names: {
+      de: "Boninu",
+      en: "Okidogi",
+    },
+    generation: 9,
+    types: ["poison", "fighting"],
+  },
+  "1015": {
+    id: 1015,
+    names: {
+      de: "Benesaru",
+      en: "Munkidori",
+    },
+    generation: 9,
+    types: ["poison", "psychic"],
+  },
+  "1016": {
+    id: 1016,
+    names: {
+      de: "Beatori",
+      en: "Fezandipiti",
+    },
+    generation: 9,
+    types: ["poison", "fairy"],
+  },
+  "1017": {
+    id: 1017,
+    names: {
+      de: "Ogerpon",
+      en: "Ogerpon",
+    },
+    generation: 9,
+    types: ["grass"],
+  },
+  "1018": {
+    id: 1018,
+    names: {
+      de: "Briduradon",
+      en: "Archaludon",
+    },
+    generation: 9,
+    types: ["steel", "dragon"],
+  },
+  "1019": {
+    id: 1019,
+    names: {
+      de: "Hydrapfel",
+      en: "Hydrapple",
+    },
+    generation: 9,
+    types: ["grass", "dragon"],
+  },
+  "1020": {
+    id: 1020,
+    names: {
+      de: "Keilflamme",
+      en: "Gouging Fire",
+    },
+    generation: 9,
+    types: ["fire", "dragon"],
+  },
+  "1021": {
+    id: 1021,
+    names: {
+      de: "Furienblitz",
+      en: "Raging Bolt",
+    },
+    generation: 9,
+    types: ["electric", "dragon"],
+  },
+  "1022": {
+    id: 1022,
+    names: {
+      de: "Eisenfels",
+      en: "Iron Boulder",
+    },
+    generation: 9,
+    types: ["rock", "psychic"],
+  },
+  "1023": {
+    id: 1023,
+    names: {
+      de: "Eisenhaupt",
+      en: "Iron Crown",
+    },
+    generation: 9,
+    types: ["steel", "psychic"],
+  },
+  "1024": {
+    id: 1024,
+    names: {
+      de: "Terapagos",
+      en: "Terapagos",
+    },
+    generation: 9,
+    types: ["normal"],
+  },
+  "1025": {
+    id: 1025,
+    names: {
+      de: "Infamomo",
+      en: "Pecharunt",
+    },
+    generation: 9,
+    types: ["poison", "ghost"],
   },
 };
 

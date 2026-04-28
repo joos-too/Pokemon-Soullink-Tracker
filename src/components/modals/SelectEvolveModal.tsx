@@ -3,10 +3,7 @@ import {
   getOfficialArtworkUrlById,
   getSpriteUrlById,
 } from "@/src/services/sprites.ts";
-import {
-  getPokemonIdFromName,
-  getPokemonNameById,
-} from "@/src/services/pokemonSearch.ts";
+import { getPokemonNameById } from "@/src/services/pokemonSearch.ts";
 import type { PokemonLink } from "@/types.ts";
 import { useTranslation } from "react-i18next";
 import { normalizeLanguage } from "@/src/utils/language.ts";
@@ -98,7 +95,7 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
     return playerLabels
       .map((label, index) => {
         const member = pair.members?.[index];
-        const pokemonId = member?.id ?? getPokemonIdFromName(member?.name);
+        const pokemonId = member?.id;
         if (!pokemonId) return null;
         const entries = getFilteredEvolutionEntriesForPokemon(
           pokemonId,
@@ -142,7 +139,7 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
       setSelectedEvoId(null);
       if (!pair || selectedPlayer === null) return;
       const member = pair.members?.[selectedPlayer];
-      const pokemonId = member?.id ?? getPokemonIdFromName(member?.name);
+      const pokemonId = member?.id;
       if (!pokemonId) {
         setAvailableEvos([]);
         return;

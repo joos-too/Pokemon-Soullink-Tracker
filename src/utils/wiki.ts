@@ -1,5 +1,4 @@
 import { POKEMON_DATA } from "@/src/data/pokemon.ts";
-import { getPokemonIdFromName } from "@/src/services/pokemonSearch.ts";
 
 export type WikiId = "pokewiki" | "bulbapedia" | "pokemondb";
 
@@ -44,17 +43,10 @@ export const DEFAULT_WIKI_DE: WikiId = "pokewiki";
 export const DEFAULT_WIKI_EN: WikiId = "bulbapedia";
 
 /**
- * Build the wiki URL for a given Pokemon name and wiki.
- * The name may be in German or English – the correct localized name for
- * the target wiki is resolved automatically via the existing data mappings.
- * Returns null when the Pokemon cannot be found in the data.
+ * Build the wiki URL for a given Pokémon id and wiki.
+ * The correct localized name for the target wiki is resolved automatically via the existing Pokémon data.
+ * Returns null when the Pokémon cannot be found in the data.
  */
-export function getWikiUrl(pokemonName: string, wikiId: WikiId): string | null {
-  if (!pokemonName?.trim()) return null;
-  const id = getPokemonIdFromName(pokemonName);
-  return getWikiUrlById(id, wikiId);
-}
-
 export function getWikiUrlById(
   pokemonId: number | null | undefined,
   wikiId: WikiId,

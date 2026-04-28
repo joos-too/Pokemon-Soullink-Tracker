@@ -3,16 +3,10 @@ import type { PokemonLink } from "@/types.ts";
 import { useTranslation } from "react-i18next";
 import { useFocusTrap } from "@/src/hooks/useFocusTrap.ts";
 import { focusRingClasses } from "@/src/styles/focusRing.ts";
-import {
-  getSpriteUrlById,
-  getSpriteUrlForPokemonName,
-} from "@/src/services/sprites.ts";
+import { getSpriteUrlById } from "@/src/services/sprites.ts";
 import { FiAlertTriangle, FiInfo } from "react-icons/fi";
 import Tooltip from "@/src/components/other/Tooltip.tsx";
-import {
-  getPokemonIdFromName,
-  getPokemonNameById,
-} from "@/src/services/pokemonSearch.ts";
+import { getPokemonNameById } from "@/src/services/pokemonSearch.ts";
 import { normalizeLanguage } from "@/src/utils/language.ts";
 
 interface DeleteLinkModalProps {
@@ -96,12 +90,10 @@ const DeleteLinkModal: React.FC<DeleteLinkModalProps> = ({
                 id: null,
                 nickname: "",
               };
-              const pokemonId = member.id ?? getPokemonIdFromName(member.name);
+              const pokemonId = member.id;
               const displayName =
                 getPokemonNameById(pokemonId, language) || member.name || "";
-              const spriteUrl = pokemonId
-                ? getSpriteUrlById(pokemonId)
-                : getSpriteUrlForPokemonName(member.name);
+              const spriteUrl = getSpriteUrlById(pokemonId);
               return (
                 <div
                   key={`delete-preview-${index}`}
