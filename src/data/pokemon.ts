@@ -41,7 +41,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-16",
             names: {
-              de: "Level-Up - Level 16",
+              de: "Levelaufstieg - Level 16",
               en: "Level-Up - Level 16",
             },
           },
@@ -64,7 +64,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-32",
             names: {
-              de: "Level-Up - Level 32",
+              de: "Levelaufstieg - Level 32",
               en: "Level-Up - Level 32",
             },
           },
@@ -96,7 +96,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-16",
             names: {
-              de: "Level-Up - Level 16",
+              de: "Levelaufstieg - Level 16",
               en: "Level-Up - Level 16",
             },
           },
@@ -119,7 +119,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-36",
             names: {
-              de: "Level-Up - Level 36",
+              de: "Levelaufstieg - Level 36",
               en: "Level-Up - Level 36",
             },
           },
@@ -151,7 +151,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-16",
             names: {
-              de: "Level-Up - Level 16",
+              de: "Levelaufstieg - Level 16",
               en: "Level-Up - Level 16",
             },
           },
@@ -174,7 +174,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-36",
             names: {
-              de: "Level-Up - Level 36",
+              de: "Levelaufstieg - Level 36",
               en: "Level-Up - Level 36",
             },
           },
@@ -206,7 +206,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-7",
             names: {
-              de: "Level-Up - Level 7",
+              de: "Levelaufstieg - Level 7",
               en: "Level-Up - Level 7",
             },
           },
@@ -229,7 +229,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-10",
             names: {
-              de: "Level-Up - Level 10",
+              de: "Levelaufstieg - Level 10",
               en: "Level-Up - Level 10",
             },
           },
@@ -261,7 +261,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-7",
             names: {
-              de: "Level-Up - Level 7",
+              de: "Levelaufstieg - Level 7",
               en: "Level-Up - Level 7",
             },
           },
@@ -284,7 +284,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-10",
             names: {
-              de: "Level-Up - Level 10",
+              de: "Levelaufstieg - Level 10",
               en: "Level-Up - Level 10",
             },
           },
@@ -316,7 +316,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-18",
             names: {
-              de: "Level-Up - Level 18",
+              de: "Levelaufstieg - Level 18",
               en: "Level-Up - Level 18",
             },
           },
@@ -339,7 +339,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-36",
             names: {
-              de: "Level-Up - Level 36",
+              de: "Levelaufstieg - Level 36",
               en: "Level-Up - Level 36",
             },
           },
@@ -371,14 +371,14 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-20",
             names: {
-              de: "Level-Up - Level 20",
+              de: "Levelaufstieg - Level 20",
               en: "Level-Up - Level 20",
             },
           },
           {
             slug: "level-up-min-level-20-time-night",
             names: {
-              de: "Level-Up - Level 20, Tageszeit: Nacht",
+              de: "Levelaufstieg - Level 20, Tageszeit: Nacht",
               en: "Level-Up - Level 20, Time of day: Night",
             },
           },
@@ -410,7 +410,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-20",
             names: {
-              de: "Level-Up - Level 20",
+              de: "Levelaufstieg - Level 20",
               en: "Level-Up - Level 20",
             },
           },
@@ -442,7 +442,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-22",
             names: {
-              de: "Level-Up - Level 22",
+              de: "Levelaufstieg - Level 22",
               en: "Level-Up - Level 22",
             },
           },
@@ -513,7 +513,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-22",
             names: {
-              de: "Level-Up - Level 22",
+              de: "Levelaufstieg - Level 22",
               en: "Level-Up - Level 22",
             },
           },
@@ -545,7 +545,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-16",
             names: {
-              de: "Level-Up - Level 16",
+              de: "Levelaufstieg - Level 16",
               en: "Level-Up - Level 16",
             },
           },
@@ -600,7 +600,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-16",
             names: {
-              de: "Level-Up - Level 16",
+              de: "Levelaufstieg - Level 16",
               en: "Level-Up - Level 16",
             },
           },
@@ -782,7 +782,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-22",
             names: {
-              de: "Level-Up - Level 22",
+              de: "Levelaufstieg - Level 22",
               en: "Level-Up - Level 22",
             },
           },
@@ -805,7 +805,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-happiness-160",
             names: {
-              de: "Level-Up - Freundschaft ≥ 160",
+              de: "Levelaufstieg - Freundschaft ≥ 160",
               en: "Level-Up - Friendship ≥ 160",
             },
           },
@@ -828,7 +828,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-21",
             names: {
-              de: "Level-Up - Level 21",
+              de: "Levelaufstieg - Level 21",
               en: "Level-Up - Level 21",
             },
           },
@@ -895,7 +895,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-24",
             names: {
-              de: "Level-Up - Level 24",
+              de: "Levelaufstieg - Level 24",
               en: "Level-Up - Level 24",
             },
           },
@@ -927,7 +927,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-31",
             names: {
-              de: "Level-Up - Level 31",
+              de: "Levelaufstieg - Level 31",
               en: "Level-Up - Level 31",
             },
           },
@@ -959,7 +959,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-26",
             names: {
-              de: "Level-Up - Level 26",
+              de: "Levelaufstieg - Level 26",
               en: "Level-Up - Level 26",
             },
           },
@@ -991,14 +991,14 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-happiness-160",
             names: {
-              de: "Level-Up - Freundschaft ≥ 160",
+              de: "Levelaufstieg - Freundschaft ≥ 160",
               en: "Level-Up - Friendship ≥ 160",
             },
           },
           {
             slug: "level-up-min-level-28",
             names: {
-              de: "Level-Up - Level 28",
+              de: "Levelaufstieg - Level 28",
               en: "Level-Up - Level 28",
             },
           },
@@ -1010,7 +1010,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-28",
             names: {
-              de: "Level-Up - Level 28",
+              de: "Levelaufstieg - Level 28",
               en: "Level-Up - Level 28",
             },
           },
@@ -1042,7 +1042,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-33",
             names: {
-              de: "Level-Up - Level 33",
+              de: "Levelaufstieg - Level 33",
               en: "Level-Up - Level 33",
             },
           },
@@ -1074,7 +1074,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-28",
             names: {
-              de: "Level-Up - Level 28",
+              de: "Levelaufstieg - Level 28",
               en: "Level-Up - Level 28",
             },
           },
@@ -1152,7 +1152,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-25",
             names: {
-              de: "Level-Up - Level 25",
+              de: "Levelaufstieg - Level 25",
               en: "Level-Up - Level 25",
             },
           },
@@ -1219,7 +1219,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-16",
             names: {
-              de: "Level-Up - Level 16",
+              de: "Levelaufstieg - Level 16",
               en: "Level-Up - Level 16",
             },
           },
@@ -1274,7 +1274,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-28",
             names: {
-              de: "Level-Up - Level 28",
+              de: "Levelaufstieg - Level 28",
               en: "Level-Up - Level 28",
             },
           },
@@ -1329,7 +1329,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-21",
             names: {
-              de: "Level-Up - Level 21",
+              de: "Levelaufstieg - Level 21",
               en: "Level-Up - Level 21",
             },
           },
@@ -1384,7 +1384,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-30",
             names: {
-              de: "Level-Up - Level 30",
+              de: "Levelaufstieg - Level 30",
               en: "Level-Up - Level 30",
             },
           },
@@ -1416,7 +1416,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-25",
             names: {
-              de: "Level-Up - Level 25",
+              de: "Levelaufstieg - Level 25",
               en: "Level-Up - Level 25",
             },
           },
@@ -1471,7 +1471,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-40",
             names: {
-              de: "Level-Up - Level 40",
+              de: "Levelaufstieg - Level 40",
               en: "Level-Up - Level 40",
             },
           },
@@ -1510,7 +1510,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-37",
             names: {
-              de: "Level-Up - Level 37",
+              de: "Levelaufstieg - Level 37",
               en: "Level-Up - Level 37",
             },
           },
@@ -1567,7 +1567,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-30",
             names: {
-              de: "Level-Up - Level 30",
+              de: "Levelaufstieg - Level 30",
               en: "Level-Up - Level 30",
             },
           },
@@ -1603,35 +1603,35 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-location-vast-poni-canyon",
             names: {
-              de: "Level-Up - Ort: Canyon von Poni",
+              de: "Levelaufstieg - Ort: Canyon von Poni",
               en: "Level-Up - Location: Vast Poni Canyon",
             },
           },
           {
             slug: "level-up-location-chargestone-cave",
             names: {
-              de: "Level-Up - Ort: Elektrolithhöhle",
+              de: "Levelaufstieg - Ort: Elektrolithhöhle",
               en: "Level-Up - Location: Chargestone Cave",
             },
           },
           {
             slug: "level-up-location-blush-mountain",
             names: {
-              de: "Level-Up - Ort: Glühberg",
+              de: "Levelaufstieg - Ort: Glühberg",
               en: "Level-Up - Location: Blush Mountain",
             },
           },
           {
             slug: "level-up-location-mt-coronet",
             names: {
-              de: "Level-Up - Ort: Kraterberg",
+              de: "Levelaufstieg - Ort: Kraterberg",
               en: "Level-Up - Location: Mt. Coronet",
             },
           },
           {
             slug: "level-up-location-kalos-route-13",
             names: {
-              de: "Level-Up - Ort: Route 13",
+              de: "Levelaufstieg - Ort: Route 13",
               en: "Level-Up - Location: Route 13",
             },
           },
@@ -1677,7 +1677,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-31",
             names: {
-              de: "Level-Up - Level 31",
+              de: "Levelaufstieg - Level 31",
               en: "Level-Up - Level 31",
             },
           },
@@ -1709,7 +1709,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-34",
             names: {
-              de: "Level-Up - Level 34",
+              de: "Levelaufstieg - Level 34",
               en: "Level-Up - Level 34",
             },
           },
@@ -1741,7 +1741,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-38",
             names: {
-              de: "Level-Up - Level 38",
+              de: "Levelaufstieg - Level 38",
               en: "Level-Up - Level 38",
             },
           },
@@ -1805,7 +1805,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-25",
             names: {
-              de: "Level-Up - Level 25",
+              de: "Levelaufstieg - Level 25",
               en: "Level-Up - Level 25",
             },
           },
@@ -1883,7 +1883,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-26",
             names: {
-              de: "Level-Up - Level 26",
+              de: "Levelaufstieg - Level 26",
               en: "Level-Up - Level 26",
             },
           },
@@ -1915,7 +1915,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-28",
             names: {
-              de: "Level-Up - Level 28",
+              de: "Levelaufstieg - Level 28",
               en: "Level-Up - Level 28",
             },
           },
@@ -1954,7 +1954,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-30",
             names: {
-              de: "Level-Up - Level 30",
+              de: "Levelaufstieg - Level 30",
               en: "Level-Up - Level 30",
             },
           },
@@ -2018,14 +2018,14 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-28",
             names: {
-              de: "Level-Up - Level 28",
+              de: "Levelaufstieg - Level 28",
               en: "Level-Up - Level 28",
             },
           },
           {
             slug: "level-up-min-level-28-time-night",
             names: {
-              de: "Level-Up - Level 28, Tageszeit: Nacht",
+              de: "Levelaufstieg - Level 28, Tageszeit: Nacht",
               en: "Level-Up - Level 28, Time of day: Night",
             },
           },
@@ -2075,7 +2075,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-known-move-rollout",
             names: {
-              de: "Level-Up - Kennt Walzer",
+              de: "Levelaufstieg - Kennt Walzer",
               en: "Level-Up - Knows Rollout",
             },
           },
@@ -2098,7 +2098,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-35",
             names: {
-              de: "Level-Up - Level 35",
+              de: "Levelaufstieg - Level 35",
               en: "Level-Up - Level 35",
             },
           },
@@ -2130,7 +2130,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-42",
             names: {
-              de: "Level-Up - Level 42",
+              de: "Levelaufstieg - Level 42",
               en: "Level-Up - Level 42",
             },
           },
@@ -2176,7 +2176,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-happiness-160",
             names: {
-              de: "Level-Up - Freundschaft ≥ 160",
+              de: "Levelaufstieg - Freundschaft ≥ 160",
               en: "Level-Up - Friendship ≥ 160",
             },
           },
@@ -2199,7 +2199,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-known-move-ancient-power",
             names: {
-              de: "Level-Up - Kennt Antik-Kraft",
+              de: "Levelaufstieg - Kennt Antik-Kraft",
               en: "Level-Up - Knows Ancient Power",
             },
           },
@@ -2231,7 +2231,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-32",
             names: {
-              de: "Level-Up - Level 32",
+              de: "Levelaufstieg - Level 32",
               en: "Level-Up - Level 32",
             },
           },
@@ -2277,7 +2277,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-33",
             names: {
-              de: "Level-Up - Level 33",
+              de: "Levelaufstieg - Level 33",
               en: "Level-Up - Level 33",
             },
           },
@@ -2347,7 +2347,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-42",
             names: {
-              de: "Level-Up - Level 42",
+              de: "Levelaufstieg - Level 42",
               en: "Level-Up - Level 42",
             },
           },
@@ -2478,7 +2478,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-20",
             names: {
-              de: "Level-Up - Level 20",
+              de: "Levelaufstieg - Level 20",
               en: "Level-Up - Level 20",
             },
           },
@@ -2564,7 +2564,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-happiness-160-time-day",
             names: {
-              de: "Level-Up - Freundschaft ≥ 160, Tageszeit: Tag",
+              de: "Levelaufstieg - Freundschaft ≥ 160, Tageszeit: Tag",
               en: "Level-Up - Friendship ≥ 160, Time of day: Day",
             },
           },
@@ -2576,7 +2576,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-happiness-160-time-night",
             names: {
-              de: "Level-Up - Freundschaft ≥ 160, Tageszeit: Nacht",
+              de: "Levelaufstieg - Freundschaft ≥ 160, Tageszeit: Nacht",
               en: "Level-Up - Friendship ≥ 160, Time of day: Night",
             },
           },
@@ -2595,21 +2595,21 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-location-pinwheel-forest",
             names: {
-              de: "Level-Up - Ort: Ewigenwald",
+              de: "Levelaufstieg - Ort: Ewigenwald",
               en: "Level-Up - Location: Pinwheel Forest",
             },
           },
           {
             slug: "level-up-location-eterna-forest",
             names: {
-              de: "Level-Up - Ort: Ewigwald",
+              de: "Levelaufstieg - Ort: Ewigwald",
               en: "Level-Up - Location: Eterna Forest",
             },
           },
           {
             slug: "level-up-location-kalos-route-20",
             names: {
-              de: "Level-Up - Ort: Route 20",
+              de: "Levelaufstieg - Ort: Route 20",
               en: "Level-Up - Location: Route 20",
             },
           },
@@ -2628,21 +2628,21 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-location-frost-cavern",
             names: {
-              de: "Level-Up - Ort: Frosthöhle",
+              de: "Levelaufstieg - Ort: Frosthöhle",
               en: "Level-Up - Location: Frost Cavern",
             },
           },
           {
             slug: "level-up-location-sinnoh-route-217",
             names: {
-              de: "Level-Up - Ort: Route 217",
+              de: "Levelaufstieg - Ort: Route 217",
               en: "Level-Up - Location: Route 217",
             },
           },
           {
             slug: "level-up-location-twist-mountain",
             names: {
-              de: "Level-Up - Ort: Wendelberg",
+              de: "Levelaufstieg - Ort: Wendelberg",
               en: "Level-Up - Location: Twist Mountain",
             },
           },
@@ -2654,14 +2654,14 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-happiness-160-known-move-type-fairy",
             names: {
-              de: "Level-Up - Freundschaft ≥ 160, Kennt Attacke vom Typ Fee",
+              de: "Levelaufstieg - Freundschaft ≥ 160, Kennt Attacke vom Typ Fee",
               en: "Level-Up - Friendship ≥ 160, Knows move of type Fairy",
             },
           },
           {
             slug: "level-up-min-affection-2-known-move-type-fairy",
             names: {
-              de: "Level-Up - Zutrauen ≥ 2, Kennt Attacke vom Typ Fee",
+              de: "Levelaufstieg - Zutrauen ≥ 2, Kennt Attacke vom Typ Fee",
               en: "Level-Up - Affection ≥ 2, Knows move of type Fairy",
             },
           },
@@ -2734,7 +2734,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-40",
             names: {
-              de: "Level-Up - Level 40",
+              de: "Levelaufstieg - Level 40",
               en: "Level-Up - Level 40",
             },
           },
@@ -2766,7 +2766,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-40",
             names: {
-              de: "Level-Up - Level 40",
+              de: "Levelaufstieg - Level 40",
               en: "Level-Up - Level 40",
             },
           },
@@ -2843,7 +2843,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-30",
             names: {
-              de: "Level-Up - Level 30",
+              de: "Levelaufstieg - Level 30",
               en: "Level-Up - Level 30",
             },
           },
@@ -2866,7 +2866,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-55",
             names: {
-              de: "Level-Up - Level 55",
+              de: "Levelaufstieg - Level 55",
               en: "Level-Up - Level 55",
             },
           },
@@ -2916,7 +2916,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-16",
             names: {
-              de: "Level-Up - Level 16",
+              de: "Levelaufstieg - Level 16",
               en: "Level-Up - Level 16",
             },
           },
@@ -2939,7 +2939,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-32",
             names: {
-              de: "Level-Up - Level 32",
+              de: "Levelaufstieg - Level 32",
               en: "Level-Up - Level 32",
             },
           },
@@ -2971,14 +2971,14 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-14",
             names: {
-              de: "Level-Up - Level 14",
+              de: "Levelaufstieg - Level 14",
               en: "Level-Up - Level 14",
             },
           },
           {
             slug: "level-up-min-level-17",
             names: {
-              de: "Level-Up - Level 17",
+              de: "Levelaufstieg - Level 17",
               en: "Level-Up - Level 17",
             },
           },
@@ -3001,7 +3001,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-36",
             names: {
-              de: "Level-Up - Level 36",
+              de: "Levelaufstieg - Level 36",
               en: "Level-Up - Level 36",
             },
           },
@@ -3033,7 +3033,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-18",
             names: {
-              de: "Level-Up - Level 18",
+              de: "Levelaufstieg - Level 18",
               en: "Level-Up - Level 18",
             },
           },
@@ -3056,7 +3056,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-30",
             names: {
-              de: "Level-Up - Level 30",
+              de: "Levelaufstieg - Level 30",
               en: "Level-Up - Level 30",
             },
           },
@@ -3088,7 +3088,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-15",
             names: {
-              de: "Level-Up - Level 15",
+              de: "Levelaufstieg - Level 15",
               en: "Level-Up - Level 15",
             },
           },
@@ -3120,7 +3120,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-20",
             names: {
-              de: "Level-Up - Level 20",
+              de: "Levelaufstieg - Level 20",
               en: "Level-Up - Level 20",
             },
           },
@@ -3152,7 +3152,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-18",
             names: {
-              de: "Level-Up - Level 18",
+              de: "Levelaufstieg - Level 18",
               en: "Level-Up - Level 18",
             },
           },
@@ -3184,7 +3184,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-22",
             names: {
-              de: "Level-Up - Level 22",
+              de: "Levelaufstieg - Level 22",
               en: "Level-Up - Level 22",
             },
           },
@@ -3225,7 +3225,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-27",
             names: {
-              de: "Level-Up - Level 27",
+              de: "Levelaufstieg - Level 27",
               en: "Level-Up - Level 27",
             },
           },
@@ -3257,7 +3257,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-happiness-220",
             names: {
-              de: "Level-Up - Freundschaft ≥ 220",
+              de: "Levelaufstieg - Freundschaft ≥ 220",
               en: "Level-Up - Friendship ≥ 220",
             },
           },
@@ -3286,7 +3286,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-happiness-160",
             names: {
-              de: "Level-Up - Freundschaft ≥ 160",
+              de: "Levelaufstieg - Freundschaft ≥ 160",
               en: "Level-Up - Friendship ≥ 160",
             },
           },
@@ -3315,7 +3315,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-happiness-160",
             names: {
-              de: "Level-Up - Freundschaft ≥ 160",
+              de: "Levelaufstieg - Freundschaft ≥ 160",
               en: "Level-Up - Friendship ≥ 160",
             },
           },
@@ -3344,7 +3344,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-happiness-160",
             names: {
-              de: "Level-Up - Freundschaft ≥ 160",
+              de: "Levelaufstieg - Freundschaft ≥ 160",
               en: "Level-Up - Friendship ≥ 160",
             },
           },
@@ -3396,7 +3396,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-25",
             names: {
-              de: "Level-Up - Level 25",
+              de: "Levelaufstieg - Level 25",
               en: "Level-Up - Level 25",
             },
           },
@@ -3428,7 +3428,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-15",
             names: {
-              de: "Level-Up - Level 15",
+              de: "Levelaufstieg - Level 15",
               en: "Level-Up - Level 15",
             },
           },
@@ -3451,7 +3451,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-30",
             names: {
-              de: "Level-Up - Level 30",
+              de: "Levelaufstieg - Level 30",
               en: "Level-Up - Level 30",
             },
           },
@@ -3498,7 +3498,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-18",
             names: {
-              de: "Level-Up - Level 18",
+              de: "Levelaufstieg - Level 18",
               en: "Level-Up - Level 18",
             },
           },
@@ -3554,7 +3554,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-18",
             names: {
-              de: "Level-Up - Level 18",
+              de: "Levelaufstieg - Level 18",
               en: "Level-Up - Level 18",
             },
           },
@@ -3577,7 +3577,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-27",
             names: {
-              de: "Level-Up - Level 27",
+              de: "Levelaufstieg - Level 27",
               en: "Level-Up - Level 27",
             },
           },
@@ -3609,7 +3609,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-known-move-double-hit",
             names: {
-              de: "Level-Up - Kennt Doppelschlag",
+              de: "Levelaufstieg - Kennt Doppelschlag",
               en: "Level-Up - Knows Double Hit",
             },
           },
@@ -3664,7 +3664,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-known-move-ancient-power",
             names: {
-              de: "Level-Up - Kennt Antik-Kraft",
+              de: "Levelaufstieg - Kennt Antik-Kraft",
               en: "Level-Up - Knows Ancient Power",
             },
           },
@@ -3687,7 +3687,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-20",
             names: {
-              de: "Level-Up - Level 20",
+              de: "Levelaufstieg - Level 20",
               en: "Level-Up - Level 20",
             },
           },
@@ -3699,7 +3699,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-20",
             names: {
-              de: "Level-Up - Level 20",
+              de: "Levelaufstieg - Level 20",
               en: "Level-Up - Level 20",
             },
           },
@@ -3822,7 +3822,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-known-move-twin-beam",
             names: {
-              de: "Level-Up - Kennt Doppelstrahl",
+              de: "Levelaufstieg - Kennt Doppelstrahl",
               en: "Level-Up - Knows Twin Beam",
             },
           },
@@ -3845,7 +3845,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-31",
             names: {
-              de: "Level-Up - Level 31",
+              de: "Levelaufstieg - Level 31",
               en: "Level-Up - Level 31",
             },
           },
@@ -3877,7 +3877,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-known-move-hyper-drill",
             names: {
-              de: "Level-Up - Kennt Hyperbohrer",
+              de: "Levelaufstieg - Kennt Hyperbohrer",
               en: "Level-Up - Knows Hyper Drill",
             },
           },
@@ -3900,7 +3900,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-time-night-held-item-razor-fang",
             names: {
-              de: "Level-Up - Tageszeit: Nacht, Trägt Scharfzahn",
+              de: "Levelaufstieg - Tageszeit: Nacht, Trägt Scharfzahn",
               en: "Level-Up - Time of day: Night, Holds Razor Fang",
             },
           },
@@ -3938,7 +3938,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-23",
             names: {
-              de: "Level-Up - Level 23",
+              de: "Levelaufstieg - Level 23",
               en: "Level-Up - Level 23",
             },
           },
@@ -3990,7 +3990,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-known-move-barb-barrage",
             names: {
-              de: "Level-Up - Kennt Giftstachelregen",
+              de: "Levelaufstieg - Kennt Giftstachelregen",
               en: "Level-Up - Knows Barb Barrage",
             },
           },
@@ -4040,7 +4040,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-time-night-held-item-razor-claw",
             names: {
-              de: "Level-Up - Tageszeit: Nacht, Trägt Scharfklaue",
+              de: "Levelaufstieg - Tageszeit: Nacht, Trägt Scharfklaue",
               en: "Level-Up - Time of day: Night, Holds Razor Claw",
             },
           },
@@ -4052,7 +4052,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-time-day-held-item-razor-claw",
             names: {
-              de: "Level-Up - Tageszeit: Tag, Trägt Scharfklaue",
+              de: "Levelaufstieg - Tageszeit: Tag, Trägt Scharfklaue",
               en: "Level-Up - Time of day: Day, Holds Razor Claw",
             },
           },
@@ -4075,7 +4075,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-30",
             names: {
-              de: "Level-Up - Level 30",
+              de: "Levelaufstieg - Level 30",
               en: "Level-Up - Level 30",
             },
           },
@@ -4121,7 +4121,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-38",
             names: {
-              de: "Level-Up - Level 38",
+              de: "Levelaufstieg - Level 38",
               en: "Level-Up - Level 38",
             },
           },
@@ -4153,7 +4153,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-33",
             names: {
-              de: "Level-Up - Level 33",
+              de: "Levelaufstieg - Level 33",
               en: "Level-Up - Level 33",
             },
           },
@@ -4176,7 +4176,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-known-move-ancient-power",
             names: {
-              de: "Level-Up - Kennt Antik-Kraft",
+              de: "Levelaufstieg - Kennt Antik-Kraft",
               en: "Level-Up - Knows Ancient Power",
             },
           },
@@ -4199,7 +4199,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-38",
             names: {
-              de: "Level-Up - Level 38",
+              de: "Levelaufstieg - Level 38",
               en: "Level-Up - Level 38",
             },
           },
@@ -4222,7 +4222,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-25",
             names: {
-              de: "Level-Up - Level 25",
+              de: "Levelaufstieg - Level 25",
               en: "Level-Up - Level 25",
             },
           },
@@ -4281,7 +4281,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-24",
             names: {
-              de: "Level-Up - Level 24",
+              de: "Levelaufstieg - Level 24",
               en: "Level-Up - Level 24",
             },
           },
@@ -4322,7 +4322,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-25",
             names: {
-              de: "Level-Up - Level 25",
+              de: "Levelaufstieg - Level 25",
               en: "Level-Up - Level 25",
             },
           },
@@ -4409,7 +4409,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-20",
             names: {
-              de: "Level-Up - Level 20, Angriff > Verteidigung",
+              de: "Levelaufstieg - Level 20, Angriff > Verteidigung",
               en: "Level-Up - Level 20, Attack > Defense",
             },
           },
@@ -4421,7 +4421,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-20",
             names: {
-              de: "Level-Up - Level 20, Angriff < Verteidigung",
+              de: "Levelaufstieg - Level 20, Angriff < Verteidigung",
               en: "Level-Up - Level 20, Attack < Defense",
             },
           },
@@ -4433,7 +4433,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-20",
             names: {
-              de: "Level-Up - Level 20, Angriff = Verteidigung",
+              de: "Levelaufstieg - Level 20, Angriff = Verteidigung",
               en: "Level-Up - Level 20, Attack = Defense",
             },
           },
@@ -4465,7 +4465,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-30",
             names: {
-              de: "Level-Up - Level 30",
+              de: "Levelaufstieg - Level 30",
               en: "Level-Up - Level 30",
             },
           },
@@ -4488,7 +4488,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-30",
             names: {
-              de: "Level-Up - Level 30",
+              de: "Levelaufstieg - Level 30",
               en: "Level-Up - Level 30",
             },
           },
@@ -4511,7 +4511,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-30",
             names: {
-              de: "Level-Up - Level 30",
+              de: "Levelaufstieg - Level 30",
               en: "Level-Up - Level 30",
             },
           },
@@ -4579,7 +4579,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-30",
             names: {
-              de: "Level-Up - Level 30",
+              de: "Levelaufstieg - Level 30",
               en: "Level-Up - Level 30",
             },
           },
@@ -4602,7 +4602,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-55",
             names: {
-              de: "Level-Up - Level 55",
+              de: "Levelaufstieg - Level 55",
               en: "Level-Up - Level 55",
             },
           },
@@ -4661,7 +4661,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-16",
             names: {
-              de: "Level-Up - Level 16",
+              de: "Levelaufstieg - Level 16",
               en: "Level-Up - Level 16",
             },
           },
@@ -4684,7 +4684,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-36",
             names: {
-              de: "Level-Up - Level 36",
+              de: "Levelaufstieg - Level 36",
               en: "Level-Up - Level 36",
             },
           },
@@ -4716,7 +4716,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-16",
             names: {
-              de: "Level-Up - Level 16",
+              de: "Levelaufstieg - Level 16",
               en: "Level-Up - Level 16",
             },
           },
@@ -4739,7 +4739,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-36",
             names: {
-              de: "Level-Up - Level 36",
+              de: "Levelaufstieg - Level 36",
               en: "Level-Up - Level 36",
             },
           },
@@ -4771,7 +4771,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-16",
             names: {
-              de: "Level-Up - Level 16",
+              de: "Levelaufstieg - Level 16",
               en: "Level-Up - Level 16",
             },
           },
@@ -4794,7 +4794,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-36",
             names: {
-              de: "Level-Up - Level 36",
+              de: "Levelaufstieg - Level 36",
               en: "Level-Up - Level 36",
             },
           },
@@ -4826,7 +4826,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-18",
             names: {
-              de: "Level-Up - Level 18",
+              de: "Levelaufstieg - Level 18",
               en: "Level-Up - Level 18",
             },
           },
@@ -4858,7 +4858,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-20",
             names: {
-              de: "Level-Up - Level 20",
+              de: "Levelaufstieg - Level 20",
               en: "Level-Up - Level 20",
             },
           },
@@ -4881,7 +4881,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-35-time-night",
             names: {
-              de: "Level-Up - Level 35, Tageszeit: Nacht",
+              de: "Levelaufstieg - Level 35, Tageszeit: Nacht",
               en: "Level-Up - Level 35, Time of day: Night",
             },
           },
@@ -4904,7 +4904,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-7",
             names: {
-              de: "Level-Up - Level 7",
+              de: "Levelaufstieg - Level 7",
               en: "Level-Up - Level 7",
             },
           },
@@ -4916,7 +4916,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-7",
             names: {
-              de: "Level-Up - Level 7",
+              de: "Levelaufstieg - Level 7",
               en: "Level-Up - Level 7",
             },
           },
@@ -4939,7 +4939,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-10",
             names: {
-              de: "Level-Up - Level 10",
+              de: "Levelaufstieg - Level 10",
               en: "Level-Up - Level 10",
             },
           },
@@ -4971,7 +4971,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-10",
             names: {
-              de: "Level-Up - Level 10",
+              de: "Levelaufstieg - Level 10",
               en: "Level-Up - Level 10",
             },
           },
@@ -5003,7 +5003,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-14",
             names: {
-              de: "Level-Up - Level 14",
+              de: "Levelaufstieg - Level 14",
               en: "Level-Up - Level 14",
             },
           },
@@ -5058,7 +5058,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-14",
             names: {
-              de: "Level-Up - Level 14",
+              de: "Levelaufstieg - Level 14",
               en: "Level-Up - Level 14",
             },
           },
@@ -5113,7 +5113,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-22",
             names: {
-              de: "Level-Up - Level 22",
+              de: "Levelaufstieg - Level 22",
               en: "Level-Up - Level 22",
             },
           },
@@ -5145,7 +5145,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-25",
             names: {
-              de: "Level-Up - Level 25",
+              de: "Levelaufstieg - Level 25",
               en: "Level-Up - Level 25",
             },
           },
@@ -5183,7 +5183,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-20",
             names: {
-              de: "Level-Up - Level 20",
+              de: "Levelaufstieg - Level 20",
               en: "Level-Up - Level 20",
             },
           },
@@ -5212,7 +5212,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-30",
             names: {
-              de: "Level-Up - Level 30",
+              de: "Levelaufstieg - Level 30",
               en: "Level-Up - Level 30",
             },
           },
@@ -5262,7 +5262,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-22",
             names: {
-              de: "Level-Up - Level 22",
+              de: "Levelaufstieg - Level 22",
               en: "Level-Up - Level 22",
             },
           },
@@ -5294,7 +5294,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-23",
             names: {
-              de: "Level-Up - Level 23",
+              de: "Levelaufstieg - Level 23",
               en: "Level-Up - Level 23",
             },
           },
@@ -5326,7 +5326,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-18",
             names: {
-              de: "Level-Up - Level 18",
+              de: "Levelaufstieg - Level 18",
               en: "Level-Up - Level 18",
             },
           },
@@ -5349,7 +5349,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-36",
             names: {
-              de: "Level-Up - Level 36",
+              de: "Levelaufstieg - Level 36",
               en: "Level-Up - Level 36",
             },
           },
@@ -5381,7 +5381,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-20",
             names: {
-              de: "Level-Up - Level 20",
+              de: "Levelaufstieg - Level 20",
               en: "Level-Up - Level 20",
             },
           },
@@ -5434,7 +5434,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-20",
             names: {
-              de: "Level-Up - Level 20",
+              de: "Levelaufstieg - Level 20",
               en: "Level-Up - Level 20",
             },
           },
@@ -5457,7 +5457,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-40",
             names: {
-              de: "Level-Up - Level 40",
+              de: "Levelaufstieg - Level 40",
               en: "Level-Up - Level 40",
             },
           },
@@ -5489,7 +5489,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-24",
             names: {
-              de: "Level-Up - Level 24",
+              de: "Levelaufstieg - Level 24",
               en: "Level-Up - Level 24",
             },
           },
@@ -5527,7 +5527,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-happiness-160",
             names: {
-              de: "Level-Up - Freundschaft ≥ 160",
+              de: "Levelaufstieg - Freundschaft ≥ 160",
               en: "Level-Up - Friendship ≥ 160",
             },
           },
@@ -5557,35 +5557,35 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-location-vast-poni-canyon",
             names: {
-              de: "Level-Up - Ort: Canyon von Poni",
+              de: "Levelaufstieg - Ort: Canyon von Poni",
               en: "Level-Up - Location: Vast Poni Canyon",
             },
           },
           {
             slug: "level-up-location-chargestone-cave",
             names: {
-              de: "Level-Up - Ort: Elektrolithhöhle",
+              de: "Levelaufstieg - Ort: Elektrolithhöhle",
               en: "Level-Up - Location: Chargestone Cave",
             },
           },
           {
             slug: "level-up-location-blush-mountain",
             names: {
-              de: "Level-Up - Ort: Glühberg",
+              de: "Levelaufstieg - Ort: Glühberg",
               en: "Level-Up - Location: Blush Mountain",
             },
           },
           {
             slug: "level-up-location-mt-coronet",
             names: {
-              de: "Level-Up - Ort: Kraterberg",
+              de: "Levelaufstieg - Ort: Kraterberg",
               en: "Level-Up - Location: Mt. Coronet",
             },
           },
           {
             slug: "level-up-location-kalos-route-13",
             names: {
-              de: "Level-Up - Ort: Route 13",
+              de: "Levelaufstieg - Ort: Route 13",
               en: "Level-Up - Location: Route 13",
             },
           },
@@ -5664,7 +5664,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-32",
             names: {
-              de: "Level-Up - Level 32",
+              de: "Levelaufstieg - Level 32",
               en: "Level-Up - Level 32",
             },
           },
@@ -5687,7 +5687,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-42",
             names: {
-              de: "Level-Up - Level 42",
+              de: "Levelaufstieg - Level 42",
               en: "Level-Up - Level 42",
             },
           },
@@ -5719,7 +5719,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-37",
             names: {
-              de: "Level-Up - Level 37",
+              de: "Levelaufstieg - Level 37",
               en: "Level-Up - Level 37",
             },
           },
@@ -5751,7 +5751,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-26",
             names: {
-              de: "Level-Up - Level 26",
+              de: "Levelaufstieg - Level 26",
               en: "Level-Up - Level 26",
             },
           },
@@ -5842,7 +5842,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-26",
             names: {
-              de: "Level-Up - Level 26",
+              de: "Levelaufstieg - Level 26",
               en: "Level-Up - Level 26",
             },
           },
@@ -5874,7 +5874,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-30",
             names: {
-              de: "Level-Up - Level 30",
+              de: "Levelaufstieg - Level 30",
               en: "Level-Up - Level 30",
             },
           },
@@ -5906,7 +5906,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-40",
             names: {
-              de: "Level-Up - Level 40",
+              de: "Levelaufstieg - Level 40",
               en: "Level-Up - Level 40",
             },
           },
@@ -5938,7 +5938,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-33",
             names: {
-              de: "Level-Up - Level 33",
+              de: "Levelaufstieg - Level 33",
               en: "Level-Up - Level 33",
             },
           },
@@ -5979,7 +5979,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-32",
             names: {
-              de: "Level-Up - Level 32",
+              de: "Levelaufstieg - Level 32",
               en: "Level-Up - Level 32",
             },
           },
@@ -6020,7 +6020,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-35",
             names: {
-              de: "Level-Up - Level 35",
+              de: "Levelaufstieg - Level 35",
               en: "Level-Up - Level 35",
             },
           },
@@ -6043,7 +6043,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-45",
             names: {
-              de: "Level-Up - Level 45",
+              de: "Levelaufstieg - Level 45",
               en: "Level-Up - Level 45",
             },
           },
@@ -6075,7 +6075,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-32",
             names: {
-              de: "Level-Up - Level 32",
+              de: "Levelaufstieg - Level 32",
               en: "Level-Up - Level 32",
             },
           },
@@ -6107,7 +6107,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-35",
             names: {
-              de: "Level-Up - Level 35",
+              de: "Levelaufstieg - Level 35",
               en: "Level-Up - Level 35",
             },
           },
@@ -6175,7 +6175,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-30",
             names: {
-              de: "Level-Up - Level 30",
+              de: "Levelaufstieg - Level 30",
               en: "Level-Up - Level 30",
             },
           },
@@ -6207,7 +6207,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-30",
             names: {
-              de: "Level-Up - Level 30",
+              de: "Levelaufstieg - Level 30",
               en: "Level-Up - Level 30",
             },
           },
@@ -6239,7 +6239,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-36",
             names: {
-              de: "Level-Up - Level 36",
+              de: "Levelaufstieg - Level 36",
               en: "Level-Up - Level 36",
             },
           },
@@ -6271,7 +6271,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-40",
             names: {
-              de: "Level-Up - Level 40",
+              de: "Levelaufstieg - Level 40",
               en: "Level-Up - Level 40",
             },
           },
@@ -6303,7 +6303,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-40",
             names: {
-              de: "Level-Up - Level 40",
+              de: "Levelaufstieg - Level 40",
               en: "Level-Up - Level 40",
             },
           },
@@ -6335,7 +6335,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-beauty-170",
             names: {
-              de: "Level-Up - Schönheit ≥ 170",
+              de: "Levelaufstieg - Schönheit ≥ 170",
               en: "Level-Up - Beauty ≥ 170",
             },
           },
@@ -6392,7 +6392,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-37",
             names: {
-              de: "Level-Up - Level 37",
+              de: "Levelaufstieg - Level 37",
               en: "Level-Up - Level 37",
             },
           },
@@ -6424,7 +6424,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-37",
             names: {
-              de: "Level-Up - Level 37",
+              de: "Levelaufstieg - Level 37",
               en: "Level-Up - Level 37",
             },
           },
@@ -6497,7 +6497,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-15",
             names: {
-              de: "Level-Up - Level 15",
+              de: "Levelaufstieg - Level 15",
               en: "Level-Up - Level 15",
             },
           },
@@ -6520,7 +6520,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-42",
             names: {
-              de: "Level-Up - Level 42",
+              de: "Levelaufstieg - Level 42",
               en: "Level-Up - Level 42",
             },
           },
@@ -6564,7 +6564,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-32",
             names: {
-              de: "Level-Up - Level 32",
+              de: "Levelaufstieg - Level 32",
               en: "Level-Up - Level 32",
             },
           },
@@ -6587,7 +6587,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-44",
             names: {
-              de: "Level-Up - Level 44",
+              de: "Levelaufstieg - Level 44",
               en: "Level-Up - Level 44",
             },
           },
@@ -6690,7 +6690,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-30",
             names: {
-              de: "Level-Up - Level 30",
+              de: "Levelaufstieg - Level 30",
               en: "Level-Up - Level 30",
             },
           },
@@ -6713,7 +6713,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-50",
             names: {
-              de: "Level-Up - Level 50",
+              de: "Levelaufstieg - Level 50",
               en: "Level-Up - Level 50",
             },
           },
@@ -6745,7 +6745,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-20",
             names: {
-              de: "Level-Up - Level 20",
+              de: "Levelaufstieg - Level 20",
               en: "Level-Up - Level 20",
             },
           },
@@ -6768,7 +6768,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-45",
             names: {
-              de: "Level-Up - Level 45",
+              de: "Levelaufstieg - Level 45",
               en: "Level-Up - Level 45",
             },
           },
@@ -6890,7 +6890,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-18",
             names: {
-              de: "Level-Up - Level 18",
+              de: "Levelaufstieg - Level 18",
               en: "Level-Up - Level 18",
             },
           },
@@ -6913,7 +6913,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-32",
             names: {
-              de: "Level-Up - Level 32",
+              de: "Levelaufstieg - Level 32",
               en: "Level-Up - Level 32",
             },
           },
@@ -6945,7 +6945,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-14",
             names: {
-              de: "Level-Up - Level 14",
+              de: "Levelaufstieg - Level 14",
               en: "Level-Up - Level 14",
             },
           },
@@ -6968,7 +6968,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-36",
             names: {
-              de: "Level-Up - Level 36",
+              de: "Levelaufstieg - Level 36",
               en: "Level-Up - Level 36",
             },
           },
@@ -7000,7 +7000,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-16",
             names: {
-              de: "Level-Up - Level 16",
+              de: "Levelaufstieg - Level 16",
               en: "Level-Up - Level 16",
             },
           },
@@ -7023,7 +7023,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-36",
             names: {
-              de: "Level-Up - Level 36",
+              de: "Levelaufstieg - Level 36",
               en: "Level-Up - Level 36",
             },
           },
@@ -7055,7 +7055,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-14",
             names: {
-              de: "Level-Up - Level 14",
+              de: "Levelaufstieg - Level 14",
               en: "Level-Up - Level 14",
             },
           },
@@ -7078,7 +7078,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-34",
             names: {
-              de: "Level-Up - Level 34",
+              de: "Levelaufstieg - Level 34",
               en: "Level-Up - Level 34",
             },
           },
@@ -7110,7 +7110,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-15",
             names: {
-              de: "Level-Up - Level 15",
+              de: "Levelaufstieg - Level 15",
               en: "Level-Up - Level 15",
             },
           },
@@ -7142,7 +7142,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-10",
             names: {
-              de: "Level-Up - Level 10",
+              de: "Levelaufstieg - Level 10",
               en: "Level-Up - Level 10",
             },
           },
@@ -7174,7 +7174,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-15",
             names: {
-              de: "Level-Up - Level 15",
+              de: "Levelaufstieg - Level 15",
               en: "Level-Up - Level 15",
             },
           },
@@ -7197,7 +7197,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-30",
             names: {
-              de: "Level-Up - Level 30",
+              de: "Levelaufstieg - Level 30",
               en: "Level-Up - Level 30",
             },
           },
@@ -7229,7 +7229,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-happiness-160-time-day",
             names: {
-              de: "Level-Up - Freundschaft ≥ 160, Tageszeit: Tag",
+              de: "Levelaufstieg - Freundschaft ≥ 160, Tageszeit: Tag",
               en: "Level-Up - Friendship ≥ 160, Time of day: Day",
             },
           },
@@ -7261,7 +7261,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-30",
             names: {
-              de: "Level-Up - Level 30",
+              de: "Levelaufstieg - Level 30",
               en: "Level-Up - Level 30",
             },
           },
@@ -7293,7 +7293,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-30",
             names: {
-              de: "Level-Up - Level 30",
+              de: "Levelaufstieg - Level 30",
               en: "Level-Up - Level 30",
             },
           },
@@ -7325,7 +7325,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-20-gender-1",
             names: {
-              de: "Level-Up - Level 20, Nur weiblich",
+              de: "Levelaufstieg - Level 20, Nur weiblich",
               en: "Level-Up - Level 20, Only female",
             },
           },
@@ -7337,7 +7337,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-20-gender-2",
             names: {
-              de: "Level-Up - Level 20, Nur männlich",
+              de: "Levelaufstieg - Level 20, Nur männlich",
               en: "Level-Up - Level 20, Only male",
             },
           },
@@ -7378,7 +7378,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-21-gender-1",
             names: {
-              de: "Level-Up - Level 21, Nur weiblich",
+              de: "Levelaufstieg - Level 21, Nur weiblich",
               en: "Level-Up - Level 21, Only female",
             },
           },
@@ -7419,7 +7419,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-26",
             names: {
-              de: "Level-Up - Level 26",
+              de: "Levelaufstieg - Level 26",
               en: "Level-Up - Level 26",
             },
           },
@@ -7451,7 +7451,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-25",
             names: {
-              de: "Level-Up - Level 25",
+              de: "Levelaufstieg - Level 25",
               en: "Level-Up - Level 25",
             },
           },
@@ -7483,7 +7483,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-30",
             names: {
-              de: "Level-Up - Level 30",
+              de: "Levelaufstieg - Level 30",
               en: "Level-Up - Level 30",
             },
           },
@@ -7524,7 +7524,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-28",
             names: {
-              de: "Level-Up - Level 28",
+              de: "Levelaufstieg - Level 28",
               en: "Level-Up - Level 28",
             },
           },
@@ -7556,7 +7556,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-happiness-160",
             names: {
-              de: "Level-Up - Freundschaft ≥ 160",
+              de: "Levelaufstieg - Freundschaft ≥ 160",
               en: "Level-Up - Friendship ≥ 160",
             },
           },
@@ -7606,7 +7606,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-38",
             names: {
-              de: "Level-Up - Level 38",
+              de: "Levelaufstieg - Level 38",
               en: "Level-Up - Level 38",
             },
           },
@@ -7638,7 +7638,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-happiness-220-time-night",
             names: {
-              de: "Level-Up - Freundschaft ≥ 220, Tageszeit: Nacht",
+              de: "Levelaufstieg - Freundschaft ≥ 220, Tageszeit: Nacht",
               en: "Level-Up - Friendship ≥ 220, Time of day: Night",
             },
           },
@@ -7661,7 +7661,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-34",
             names: {
-              de: "Level-Up - Level 34",
+              de: "Levelaufstieg - Level 34",
               en: "Level-Up - Level 34",
             },
           },
@@ -7693,7 +7693,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-33",
             names: {
-              de: "Level-Up - Level 33",
+              de: "Levelaufstieg - Level 33",
               en: "Level-Up - Level 33",
             },
           },
@@ -7725,7 +7725,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-known-move-mimic",
             names: {
-              de: "Level-Up - Kennt Mimikry",
+              de: "Levelaufstieg - Kennt Mimikry",
               en: "Level-Up - Knows Mimic",
             },
           },
@@ -7754,7 +7754,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-known-move-mimic",
             names: {
-              de: "Level-Up - Kennt Mimikry",
+              de: "Levelaufstieg - Kennt Mimikry",
               en: "Level-Up - Knows Mimic",
             },
           },
@@ -7777,7 +7777,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-time-day-held-item-oval-stone",
             names: {
-              de: "Level-Up - Tageszeit: Tag, Trägt Ovaler Stein",
+              de: "Levelaufstieg - Tageszeit: Tag, Trägt Ovaler Stein",
               en: "Level-Up - Time of day: Day, Holds Oval Stone",
             },
           },
@@ -7818,7 +7818,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-24",
             names: {
-              de: "Level-Up - Level 24",
+              de: "Levelaufstieg - Level 24",
               en: "Level-Up - Level 24",
             },
           },
@@ -7841,7 +7841,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-48",
             names: {
-              de: "Level-Up - Level 48",
+              de: "Levelaufstieg - Level 48",
               en: "Level-Up - Level 48",
             },
           },
@@ -7873,7 +7873,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-happiness-160",
             names: {
-              de: "Level-Up - Freundschaft ≥ 160",
+              de: "Levelaufstieg - Freundschaft ≥ 160",
               en: "Level-Up - Friendship ≥ 160",
             },
           },
@@ -7896,7 +7896,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-happiness-160-time-day",
             names: {
-              de: "Level-Up - Freundschaft ≥ 160, Tageszeit: Tag",
+              de: "Levelaufstieg - Freundschaft ≥ 160, Tageszeit: Tag",
               en: "Level-Up - Friendship ≥ 160, Time of day: Day",
             },
           },
@@ -7928,7 +7928,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-34",
             names: {
-              de: "Level-Up - Level 34",
+              de: "Levelaufstieg - Level 34",
               en: "Level-Up - Level 34",
             },
           },
@@ -7960,7 +7960,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-40",
             names: {
-              de: "Level-Up - Level 40",
+              de: "Levelaufstieg - Level 40",
               en: "Level-Up - Level 40",
             },
           },
@@ -7992,7 +7992,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-37",
             names: {
-              de: "Level-Up - Level 37",
+              de: "Levelaufstieg - Level 37",
               en: "Level-Up - Level 37",
             },
           },
@@ -8033,7 +8033,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-31",
             names: {
-              de: "Level-Up - Level 31",
+              de: "Levelaufstieg - Level 31",
               en: "Level-Up - Level 31",
             },
           },
@@ -8065,7 +8065,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-party-species-remoraid",
             names: {
-              de: "Level-Up - Team: Remoraid",
+              de: "Levelaufstieg - Team: Remoraid",
               en: "Level-Up - Party: Remoraid",
             },
           },
@@ -8088,7 +8088,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-40",
             names: {
-              de: "Level-Up - Level 40",
+              de: "Levelaufstieg - Level 40",
               en: "Level-Up - Level 40",
             },
           },
@@ -8432,7 +8432,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-17",
             names: {
-              de: "Level-Up - Level 17",
+              de: "Levelaufstieg - Level 17",
               en: "Level-Up - Level 17",
             },
           },
@@ -8455,7 +8455,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-36",
             names: {
-              de: "Level-Up - Level 36",
+              de: "Levelaufstieg - Level 36",
               en: "Level-Up - Level 36",
             },
           },
@@ -8487,7 +8487,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-17",
             names: {
-              de: "Level-Up - Level 17",
+              de: "Levelaufstieg - Level 17",
               en: "Level-Up - Level 17",
             },
           },
@@ -8510,7 +8510,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-36",
             names: {
-              de: "Level-Up - Level 36",
+              de: "Levelaufstieg - Level 36",
               en: "Level-Up - Level 36",
             },
           },
@@ -8542,7 +8542,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-17",
             names: {
-              de: "Level-Up - Level 17",
+              de: "Levelaufstieg - Level 17",
               en: "Level-Up - Level 17",
             },
           },
@@ -8565,7 +8565,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-36",
             names: {
-              de: "Level-Up - Level 36",
+              de: "Levelaufstieg - Level 36",
               en: "Level-Up - Level 36",
             },
           },
@@ -8597,7 +8597,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-20",
             names: {
-              de: "Level-Up - Level 20",
+              de: "Levelaufstieg - Level 20",
               en: "Level-Up - Level 20",
             },
           },
@@ -8629,7 +8629,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-16",
             names: {
-              de: "Level-Up - Level 16",
+              de: "Levelaufstieg - Level 16",
               en: "Level-Up - Level 16",
             },
           },
@@ -8652,7 +8652,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-32",
             names: {
-              de: "Level-Up - Level 32",
+              de: "Levelaufstieg - Level 32",
               en: "Level-Up - Level 32",
             },
           },
@@ -8684,7 +8684,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-20",
             names: {
-              de: "Level-Up - Level 20",
+              de: "Levelaufstieg - Level 20",
               en: "Level-Up - Level 20",
             },
           },
@@ -8844,7 +8844,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-21",
             names: {
-              de: "Level-Up - Level 21",
+              de: "Levelaufstieg - Level 21",
               en: "Level-Up - Level 21",
             },
           },
@@ -8867,7 +8867,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-32",
             names: {
-              de: "Level-Up - Level 32",
+              de: "Levelaufstieg - Level 32",
               en: "Level-Up - Level 32",
             },
           },
@@ -8899,7 +8899,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-27",
             names: {
-              de: "Level-Up - Level 27",
+              de: "Levelaufstieg - Level 27",
               en: "Level-Up - Level 27",
             },
           },
@@ -8931,7 +8931,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-25",
             names: {
-              de: "Level-Up - Level 25",
+              de: "Levelaufstieg - Level 25",
               en: "Level-Up - Level 25",
             },
           },
@@ -8986,7 +8986,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-happiness-160",
             names: {
-              de: "Level-Up - Freundschaft ≥ 160",
+              de: "Levelaufstieg - Freundschaft ≥ 160",
               en: "Level-Up - Friendship ≥ 160",
             },
           },
@@ -9018,7 +9018,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-31",
             names: {
-              de: "Level-Up - Level 31",
+              de: "Levelaufstieg - Level 31",
               en: "Level-Up - Level 31",
             },
           },
@@ -9059,7 +9059,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-25",
             names: {
-              de: "Level-Up - Level 25",
+              de: "Levelaufstieg - Level 25",
               en: "Level-Up - Level 25",
             },
           },
@@ -9114,7 +9114,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-25",
             names: {
-              de: "Level-Up - Level 25",
+              de: "Levelaufstieg - Level 25",
               en: "Level-Up - Level 25",
             },
           },
@@ -9137,7 +9137,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-36",
             names: {
-              de: "Level-Up - Level 36",
+              de: "Levelaufstieg - Level 36",
               en: "Level-Up - Level 36",
             },
           },
@@ -9187,7 +9187,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-20",
             names: {
-              de: "Level-Up - Level 20",
+              de: "Levelaufstieg - Level 20",
               en: "Level-Up - Level 20",
             },
           },
@@ -9210,7 +9210,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-happiness-220",
             names: {
-              de: "Level-Up - Freundschaft ≥ 220",
+              de: "Levelaufstieg - Freundschaft ≥ 220",
               en: "Level-Up - Friendship ≥ 220",
             },
           },
@@ -9242,7 +9242,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-22",
             names: {
-              de: "Level-Up - Level 22",
+              de: "Levelaufstieg - Level 22",
               en: "Level-Up - Level 22",
             },
           },
@@ -9265,7 +9265,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-30",
             names: {
-              de: "Level-Up - Level 30",
+              de: "Levelaufstieg - Level 30",
               en: "Level-Up - Level 30",
             },
           },
@@ -9396,7 +9396,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-29",
             names: {
-              de: "Level-Up - Level 29",
+              de: "Levelaufstieg - Level 29",
               en: "Level-Up - Level 29",
             },
           },
@@ -9419,7 +9419,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-40",
             names: {
-              de: "Level-Up - Level 40",
+              de: "Levelaufstieg - Level 40",
               en: "Level-Up - Level 40",
             },
           },
@@ -9458,7 +9458,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-35",
             names: {
-              de: "Level-Up - Level 35",
+              de: "Levelaufstieg - Level 35",
               en: "Level-Up - Level 35",
             },
           },
@@ -9499,7 +9499,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-34",
             names: {
-              de: "Level-Up - Level 34",
+              de: "Levelaufstieg - Level 34",
               en: "Level-Up - Level 34",
             },
           },
@@ -9531,7 +9531,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-39",
             names: {
-              de: "Level-Up - Level 39",
+              de: "Levelaufstieg - Level 39",
               en: "Level-Up - Level 39",
             },
           },
@@ -9572,7 +9572,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-34",
             names: {
-              de: "Level-Up - Level 34",
+              de: "Levelaufstieg - Level 34",
               en: "Level-Up - Level 34",
             },
           },
@@ -9616,7 +9616,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-37",
             names: {
-              de: "Level-Up - Level 37",
+              de: "Levelaufstieg - Level 37",
               en: "Level-Up - Level 37",
             },
           },
@@ -9648,7 +9648,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-37",
             names: {
-              de: "Level-Up - Level 37",
+              de: "Levelaufstieg - Level 37",
               en: "Level-Up - Level 37",
             },
           },
@@ -9680,7 +9680,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-36",
             names: {
-              de: "Level-Up - Level 36",
+              de: "Levelaufstieg - Level 36",
               en: "Level-Up - Level 36",
             },
           },
@@ -9712,7 +9712,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-30",
             names: {
-              de: "Level-Up - Level 30",
+              de: "Levelaufstieg - Level 30",
               en: "Level-Up - Level 30",
             },
           },
@@ -9776,7 +9776,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-32",
             names: {
-              de: "Level-Up - Level 32",
+              de: "Levelaufstieg - Level 32",
               en: "Level-Up - Level 32",
             },
           },
@@ -9799,7 +9799,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-41",
             names: {
-              de: "Level-Up - Level 41",
+              de: "Levelaufstieg - Level 41",
               en: "Level-Up - Level 41",
             },
           },
@@ -9831,7 +9831,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-32",
             names: {
-              de: "Level-Up - Level 32",
+              de: "Levelaufstieg - Level 32",
               en: "Level-Up - Level 32",
             },
           },
@@ -9854,7 +9854,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-41",
             names: {
-              de: "Level-Up - Level 41",
+              de: "Levelaufstieg - Level 41",
               en: "Level-Up - Level 41",
             },
           },
@@ -9886,7 +9886,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-35",
             names: {
-              de: "Level-Up - Level 35",
+              de: "Levelaufstieg - Level 35",
               en: "Level-Up - Level 35",
             },
           },
@@ -9918,7 +9918,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-35",
             names: {
-              de: "Level-Up - Level 35",
+              de: "Levelaufstieg - Level 35",
               en: "Level-Up - Level 35",
             },
           },
@@ -9941,7 +9941,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-47",
             names: {
-              de: "Level-Up - Level 47",
+              de: "Levelaufstieg - Level 47",
               en: "Level-Up - Level 47",
             },
           },
@@ -9973,7 +9973,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-34",
             names: {
-              de: "Level-Up - Level 34",
+              de: "Levelaufstieg - Level 34",
               en: "Level-Up - Level 34",
             },
           },
@@ -10046,7 +10046,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-39",
             names: {
-              de: "Level-Up - Level 39",
+              de: "Levelaufstieg - Level 39",
               en: "Level-Up - Level 39",
             },
           },
@@ -10078,7 +10078,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-40",
             names: {
-              de: "Level-Up - Level 40",
+              de: "Levelaufstieg - Level 40",
               en: "Level-Up - Level 40",
             },
           },
@@ -10119,7 +10119,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-36",
             names: {
-              de: "Level-Up - Level 36",
+              de: "Levelaufstieg - Level 36",
               en: "Level-Up - Level 36",
             },
           },
@@ -10151,7 +10151,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-40",
             names: {
-              de: "Level-Up - Level 40",
+              de: "Levelaufstieg - Level 40",
               en: "Level-Up - Level 40",
             },
           },
@@ -10183,7 +10183,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-38",
             names: {
-              de: "Level-Up - Level 38",
+              de: "Levelaufstieg - Level 38",
               en: "Level-Up - Level 38",
             },
           },
@@ -10206,7 +10206,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-49",
             names: {
-              de: "Level-Up - Level 49",
+              de: "Levelaufstieg - Level 49",
               en: "Level-Up - Level 49",
             },
           },
@@ -10238,7 +10238,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-39",
             names: {
-              de: "Level-Up - Level 39",
+              de: "Levelaufstieg - Level 39",
               en: "Level-Up - Level 39",
             },
           },
@@ -10293,7 +10293,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-42",
             names: {
-              de: "Level-Up - Level 42",
+              de: "Levelaufstieg - Level 42",
               en: "Level-Up - Level 42",
             },
           },
@@ -10325,7 +10325,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-41",
             names: {
-              de: "Level-Up - Level 41",
+              de: "Levelaufstieg - Level 41",
               en: "Level-Up - Level 41",
             },
           },
@@ -10380,7 +10380,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-38",
             names: {
-              de: "Level-Up - Level 38",
+              de: "Levelaufstieg - Level 38",
               en: "Level-Up - Level 38",
             },
           },
@@ -10403,7 +10403,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-48",
             names: {
-              de: "Level-Up - Level 48",
+              de: "Levelaufstieg - Level 48",
               en: "Level-Up - Level 48",
             },
           },
@@ -10435,7 +10435,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-37",
             names: {
-              de: "Level-Up - Level 37",
+              de: "Levelaufstieg - Level 37",
               en: "Level-Up - Level 37",
             },
           },
@@ -10517,7 +10517,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-50",
             names: {
-              de: "Level-Up - Level 50",
+              de: "Levelaufstieg - Level 50",
               en: "Level-Up - Level 50",
             },
           },
@@ -10558,7 +10558,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-43",
             names: {
-              de: "Level-Up - Level 43",
+              de: "Levelaufstieg - Level 43",
               en: "Level-Up - Level 43",
             },
           },
@@ -10590,7 +10590,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-52",
             names: {
-              de: "Level-Up - Level 52",
+              de: "Levelaufstieg - Level 52",
               en: "Level-Up - Level 52",
             },
           },
@@ -10645,7 +10645,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-54",
             names: {
-              de: "Level-Up - Level 54",
+              de: "Levelaufstieg - Level 54",
               en: "Level-Up - Level 54",
             },
           },
@@ -10677,7 +10677,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-54",
             names: {
-              de: "Level-Up - Level 54",
+              de: "Levelaufstieg - Level 54",
               en: "Level-Up - Level 54",
             },
           },
@@ -10727,7 +10727,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-50",
             names: {
-              de: "Level-Up - Level 50",
+              de: "Levelaufstieg - Level 50",
               en: "Level-Up - Level 50",
             },
           },
@@ -10750,7 +10750,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-64",
             names: {
-              de: "Level-Up - Level 64",
+              de: "Levelaufstieg - Level 64",
               en: "Level-Up - Level 64",
             },
           },
@@ -10782,7 +10782,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-59",
             names: {
-              de: "Level-Up - Level 59",
+              de: "Levelaufstieg - Level 59",
               en: "Level-Up - Level 59",
             },
           },
@@ -10922,7 +10922,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-16",
             names: {
-              de: "Level-Up - Level 16",
+              de: "Levelaufstieg - Level 16",
               en: "Level-Up - Level 16",
             },
           },
@@ -10945,7 +10945,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-36",
             names: {
-              de: "Level-Up - Level 36",
+              de: "Levelaufstieg - Level 36",
               en: "Level-Up - Level 36",
             },
           },
@@ -10977,7 +10977,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-16",
             names: {
-              de: "Level-Up - Level 16",
+              de: "Levelaufstieg - Level 16",
               en: "Level-Up - Level 16",
             },
           },
@@ -11000,7 +11000,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-36",
             names: {
-              de: "Level-Up - Level 36",
+              de: "Levelaufstieg - Level 36",
               en: "Level-Up - Level 36",
             },
           },
@@ -11032,7 +11032,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-16",
             names: {
-              de: "Level-Up - Level 16",
+              de: "Levelaufstieg - Level 16",
               en: "Level-Up - Level 16",
             },
           },
@@ -11055,7 +11055,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-36",
             names: {
-              de: "Level-Up - Level 36",
+              de: "Levelaufstieg - Level 36",
               en: "Level-Up - Level 36",
             },
           },
@@ -11087,7 +11087,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-20",
             names: {
-              de: "Level-Up - Level 20",
+              de: "Levelaufstieg - Level 20",
               en: "Level-Up - Level 20",
             },
           },
@@ -11119,7 +11119,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-17",
             names: {
-              de: "Level-Up - Level 17",
+              de: "Levelaufstieg - Level 17",
               en: "Level-Up - Level 17",
             },
           },
@@ -11142,7 +11142,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-35",
             names: {
-              de: "Level-Up - Level 35",
+              de: "Levelaufstieg - Level 35",
               en: "Level-Up - Level 35",
             },
           },
@@ -11174,7 +11174,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-9",
             names: {
-              de: "Level-Up - Level 9",
+              de: "Levelaufstieg - Level 9",
               en: "Level-Up - Level 9",
             },
           },
@@ -11197,7 +11197,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-12",
             names: {
-              de: "Level-Up - Level 12",
+              de: "Levelaufstieg - Level 12",
               en: "Level-Up - Level 12",
             },
           },
@@ -11229,7 +11229,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-35",
             names: {
-              de: "Level-Up - Level 35",
+              de: "Levelaufstieg - Level 35",
               en: "Level-Up - Level 35",
             },
           },
@@ -11261,7 +11261,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-19",
             names: {
-              de: "Level-Up - Level 19",
+              de: "Levelaufstieg - Level 19",
               en: "Level-Up - Level 19",
             },
           },
@@ -11316,7 +11316,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-32",
             names: {
-              de: "Level-Up - Level 32",
+              de: "Levelaufstieg - Level 32",
               en: "Level-Up - Level 32",
             },
           },
@@ -11348,7 +11348,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-32-party-type-dark",
             names: {
-              de: "Level-Up - Level 32, Pokémon von Typ Unlicht im Team",
+              de: "Levelaufstieg - Level 32, Pokémon von Typ Unlicht im Team",
               en: "Level-Up - Level 32, Pokémon of type Dark in party",
             },
           },
@@ -11389,7 +11389,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-25",
             names: {
-              de: "Level-Up - Level 25",
+              de: "Levelaufstieg - Level 25",
               en: "Level-Up - Level 25",
             },
           },
@@ -11421,7 +11421,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-35",
             names: {
-              de: "Level-Up - Level 35",
+              de: "Levelaufstieg - Level 35",
               en: "Level-Up - Level 35",
             },
           },
@@ -11540,7 +11540,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-30-turn-upside-down",
             names: {
-              de: "Level-Up - Level 30, Konsole umdrehen",
+              de: "Levelaufstieg - Level 30, Konsole umdrehen",
               en: "Level-Up - Level 30, Turn console upside down",
             },
           },
@@ -11572,7 +11572,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-39",
             names: {
-              de: "Level-Up - Level 39",
+              de: "Levelaufstieg - Level 39",
               en: "Level-Up - Level 39",
             },
           },
@@ -11604,7 +11604,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-48",
             names: {
-              de: "Level-Up - Level 48",
+              de: "Levelaufstieg - Level 48",
               en: "Level-Up - Level 48",
             },
           },
@@ -11636,7 +11636,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-37",
             names: {
-              de: "Level-Up - Level 37",
+              de: "Levelaufstieg - Level 37",
               en: "Level-Up - Level 37",
             },
           },
@@ -11700,7 +11700,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-39-time-day",
             names: {
-              de: "Level-Up - Level 39, Tageszeit: Tag",
+              de: "Levelaufstieg - Level 39, Tageszeit: Tag",
               en: "Level-Up - Level 39, Time of day: Day",
             },
           },
@@ -11732,7 +11732,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-39-time-night",
             names: {
-              de: "Level-Up - Level 39, Tageszeit: Nacht",
+              de: "Levelaufstieg - Level 39, Tageszeit: Nacht",
               en: "Level-Up - Level 39, Time of day: Night",
             },
           },
@@ -11800,7 +11800,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-40",
             names: {
-              de: "Level-Up - Level 40",
+              de: "Levelaufstieg - Level 40",
               en: "Level-Up - Level 40",
             },
           },
@@ -11823,7 +11823,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-50-overworld-rain",
             names: {
-              de: "Level-Up - Level 50, Regen in der Oberwelt",
+              de: "Levelaufstieg - Level 50, Regen in der Oberwelt",
               en: "Level-Up - Level 50, Overworld rain",
             },
           },
@@ -11928,7 +11928,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-37",
             names: {
-              de: "Level-Up - Level 37",
+              de: "Levelaufstieg - Level 37",
               en: "Level-Up - Level 37",
             },
           },
@@ -11960,7 +11960,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-48",
             names: {
-              de: "Level-Up - Level 48",
+              de: "Levelaufstieg - Level 48",
               en: "Level-Up - Level 48",
             },
           },
@@ -12046,7 +12046,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-17",
             names: {
-              de: "Level-Up - Level 17",
+              de: "Levelaufstieg - Level 17",
               en: "Level-Up - Level 17",
             },
           },
@@ -12069,14 +12069,14 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-34",
             names: {
-              de: "Level-Up - Level 34",
+              de: "Levelaufstieg - Level 34",
               en: "Level-Up - Level 34",
             },
           },
           {
             slug: "level-up-min-level-36",
             names: {
-              de: "Level-Up - Level 36",
+              de: "Levelaufstieg - Level 36",
               en: "Level-Up - Level 36",
             },
           },
@@ -12108,7 +12108,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-17",
             names: {
-              de: "Level-Up - Level 17",
+              de: "Levelaufstieg - Level 17",
               en: "Level-Up - Level 17",
             },
           },
@@ -12131,7 +12131,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-34",
             names: {
-              de: "Level-Up - Level 34",
+              de: "Levelaufstieg - Level 34",
               en: "Level-Up - Level 34",
             },
           },
@@ -12163,7 +12163,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-17",
             names: {
-              de: "Level-Up - Level 17",
+              de: "Levelaufstieg - Level 17",
               en: "Level-Up - Level 17",
             },
           },
@@ -12186,7 +12186,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-34",
             names: {
-              de: "Level-Up - Level 34",
+              de: "Levelaufstieg - Level 34",
               en: "Level-Up - Level 34",
             },
           },
@@ -12218,7 +12218,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-14",
             names: {
-              de: "Level-Up - Level 14",
+              de: "Levelaufstieg - Level 14",
               en: "Level-Up - Level 14",
             },
           },
@@ -12241,7 +12241,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-28",
             names: {
-              de: "Level-Up - Level 28",
+              de: "Levelaufstieg - Level 28",
               en: "Level-Up - Level 28",
             },
           },
@@ -12273,7 +12273,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-20-time-day",
             names: {
-              de: "Level-Up - Level 20, Tageszeit: Tag",
+              de: "Levelaufstieg - Level 20, Tageszeit: Tag",
               en: "Level-Up - Level 20, Time of day: Day",
             },
           },
@@ -12305,7 +12305,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-20",
             names: {
-              de: "Level-Up - Level 20",
+              de: "Levelaufstieg - Level 20",
               en: "Level-Up - Level 20",
             },
           },
@@ -12335,14 +12335,14 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-location-vast-poni-canyon",
             names: {
-              de: "Level-Up - Ort: Canyon von Poni",
+              de: "Levelaufstieg - Ort: Canyon von Poni",
               en: "Level-Up - Location: Vast Poni Canyon",
             },
           },
           {
             slug: "level-up-location-blush-mountain",
             names: {
-              de: "Level-Up - Ort: Glühberg",
+              de: "Levelaufstieg - Ort: Glühberg",
               en: "Level-Up - Location: Blush Mountain",
             },
           },
@@ -12381,7 +12381,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-location-mount-lanakila",
             names: {
-              de: "Level-Up - Ort: Mount Lanakila",
+              de: "Levelaufstieg - Ort: Mount Lanakila",
               en: "Level-Up - Location: Mount Lanakila",
             },
           },
@@ -12422,7 +12422,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-25",
             names: {
-              de: "Level-Up - Level 25",
+              de: "Levelaufstieg - Level 25",
               en: "Level-Up - Level 25",
             },
           },
@@ -12454,21 +12454,21 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-25-time-dusk",
             names: {
-              de: "Level-Up - Level 25, Tageszeit: Abend",
+              de: "Levelaufstieg - Level 25, Tageszeit: Abend",
               en: "Level-Up - Level 25, Time of day: Dusk",
             },
           },
           {
             slug: "level-up-min-level-25-time-night",
             names: {
-              de: "Level-Up - Level 25, Tageszeit: Nacht",
+              de: "Levelaufstieg - Level 25, Tageszeit: Nacht",
               en: "Level-Up - Level 25, Time of day: Night",
             },
           },
           {
             slug: "level-up-min-level-25-time-day",
             names: {
-              de: "Level-Up - Level 25, Tageszeit: Tag",
+              de: "Levelaufstieg - Level 25, Tageszeit: Tag",
               en: "Level-Up - Level 25, Time of day: Day",
             },
           },
@@ -12509,7 +12509,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-38",
             names: {
-              de: "Level-Up - Level 38",
+              de: "Levelaufstieg - Level 38",
               en: "Level-Up - Level 38",
             },
           },
@@ -12541,7 +12541,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-30",
             names: {
-              de: "Level-Up - Level 30",
+              de: "Levelaufstieg - Level 30",
               en: "Level-Up - Level 30",
             },
           },
@@ -12573,7 +12573,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-22",
             names: {
-              de: "Level-Up - Level 22",
+              de: "Levelaufstieg - Level 22",
               en: "Level-Up - Level 22",
             },
           },
@@ -12605,7 +12605,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-34-time-day",
             names: {
-              de: "Level-Up - Level 34, Tageszeit: Tag",
+              de: "Levelaufstieg - Level 34, Tageszeit: Tag",
               en: "Level-Up - Level 34, Time of day: Day",
             },
           },
@@ -12637,7 +12637,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-24",
             names: {
-              de: "Level-Up - Level 24",
+              de: "Levelaufstieg - Level 24",
               en: "Level-Up - Level 24",
             },
           },
@@ -12669,7 +12669,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-33-gender-1",
             names: {
-              de: "Level-Up - Level 33, Nur weiblich",
+              de: "Levelaufstieg - Level 33, Nur weiblich",
               en: "Level-Up - Level 33, Only female",
             },
           },
@@ -12701,7 +12701,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-27",
             names: {
-              de: "Level-Up - Level 27",
+              de: "Levelaufstieg - Level 27",
               en: "Level-Up - Level 27",
             },
           },
@@ -12733,7 +12733,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-18",
             names: {
-              de: "Level-Up - Level 18",
+              de: "Levelaufstieg - Level 18",
               en: "Level-Up - Level 18",
             },
           },
@@ -12756,7 +12756,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-known-move-stomp",
             names: {
-              de: "Level-Up - Kennt Stampfer",
+              de: "Levelaufstieg - Kennt Stampfer",
               en: "Level-Up - Knows Stomp",
             },
           },
@@ -12815,7 +12815,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-30",
             names: {
-              de: "Level-Up - Level 30",
+              de: "Levelaufstieg - Level 30",
               en: "Level-Up - Level 30",
             },
           },
@@ -12847,7 +12847,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-42",
             names: {
-              de: "Level-Up - Level 42",
+              de: "Levelaufstieg - Level 42",
               en: "Level-Up - Level 42",
             },
           },
@@ -12888,7 +12888,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-happiness-160",
             names: {
-              de: "Level-Up - Freundschaft ≥ 160",
+              de: "Levelaufstieg - Freundschaft ≥ 160",
               en: "Level-Up - Friendship ≥ 160",
             },
           },
@@ -12992,7 +12992,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-35",
             names: {
-              de: "Level-Up - Level 35",
+              de: "Levelaufstieg - Level 35",
               en: "Level-Up - Level 35",
             },
           },
@@ -13015,7 +13015,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-45",
             names: {
-              de: "Level-Up - Level 45",
+              de: "Levelaufstieg - Level 45",
               en: "Level-Up - Level 45",
             },
           },
@@ -13083,7 +13083,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-43",
             names: {
-              de: "Level-Up - Level 43",
+              de: "Levelaufstieg - Level 43",
               en: "Level-Up - Level 43",
             },
           },
@@ -13106,7 +13106,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-53",
             names: {
-              de: "Level-Up - Level 53",
+              de: "Levelaufstieg - Level 53",
               en: "Level-Up - Level 53",
             },
           },
@@ -13118,7 +13118,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-53",
             names: {
-              de: "Level-Up - Level 53",
+              de: "Levelaufstieg - Level 53",
               en: "Level-Up - Level 53",
             },
           },
@@ -13249,7 +13249,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-known-move-dragon-pulse",
             names: {
-              de: "Level-Up - Kennt Drachenpuls",
+              de: "Levelaufstieg - Kennt Drachenpuls",
               en: "Level-Up - Knows Dragon Pulse",
             },
           },
@@ -13326,7 +13326,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-16",
             names: {
-              de: "Level-Up - Level 16",
+              de: "Levelaufstieg - Level 16",
               en: "Level-Up - Level 16",
             },
           },
@@ -13349,7 +13349,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-35",
             names: {
-              de: "Level-Up - Level 35",
+              de: "Levelaufstieg - Level 35",
               en: "Level-Up - Level 35",
             },
           },
@@ -13381,7 +13381,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-16",
             names: {
-              de: "Level-Up - Level 16",
+              de: "Levelaufstieg - Level 16",
               en: "Level-Up - Level 16",
             },
           },
@@ -13404,7 +13404,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-35",
             names: {
-              de: "Level-Up - Level 35",
+              de: "Levelaufstieg - Level 35",
               en: "Level-Up - Level 35",
             },
           },
@@ -13436,7 +13436,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-16",
             names: {
-              de: "Level-Up - Level 16",
+              de: "Levelaufstieg - Level 16",
               en: "Level-Up - Level 16",
             },
           },
@@ -13459,7 +13459,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-35",
             names: {
-              de: "Level-Up - Level 35",
+              de: "Levelaufstieg - Level 35",
               en: "Level-Up - Level 35",
             },
           },
@@ -13491,7 +13491,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-24",
             names: {
-              de: "Level-Up - Level 24",
+              de: "Levelaufstieg - Level 24",
               en: "Level-Up - Level 24",
             },
           },
@@ -13523,7 +13523,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-18",
             names: {
-              de: "Level-Up - Level 18",
+              de: "Levelaufstieg - Level 18",
               en: "Level-Up - Level 18",
             },
           },
@@ -13546,7 +13546,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-38",
             names: {
-              de: "Level-Up - Level 38",
+              de: "Levelaufstieg - Level 38",
               en: "Level-Up - Level 38",
             },
           },
@@ -13578,7 +13578,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-10",
             names: {
-              de: "Level-Up - Level 10",
+              de: "Levelaufstieg - Level 10",
               en: "Level-Up - Level 10",
             },
           },
@@ -13601,7 +13601,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-30",
             names: {
-              de: "Level-Up - Level 30",
+              de: "Levelaufstieg - Level 30",
               en: "Level-Up - Level 30",
             },
           },
@@ -13633,7 +13633,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-18",
             names: {
-              de: "Level-Up - Level 18",
+              de: "Levelaufstieg - Level 18",
               en: "Level-Up - Level 18",
             },
           },
@@ -13665,7 +13665,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-20",
             names: {
-              de: "Level-Up - Level 20",
+              de: "Levelaufstieg - Level 20",
               en: "Level-Up - Level 20",
             },
           },
@@ -13697,7 +13697,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-24",
             names: {
-              de: "Level-Up - Level 24",
+              de: "Levelaufstieg - Level 24",
               en: "Level-Up - Level 24",
             },
           },
@@ -13729,7 +13729,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-22",
             names: {
-              de: "Level-Up - Level 22",
+              de: "Levelaufstieg - Level 22",
               en: "Level-Up - Level 22",
             },
           },
@@ -13761,7 +13761,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-25",
             names: {
-              de: "Level-Up - Level 25",
+              de: "Levelaufstieg - Level 25",
               en: "Level-Up - Level 25",
             },
           },
@@ -13793,7 +13793,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-18",
             names: {
-              de: "Level-Up - Level 18",
+              de: "Levelaufstieg - Level 18",
               en: "Level-Up - Level 18",
             },
           },
@@ -13816,7 +13816,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-34",
             names: {
-              de: "Level-Up - Level 34",
+              de: "Levelaufstieg - Level 34",
               en: "Level-Up - Level 34",
             },
           },
@@ -13913,7 +13913,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-36",
             names: {
-              de: "Level-Up - Level 36",
+              de: "Levelaufstieg - Level 36",
               en: "Level-Up - Level 36",
             },
           },
@@ -13954,7 +13954,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-26",
             names: {
-              de: "Level-Up - Level 26",
+              de: "Levelaufstieg - Level 26",
               en: "Level-Up - Level 26",
             },
           },
@@ -13986,7 +13986,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-30",
             names: {
-              de: "Level-Up - Level 30",
+              de: "Levelaufstieg - Level 30",
               en: "Level-Up - Level 30",
             },
           },
@@ -14018,7 +14018,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-28",
             names: {
-              de: "Level-Up - Level 28",
+              de: "Levelaufstieg - Level 28",
               en: "Level-Up - Level 28",
             },
           },
@@ -14050,7 +14050,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-known-move-taunt",
             names: {
-              de: "Level-Up - Kennt Verhöhner",
+              de: "Levelaufstieg - Kennt Verhöhner",
               en: "Level-Up - Knows Taunt",
             },
           },
@@ -14114,7 +14114,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-32",
             names: {
-              de: "Level-Up - Level 32",
+              de: "Levelaufstieg - Level 32",
               en: "Level-Up - Level 32",
             },
           },
@@ -14137,7 +14137,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-42",
             names: {
-              de: "Level-Up - Level 42",
+              de: "Levelaufstieg - Level 42",
               en: "Level-Up - Level 42",
             },
           },
@@ -14169,7 +14169,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-32",
             names: {
-              de: "Level-Up - Level 32",
+              de: "Levelaufstieg - Level 32",
               en: "Level-Up - Level 32",
             },
           },
@@ -14192,7 +14192,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-42",
             names: {
-              de: "Level-Up - Level 42",
+              de: "Levelaufstieg - Level 42",
               en: "Level-Up - Level 42",
             },
           },
@@ -14328,7 +14328,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-happiness-160-time-night",
             names: {
-              de: "Level-Up - Freundschaft ≥ 160, Tageszeit: Nacht",
+              de: "Levelaufstieg - Freundschaft ≥ 160, Tageszeit: Nacht",
               en: "Level-Up - Friendship ≥ 160, Time of day: Night",
             },
           },
@@ -14396,7 +14396,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-34",
             names: {
-              de: "Level-Up - Level 34",
+              de: "Levelaufstieg - Level 34",
               en: "Level-Up - Level 34",
             },
           },
@@ -14487,7 +14487,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-50",
             names: {
-              de: "Level-Up - Level 50",
+              de: "Levelaufstieg - Level 50",
               en: "Level-Up - Level 50",
             },
           },
@@ -14510,7 +14510,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-60",
             names: {
-              de: "Level-Up - Level 60",
+              de: "Levelaufstieg - Level 60",
               en: "Level-Up - Level 60",
             },
           },
@@ -14569,29 +14569,29 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "use-item-scroll-of-darkness",
             names: {
-              de: "Item: Scroll of Darkness",
+              de: "Item: Unlicht-Schriftrolle",
               en: "Item: Scroll of Darkness",
             },
           },
           {
             slug: "use-item-scroll-of-waters",
             names: {
-              de: "Item: Scroll of Waters",
+              de: "Item: Wasser-Schriftrolle",
               en: "Item: Scroll of Waters",
             },
           },
           {
             slug: "tower-of-darkness",
             names: {
-              de: "Tower Of Darkness",
-              en: "Tower Of Darkness",
+              de: "Turm des Unlichts",
+              en: "Tower of Darkness",
             },
           },
           {
             slug: "tower-of-waters",
             names: {
-              de: "Tower Of Waters",
-              en: "Tower Of Waters",
+              de: "Turm des Wassers",
+              en: "Tower of Waters",
             },
           },
         ],
@@ -14739,7 +14739,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-16",
             names: {
-              de: "Level-Up - Level 16",
+              de: "Levelaufstieg - Level 16",
               en: "Level-Up - Level 16",
             },
           },
@@ -14762,7 +14762,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-36",
             names: {
-              de: "Level-Up - Level 36",
+              de: "Levelaufstieg - Level 36",
               en: "Level-Up - Level 36",
             },
           },
@@ -14794,7 +14794,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-16",
             names: {
-              de: "Level-Up - Level 16",
+              de: "Levelaufstieg - Level 16",
               en: "Level-Up - Level 16",
             },
           },
@@ -14817,7 +14817,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-36",
             names: {
-              de: "Level-Up - Level 36",
+              de: "Levelaufstieg - Level 36",
               en: "Level-Up - Level 36",
             },
           },
@@ -14849,7 +14849,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-16",
             names: {
-              de: "Level-Up - Level 16",
+              de: "Levelaufstieg - Level 16",
               en: "Level-Up - Level 16",
             },
           },
@@ -14872,7 +14872,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-36",
             names: {
-              de: "Level-Up - Level 36",
+              de: "Levelaufstieg - Level 36",
               en: "Level-Up - Level 36",
             },
           },
@@ -14904,7 +14904,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-18",
             names: {
-              de: "Level-Up - Level 18",
+              de: "Levelaufstieg - Level 18",
               en: "Level-Up - Level 18",
             },
           },
@@ -14936,7 +14936,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-15",
             names: {
-              de: "Level-Up - Level 15",
+              de: "Levelaufstieg - Level 15",
               en: "Level-Up - Level 15",
             },
           },
@@ -14968,7 +14968,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-24",
             names: {
-              de: "Level-Up - Level 24",
+              de: "Levelaufstieg - Level 24",
               en: "Level-Up - Level 24",
             },
           },
@@ -15000,7 +15000,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-18",
             names: {
-              de: "Level-Up - Level 18",
+              de: "Levelaufstieg - Level 18",
               en: "Level-Up - Level 18",
             },
           },
@@ -15023,7 +15023,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up",
             names: {
-              de: "Level-Up",
+              de: "Levelaufstieg",
               en: "Level-Up",
             },
           },
@@ -15087,7 +15087,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-26",
             names: {
-              de: "Level-Up - Level 26",
+              de: "Levelaufstieg - Level 26",
               en: "Level-Up - Level 26",
             },
           },
@@ -15119,7 +15119,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-25",
             names: {
-              de: "Level-Up - Level 25",
+              de: "Levelaufstieg - Level 25",
               en: "Level-Up - Level 25",
             },
           },
@@ -15142,7 +15142,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-35",
             names: {
-              de: "Level-Up - Level 35",
+              de: "Levelaufstieg - Level 35",
               en: "Level-Up - Level 35",
             },
           },
@@ -15183,7 +15183,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-24",
             names: {
-              de: "Level-Up - Level 24",
+              de: "Levelaufstieg - Level 24",
               en: "Level-Up - Level 24",
             },
           },
@@ -15206,7 +15206,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-38",
             names: {
-              de: "Level-Up - Level 38",
+              de: "Levelaufstieg - Level 38",
               en: "Level-Up - Level 38",
             },
           },
@@ -15323,7 +15323,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-25",
             names: {
-              de: "Level-Up - Level 25",
+              de: "Levelaufstieg - Level 25",
               en: "Level-Up - Level 25",
             },
           },
@@ -15355,7 +15355,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-30",
             names: {
-              de: "Level-Up - Level 30",
+              de: "Levelaufstieg - Level 30",
               en: "Level-Up - Level 30",
             },
           },
@@ -15387,7 +15387,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-28",
             names: {
-              de: "Level-Up - Level 28",
+              de: "Levelaufstieg - Level 28",
               en: "Level-Up - Level 28",
             },
           },
@@ -15419,7 +15419,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up",
             names: {
-              de: "Level-Up",
+              de: "Levelaufstieg",
               en: "Level-Up",
             },
           },
@@ -15451,7 +15451,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-30",
             names: {
-              de: "Level-Up - Level 30",
+              de: "Levelaufstieg - Level 30",
               en: "Level-Up - Level 30",
             },
           },
@@ -15524,7 +15524,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up",
             names: {
-              de: "Level-Up",
+              de: "Levelaufstieg",
               en: "Level-Up",
             },
           },
@@ -15556,7 +15556,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-35",
             names: {
-              de: "Level-Up - Level 35",
+              de: "Levelaufstieg - Level 35",
               en: "Level-Up - Level 35",
             },
           },
@@ -15588,7 +15588,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-24",
             names: {
-              de: "Level-Up - Level 24",
+              de: "Levelaufstieg - Level 24",
               en: "Level-Up - Level 24",
             },
           },
@@ -15611,7 +15611,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-38",
             names: {
-              de: "Level-Up - Level 38",
+              de: "Levelaufstieg - Level 38",
               en: "Level-Up - Level 38",
             },
           },
@@ -15643,7 +15643,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-26",
             names: {
-              de: "Level-Up - Level 26",
+              de: "Levelaufstieg - Level 26",
               en: "Level-Up - Level 26",
             },
           },
@@ -15684,7 +15684,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-38",
             names: {
-              de: "Level-Up - Level 38",
+              de: "Levelaufstieg - Level 38",
               en: "Level-Up - Level 38",
             },
           },
@@ -15716,7 +15716,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-40",
             names: {
-              de: "Level-Up - Level 40",
+              de: "Levelaufstieg - Level 40",
               en: "Level-Up - Level 40",
             },
           },
@@ -15766,7 +15766,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-35",
             names: {
-              de: "Level-Up - Level 35",
+              de: "Levelaufstieg - Level 35",
               en: "Level-Up - Level 35",
             },
           },
@@ -15798,7 +15798,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-30-time-night",
             names: {
-              de: "Level-Up - Level 30, Tageszeit: Nacht",
+              de: "Levelaufstieg - Level 30, Tageszeit: Nacht",
               en: "Level-Up - Level 30, Time of day: Night",
             },
           },
@@ -16051,7 +16051,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-35",
             names: {
-              de: "Level-Up - Level 35",
+              de: "Levelaufstieg - Level 35",
               en: "Level-Up - Level 35",
             },
           },
@@ -16074,7 +16074,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "level-up-min-level-54",
             names: {
-              de: "Level-Up - Level 54",
+              de: "Levelaufstieg - Level 54",
               en: "Level-Up - Level 54",
             },
           },

@@ -38,7 +38,10 @@ const MANUAL_TRANSLATIONS = {
     trigger: {
       "three-critical-hits": "3 Kritische Treffer",
     },
-    item: {},
+    item: {
+      "scroll-of-darkness": "Unlicht-Schriftrolle",
+      "scroll-of-waters": "Wasser-Schriftrolle",
+    },
     move: {
       "rage-fist": "Zornesfaust",
       "twin-beam": "Doppelstrahl",
@@ -353,8 +356,8 @@ const LANGUAGE_TEXT = {
   de: {
     unknownRequirement: "Bedingung unbekannt",
     unknownCondition: "Unbekannte Bedingung",
-    locationPrefix: "Level-Up - Ort: ",
-    baseLevelUp: "Level-Up",
+    locationPrefix: "Levelaufstieg - Ort: ",
+    baseLevelUp: "Levelaufstieg",
     baseTrade: "Tausch",
     baseTradeWith: (name) => `Tausch mit ${name}`,
     baseUseItem: "Item verwenden",
@@ -580,10 +583,18 @@ function describeEvolutionDetail(detail, translators = {}, locale = "de") {
       base = langText.baseSpecial;
       break;
     default:
-      base = trigger
-        ? getManualTranslation(locale, "trigger", trigger) ||
-          formatSlugName(trigger)
-        : langText.baseSpecial;
+      if (trigger) {
+        const manualTrigger = getManualTranslation(locale, "trigger", trigger);
+        const fallbackTrigger = formatSlugName(trigger);
+        const locationTrigger = translateLocation(trigger);
+        base =
+          manualTrigger ||
+          (locationTrigger && locationTrigger !== fallbackTrigger
+            ? locationTrigger
+            : fallbackTrigger);
+      } else {
+        base = langText.baseSpecial;
+      }
   }
   if (!base) base = langText.baseSpecial;
   if (extras.length === 0 && base.startsWith("Item:") && !detail.item?.name) {
