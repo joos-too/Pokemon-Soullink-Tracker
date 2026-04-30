@@ -1,9 +1,9 @@
 #!/usr/bin/env node
-import Pokedex from "pokedex-promise-v2";
 import { readFile, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import ts from "typescript";
+import { createStaticPokeApiClient } from "./pokeapi-static-client.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -26,10 +26,6 @@ const REGION_TO_GENERATION = {
   paldea: 9,
 };
 const SUPPORTED_LANGUAGES = ["de", "en"];
-const POKEDEX_OPTIONS = {
-  timeout: 15000,
-  cacheLimit: 0,
-};
 
 const MANUAL_TRANSLATIONS = {
   de: {
@@ -37,6 +33,11 @@ const MANUAL_TRANSLATIONS = {
     species: {},
     trigger: {
       "three-critical-hits": "3 Kritische Treffer",
+      "three-defeated-bisharp":
+        "Besiegen von drei wilden Caesurio die ein Anführersymbol tragen",
+      "take-damage": "Schaden erleiden",
+      spin: "Drehen",
+      "gimmighoul-coins": "Levelaufstieg mit 999 Gierspenst-Münzen",
     },
     item: {
       "scroll-of-darkness": "Unlicht-Schriftrolle",
@@ -56,6 +57,11 @@ const MANUAL_TRANSLATIONS = {
     species: {},
     trigger: {
       "three-critical-hits": "3 Critical Hits",
+      "three-defeated-bisharp":
+        "Defeat three wild Bisharp with a Leader's Crest",
+      "take-damage": "Take Damage",
+      spin: "Spin",
+      "gimmighoul-coins": "Level-Up with 999 Gimmighoul Coins",
     },
     item: {},
     move: {},
@@ -75,7 +81,7 @@ const POKEAPI_GENERATION_NAME_TO_NUMBER = {
   "generation-ix": 9,
 };
 
-const createPokedexClient = () => new Pokedex(POKEDEX_OPTIONS);
+const createPokedexClient = () => createStaticPokeApiClient();
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const SKIPPED_EVOLUTIONS = new Set(["489:490"]);
@@ -378,6 +384,7 @@ const LANGUAGE_TEXT = {
     friendship: (value) => `Freundschaft ≥ ${value}`,
     affection: (value) => `Zutrauen ≥ ${value}`,
     beauty: (value) => `Schönheit ≥ ${value}`,
+    steps: (value) => `Nach ${value} Schritten im "Pokémon losschicken"-Modus`,
     timeOfDayMap: {
       day: "Tag",
       night: "Nacht",
@@ -424,6 +431,7 @@ const LANGUAGE_TEXT = {
     friendship: (value) => `Friendship ≥ ${value}`,
     affection: (value) => `Affection ≥ ${value}`,
     beauty: (value) => `Beauty ≥ ${value}`,
+    steps: (value) => `After ${value} Steps in "Let's Go" mode`,
     timeOfDayMap: { day: "Day", night: "Night", dusk: "Dusk" },
     timeOfDay: (value) => `Time of day: ${value}`,
     overworldRain: "Overworld rain",
@@ -490,6 +498,8 @@ function describeEvolutionDetail(detail, translators = {}, locale = "de") {
     add(langText.affection(detail.min_affection));
   if (typeof detail.min_beauty === "number")
     add(langText.beauty(detail.min_beauty));
+  if (typeof detail.min_steps === "number")
+    add(langText.steps(detail.min_steps));
   if (detail.time_of_day) {
     const key = detail.time_of_day.trim().toLowerCase();
     const map = langText.timeOfDayMap || {};
@@ -627,6 +637,7 @@ function createEvolutionMethodSlug(detail) {
   add("min-happiness", detail.min_happiness);
   add("min-affection", detail.min_affection);
   add("min-beauty", detail.min_beauty);
+  add("min-steps", detail.min_steps);
   add("time", detail.time_of_day);
   if (detail.needs_overworld_rain) parts.push("overworld-rain");
   add("gender", detail.gender);

@@ -15,7 +15,7 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import Pokedex from "pokedex-promise-v2";
+import { createStaticPokeApiClient } from "./pokeapi-static-client.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const versionFilesDir = path.join(
@@ -25,10 +25,6 @@ const versionFilesDir = path.join(
 );
 const debugDir = path.join(__dirname, "itemlists-source", "debug");
 const outPath = path.join(__dirname, "..", "src", "data", "items.ts");
-const POKEDEX_OPTIONS = {
-  timeout: 15000,
-  cacheLimit: 0,
-};
 const DEBUG_SLOW_REQUEST_MS = 10000;
 
 // ---------------------------------------------------------------------------
@@ -228,7 +224,7 @@ function parseVersionFileItems(filePath) {
   return items;
 }
 
-const createPokedexClient = () => new Pokedex(POKEDEX_OPTIONS);
+const createPokedexClient = () => createStaticPokeApiClient();
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 

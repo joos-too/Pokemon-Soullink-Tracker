@@ -8504,6 +8504,14 @@ export const ITEMS: {
     categories: ["tm-materials"],
   },
   {
+    slug: "metal-alloy",
+    de: "Legierungsmetall",
+    en: "Metal Alloy",
+    version: "SCVI",
+    pocket: "misc",
+    categories: ["evolution"],
+  },
+  {
     slug: "mienfoo-claw",
     de: "Lin-Fu-Kralle",
     en: "Mienfoo Claw",

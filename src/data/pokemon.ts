@@ -9584,7 +9584,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "take-damage",
             names: {
-              de: "Take Damage",
+              de: "Schaden erleiden",
               en: "Take Damage",
             },
           },
@@ -10613,8 +10613,8 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "three-defeated-bisharp",
             names: {
-              de: "Three Defeated Bisharp",
-              en: "Three Defeated Bisharp",
+              de: "Besiegen von drei wilden Caesurio die ein Anführersymbol tragen",
+              en: "Defeat three wild Bisharp with a Leader's Crest",
             },
           },
         ],
@@ -13870,10 +13870,10 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
         id: 1011,
         methods: [
           {
-            slug: "unknown-requirement",
+            slug: "use-item-syrupy-apple",
             names: {
-              de: "Bedingung unbekannt",
-              en: "Requirement unknown",
+              de: "Item: Saftiger Apfel",
+              en: "Item: Syrupy Apple",
             },
           },
         ],
@@ -14278,7 +14278,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "spin",
             names: {
-              de: "Spin",
+              de: "Drehen",
               en: "Spin",
             },
           },
@@ -14462,10 +14462,10 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
         id: 1018,
         methods: [
           {
-            slug: "unknown-requirement",
+            slug: "use-item-metal-alloy",
             names: {
-              de: "Bedingung unbekannt",
-              en: "Requirement unknown",
+              de: "Item: Legierungsmetall",
+              en: "Item: Metal Alloy",
             },
           },
         ],
@@ -15021,10 +15021,10 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
         id: 923,
         methods: [
           {
-            slug: "level-up",
+            slug: "level-up-min-steps-1000",
             names: {
-              de: "Levelaufstieg",
-              en: "Level-Up",
+              de: 'Levelaufstieg - Nach 1000 Schritten im "Pokémon losschicken"-Modus',
+              en: 'Level-Up - After 1000 Steps in "Let\'s Go" mode',
             },
           },
         ],
@@ -15417,10 +15417,10 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
         id: 947,
         methods: [
           {
-            slug: "level-up",
+            slug: "level-up-min-steps-1000",
             names: {
-              de: "Levelaufstieg",
-              en: "Level-Up",
+              de: 'Levelaufstieg - Nach 1000 Schritten im "Pokémon losschicken"-Modus',
+              en: 'Level-Up - After 1000 Steps in "Let\'s Go" mode',
             },
           },
         ],
@@ -15522,10 +15522,10 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
         id: 954,
         methods: [
           {
-            slug: "level-up",
+            slug: "level-up-min-steps-1000",
             names: {
-              de: "Levelaufstieg",
-              en: "Level-Up",
+              de: 'Levelaufstieg - Nach 1000 Schritten im "Pokémon losschicken"-Modus',
+              en: 'Level-Up - After 1000 Steps in "Let\'s Go" mode',
             },
           },
         ],
@@ -16104,10 +16104,10 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
         id: 1000,
         methods: [
           {
-            slug: "gimmmighoul-coins",
+            slug: "gimmighoul-coins",
             names: {
-              de: "Gimmmighoul Coins",
-              en: "Gimmmighoul Coins",
+              de: "Levelaufstieg mit 999 Gierspenst-Münzen",
+              en: "Level-Up with 999 Gimmighoul Coins",
             },
           },
         ],
@@ -16226,10 +16226,10 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
         id: 1019,
         methods: [
           {
-            slug: "unknown-requirement",
+            slug: "level-up-known-move-dragon-cheer",
             names: {
-              de: "Bedingung unbekannt",
-              en: "Requirement unknown",
+              de: "Levelaufstieg - Kennt Drachenschrei",
+              en: "Level-Up - Knows Dragon Cheer",
             },
           },
         ],
@@ -16249,10 +16249,17 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
         id: 1013,
         methods: [
           {
-            slug: "unknown-requirement",
+            slug: "use-item-masterpiece-teacup",
             names: {
-              de: "Bedingung unbekannt",
-              en: "Requirement unknown",
+              de: "Item: Edle Teeschale",
+              en: "Item: Masterpiece Teacup",
+            },
+          },
+          {
+            slug: "use-item-unremarkable-teacup",
+            names: {
+              de: "Item: Simple Teeschale",
+              en: "Item: Unremarkable Teacup",
             },
           },
         ],
