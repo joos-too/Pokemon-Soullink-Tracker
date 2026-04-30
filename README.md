@@ -110,7 +110,7 @@ The same `database.rules.json` file is loaded automatically when you run the loc
 
 ## Pokémon data cache (names + evolutions)
 
-- The app ships with generated datasets under `src/data/` (`pokemon-de.ts`, `pokemon-en.ts`, `pokemon-map.ts`, `pokemon-evolutions.ts`) that power localized autocomplete and evolution filtering (generation + version-aware).
+- The app ships with generated datasets under `src/data/` (`pokemon.ts`, `locations.ts`, `items.ts`) that power localized autocomplete, as well as Pokémon types & evolutions (generation + version-aware).
 - The generators read the static JSON mirror from `PokeAPI/api-data` directly.
 - Clone the data mirror once:
 
