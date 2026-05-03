@@ -91,6 +91,12 @@ const METHOD_GENERATION_RULES: Record<number, MethodGenerationRule[]> = {
       minGeneration: 7,
     },
   ],
+  101: [
+    {
+      method_slugs: ["use-item-leaf-stone"],
+      minGeneration: 7,
+    },
+  ],
   105: [
     {
       method_slugs: ["level-up-min-level-28-time-night"],
@@ -133,6 +139,18 @@ const METHOD_GENERATION_RULES: Record<number, MethodGenerationRule[]> = {
       minGeneration: 8,
     },
   ],
+  738: [
+    {
+      method_slugs: ["use-item-thunder-stone"],
+      minGeneration: 8,
+    },
+  ],
+  904: [
+    {
+      method_slugs: ["level-up-known-move-barb-barrage"],
+      minGeneration: 9,
+    },
+  ],
 };
 
 const METHOD_VERSION_RULES: Record<string, string[]> = {
@@ -156,6 +174,8 @@ const METHOD_VERSION_RULES: Record<string, string[]> = {
     "gen4_hgss",
     "gen6_oras",
   ],
+  "strong-style-move-used-move-barb-barrage-min-move-count-20": ["gen8_pla"],
+  "use-move-barb-barrage-20-times": ["gen9_plza"],
 };
 
 export function methodAllowedForVersion(
