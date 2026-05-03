@@ -144,6 +144,7 @@ export interface TrackerMeta {
   members: Record<string, TrackerMember>;
   guests?: Record<string, TrackerMember>;
   gameVersionId: string;
+  allPokemonAndItems?: boolean;
   rulesetId?: string;
   userSettings?: Record<string, UserSettings>;
   isPublic?: boolean;

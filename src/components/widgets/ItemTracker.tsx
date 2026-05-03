@@ -50,6 +50,7 @@ interface ItemTrackerProps {
   onUpdateStones: (newStones: StoneEntry[][]) => void;
   readOnly?: boolean;
   gameVersionId?: string;
+  allPokemonAndItems?: boolean;
   generationSpritePath?: string | null;
   megaStoneSpriteStyle?: "item" | "pokemon";
   onMegaStoneSpriteStyleToggle?: (usePokemon: boolean) => void;
@@ -71,6 +72,7 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
   onUpdateStones,
   readOnly = false,
   gameVersionId,
+  allPokemonAndItems = false,
   generationSpritePath,
   megaStoneSpriteStyle = "item",
   onMegaStoneSpriteStyleToggle,
@@ -657,6 +659,7 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
         onClose={() => setStoneModalOpen({ open: false, playerIndex: 0 })}
         maxGeneration={maxGeneration}
         gameVersionId={gameVersionId}
+        allPokemonAndItems={allPokemonAndItems}
         generationSpritePath={generationSpritePath}
         megaStoneSpriteStyle={megaStoneSpriteStyle}
         onMegaStoneSpriteStyleToggle={onMegaStoneSpriteStyleToggle}

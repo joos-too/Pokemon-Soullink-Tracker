@@ -103,6 +103,11 @@ export const de = {
       versionButton: "Spielversion auswählen",
       versionPlaceholder: "Keine Version ausgewählt",
       versionRequired: "Bitte wähle eine Spielversion aus.",
+      allPokemonAndItemsLabel: "Alle Pokemon und Items verwenden",
+      allPokemonAndItemsDescription:
+        "Erlaube Pokemon und Items aus jeder Generation, statt Vorschläge auf die gewählte Version zu begrenzen. Praktisch für Romhacks.",
+      allPokemonAndItemsTooltipLabel:
+        "Info zur Verwendung aller Pokemon und Items",
       rulesetLabel: "Regeln",
       rulesetButton: "Regeln auswählen",
       rulesetPlaceholder: "Standard-Regeln",
