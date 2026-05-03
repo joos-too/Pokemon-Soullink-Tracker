@@ -4098,7 +4098,7 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
           {
             slug: "use-item-time-full-moon-peat-block",
             names: {
-              de: "Item: Torfblock - Tageszeit: Full Moon",
+              de: "Item: Torfblock - Tageszeit: Vollmond",
               en: "Item: Peat Block - Time of day: Full Moon",
             },
           },

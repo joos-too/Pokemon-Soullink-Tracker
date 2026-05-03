@@ -389,7 +389,7 @@ const LANGUAGE_TEXT = {
       day: "Tag",
       night: "Nacht",
       dusk: "Abend",
-      "full moon": "Vollmond",
+      "full-moon": "Vollmond",
     },
     timeOfDay: (value) => `Tageszeit: ${value}`,
     overworldRain: "Regen in der Oberwelt",
