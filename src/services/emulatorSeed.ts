@@ -207,7 +207,7 @@ async function createSampleTrackerData(userId: string): Promise<void> {
     ],
     boxPokemon: [
       {
-        id: 3,
+        id: 4,
         route: "Route 3",
         members: [
           { name: "Bisasam", nickname: "Grün" },
@@ -217,7 +217,7 @@ async function createSampleTrackerData(userId: string): Promise<void> {
     ],
     graveyardPokemon: [
       {
-        id: 4,
+        id: 5,
         route: "Arena 1",
         members: [
           { name: "Rattfratz", nickname: "Speed" },
@@ -305,7 +305,7 @@ async function createSampleTrackerData(userId: string): Promise<void> {
     ],
     boxPokemon: [
       {
-        id: 4,
+        id: 5,
         route: "Route 3",
         members: [
           { name: "Smettbo", nickname: "Butterfly" },
@@ -315,7 +315,7 @@ async function createSampleTrackerData(userId: string): Promise<void> {
     ],
     graveyardPokemon: [
       {
-        id: 5,
+        id: 6,
         route: "Marmoria City",
         members: [
           { name: "Tauboga", nickname: "Wings" },

@@ -37,6 +37,11 @@ import {
   sanitizeRules,
 } from "@/src/services/init.ts";
 import TeamTable from "@/src/components/widgets/TeamTable.tsx";
+import BoxFilters, {
+  type TypeFilterEntry,
+} from "@/src/components/widgets/BoxFilters.tsx";
+import { useHiddenLinks } from "@/src/hooks/useHiddenLinks.ts";
+import { getPokemonTypeSlugsForName } from "@/src/services/pokemonTypes.ts";
 import InfoPanel from "@/src/components/widgets/InfoPanel.tsx";
 import Graveyard from "@/src/components/widgets/Graveyard.tsx";
 import ClearedRoutes from "@/src/components/widgets/ClearedRoutes.tsx";
@@ -320,6 +325,48 @@ const App: React.FC = () => {
     }
     return null;
   }, [userUseGenerationSprites, activeGameVersionId]);
+
+  // ── Box filters & bad links (local view) ──────────────
+  const { hiddenLinkIds, toggleHiddenLink, resetAllHiddenLinks } =
+    useHiddenLinks(activeTrackerId);
+  const [boxTypeFilter, setBoxTypeFilter] = useState<TypeFilterEntry>({
+    types: [],
+    playerIndex: null,
+  });
+  const [boxHideHiddenLinks, setBoxHideHiddenLinks] = useState(false);
+
+  const filteredBox = useMemo(() => {
+    let items = data.box;
+    // type filter (optionally scoped to a specific player)
+    if (boxTypeFilter.types.length > 0) {
+      items = items.filter((link) => {
+        const membersToCheck =
+          boxTypeFilter.playerIndex !== null
+            ? [link.members[boxTypeFilter.playerIndex]].filter(Boolean)
+            : link.members;
+        return membersToCheck.some((m) => {
+          if (!m?.name) return false;
+          const slugs = getPokemonTypeSlugsForName(
+            m.name,
+            pokemonGenerationLimit,
+          );
+          return slugs.some((s) => boxTypeFilter.types.includes(s));
+        });
+      });
+    }
+    // hide bad links
+    if (boxHideHiddenLinks) {
+      items = items.filter((link) => !hiddenLinkIds.has(link.id));
+    }
+    return items;
+  }, [
+    data.box,
+    boxTypeFilter,
+    boxHideHiddenLinks,
+    hiddenLinkIds,
+    pokemonGenerationLimit,
+  ]);
+
   const currentRulesetId = data.rulesetId || defaultLocaleRulesetId;
   const hasUserRulesetWithSameId = useMemo(
     () =>
@@ -1287,16 +1334,25 @@ const App: React.FC = () => {
       field: keyof Pokemon,
       value: string,
     ) => {
-      updateLinkMember("box", index, playerIndex, field, value);
+      // index is relative to filteredBox; resolve to data.box index via ID
+      const link = filteredBox[index];
+      if (!link) return;
+      const realIndex = data.box.findIndex((p) => p.id === link.id);
+      if (realIndex === -1) return;
+      updateLinkMember("box", realIndex, playerIndex, field, value);
     },
-    [updateLinkMember],
+    [updateLinkMember, filteredBox, data.box],
   );
 
   const handleBoxRouteChange = useCallback(
     (index: number, value: string) => {
-      updateLinkRoute("box", index, value);
+      const link = filteredBox[index];
+      if (!link) return;
+      const realIndex = data.box.findIndex((p) => p.id === link.id);
+      if (realIndex === -1) return;
+      updateLinkRoute("box", realIndex, value);
     },
-    [updateLinkRoute],
+    [updateLinkRoute, filteredBox, data.box],
   );
 
   const handleLevelCapToggle = useCallback(
@@ -2525,7 +2581,7 @@ const App: React.FC = () => {
             />
             <TeamTable
               title={t("team.boxTitle")}
-              data={data.box}
+              data={filteredBox}
               playerNames={resolvedPlayerNames}
               playerColors={playerColors}
               onPokemonChange={handleBoxChange}
@@ -2553,6 +2609,20 @@ const App: React.FC = () => {
               generationSpritePath={generationSpritePath}
               useSpritesInTeamTable={userUseSpritesInTeamTable}
               wikiId={effectiveWikiId}
+              badLinkIds={hiddenLinkIds}
+              onToggleBadLink={isReadOnly ? undefined : toggleHiddenLink}
+              filterBar={
+                <BoxFilters
+                  playerNames={resolvedPlayerNames}
+                  playerColors={playerColors}
+                  typeFilter={boxTypeFilter}
+                  onTypeFilterChange={setBoxTypeFilter}
+                  hideHiddenLinks={boxHideHiddenLinks}
+                  onHideHiddenLinksChange={setBoxHideHiddenLinks}
+                  hasHiddenLinks={hiddenLinkIds.size > 0}
+                  onResetHiddenLinks={resetAllHiddenLinks}
+                />
+              }
             />
           </div>
 
