@@ -16,6 +16,7 @@ interface ItemSuggestionInputProps {
   onSelectedSlugChange: (slug: string) => void;
   isOpen: boolean;
   gameVersionId?: string;
+  allPokemonAndItems?: boolean;
   placeholder?: string;
   showNoMatches?: boolean;
 }
@@ -28,6 +29,7 @@ const ItemSuggestionInput: React.FC<ItemSuggestionInputProps> = ({
   onSelectedSlugChange,
   isOpen,
   gameVersionId,
+  allPokemonAndItems = false,
   placeholder,
   showNoMatches = true,
 }) => {
@@ -40,8 +42,15 @@ const ItemSuggestionInput: React.FC<ItemSuggestionInputProps> = ({
 
   const fetchSuggestions = useCallback(
     (term: string) =>
-      Promise.resolve(searchItems(term, language, gameVersionId, 20)),
-    [gameVersionId, language],
+      Promise.resolve(
+        searchItems(
+          term,
+          language,
+          allPokemonAndItems ? undefined : gameVersionId,
+          20,
+        ),
+      ),
+    [allPokemonAndItems, gameVersionId, language],
   );
 
   return (

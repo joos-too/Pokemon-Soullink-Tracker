@@ -5,6 +5,11 @@ import { useTranslation } from "react-i18next";
 import LocationSuggestionInput from "@/src/components/inputs/LocationSuggestionInput.tsx";
 import PokemonSuggestionInput from "@/src/components/inputs/PokemonSuggestionInput.tsx";
 import { useFocusTrap } from "@/src/hooks/useFocusTrap.ts";
+import {
+  getPokemonIdFromName,
+  getPokemonNameById,
+} from "@/src/services/pokemonSearch.ts";
+import { normalizeLanguage } from "@/src/utils/language.ts";
 
 interface AddLostPokemonModalProps {
   isOpen: boolean;
@@ -32,7 +37,8 @@ const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({
   mode = "add",
   initial,
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const language = normalizeLanguage(i18n.language);
   const { containerRef } = useFocusTrap(isOpen);
   const titleId = useId();
   const [route, setRoute] = useState("");
@@ -44,10 +50,16 @@ const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({
     if (isOpen) {
       setRoute(initial?.route ?? "");
       setPokemonNames(
-        playerNames.map((_, index) => initial?.members?.[index]?.name ?? ""),
+        playerNames.map((_, index) => {
+          const member = initial?.members?.[index];
+          return (
+            getPokemonNameById(member?.id, language) ||
+            (typeof member?.name === "string" ? member.name : "")
+          );
+        }),
       );
     }
-  }, [isOpen, playerNames, initial]);
+  }, [isOpen, playerNames, initial, language]);
 
   if (!isOpen) {
     return null;
@@ -61,9 +73,13 @@ const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({
     e.preventDefault();
     const trimmedRoute = route.trim();
     const trimmedNames = pokemonNames.map((name) => name.trim());
-    if (!trimmedRoute || trimmedNames.some((name) => name.length === 0)) return;
+    if (
+      !trimmedRoute ||
+      trimmedNames.some((name) => getPokemonIdFromName(name) === null)
+    )
+      return;
     const members: Pokemon[] = trimmedNames.map((name) => ({
-      name,
+      id: getPokemonIdFromName(name),
       nickname: "",
     }));
     onAdd(trimmedRoute, members);
@@ -71,7 +87,7 @@ const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({
 
   const isValid =
     route.trim().length > 0 &&
-    pokemonNames.every((name) => name.trim().length > 0);
+    pokemonNames.every((name) => getPokemonIdFromName(name) !== null);
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">

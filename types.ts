@@ -1,6 +1,7 @@
 export interface Pokemon {
-  name: string;
+  id: number | null;
   nickname: string;
+  name?: string;
 }
 
 export interface PokemonLink {
@@ -51,6 +52,7 @@ export interface FossilEntry {
   location: string;
   inBag: boolean;
   revived: boolean;
+  pokemonId?: number | null;
   pokemonName?: string;
 }
 
@@ -142,6 +144,7 @@ export interface TrackerMeta {
   members: Record<string, TrackerMember>;
   guests?: Record<string, TrackerMember>;
   gameVersionId: string;
+  allPokemonAndItems?: boolean;
   rulesetId?: string;
   userSettings?: Record<string, UserSettings>;
   isPublic?: boolean;

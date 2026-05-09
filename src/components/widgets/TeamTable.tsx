@@ -12,14 +12,16 @@ import {
 import { LuCircleFadingArrowUp } from "react-icons/lu";
 import { PiSkullBold } from "react-icons/pi";
 import {
-  getOfficialArtworkUrlForPokemonName,
-  getSpriteUrlForPokemonName,
+  getOfficialArtworkUrlById,
+  getSpriteUrlById,
 } from "@/src/services/sprites.ts";
-import { getPokemonTypeSlugsForName } from "@/src/services/pokemonTypes.ts";
+import { getPokemonTypeSlugsById } from "@/src/services/pokemonTypes.ts";
 import TypeBadge from "@/src/components/badges/TypeBadge.tsx";
 import { useTranslation } from "react-i18next";
 import { focusRingClasses } from "@/src/styles/focusRing.ts";
-import { getWikiUrl, type WikiId } from "@/src/utils/wiki.ts";
+import { getWikiUrlById, type WikiId } from "@/src/utils/wiki.ts";
+import { getPokemonNameById } from "@/src/services/pokemonSearch.ts";
+import { normalizeLanguage } from "@/src/utils/language.ts";
 
 interface TeamTableProps {
   title: string;
@@ -30,7 +32,7 @@ interface TeamTableProps {
     index: number,
     playerIndex: number,
     field: keyof Pokemon,
-    value: string,
+    value: string | number | null,
   ) => void;
   onRouteChange: (index: number, value: string) => void;
   onAddToGraveyard: (pair: PokemonLink) => void;
@@ -75,7 +77,8 @@ const TeamTable: React.FC<TeamTableProps> = ({
   useSpritesInTeamTable = false,
   wikiId,
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const language = normalizeLanguage(i18n.language);
   const [editIndex, setEditIndex] = useState<number | null>(null);
   const [addOpen, setAddOpen] = useState(false);
   const [evolveIndex, setEvolveIndex] = useState<number | null>(null);
@@ -94,7 +97,11 @@ const TeamTable: React.FC<TeamTableProps> = ({
         .map((pair, i) => ({ pair, originalIndex: i }))
         .filter(
           ({ pair }) =>
-            pair.route || pair.members.some((member) => member?.name),
+            pair.route ||
+            pair.members.some(
+              (member) =>
+                typeof member?.id === "number" || Boolean(member?.name),
+            ),
         ),
     [data],
   );
@@ -102,7 +109,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
   const handleSave = (payload: { route: string; members: Pokemon[] }) => {
     if (readOnly || editIndex === null) return;
     payload.members.forEach((member, playerIndex) => {
-      onPokemonChange(editIndex, playerIndex, "name", member.name);
+      onPokemonChange(editIndex, playerIndex, "id", member.id);
       onPokemonChange(editIndex, playerIndex, "nickname", member.nickname);
     });
     onRouteChange(editIndex, payload.route);
@@ -115,7 +122,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
     return {
       route: current?.route ?? "",
       members: playerNames.map(
-        (_, index) => current?.members?.[index] ?? { name: "", nickname: "" },
+        (_, index) => current?.members?.[index] ?? { id: null, nickname: "" },
       ),
     };
   }, [editIndex, data, playerNames]);
@@ -221,20 +228,22 @@ const TeamTable: React.FC<TeamTableProps> = ({
                 </td>
                 {playerNames.map((_, playerIndex) => {
                   const member = pair.members?.[playerIndex] ?? {
-                    name: "",
+                    id: null,
                     nickname: "",
                   };
-                  const imgURL = member.name
+                  const pokemonId = member.id;
+                  const displayName =
+                    getPokemonNameById(pokemonId, language) ||
+                    member.name ||
+                    "";
+                  const imgURL = pokemonId
                     ? useSpritesInTeamTable
-                      ? getSpriteUrlForPokemonName(
-                          member.name,
-                          generationSpritePath,
-                        )
-                      : getOfficialArtworkUrlForPokemonName(member.name)
+                      ? getSpriteUrlById(pokemonId, generationSpritePath)
+                      : getOfficialArtworkUrlById(pokemonId)
                     : null;
                   const wikiUrl =
-                    member.name && wikiId
-                      ? getWikiUrl(member.name, wikiId as WikiId)
+                    pokemonId && wikiId
+                      ? getWikiUrlById(pokemonId, wikiId as WikiId)
                       : null;
                   return (
                     <React.Fragment
@@ -257,7 +266,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                         )}
                       </td>
                       <td className="p-2 text-sm text-gray-800 dark:text-gray-300 text-center whitespace-nowrap">
-                        {member.name ? (
+                        {displayName ? (
                           wikiUrl ? (
                             <a
                               href={wikiUrl}
@@ -265,18 +274,18 @@ const TeamTable: React.FC<TeamTableProps> = ({
                               rel="noopener noreferrer"
                               className="hover:underline"
                             >
-                              {member.name}
+                              {displayName}
                             </a>
                           ) : (
-                            member.name
+                            displayName
                           )
                         ) : (
                           "-"
                         )}
-                        {member.name &&
+                        {pokemonId &&
                           (() => {
-                            const typeSlugs = getPokemonTypeSlugsForName(
-                              member.name,
+                            const typeSlugs = getPokemonTypeSlugsById(
+                              pokemonId,
                               pokemonGenerationLimit,
                             );
                             return typeSlugs.length > 0 ? (
@@ -303,7 +312,10 @@ const TeamTable: React.FC<TeamTableProps> = ({
                     style={{ width: "28px" }}
                   >
                     <div className="inline-flex items-center gap-1.5 justify-center">
-                      {(pair.members.some((m) => m?.name) || pair.route) && (
+                      {(pair.members.some(
+                        (m) => typeof m?.id === "number" || Boolean(m?.name),
+                      ) ||
+                        pair.route) && (
                         <button
                           type="button"
                           onClick={() => {
@@ -344,7 +356,11 @@ const TeamTable: React.FC<TeamTableProps> = ({
                           <FiArrowUp size={18} />
                         </button>
                       )}
-                      {pair.members.some((member) => member?.name) && (
+                      {pair.members.some(
+                        (member) =>
+                          typeof member?.id === "number" ||
+                          Boolean(member?.name),
+                      ) && (
                         <button
                           type="button"
                           onClick={() => {
@@ -357,7 +373,11 @@ const TeamTable: React.FC<TeamTableProps> = ({
                         </button>
                       )}
                       {context === "team" &&
-                        pair.members.some((member) => member?.name) && (
+                        pair.members.some(
+                          (member) =>
+                            typeof member?.id === "number" ||
+                            Boolean(member?.name),
+                        ) && (
                           <button
                             type="button"
                             onClick={() => {
@@ -399,7 +419,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
         initial={
           editInitial || {
             route: "",
-            members: playerNames.map(() => ({ name: "", nickname: "" })),
+            members: playerNames.map(() => ({ id: null, nickname: "" })),
           }
         }
         generationLimit={pokemonGenerationLimit}
@@ -409,9 +429,9 @@ const TeamTable: React.FC<TeamTableProps> = ({
       <SelectEvolveModal
         isOpen={!readOnly && evolveIndex !== null}
         onClose={() => setEvolveIndex(null)}
-        onConfirm={(playerIndex, newName) => {
+        onConfirm={(playerIndex, _newName, newId) => {
           if (evolveIndex === null) return;
-          onPokemonChange(evolveIndex, playerIndex, "name", newName);
+          onPokemonChange(evolveIndex, playerIndex, "id", newId);
           setEvolveIndex(null);
         }}
         pair={evolveIndex !== null ? data[evolveIndex] : null}
@@ -432,7 +452,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
         mode="create"
         initial={{
           route: "",
-          members: playerNames.map(() => ({ name: "", nickname: "" })),
+          members: playerNames.map(() => ({ id: null, nickname: "" })),
         }}
         generationLimit={pokemonGenerationLimit}
         gameVersionId={gameVersionId}

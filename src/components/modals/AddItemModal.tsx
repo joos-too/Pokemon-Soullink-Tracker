@@ -21,6 +21,7 @@ interface AddStoneModalProps {
   onAdd: (stoneId: string, location: string, inBag: boolean) => void;
   maxGeneration: number;
   gameVersionId?: string;
+  allPokemonAndItems?: boolean;
   generationSpritePath?: string | null;
   megaStoneSpriteStyle?: "item" | "pokemon";
   onMegaStoneSpriteStyleToggle?: (usePokemon: boolean) => void;
@@ -34,6 +35,7 @@ const AddItemModal: React.FC<AddStoneModalProps> = ({
   onAdd,
   maxGeneration,
   gameVersionId,
+  allPokemonAndItems = false,
   generationSpritePath,
   megaStoneSpriteStyle = "item",
   onMegaStoneSpriteStyleToggle,
@@ -55,14 +57,17 @@ const AddItemModal: React.FC<AddStoneModalProps> = ({
   }, [maxGeneration]);
 
   const showMegaTab =
-    gameVersionId === "gen6_xy" || gameVersionId === "gen6_oras";
+    allPokemonAndItems ||
+    gameVersionId === "gen6_xy" ||
+    gameVersionId === "gen6_oras";
 
   const availableMegaStones = useMemo(() => {
     if (!showMegaTab) return [];
+    if (allPokemonAndItems) return MEGA_STONES;
     if (gameVersionId === "gen6_xy")
       return MEGA_STONES.filter((m) => m.version === "XY");
     return MEGA_STONES; // ORAS gets all (XY + ORAS)
-  }, [showMegaTab, gameVersionId]);
+  }, [showMegaTab, allPokemonAndItems, gameVersionId]);
 
   if (!isOpen) return null;
 
@@ -285,6 +290,7 @@ const AddItemModal: React.FC<AddStoneModalProps> = ({
                 onSelectedSlugChange={setSelectedItemSlug}
                 isOpen={isOpen}
                 gameVersionId={gameVersionId}
+                allPokemonAndItems={allPokemonAndItems}
               />
             </div>
           )}

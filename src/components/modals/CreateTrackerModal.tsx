@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useId, useMemo, useState } from "react";
-import { FiPlus, FiUsers, FiX } from "react-icons/fi";
+import { FiInfo, FiPlus, FiUsers, FiX } from "react-icons/fi";
 import { PLAYER_COLORS, sanitizeTags } from "@/src/services/init.ts";
 import {
   focusRingClasses,
@@ -12,6 +12,8 @@ import { getLocalizedGameName } from "@/src/services/gameLocalization.ts";
 import type { Ruleset } from "@/types.ts";
 import RulesetPicker from "@/src/components/pickers/RulesetPicker.tsx";
 import { useFocusTrap } from "@/src/hooks/useFocusTrap.ts";
+import ToggleSwitch from "@/src/components/toggles/ToggleSwitch.tsx";
+import Tooltip from "@/src/components/other/Tooltip.tsx";
 
 interface CreateTrackerModalProps {
   isOpen: boolean;
@@ -21,6 +23,7 @@ interface CreateTrackerModalProps {
     playerNames: string[];
     memberInvites: Array<{ email: string; role: "editor" | "guest" }>;
     gameVersionId: string;
+    allPokemonAndItems?: boolean;
     rulesetId?: string;
   }) => Promise<void>;
   isSubmitting: boolean;
@@ -46,6 +49,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({
     Array<{ email: string; role: "editor" | "guest" }>
   >([{ email: "", role: "editor" }]);
   const [gameVersionId, setGameVersionId] = useState("");
+  const [allPokemonAndItems, setAllPokemonAndItems] = useState(false);
   const [versionError, setVersionError] = useState(false);
   const [showVersionPicker, setShowVersionPicker] = useState(false);
   const [rulesetId, setRulesetId] = useState(
@@ -54,6 +58,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({
   const [showRulesetPicker, setShowRulesetPicker] = useState(false);
   const { t, i18n } = useTranslation();
   const titleId = useId();
+  const allPokemonAndItemsId = useId();
   const playerCountLabels = useMemo(
     () => ({
       1: t("modals.createTracker.playerCounts.solo"),
@@ -136,6 +141,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({
     setPlayerNames(["", ""]);
     setMemberInputs([{ email: "", role: "editor" }]);
     setGameVersionId("");
+    setAllPokemonAndItems(false);
     setVersionError(false);
     setShowVersionPicker(false);
     setRulesetId(defaultRulesetId || rulesets[0]?.id || "");
@@ -186,6 +192,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({
         .map((entry) => ({ email: entry.email.trim(), role: entry.role }))
         .filter((entry) => entry.email.length > 0),
       gameVersionId: gameVersionId,
+      allPokemonAndItems,
       rulesetId,
     });
   };
@@ -281,6 +288,40 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({
                   {t("modals.createTracker.versionRequired")}
                 </p>
               )}
+            </div>
+            <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/40 px-4 py-2.5">
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex items-center gap-2 min-w-0">
+                  <label
+                    htmlFor={allPokemonAndItemsId}
+                    className="text-sm font-semibold text-gray-800 dark:text-gray-100"
+                  >
+                    {t("modals.createTracker.allPokemonAndItemsLabel")}
+                  </label>
+                  <Tooltip
+                    side="top"
+                    content={t(
+                      "modals.createTracker.allPokemonAndItemsDescription",
+                    )}
+                  >
+                    <span
+                      className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-help"
+                      aria-label={t(
+                        "modals.createTracker.allPokemonAndItemsTooltipLabel",
+                      )}
+                    >
+                      <FiInfo size={16} />
+                    </span>
+                  </Tooltip>
+                </div>
+                <ToggleSwitch
+                  id={allPokemonAndItemsId}
+                  checked={allPokemonAndItems}
+                  onChange={setAllPokemonAndItems}
+                  disabled={isSubmitting}
+                  ariaLabel={t("modals.createTracker.allPokemonAndItemsLabel")}
+                />
+              </div>
             </div>
             <div>
               <label className="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2 block">

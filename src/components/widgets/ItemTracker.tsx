@@ -5,6 +5,7 @@ import { PLAYER_COLORS } from "@/src/services/init";
 import { MEGA_STONES, FOSSILS, STONES } from "@/src/data/special-items.ts";
 import { getItemName, getItemSpriteUrl } from "@/src/services/itemSearch";
 import { normalizeLanguage } from "@/src/utils/language";
+import { getPokemonNameById } from "@/src/services/pokemonSearch";
 import {
   FiPlus,
   FiCheck,
@@ -49,6 +50,7 @@ interface ItemTrackerProps {
   onUpdateStones: (newStones: StoneEntry[][]) => void;
   readOnly?: boolean;
   gameVersionId?: string;
+  allPokemonAndItems?: boolean;
   generationSpritePath?: string | null;
   megaStoneSpriteStyle?: "item" | "pokemon";
   onMegaStoneSpriteStyleToggle?: (usePokemon: boolean) => void;
@@ -70,6 +72,7 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
   onUpdateStones,
   readOnly = false,
   gameVersionId,
+  allPokemonAndItems = false,
   generationSpritePath,
   megaStoneSpriteStyle = "item",
   onMegaStoneSpriteStyleToggle,
@@ -452,6 +455,13 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
                   const canBeSelected =
                     entry.inBag && !entry.revived && !isFossilEditing;
                   const isInteractive = !readOnly && canBeSelected;
+                  const revivedPokemonName =
+                    getPokemonNameById(
+                      entry.pokemonId,
+                      normalizeLanguage(i18n.language),
+                    ) ||
+                    entry.pokemonName ||
+                    "";
 
                   return (
                     <div
@@ -498,8 +508,8 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
                         </div>
                         <div className="opacity-70 truncate">
                           {entry.revived
-                            ? entry.pokemonName
-                              ? `${t("tracker.infoPanel.fossilRevived")}: ${entry.pokemonName}`
+                            ? revivedPokemonName
+                              ? `${t("tracker.infoPanel.fossilRevived")}: ${revivedPokemonName}`
                               : t("tracker.infoPanel.fossilRevived")
                             : entry.inBag
                               ? t("tracker.infoPanel.fossilBag")
@@ -649,6 +659,7 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
         onClose={() => setStoneModalOpen({ open: false, playerIndex: 0 })}
         maxGeneration={maxGeneration}
         gameVersionId={gameVersionId}
+        allPokemonAndItems={allPokemonAndItems}
         generationSpritePath={generationSpritePath}
         megaStoneSpriteStyle={megaStoneSpriteStyle}
         onMegaStoneSpriteStyleToggle={onMegaStoneSpriteStyleToggle}

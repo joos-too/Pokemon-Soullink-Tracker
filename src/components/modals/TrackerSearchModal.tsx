@@ -6,10 +6,10 @@ import {
   focusRingClasses,
   focusRingInputClasses,
 } from "@/src/styles/focusRing.ts";
-import { getSpriteUrlForPokemonName } from "@/src/services/sprites.ts";
+import { getSpriteUrlById } from "@/src/services/sprites.ts";
 import {
   getPokemonFamilyIdsMatchingQuery,
-  getPokemonIdFromName,
+  getPokemonNameById,
 } from "@/src/services/pokemonSearch";
 import { FOSSILS, STONES, MEGA_STONES } from "@/src/data/special-items.ts";
 import { getItemName, getItemSpriteUrl } from "@/src/services/itemSearch";
@@ -74,6 +74,7 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
   const titleId = useId();
   const [mode, setMode] = useState<SearchMode>("pokemon");
   const [query, setQuery] = useState("");
+  const locale = normalizeLanguage(i18n.language);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -97,20 +98,23 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
 
   const matchesPokemonQuery = (pair: PokemonLink) => {
     if (!normalizedQuery) {
-      return pair.members.some((member) => member?.name?.trim().length);
+      return pair.members.some(
+        (member) => typeof member?.id === "number" || member?.name?.trim(),
+      );
     }
 
     return pair.members.some((member) => {
       const name = member?.name || "";
+      const pokemonId = member?.id;
+      const displayName = getPokemonNameById(pokemonId, locale) || name;
       const nickname = member?.nickname || "";
       if (
-        name.toLowerCase().includes(normalizedQuery) ||
+        displayName.toLowerCase().includes(normalizedQuery) ||
         nickname.toLowerCase().includes(normalizedQuery)
       ) {
         return true;
       }
 
-      const pokemonId = getPokemonIdFromName(name);
       return pokemonId !== null && matchingFamilyIds.has(pokemonId);
     });
   };
@@ -135,7 +139,7 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
     ];
 
     return sections.filter((section) => section.pairs.length > 0);
-  }, [box, graveyard, team, t, matchingFamilyIds, normalizedQuery]);
+  }, [box, graveyard, team, t, matchingFamilyIds, normalizedQuery, locale]);
 
   const filteredRoutes = useMemo(() => {
     const uniqueRoutes = Array.from(new Set(routes)).sort(compareRoutes);
@@ -145,8 +149,6 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
     );
   }, [normalizedQuery, routes]);
 
-  const locale = normalizeLanguage(i18n.language);
-
   const allItems = useMemo<ItemRow[]>(() => {
     const rows: ItemRow[] = [];
 
@@ -155,9 +157,11 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
       (playerFossils ?? []).forEach((entry) => {
         const def = FOSSILS.find((f) => f.id === entry.fossilId);
         const status = entry.revived
-          ? entry.pokemonName
-            ? `${t("tracker.infoPanel.fossilRevived")}: ${entry.pokemonName}`
-            : t("tracker.infoPanel.fossilRevived")
+          ? entry.pokemonId
+            ? `${t("tracker.infoPanel.fossilRevived")}: ${getPokemonNameById(entry.pokemonId, locale) || ""}`
+            : entry.pokemonName
+              ? `${t("tracker.infoPanel.fossilRevived")}: ${entry.pokemonName}`
+              : t("tracker.infoPanel.fossilRevived")
           : entry.inBag
             ? t("tracker.infoPanel.fossilBag")
             : t("tracker.infoPanel.fossilLocation", {
@@ -375,13 +379,19 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
                           >
                             {playerNames.map((name, index) => {
                               const member = pair.members?.[index] ?? {
-                                name: "",
+                                id: null,
                                 nickname: "",
                               };
-                              const spriteUrl = getSpriteUrlForPokemonName(
-                                member.name,
+                              const pokemonId = member.id;
+                              const displayName =
+                                getPokemonNameById(pokemonId, locale) ||
+                                member.name ||
+                                "";
+                              const spriteUrl = getSpriteUrlById(
+                                pokemonId,
                                 generationSpritePath,
                               );
+
                               return (
                                 <div
                                   key={`${section.key}-${pair.id}-player-${index}`}
@@ -391,7 +401,7 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
                                     {spriteUrl ? (
                                       <img
                                         src={spriteUrl}
-                                        alt={member.name || "Pokemon"}
+                                        alt={displayName || "Pokemon"}
                                         className="w-16 h-16 -my-3"
                                         loading="lazy"
                                       />
@@ -407,7 +417,7 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
                                         {t("graveyard.memberTitle", {
                                           name,
                                           pokemon:
-                                            member.name ||
+                                            displayName ||
                                             t("graveyard.unknownPokemon"),
                                         })}
                                       </p>

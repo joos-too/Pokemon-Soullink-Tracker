@@ -103,6 +103,10 @@ export const en = {
       versionButton: "Select game version",
       versionPlaceholder: "No version selected",
       versionRequired: "Please select a game version.",
+      allPokemonAndItemsLabel: "Use all Pokemon and items",
+      allPokemonAndItemsDescription:
+        "Allow Pokemon and items from every generation instead of limiting suggestions to the selected version. Useful for Romhacks.",
+      allPokemonAndItemsTooltipLabel: "Info about using all Pokemon and items",
       rulesetLabel: "Ruleset",
       rulesetButton: "Select ruleset",
       rulesetPlaceholder: "Default ruleset",
