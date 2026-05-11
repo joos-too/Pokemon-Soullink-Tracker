@@ -334,6 +334,19 @@ const App: React.FC = () => {
     playerIndex: null,
   });
   const [boxHideHiddenLinks, setBoxHideHiddenLinks] = useState(false);
+  const [boxFiltersExpanded, setBoxFiltersExpanded] = useState(() => {
+    try {
+      return localStorage.getItem("boxFiltersExpanded") === "true";
+    } catch {
+      return false;
+    }
+  });
+  const handleBoxFiltersExpandedChange = (value: boolean) => {
+    setBoxFiltersExpanded(value);
+    try {
+      localStorage.setItem("boxFiltersExpanded", String(value));
+    } catch {}
+  };
 
   const filteredBox = useMemo(() => {
     let items = data.box;
@@ -2596,6 +2609,9 @@ const App: React.FC = () => {
               generationSpritePath={generationSpritePath}
               useSpritesInTeamTable={userUseSpritesInTeamTable}
               wikiId={effectiveWikiId}
+              badLinkIds={hiddenLinkIds}
+              onToggleBadLink={isReadOnly ? undefined : toggleHiddenLink}
+              filtersExpanded={boxFiltersExpanded}
             />
             <TeamTable
               title={t("team.boxTitle")}
@@ -2629,6 +2645,7 @@ const App: React.FC = () => {
               wikiId={effectiveWikiId}
               badLinkIds={hiddenLinkIds}
               onToggleBadLink={isReadOnly ? undefined : toggleHiddenLink}
+              filtersExpanded={boxFiltersExpanded}
               filterBar={
                 <BoxFilters
                   playerNames={resolvedPlayerNames}
@@ -2640,6 +2657,8 @@ const App: React.FC = () => {
                   hasHiddenLinks={hiddenLinkIds.size > 0}
                   onResetHiddenLinks={resetAllHiddenLinks}
                   playerTypeSlugs={playerTypeSlugs}
+                  expanded={boxFiltersExpanded}
+                  onExpandedChange={handleBoxFiltersExpandedChange}
                 />
               }
             />

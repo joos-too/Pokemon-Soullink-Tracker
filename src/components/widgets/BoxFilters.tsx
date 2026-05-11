@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import {
   FiChevronDown,
@@ -30,6 +30,8 @@ interface BoxFiltersProps {
   hasHiddenLinks: boolean;
   onResetHiddenLinks?: () => void;
   playerTypeSlugs: Map<number, Set<string>>;
+  expanded: boolean;
+  onExpandedChange: (value: boolean) => void;
 }
 
 const BoxFilters: React.FC<BoxFiltersProps> = ({
@@ -42,9 +44,11 @@ const BoxFilters: React.FC<BoxFiltersProps> = ({
   hasHiddenLinks,
   onResetHiddenLinks,
   playerTypeSlugs,
+  expanded,
+  onExpandedChange,
 }) => {
   const { t } = useTranslation();
-  const [expanded, setExpanded] = useState(false);
+  const setExpanded = onExpandedChange;
 
   const activeCount = typeFilter.types.length;
   const hasActiveFilters = activeCount > 0;
@@ -78,7 +82,7 @@ const BoxFilters: React.FC<BoxFiltersProps> = ({
       {/* Toggle bar */}
       <button
         type="button"
-        onClick={() => setExpanded((v) => !v)}
+        onClick={() => setExpanded(!expanded)}
         className={`flex w-full items-center justify-between px-4 py-2.5 text-xs font-semibold text-gray-600 dark:text-gray-400 hover:bg-gray-100/60 dark:hover:bg-gray-700/40 transition-colors ${focusRingClasses}`}
       >
         <span className="flex items-center gap-2">

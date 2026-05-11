@@ -54,6 +54,7 @@ interface TeamTableProps {
   badLinkIds?: Set<number>;
   onToggleBadLink?: (id: number) => void;
   filterBar?: React.ReactNode;
+  filtersExpanded?: boolean;
 }
 
 const TeamTable: React.FC<TeamTableProps> = ({
@@ -82,6 +83,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
   badLinkIds,
   onToggleBadLink,
   filterBar,
+  filtersExpanded = false,
 }) => {
   const { t } = useTranslation();
   const [editIndex, setEditIndex] = useState<number | null>(null);
@@ -365,11 +367,11 @@ const TeamTable: React.FC<TeamTableProps> = ({
                           <LuCircleFadingArrowUp size={20} />
                         </button>
                       )}
-                      {context === "box" && onToggleBadLink && (
+                      {filtersExpanded && onToggleBadLink && (
                         <button
                           type="button"
                           onClick={() => onToggleBadLink(pair.id)}
-                          className={`p-1 rounded-full inline-flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-600 ${badLinkIds?.has(pair.id) ? "text-yellow-600 dark:text-yellow-400" : "text-gray-500 dark:text-gray-400"} ${focusRingClasses}`}
+                          className={`p-1 rounded-full inline-flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-600 text-yellow-600 dark:text-yellow-400 ${focusRingClasses}`}
                           title={
                             badLinkIds?.has(pair.id)
                               ? t("team.unhideLink")
