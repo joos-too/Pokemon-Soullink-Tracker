@@ -6,6 +6,8 @@ import {
   FiArrowDown,
   FiArrowUp,
   FiEdit,
+  FiEyeOff,
+  FiEye,
   FiPlus,
   FiTrash,
 } from "react-icons/fi";
@@ -49,6 +51,10 @@ interface TeamTableProps {
   generationSpritePath?: string | null;
   useSpritesInTeamTable?: boolean;
   wikiId?: WikiId | string | null;
+  badLinkIds?: Set<number>;
+  onToggleBadLink?: (id: number) => void;
+  filterBar?: React.ReactNode;
+  filtersExpanded?: boolean;
 }
 
 const TeamTable: React.FC<TeamTableProps> = ({
@@ -74,6 +80,10 @@ const TeamTable: React.FC<TeamTableProps> = ({
   generationSpritePath,
   useSpritesInTeamTable = false,
   wikiId,
+  badLinkIds,
+  onToggleBadLink,
+  filterBar,
+  filtersExpanded = false,
 }) => {
   const { t } = useTranslation();
   const [editIndex, setEditIndex] = useState<number | null>(null);
@@ -148,6 +158,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
           </button>
         )}
       </div>
+      {filterBar}
       <div className="w-full overflow-x-auto">
         <table className="w-full border-collapse min-w-[900px]">
           <thead>
@@ -214,7 +225,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
             {rows.map(({ pair, originalIndex }, displayIndex) => (
               <tr
                 key={pair.id}
-                className="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50"
+                className={`border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 ${badLinkIds?.has(pair.id) ? "opacity-40" : ""}`}
               >
                 <td className="p-2 text-center text-sm font-semibold text-gray-800 dark:text-gray-200">
                   {displayIndex + 1}
@@ -354,6 +365,24 @@ const TeamTable: React.FC<TeamTableProps> = ({
                           title={t("team.titleEvolve")}
                         >
                           <LuCircleFadingArrowUp size={20} />
+                        </button>
+                      )}
+                      {filtersExpanded && onToggleBadLink && (
+                        <button
+                          type="button"
+                          onClick={() => onToggleBadLink(pair.id)}
+                          className={`p-1 rounded-full inline-flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-600 text-yellow-600 dark:text-yellow-400 ${focusRingClasses}`}
+                          title={
+                            badLinkIds?.has(pair.id)
+                              ? t("team.unhideLink")
+                              : t("team.toggleHideLink")
+                          }
+                        >
+                          {badLinkIds?.has(pair.id) ? (
+                            <FiEye size={18} />
+                          ) : (
+                            <FiEyeOff size={18} />
+                          )}
                         </button>
                       )}
                       {context === "team" &&
