@@ -367,6 +367,24 @@ const App: React.FC = () => {
     pokemonGenerationLimit,
   ]);
 
+  const playerTypeSlugs = useMemo(() => {
+    const map = new Map<number, Set<string>>();
+    for (const link of data.team) {
+      link.members.forEach((m, idx) => {
+        if (m?.name) {
+          if (!map.has(idx)) map.set(idx, new Set());
+          for (const s of getPokemonTypeSlugsForName(
+            m.name,
+            pokemonGenerationLimit,
+          )) {
+            map.get(idx)!.add(s);
+          }
+        }
+      });
+    }
+    return map;
+  }, [data.team, pokemonGenerationLimit]);
+
   const currentRulesetId = data.rulesetId || defaultLocaleRulesetId;
   const hasUserRulesetWithSameId = useMemo(
     () =>
@@ -2621,6 +2639,7 @@ const App: React.FC = () => {
                   onHideHiddenLinksChange={setBoxHideHiddenLinks}
                   hasHiddenLinks={hiddenLinkIds.size > 0}
                   onResetHiddenLinks={resetAllHiddenLinks}
+                  playerTypeSlugs={playerTypeSlugs}
                 />
               }
             />

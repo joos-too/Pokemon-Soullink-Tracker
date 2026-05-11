@@ -5,10 +5,13 @@ import {
   FiChevronUp,
   FiEyeOff,
   FiFilter,
+  FiInfo,
   FiX,
+  FiZap,
 } from "react-icons/fi";
 import TypeBadge from "@/src/components/badges/TypeBadge.tsx";
 import ToggleSwitch from "@/src/components/toggles/ToggleSwitch.tsx";
+import Tooltip from "@/src/components/other/Tooltip.tsx";
 import { focusRingClasses } from "@/src/styles/focusRing.ts";
 import { ALL_TYPE_SLUGS } from "@/src/data/pokemon-types";
 
@@ -26,6 +29,7 @@ interface BoxFiltersProps {
   onHideHiddenLinksChange: (value: boolean) => void;
   hasHiddenLinks: boolean;
   onResetHiddenLinks?: () => void;
+  playerTypeSlugs: Map<number, Set<string>>;
 }
 
 const BoxFilters: React.FC<BoxFiltersProps> = ({
@@ -37,6 +41,7 @@ const BoxFilters: React.FC<BoxFiltersProps> = ({
   onHideHiddenLinksChange,
   hasHiddenLinks,
   onResetHiddenLinks,
+  playerTypeSlugs,
 }) => {
   const { t } = useTranslation();
   const [expanded, setExpanded] = useState(false);
@@ -58,6 +63,15 @@ const BoxFilters: React.FC<BoxFiltersProps> = ({
   const clearAll = () => {
     onTypeFilterChange({ types: [], playerIndex: null });
   };
+
+  const applyAutoFilter = () => {
+    if (typeFilter.playerIndex === null) return;
+    const slugs = playerTypeSlugs.get(typeFilter.playerIndex) ?? new Set();
+    const missingTypes = ALL_TYPE_SLUGS.filter((s) => !slugs.has(s));
+    onTypeFilterChange({ ...typeFilter, types: missingTypes });
+  };
+
+  const autoEnabled = typeFilter.playerIndex !== null;
 
   return (
     <div className="border-t border-gray-200 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/30">
@@ -217,21 +231,47 @@ const BoxFilters: React.FC<BoxFiltersProps> = ({
                   );
                 })}
               </div>
-              <button
-                type="button"
-                onClick={clearAll}
-                disabled={!hasActiveFilters}
-                className={`inline-flex shrink-0 items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold border shadow-sm transition-all ${focusRingClasses} ${
-                  hasActiveFilters
-                    ? "text-gray-600 dark:text-gray-300 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 opacity-100"
-                    : "opacity-0 pointer-events-none border-transparent"
-                }`}
-                aria-hidden={!hasActiveFilters}
-                tabIndex={hasActiveFilters ? 0 : -1}
-              >
-                <FiX size={12} />
-                {t("team.clearFilters")}
-              </button>
+              <div className="flex items-center gap-2.5">
+                <button
+                  type="button"
+                  onClick={clearAll}
+                  disabled={!hasActiveFilters}
+                  className={`inline-flex shrink-0 items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold border shadow-sm transition-all ${focusRingClasses} ${
+                    hasActiveFilters
+                      ? "text-gray-600 dark:text-gray-300 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 opacity-100"
+                      : "opacity-0 pointer-events-none border-transparent"
+                  }`}
+                  aria-hidden={!hasActiveFilters}
+                  tabIndex={hasActiveFilters ? 0 : -1}
+                >
+                  <FiX size={12} />
+                  {t("team.clearFilters")}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={applyAutoFilter}
+                  disabled={!autoEnabled}
+                  className={`inline-flex shrink-0 items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold border shadow-sm transition-all ${focusRingClasses} ${
+                    autoEnabled
+                      ? "text-yellow-700 dark:text-yellow-300 border-yellow-400 dark:border-yellow-600 bg-yellow-50 dark:bg-yellow-900/30 hover:bg-yellow-100 dark:hover:bg-yellow-800/40"
+                      : "opacity-50 cursor-not-allowed text-gray-400 dark:text-gray-500 border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700"
+                  }`}
+                >
+                  <FiZap size={12} />
+                  {t("team.autoTypeFilter")}
+                  <Tooltip
+                    side="top"
+                    content={
+                      autoEnabled
+                        ? t("team.autoTypeFilterTooltip")
+                        : t("team.autoTypeFilterDisabledTooltip")
+                    }
+                  >
+                    <FiInfo size={12} className="cursor-help" />
+                  </Tooltip>
+                </button>
+              </div>
             </div>
           </fieldset>
         </div>
