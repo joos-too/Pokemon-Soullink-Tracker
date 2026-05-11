@@ -488,7 +488,7 @@ export const en = {
       rivalCensor: {
         title: "Censor rival battles",
         tooltipLabel: "Rival info",
-        tooltip: `To avoid spoilers and keep the story fresh, rival battkes are hidden and must be revealed manually.\n\nOnce uncovered they stay visible, even on future runs.`,
+        tooltip: `To avoid spoilers and keep the story fresh, rival battles are hidden and must be revealed manually.\n\nOnce uncovered they stay visible, even on future runs.`,
         description: "Hides rival battles until you reveal them manually.",
       },
       legendary: {
