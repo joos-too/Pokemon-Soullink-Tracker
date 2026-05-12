@@ -43,7 +43,6 @@ interface InfoPanelProps {
   readOnly?: boolean;
   generationSpritePath?: string | null;
   pokemonGenerationLimit?: number;
-  lostCount?: number;
 }
 
 const InfoPanel: React.FC<InfoPanelProps> = ({
@@ -70,7 +69,6 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
   readOnly = false,
   generationSpritePath,
   pokemonGenerationLimit,
-  lostCount,
 }) => {
   return (
     <div className="space-y-6">
@@ -119,7 +117,6 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
           playerNames={playerNames}
           playerColors={playerColors}
           stats={stats}
-          lostCount={lostCount}
         />
 
         {legendaryTrackerEnabled && (
