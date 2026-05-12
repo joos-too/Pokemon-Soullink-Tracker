@@ -22,7 +22,7 @@
 </p>
 
 <p align="center">
-  <img src="public/screenshots/tracker-overview.png" alt="Tracker Overview">
+  <img src="public/screenshots/showcase-dark.png" alt="Tracker Overview">
 </p>
 
 ---
