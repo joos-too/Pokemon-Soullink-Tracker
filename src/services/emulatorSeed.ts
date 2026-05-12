@@ -183,6 +183,24 @@ async function createTracker(
     }
   });
 
+  config.checkedRivalCaps.forEach((index) => {
+    if (initialState.rivalCaps[index]) {
+      initialState.rivalCaps[index].done = true;
+    }
+  });
+
+  if (config.revealedRivalCaps) {
+    config.revealedRivalCaps.forEach((index) => {
+      if (initialState.rivalCaps[index]) {
+        initialState.rivalCaps[index].revealed = true;
+      }
+    });
+  }
+
+  if (config.rivalCensorEnabled !== undefined) {
+    initialState.rivalCensorEnabled = config.rivalCensorEnabled;
+  }
+
   // Return updates object for this tracker
   return {
     [`trackers/${trackerId}/meta`]: trackerMeta,
@@ -444,6 +462,7 @@ async function createSampleTrackerData(userId: string): Promise<void> {
     checkedLevelCaps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
     checkedRivalCaps: [0, 1, 2, 3, 4, 5],
     rivalCensorEnabled: false,
+    revealedRivalCaps: [0, 1, 2, 3, 4, 5],
     fossilEntries: [
       [
         { fossilId: "old-amber", location: "", inBag: true, revived: false },
@@ -586,6 +605,7 @@ async function createSampleTrackerData(userId: string): Promise<void> {
     checkedLevelCaps: [0, 1, 2, 3, 4, 5, 6, 7],
     checkedRivalCaps: [0, 1, 2, 3, 4],
     rivalCensorEnabled: false,
+    revealedRivalCaps: [0, 1, 2, 3, 4],
     fossilEntries: [
       [
         { fossilId: "skull-fossil", location: "", inBag: true, revived: false },
