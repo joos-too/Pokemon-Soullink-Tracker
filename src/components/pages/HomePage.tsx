@@ -550,7 +550,7 @@ const HomePage: React.FC<HomePageProps> = ({
                 const summary = trackerSummaries[tracker.id];
                 const activePokemon =
                   (summary?.teamCount ?? 0) + (summary?.boxCount ?? 0);
-                const deadPokemon = summary?.deathCount ?? 0;
+                const deadPokemon = summary?.graveyardCount ?? 0;
                 const runNumber = summary?.runs ?? 0;
                 const doneCapsCount = summary?.doneCapsCount;
                 const gameVersion = GAME_VERSIONS[tracker.gameVersionId];
