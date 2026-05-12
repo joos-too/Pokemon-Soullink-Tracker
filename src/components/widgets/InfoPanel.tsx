@@ -12,8 +12,6 @@ import RunStats from "@/src/components/widgets/RunStats.tsx";
 import ItemStats from "@/src/components/widgets/ItemStats.tsx";
 import DeathCounter from "@/src/components/widgets/DeathCounter.tsx";
 import LegendaryTracker from "@/src/components/widgets/LegendaryTracker.tsx";
-import Rules from "@/src/components/widgets/Rules.tsx";
-
 interface InfoPanelProps {
   playerNames: string[];
   playerColors: string[];
@@ -29,8 +27,6 @@ interface InfoPanelProps {
     playerIndex: number,
     value: string,
   ) => void;
-  rules: string[];
-  onRulesChange: (rules: string[]) => void;
   legendaryTrackerEnabled: boolean;
   rivalCensorEnabled: boolean;
   hardcoreModeEnabled: boolean;
@@ -55,8 +51,6 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
   onRivalCapToggleDone,
   onRivalCapReveal,
   onPlayerStatChange,
-  rules,
-  onRulesChange,
   legendaryTrackerEnabled,
   rivalCensorEnabled,
   hardcoreModeEnabled,
@@ -130,8 +124,6 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
           />
         )}
       </div>
-
-      <Rules rules={rules} onRulesChange={onRulesChange} readOnly={readOnly} />
     </div>
   );
 };
