@@ -22,15 +22,11 @@
   <img src="public/screenshots/overview-dark.png" alt="Tracker Overview - Dark Mode" height="250" />
 </p>
 
----
-
 ## What is Soullink Tracker?
 
 Soullink Tracker is an open-source web app for managing Pokémon **Soullink** and **Nuzlocke** runs. You can track your links/catches, cleared routes, progression, and items. It also syncs the tracker state in real time between all players, so everyone always sees the same state of team, box, progression... - no spreadsheets, no Discord copy-pasting or constant streaming.
 
 Whether you're streaming a duo Soullink, running a solo Nuzlocke, or coordinating a trio challenge with friends, this tracker helps you manage your entire run.
-
----
 
 ## ✨ Features
 
@@ -45,8 +41,6 @@ Whether you're streaming a duo Soullink, running a solo Nuzlocke, or coordinatin
 - **Public / read-only mode** - Share your tracker with stream viewers or guests, enabling them to inspect your progress
 - **Real-time collaboration** - All players see changes instantly, making it very easy to coordinate runs and build your team
 - **Localization** - Full English and German support
-
----
 
 ## 🎮 Supported Versions
 
@@ -71,8 +65,6 @@ The tracker provides **pre-filled level caps and rival battle data** for all mai
 
 All Pokémon and items from Gen 7+ are available when you select **Custom Tracker** - perfect for ROM hacks, or fan games, which add newer Pokémon to older game version.
 
----
-
 ## 🛠 Tech Stack
 
 | Layer        | Technology                                           |
@@ -81,8 +73,6 @@ All Pokémon and items from Gen 7+ are available when you select **Custom Tracke
 | **Build**    | Vite                                                 |
 | **Backend**  | Firebase Authentication · Firebase Realtime Database |
 | **Data**     | PokéAPI · PokéWiki                                   |
-
----
 
 ## 🚀 Getting Started
 
@@ -97,15 +87,11 @@ npm run dev          # terminal 2
 
 For the full setup guide, environment config, deployment instructions, and architecture details, check out the **[Contributing Guide](CONTRIBUTING.md)**.
 
----
-
 ## 🤝 Contributing
 
 Contributions are welcome! Check out the **[Contributing Guide](CONTRIBUTING.md)** for everything you need - local setup, architecture overview, coding conventions, and how to submit a pull request.
 
 _Have an idea or found a bug? [Open an issue!](https://github.com/joos-too/pokemon-soullink-tracker/issues)_
-
----
 
 ## 📝 Credits & Acknowledgments
 

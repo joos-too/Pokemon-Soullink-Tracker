@@ -2,14 +2,10 @@
 
 Thanks for your interest in contributing to **Soullink Tracker**! This guide covers everything you need to get up and running - from local setup to submitting a pull request.
 
----
-
 ## 📋 Prerequisites
 
 - [Node.js](https://nodejs.org/) (LTS) & npm
 - [Java 21+](https://www.oracle.com/java/technologies/downloads/#java21) - required by Firebase Emulators
-
----
 
 ## 🚀 Local Development Setup
 
@@ -41,8 +37,6 @@ When running with emulators, the app automatically seeds:
 - **Test user:** `test@example.com` / `testpassword123`
 - **Sample trackers:** pre-populated team, box, and graveyard etc...
 
----
-
 ## 🏗 Production Deployment
 
 ```bash
@@ -59,8 +53,6 @@ npm run build
 
 # 4. Serve the dist/ folder with any static host (nginx, Vercel, Netlify …)
 ```
-
----
 
 ## ⚙️ Environment & Firebase Setup
 
@@ -96,8 +88,6 @@ VITE_FIREBASE_APP_ID=...
 
 </details>
 
----
-
 ## 📦 Available Commands
 
 | Command                    | Description                              |
@@ -106,8 +96,6 @@ VITE_FIREBASE_APP_ID=...
 | `npm run emulators`        | Start Firebase emulators                 |
 | `npm run build`            | Create a production build                |
 | `npm run generate-pokemon` | Regenerate Pokémon datasets from PokéAPI |
-
----
 
 ## 🏛 Architecture
 
@@ -198,8 +186,6 @@ node scripts/generate-items.mjs
 
 > **Why not just PokéAPI?** The API groups items by pocket and category but has no concept of "this item was introduced in Generation X." The local item lists fill that gap so the autocomplete can show version-accurate results.
 
----
-
 ## ✍️ Coding Conventions
 
 - **Functional React components** with typed props.
@@ -209,8 +195,6 @@ node scripts/generate-items.mjs
 - Reuse existing helpers for sanitizing player names, rules, tags, and state shape.
 - Preserve read-only behavior for public trackers and guest users.
 
----
-
 ## 🌍 Localization
 
 The UI supports **English** and **German**.
@@ -218,8 +202,6 @@ The UI supports **English** and **German**.
 - Prefer translation keys over inline user-facing strings.
 - When adding or changing UI-text-elements, update both `src/locales/en.ts` and `src/locales/de.ts`, as well as more to come in the future.
 - Keep labels, button text, and validation messages aligned across both locales.
-
----
 
 ## 🎨 Code Formatting
 
@@ -229,8 +211,6 @@ Prettier is configured for the project. Husky runs it automatically as a pre-com
 npm run prettier          # format everything
 npm run prettier:check    # check only (CI-friendly)
 ```
-
----
 
 ## 🔒 Firebase Database Rules
 
@@ -244,8 +224,6 @@ npx firebase use <your-project-id>
 npx firebase deploy --only database
 ```
 
----
-
 ## 🚢 Submitting Changes
 
 1. **Fork** the repository.
@@ -254,7 +232,5 @@ npx firebase deploy --only database
 4. **Validate** - ensure `npm run build` and `npm run prettier:check` both pass.
 5. **Commit & push** your branch.
 6. **Open a Pull Request** - describe what you changed and why.
-
----
 
 <p align="center"><b>Thank you for contributing! 🎉</b></p>
