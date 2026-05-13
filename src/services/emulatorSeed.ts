@@ -177,7 +177,7 @@ async function createSampleTrackerData(userId: string): Promise<void> {
   // Create Gen 5 tracker
   const gen5Updates = await createTracker(userId, {
     title: "Test Tracker - Gen 5 Sample",
-    gameVersionId: "gen5_sw",
+    gameVersionId: "gen5_bw",
     playerNames: ["Spieler 1", "Spieler 2"],
     teamPokemon: [
       {
@@ -594,11 +594,4 @@ export async function seedEmulatorData(): Promise<void> {
     // Reset flag on error so it can be retried
     seedingAttempted = false;
   }
-}
-
-/**
- * Resets the seeding flag for testing purposes
- */
-export function resetSeedingFlag(): void {
-  seedingAttempted = false;
 }

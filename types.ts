@@ -30,7 +30,6 @@ export interface LevelCap {
 }
 
 export interface VariableRival {
-  name: string;
   key: string;
   options: {
     male: string;
@@ -53,6 +52,13 @@ export interface FossilEntry {
   inBag: boolean;
   revived: boolean;
   pokemonName?: string;
+}
+
+export interface StoneEntry {
+  stoneId: string;
+  location: string;
+  inBag: boolean;
+  used: boolean;
 }
 
 export interface Stats {
@@ -78,7 +84,9 @@ export interface AppState {
   rivalCensorEnabled?: boolean;
   hardcoreModeEnabled?: boolean;
   infiniteFossilsEnabled?: boolean;
+  megaStoneSpriteStyle?: "item" | "pokemon";
   fossils?: FossilEntry[][];
+  stones?: StoneEntry[][];
   runStartedAt?: number;
 }
 
@@ -99,7 +107,7 @@ export interface TrackerMember {
 }
 
 export interface GameVersionBadgeSegment {
-  text: string;
+  badgeSegmentName: string;
   bgColor: string;
   textColor: string;
   borderColor: string;
@@ -113,7 +121,6 @@ export interface GameSelectionColor {
 
 export interface GameVersion {
   id: string;
-  name: string;
   badgeSet: string;
   badge?: {
     segments: GameVersionBadgeSegment[];
@@ -148,13 +155,5 @@ export interface TrackerSummary {
   runs: number;
   championDone: boolean;
   doneCapsCount: number;
-}
-
-export interface UserProfile {
-  uid: string;
-  createdAt: number;
-  lastLoginAt: number;
-  useGenerationSprites?: boolean;
-  useSpritesInTeamTable?: boolean;
-  useAnimatedSprites?: boolean;
+  progressPct: number;
 }

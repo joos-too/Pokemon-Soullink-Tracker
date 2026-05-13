@@ -18,14 +18,17 @@ import { FaGithub } from "react-icons/fa";
 import type {
   AppState,
   FossilEntry,
+  StoneEntry,
   LevelCap,
   Pokemon,
   PokemonLink,
+  RivalCap,
   RivalGender,
   Ruleset,
   TrackerMeta,
   TrackerSummary,
 } from "@/types";
+import { computeWeightedProgress } from "@/src/utils/progressWeights";
 import {
   createInitialState,
   ensureStatsForPlayers,
@@ -33,34 +36,31 @@ import {
   sanitizePlayerNames,
   sanitizeRules,
 } from "@/src/services/init.ts";
-import TeamTable from "@/src/components/TeamTable";
-import InfoPanel from "@/src/components/InfoPanel";
-import Graveyard from "@/src/components/Graveyard";
-import ClearedRoutes from "@/src/components/ClearedRoutes";
-import AddLostPokemonModal from "@/src/components/AddLostPokemonModal";
-import RulesetSaveModal from "@/src/components/RulesetSaveModal";
-import FossilTracker from "@/src/components/FossilTracker";
-import {
-  getGenerationSpritePath,
-  getAnimatedSpritePath,
-} from "@/src/services/sprites";
-import SelectLossModal from "@/src/components/SelectLossModal";
-import DeleteLinkModal from "@/src/components/DeleteLinkModal";
-import LoginPage from "@/src/components/LoginPage";
-import RegisterPage from "@/src/components/RegisterPage";
-import SettingsPage from "@/src/components/SettingsPage";
-import UserSettingsPage from "@/src/components/UserSettingsPage";
-import PasswordResetPage from "@/src/components/PasswordResetPage";
-import ResetModal from "@/src/components/ResetModal";
-import EditPairModal from "@/src/components/EditPairModal";
+import TeamTable from "@/src/components/widgets/TeamTable.tsx";
+import InfoPanel from "@/src/components/widgets/InfoPanel.tsx";
+import Graveyard from "@/src/components/widgets/Graveyard.tsx";
+import ClearedRoutes from "@/src/components/widgets/ClearedRoutes.tsx";
+import AddLostPokemonModal from "@/src/components/modals/AddLostPokemonModal.tsx";
+import RulesetSaveModal from "@/src/components/modals/RulesetSaveModal.tsx";
+import ItemTracker from "@/src/components/widgets/ItemTracker.tsx";
+import { getGenerationSpritePath } from "@/src/services/sprites";
+import SelectLossModal from "@/src/components/modals/SelectLossModal.tsx";
+import DeleteLinkModal from "@/src/components/modals/DeleteLinkModal.tsx";
+import LoginPage from "@/src/components/pages/LoginPage.tsx";
+import RegisterPage from "@/src/components/pages/RegisterPage.tsx";
+import SettingsPage from "@/src/components/pages/SettingsPage.tsx";
+import UserSettingsPage from "@/src/components/pages/UserSettingsPage.tsx";
+import PasswordResetPage from "@/src/components/pages/PasswordResetPage.tsx";
+import ResetModal from "@/src/components/modals/ResetModal.tsx";
+import EditPairModal from "@/src/components/modals/EditPairModal.tsx";
 import DarkModeToggle, {
   getDarkMode,
   setDarkMode,
-} from "@/src/components/DarkModeToggle";
-import HomePage from "@/src/components/HomePage";
-import CreateTrackerModal from "@/src/components/CreateTrackerModal";
-import DeleteTrackerModal from "@/src/components/DeleteTrackerModal";
-import TrackerSearchModal from "@/src/components/TrackerSearchModal";
+} from "@/src/components/toggles/DarkModeToggle.tsx";
+import HomePage from "@/src/components/pages/HomePage.tsx";
+import CreateTrackerModal from "@/src/components/modals/CreateTrackerModal.tsx";
+import DeleteTrackerModal from "@/src/components/modals/DeleteTrackerModal.tsx";
+import TrackerSearchModal from "@/src/components/modals/TrackerSearchModal.tsx";
 import { focusRingClasses } from "@/src/styles/focusRing";
 import {
   Navigate,
@@ -82,13 +82,13 @@ import {
   ensureUserProfile,
   getUserGenerationSpritePreference,
   getUserSpritesInTeamTablePreference,
-  getUserAnimatedSpritesPreference,
+  getUserWikiPreference,
   removeMemberFromTracker,
   TrackerOperationError,
   updateRivalPreference,
   updateUserGenerationSpritePreference,
   updateUserSpritesInTeamTablePreference,
-  updateUserAnimatedSpritesPreference,
+  updateUserWikiPreference,
 } from "@/src/services/trackers";
 import { GAME_VERSIONS } from "@/src/data/game-versions";
 import {
@@ -103,8 +103,13 @@ import {
   saveRuleset,
   SaveRulesetPayload,
 } from "@/src/services/rulesets";
-import RulesetEditorPage from "@/src/components/RulesetEditorPage";
+import RulesetEditorPage from "@/src/components/pages/RulesetEditorPage.tsx";
 import { useTranslation } from "react-i18next";
+import {
+  DEFAULT_WIKI_DE,
+  DEFAULT_WIKI_EN,
+  type WikiId,
+} from "@/src/utils/wiki.ts";
 import "@/src/pokeapi"; // initialize Pokedex once so sprite caching SW gets registered
 
 const LAST_TRACKER_STORAGE_KEY = "soullink:lastTrackerId";
@@ -131,7 +136,11 @@ const computeTrackerSummary = (
   const levelCaps = Array.isArray(state?.levelCaps)
     ? (state.levelCaps as LevelCap[])
     : [];
+  const rivalCaps = Array.isArray(state?.rivalCaps)
+    ? (state.rivalCaps as RivalCap[])
+    : [];
   const doneCapsCount = levelCaps.filter((cap) => cap?.done).length;
+  const { pct: progressPct } = computeWeightedProgress(levelCaps, rivalCaps);
 
   const deathCount = Array.isArray(state?.stats?.deaths)
     ? state!.stats!.deaths.reduce((sum, value) => sum + Number(value || 0), 0)
@@ -144,6 +153,7 @@ const computeTrackerSummary = (
     runs,
     championDone: doneCapsCount > 12,
     doneCapsCount,
+    progressPct,
   };
 };
 
@@ -202,7 +212,7 @@ const App: React.FC = () => {
     useState(false);
   const [userUseSpritesInTeamTable, setUserUseSpritesInTeamTable] =
     useState(false);
-  const [userUseAnimatedSprites, setUserUseAnimatedSprites] = useState(false);
+  const [userWikiId, setUserWikiId] = useState<string | null>(null);
   const showSettings = searchParams.get("panel") === "settings";
   const openSettingsPanel = useCallback(() => {
     const next = new URLSearchParams(searchParams);
@@ -304,24 +314,12 @@ const App: React.FC = () => {
   }, [user, activeTrackerMeta]);
 
   const generationSpritePath = useMemo(() => {
-    if (!activeGameVersionId) return null;
-    if (userUseAnimatedSprites) {
-      if (userUseGenerationSprites) {
-        // Generation sprites on → use version-specific animated path when available
-        const animatedPath = getAnimatedSpritePath(activeGameVersionId);
-        if (animatedPath) return animatedPath;
-        // No animated path for this version, fall back to static generation path
-        return getGenerationSpritePath(activeGameVersionId);
-      }
-      // Generation sprites off → default sprites are Gen V, so use Gen V animated
-      return "versions/generation-v/black-white/animated";
-    }
-    // Fall back to generation-specific sprites if enabled
-    if (userUseGenerationSprites) {
+    // Use generation-specific sprites if enabled
+    if (userUseGenerationSprites && activeGameVersionId) {
       return getGenerationSpritePath(activeGameVersionId);
     }
     return null;
-  }, [userUseAnimatedSprites, userUseGenerationSprites, activeGameVersionId]);
+  }, [userUseGenerationSprites, activeGameVersionId]);
   const currentRulesetId = data.rulesetId || defaultLocaleRulesetId;
   const hasUserRulesetWithSameId = useMemo(
     () =>
@@ -375,23 +373,31 @@ const App: React.FC = () => {
     [user],
   );
 
-  const handleAnimatedSpritesToggle = useCallback(
-    async (enabled: boolean) => {
+  const handleWikiChange = useCallback(
+    async (id: WikiId) => {
       if (!user) return;
       try {
-        await updateUserAnimatedSpritesPreference(user.uid, enabled);
-        setUserUseAnimatedSprites(enabled);
+        await updateUserWikiPreference(user.uid, id);
+        setUserWikiId(id);
       } catch (error) {
-        console.error("Failed to update animated sprites preference:", error);
+        console.error("Failed to update wiki preference:", error);
       }
     },
     [user],
   );
 
+  const effectiveWikiId: WikiId =
+    (userWikiId as WikiId | null) ??
+    ((i18n.resolvedLanguage || i18n.language || "")
+      .toLowerCase()
+      .startsWith("de")
+      ? DEFAULT_WIKI_DE
+      : DEFAULT_WIKI_EN);
+
   const coerceAppState = useCallback(
     (incoming: any, base: AppState): AppState => {
       const gameVersionForDefaults =
-        activeGameVersion ?? GAME_VERSIONS["gen5_sw"];
+        activeGameVersion ?? GAME_VERSIONS["gen5_bw"];
       const savedLevelCaps = Array.isArray(incoming?.levelCaps)
         ? incoming.levelCaps
         : [];
@@ -496,6 +502,19 @@ const App: React.FC = () => {
         });
       };
 
+      const sanitizeStones = (playerStones: any): StoneEntry[][] => {
+        return normalizedNames.map((_, i) => {
+          const list = Array.isArray(playerStones) ? playerStones[i] : null;
+          if (!Array.isArray(list)) return [];
+          return list.map((s: any) => ({
+            stoneId: s.stoneId || "",
+            location: s.location || "",
+            inBag: !!s.inBag,
+            used: !!s.used,
+          }));
+        });
+      };
+
       const resolvedRulesetId =
         typeof safe.rulesetId === "string" && safe.rulesetId.trim().length > 0
           ? safe.rulesetId
@@ -533,7 +552,10 @@ const App: React.FC = () => {
           safe.hardcoreModeEnabled ?? base.hardcoreModeEnabled ?? true,
         infiniteFossilsEnabled:
           safe.infiniteFossilsEnabled ?? base.infiniteFossilsEnabled ?? false,
+        megaStoneSpriteStyle:
+          safe.megaStoneSpriteStyle ?? base.megaStoneSpriteStyle ?? "item",
         fossils: sanitizeFossils(safe.fossils),
+        stones: sanitizeStones(safe.stones),
         runStartedAt:
           typeof safe.runStartedAt === "number"
             ? safe.runStartedAt
@@ -603,17 +625,17 @@ const App: React.FC = () => {
     Promise.all([
       getUserGenerationSpritePreference(user.uid),
       getUserSpritesInTeamTablePreference(user.uid),
-      getUserAnimatedSpritesPreference(user.uid),
+      getUserWikiPreference(user.uid),
     ])
-      .then(([genSprites, teamTableSprites, animatedSprites]) => {
+      .then(([genSprites, teamTableSprites, wikiId]) => {
         setUserUseGenerationSprites(genSprites);
         setUserUseSpritesInTeamTable(teamTableSprites);
-        setUserUseAnimatedSprites(animatedSprites);
+        setUserWikiId(wikiId);
       })
       .catch(() => {
         setUserUseGenerationSprites(false);
         setUserUseSpritesInTeamTable(false);
-        setUserUseAnimatedSprites(false);
+        setUserWikiId(null);
       });
   }, [user]);
 
@@ -1088,6 +1110,7 @@ const App: React.FC = () => {
         rivalCensorEnabled: prev.rivalCensorEnabled,
         hardcoreModeEnabled: prev.hardcoreModeEnabled,
         infiniteFossilsEnabled: prev.infiniteFossilsEnabled,
+        megaStoneSpriteStyle: prev.megaStoneSpriteStyle,
         stats: {
           runs: prev.stats.runs + 1, // increase run number by 1
           best: newBest, // persistiertes best
@@ -1556,6 +1579,14 @@ const App: React.FC = () => {
     setData((prev) => ({ ...prev, infiniteFossilsEnabled: enabled }));
   };
 
+  const handleMegaStoneSpriteStyleToggle = (usePokemon: boolean) => {
+    if (isReadOnly) return;
+    setData((prev) => ({
+      ...prev,
+      megaStoneSpriteStyle: usePokemon ? "pokemon" : "item",
+    }));
+  };
+
   const handleAddFossil = (
     pIdx: number,
     fossilId: string,
@@ -1629,6 +1660,62 @@ const App: React.FC = () => {
       setData((prev) => ({
         ...prev,
         fossils: newFossils,
+      }));
+    },
+    [isReadOnly],
+  );
+
+  const handleAddStone = (
+    pIdx: number,
+    stoneId: string,
+    location: string,
+    inBag: boolean,
+  ) => {
+    if (isReadOnly) return;
+    setData((prev) => {
+      const newStones = [...(prev.stones || prev.playerNames.map(() => []))];
+      const playerList = Array.isArray(newStones[pIdx])
+        ? [...newStones[pIdx]]
+        : [];
+      newStones[pIdx] = [
+        ...playerList,
+        { stoneId, location, inBag, used: false },
+      ];
+      return { ...prev, stones: newStones };
+    });
+  };
+
+  const handleToggleStoneBag = (pIdx: number, sIdx: number) => {
+    if (isReadOnly) return;
+    setData((prev) => {
+      const newStones = [...(prev.stones || [])];
+      if (!newStones[pIdx]) return prev;
+      newStones[pIdx] = newStones[pIdx].map((s, i) =>
+        i === sIdx ? { ...s, inBag: true, location: "" } : s,
+      );
+      return { ...prev, stones: newStones };
+    });
+  };
+
+  const handleUseStone = (pIdx: number, sIdx: number) => {
+    if (isReadOnly || !data.stones) return;
+    setData((prev) => {
+      const newStones = [...(prev.stones || [])];
+      if (newStones[pIdx] && newStones[pIdx][sIdx]) {
+        newStones[pIdx] = newStones[pIdx].map((s, i) =>
+          i === sIdx ? { ...s, used: true } : s,
+        );
+      }
+      return { ...prev, stones: newStones };
+    });
+  };
+
+  const handleUpdateStoneList = useCallback(
+    (newStones: StoneEntry[][]) => {
+      if (isReadOnly) return;
+      setData((prev) => ({
+        ...prev,
+        stones: newStones,
       }));
     },
     [isReadOnly],
@@ -2243,6 +2330,8 @@ const App: React.FC = () => {
         box={data.box}
         graveyard={data.graveyard}
         routes={clearedRoutes}
+        fossils={data.fossils ?? []}
+        stones={data.stones ?? []}
         generationSpritePath={generationSpritePath}
       />
       {readOnlyNotice && (
@@ -2432,6 +2521,7 @@ const App: React.FC = () => {
               readOnly={isReadOnly}
               generationSpritePath={generationSpritePath}
               useSpritesInTeamTable={userUseSpritesInTeamTable}
+              wikiId={effectiveWikiId}
             />
             <TeamTable
               title={t("team.boxTitle")}
@@ -2462,6 +2552,7 @@ const App: React.FC = () => {
               readOnly={isReadOnly}
               generationSpritePath={generationSpritePath}
               useSpritesInTeamTable={userUseSpritesInTeamTable}
+              wikiId={effectiveWikiId}
             />
           </div>
 
@@ -2492,17 +2583,25 @@ const App: React.FC = () => {
               generationSpritePath={generationSpritePath}
               pokemonGenerationLimit={pokemonGenerationLimit}
             />
-            <FossilTracker
+            <ItemTracker
               playerNames={resolvedPlayerNames}
               fossils={data.fossils || resolvedPlayerNames.map(() => [])}
+              stones={data.stones || resolvedPlayerNames.map(() => [])}
               maxGeneration={pokemonGenerationLimit}
               infiniteFossilsEnabled={data.infiniteFossilsEnabled ?? false}
               onAddFossil={handleAddFossil}
               onToggleBag={handleToggleFossilBag}
               onRevive={handleReviveFossils}
               onUpdateFossils={handleUpdateFossilList}
+              onAddStone={handleAddStone}
+              onToggleStoneBag={handleToggleStoneBag}
+              onUseStone={handleUseStone}
+              onUpdateStones={handleUpdateStoneList}
               readOnly={isReadOnly}
               gameVersionId={activeGameVersionId || undefined}
+              generationSpritePath={generationSpritePath}
+              megaStoneSpriteStyle={data.megaStoneSpriteStyle ?? "item"}
+              onMegaStoneSpriteStyleToggle={handleMegaStoneSpriteStyleToggle}
             />
             <Graveyard
               graveyard={data.graveyard}
@@ -2515,6 +2614,7 @@ const App: React.FC = () => {
               generationSpritePath={generationSpritePath}
               pokemonGenerationLimit={pokemonGenerationLimit}
               gameVersionId={activeGameVersionId || undefined}
+              wikiId={effectiveWikiId}
             />
             <ClearedRoutes routes={clearedRoutes} />
           </div>
@@ -2654,8 +2754,8 @@ const App: React.FC = () => {
                 onGenerationSpritesToggle={handleGenerationSpritesToggle}
                 useSpritesInTeamTable={userUseSpritesInTeamTable}
                 onSpritesInTeamTableToggle={handleSpritesInTeamTableToggle}
-                useAnimatedSprites={userUseAnimatedSprites}
-                onAnimatedSpritesToggle={handleAnimatedSpritesToggle}
+                wikiId={userWikiId ?? effectiveWikiId}
+                onWikiChange={handleWikiChange}
               />
             ) : (
               <Navigate to="/" replace />

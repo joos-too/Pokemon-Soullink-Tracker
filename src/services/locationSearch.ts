@@ -1,7 +1,7 @@
 import { LOCATION_SUGGESTIONS } from "@/src/data/location-suggestions";
 import { SupportedLanguage } from "@/src/utils/language";
 
-const DEFAULT_GAME_VERSION_ID = "gen5_sw";
+const DEFAULT_GAME_VERSION_ID = "gen5_bw";
 
 interface SearchOptions {
   locale?: SupportedLanguage;
@@ -27,16 +27,16 @@ const normalizeRouteDisplayName = (name: string): string =>
 
 const VERSION_REGION_MAP: Record<string, string[]> = {
   gen1_rb: ["kanto"],
-  gen1_g: ["kanto"],
-  gen3_frbg: ["kanto"],
+  gen1_y: ["kanto"],
+  gen3_frlg: ["kanto"],
   gen2_gs: ["johto", "kanto"],
-  gen2_k: ["johto", "kanto"],
+  gen2_c: ["johto", "kanto"],
   gen4_hgss: ["johto", "kanto"],
   gen3_rusa: ["hoenn"],
-  gen3_sm: ["hoenn"],
+  gen3_em: ["hoenn"],
   gen6_oras: ["hoenn"],
-  gen5_sw: ["unova"],
-  gen5_s2w2: ["unova"],
+  gen5_bw: ["unova"],
+  gen5_b2w2: ["unova"],
   gen6_xy: ["kalos"],
   gen4_dp: ["sinnoh"],
   gen4_pt: ["sinnoh"],

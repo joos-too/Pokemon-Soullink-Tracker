@@ -10,26 +10,6 @@ export const PLAYER_COLORS = [PLAYER1_COLOR, PLAYER2_COLOR, PLAYER3_COLOR];
 export const MIN_PLAYER_COUNT = 1;
 export const MAX_PLAYER_COUNT = 3;
 
-export interface FossilDef {
-  id: string;
-  gen: number;
-  sprite: string;
-}
-
-export const FOSSILS: FossilDef[] = [
-  { id: "helix-fossil", gen: 1, sprite: "gen1/helix-fossil.png" },
-  { id: "dome-fossil", gen: 1, sprite: "gen1/dome-fossil.png" },
-  { id: "old-amber", gen: 1, sprite: "gen1/old-amber.png" },
-  { id: "root-fossil", gen: 3, sprite: "gen3/root-fossil.png" },
-  { id: "claw-fossil", gen: 3, sprite: "gen3/claw-fossil.png" },
-  { id: "skull-fossil", gen: 4, sprite: "gen4/skull-fossil.png" },
-  { id: "armor-fossil", gen: 4, sprite: "gen4/armor-fossil.png" },
-  { id: "cover-fossil", gen: 5, sprite: "gen5/cover-fossil.png" },
-  { id: "plume-fossil", gen: 5, sprite: "gen5/plume-fossil.png" },
-  { id: "jaw-fossil", gen: 6, sprite: "gen6/jaw-fossil.png" },
-  { id: "sail-fossil", gen: 6, sprite: "gen6/sail-fossil.png" },
-];
-
 export const sanitizePlayerNames = (names?: string[]): string[] => {
   if (!Array.isArray(names)) {
     return [];
@@ -94,68 +74,7 @@ export const sanitizeTags = (tags?: unknown): string[] => {
   return normalized;
 };
 
-// Legendary Pokémon organized by generation
-const LEGENDARY_POKEMON_BY_GENERATION: Record<number, string[]> = {
-  1: ["Arktos", "Zapdos", "Lavados", "Mewtu", "Mew"],
-  2: ["Raikou", "Entei", "Suicune", "Lugia", "Ho-Oh", "Celebi"],
-  3: [
-    "Regirock",
-    "Regice",
-    "Registeel",
-    "Latias",
-    "Latios",
-    "Kyogre",
-    "Groudon",
-    "Rayquaza",
-    "Jirachi",
-    "Deoxys",
-  ],
-  4: [
-    "Selfe",
-    "Vesprit",
-    "Tobutz",
-    "Dialga",
-    "Palkia",
-    "Heatran",
-    "Regigigas",
-    "Giratina",
-    "Cresselia",
-    "Phione",
-    "Manaphy",
-    "Darkrai",
-    "Shaymin",
-    "Arceus",
-  ],
-  5: [
-    "Victini",
-    "Kobalium",
-    "Terrakium",
-    "Viridium",
-    "Boreos",
-    "Voltolos",
-    "Reshiram",
-    "Zekrom",
-    "Demeteros",
-    "Kyurem",
-    "Keldeo",
-    "Meloetta",
-    "Genesect",
-  ],
-  6: ["Xerneas", "Yveltal", "Zygarde", "Diancie", "Hoopa", "Volcanion"],
-};
-
-// Filter legendary Pokémon up to and including the specified generation
-export const getLegendariesUpToGeneration = (
-  maxGeneration: number,
-): string[] => {
-  const result: string[] = [];
-  for (let gen = 1; gen <= Math.min(maxGeneration, 6); gen++) {
-    result.push(...(LEGENDARY_POKEMON_BY_GENERATION[gen] || []));
-  }
-  return result;
-};
-
-const DEFAULT_GAME_VERSION_ID = "gen5_sw";
+const DEFAULT_GAME_VERSION_ID = "gen5_bw";
 
 const DEFAULT_PLAYER_NAME_SET: string[] = [];
 
@@ -173,7 +92,9 @@ export const INITIAL_STATE: AppState = {
   rivalCensorEnabled: true,
   hardcoreModeEnabled: true,
   infiniteFossilsEnabled: false,
+  megaStoneSpriteStyle: "item",
   fossils: [],
+  stones: [],
   runStartedAt: Date.now(),
 };
 
@@ -204,6 +125,7 @@ export const createInitialState = (
     revealed: false,
   }));
   base.fossils = normalizedNames.map(() => []);
+  base.stones = normalizedNames.map(() => []);
   base.runStartedAt = Date.now();
   return base;
 };

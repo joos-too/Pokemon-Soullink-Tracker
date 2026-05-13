@@ -1162,11 +1162,7 @@ export const EVOLUTIONS_DE: Record<
   "349": [
     {
       id: 350,
-      methods: [
-        "Level-Up - Schönheit ≥ 170",
-        "Level-Up - Schönheit ≥ 171",
-        "Tausch - Trägt Schönschuppe",
-      ],
+      methods: ["Level-Up - Schönheit ≥ 170", "Tausch - Trägt Schönschuppe"],
     },
   ],
   "353": [
@@ -3308,11 +3304,7 @@ export const EVOLUTIONS_EN: Record<
   "349": [
     {
       id: 350,
-      methods: [
-        "Level-Up - Beauty ≥ 170",
-        "Level-Up - Beauty ≥ 171",
-        "Trade - Holds Prism Scale",
-      ],
+      methods: ["Level-Up - Beauty ≥ 170", "Trade - Holds Prism Scale"],
     },
   ],
   "353": [
