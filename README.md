@@ -1,130 +1,108 @@
-# Pokémon Soullink Tracker
+<p align="center">
+  <img src="public/Soullinktracker-Logo.png" alt="Soullink Tracker Logo" width="200" />
+</p>
 
-Disclaimer: The website is still under development, data loss or bugs are possible.
+<h1 align="center">Soullink Tracker</h1>
 
-## Run locally for development
+<p align="center">
+  <b>A real-time collaborative Soullink &amp; Nuzlocke Tracker - built for streamers, friend groups, and challenge runners.</b>
+</p>
 
-**Prerequisites:** [Node.js + npm](https://nodejs.org/en/download/), [git](https://git-scm.com/downloads) and [Java](https://www.oracle.com/java/technologies/downloads/#java21) installed
+<p align="center">
+  <a href="https://github.com/joos-too/pokemon-soullink-tracker/releases"><img src="https://img.shields.io/github/v/release/joos-too/pokemon-soullink-tracker?style=for-the-badge&color=blue" alt="Release" /></a>&nbsp;
+  <img src="https://status.freakmedialp.de/api/badge/32/uptime?style=for-the-badge" alt="Uptime" />&nbsp;
+  <a href="https://github.com/joos-too/pokemon-soullink-tracker/issues"><img src="https://img.shields.io/github/issues/joos-too/pokemon-soullink-tracker?style=for-the-badge" alt="Issues" /></a>&nbsp;
+  <a href="https://github.com/joos-too/pokemon-soullink-tracker/stargazers"><img src="https://img.shields.io/github/stars/joos-too/pokemon-soullink-tracker?style=for-the-badge&color=f5c542" alt="Stars" /></a>&nbsp;
+  <a href="https://github.com/joos-too/pokemon-soullink-tracker/graphs/contributors"><img src="https://img.shields.io/github/contributors/joos-too/pokemon-soullink-tracker?style=for-the-badge" alt="Contributors" /></a>&nbsp;
+</p>
 
-1. Clone the [repository](https://github.com/joos-too/pokemon-soullink-tracker.git)
-2. Install dependencies:
-   `npm install`
-3. Configure the environment as described below.
-4. Run the Firebase emulators:
-   `npm run emulators`
-5. Run the app:
-   `npm run dev`
+<p align="center">
+  <img src="public/screenshots/showcase-dark.png" alt="Tracker Showcase - Dark Mode" height="250" />
+  &nbsp;
+  <img src="public/screenshots/overview-dark.png" alt="Tracker Overview - Dark Mode" height="250" />
+</p>
 
-## Deploy on a web server
+## What is Soullink Tracker?
 
-**Prerequisites:** [Node.js + npm](https://nodejs.org/en/download/) and [git](https://git-scm.com/downloads) installed
+Soullink Tracker is an open-source web app for managing Pokémon **Soullink** and **Nuzlocke** runs. You can track your links/catches, cleared routes, progression, and items. It also syncs the tracker state in real time between all players, so everyone always sees the same state of team, box, progression... - no spreadsheets, no Discord copy-pasting or constant streaming.
 
-1. Clone the repository at the desired release tag:
-   `git clone --branch v1.2.0 https://github.com/joos-too/pokemon-soullink-tracker.git`
-2. Configure the environment as described below.
-3. Install dependencies:
-   `npm install`
-4. Build the app:
-   `npm run build`
-5. (When not on the server: zip the `dist` folder and upload it to your web server. Unzip it in a new directory.)
-6. Make the `index.html` available via a web server e.g. nginx
+Whether you're streaming a duo Soullink, running a solo Nuzlocke, or coordinating a trio challenge with friends, this tracker helps you manage your entire run.
 
-## Environment & Firebase Setup
+## ✨ Features
 
-This project supports two environment modes with different env files and Firebase setups:
+- **Pokémon linking** - Directly pair Pokémon links and add the catch area
+- **Progression tracking** - Badges/Gyms, Rival battles, and Elite Four, all with provided level caps
+- **Evolution tracking** - Evolve linked Pokémon and keep links in sync
+- **Item tracking** - Track your Fossils, Evolution stones, Mega stones, and other items. Reviving a fossil automatically creates a new link
+- **Version-awareness** - Pokémon, Routes, and Items are filtered and autocompleted by the game version you're playing
+- **Team management** - Filter and sort your links by type to find the best links for your active team
+- **Solo, Duo & Trio** - The Tracker supports Solo-Nuzlocking, up to Trio-Soullink
+- **Custom rulesets** - Use built-in presets or create and save your own rules
+- **Public / read-only mode** - Share your tracker with stream viewers or guests, enabling them to inspect your progress
+- **Real-time collaboration** - All players see changes instantly, making it very easy to coordinate runs and build your team
+- **Localization** - Full English and German support
 
-- Local development (default): uses Firebase emulators. Minimal config required.
-- Production build/deploy: uses your real Firebase project. Full config required.
+## 🎮 Supported Versions
 
-### 1. Local development (with Firebase Emulators)
+The tracker provides **pre-filled level caps and rival battle data** for all mainline games up to Generation 6. Newer generations introduced non-gym progression (trials, challenges), so they aren't included as presets - but you can still enable all Pokémon and Items from newer generations in Custom Trackers.
 
-Use the provided .env.example as your base and copy it to .env.
-Edit .env if needed (all values have sensible defaults for emulator use).
+<details>
+<summary><b>Version overview</b></summary>
 
-```
-VITE_FIREBASE_PROJECT_ID=soullink-tracker-d6d9a
-# When true (automatically when running `vite` in dev), connect SDKs to local emulators
-VITE_USE_FIREBASE_EMULATOR=true
-# Optional host override (defaults to 127.0.0.1 in dev)
-VITE_FIREBASE_EMULATOR_HOST=localhost
-# Ports must match firebase.json
-VITE_FIREBASE_AUTH_EMULATOR_PORT=9099
-VITE_FIREBASE_DB_EMULATOR_PORT=9000
-```
+| Generation | Versions                                                                                                                                                          |
+| ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Gen 1**  | ![Red / Blue](public/screenshots/badges/gen1_rb.png) ![Yellow](public/screenshots/badges/gen1_y.png)                                                              |
+| **Gen 2**  | ![Gold / Silver](public/screenshots/badges/gen2_gs.png) ![Crystal](public/screenshots/badges/gen2_c.png)                                                          |
+| **Gen 3**  | ![Ruby / Sapphire](public/screenshots/badges/gen3_rusa.png) ![Emerald](public/screenshots/badges/gen3_em.png) ![FR / LG](public/screenshots/badges/gen3_frlg.png) |
+| **Gen 4**  | ![Diamond / Pearl](public/screenshots/badges/gen4_dp.png) ![Platinum](public/screenshots/badges/gen4_pt.png) ![HG / SS](public/screenshots/badges/gen4_hgss.png)  |
+| **Gen 5**  | ![Black / White](public/screenshots/badges/gen5_bw.png) ![Black 2 / White 2](public/screenshots/badges/gen5_b2w2.png)                                             |
+| **Gen 6**  | ![X / Y](public/screenshots/badges/gen6_xy.png) ![OR / AS](public/screenshots/badges/gen6_oras.png)                                                               |
+| **Gen 7+** | Custom Trackers                                                                                                                                                   |
 
-Install firebase tools via `npm install -g firebase-tools`
+</details>
 
-#### Automatic Test Data Seeding
+### Custom Trackers
 
-When running in emulator mode (`VITE_USE_FIREBASE_EMULATOR=true`), the application automatically seeds test data on startup:
+All Pokémon and items from Gen 7+ are available when you select **Custom Tracker** - perfect for ROM hacks, or fan games, which add newer Pokémon to older game version.
 
-- **Test User**: `test@example.com` / `testpassword123`
-- **Sample Tracker**: Pre-populated with team, box, and graveyard Pokémon
-- **Idempotent**: Checks for existing data to prevent duplication during hot reloads
+## 🛠 Tech Stack
 
-This allows developers to immediately start testing features without manually creating users and trackers. The seeding logic is implemented in `src/services/emulatorSeed.ts` and triggered from `App.tsx` after Firebase initialization.
+| Layer        | Technology                                           |
+| ------------ | ---------------------------------------------------- |
+| **Frontend** | React 19 · TypeScript · Tailwind CSS                 |
+| **Build**    | Vite                                                 |
+| **Backend**  | Firebase Authentication · Firebase Realtime Database |
+| **Data**     | PokéAPI · PokéWiki                                   |
 
-### 2. Production (real Firebase project)
+## 🚀 Getting Started
 
-Create a .env.production file using the template:
-Fill in the values from your Firebase Console. Realtime Database and Email/Password Auth must be enabled for the project.
-
-```
-VITE_FIREBASE_API_KEY=...
-VITE_FIREBASE_AUTH_DOMAIN=...
-VITE_FIREBASE_DATABASE_URL=...
-VITE_FIREBASE_PROJECT_ID=...
-VITE_FIREBASE_STORAGE_BUCKET=...
-VITE_FIREBASE_MESSAGING_SENDER_ID=...
-VITE_FIREBASE_APP_ID=...
-```
-
-Important:
-
-- Do not set VITE_USE_FIREBASE_EMULATOR in production. The app will validate these variables at runtime and throw a helpful error if missing.
-- Vite automatically exposes variables prefixed with VITE\_ to the client.
-
-## Sync Firebase Database Rules via CLI
-
-The Realtime Database rules live in `database.rules.json`. To upload the current rules to a Firebase project:
-
-1. Log into the Firebase CLI (install it globally first if needed):  
-   `npx firebase login`
-2. Select your Firebase project (skip if already configured in `.firebaserc`):  
-   `npx firebase use <your-project-id>`
-3. Deploy only the database rules:  
-   `npx firebase deploy --only database`
-
-The same `database.rules.json` file is loaded automatically when you run the local emulators via `npm run emulators`.
-
-## Prettier & pre-commit hooks
-
-- Format locally with Prettier: `npx prettier --write .`
-- To auto-format before each commit, Husky is configured to run Prettier pre-commit.
-
-### Prettier in your editor
-
-- Enable Prettier in your editor to format on save or via a shortcut for fastest feedback.
-- Setup guides for popular editors: https://prettier.io/docs/editors
-- If your editor lacks support, use a file watcher to run `prettier --write` on changes.
-
-## Pokémon data cache (names + evolutions)
-
-- The app ships with generated datasets under `src/data/` (`pokemon-de.ts`, `pokemon-en.ts`, `pokemon-map.ts`, `pokemon-evolutions.ts`) that power localized autocomplete and evolution filtering (generation + version-aware).
-- To refresh these datasets from PokeAPI, run:
-
-```
-npm run generate-pokemon
+```bash
+git clone https://github.com/joos-too/pokemon-soullink-tracker.git
+cd pokemon-soullink-tracker
+npm install
+cp .env.example .env
+npm run emulators   # terminal 1
+npm run dev          # terminal 2
 ```
 
-The script fetches all supported Pokémon species and evolution chains (up to Gen 6), translates the names, stores IDs/generation metadata, and persists the evolutions so the app can apply generation/version filters offline.
+For the full setup guide, environment config, deployment instructions, and architecture details, check out the **[Contributing Guide](CONTRIBUTING.md)**.
 
-## Image caching
+## 🤝 Contributing
 
-The app uses a service worker to cache Pokémon sprite images from the PokeAPI GitHub repository. This improves performance by:
+Contributions are welcome! Check out the **[Contributing Guide](CONTRIBUTING.md)** for everything you need - local setup, architecture overview, coding conventions, and how to submit a pull request.
 
-- Reducing network requests for frequently viewed Pokémon
-- Enabling offline access to previously loaded images
-- Speeding up page load times
+_Have an idea or found a bug? [Open an issue!](https://github.com/joos-too/pokemon-soullink-tracker/issues)_
 
-The service worker (`public/pokeapi-js-wrapper-sw.js`) is automatically registered when the app loads and intercepts requests to `https://raw.githubusercontent.com/PokeAPI/sprites/`. Images are cached in the browser's Cache Storage and served from cache on subsequent requests.
+## 📝 Credits & Acknowledgments
+
+| Resource                                              | Usage                                          |
+| ----------------------------------------------------- | ---------------------------------------------- |
+| [PokéAPI](https://pokeapi.co/)                        | Pokémon data (types, evolution chains/methods) |
+| [PokéWiki](https://www.pokewiki.de/)                  | Item version info, Item & rival sprites        |
+| [PokeAPI Sprites](https://github.com/PokeAPI/sprites) | Pokémon & badge sprites                        |
+
+---
+
+<p align="center">
+  <sub>Pokémon and all related names are trademarks of Nintendo / Creatures Inc. / GAME FREAK Inc.<br>This project is a fan-made tool and is not affiliated with or endorsed by any of these companies.</sub>
+</p>

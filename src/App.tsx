@@ -38,6 +38,7 @@ import {
 } from "@/src/services/init.ts";
 import TeamTable from "@/src/components/widgets/TeamTable.tsx";
 import InfoPanel from "@/src/components/widgets/InfoPanel.tsx";
+import Rules from "@/src/components/widgets/Rules.tsx";
 import Graveyard from "@/src/components/widgets/Graveyard.tsx";
 import ClearedRoutes from "@/src/components/widgets/ClearedRoutes.tsx";
 import AddLostPokemonModal from "@/src/components/modals/AddLostPokemonModal.tsx";
@@ -2568,8 +2569,6 @@ const App: React.FC = () => {
               onRivalCapReveal={handleRivalCapReveal}
               onStatChange={handleStatChange}
               onPlayerStatChange={handlePlayerStatChange}
-              rules={data.rules}
-              onRulesChange={(rules) => setData((prev) => ({ ...prev, rules }))}
               legendaryTrackerEnabled={data.legendaryTrackerEnabled ?? true}
               rivalCensorEnabled={data.rivalCensorEnabled ?? true}
               hardcoreModeEnabled={data.hardcoreModeEnabled ?? true}
@@ -2602,6 +2601,11 @@ const App: React.FC = () => {
               generationSpritePath={generationSpritePath}
               megaStoneSpriteStyle={data.megaStoneSpriteStyle ?? "item"}
               onMegaStoneSpriteStyleToggle={handleMegaStoneSpriteStyleToggle}
+            />
+            <Rules
+              rules={data.rules}
+              onRulesChange={(rules) => setData((prev) => ({ ...prev, rules }))}
+              readOnly={isReadOnly}
             />
             <Graveyard
               graveyard={data.graveyard}
