@@ -186,15 +186,6 @@ node scripts/generate-items.mjs
 
 > **Why not just PokéAPI?** The API groups items by pocket and category but has no concept of "this item was introduced in Generation X." The local item lists fill that gap so the autocomplete can show version-accurate results.
 
-## ✍️ Coding Conventions
-
-- **Functional React components** with typed props.
-- Extend `types.ts` or local interfaces instead of introducing `any`.
-- Use the `@/` alias for imports from the project root.
-- Keep data-fetching and Firebase mutation logic in `src/services/`, not in UI components.
-- Reuse existing helpers for sanitizing player names, rules, tags, and state shape.
-- Preserve read-only behavior for public trackers and guest users.
-
 ## 🌍 Localization
 
 The UI supports **English** and **German**.
@@ -210,18 +201,6 @@ Prettier is configured for the project. Husky runs it automatically as a pre-com
 ```bash
 npm run prettier          # format everything
 npm run prettier:check    # check only (CI-friendly)
-```
-
-## 🔒 Firebase Database Rules
-
-Rules are defined in `database.rules.json` and auto-loaded by the emulators.
-
-To deploy to a live project:
-
-```bash
-npx firebase login
-npx firebase use <your-project-id>
-npx firebase deploy --only database
 ```
 
 ## 🚢 Submitting Changes
