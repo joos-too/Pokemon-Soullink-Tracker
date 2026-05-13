@@ -25,67 +25,64 @@
   <img src="public/screenshots/showcase-dark.png" alt="Tracker Overview">
 </p>
 
----
-
 # Features
 
-## Pokémon tracking
+## Pokemon Tracking
 
-- **Team · Box · Graveyard** — manage your entire run in one place
-- **Soullink pairing** — link Pokémon between partners per route
-- **Nicknames & routes** — every link records the catch location and player-assigned nicknames
-- **Run statistics** — total runs, best attempt, deaths per gym, and Elite Four item counts
-- **Hardcore mode** — optional toggle that enforces stricter rules
+- Links
+- Evolutions
+- Catch Areas
 
-## Progress tracking
+## Progression Tracking
 
-- **Badge tracker** with official badge sprites for every supported game
-- **Level caps & rival caps** — preset per game version so you never overlevel
-- **Elite Four & Champion progress** — with character art for every region
-- **Fossil & stone tracking** — pickup, bag, and usage status per generation
+- Badges
+- Level-Caps
+- Rival-Battles
+- Elite Four
 
-## Game support
+## Item Tracking
 
-The tracker currently supports all versions **up to Gen 6**, with accurate Level-Caps and Rival-Battles. Newer regions and
-were not added, as they introduced different approaches to progression, like challenges instead of Gyms.
-Nonetheless, all Pokémon and Items, up to from Gen 9 are available if you select a "Custom Tracker" and plan to
-play a modified version, which takes place in a region from Gen 1 to Gen 6, but has Pokémon from Gen 7+ or higher.
+- Evolution Stones
+- Fossils: Track all your found fossils and automatically create a new link, after reviving them.
+- Mega stones
+- Other Items
 
-| Generation | Games                                             |
-| ---------- | ------------------------------------------------- |
-| Gen 1      | Red / Blue, Yellow                                |
-| Gen 2      | Gold / Silver, Crystal                            |
-| Gen 3      | Ruby / Sapphire, Emerald, FireRed / LeafGreen     |
-| Gen 4      | Diamond / Pearl, Platinum, HeartGold / SoulSilver |
-| Gen 5      | Black / White, Black 2 / White 2                  |
-| Gen 6      | X / Y, Omega Ruby / Alpha Sapphire                |
-| Gen 7+     | Custom                                            |
+## Gamemodes
 
-## Real-Time Collaboration
-
-- **Instant sync** — powered by Firebase Realtime Database; every change is live
-- **Roles** — Owner, Editor, and Guest access levels
-- **Invite system** — add members by email
-- **Public sharing** — expose a read-only link for viewers or stream overlays
+- Solo
+- Duo
+- Trio
 
 ## Rulesets
 
-- **Preset rulesets** — Solo, Duo, and Trio templates in English & German
-- **Custom rulesets** — create, save, and reuse your own rule sets
-- **Tags** — filter rulesets by Solo / Duo / Trio and language
+## Version support
+
+The tracker currently supports all versions **up to Gen 6**, with pre entered Level-Caps and Rival-Battles. Newer
+regions were not added, as they introduced different approaches to progression, like challenges instead of Gyms/Badges.
+
+| Generation | Versions                                                                                                                                                          |
+| ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Gen 1**  | ![Red / Blue](public/screenshots/badges/gen1_rb.png) ![Yellow](public/screenshots/badges/gen1_y.png)                                                              |
+| **Gen 2**  | ![Gold / Silver](public/screenshots/badges/gen2_gs.png) ![Crystal](public/screenshots/badges/gen2_c.png)                                                          |
+| **Gen 3**  | ![Ruby / Sapphire](public/screenshots/badges/gen3_rusa.png) ![Emerald](public/screenshots/badges/gen3_em.png) ![FR / LG](public/screenshots/badges/gen3_frlg.png) |
+| **Gen 4**  | ![Diamond / Pearl](public/screenshots/badges/gen4_dp.png) ![Platinum](public/screenshots/badges/gen4_pt.png) ![HG / SS](public/screenshots/badges/gen4_hgss.png)  |
+| **Gen 5**  | ![Black / White](public/screenshots/badges/gen5_bw.png) ![Black 2 / White 2](public/screenshots/badges/gen5_b2w2.png)                                             |
+| **Gen 6**  | ![X / Y](public/screenshots/badges/gen6_xy.png) ![OR / AS](public/screenshots/badges/gen6_oras.png)                                                               |
+| **Gen 7+** | Custom Trackers                                                                                                                                                   |
+
+### Custom Trackers
+
+Nonetheless, all Pokémon and Items from Gen 7+ are available if you select a "Custom Tracker" and plan to play ROM
+hacks, fan games, etc.
+
+## Real-Time Collaboration
 
 ## Sprites & Visuals
 
-- **Animated & static sprites** — sourced from the PokeAPI sprite repository
-- **Shiny variants** — toggle between regular and shiny artwork
-- **Generation-accurate sprites** — optionally display the sprite style matching the game generation
-- **Mega Stone sprite styles** — choose between item icon or Pokémon artwork
-- **Offline image caching** — a service worker caches sprites for instant loading
-
 ## Localization
 
-- Full **English** and **German** UI
-- Pokémon names translated in both languages via generated datasets
+- English
+- German
 
 ---
 
@@ -104,9 +101,3 @@ Pokémon and all related names are trademarks of Nintendo / Creatures Inc. / GAM
 Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for setup instructions, architecture details, coding conventions, and how to submit a pull request.
 
 _Have an idea? [Open an issue!](https://github.com/joos-too/pokemon-soullink-tracker/issues)_
-
----
-
-<p align="center">
-  Made with love for the Pokémon Nuzlocke community
-</p>
