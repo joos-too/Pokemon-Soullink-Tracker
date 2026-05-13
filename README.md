@@ -17,9 +17,9 @@
 </p>
 
 <p align="center">
-  <img src="public/screenshots/showcase-dark.png" alt="Tracker Showcase - Dark Mode" height="300" />
+  <img src="public/screenshots/showcase-dark.png" alt="Tracker Showcase - Dark Mode" height="250" />
   &nbsp;
-  <img src="public/screenshots/overview-dark.png" alt="Tracker Overview - Dark Mode" height="300" />
+  <img src="public/screenshots/overview-dark.png" alt="Tracker Overview - Dark Mode" height="250" />
 </p>
 
 ---
