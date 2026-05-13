@@ -1,18 +1,17 @@
 # Contributing
 
-Contributions are welcome! This guide covers how to set up the project locally, the architecture, and the conventions we follow.
+Thanks for your interest in contributing to **Soullink Tracker**! This guide covers everything you need to get up and running - from local setup to submitting a pull request.
 
 ---
 
-## Prerequisites
+## 📋 Prerequisites
 
-- [Node.js + npm](https://nodejs.org/) (LTS recommended)
-- [Git](https://git-scm.com/)
-- [Java 21+](https://www.oracle.com/java/technologies/downloads/#java21) (required for Firebase Emulators)
+- [Node.js](https://nodejs.org/) (LTS) & npm
+- [Java 21+](https://www.oracle.com/java/technologies/downloads/#java21) - required by Firebase Emulators
 
 ---
 
-## Local Development Setup
+## 🚀 Local Development Setup
 
 ```bash
 # 1. Clone the repository
@@ -31,7 +30,7 @@ npm install -g firebase-tools
 # 5. Start Firebase Emulators
 npm run emulators
 
-# 6. In a second terminal — start the dev server
+# 6. In a second terminal - start the dev server
 npm run dev
 ```
 
@@ -40,12 +39,11 @@ npm run dev
 When running with emulators, the app automatically seeds:
 
 - **Test user:** `test@example.com` / `testpassword123`
-- **Sample tracker:** pre-populated team, box, and graveyard
-- Seeding is idempotent — safe across hot reloads.
+- **Sample trackers:** pre-populated team, box, and graveyard etc...
 
 ---
 
-## Production Deployment
+## 🏗 Production Deployment
 
 ```bash
 # 1. Clone at the desired release tag
@@ -64,11 +62,12 @@ npm run build
 
 ---
 
-## Environment & Firebase Setup
+## ⚙️ Environment & Firebase Setup
 
 The project supports two modes:
 
-### Local development (Firebase Emulators)
+<details>
+<summary><b>Local development (Firebase Emulators)</b></summary>
 
 ```env
 VITE_FIREBASE_PROJECT_ID=soullink-tracker-d6d9a
@@ -78,7 +77,10 @@ VITE_FIREBASE_AUTH_EMULATOR_PORT=9099
 VITE_FIREBASE_DB_EMULATOR_PORT=9000
 ```
 
-### Production (real Firebase project)
+</details>
+
+<details>
+<summary><b>Production (real Firebase project)</b></summary>
 
 ```env
 VITE_FIREBASE_API_KEY=...
@@ -92,46 +94,53 @@ VITE_FIREBASE_APP_ID=...
 
 > Do **not** set `VITE_USE_FIREBASE_EMULATOR` in production. The app validates these variables at runtime and throws a helpful error if any are missing.
 
+</details>
+
 ---
 
-## Available Commands
+## 📦 Available Commands
 
 | Command                    | Description                              |
 | -------------------------- | ---------------------------------------- |
-| `npm install`              | Install dependencies                     |
 | `npm run dev`              | Start the Vite dev server                |
 | `npm run emulators`        | Start Firebase emulators                 |
 | `npm run build`            | Create a production build                |
-| `npm run preview`          | Preview the production build             |
-| `npm run prettier`         | Format the entire repo                   |
-| `npm run prettier:check`   | Check formatting (CI-friendly)           |
 | `npm run generate-pokemon` | Regenerate Pokémon datasets from PokéAPI |
 
 ---
 
-## Architecture & Technical Details
+## 🏛 Architecture
 
 ### Project Structure
 
 ```
-├── index.tsx              # App entry point
-├── types.ts               # Shared domain types
+├── index.html / index.tsx            # Entry point
+├── types.ts                          # Shared domain types
+│
 ├── src/
-│   ├── App.tsx            # Routing, auth, tracker lifecycle, modals
-│   ├── firebaseConfig.ts  # Firebase init + emulator wiring
-│   ├── i18n.ts            # i18next setup (EN / DE)
-│   ├── components/        # UI components (pages, modals, widgets, pickers …)
-│   ├── services/          # Firebase access, search, sprites, tracker/ruleset ops
-│   ├── data/              # Generated & static data (game versions, Pokémon, types …)
-│   └── locales/           # Translation dictionaries (de.ts, en.ts)
-├── public/
-│   ├── badge-sprites/     # Official gym badge images (gen1 – gen6)
-│   ├── champ-sprites/     # Champion character art
-│   ├── elite4-sprites/    # Elite Four character art
-│   ├── rival-sprites/     # Rival character art
-│   ├── fossil-sprites/    # Fossil item images
-│   └── stone-sprites/     # Evolution stone images
-└── scripts/               # Data generation scripts (PokeAPI → TypeScript)
+│   ├── App.tsx                       # Routing, auth, tracker lifecycle, modals
+│   ├── i18n.ts                       # i18next setup (Localization)
+│   │
+│   ├── components/
+│   │   ├── pages/                    # Top-level views (Home, Login, Settings, Ruleset Editor …)
+│   │   ├── modals/                   # Dialogs (create tracker, add fossil, evolve, delete …)
+│   │   ├── widgets/                  # Tracker panels (team table, graveyard, items, level caps …)
+│   │   ├── inputs/                   # Autocomplete inputs (Pokémon, location, item)
+│   │   ├── pickers/                  # Game version & ruleset pickers
+│   │   ├── badges/                   # Game version & type badge components
+│   │   ├── toggles/                  # Dark mode, language, generic toggle
+│   │   └── other/                    # Shared UI helpers (tooltips, game images)
+│   │
+│   ├── data/                         # Generated & static datasets (do not edit by hand)
+│   ├── locales/                      # Translation dictionaries (de.ts, en.ts)
+│   ├── services/                     # Business logic & Firebase access
+│   ├── utils/                        # Helper functions (routes, wiki links, stats)
+│
+├── public/                           # Static assets (badge / rival / champion / fossil sprites …)
+│
+└── scripts/                          # Data generation pipeline
+    ├── generate-pokemon-de.mjs       # PokéAPI → Pokémon / evolution / location / type data
+    ├── generate-items.mjs            # PokéAPI + local lists → version-tagged item data
 ```
 
 ### Data Model (Firebase Realtime Database)
@@ -140,74 +149,90 @@ VITE_FIREBASE_APP_ID=...
 | ------------------------------- | ------------------------------------------------------------------------------------ |
 | `trackers/{trackerId}/meta`     | Tracker metadata: title, players, game version, members, guests, public flag         |
 | `trackers/{trackerId}/state`    | Runtime state: team, box, graveyard, rules, level/rival caps, stats, fossils, stones |
-| `userTrackers/{userId}`         | Membership index — maps a user to all trackers they belong to                        |
+| `userTrackers/{userId}`         | Membership index - maps a user to all trackers they belong to                        |
 | `users/{userId}`                | User profile                                                                         |
 | `userEmails/{encodedEmail}`     | Email → UID reverse lookup (for the invite system)                                   |
 | `rulesets/{userId}/{rulesetId}` | User-owned custom rulesets                                                           |
 
-### How Sprites Are Stored & Resolved
+### Sprites
 
-- **Static assets** (badges, rivals, Elite Four, champions, fossils, stones) are checked into `public/` and served directly by the web server.
-- **Pokémon sprites** are loaded at runtime from the [PokeAPI sprite repository](https://github.com/PokeAPI/sprites) on GitHub (`raw.githubusercontent.com`).
-- A **service worker** (`public/pokeapi-js-wrapper-sw.js`) intercepts these requests and caches them in the browser's Cache Storage for offline access and faster repeat loads.
-- Sprite helpers in `src/services/sprites.ts` resolve the correct URL based on Pokémon ID, shiny state, generation sprite preference, and mega stone display style.
+- **Static assets** (badges, rivals, Elite Four, champions, fossils, stones) live in `public/` and are served directly.
+- **Pokémon sprites** are loaded at runtime from the [PokeAPI sprite repository](https://github.com/PokeAPI/sprites) on GitHub.
+- A **service worker** (`public/pokeapi-js-wrapper-sw.js`) caches sprite requests for offline access and faster repeat loads.
+- Sprite helpers in `src/services/sprites.ts` resolve the correct URL based on Pokémon ID, shiny state, generation preference, and mega stone display style.
 
 ### Pokémon Data Pipeline
 
 The app ships pre-generated TypeScript datasets so it works fully offline after initial load:
 
-| File                             | Contents                                  |
-| -------------------------------- | ----------------------------------------- |
-| `src/data/pokemon-en.ts`         | English Pokémon names (all gens up to 6)  |
-| `src/data/pokemon-de.ts`         | German Pokémon names                      |
-| `src/data/pokemon-map.ts`        | ID → name lookup map                      |
-| `src/data/pokemon-evolutions.ts` | Evolution chains with generation metadata |
-| `src/data/pokemon-types.ts`      | Type data for filtering and display       |
+| File                               | Contents                                            |
+| ---------------------------------- | --------------------------------------------------- |
+| `src/data/pokemon-en.ts`           | English Pokémon names with generation metadata      |
+| `src/data/pokemon-de.ts`           | German Pokémon names with generation metadata       |
+| `src/data/pokemon-map.ts`          | Name → ID lookup maps and ID → generation mapping   |
+| `src/data/pokemon-evolutions.ts`   | Evolution chains with localized method descriptions |
+| `src/data/pokemon-types.ts`        | Type data per Pokémon (including past-type changes) |
+| `src/data/location-suggestions.ts` | Route/location names per region (EN + DE)           |
 
-To regenerate from [PokéAPI](https://pokeapi.co/):
+**`generate-pokemon-de.mjs`** fetches all species, evolution chains, locations, types, items, and moves from [PokéAPI](https://pokeapi.co/) and writes the files above. Every name is resolved in both English and German, with manual overrides for entries the API doesn't translate correctly.
 
 ```bash
 npm run generate-pokemon
 ```
 
+### Item Data Pipeline
+
+PokéAPI does not provide version-introduction data for items - you can't tell from the API alone whether an item first appeared in Gen 1 or Gen 5. To solve this we maintain **hand-curated item lists** sourced from [PokéWiki](https://www.pokewiki.de/) in `scripts/itemlists-source/`.
+
+The generation pipeline has two steps:
+
+1. **`convert-itemlists.mjs`** - Parses the raw PokéWiki `.txt` exports into JSON files (one per game version).
+2. **`generate-items.mjs`** - Fetches every item from PokéAPI, cross-references it against the local JSON lists to determine the **earliest game version** an item appeared in, then fetches properly cased item-slugs and localized names from PokéAPI.
+
+The result is `src/data/items.ts` - a typed array where every item carries its `slug`, localized names, first `version`, pocket, and categories. This lets the tracker filter items to only those available in the game version the user selected.
+
+```bash
+node scripts/convert-itemlists.mjs   # only needed when .txt sources change
+node scripts/generate-items.mjs
+```
+
+> **Why not just PokéAPI?** The API groups items by pocket and category but has no concept of "this item was introduced in Generation X." The local item lists fill that gap so the autocomplete can show version-accurate results.
+
 ---
 
-## Coding Conventions
+## ✍️ Coding Conventions
 
 - **Functional React components** with typed props.
 - Extend `types.ts` or local interfaces instead of introducing `any`.
 - Use the `@/` alias for imports from the project root.
-- Keep data-fetching and Firebase mutation logic in `src/services/` rather than inside UI components.
+- Keep data-fetching and Firebase mutation logic in `src/services/`, not in UI components.
 - Reuse existing helpers for sanitizing player names, rules, tags, and state shape.
 - Preserve read-only behavior for public trackers and guest users.
 
 ---
 
-## Localization
+## 🌍 Localization
 
 The UI supports **English** and **German**.
 
 - Prefer translation keys over inline user-facing strings.
-- When adding or changing UI copy, update both `src/locales/de.ts` and `src/locales/en.ts`.
+- When adding or changing UI-text-elements, update both `src/locales/en.ts` and `src/locales/de.ts`, as well as more to come in the future.
 - Keep labels, button text, and validation messages aligned across both locales.
 
 ---
 
-## Code Formatting
+## 🎨 Code Formatting
 
-Prettier is configured for the project. Husky runs Prettier automatically as a pre-commit hook.
+Prettier is configured for the project. Husky runs it automatically as a pre-commit hook.
 
 ```bash
-# Format everything
-npm run prettier
-
-# Check formatting (CI-friendly)
-npm run prettier:check
+npm run prettier          # format everything
+npm run prettier:check    # check only (CI-friendly)
 ```
 
 ---
 
-## Firebase Database Rules
+## 🔒 Firebase Database Rules
 
 Rules are defined in `database.rules.json` and auto-loaded by the emulators.
 
@@ -221,16 +246,15 @@ npx firebase deploy --only database
 
 ---
 
-## Submitting Changes
+## 🚢 Submitting Changes
 
-1. Fork the repository.
-2. Create a feature branch (`git checkout -b feature/amazing-feature`).
-3. Make your changes.
-4. Ensure `npm run build` passes.
-5. Ensure `npm run prettier:check` passes.
-6. Commit your changes and push the branch.
-7. Open a Pull Request.
+1. **Fork** the repository.
+2. **Branch** - `git checkout -b feature/amazing-feature`
+3. **Code** - make your changes.
+4. **Validate** - ensure `npm run build` and `npm run prettier:check` both pass.
+5. **Commit & push** your branch.
+6. **Open a Pull Request** - describe what you changed and why.
 
 ---
 
-Thank you for contributing!
+<p align="center"><b>Thank you for contributing! 🎉</b></p>
