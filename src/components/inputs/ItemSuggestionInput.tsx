@@ -7,6 +7,7 @@ import {
 } from "@/src/services/itemSearch";
 import { normalizeLanguage } from "@/src/utils/language";
 import SuggestionInput from "@/src/components/inputs/SuggestionInput.tsx";
+import ItemSprite from "@/src/components/other/ItemSprite.tsx";
 
 interface ItemSuggestionInputProps {
   label?: React.ReactNode;
@@ -18,7 +19,6 @@ interface ItemSuggestionInputProps {
   gameVersionId?: string;
   allPokemonAndItems?: boolean;
   placeholder?: string;
-  showNoMatches?: boolean;
 }
 
 const ItemSuggestionInput: React.FC<ItemSuggestionInputProps> = ({
@@ -31,7 +31,6 @@ const ItemSuggestionInput: React.FC<ItemSuggestionInputProps> = ({
   gameVersionId,
   allPokemonAndItems = false,
   placeholder,
-  showNoMatches = true,
 }) => {
   const { t, i18n } = useTranslation();
   const language = useMemo(
@@ -67,31 +66,26 @@ const ItemSuggestionInput: React.FC<ItemSuggestionInputProps> = ({
       minSearchLength={1}
       debounceMs={150}
       inputClassName="pr-14"
-      showNoMatches={showNoMatches}
       getSuggestionValue={(suggestion) => suggestion.name}
       getSuggestionKey={(suggestion) => suggestion.slug}
       onSelectSuggestion={(suggestion) => onSelectedSlugChange(suggestion.slug)}
       renderSuggestion={(suggestion) => (
         <div className="flex items-center gap-2">
-          <img
+          <ItemSprite
             src={suggestion.spriteUrl}
             alt=""
             className="h-5 w-5 shrink-0 object-contain"
-            style={{ imageRendering: "pixelated" }}
-            loading="lazy"
           />
           <span>{suggestion.name}</span>
         </div>
       )}
       endAdornment={
         spriteUrl ? (
-          <img
+          <ItemSprite
             src={spriteUrl}
             alt=""
-            aria-hidden="true"
+            ariaHidden
             className="pointer-events-none absolute inset-y-0 right-2 my-auto h-10 w-10 select-none"
-            style={{ imageRendering: "pixelated" }}
-            loading="lazy"
           />
         ) : null
       }

@@ -75,19 +75,28 @@ const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({
     const trimmedNames = pokemonNames.map((name) => name.trim());
     if (
       !trimmedRoute ||
-      trimmedNames.some((name) => getPokemonIdFromName(name) === null)
+      trimmedNames.some(
+        (name) => getPokemonIdFromName(name) === null && name.length === 0,
+      )
     )
       return;
-    const members: Pokemon[] = trimmedNames.map((name) => ({
-      id: getPokemonIdFromName(name),
-      nickname: "",
-    }));
+    const members: Pokemon[] = trimmedNames.map((name) => {
+      const pokemonId = getPokemonIdFromName(name);
+      return {
+        id: pokemonId,
+        ...(pokemonId === null ? { name } : {}),
+        nickname: "",
+      };
+    });
     onAdd(trimmedRoute, members);
   };
 
   const isValid =
     route.trim().length > 0 &&
-    pokemonNames.every((name) => getPokemonIdFromName(name) !== null);
+    pokemonNames.every((name) => {
+      const trimmed = name.trim();
+      return getPokemonIdFromName(trimmed) !== null || trimmed.length > 0;
+    });
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
@@ -149,7 +158,6 @@ const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({
                 isOpen={isOpen}
                 generationLimit={generationLimit}
                 generationSpritePath={generationSpritePath}
-                showNoMatches={false}
               />
             ))}
           </div>

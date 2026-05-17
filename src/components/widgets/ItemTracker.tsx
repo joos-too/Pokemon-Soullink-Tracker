@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FossilEntry, StoneEntry } from "@/types";
+import { FossilEntry, itemEntry } from "@/types";
 import { PLAYER_COLORS } from "@/src/services/init";
 import { MEGA_STONES, FOSSILS, STONES } from "@/src/data/special-items.ts";
 import { getItemName, getItemSpriteUrl } from "@/src/services/itemSearch";
@@ -17,6 +17,7 @@ import {
 } from "react-icons/fi";
 import AddFossilModal from "@/src/components/modals/AddFossilModal.tsx";
 import AddItemModal from "@/src/components/modals/AddItemModal.tsx";
+import ItemSprite from "@/src/components/other/ItemSprite.tsx";
 import {
   focusRingCardClasses,
   focusRingClasses,
@@ -27,7 +28,7 @@ import {
 interface ItemTrackerProps {
   playerNames: string[];
   fossils: FossilEntry[][];
-  stones: StoneEntry[][];
+  items: itemEntry[][];
   maxGeneration: number;
   infiniteFossilsEnabled: boolean;
   onAddFossil: (
@@ -39,15 +40,16 @@ interface ItemTrackerProps {
   onToggleBag: (playerIndex: number, fossilIndex: number) => void;
   onRevive: (selectedIndices: number[]) => void;
   onUpdateFossils: (newFossils: FossilEntry[][]) => void;
-  onAddStone: (
+  onAddItems: (
     playerIndex: number,
-    stoneId: string,
+    id: string | null,
     location: string,
     inBag: boolean,
+    name?: string,
   ) => void;
-  onToggleStoneBag: (playerIndex: number, stoneIndex: number) => void;
-  onUseStone: (playerIndex: number, stoneIndex: number) => void;
-  onUpdateStones: (newStones: StoneEntry[][]) => void;
+  onToggleItemBag: (playerIndex: number, itemIndex: number) => void;
+  onUseItem: (playerIndex: number, itemIndex: number) => void;
+  onUpdateItems: (newItems: itemEntry[][]) => void;
   readOnly?: boolean;
   gameVersionId?: string;
   allPokemonAndItems?: boolean;
@@ -59,17 +61,17 @@ interface ItemTrackerProps {
 const ItemTracker: React.FC<ItemTrackerProps> = ({
   playerNames,
   fossils,
-  stones,
+  items,
   maxGeneration,
   infiniteFossilsEnabled,
   onAddFossil,
   onToggleBag,
   onRevive,
   onUpdateFossils,
-  onAddStone,
-  onToggleStoneBag,
-  onUseStone,
-  onUpdateStones,
+  onAddItems,
+  onToggleItemBag,
+  onUseItem,
+  onUpdateItems,
   readOnly = false,
   gameVersionId,
   allPokemonAndItems = false,
@@ -81,10 +83,10 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
   const [showFossils, setShowFossils] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
-  // --- Stone state ---
-  const [isStoneEditing, setIsStoneEditing] = useState(false);
-  const [draftStones, setDraftStones] = useState<StoneEntry[][]>([]);
-  const [stoneModalOpen, setStoneModalOpen] = useState<{
+  // --- Item state ---
+  const [isItemEditing, setIsItemEditing] = useState(false);
+  const [draftItems, setDraftItems] = useState<itemEntry[][]>([]);
+  const [itemModalOpen, setItemModalOpen] = useState<{
     open: boolean;
     playerIndex: number;
   }>({ open: false, playerIndex: 0 });
@@ -115,25 +117,25 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
 
   // --- Stone helpers ---
   const startStoneEditing = () => {
-    setDraftStones(JSON.parse(JSON.stringify(stones)));
-    setIsStoneEditing(true);
+    setDraftItems(JSON.parse(JSON.stringify(items)));
+    setIsItemEditing(true);
   };
   const cancelStoneEditing = () => {
-    setIsStoneEditing(false);
-    setDraftStones([]);
+    setIsItemEditing(false);
+    setDraftItems([]);
   };
   const saveStoneEditing = () => {
-    onUpdateStones(draftStones);
-    setIsStoneEditing(false);
+    onUpdateItems(draftItems);
+    setIsItemEditing(false);
   };
   const deleteStone = (pIdx: number, sIdx: number) => {
-    setDraftStones((prev) => {
+    setDraftItems((prev) => {
       const next = [...prev];
       next[pIdx] = next[pIdx].filter((_, i) => i !== sIdx);
       return next;
     });
   };
-  const displayStones = isStoneEditing ? draftStones : stones;
+  const displayStones = isItemEditing ? draftItems : items;
 
   // --- Fossil helpers ---
   const startFossilEditing = () => {
@@ -173,7 +175,7 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
     if (readOnly) return null;
     return (
       <>
-        {!isStoneEditing ? (
+        {!isItemEditing ? (
           <button
             onClick={startStoneEditing}
             className={`absolute right-10 top-1/2 -translate-y-1/2 p-1 rounded-full text-white/70 hover:text-white hover:bg-black/20 ring-2 ring-white/25 ${focusRingTightClasses}`}
@@ -260,16 +262,16 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
                   {!readOnly && (
                     <button
                       onClick={() =>
-                        setStoneModalOpen({ open: true, playerIndex: pIdx })
+                        setItemModalOpen({ open: true, playerIndex: pIdx })
                       }
-                      disabled={isStoneEditing}
+                      disabled={isItemEditing}
                       className={`p-1 rounded-md text-white transition-all shrink-0 shadow-sm ${
-                        isStoneEditing
+                        isItemEditing
                           ? "bg-gray-400 cursor-not-allowed opacity-50"
                           : "hover:scale-110 hover:shadow-md"
                       } ${focusRingClasses}`}
                       style={
-                        !isStoneEditing
+                        !isItemEditing
                           ? { backgroundColor: PLAYER_COLORS[pIdx] }
                           : undefined
                       }
@@ -282,56 +284,48 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
 
               <div className="space-y-1 px-1">
                 {displayStones[pIdx]?.map((entry, sIdx) => {
-                  const isCustomItem = entry.stoneId.startsWith("item:");
+                  const itemId = entry.id ?? "";
+                  const customName = entry.name?.trim() ?? "";
+                  const isCustomItem = itemId.startsWith("item:");
                   const itemSlug = isCustomItem
-                    ? entry.stoneId.replace("item:", "")
+                    ? itemId.replace("item:", "")
                     : null;
                   const megaDef = itemSlug
                     ? MEGA_STONES.find((m) => m.id === itemSlug)
                     : null;
                   const def = isCustomItem
                     ? null
-                    : STONES.find((s) => s.id === entry.stoneId);
+                    : STONES.find((s) => s.id === itemId);
                   const locale = normalizeLanguage(i18n.language);
-                  const displayName = isCustomItem
-                    ? getItemName(entry.stoneId.replace("item:", ""), locale)
-                    : t(`stones.${entry.stoneId}`);
+                  const displayName = customName
+                    ? customName
+                    : isCustomItem
+                      ? getItemName(itemId.replace("item:", ""), locale)
+                      : t(`stones.${itemId}`);
 
                   return (
                     <div
-                      key={`${pIdx}-${entry.stoneId}-${sIdx}`}
+                      key={`${pIdx}-${itemId || customName}-${sIdx}`}
                       className={`flex items-center gap-2 p-1.5 rounded border text-[10px] transition-all ${
                         entry.used
                           ? "border-red-300 bg-red-50 dark:border-red-900/50 dark:bg-red-900/20 text-red-700 dark:text-red-400"
-                          : !entry.inBag && !isStoneEditing
+                          : !entry.inBag && !isItemEditing
                             ? "border-gray-200 dark:border-gray-700 opacity-60"
                             : "border-gray-200 dark:border-gray-700 dark:text-gray-300"
                       }`}
                     >
-                      {def ? (
-                        <img
-                          src={`/stone-sprites/${def.sprite}`}
-                          alt=""
-                          className={`w-6 h-6 object-contain ${entry.used ? "grayscale-[0.5]" : ""}`}
-                          style={{ imageRendering: "pixelated" }}
-                        />
-                      ) : megaDef ? (
-                        <img
-                          src={getItemSpriteUrl(megaDef.id)}
-                          alt=""
-                          className={`w-6 h-6 object-contain ${entry.used ? "grayscale-[0.5]" : ""}`}
-                          style={{ imageRendering: "pixelated" }}
-                          loading="lazy"
+                      {def || megaDef || itemSlug ? (
+                        <ItemSprite
+                          src={
+                            def
+                              ? `/stone-sprites/${def.sprite}`
+                              : getItemSpriteUrl(megaDef?.id ?? itemSlug ?? "")
+                          }
+                          className="w-6 h-6 object-contain shrink-0"
+                          used={entry.used}
                         />
                       ) : (
-                        <img
-                          src={getItemSpriteUrl(
-                            entry.stoneId.replace("item:", ""),
-                          )}
-                          alt=""
-                          className={`w-6 h-6 object-contain ${entry.used ? "grayscale-[0.5]" : ""}`}
-                          style={{ imageRendering: "pixelated" }}
-                        />
+                        <ItemSprite />
                       )}
                       <div className="flex-1 min-w-0">
                         <div className="font-bold truncate">{displayName}</div>
@@ -346,7 +340,7 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
                         </div>
                       </div>
 
-                      {isStoneEditing && (
+                      {isItemEditing && (
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
@@ -359,14 +353,14 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
                       )}
 
                       {/* Move to bag button */}
-                      {!isStoneEditing &&
+                      {!isItemEditing &&
                         !entry.inBag &&
                         !entry.used &&
                         !readOnly && (
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
-                              onToggleStoneBag(pIdx, sIdx);
+                              onToggleItemBag(pIdx, sIdx);
                             }}
                             className="p-1 rounded bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 hover:bg-blue-200 shrink-0"
                             title={t("tracker.infoPanel.stoneBag")}
@@ -376,14 +370,14 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
                         )}
 
                       {/* Use stone button — per-player, directly on the card */}
-                      {!isStoneEditing &&
+                      {!isItemEditing &&
                         entry.inBag &&
                         !entry.used &&
                         !readOnly && (
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
-                              onUseStone(pIdx, sIdx);
+                              onUseItem(pIdx, sIdx);
                             }}
                             className={`p-1 rounded bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300 hover:bg-red-200 shrink-0 ${focusRingRedClasses}`}
                             title={t("tracker.infoPanel.stoneUse")}
@@ -655,17 +649,17 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
 
       {/* Modals rendered outside the tracker to avoid clipping/containment issues */}
       <AddItemModal
-        isOpen={stoneModalOpen.open}
-        onClose={() => setStoneModalOpen({ open: false, playerIndex: 0 })}
+        isOpen={itemModalOpen.open}
+        onClose={() => setItemModalOpen({ open: false, playerIndex: 0 })}
         maxGeneration={maxGeneration}
         gameVersionId={gameVersionId}
         allPokemonAndItems={allPokemonAndItems}
         generationSpritePath={generationSpritePath}
         megaStoneSpriteStyle={megaStoneSpriteStyle}
         onMegaStoneSpriteStyleToggle={onMegaStoneSpriteStyleToggle}
-        onAdd={(id, loc, bag) => {
-          onAddStone(stoneModalOpen.playerIndex, id, loc, bag);
-          setStoneModalOpen({ open: false, playerIndex: 0 });
+        onAdd={(id, loc, bag, name) => {
+          onAddItems(itemModalOpen.playerIndex, id, loc, bag, name);
+          setItemModalOpen({ open: false, playerIndex: 0 });
         }}
       />
       <AddFossilModal

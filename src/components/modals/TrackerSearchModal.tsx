@@ -1,5 +1,5 @@
 import React, { useEffect, useId, useMemo, useState } from "react";
-import type { FossilEntry, PokemonLink, StoneEntry } from "@/types";
+import type { FossilEntry, PokemonLink, itemEntry } from "@/types";
 import { useTranslation } from "react-i18next";
 import { useFocusTrap } from "@/src/hooks/useFocusTrap.ts";
 import {
@@ -30,7 +30,7 @@ interface TrackerSearchModalProps {
   graveyard: PokemonLink[];
   routes: string[];
   fossils: FossilEntry[][];
-  stones: StoneEntry[][];
+  items: itemEntry[][];
   generationSpritePath?: string | null;
 }
 
@@ -66,7 +66,7 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
   graveyard,
   routes,
   fossils,
-  stones,
+  items,
   generationSpritePath,
 }) => {
   const { t, i18n } = useTranslation();
@@ -181,16 +181,16 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
     });
 
     // Stones & items
-    (stones ?? []).forEach((playerStones, pIdx) => {
-      (playerStones ?? []).forEach((entry) => {
-        const isCustomItem = entry.stoneId.startsWith("item:");
-        const itemSlug = isCustomItem
-          ? entry.stoneId.replace("item:", "")
-          : null;
+    (items ?? []).forEach((playerItems, pIdx) => {
+      (playerItems ?? []).forEach((entry) => {
+        const itemId = entry.id ?? "";
+        const customName = entry.name?.trim() ?? "";
+        const isCustomItem = itemId.startsWith("item:");
+        const itemSlug = isCustomItem ? itemId.replace("item:", "") : null;
         const isMega = itemSlug ? MEGA_STONE_IDS.has(itemSlug) : false;
         const stoneDef = isCustomItem
           ? null
-          : STONES.find((s) => s.id === entry.stoneId);
+          : STONES.find((s) => s.id === itemId);
 
         let category: ItemCategory;
         let name: string;
@@ -198,7 +198,7 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
 
         if (!isCustomItem && stoneDef) {
           category = "stones";
-          name = t(`stones.${entry.stoneId}`);
+          name = t(`stones.${itemId}`);
           spriteUrl = `/stone-sprites/${stoneDef.sprite}`;
         } else if (isMega && itemSlug) {
           category = "megaStones";
@@ -210,7 +210,7 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
           spriteUrl = getItemSpriteUrl(itemSlug);
         } else {
           category = "items";
-          name = entry.stoneId;
+          name = customName || itemId;
           spriteUrl = "";
         }
 
@@ -224,7 +224,7 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
 
         rows.push({
           category,
-          id: entry.stoneId,
+          id: itemId || customName,
           name,
           spriteUrl,
           playerIndex: pIdx,
@@ -236,7 +236,7 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
     });
 
     return rows;
-  }, [fossils, stones, t, locale]);
+  }, [fossils, items, t, locale]);
 
   const itemSections = useMemo(() => {
     const categories: { key: ItemCategory; titleKey: string }[] = [

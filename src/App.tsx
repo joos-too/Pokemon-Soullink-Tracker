@@ -18,7 +18,7 @@ import { FaGithub } from "react-icons/fa";
 import type {
   AppState,
   FossilEntry,
-  StoneEntry,
+  itemEntry,
   LevelCap,
   Pokemon,
   PokemonLink,
@@ -469,6 +469,9 @@ const App: React.FC = () => {
       const sanitizePokemon = (pokemon: any): Pokemon => ({
         id: resolvePokemonId(pokemon),
         nickname: typeof pokemon?.nickname === "string" ? pokemon.nickname : "",
+        ...(typeof pokemon?.name === "string" && pokemon.name.trim().length > 0
+          ? { name: pokemon.name.trim() }
+          : {}),
       });
 
       const sanitizeMembers = (link: any): Pokemon[] => {
@@ -521,20 +524,35 @@ const App: React.FC = () => {
               Number.isFinite(Number(f.pokemonId)) && Number(f.pokemonId) > 0
                 ? Number(f.pokemonId)
                 : null,
+            ...(typeof f.pokemonName === "string" &&
+            f.pokemonName.trim().length > 0
+              ? { pokemonName: f.pokemonName.trim() }
+              : {}),
           }));
         });
       };
 
-      const sanitizeStones = (playerStones: any): StoneEntry[][] => {
+      const sanitizeItems = (playerItems: any): itemEntry[][] => {
         return normalizedNames.map((_, i) => {
-          const list = Array.isArray(playerStones) ? playerStones[i] : null;
+          const list = Array.isArray(playerItems) ? playerItems[i] : null;
           if (!Array.isArray(list)) return [];
-          return list.map((s: any) => ({
-            stoneId: s.stoneId || "",
-            location: s.location || "",
-            inBag: !!s.inBag,
-            used: !!s.used,
-          }));
+          return list.map((s: any) => {
+            const itemId =
+              typeof s.id === "string" && s.id.trim().length > 0
+                ? s.id.trim()
+                : typeof s.stoneId === "string" && s.stoneId.trim().length > 0
+                  ? s.stoneId.trim()
+                  : "";
+            return {
+              ...(itemId ? { id: itemId } : {}),
+              ...(typeof s.name === "string" && s.name.trim().length > 0
+                ? { name: s.name.trim() }
+                : {}),
+              location: s.location || "",
+              inBag: !!s.inBag,
+              used: !!s.used,
+            };
+          });
         });
       };
 
@@ -578,7 +596,7 @@ const App: React.FC = () => {
         megaStoneSpriteStyle:
           safe.megaStoneSpriteStyle ?? base.megaStoneSpriteStyle ?? "item",
         fossils: sanitizeFossils(safe.fossils),
-        stones: sanitizeStones(safe.stones),
+        items: sanitizeItems(safe.items ?? safe.stones),
         runStartedAt:
           typeof safe.runStartedAt === "number"
             ? safe.runStartedAt
@@ -1461,6 +1479,7 @@ const App: React.FC = () => {
       route: route.trim(),
       members: members.map((member) => ({
         id: member.id,
+        ...(member.name?.trim() ? { name: member.name.trim() } : {}),
         nickname: "",
       })),
       isLost: true,
@@ -1481,6 +1500,7 @@ const App: React.FC = () => {
         const isLost = pair.isLost ?? false;
         const members = payload.members.map((member) => ({
           id: member.id,
+          ...(member.name?.trim() ? { name: member.name.trim() } : {}),
           nickname: isLost ? "" : member.nickname.trim(),
         }));
         return {
@@ -1509,6 +1529,7 @@ const App: React.FC = () => {
             route: payload.route.trim(),
             members: payload.members.map((member) => ({
               id: member.id,
+              ...(member.name?.trim() ? { name: member.name.trim() } : {}),
               nickname: member.nickname.trim(),
             })),
           },
@@ -1528,6 +1549,7 @@ const App: React.FC = () => {
           route: payload.route.trim(),
           members: payload.members.map((member) => ({
             id: member.id,
+            ...(member.name?.trim() ? { name: member.name.trim() } : {}),
             nickname: member.nickname.trim(),
           })),
         },
@@ -1657,7 +1679,10 @@ const App: React.FC = () => {
     setAddRevivedPokemonOpen(true);
   };
 
-  const confirmRevival = (revivedIds: (number | null)[]) => {
+  const confirmRevival = (
+    revivedIds: (number | null)[],
+    revivedNames: string[] = [],
+  ) => {
     if (!pendingReviveIndices) return;
 
     setData((prev) => {
@@ -1666,7 +1691,14 @@ const App: React.FC = () => {
         if (newFossils[pIdx] && newFossils[pIdx][fIdx]) {
           newFossils[pIdx] = newFossils[pIdx].map((f, i) =>
             i === fIdx
-              ? { ...f, revived: true, pokemonId: revivedIds[pIdx] ?? null }
+              ? {
+                  ...f,
+                  revived: true,
+                  pokemonId: revivedIds[pIdx] ?? null,
+                  ...(revivedNames[pIdx]?.trim()
+                    ? { pokemonName: revivedNames[pIdx].trim() }
+                    : {}),
+                }
               : f,
           );
         }
@@ -1688,57 +1720,64 @@ const App: React.FC = () => {
     [isReadOnly],
   );
 
-  const handleAddStone = (
+  const handleAddItem = (
     pIdx: number,
-    stoneId: string,
+    itemId: string | null,
     location: string,
     inBag: boolean,
+    name?: string,
   ) => {
     if (isReadOnly) return;
     setData((prev) => {
-      const newStones = [...(prev.stones || prev.playerNames.map(() => []))];
-      const playerList = Array.isArray(newStones[pIdx])
-        ? [...newStones[pIdx]]
+      const newItems = [...(prev.items || prev.playerNames.map(() => []))];
+      const playerList = Array.isArray(newItems[pIdx])
+        ? [...newItems[pIdx]]
         : [];
-      newStones[pIdx] = [
+      newItems[pIdx] = [
         ...playerList,
-        { stoneId, location, inBag, used: false },
+        {
+          ...(itemId ? { id: itemId } : {}),
+          ...(name?.trim() ? { name: name.trim() } : {}),
+          location,
+          inBag,
+          used: false,
+        },
       ];
-      return { ...prev, stones: newStones };
+      return { ...prev, items: newItems };
     });
   };
 
-  const handleToggleStoneBag = (pIdx: number, sIdx: number) => {
+  const handleToggleItemBag = (pIdx: number, sIdx: number) => {
     if (isReadOnly) return;
     setData((prev) => {
-      const newStones = [...(prev.stones || [])];
-      if (!newStones[pIdx]) return prev;
-      newStones[pIdx] = newStones[pIdx].map((s, i) =>
+      const newItems = [...(prev.items || [])];
+      if (!newItems[pIdx]) return prev;
+      newItems[pIdx] = newItems[pIdx].map((s, i) =>
         i === sIdx ? { ...s, inBag: true, location: "" } : s,
       );
-      return { ...prev, stones: newStones };
+      return { ...prev, items: newItems };
     });
   };
 
   const handleUseStone = (pIdx: number, sIdx: number) => {
-    if (isReadOnly || !data.stones) return;
+    if (isReadOnly || !data.items) return;
     setData((prev) => {
-      const newStones = [...(prev.stones || [])];
-      if (newStones[pIdx] && newStones[pIdx][sIdx]) {
-        newStones[pIdx] = newStones[pIdx].map((s, i) =>
+      const newItems = [...(prev.items || [])];
+      if (newItems[pIdx] && newItems[pIdx][sIdx]) {
+        newItems[pIdx] = newItems[pIdx].map((s, i) =>
           i === sIdx ? { ...s, used: true } : s,
         );
       }
-      return { ...prev, stones: newStones };
+      return { ...prev, items: newItems };
     });
   };
 
   const handleUpdateStoneList = useCallback(
-    (newStones: StoneEntry[][]) => {
+    (newItems: itemEntry[][]) => {
       if (isReadOnly) return;
       setData((prev) => ({
         ...prev,
-        stones: newStones,
+        items: newItems,
       }));
     },
     [isReadOnly],
@@ -2356,7 +2395,7 @@ const App: React.FC = () => {
         graveyard={data.graveyard}
         routes={clearedRoutes}
         fossils={data.fossils ?? []}
-        stones={data.stones ?? []}
+        items={data.items ?? []}
         generationSpritePath={generationSpritePath}
       />
       {readOnlyNotice && (
@@ -2611,17 +2650,17 @@ const App: React.FC = () => {
             <ItemTracker
               playerNames={resolvedPlayerNames}
               fossils={data.fossils || resolvedPlayerNames.map(() => [])}
-              stones={data.stones || resolvedPlayerNames.map(() => [])}
+              items={data.items || resolvedPlayerNames.map(() => [])}
               maxGeneration={itemGenerationLimit}
               infiniteFossilsEnabled={data.infiniteFossilsEnabled ?? false}
               onAddFossil={handleAddFossil}
               onToggleBag={handleToggleFossilBag}
               onRevive={handleReviveFossils}
               onUpdateFossils={handleUpdateFossilList}
-              onAddStone={handleAddStone}
-              onToggleStoneBag={handleToggleStoneBag}
-              onUseStone={handleUseStone}
-              onUpdateStones={handleUpdateStoneList}
+              onAddItems={handleAddItem}
+              onToggleItemBag={handleToggleItemBag}
+              onUseItem={handleUseStone}
+              onUpdateItems={handleUpdateStoneList}
               readOnly={isReadOnly}
               gameVersionId={activeGameVersionId || undefined}
               allPokemonAndItems={activeTrackerAllPokemonAndItems}
@@ -2670,7 +2709,8 @@ const App: React.FC = () => {
         onSave={(payload) => {
           handleAddBoxPair(payload);
           const pokemonIds = payload.members.map((m) => m.id);
-          confirmRevival(pokemonIds);
+          const pokemonNames = payload.members.map((m) => m.name ?? "");
+          confirmRevival(pokemonIds, pokemonNames);
           setAddRevivedPokemonOpen(false);
         }}
         playerLabels={resolvedPlayerNames}

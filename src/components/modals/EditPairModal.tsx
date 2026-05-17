@@ -127,15 +127,18 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
     const trimmedRoute = route.trim();
     const trimmedMembers = playerLabels.map((_, index) => {
       const name = members[index]?.name.trim() ?? "";
+      const pokemonId = getPokemonIdFromName(name);
       return {
-        id: getPokemonIdFromName(name),
+        id: pokemonId,
+        ...(pokemonId === null && name ? { name } : {}),
         nickname: members[index]?.nickname.trim() ?? "",
       };
     });
     if (
       !trimmedRoute ||
       trimmedMembers.some(
-        (member) => member.id === null || member.nickname.length === 0,
+        (member) =>
+          (member.id === null && !member.name) || member.nickname.length === 0,
       )
     ) {
       return;
@@ -156,8 +159,9 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
     route.trim().length > 0 &&
     playerLabels.every((_, index) => {
       const member = members[index];
+      const name = member?.name.trim() ?? "";
       return (
-        getPokemonIdFromName(member?.name) !== null &&
+        (getPokemonIdFromName(name) !== null || name.length > 0) &&
         Boolean(member?.nickname.trim())
       );
     });

@@ -110,6 +110,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
     if (readOnly || editIndex === null) return;
     payload.members.forEach((member, playerIndex) => {
       onPokemonChange(editIndex, playerIndex, "id", member.id);
+      onPokemonChange(editIndex, playerIndex, "name", member.name ?? "");
       onPokemonChange(editIndex, playerIndex, "nickname", member.nickname);
     });
     onRouteChange(editIndex, payload.route);
@@ -357,9 +358,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                         </button>
                       )}
                       {pair.members.some(
-                        (member) =>
-                          typeof member?.id === "number" ||
-                          Boolean(member?.name),
+                        (member) => typeof member?.id === "number",
                       ) && (
                         <button
                           type="button"
@@ -432,6 +431,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
         onConfirm={(playerIndex, _newName, newId) => {
           if (evolveIndex === null) return;
           onPokemonChange(evolveIndex, playerIndex, "id", newId);
+          onPokemonChange(evolveIndex, playerIndex, "name", "");
           setEvolveIndex(null);
         }}
         pair={evolveIndex !== null ? data[evolveIndex] : null}

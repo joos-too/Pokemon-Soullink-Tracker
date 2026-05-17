@@ -182,7 +182,7 @@ export const de = {
       spritePokemon: "Pokémon",
       spriteItem: "Steine",
       showPokemon: "Pokémon zeigen?",
-      itemLabel: "Item suchen",
+      itemLabel: "Item-Name",
       itemSearchPlaceholder: "Nach Name suchen…",
       locationLabel: "Fundort",
       locationTooltip:

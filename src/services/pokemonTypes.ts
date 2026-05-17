@@ -1,5 +1,4 @@
 import { POKEMON_DATA, POKEMON_TYPE_NAMES } from "@/src/data/pokemon";
-import { findPokemonIdByName } from "@/src/services/pokemonSearch";
 import type { SupportedLanguage } from "@/src/utils/language";
 
 const TYPE_NAMES: Record<SupportedLanguage, Record<string, string>> = {
@@ -28,18 +27,6 @@ export function getPokemonTypeSlugsById(
   generation?: number | null,
 ): string[] {
   return getResolvedTypeSlugsForGeneration(id, generation);
-}
-
-/**
- * Returns the raw type slugs for a Pokemon by its localized display name.
- */
-export function getPokemonTypeSlugsForName(
-  name: string | undefined | null,
-  generation?: number | null,
-): string[] {
-  const match = findPokemonIdByName(name);
-  if (!match) return [];
-  return getPokemonTypeSlugsById(match.id, generation);
 }
 
 /**

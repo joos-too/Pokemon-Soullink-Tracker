@@ -56,8 +56,9 @@ export interface FossilEntry {
   pokemonName?: string;
 }
 
-export interface StoneEntry {
-  stoneId: string;
+export interface itemEntry {
+  id?: string;
+  name?: string;
   location: string;
   inBag: boolean;
   used: boolean;
@@ -88,7 +89,7 @@ export interface AppState {
   infiniteFossilsEnabled?: boolean;
   megaStoneSpriteStyle?: "item" | "pokemon";
   fossils?: FossilEntry[][];
-  stones?: StoneEntry[][];
+  items?: itemEntry[][];
   runStartedAt?: number;
 }
 

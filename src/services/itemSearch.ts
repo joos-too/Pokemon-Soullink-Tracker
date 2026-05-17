@@ -17,7 +17,7 @@ function stripDiacritics(s: string): string {
   return s.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
-interface ItemEntry {
+interface ItemDataEntry {
   slug: string;
   de: string;
   en: string;
@@ -26,7 +26,7 @@ interface ItemEntry {
   normEn: string;
 }
 
-const ITEM_ENTRIES: ItemEntry[] = ITEMS.map((item) => ({
+const ITEM_ENTRIES: ItemDataEntry[] = ITEMS.map((item) => ({
   ...item,
   normDe: stripDiacritics(item.de.toLowerCase()),
   normEn: stripDiacritics(item.en.toLowerCase()),

@@ -179,7 +179,7 @@ export const en = {
       spritePokemon: "Pokémon",
       spriteItem: "Stones",
       showPokemon: "Show Pokémon?",
-      itemLabel: "Search Item",
+      itemLabel: "Item name",
       itemSearchPlaceholder: "Search by name…",
       locationLabel: "Location",
       locationTooltip:
