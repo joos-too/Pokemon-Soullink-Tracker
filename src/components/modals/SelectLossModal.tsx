@@ -3,10 +3,9 @@ import type { PokemonLink } from "@/types.ts";
 import { Trans, useTranslation } from "react-i18next";
 import { useFocusTrap } from "@/src/hooks/useFocusTrap.ts";
 import { focusRingClasses } from "@/src/styles/focusRing.ts";
-import { getSpriteUrlById } from "@/src/services/sprites.ts";
 import { FiInfo } from "react-icons/fi";
 import Tooltip from "@/src/components/other/Tooltip.tsx";
-import { getPokemonNameById } from "@/src/services/pokemonSearch.ts";
+import { resolvePokemonDisplay } from "@/src/services/pokemonDisplay.ts";
 import { normalizeLanguage } from "@/src/utils/language.ts";
 
 interface SelectLossModalProps {
@@ -108,12 +107,11 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({
                       id: null,
                       nickname: "",
                     };
-                    const pokemonId = member.id;
-                    const displayName =
-                      getPokemonNameById(pokemonId, language) ||
-                      member.name ||
-                      "";
-                    const spriteUrl = getSpriteUrlById(pokemonId);
+                    const { displayName, spriteUrl } = resolvePokemonDisplay(
+                      member,
+                      language,
+                      generationSpritePath,
+                    );
 
                     return (
                       <div
@@ -141,14 +139,11 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({
                       id: null,
                       nickname: "",
                     };
-                    const pokemonId = member.id;
-                    const displayName =
-                      getPokemonNameById(pokemonId, language) ||
-                      member.name ||
-                      "";
-                    const spriteUrl = pokemonId
-                      ? getSpriteUrlById(pokemonId, generationSpritePath)
-                      : null;
+                    const { displayName, spriteUrl } = resolvePokemonDisplay(
+                      member,
+                      language,
+                      generationSpritePath,
+                    );
                     const isSelected = selected === index;
                     return (
                       <label

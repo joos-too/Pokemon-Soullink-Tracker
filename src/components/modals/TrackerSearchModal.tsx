@@ -6,11 +6,11 @@ import {
   focusRingClasses,
   focusRingInputClasses,
 } from "@/src/styles/focusRing.ts";
-import { getSpriteUrlById } from "@/src/services/sprites.ts";
 import {
   getPokemonFamilyIdsMatchingQuery,
   getPokemonNameById,
 } from "@/src/services/pokemonSearch";
+import { resolvePokemonDisplay } from "@/src/services/pokemonDisplay.ts";
 import { FOSSILS, STONES, MEGA_STONES } from "@/src/data/special-items.ts";
 import { getItemName, getItemSpriteUrl } from "@/src/services/itemSearch";
 import { normalizeLanguage } from "@/src/utils/language";
@@ -382,17 +382,12 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
                                 id: null,
                                 nickname: "",
                               };
-                              const pokemonId = member.id;
-                              const displayName =
-                                getPokemonNameById(pokemonId, locale) ||
-                                member.name ||
-                                "";
-                              const spriteUrl = pokemonId
-                                ? getSpriteUrlById(
-                                    pokemonId,
-                                    generationSpritePath,
-                                  )
-                                : null;
+                              const { displayName, spriteUrl } =
+                                resolvePokemonDisplay(
+                                  member,
+                                  locale,
+                                  generationSpritePath,
+                                );
 
                               return (
                                 <div

@@ -11,16 +11,13 @@ import {
 } from "react-icons/fi";
 import { LuCircleFadingArrowUp } from "react-icons/lu";
 import { PiSkullBold } from "react-icons/pi";
-import {
-  getOfficialArtworkUrlById,
-  getSpriteUrlById,
-} from "@/src/services/sprites.ts";
+import { getOfficialArtworkUrlById } from "@/src/services/sprites.ts";
 import { getPokemonTypeSlugsById } from "@/src/services/pokemonTypes.ts";
 import TypeBadge from "@/src/components/badges/TypeBadge.tsx";
 import { useTranslation } from "react-i18next";
 import { focusRingClasses } from "@/src/styles/focusRing.ts";
 import { getWikiUrlById, type WikiId } from "@/src/utils/wiki.ts";
-import { getPokemonNameById } from "@/src/services/pokemonSearch.ts";
+import { resolvePokemonDisplay } from "@/src/services/pokemonDisplay.ts";
 import { normalizeLanguage } from "@/src/utils/language.ts";
 
 interface TeamTableProps {
@@ -233,13 +230,14 @@ const TeamTable: React.FC<TeamTableProps> = ({
                     nickname: "",
                   };
                   const pokemonId = member.id;
-                  const displayName =
-                    getPokemonNameById(pokemonId, language) ||
-                    member.name ||
-                    "";
+                  const { displayName, spriteUrl } = resolvePokemonDisplay(
+                    member,
+                    language,
+                    generationSpritePath,
+                  );
                   const imgURL = pokemonId
                     ? useSpritesInTeamTable
-                      ? getSpriteUrlById(pokemonId, generationSpritePath)
+                      ? spriteUrl
                       : getOfficialArtworkUrlById(pokemonId)
                     : null;
                   const wikiUrl =

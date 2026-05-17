@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
 import type { Pokemon, PokemonLink } from "@/types.ts";
-import { getSpriteUrlById } from "@/src/services/sprites.ts";
 import { PLAYER_COLORS } from "@/src/services/init.ts";
 import { useTranslation } from "react-i18next";
 import { focusRingClasses } from "@/src/styles/focusRing.ts";
@@ -8,7 +7,7 @@ import { FiEdit, FiTrash } from "react-icons/fi";
 import AddLostPokemonModal from "@/src/components/modals/AddLostPokemonModal.tsx";
 import EditPairModal from "@/src/components/modals/EditPairModal.tsx";
 import { getWikiUrlById, type WikiId } from "@/src/utils/wiki.ts";
-import { getPokemonNameById } from "@/src/services/pokemonSearch.ts";
+import { resolvePokemonDisplay } from "@/src/services/pokemonDisplay.ts";
 import { normalizeLanguage } from "@/src/utils/language.ts";
 
 interface GraveyardProps {
@@ -191,13 +190,11 @@ const Graveyard: React.FC<GraveyardProps> = ({
                         nickname: "",
                       };
                       const pokemonId = member.id;
-                      const displayName =
-                        getPokemonNameById(pokemonId, language) ||
-                        member.name ||
-                        "";
-                      const spriteUrl = pokemonId
-                        ? getSpriteUrlById(pokemonId, generationSpritePath)
-                        : null;
+                      const { displayName, spriteUrl } = resolvePokemonDisplay(
+                        member,
+                        language,
+                        generationSpritePath,
+                      );
                       const wikiUrl =
                         pokemonId && wikiId
                           ? getWikiUrlById(pokemonId, wikiId as WikiId)
