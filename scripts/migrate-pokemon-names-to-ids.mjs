@@ -165,9 +165,11 @@ function createReport() {
     membersVisited: 0,
     memberNamesConverted: 0,
     memberNamesRemoved: 0,
+    memberNamesPreserved: 0,
     fossilsVisited: 0,
     fossilNamesConverted: 0,
     fossilNamesRemoved: 0,
+    fossilNamesPreserved: 0,
     unresolved: [],
   };
 }
@@ -175,6 +177,18 @@ function createReport() {
 function resolveName(nameToId, rawName) {
   if (typeof rawName !== "string" || !rawName.trim()) return null;
   return nameToId.get(normalizePokemonName(rawName)) ?? null;
+}
+
+function textValue(value) {
+  return typeof value === "string" && value.trim() ? value.trim() : null;
+}
+
+function unresolvedNameCandidate(...values) {
+  for (const value of values) {
+    const text = textValue(value);
+    if (text && positiveInteger(text) === null) return text;
+  }
+  return null;
 }
 
 function migratePokemonMember(member, pathLabel, nameToId, report) {
@@ -185,6 +199,26 @@ function migratePokemonMember(member, pathLabel, nameToId, report) {
   if (currentId !== null) {
     member.id = currentId;
     delete member.pokemonId;
+    const name = textValue(member.name);
+    const resolvedNameId = resolveName(nameToId, name);
+    if (name && resolvedNameId === null) {
+      member.name = name;
+      report.memberNamesPreserved += 1;
+    } else if ("name" in member) {
+      delete member.name;
+      report.memberNamesRemoved += 1;
+    }
+    return;
+  }
+
+  const rawName = unresolvedNameCandidate(
+    member.name,
+    member.id,
+    member.pokemonId,
+  );
+  delete member.id;
+  delete member.pokemonId;
+  if (!rawName) {
     if ("name" in member) {
       delete member.name;
       report.memberNamesRemoved += 1;
@@ -192,9 +226,6 @@ function migratePokemonMember(member, pathLabel, nameToId, report) {
     return;
   }
 
-  if (!("name" in member)) return;
-
-  const rawName = member.name;
   const resolvedId = resolveName(nameToId, rawName);
   if (resolvedId !== null) {
     member.id = resolvedId;
@@ -203,15 +234,13 @@ function migratePokemonMember(member, pathLabel, nameToId, report) {
     return;
   }
 
-  if (typeof rawName === "string" && rawName.trim()) {
-    report.unresolved.push({
-      path: `${pathLabel}.name`,
-      value: rawName,
-    });
-  } else {
-    delete member.name;
-    report.memberNamesRemoved += 1;
-  }
+  member.id = null;
+  member.name = rawName;
+  report.memberNamesPreserved += 1;
+  report.unresolved.push({
+    path: `${pathLabel}.name`,
+    value: rawName,
+  });
 }
 
 function migrateMembers(container, pathLabel, nameToId, report) {
@@ -254,6 +283,21 @@ function migrateFossilEntry(entry, pathLabel, nameToId, report) {
   const currentId = positiveInteger(entry.pokemonId);
   if (currentId !== null) {
     entry.pokemonId = currentId;
+    const pokemonName = textValue(entry.pokemonName);
+    const resolvedNameId = resolveName(nameToId, pokemonName);
+    if (pokemonName && resolvedNameId === null) {
+      entry.pokemonName = pokemonName;
+      report.fossilNamesPreserved += 1;
+    } else if ("pokemonName" in entry) {
+      delete entry.pokemonName;
+      report.fossilNamesRemoved += 1;
+    }
+    return;
+  }
+
+  const rawName = unresolvedNameCandidate(entry.pokemonName, entry.pokemonId);
+  delete entry.pokemonId;
+  if (!rawName) {
     if ("pokemonName" in entry) {
       delete entry.pokemonName;
       report.fossilNamesRemoved += 1;
@@ -261,9 +305,6 @@ function migrateFossilEntry(entry, pathLabel, nameToId, report) {
     return;
   }
 
-  if (!("pokemonName" in entry)) return;
-
-  const rawName = entry.pokemonName;
   const resolvedId = resolveName(nameToId, rawName);
   if (resolvedId !== null) {
     entry.pokemonId = resolvedId;
@@ -272,15 +313,13 @@ function migrateFossilEntry(entry, pathLabel, nameToId, report) {
     return;
   }
 
-  if (typeof rawName === "string" && rawName.trim()) {
-    report.unresolved.push({
-      path: `${pathLabel}.pokemonName`,
-      value: rawName,
-    });
-  } else {
-    delete entry.pokemonName;
-    report.fossilNamesRemoved += 1;
-  }
+  entry.pokemonId = null;
+  entry.pokemonName = rawName;
+  report.fossilNamesPreserved += 1;
+  report.unresolved.push({
+    path: `${pathLabel}.pokemonName`,
+    value: rawName,
+  });
 }
 
 function migrateFossils(fossils, pathLabel, nameToId, report) {
@@ -341,9 +380,11 @@ function printReport(report, duplicateCount) {
   console.log(`Members visited:        ${report.membersVisited}`);
   console.log(`Member names converted: ${report.memberNamesConverted}`);
   console.log(`Member names removed:   ${report.memberNamesRemoved}`);
+  console.log(`Member names preserved: ${report.memberNamesPreserved}`);
   console.log(`Fossils visited:        ${report.fossilsVisited}`);
   console.log(`Fossil names converted: ${report.fossilNamesConverted}`);
   console.log(`Fossil names removed:   ${report.fossilNamesRemoved}`);
+  console.log(`Fossil names preserved: ${report.fossilNamesPreserved}`);
   console.log(`Unresolved names:       ${report.unresolved.length}`);
   if (duplicateCount > 0) {
     console.log(`Duplicate name keys:    ${duplicateCount}`);
