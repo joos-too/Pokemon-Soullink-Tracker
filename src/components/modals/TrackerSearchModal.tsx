@@ -387,10 +387,12 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
                                 getPokemonNameById(pokemonId, locale) ||
                                 member.name ||
                                 "";
-                              const spriteUrl = getSpriteUrlById(
-                                pokemonId,
-                                generationSpritePath,
-                              );
+                              const spriteUrl = pokemonId
+                                ? getSpriteUrlById(
+                                    pokemonId,
+                                    generationSpritePath,
+                                  )
+                                : null;
 
                               return (
                                 <div
@@ -401,7 +403,7 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
                                     {spriteUrl ? (
                                       <img
                                         src={spriteUrl}
-                                        alt={displayName || "Pokemon"}
+                                        alt=""
                                         className="w-16 h-16 -my-3"
                                         loading="lazy"
                                       />

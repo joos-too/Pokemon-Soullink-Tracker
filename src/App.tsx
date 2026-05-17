@@ -2369,6 +2369,7 @@ const App: React.FC = () => {
         onConfirm={handleConfirmLoss}
         pair={pendingLossPair}
         playerNames={resolvedPlayerNames}
+        generationSpritePath={generationSpritePath}
       />
       <DeleteLinkModal
         isOpen={!isReadOnly && showDeleteLinkModal}
@@ -2378,6 +2379,7 @@ const App: React.FC = () => {
         }}
         onConfirm={handleConfirmDeleteLink}
         pair={pendingDeletePair}
+        generationSpritePath={generationSpritePath}
         playerNames={resolvedPlayerNames}
       />
       <ResetModal

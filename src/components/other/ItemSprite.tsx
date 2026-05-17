@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 
 interface ItemSpriteProps {
   src?: string | null;
-  alt?: string;
   className?: string;
   placeholderClassName?: string;
   used?: boolean;
@@ -13,7 +12,6 @@ interface ItemSpriteProps {
 
 const ItemSprite: React.FC<ItemSpriteProps> = ({
   src,
-  alt = "",
   className = "w-6 h-6 shrink-0 object-contain",
   placeholderClassName = "",
   used = false,
@@ -39,7 +37,7 @@ const ItemSprite: React.FC<ItemSpriteProps> = ({
   return (
     <img
       src={src}
-      alt={alt}
+      alt=""
       aria-hidden={ariaHidden}
       className={`${className} ${used ? "grayscale-[0.5]" : ""}`}
       style={pixelated ? { imageRendering: "pixelated" } : undefined}

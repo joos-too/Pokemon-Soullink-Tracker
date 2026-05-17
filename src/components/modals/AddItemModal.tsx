@@ -216,7 +216,7 @@ const AddItemModal: React.FC<AddItemModalProps> = ({
                     >
                       <img
                         src={`/stone-sprites/${s.sprite}`}
-                        alt={s.id}
+                        alt=""
                         className="w-10 h-10 object-contain"
                         style={{ imageRendering: "pixelated" }}
                       />
@@ -276,7 +276,7 @@ const AddItemModal: React.FC<AddItemModalProps> = ({
                               )
                             : getItemSpriteUrl(m.id)
                         }
-                        alt={megaName}
+                        alt=""
                         className="w-10 h-10 object-contain"
                         style={
                           megaStoneSpriteStyle !== "pokemon"

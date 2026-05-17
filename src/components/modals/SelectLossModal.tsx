@@ -15,6 +15,7 @@ interface SelectLossModalProps {
   onConfirm: (playerIndex: number) => void;
   pair: PokemonLink | null;
   playerNames: string[];
+  generationSpritePath: string;
 }
 
 const SelectLossModal: React.FC<SelectLossModalProps> = ({
@@ -23,6 +24,7 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({
   onConfirm,
   pair,
   playerNames,
+  generationSpritePath,
 }) => {
   const [selected, setSelected] = useState<number | null>(null);
   const { t, i18n } = useTranslation();
@@ -121,11 +123,7 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({
                         <div className="font-semibold">{name}</div>
                         <div className="flex items-center gap-1.5">
                           {spriteUrl && (
-                            <img
-                              src={spriteUrl}
-                              alt={displayName}
-                              className="w-8 h-8"
-                            />
+                            <img src={spriteUrl} alt="" className="w-8 h-8" />
                           )}
                           <span>
                             {displayName || "-"}
@@ -143,11 +141,14 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({
                       id: null,
                       nickname: "",
                     };
+                    const pokemonId = member.id;
                     const displayName =
-                      getPokemonNameById(member.id, language) ||
+                      getPokemonNameById(pokemonId, language) ||
                       member.name ||
                       "";
-                    const spriteUrl = getSpriteUrlById(member.id);
+                    const spriteUrl = pokemonId
+                      ? getSpriteUrlById(pokemonId, generationSpritePath)
+                      : null;
                     const isSelected = selected === index;
                     return (
                       <label
@@ -172,11 +173,7 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({
                         </div>
                         <div className="flex items-center gap-1.5 text-xs">
                           {spriteUrl && (
-                            <img
-                              src={spriteUrl}
-                              alt={displayName}
-                              className="w-8 h-8"
-                            />
+                            <img src={spriteUrl} alt="" className="w-8 h-8" />
                           )}
                           <span>
                             {displayName || "-"}

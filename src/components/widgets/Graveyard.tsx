@@ -195,10 +195,9 @@ const Graveyard: React.FC<GraveyardProps> = ({
                         getPokemonNameById(pokemonId, language) ||
                         member.name ||
                         "";
-                      const spriteUrl = getSpriteUrlById(
-                        pokemonId,
-                        generationSpritePath,
-                      );
+                      const spriteUrl = pokemonId
+                        ? getSpriteUrlById(pokemonId, generationSpritePath)
+                        : null;
                       const wikiUrl =
                         pokemonId && wikiId
                           ? getWikiUrlById(pokemonId, wikiId as WikiId)
@@ -209,14 +208,14 @@ const Graveyard: React.FC<GraveyardProps> = ({
                           className="flex justify-center w-full"
                         >
                           <div className="inline-flex items-center gap-2 text-left mb-2">
-                            {spriteUrl ? (
+                            {spriteUrl && (
                               <img
                                 src={spriteUrl}
-                                alt={displayName || "Pokémon"}
+                                alt=""
                                 className="w-16 h-16 -my-3"
                                 loading="lazy"
                               />
-                            ) : null}
+                            )}
                             <div className="flex flex-col items-start">
                               <p
                                 className="font-bold"

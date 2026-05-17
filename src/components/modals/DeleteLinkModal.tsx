@@ -15,6 +15,7 @@ interface DeleteLinkModalProps {
   onConfirm: () => void;
   pair: PokemonLink | null;
   playerNames: string[];
+  generationSpritePath: string;
 }
 
 const DeleteLinkModal: React.FC<DeleteLinkModalProps> = ({
@@ -23,6 +24,7 @@ const DeleteLinkModal: React.FC<DeleteLinkModalProps> = ({
   onConfirm,
   pair,
   playerNames,
+  generationSpritePath,
 }) => {
   const { t, i18n } = useTranslation();
   const language = normalizeLanguage(i18n.language);
@@ -93,7 +95,9 @@ const DeleteLinkModal: React.FC<DeleteLinkModalProps> = ({
               const pokemonId = member.id;
               const displayName =
                 getPokemonNameById(pokemonId, language) || member.name || "";
-              const spriteUrl = getSpriteUrlById(pokemonId);
+              const spriteUrl = pokemonId
+                ? getSpriteUrlById(pokemonId, generationSpritePath)
+                : null;
               return (
                 <div
                   key={`delete-preview-${index}`}
@@ -102,11 +106,7 @@ const DeleteLinkModal: React.FC<DeleteLinkModalProps> = ({
                   <div className="font-semibold">{name}</div>
                   <div className="flex items-center gap-1.5">
                     {spriteUrl && (
-                      <img
-                        src={spriteUrl}
-                        alt={displayName}
-                        className="w-8 h-8"
-                      />
+                      <img src={spriteUrl} alt="" className="w-8 h-8" />
                     )}
                     <span>
                       {displayName || "-"}

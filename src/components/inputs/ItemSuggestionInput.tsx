@@ -73,7 +73,6 @@ const ItemSuggestionInput: React.FC<ItemSuggestionInputProps> = ({
         <div className="flex items-center gap-2">
           <ItemSprite
             src={suggestion.spriteUrl}
-            alt=""
             className="h-5 w-5 shrink-0 object-contain"
           />
           <span>{suggestion.name}</span>
@@ -83,7 +82,6 @@ const ItemSuggestionInput: React.FC<ItemSuggestionInputProps> = ({
         spriteUrl ? (
           <ItemSprite
             src={spriteUrl}
-            alt=""
             ariaHidden
             className="pointer-events-none absolute inset-y-0 right-2 my-auto h-10 w-10 select-none"
           />
