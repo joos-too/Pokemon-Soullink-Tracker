@@ -80,7 +80,7 @@ const SuggestionInput = <TSuggestion,>({
 
       setSuggestions(res);
       setLoading(false);
-      setOpen(res.length > 0);
+      setOpen(true);
       setActiveIndex(res.length ? 0 : -1);
     }, debounceMs);
 
