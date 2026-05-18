@@ -333,7 +333,19 @@ const App: React.FC = () => {
     types: [],
     playerIndex: null,
   });
-  const [boxHideHiddenLinks, setBoxHideHiddenLinks] = useState(false);
+  const [boxHideHiddenLinks, setBoxHideHiddenLinks] = useState(() => {
+    try {
+      return localStorage.getItem("boxHideHiddenLinks") === "true";
+    } catch {
+      return false;
+    }
+  });
+  const handleBoxHideHiddenLinksChange = (value: boolean) => {
+    setBoxHideHiddenLinks(value);
+    try {
+      localStorage.setItem("boxHideHiddenLinks", String(value));
+    } catch {}
+  };
   const [boxFiltersExpanded, setBoxFiltersExpanded] = useState(() => {
     try {
       return localStorage.getItem("boxFiltersExpanded") === "true";
@@ -2653,7 +2665,7 @@ const App: React.FC = () => {
                   typeFilter={boxTypeFilter}
                   onTypeFilterChange={setBoxTypeFilter}
                   hideHiddenLinks={boxHideHiddenLinks}
-                  onHideHiddenLinksChange={setBoxHideHiddenLinks}
+                  onHideHiddenLinksChange={handleBoxHideHiddenLinksChange}
                   hasHiddenLinks={hiddenLinkIds.size > 0}
                   onResetHiddenLinks={resetAllHiddenLinks}
                   playerTypeSlugs={playerTypeSlugs}
