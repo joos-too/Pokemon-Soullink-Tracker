@@ -329,10 +329,30 @@ const App: React.FC = () => {
   // ── Box filters & bad links (local view) ──────────────
   const { hiddenLinkIds, toggleHiddenLink, resetAllHiddenLinks } =
     useHiddenLinks(activeTrackerId);
-  const [boxTypeFilter, setBoxTypeFilter] = useState<TypeFilterEntry>({
-    types: [],
-    playerIndex: null,
+  const [boxTypeFilter, setBoxTypeFilter] = useState<TypeFilterEntry>(() => {
+    try {
+      const stored = localStorage.getItem("boxTypeFilter");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed && Array.isArray(parsed.types)) {
+          return {
+            types: parsed.types,
+            playerIndex:
+              typeof parsed.playerIndex === "number"
+                ? parsed.playerIndex
+                : null,
+          };
+        }
+      }
+    } catch {}
+    return { types: [], playerIndex: null };
   });
+  const handleBoxTypeFilterChange = (filter: TypeFilterEntry) => {
+    setBoxTypeFilter(filter);
+    try {
+      localStorage.setItem("boxTypeFilter", JSON.stringify(filter));
+    } catch {}
+  };
   const [boxHideHiddenLinks, setBoxHideHiddenLinks] = useState(() => {
     try {
       return localStorage.getItem("boxHideHiddenLinks") === "true";
@@ -2663,7 +2683,7 @@ const App: React.FC = () => {
                   playerNames={resolvedPlayerNames}
                   playerColors={playerColors}
                   typeFilter={boxTypeFilter}
-                  onTypeFilterChange={setBoxTypeFilter}
+                  onTypeFilterChange={handleBoxTypeFilterChange}
                   hideHiddenLinks={boxHideHiddenLinks}
                   onHideHiddenLinksChange={handleBoxHideHiddenLinksChange}
                   hasHiddenLinks={hiddenLinkIds.size > 0}
