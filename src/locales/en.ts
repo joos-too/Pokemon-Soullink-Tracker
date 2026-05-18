@@ -399,8 +399,8 @@ export const en = {
     moveToTeam: "Move to team",
   },
   graveyard: {
-    title: "Dead / lost Pokémon",
-    manualAddTitle: "Add lost Pokémon",
+    title: "Dead & Uncaptured Pokémon",
+    manualAddTitle: "Add lost Pokémon link",
     titleEdit: "Edit",
     statusDead: "Dead",
     statusLost: "Lost",
