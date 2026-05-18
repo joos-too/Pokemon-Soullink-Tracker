@@ -121,6 +121,12 @@ const METHOD_GENERATION_RULES: Record<number, MethodGenerationRule[]> = {
       minGeneration: 8,
     },
   ],
+  476: [
+    {
+      method_slugs: ["use-item-thunder-stone"],
+      minGeneration: 8,
+    },
+  ],
   470: [
     {
       method_slugs: ["use-item-leaf-stone"],
