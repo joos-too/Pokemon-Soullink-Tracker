@@ -225,12 +225,12 @@ const BoxFilters: React.FC<BoxFiltersProps> = ({
                       onClick={() => toggleType(slug)}
                       className={`transition-all rounded-sm ${focusRingClasses} ${
                         isSelected
-                          ? "opacity-100 ring-2 ring-green-500 ring-offset-1 ring-offset-white dark:ring-offset-gray-800"
+                          ? "opacity-100"
                           : "opacity-50 hover:opacity-80"
                       }`}
                       title={slug}
                     >
-                      <TypeBadge typeSlug={slug} />
+                      <TypeBadge typeSlug={slug} selected={isSelected} />
                     </button>
                   );
                 })}
