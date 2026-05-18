@@ -215,7 +215,7 @@ const BoxFilters: React.FC<BoxFiltersProps> = ({
               {t("team.filterByType")}
             </legend>
             <div className="flex items-start justify-between gap-3">
-              <div className="flex flex-wrap gap-1.5">
+              <div className="flex flex-nowrap gap-1 min-w-0">
                 {ALL_TYPE_SLUGS.map((slug) => {
                   const isSelected = typeFilter.types.includes(slug);
                   return (

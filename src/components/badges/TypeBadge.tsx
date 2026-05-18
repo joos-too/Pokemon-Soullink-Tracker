@@ -42,7 +42,7 @@ const TypeBadge: React.FC<TypeBadgeProps> = ({ typeSlug }) => {
 
   return (
     <span
-      className="inline-flex items-center justify-center rounded-sm text-[9px] font-bold leading-none tracking-wider text-white shadow-sm"
+      className="inline-flex items-center justify-center rounded-sm text-[9px] font-bold leading-none tracking-wider text-white shadow-sm whitespace-nowrap"
       style={{
         backgroundColor: colors.bg,
         border: `1.5px solid ${colors.border}`,
