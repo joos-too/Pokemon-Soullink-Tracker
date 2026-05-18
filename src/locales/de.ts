@@ -401,7 +401,7 @@ export const de = {
   },
   graveyard: {
     title: "Tote & nicht gefangene Pokémon",
-    manualAddTitle: "Verlorenen Pokémon hinzufügen",
+    manualAddTitle: "Verlorene Pokémon hinzufügen",
     titleEdit: "Bearbeiten",
     statusDead: "Tot",
     statusLost: "Verloren",
