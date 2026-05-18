@@ -400,7 +400,7 @@ export const en = {
   },
   graveyard: {
     title: "Dead & Uncaptured Pokémon",
-    manualAddTitle: "Add lost Pokémon link",
+    manualAddTitle: "Add lost Pokémon",
     titleEdit: "Edit",
     statusDead: "Dead",
     statusLost: "Lost",
