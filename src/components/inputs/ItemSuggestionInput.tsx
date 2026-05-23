@@ -1,6 +1,7 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import {
+  findItemByName,
   getItemSpriteUrl,
   searchItems,
   type ItemSearchResult,
@@ -37,7 +38,17 @@ const ItemSuggestionInput: React.FC<ItemSuggestionInputProps> = ({
     () => normalizeLanguage(i18n.language),
     [i18n.language],
   );
-  const spriteUrl = selectedSlug ? getItemSpriteUrl(selectedSlug) : null;
+  const typedItemMatch = useMemo(
+    () =>
+      findItemByName(
+        value,
+        language,
+        allPokemonAndItems ? undefined : gameVersionId,
+      ),
+    [allPokemonAndItems, gameVersionId, language, value],
+  );
+  const resolvedSlug = selectedSlug || typedItemMatch?.slug || "";
+  const spriteUrl = resolvedSlug ? getItemSpriteUrl(resolvedSlug) : null;
 
   const fetchSuggestions = useCallback(
     (term: string) =>
@@ -51,6 +62,11 @@ const ItemSuggestionInput: React.FC<ItemSuggestionInputProps> = ({
       ),
     [allPokemonAndItems, gameVersionId, language],
   );
+
+  useEffect(() => {
+    if (!typedItemMatch || selectedSlug === typedItemMatch.slug) return;
+    onSelectedSlugChange(typedItemMatch.slug);
+  }, [onSelectedSlugChange, selectedSlug, typedItemMatch]);
 
   return (
     <SuggestionInput<ItemSearchResult>
