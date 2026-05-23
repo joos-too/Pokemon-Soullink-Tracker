@@ -400,7 +400,7 @@ export const de = {
     moveToTeam: "Ins Team verschieben",
   },
   graveyard: {
-    title: "Tote & nicht gefangene Pokémon",
+    title: "Verlorene Pokémon",
     manualAddTitle: "Verlorene Pokémon hinzufügen",
     titleEdit: "Bearbeiten",
     statusDead: "Tot",
@@ -410,7 +410,7 @@ export const de = {
     nicknameLabel: "Spitzname: {{nickname}}",
     noNickname: "-",
     unknownPokemon: "Pokémon",
-    empty: "Noch keine toten oder verlorenen Pokémon vorhanden.",
+    empty: "Noch keine verlorenen Pokémon vorhanden.",
     defaultPlayer: "Spieler {{index}}",
   },
   settings: {

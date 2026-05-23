@@ -656,10 +656,10 @@ const HomePage: React.FC<HomePageProps> = ({
                         </p>
                       </div>
                       <div className="flex flex-col gap-4">
-                        <div className="grid grid-cols-4 gap-3 w-full">
+                        <div className="grid grid-cols-2 gap-3 w-full sm:grid-cols-4">
                           {/* Progress field (takes 2 columns) */}
                           <div className="col-span-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/40 p-3">
-                            <div className="mb-1 flex flex-col items-start gap-1 sm:flex-row sm:items-center sm:justify-between">
+                            <div className="mb-1 flex items-center justify-between gap-2">
                               <p className="text-[0.65rem] uppercase tracking-[0.3em] text-gray-500">
                                 {t("home.progressLabel")}
                               </p>
@@ -688,19 +688,19 @@ const HomePage: React.FC<HomePageProps> = ({
                           </div>
 
                           {/* Stats fields (1 column each) */}
-                          <div className="h-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/40 p-3 text-center flex flex-col items-center justify-center">
-                            <p className="text-[0.65rem] uppercase tracking-[0.3em] text-gray-500 whitespace-nowrap">
+                          <div className="flex h-full items-center justify-between gap-2 rounded-lg border border-gray-200 bg-white/60 p-3 text-left dark:border-gray-700 dark:bg-gray-900/40 sm:flex-col sm:justify-center sm:text-center">
+                            <p className="min-w-0 flex-1 text-left text-[0.65rem] uppercase leading-tight tracking-[0.18em] text-gray-500 sm:flex-none sm:text-center sm:tracking-[0.3em]">
                               {t("home.activePokemon")}
                             </p>
-                            <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                            <p className="shrink-0 text-lg font-semibold text-gray-900 dark:text-gray-100">
                               {activePokemon}
                             </p>
                           </div>
-                          <div className="h-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/40 p-3 text-center flex flex-col items-center justify-center">
-                            <p className="text-[0.65rem] uppercase tracking-[0.3em] text-gray-500 whitespace-nowrap">
+                          <div className="flex h-full items-center justify-between gap-2 rounded-lg border border-gray-200 bg-white/60 p-3 text-left dark:border-gray-700 dark:bg-gray-900/40 sm:flex-col sm:justify-center sm:text-center">
+                            <p className="min-w-0 flex-1 text-left text-[0.65rem] uppercase leading-tight tracking-[0.18em] text-gray-500 sm:flex-none sm:text-center sm:tracking-[0.3em]">
                               {t("home.fallenPokemon")}
                             </p>
-                            <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                            <p className="shrink-0 text-lg font-semibold text-gray-900 dark:text-gray-100">
                               {deadPokemon}
                             </p>
                           </div>

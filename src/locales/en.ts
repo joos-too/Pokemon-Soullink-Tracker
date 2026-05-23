@@ -399,7 +399,7 @@ export const en = {
     moveToTeam: "Move to team",
   },
   graveyard: {
-    title: "Dead & Uncaptured Pokémon",
+    title: "Lost Pokémon",
     manualAddTitle: "Add lost Pokémon",
     titleEdit: "Edit",
     statusDead: "Dead",
@@ -409,7 +409,7 @@ export const en = {
     nicknameLabel: "Nickname: {{nickname}}",
     noNickname: "-",
     unknownPokemon: "Pokémon",
-    empty: "No fallen or lost Pokémon yet.",
+    empty: "No lost Pokémon yet.",
     defaultPlayer: "Player {{index}}",
   },
   settings: {
