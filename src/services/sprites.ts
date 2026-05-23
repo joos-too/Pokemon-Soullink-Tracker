@@ -26,7 +26,7 @@ export function getGenerationSpritePath(gameVersionId: string): string | null {
   return mapping[gameVersionId] || null;
 }
 
-// Known gaps where PokeAPI does not provide a sprite for the requested game,
+// Known gaps where PokeAPI does not provide a sprite/one does not exist for the requested game,
 // so we swap in a nearby generation path (or the default modern sprite).
 type GenerationFallbackRule = {
   generationPath: string;
@@ -45,32 +45,32 @@ const GENERATION_SPRITE_FALLBACKS: GenerationFallbackRule[] = [
   {
     generationPath: "versions/generation-i/red-blue/transparent",
     maxSupportedId: GENERATION_1_MAX_ID,
-    fallbackPath: "versions/generation-ii/gold/transparent",
+    fallbackPath: "versions/generation-v/black-white",
   },
   {
     generationPath: "versions/generation-i/yellow/transparent",
     maxSupportedId: GENERATION_1_MAX_ID,
-    fallbackPath: "versions/generation-ii/gold/transparent",
+    fallbackPath: "versions/generation-v/black-white",
   },
   {
     generationPath: "versions/generation-ii/gold/transparent",
     maxSupportedId: GENERATION_2_MAX_ID,
-    fallbackPath: "versions/generation-iii/ruby-sapphire",
+    fallbackPath: "versions/generation-v/black-white",
   },
   {
     generationPath: "versions/generation-ii/crystal/transparent",
     maxSupportedId: GENERATION_2_MAX_ID,
-    fallbackPath: "versions/generation-iii/ruby-sapphire",
+    fallbackPath: "versions/generation-v/black-white",
   },
   {
     generationPath: "versions/generation-iii/ruby-sapphire",
     maxSupportedId: GENERATION_3_MAX_ID,
-    fallbackPath: "versions/generation-iv/diamond-pearl",
+    fallbackPath: "versions/generation-v/black-white",
   },
   {
     generationPath: "versions/generation-iii/emerald",
     maxSupportedId: GENERATION_3_MAX_ID,
-    fallbackPath: "versions/generation-iv/diamond-pearl",
+    fallbackPath: "versions/generation-v/black-white",
   },
   {
     // PokeAPI only ships Kanto sprites for FR/LG; anything above 151 falls back to Emerald
