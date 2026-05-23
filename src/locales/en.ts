@@ -102,10 +102,10 @@ export const en = {
       versionButton: "Select game version",
       versionPlaceholder: "No version selected",
       versionRequired: "Please select a game version.",
-      allPokemonAndItemsLabel: "Use all Pokemon and items",
+      allPokemonAndItemsLabel: "Version override",
       allPokemonAndItemsDescription:
-        "Allow Pokemon and items from every generation instead of limiting suggestions to the selected version. Useful for Romhacks.",
-      allPokemonAndItemsTooltipLabel: "Info about using all Pokemon and items",
+        "Includes Pokemon and item suggestions plus evolution options from all supported generations. The selected game version stays unchanged.",
+      allPokemonAndItemsTooltipLabel: "Info about suggestions and evolutions",
       rulesetLabel: "Ruleset",
       rulesetButton: "Select ruleset",
       rulesetPlaceholder: "Default ruleset",
@@ -529,6 +529,14 @@ export const en = {
           "By default, each fossil can only be owned once per player. When enabled, players can collect and revive the same fossil multiple times.",
         description:
           "Allow players to collect the same fossils multiple times.",
+      },
+      allPokemonAndItems: {
+        title: "Version override",
+        tooltipLabel: "Info about suggestions and evolutions",
+        tooltip:
+          "Includes Pokemon and item suggestions plus available evolutions from all supported generations.",
+        description:
+          "Expands suggestions and evolution options beyond the game version.",
       },
       megaStoneSpriteStyle: {
         title: "Pokémon Mega Stone Sprites",

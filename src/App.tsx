@@ -1872,6 +1872,24 @@ const App: React.FC = () => {
     update(ref(db, `trackers/${activeTrackerId}/meta`), { isPublic: enabled });
   };
 
+  const handleAllPokemonAndItemsToggle = (enabled: boolean) => {
+    if (!activeTrackerId || isReadOnly) return;
+    setTrackerMetas((prev) => {
+      const existing = prev[activeTrackerId];
+      if (!existing) return prev;
+      return {
+        ...prev,
+        [activeTrackerId]: {
+          ...existing,
+          allPokemonAndItems: enabled,
+        },
+      };
+    });
+    update(ref(db, `trackers/${activeTrackerId}/meta`), {
+      allPokemonAndItems: enabled,
+    });
+  };
+
   const closeRulesetSaveModal = () => {
     setShowRulesetSaveModal(false);
     setRulesetSaveError(null);
@@ -2323,6 +2341,8 @@ const App: React.FC = () => {
       onHardcoreModeToggle={handleHardcoreModeToggle}
       infiniteFossilsEnabled={data.infiniteFossilsEnabled ?? false}
       onInfiniteFossilsToggle={handleInfiniteFossilsToggle}
+      allPokemonAndItems={activeTrackerAllPokemonAndItems}
+      onAllPokemonAndItemsToggle={handleAllPokemonAndItemsToggle}
       isPublic={activeTrackerMeta?.isPublic ?? false}
       onPublicToggle={handlePublicToggle}
       members={trackerMembers}

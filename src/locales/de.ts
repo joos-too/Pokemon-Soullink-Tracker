@@ -103,11 +103,10 @@ export const de = {
       versionButton: "Spielversion auswählen",
       versionPlaceholder: "Keine Version ausgewählt",
       versionRequired: "Bitte wähle eine Spielversion aus.",
-      allPokemonAndItemsLabel: "Alle Pokemon und Items verwenden",
+      allPokemonAndItemsLabel: "Versionsbeschränkung aufheben",
       allPokemonAndItemsDescription:
-        "Erlaube Pokemon und Items aus jeder Generation, statt Vorschläge auf die gewählte Version zu begrenzen. Praktisch für Romhacks.",
-      allPokemonAndItemsTooltipLabel:
-        "Info zur Verwendung aller Pokemon und Items",
+        "Berücksichtigt Pokémon- und Item-Vorschläge sowie Entwicklungsoptionen aus allen unterstützten Generationen. Die gewählte Spielversion bleibt unverändert.",
+      allPokemonAndItemsTooltipLabel: "Info zu Vorschlägen und Entwicklungen",
       rulesetLabel: "Regeln",
       rulesetButton: "Regeln auswählen",
       rulesetPlaceholder: "Standard-Regeln",
@@ -534,6 +533,14 @@ export const de = {
         tooltip:
           "Standardmäßig kann jedes Fossil pro Spieler nur einmal wiederbelebt werden. Wenn aktiviert, können Spieler das gleiche Fossil unendlich oft sammeln und wiederbeleben.",
         description: "Erlaube Spielern, Fossile mehrfach zu sammeln.",
+      },
+      allPokemonAndItems: {
+        title: "Versionsbeschränkung aufheben",
+        tooltipLabel: "Info zu Vorschlägen und Entwicklungen",
+        tooltip:
+          "Berücksichtigt Pokémon- und Item-Vorschläge sowie verfügbare Entwicklungen aus allen unterstützten Generationen.",
+        description:
+          "Erweitert Vorschläge und Entwicklungsoptionen über die Spielversion hinaus.",
       },
       megaStoneSpriteStyle: {
         title: "Pokémon Mega-Stein Sprites",

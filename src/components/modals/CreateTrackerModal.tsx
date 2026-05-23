@@ -289,39 +289,38 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({
                 </p>
               )}
             </div>
-            <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/40 px-4 py-2.5">
-              <div className="flex items-center justify-between gap-4">
-                <div className="flex items-center gap-2 min-w-0">
-                  <label
-                    htmlFor={allPokemonAndItemsId}
-                    className="text-sm font-semibold text-gray-800 dark:text-gray-100"
-                  >
-                    {t("modals.createTracker.allPokemonAndItemsLabel")}
-                  </label>
-                  <Tooltip
-                    side="top"
-                    content={t(
-                      "modals.createTracker.allPokemonAndItemsDescription",
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex min-w-0 items-center gap-2">
+                <label
+                  htmlFor={allPokemonAndItemsId}
+                  className="text-sm font-semibold text-gray-700 dark:text-gray-200"
+                >
+                  {t("modals.createTracker.allPokemonAndItemsLabel")}
+                </label>
+                <Tooltip
+                  side="top"
+                  content={t(
+                    "modals.createTracker.allPokemonAndItemsDescription",
+                  )}
+                >
+                  <span
+                    className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-help"
+                    aria-label={t(
+                      "modals.createTracker.allPokemonAndItemsTooltipLabel",
                     )}
                   >
-                    <span
-                      className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-help"
-                      aria-label={t(
-                        "modals.createTracker.allPokemonAndItemsTooltipLabel",
-                      )}
-                    >
-                      <FiInfo size={16} />
-                    </span>
-                  </Tooltip>
-                </div>
-                <ToggleSwitch
-                  id={allPokemonAndItemsId}
-                  checked={allPokemonAndItems}
-                  onChange={setAllPokemonAndItems}
-                  disabled={isSubmitting}
-                  ariaLabel={t("modals.createTracker.allPokemonAndItemsLabel")}
-                />
+                    <FiInfo size={16} />
+                  </span>
+                </Tooltip>
               </div>
+              <ToggleSwitch
+                id={allPokemonAndItemsId}
+                checked={allPokemonAndItems}
+                onChange={setAllPokemonAndItems}
+                disabled={isSubmitting}
+                size="sm"
+                ariaLabel={t("modals.createTracker.allPokemonAndItemsLabel")}
+              />
             </div>
             <div>
               <label className="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2 block">
