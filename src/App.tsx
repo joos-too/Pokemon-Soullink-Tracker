@@ -37,6 +37,11 @@ import {
   sanitizeRules,
 } from "@/src/services/init.ts";
 import TeamTable from "@/src/components/widgets/TeamTable.tsx";
+import BoxFilters, {
+  type TypeFilterEntry,
+} from "@/src/components/widgets/BoxFilters.tsx";
+import { useHiddenLinks } from "@/src/hooks/useHiddenLinks.ts";
+import { getPokemonTypeSlugsForName } from "@/src/services/pokemonTypes.ts";
 import InfoPanel from "@/src/components/widgets/InfoPanel.tsx";
 import Graveyard from "@/src/components/widgets/Graveyard.tsx";
 import ClearedRoutes from "@/src/components/widgets/ClearedRoutes.tsx";
@@ -320,6 +325,111 @@ const App: React.FC = () => {
     }
     return null;
   }, [userUseGenerationSprites, activeGameVersionId]);
+
+  // ── Box filters & bad links (local view) ──────────────
+  const { hiddenLinkIds, toggleHiddenLink, resetAllHiddenLinks } =
+    useHiddenLinks(activeTrackerId);
+  const [boxTypeFilter, setBoxTypeFilter] = useState<TypeFilterEntry>(() => {
+    try {
+      const stored = localStorage.getItem("boxTypeFilter");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed && Array.isArray(parsed.types)) {
+          return {
+            types: parsed.types,
+            playerIndex:
+              typeof parsed.playerIndex === "number"
+                ? parsed.playerIndex
+                : null,
+          };
+        }
+      }
+    } catch {}
+    return { types: [], playerIndex: null };
+  });
+  const handleBoxTypeFilterChange = (filter: TypeFilterEntry) => {
+    setBoxTypeFilter(filter);
+    try {
+      localStorage.setItem("boxTypeFilter", JSON.stringify(filter));
+    } catch {}
+  };
+  const [boxHideHiddenLinks, setBoxHideHiddenLinks] = useState(() => {
+    try {
+      return localStorage.getItem("boxHideHiddenLinks") === "true";
+    } catch {
+      return false;
+    }
+  });
+  const handleBoxHideHiddenLinksChange = (value: boolean) => {
+    setBoxHideHiddenLinks(value);
+    try {
+      localStorage.setItem("boxHideHiddenLinks", String(value));
+    } catch {}
+  };
+  const [boxFiltersExpanded, setBoxFiltersExpanded] = useState(() => {
+    try {
+      return localStorage.getItem("boxFiltersExpanded") === "true";
+    } catch {
+      return false;
+    }
+  });
+  const handleBoxFiltersExpandedChange = (value: boolean) => {
+    setBoxFiltersExpanded(value);
+    try {
+      localStorage.setItem("boxFiltersExpanded", String(value));
+    } catch {}
+  };
+
+  const filteredBox = useMemo(() => {
+    let items = data.box;
+    // type filter (optionally scoped to a specific player)
+    if (boxTypeFilter.types.length > 0) {
+      items = items.filter((link) => {
+        const membersToCheck =
+          boxTypeFilter.playerIndex !== null
+            ? [link.members[boxTypeFilter.playerIndex]].filter(Boolean)
+            : link.members;
+        return membersToCheck.some((m) => {
+          if (!m?.name) return false;
+          const slugs = getPokemonTypeSlugsForName(
+            m.name,
+            pokemonGenerationLimit,
+          );
+          return slugs.some((s) => boxTypeFilter.types.includes(s));
+        });
+      });
+    }
+    // hide bad links
+    if (boxHideHiddenLinks) {
+      items = items.filter((link) => !hiddenLinkIds.has(link.id));
+    }
+    return items;
+  }, [
+    data.box,
+    boxTypeFilter,
+    boxHideHiddenLinks,
+    hiddenLinkIds,
+    pokemonGenerationLimit,
+  ]);
+
+  const playerTypeSlugs = useMemo(() => {
+    const map = new Map<number, Set<string>>();
+    for (const link of data.team) {
+      link.members.forEach((m, idx) => {
+        if (m?.name) {
+          if (!map.has(idx)) map.set(idx, new Set());
+          for (const s of getPokemonTypeSlugsForName(
+            m.name,
+            pokemonGenerationLimit,
+          )) {
+            map.get(idx)!.add(s);
+          }
+        }
+      });
+    }
+    return map;
+  }, [data.team, pokemonGenerationLimit]);
+
   const currentRulesetId = data.rulesetId || defaultLocaleRulesetId;
   const hasUserRulesetWithSameId = useMemo(
     () =>
@@ -1287,16 +1397,25 @@ const App: React.FC = () => {
       field: keyof Pokemon,
       value: string,
     ) => {
-      updateLinkMember("box", index, playerIndex, field, value);
+      // index is relative to filteredBox; resolve to data.box index via ID
+      const link = filteredBox[index];
+      if (!link) return;
+      const realIndex = data.box.findIndex((p) => p.id === link.id);
+      if (realIndex === -1) return;
+      updateLinkMember("box", realIndex, playerIndex, field, value);
     },
-    [updateLinkMember],
+    [updateLinkMember, filteredBox, data.box],
   );
 
   const handleBoxRouteChange = useCallback(
     (index: number, value: string) => {
-      updateLinkRoute("box", index, value);
+      const link = filteredBox[index];
+      if (!link) return;
+      const realIndex = data.box.findIndex((p) => p.id === link.id);
+      if (realIndex === -1) return;
+      updateLinkRoute("box", realIndex, value);
     },
-    [updateLinkRoute],
+    [updateLinkRoute, filteredBox, data.box],
   );
 
   const handleLevelCapToggle = useCallback(
@@ -2522,10 +2641,13 @@ const App: React.FC = () => {
               generationSpritePath={generationSpritePath}
               useSpritesInTeamTable={userUseSpritesInTeamTable}
               wikiId={effectiveWikiId}
+              badLinkIds={hiddenLinkIds}
+              onToggleBadLink={isReadOnly ? undefined : toggleHiddenLink}
+              filtersExpanded={boxFiltersExpanded}
             />
             <TeamTable
               title={t("team.boxTitle")}
-              data={data.box}
+              data={filteredBox}
               playerNames={resolvedPlayerNames}
               playerColors={playerColors}
               onPokemonChange={handleBoxChange}
@@ -2553,6 +2675,24 @@ const App: React.FC = () => {
               generationSpritePath={generationSpritePath}
               useSpritesInTeamTable={userUseSpritesInTeamTable}
               wikiId={effectiveWikiId}
+              badLinkIds={hiddenLinkIds}
+              onToggleBadLink={isReadOnly ? undefined : toggleHiddenLink}
+              filtersExpanded={boxFiltersExpanded}
+              filterBar={
+                <BoxFilters
+                  playerNames={resolvedPlayerNames}
+                  playerColors={playerColors}
+                  typeFilter={boxTypeFilter}
+                  onTypeFilterChange={handleBoxTypeFilterChange}
+                  hideHiddenLinks={boxHideHiddenLinks}
+                  onHideHiddenLinksChange={handleBoxHideHiddenLinksChange}
+                  hasHiddenLinks={hiddenLinkIds.size > 0}
+                  onResetHiddenLinks={resetAllHiddenLinks}
+                  playerTypeSlugs={playerTypeSlugs}
+                  expanded={boxFiltersExpanded}
+                  onExpandedChange={handleBoxFiltersExpandedChange}
+                />
+              }
             />
           </div>
 

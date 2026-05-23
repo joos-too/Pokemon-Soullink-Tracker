@@ -400,6 +400,21 @@ export const de = {
     titleEvolve: "Entwickeln",
     titleDeleteLink: "Link löschen",
     moveToTeam: "Ins Team verschieben",
+    filtersTitle: "Filter",
+    filterByType: "Nach Typ filtern",
+    filterPlayerLabel: "Spieler",
+    filterAllPlayers: "Alle",
+    hideHiddenLinks: "Versteckte Links vollständig ausblenden",
+    hiddenLinksSection: "Versteckte Links",
+    autoTypeFilter: "Auto",
+    autoTypeFilterTooltip:
+      "Alle Typen auswählen, die im Team dieses Spielers fehlen",
+    autoTypeFilterDisabledTooltip:
+      "Wähle zuerst einen Spieler aus, um den Auto-Filter zu nutzen",
+    clearFilters: "Filter zurücksetzen",
+    toggleHideLink: "Link verstecken",
+    unhideLink: "Link einblenden",
+    resetHiddenLinks: "Versteckte Links zurücksetzen",
   },
   graveyard: {
     title: "Tote / verlorene Pokémon",
