@@ -2537,7 +2537,6 @@ const App: React.FC = () => {
         team={data.team}
         box={data.box}
         graveyard={data.graveyard}
-        routes={clearedRoutes}
         fossils={data.fossils ?? []}
         stones={data.stones ?? []}
         generationSpritePath={generationSpritePath}
