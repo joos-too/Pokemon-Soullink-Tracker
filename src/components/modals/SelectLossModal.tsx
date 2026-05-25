@@ -6,6 +6,8 @@ import { focusRingClasses } from "@/src/styles/focusRing.ts";
 import { getSpriteUrlForPokemonName } from "@/src/services/sprites.ts";
 import { FiInfo } from "react-icons/fi";
 import Tooltip from "@/src/components/other/Tooltip.tsx";
+import { resolveLocationDisplay } from "@/src/services/locationSearch.ts";
+import { normalizeLanguage } from "@/src/utils/language.ts";
 
 interface SelectLossModalProps {
   isOpen: boolean;
@@ -23,7 +25,7 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({
   playerNames,
 }) => {
   const [selected, setSelected] = useState<number | null>(null);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { containerRef } = useFocusTrap(isOpen);
   const titleId = useId();
 
@@ -34,6 +36,13 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({
   }, [isOpen, playerNames.length]);
 
   if (!isOpen) return null;
+  const routeLabel = pair
+    ? resolveLocationDisplay(
+        pair.routeSlug,
+        pair.route,
+        normalizeLanguage(i18n.language),
+      )
+    : "";
 
   const handleSubmit = (e: React.SubmitEvent) => {
     e.preventDefault();
@@ -90,9 +99,9 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({
         <form onSubmit={handleSubmit}>
           {pair && (
             <div className="mb-4 text-sm text-gray-700 dark:text-gray-300">
-              {pair.route && (
+              {routeLabel && (
                 <div className="text-sm text-gray-500 dark:text-gray-400 mb-3 px-1">
-                  {t("modals.selectLoss.routeLabel", { route: pair.route })}
+                  {t("modals.selectLoss.routeLabel", { route: routeLabel })}
                 </div>
               )}
 

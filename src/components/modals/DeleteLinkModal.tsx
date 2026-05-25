@@ -6,6 +6,8 @@ import { focusRingClasses } from "@/src/styles/focusRing.ts";
 import { getSpriteUrlForPokemonName } from "@/src/services/sprites.ts";
 import { FiAlertTriangle, FiInfo } from "react-icons/fi";
 import Tooltip from "@/src/components/other/Tooltip.tsx";
+import { resolveLocationDisplay } from "@/src/services/locationSearch.ts";
+import { normalizeLanguage } from "@/src/utils/language.ts";
 
 interface DeleteLinkModalProps {
   isOpen: boolean;
@@ -22,11 +24,16 @@ const DeleteLinkModal: React.FC<DeleteLinkModalProps> = ({
   pair,
   playerNames,
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { containerRef } = useFocusTrap(isOpen);
   const titleId = useId();
 
   if (!isOpen || !pair) return null;
+  const routeLabel = resolveLocationDisplay(
+    pair.routeSlug,
+    pair.route,
+    normalizeLanguage(i18n.language),
+  );
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
@@ -75,9 +82,9 @@ const DeleteLinkModal: React.FC<DeleteLinkModalProps> = ({
         </div>
 
         <div className="mb-4 text-sm text-gray-700 dark:text-gray-300">
-          {pair.route && (
+          {routeLabel && (
             <div className="text-sm text-gray-500 dark:text-gray-400 mb-3 px-1">
-              {t("modals.deleteLink.routeLabel", { route: pair.route })}
+              {t("modals.deleteLink.routeLabel", { route: routeLabel })}
             </div>
           )}
 

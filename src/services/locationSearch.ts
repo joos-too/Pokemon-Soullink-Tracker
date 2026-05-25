@@ -11,7 +11,7 @@ interface SearchOptions {
 interface LocationEntry {
   name: string;
   slug: string;
-  lower: string;
+  normalized: string;
   region: string | null;
 }
 
@@ -21,6 +21,12 @@ const ROUTE_NUMBER_NAME_REGEX = /\broute[\s-]*(\d+)\b/i;
 const ROUTE_NUMBER_SLUG_REGEX = /route-(\d+)/i;
 
 const SEA_ROUTE_PREFIX_REGEX = /^Sea\s+(?=Route\b)/i;
+
+const stripDiacritics = (value: string): string =>
+  value.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+const normalizeForSearch = (value: string): string =>
+  stripDiacritics(value.trim().toLowerCase());
 
 const normalizeRouteDisplayName = (name: string): string =>
   name.replace(SEA_ROUTE_PREFIX_REGEX, "");
@@ -78,7 +84,7 @@ const buildEntries = (
     return {
       ...entry,
       name: normalizedName,
-      lower: normalizedName.toLowerCase(),
+      normalized: normalizeForSearch(normalizedName),
     };
   });
 
@@ -95,50 +101,144 @@ const LOCATION_LISTS: Record<SupportedLanguage, LocationEntry[]> = {
   de: getEntriesForLocale("de"),
 };
 
-export async function searchLocations(
-  query: string,
-  max = 10,
-  options: SearchOptions = {},
-): Promise<string[]> {
-  const q = query.trim().toLowerCase();
-  if (q.length < 2) return [];
-  const { locale = "en", gameVersionId } = options;
-  const allowedRegions = getRegionsForVersion(gameVersionId);
-  if (!allowedRegions.size) return [];
+const ALL_LOCATION_ENTRIES = Object.values(LOCATION_LISTS).flat();
+
+export interface LocationSearchResult {
+  slug: string;
+  name: string;
+}
+
+const getLocaleList = (locale: SupportedLanguage): LocationEntry[] => {
   const fallbackList = LOCATION_LISTS[DEFAULT_LOCATION_LOCALE] ?? [];
-  const list = LOCATION_LISTS[locale]?.length
-    ? LOCATION_LISTS[locale]
-    : fallbackList;
-  const localeForCompare = DEFAULT_LOCATION_LOCALE;
-  const filtered = list.filter((entry) => {
-    const matchesTerm = entry.lower.includes(q);
-    if (!matchesTerm) return false;
-    if (!entry.region || !allowedRegions.has(entry.region)) return false;
-    return true;
-  });
-  filtered.sort((a, b) => {
+  return LOCATION_LISTS[locale]?.length ? LOCATION_LISTS[locale] : fallbackList;
+};
+
+const getEntryBySlug = (
+  slug: string,
+  locale: SupportedLanguage = DEFAULT_LOCATION_LOCALE,
+): LocationEntry | undefined =>
+  getLocaleList(locale).find((location) => location.slug === slug) ??
+  getLocaleList(DEFAULT_LOCATION_LOCALE).find(
+    (location) => location.slug === slug,
+  ) ??
+  ALL_LOCATION_ENTRIES.find((location) => location.slug === slug);
+
+const getEntriesBySlug = (slug: string): LocationEntry[] =>
+  ALL_LOCATION_ENTRIES.filter((location) => location.slug === slug);
+
+const sortLocations = (entries: LocationEntry[]): LocationEntry[] =>
+  [...entries].sort((a, b) => {
     const aRoute = getRouteNumberForEntry(a);
     const bRoute = getRouteNumberForEntry(b);
     if (aRoute !== null && bRoute !== null) {
       if (aRoute !== bRoute) return aRoute - bRoute;
-      const nameCompare = a.name.localeCompare(b.name, localeForCompare, {
-        sensitivity: "base",
-      });
+      const nameCompare = a.name.localeCompare(
+        b.name,
+        DEFAULT_LOCATION_LOCALE,
+        {
+          sensitivity: "base",
+        },
+      );
       if (nameCompare !== 0) return nameCompare;
       return a.slug.localeCompare(b.slug);
     }
-    return a.name.localeCompare(b.name, localeForCompare, {
+    return a.name.localeCompare(b.name, DEFAULT_LOCATION_LOCALE, {
       sensitivity: "base",
     });
   });
+
+export async function searchLocations(
+  query: string,
+  max = 10,
+  options: SearchOptions = {},
+): Promise<LocationSearchResult[]> {
+  const q = normalizeForSearch(query);
+  if (q.length < 2) return [];
+  const { locale = "en", gameVersionId } = options;
+  const allowedRegions = getRegionsForVersion(gameVersionId);
+  if (!allowedRegions.size) return [];
+
+  const filtered = getLocaleList(locale).filter((entry) => {
+    const matchesTerm = entry.normalized.includes(q);
+    if (!matchesTerm) return;
+    if (!entry.region || !allowedRegions.has(entry.region)) return;
+    return true;
+  });
+
+  const sorted = sortLocations(filtered);
   const unique: LocationEntry[] = [];
   const seenNames = new Set<string>();
-  filtered.forEach((entry) => {
-    const normalized = entry.name.toLowerCase();
-    if (!seenNames.has(normalized)) {
-      seenNames.add(normalized);
+  sorted.forEach((entry) => {
+    if (!seenNames.has(entry.normalized)) {
+      seenNames.add(entry.normalized);
       unique.push(entry);
     }
   });
-  return unique.slice(0, max).map((entry) => entry.name);
+  return unique.slice(0, max).map((entry) => ({
+    slug: entry.slug,
+    name: entry.name,
+  }));
+}
+
+export function getLocationName(
+  slug: string | undefined | null,
+  locale: SupportedLanguage = DEFAULT_LOCATION_LOCALE,
+): string {
+  if (!slug) return "";
+  const entry = getEntryBySlug(slug, locale);
+  return entry?.name ?? slug;
+}
+
+export function findLocationByName(
+  name: string | undefined | null,
+  options: SearchOptions = {},
+): LocationSearchResult | null {
+  const normalizedName = normalizeForSearch(name ?? "");
+  if (!normalizedName) return null;
+
+  const { locale = DEFAULT_LOCATION_LOCALE, gameVersionId } = options;
+  const allowedRegions = getRegionsForVersion(gameVersionId);
+
+  const found = ALL_LOCATION_ENTRIES.find((entry) => {
+    if (!entry.region || !allowedRegions.has(entry.region)) return false;
+    return (
+      entry.normalized === normalizedName ||
+      normalizeForSearch(entry.slug) === normalizedName
+    );
+  });
+  const displayEntry = found ? getEntryBySlug(found.slug, locale) : null;
+
+  return found
+    ? { slug: found.slug, name: displayEntry?.name ?? found.name }
+    : null;
+}
+
+export function locationMatchesQuery(
+  locationName: string | undefined | null,
+  query: string,
+  options: SearchOptions = {},
+): boolean {
+  const normalizedQuery = normalizeForSearch(query);
+  if (!normalizedQuery) return true;
+
+  const normalizedLocationName = normalizeForSearch(locationName ?? "");
+  if (normalizedLocationName.includes(normalizedQuery)) return true;
+
+  const matchedLocation = findLocationByName(locationName, options);
+  if (!matchedLocation) return false;
+
+  return (
+    normalizeForSearch(matchedLocation.slug).includes(normalizedQuery) ||
+    getEntriesBySlug(matchedLocation.slug).some((entry) =>
+      entry.normalized.includes(normalizedQuery),
+    )
+  );
+}
+
+export function resolveLocationDisplay(
+  slug: string | undefined | null,
+  fallbackName: string | undefined | null,
+  locale: SupportedLanguage = DEFAULT_LOCATION_LOCALE,
+): string {
+  return slug ? getLocationName(slug, locale) : fallbackName || "";
 }

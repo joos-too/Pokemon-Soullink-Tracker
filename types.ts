@@ -6,6 +6,7 @@ export interface Pokemon {
 export interface PokemonLink {
   id: number;
   route: string;
+  routeSlug?: string;
   members: Pokemon[];
   isLost?: boolean;
 }
@@ -49,6 +50,7 @@ export interface RivalCap {
 export interface FossilEntry {
   fossilId: string;
   location: string;
+  locationSlug?: string;
   inBag: boolean;
   revived: boolean;
   pokemonName?: string;
@@ -57,6 +59,7 @@ export interface FossilEntry {
 export interface StoneEntry {
   stoneId: string;
   location: string;
+  locationSlug?: string;
   inBag: boolean;
   used: boolean;
 }

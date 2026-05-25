@@ -4,6 +4,7 @@ import { FossilEntry, StoneEntry } from "@/types";
 import { PLAYER_COLORS } from "@/src/services/init";
 import { MEGA_STONES, FOSSILS, STONES } from "@/src/data/special-items.ts";
 import { getItemName, getItemSpriteUrl } from "@/src/services/itemSearch";
+import { resolveLocationDisplay } from "@/src/services/locationSearch";
 import { normalizeLanguage } from "@/src/utils/language";
 import {
   FiPlus,
@@ -34,6 +35,7 @@ interface ItemTrackerProps {
     fossilId: string,
     location: string,
     inBag: boolean,
+    locationSlug?: string,
   ) => void;
   onToggleBag: (playerIndex: number, fossilIndex: number) => void;
   onRevive: (selectedIndices: number[]) => void;
@@ -43,6 +45,7 @@ interface ItemTrackerProps {
     stoneId: string,
     location: string,
     inBag: boolean,
+    locationSlug?: string,
   ) => void;
   onToggleStoneBag: (playerIndex: number, stoneIndex: number) => void;
   onUseStone: (playerIndex: number, stoneIndex: number) => void;
@@ -293,6 +296,11 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
                   const displayName = isCustomItem
                     ? getItemName(entry.stoneId.replace("item:", ""), locale)
                     : t(`stones.${entry.stoneId}`);
+                  const locationLabel = resolveLocationDisplay(
+                    entry.locationSlug,
+                    entry.location,
+                    locale,
+                  );
 
                   return (
                     <div
@@ -338,7 +346,7 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
                             : entry.inBag
                               ? t("tracker.infoPanel.stoneBag")
                               : t("tracker.infoPanel.stoneLocation", {
-                                  location: entry.location,
+                                  location: locationLabel,
                                 })}
                         </div>
                       </div>
@@ -448,6 +456,12 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
               <div className="space-y-1 px-1">
                 {displayFossils[pIdx]?.map((entry, fIdx) => {
                   const def = FOSSILS.find((f) => f.id === entry.fossilId);
+                  const locale = normalizeLanguage(i18n.language);
+                  const locationLabel = resolveLocationDisplay(
+                    entry.locationSlug,
+                    entry.location,
+                    locale,
+                  );
                   const isSelected = fossilSelections[pIdx] === fIdx;
                   const canBeSelected =
                     entry.inBag && !entry.revived && !isFossilEditing;
@@ -504,7 +518,7 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
                             : entry.inBag
                               ? t("tracker.infoPanel.fossilBag")
                               : t("tracker.infoPanel.fossilLocation", {
-                                  location: entry.location,
+                                  location: locationLabel,
                                 })}
                         </div>
                       </div>
@@ -652,8 +666,8 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
         generationSpritePath={generationSpritePath}
         megaStoneSpriteStyle={megaStoneSpriteStyle}
         onMegaStoneSpriteStyleToggle={onMegaStoneSpriteStyleToggle}
-        onAdd={(id, loc, bag) => {
-          onAddStone(stoneModalOpen.playerIndex, id, loc, bag);
+        onAdd={(id, loc, bag, locationSlug) => {
+          onAddStone(stoneModalOpen.playerIndex, id, loc, bag, locationSlug);
           setStoneModalOpen({ open: false, playerIndex: 0 });
         }}
       />
@@ -666,8 +680,8 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
         }
         infiniteFossilsEnabled={infiniteFossilsEnabled}
         gameVersionId={gameVersionId}
-        onAdd={(id, loc, bag) => {
-          onAddFossil(fossilModalOpen.playerIndex, id, loc, bag);
+        onAdd={(id, loc, bag, locationSlug) => {
+          onAddFossil(fossilModalOpen.playerIndex, id, loc, bag, locationSlug);
           setFossilModalOpen({ open: false, playerIndex: 0 });
         }}
       />

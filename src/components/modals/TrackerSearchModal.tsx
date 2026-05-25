@@ -13,6 +13,10 @@ import {
 } from "@/src/services/pokemonSearch";
 import { FOSSILS, STONES, MEGA_STONES } from "@/src/data/special-items.ts";
 import { getItemName, getItemSpriteUrl } from "@/src/services/itemSearch";
+import {
+  locationMatchesQuery,
+  resolveLocationDisplay,
+} from "@/src/services/locationSearch";
 import { normalizeLanguage } from "@/src/utils/language";
 import { compareRoutes } from "@/src/utils/routes.ts";
 
@@ -32,6 +36,7 @@ interface TrackerSearchModalProps {
   fossils: FossilEntry[][];
   stones: StoneEntry[][];
   generationSpritePath?: string | null;
+  gameVersionId?: string;
 }
 
 interface PokemonSection {
@@ -68,6 +73,7 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
   fossils,
   stones,
   generationSpritePath,
+  gameVersionId,
 }) => {
   const { t, i18n } = useTranslation();
   const { containerRef } = useFocusTrap(isOpen);
@@ -137,15 +143,18 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
     return sections.filter((section) => section.pairs.length > 0);
   }, [box, graveyard, team, t, matchingFamilyIds, normalizedQuery]);
 
+  const locale = normalizeLanguage(i18n.language);
+
   const filteredRoutes = useMemo(() => {
     const uniqueRoutes = Array.from(new Set(routes)).sort(compareRoutes);
     if (!normalizedQuery) return uniqueRoutes;
     return uniqueRoutes.filter((route) =>
-      route.toLowerCase().includes(normalizedQuery),
+      locationMatchesQuery(route, normalizedQuery, {
+        locale,
+        gameVersionId,
+      }),
     );
-  }, [normalizedQuery, routes]);
-
-  const locale = normalizeLanguage(i18n.language);
+  }, [gameVersionId, locale, normalizedQuery, routes]);
 
   const allItems = useMemo<ItemRow[]>(() => {
     const rows: ItemRow[] = [];
@@ -154,6 +163,11 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
     (fossils ?? []).forEach((playerFossils, pIdx) => {
       (playerFossils ?? []).forEach((entry) => {
         const def = FOSSILS.find((f) => f.id === entry.fossilId);
+        const location = resolveLocationDisplay(
+          entry.locationSlug,
+          entry.location,
+          locale,
+        );
         const status = entry.revived
           ? entry.pokemonName
             ? `${t("tracker.infoPanel.fossilRevived")}: ${entry.pokemonName}`
@@ -161,7 +175,7 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
           : entry.inBag
             ? t("tracker.infoPanel.fossilBag")
             : t("tracker.infoPanel.fossilLocation", {
-                location: entry.location,
+                location,
               });
         rows.push({
           category: "fossils",
@@ -170,7 +184,7 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
           spriteUrl: def ? `/fossil-sprites/${def.sprite}` : "",
           playerIndex: pIdx,
           status,
-          location: entry.location,
+          location,
           pixelated: true,
         });
       });
@@ -210,12 +224,17 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
           spriteUrl = "";
         }
 
+        const location = resolveLocationDisplay(
+          entry.locationSlug,
+          entry.location,
+          locale,
+        );
         const status = entry.used
           ? t("tracker.infoPanel.stoneUsed")
           : entry.inBag
             ? t("tracker.infoPanel.stoneBag")
             : t("tracker.infoPanel.stoneLocation", {
-                location: entry.location,
+                location,
               });
 
         rows.push({
@@ -225,7 +244,7 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
           spriteUrl,
           playerIndex: pIdx,
           status,
-          location: entry.location,
+          location,
           pixelated: true,
         });
       });
@@ -249,7 +268,10 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
           if (!normalizedQuery) return true;
           return (
             item.name.toLowerCase().includes(normalizedQuery) ||
-            item.location.toLowerCase().includes(normalizedQuery)
+            locationMatchesQuery(item.location, normalizedQuery, {
+              locale,
+              gameVersionId,
+            })
           );
         });
         return { key, title: t(titleKey), items };
@@ -364,7 +386,12 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
                         >
                           <p className="text-center font-bold text-gray-600 dark:text-gray-300 mb-1">
                             {t("graveyard.areaLabel", {
-                              route: pair.route || t("common.unknownRoute"),
+                              route:
+                                resolveLocationDisplay(
+                                  pair.routeSlug,
+                                  pair.route,
+                                  locale,
+                                ) || t("common.unknownRoute"),
                             })}
                           </p>
                           <div

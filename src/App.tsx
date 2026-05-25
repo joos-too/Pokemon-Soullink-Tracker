@@ -115,9 +115,20 @@ import {
   DEFAULT_WIKI_EN,
   type WikiId,
 } from "@/src/utils/wiki.ts";
+import {
+  findLocationByName,
+  resolveLocationDisplay,
+} from "@/src/services/locationSearch.ts";
+import { normalizeLanguage } from "@/src/utils/language.ts";
 import "@/src/pokeapi"; // initialize Pokedex once so sprite caching SW gets registered
 
 const LAST_TRACKER_STORAGE_KEY = "soullink:lastTrackerId";
+
+interface LinkEditPayload {
+  route: string;
+  routeSlug?: string;
+  members: Pokemon[];
+}
 
 const MAX_DATA_GENERATION = 6;
 const resolveGenerationFromVersionId = (versionId?: string | null): number => {
@@ -198,6 +209,7 @@ const App: React.FC = () => {
     Record<string, TrackerSummary>
   >({});
   const { t, i18n } = useTranslation();
+  const locale = normalizeLanguage(i18n.language);
   const defaultLocaleRulesetId = useMemo(() => {
     const language = (
       i18n.resolvedLanguage ||
@@ -575,6 +587,20 @@ const App: React.FC = () => {
         return members;
       };
 
+      const resolveLegacyLocationSlug = (name: unknown): string | undefined => {
+        if (typeof name !== "string" || !name.trim()) return undefined;
+        return (
+          findLocationByName(name, {
+            locale: "en",
+            gameVersionId: activeGameVersion?.id,
+          }) ??
+          findLocationByName(name, {
+            locale: "de",
+            gameVersionId: activeGameVersion?.id,
+          })
+        )?.slug;
+      };
+
       const sanitizeLink = (p: any, fallbackId: number): PokemonLink => {
         const members = sanitizeMembers(p);
         const hasNickname = members.some(
@@ -582,12 +608,17 @@ const App: React.FC = () => {
         );
         const inferredLost = members.length > 0 && !hasNickname;
         const isLost = typeof p?.isLost === "boolean" ? p.isLost : inferredLost;
+        const routeSlug =
+          typeof p?.routeSlug === "string" && p.routeSlug.trim().length
+            ? p.routeSlug
+            : resolveLegacyLocationSlug(p?.route);
         return {
           id:
             Number.isFinite(Number(p?.id)) && Number(p?.id) > 0
               ? Number(p?.id)
               : fallbackId,
           route: typeof p?.route === "string" ? p.route : "",
+          ...(routeSlug ? { routeSlug } : {}),
           members,
           isLost,
         };
@@ -602,13 +633,20 @@ const App: React.FC = () => {
         return normalizedNames.map((_, i) => {
           const list = Array.isArray(playerFossils) ? playerFossils[i] : null;
           if (!Array.isArray(list)) return [];
-          return list.map((f: any) => ({
-            fossilId: f.fossilId || "",
-            location: f.location || "",
-            inBag: !!f.inBag,
-            revived: !!f.revived,
-            pokemonName: f.pokemonName || "",
-          }));
+          return list.map((f: any) => {
+            const locationSlug =
+              typeof f.locationSlug === "string" && f.locationSlug.trim().length
+                ? f.locationSlug
+                : resolveLegacyLocationSlug(f.location);
+            return {
+              fossilId: f.fossilId || "",
+              location: f.location || "",
+              ...(locationSlug ? { locationSlug } : {}),
+              inBag: !!f.inBag,
+              revived: !!f.revived,
+              pokemonName: f.pokemonName || "",
+            };
+          });
         });
       };
 
@@ -616,12 +654,19 @@ const App: React.FC = () => {
         return normalizedNames.map((_, i) => {
           const list = Array.isArray(playerStones) ? playerStones[i] : null;
           if (!Array.isArray(list)) return [];
-          return list.map((s: any) => ({
-            stoneId: s.stoneId || "",
-            location: s.location || "",
-            inBag: !!s.inBag,
-            used: !!s.used,
-          }));
+          return list.map((s: any) => {
+            const locationSlug =
+              typeof s.locationSlug === "string" && s.locationSlug.trim().length
+                ? s.locationSlug
+                : resolveLegacyLocationSlug(s.location);
+            return {
+              stoneId: s.stoneId || "",
+              location: s.location || "",
+              ...(locationSlug ? { locationSlug } : {}),
+              inBag: !!s.inBag,
+              used: !!s.used,
+            };
+          });
         });
       };
 
@@ -1358,13 +1403,19 @@ const App: React.FC = () => {
   );
 
   const updateLinkRoute = useCallback(
-    (key: "team" | "box", index: number, value: string) => {
+    (key: "team" | "box", index: number, value: string, routeSlug?: string) => {
       if (isReadOnly) return;
       setData((prev) => {
         const list = [...prev[key]];
         const target = list[index];
         if (!target) return prev;
-        list[index] = { ...target, route: value };
+        const next = { ...target, route: value };
+        if (routeSlug) {
+          next.routeSlug = routeSlug;
+        } else {
+          delete next.routeSlug;
+        }
+        list[index] = next;
         return { ...prev, [key]: list };
       });
     },
@@ -1384,8 +1435,8 @@ const App: React.FC = () => {
   );
 
   const handleRouteChange = useCallback(
-    (index: number, value: string) => {
-      updateLinkRoute("team", index, value);
+    (index: number, value: string, routeSlug?: string) => {
+      updateLinkRoute("team", index, value, routeSlug);
     },
     [updateLinkRoute],
   );
@@ -1408,12 +1459,12 @@ const App: React.FC = () => {
   );
 
   const handleBoxRouteChange = useCallback(
-    (index: number, value: string) => {
+    (index: number, value: string, routeSlug?: string) => {
       const link = filteredBox[index];
       if (!link) return;
       const realIndex = data.box.findIndex((p) => p.id === link.id);
       if (realIndex === -1) return;
-      updateLinkRoute("box", realIndex, value);
+      updateLinkRoute("box", realIndex, value, routeSlug);
     },
     [updateLinkRoute, filteredBox, data.box],
   );
@@ -1550,7 +1601,11 @@ const App: React.FC = () => {
     }));
   };
 
-  const handleManualAddFromModal = (route: string, members: Pokemon[]) => {
+  const handleManualAddFromModal = (
+    route: string,
+    members: Pokemon[],
+    routeSlug?: string,
+  ) => {
     if (isReadOnly) return;
     const newPair: PokemonLink = {
       id: Date.now(),
@@ -1561,13 +1616,16 @@ const App: React.FC = () => {
       })),
       isLost: true,
     };
+    if (routeSlug) {
+      newPair.routeSlug = routeSlug;
+    }
     handleManualAddToGraveyard(newPair);
     setIsModalOpen(false);
   };
 
   const handleEditGraveyardPair = (
     pairId: number,
-    payload: { route: string; members: Pokemon[] },
+    payload: LinkEditPayload,
   ) => {
     if (isReadOnly) return;
     setData((prev) => ({
@@ -1579,20 +1637,23 @@ const App: React.FC = () => {
           name: member.name.trim(),
           nickname: isLost ? "" : member.nickname.trim(),
         }));
-        return {
+        const next = {
           ...pair,
           route: payload.route.trim(),
           members,
           isLost,
         };
+        if (payload.routeSlug) {
+          next.routeSlug = payload.routeSlug;
+        } else {
+          delete next.routeSlug;
+        }
+        return next;
       }),
     }));
   };
 
-  const handleAddTeamPair = (payload: {
-    route: string;
-    members: Pokemon[];
-  }) => {
+  const handleAddTeamPair = (payload: LinkEditPayload) => {
     if (isReadOnly) return;
     setData((prev) => {
       if (prev.team.length >= 6) return prev; // enforce 6 max
@@ -1603,6 +1664,7 @@ const App: React.FC = () => {
           {
             id: Date.now(),
             route: payload.route.trim(),
+            ...(payload.routeSlug ? { routeSlug: payload.routeSlug } : {}),
             members: payload.members.map((member) => ({
               name: member.name.trim(),
               nickname: member.nickname.trim(),
@@ -1613,7 +1675,7 @@ const App: React.FC = () => {
     });
   };
 
-  const handleAddBoxPair = (payload: { route: string; members: Pokemon[] }) => {
+  const handleAddBoxPair = (payload: LinkEditPayload) => {
     if (isReadOnly) return;
     setData((prev) => ({
       ...prev,
@@ -1622,6 +1684,7 @@ const App: React.FC = () => {
         {
           id: Date.now(),
           route: payload.route.trim(),
+          ...(payload.routeSlug ? { routeSlug: payload.routeSlug } : {}),
           members: payload.members.map((member) => ({
             name: member.name.trim(),
             nickname: member.nickname.trim(),
@@ -1711,6 +1774,7 @@ const App: React.FC = () => {
     fossilId: string,
     location: string,
     inBag: boolean,
+    locationSlug?: string,
   ) => {
     if (isReadOnly) return;
     setData((prev) => {
@@ -1720,7 +1784,13 @@ const App: React.FC = () => {
         : [];
       newFossils[pIdx] = [
         ...playerList,
-        { fossilId, location, inBag, revived: false },
+        {
+          fossilId,
+          location,
+          ...(locationSlug ? { locationSlug } : {}),
+          inBag,
+          revived: false,
+        },
       ];
       return { ...prev, fossils: newFossils };
     });
@@ -1732,7 +1802,13 @@ const App: React.FC = () => {
       const newFossils = [...(prev.fossils || [])];
       if (!newFossils[pIdx]) return prev;
       newFossils[pIdx] = newFossils[pIdx].map((f, i) =>
-        i === fIdx ? { ...f, inBag: true, location: "" } : f,
+        i === fIdx
+          ? (() => {
+              const next = { ...f, inBag: true, location: "" };
+              delete next.locationSlug;
+              return next;
+            })()
+          : f,
       );
       return { ...prev, fossils: newFossils };
     });
@@ -1789,6 +1865,7 @@ const App: React.FC = () => {
     stoneId: string,
     location: string,
     inBag: boolean,
+    locationSlug?: string,
   ) => {
     if (isReadOnly) return;
     setData((prev) => {
@@ -1798,7 +1875,13 @@ const App: React.FC = () => {
         : [];
       newStones[pIdx] = [
         ...playerList,
-        { stoneId, location, inBag, used: false },
+        {
+          stoneId,
+          location,
+          ...(locationSlug ? { locationSlug } : {}),
+          inBag,
+          used: false,
+        },
       ];
       return { ...prev, stones: newStones };
     });
@@ -1810,7 +1893,13 @@ const App: React.FC = () => {
       const newStones = [...(prev.stones || [])];
       if (!newStones[pIdx]) return prev;
       newStones[pIdx] = newStones[pIdx].map((s, i) =>
-        i === sIdx ? { ...s, inBag: true, location: "" } : s,
+        i === sIdx
+          ? (() => {
+              const next = { ...s, inBag: true, location: "" };
+              delete next.locationSlug;
+              return next;
+            })()
+          : s,
       );
       return { ...prev, stones: newStones };
     });
@@ -2203,7 +2292,7 @@ const App: React.FC = () => {
     const collect = (arr: PokemonLink[] | undefined | null) => {
       const list = Array.isArray(arr) ? arr : [];
       for (const p of list) {
-        const r = (p?.route || "").trim();
+        const r = resolveLocationDisplay(p?.routeSlug, p?.route, locale).trim();
         if (r) routes.push(r);
       }
     };
@@ -2211,7 +2300,7 @@ const App: React.FC = () => {
     collect(data?.box);
     collect(data?.graveyard);
     return Array.from(new Set(routes)).sort((a, b) => a.localeCompare(b));
-  }, [data]);
+  }, [data, locale]);
 
   const trackerList = useMemo(
     () =>
@@ -2452,6 +2541,7 @@ const App: React.FC = () => {
         fossils={data.fossils ?? []}
         stones={data.stones ?? []}
         generationSpritePath={generationSpritePath}
+        gameVersionId={activeGameVersionId || undefined}
       />
       {readOnlyNotice && (
         <div className="max-w-[1920px] mx-auto mt-3 mb-3 bg-blue-50 border border-blue-200 text-blue-800 dark:bg-slate-800 dark:border-slate-700 dark:text-blue-100 rounded-md px-3 py-2 text-sm shadow-sm">

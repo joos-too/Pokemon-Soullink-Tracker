@@ -8,16 +8,21 @@ import { FiEdit, FiTrash } from "react-icons/fi";
 import AddLostPokemonModal from "@/src/components/modals/AddLostPokemonModal.tsx";
 import EditPairModal from "@/src/components/modals/EditPairModal.tsx";
 import { getWikiUrl, type WikiId } from "@/src/utils/wiki.ts";
+import { resolveLocationDisplay } from "@/src/services/locationSearch.ts";
+import { normalizeLanguage } from "@/src/utils/language.ts";
+
+interface LinkEditPayload {
+  route: string;
+  routeSlug?: string;
+  members: Pokemon[];
+}
 
 interface GraveyardProps {
   graveyard?: PokemonLink[];
   playerNames: string[];
   playerColors?: string[];
   onManualAddClick?: () => void;
-  onEditPair: (
-    pairId: number,
-    payload: { route: string; members: Pokemon[] },
-  ) => void;
+  onEditPair: (pairId: number, payload: LinkEditPayload) => void;
   onDeleteLink?: (pair: PokemonLink) => void;
   readOnly?: boolean;
   generationSpritePath?: string | null;
@@ -39,7 +44,8 @@ const Graveyard: React.FC<GraveyardProps> = ({
   readOnly = false,
   wikiId,
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const locale = normalizeLanguage(i18n.language);
   const names = useMemo(() => {
     const list = playerNames.length
       ? playerNames
@@ -74,13 +80,14 @@ const Graveyard: React.FC<GraveyardProps> = ({
     if (!activePair) return null;
     return {
       route: activePair.route ?? "",
+      routeSlug: activePair.routeSlug,
       members: names.map(
         (_, index) => activePair.members?.[index] ?? { name: "", nickname: "" },
       ),
     };
   }, [activePair, names]);
 
-  const handleSave = (payload: { route: string; members: Pokemon[] }) => {
+  const handleSave = (payload: LinkEditPayload) => {
     if (!activePair) return;
     onEditPair(activePair.id, payload);
     setEditIndex(null);
@@ -119,9 +126,14 @@ const Graveyard: React.FC<GraveyardProps> = ({
         {graveyard && graveyard.length > 0 ? (
           <div className="space-y-3">
             {[...graveyard].reverse().map((pair) => {
+              const routeLabel = resolveLocationDisplay(
+                pair.routeSlug,
+                pair.route,
+                locale,
+              );
               const canEdit =
                 !readOnly &&
-                (pair.route || pair.members.some((member) => member?.name));
+                (routeLabel || pair.members.some((member) => member?.name));
               const canDelete = !readOnly && onDeleteLink;
               const isLost = Boolean(pair.isLost);
               const statusLabel = isLost
@@ -169,7 +181,7 @@ const Graveyard: React.FC<GraveyardProps> = ({
                   )}
                   <p className="text-center font-bold text-gray-600 dark:text-gray-300 mb-1">
                     {t("graveyard.areaLabel", {
-                      route: pair.route || t("common.unknownRoute"),
+                      route: routeLabel || t("common.unknownRoute"),
                     })}
                   </p>
                   <div
@@ -271,7 +283,9 @@ const Graveyard: React.FC<GraveyardProps> = ({
       <AddLostPokemonModal
         isOpen={!readOnly && editIndex !== null && isLostPair}
         onClose={() => setEditIndex(null)}
-        onAdd={(route, members) => handleSave({ route, members })}
+        onAdd={(route, members, routeSlug) =>
+          handleSave({ route, routeSlug, members })
+        }
         playerNames={names}
         generationLimit={pokemonGenerationLimit}
         generationSpritePath={generationSpritePath}
