@@ -2294,6 +2294,33 @@ const App: React.FC = () => {
         ? t("app.publicReadOnlyNotice")
         : null
     : null;
+  const isTrackerSearchShortcutEnabled = Boolean(
+    activeTrackerId && routeTrackerId && !showSettings,
+  );
+
+  useEffect(() => {
+    if (!isTrackerSearchShortcutEnabled) return;
+
+    const handleTrackerSearchShortcut = (event: KeyboardEvent) => {
+      if (
+        event.defaultPrevented ||
+        !event.ctrlKey ||
+        event.altKey ||
+        event.metaKey ||
+        event.key.toLowerCase() !== "f"
+      ) {
+        return;
+      }
+
+      event.preventDefault();
+      setMobileMenuOpen(false);
+      setShowSearchModal(true);
+    };
+
+    window.addEventListener("keydown", handleTrackerSearchShortcut);
+    return () =>
+      window.removeEventListener("keydown", handleTrackerSearchShortcut);
+  }, [isTrackerSearchShortcutEnabled]);
 
   if (isPasswordResetRoute) {
     return <PasswordResetPage oobCode={passwordResetOobCode} />;
@@ -2475,8 +2502,8 @@ const App: React.FC = () => {
               <button
                 onClick={() => setShowSearchModal(true)}
                 className={`p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white ${focusRingClasses}`}
-                aria-label={t("tracker.search.open")}
-                title={t("tracker.search.open")}
+                aria-label={t("tracker.search.openWithShortcut")}
+                title={t("tracker.search.openWithShortcut")}
               >
                 <FiSearch size={28} />
               </button>
