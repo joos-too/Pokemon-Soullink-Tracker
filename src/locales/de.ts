@@ -235,6 +235,7 @@ export const de = {
     search: {
       title: "Tracker durchsuchen",
       open: "Suche öffnen",
+      openWithShortcut: "Suche öffnen (Strg + F)",
       modePokemon: "Pokémon",
       modeRoutes: "Gebiete",
       modeItems: "Items",
