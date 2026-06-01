@@ -1629,6 +1629,13 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
             },
           },
           {
+            slug: "level-up-location-new-mauville",
+            names: {
+              de: "Levelaufstieg - Ort: Neu Malvenfroh",
+              en: "Level-Up - Location: New Mauville",
+            },
+          },
+          {
             slug: "level-up-location-kalos-route-13",
             names: {
               de: "Levelaufstieg - Ort: Route 13",
@@ -2593,6 +2600,13 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
             },
           },
           {
+            slug: "level-up-location-petalburg-woods",
+            names: {
+              de: "Levelaufstieg - Ort: Blütenburgwald",
+              en: "Level-Up - Location: Petalburg Woods",
+            },
+          },
+          {
             slug: "level-up-location-pinwheel-forest",
             names: {
               de: "Levelaufstieg - Ort: Ewigenwald",
@@ -2630,6 +2644,13 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
             names: {
               de: "Levelaufstieg - Ort: Frosthöhle",
               en: "Level-Up - Location: Frost Cavern",
+            },
+          },
+          {
+            slug: "level-up-location-shoal-cave",
+            names: {
+              de: "Levelaufstieg - Ort: Küstenhöhle",
+              en: "Level-Up - Location: Shoal Cave",
             },
           },
           {
@@ -5580,6 +5601,13 @@ export const POKEMON_DATA: Record<number, PokemonDataEntry> = {
             names: {
               de: "Levelaufstieg - Ort: Kraterberg",
               en: "Level-Up - Location: Mt. Coronet",
+            },
+          },
+          {
+            slug: "level-up-location-new-mauville",
+            names: {
+              de: "Levelaufstieg - Ort: Neu Malvenfroh",
+              en: "Level-Up - Location: New Mauville",
             },
           },
           {
