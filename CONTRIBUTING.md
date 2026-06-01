@@ -203,13 +203,22 @@ npm run prettier          # format everything
 npm run prettier:check    # check only (CI-friendly)
 ```
 
+## 🐛 Reporting Issues
+
+When opening a new issue, please use the provided **issue templates**:
+
+- **Bug Report** - for unexpected behavior or errors
+- **Enhancement** - for improvements to existing features
+- **New Feature** - for entirely new functionality
+
+Click **"New Issue"** on GitHub and select the appropriate template. Fill in all sections — the more detail you provide, the faster we can act on it.
+
 ## 🚢 Submitting Changes
 
-1. **Fork** the repository.
-2. **Branch** - `git checkout -b feature/amazing-feature`
-3. **Code** - make your changes.
-4. **Validate** - ensure `npm run build` and `npm run prettier:check` both pass.
-5. **Commit & push** your branch.
-6. **Open a Pull Request** - describe what you changed and why.
+1. **Fork & branch** - on GitHub, click **Fork** to create your own copy, then create a new branch from `main` (e.g. `feature/amazing-feature`).
+2. **Code** - make your changes locally and ensure `npm run build` and `npm run prettier:check` both pass.
+3. **Push** - push your branch to your fork.
+4. **Open a Pull Request** - on GitHub, navigate to the original repository, click **"New Pull Request"**, and select your fork/branch. The **PR template** loads automatically — fill in all sections, link the related issue (e.g. `Closes #42`), and complete the checklist.
+5. **Request a review** - assign the PR to a code owner and wait for approval before merging.
 
 <p align="center"><b>Thank you for contributing! 🎉</b></p>
