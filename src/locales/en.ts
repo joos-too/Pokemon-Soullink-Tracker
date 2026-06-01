@@ -233,6 +233,7 @@ export const en = {
     search: {
       title: "Search tracker",
       open: "Open search",
+      openWithShortcut: "Open search (Ctrl + F)",
       modePokemon: "Pokémon",
       modeRoutes: "Areas",
       modeItems: "Items",
