@@ -2632,9 +2632,7 @@ const App: React.FC = () => {
             title={t("tracker.footer.github")}
           >
             <FaGithub size={18} aria-hidden="true" />
-            <span className="text-sm">
-              vibecoded by joos-too & FreakMediaLP
-            </span>
+            <span className="text-sm">Coded by joos-too & FreakMediaLP</span>
           </a>
         </footer>
       </div>
