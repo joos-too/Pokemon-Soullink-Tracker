@@ -914,3 +914,6 @@ export const TYPE_NAMES_EN: Record<string, string> = {
   steel: "Steel",
   fairy: "Fairy",
 };
+
+/** All known type slugs, derived from TYPE_NAMES_EN keys. */
+export const ALL_TYPE_SLUGS = Object.keys(TYPE_NAMES_EN);
