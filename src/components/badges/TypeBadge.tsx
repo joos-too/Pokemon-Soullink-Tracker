@@ -32,9 +32,13 @@ const DEFAULT_COLORS = { bg: "#68A090", border: "#44685A" };
 
 interface TypeBadgeProps {
   typeSlug: string;
+  selected?: boolean;
 }
 
-const TypeBadge: React.FC<TypeBadgeProps> = ({ typeSlug }) => {
+const TypeBadge: React.FC<TypeBadgeProps> = ({
+  typeSlug,
+  selected = false,
+}) => {
   const { i18n } = useTranslation();
   const locale = normalizeLanguage(i18n.language);
   const label = getLocalizedTypeName(typeSlug, locale).toUpperCase();
@@ -42,11 +46,14 @@ const TypeBadge: React.FC<TypeBadgeProps> = ({ typeSlug }) => {
 
   return (
     <span
-      className="inline-flex items-center justify-center rounded-sm text-[9px] font-bold leading-none tracking-wider text-white shadow-sm"
+      className="inline-flex items-center justify-center rounded-sm text-[9px] font-bold leading-none tracking-wider text-white shadow-sm whitespace-nowrap transition-shadow"
       style={{
         backgroundColor: colors.bg,
         border: `1.5px solid ${colors.border}`,
         padding: "2px 4px",
+        boxShadow: selected
+          ? "0 0 0 2px #22c55e, 0 1px 2px 0 rgb(0 0 0 / 0.05)"
+          : undefined,
         textShadow: "0 0.5px 1px rgba(0,0,0,0.3)",
       }}
     >
