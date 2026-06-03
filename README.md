@@ -1,5 +1,4 @@
 <h1 align="center">
-  <br>
     <a><img src="public/Soullinktracker-Logo.png" alt="Soullink Tracker" width="200"></a>
   <br>
     Soullink Tracker
