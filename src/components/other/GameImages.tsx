@@ -6,8 +6,9 @@ import { getSpriteUrlForPokemonName } from "@/src/services/sprites.ts";
 export const RivalImage: React.FC<{
   rival: string | VariableRival;
   preferences: UserSettings["rivalPreferences"];
+  defaultPreferences?: Record<string, string>;
   displayName?: string;
-}> = ({ rival, preferences, displayName }) => {
+}> = ({ rival, preferences, defaultPreferences, displayName }) => {
   let spriteName: string;
   let fallbackDisplayName: string;
 
@@ -19,7 +20,8 @@ export const RivalImage: React.FC<{
       .replace(/[^a-z0-9_]/g, "");
     fallbackDisplayName = rival;
   } else {
-    const preference = preferences?.[rival.key] || "male";
+    const preference =
+      preferences?.[rival.key] ?? defaultPreferences?.[rival.key] ?? "male";
     spriteName = rival.options[preference];
     fallbackDisplayName = rival.key;
   }

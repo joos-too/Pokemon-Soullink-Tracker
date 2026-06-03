@@ -145,6 +145,7 @@ export interface GameVersion {
   selectionColors?: Record<string, GameSelectionColor>;
   levelCaps: Omit<LevelCap, "done">[];
   rivalCaps: Omit<RivalCap, "done" | "revealed">[];
+  defaultRivalPreferences?: Record<string, RivalGender>;
 }
 
 export interface TrackerMeta {
