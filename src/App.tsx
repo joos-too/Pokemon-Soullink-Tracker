@@ -43,6 +43,7 @@ import BoxFilters, {
 import { useHiddenLinks } from "@/src/hooks/useHiddenLinks.ts";
 import { getPokemonTypeSlugsForName } from "@/src/services/pokemonTypes.ts";
 import InfoPanel from "@/src/components/widgets/InfoPanel.tsx";
+import Rules from "@/src/components/widgets/Rules.tsx";
 import Graveyard from "@/src/components/widgets/Graveyard.tsx";
 import ClearedRoutes from "@/src/components/widgets/ClearedRoutes.tsx";
 import AddLostPokemonModal from "@/src/components/modals/AddLostPokemonModal.tsx";
@@ -2735,8 +2736,6 @@ const App: React.FC = () => {
               onRivalCapReveal={handleRivalCapReveal}
               onStatChange={handleStatChange}
               onPlayerStatChange={handlePlayerStatChange}
-              rules={data.rules}
-              onRulesChange={(rules) => setData((prev) => ({ ...prev, rules }))}
               legendaryTrackerEnabled={data.legendaryTrackerEnabled ?? true}
               rivalCensorEnabled={data.rivalCensorEnabled ?? true}
               hardcoreModeEnabled={data.hardcoreModeEnabled ?? true}
@@ -2770,6 +2769,11 @@ const App: React.FC = () => {
               megaStoneSpriteStyle={data.megaStoneSpriteStyle ?? "item"}
               onMegaStoneSpriteStyleToggle={handleMegaStoneSpriteStyleToggle}
             />
+            <Rules
+              rules={data.rules}
+              onRulesChange={(rules) => setData((prev) => ({ ...prev, rules }))}
+              readOnly={isReadOnly}
+            />
             <Graveyard
               graveyard={data.graveyard}
               playerNames={resolvedPlayerNames}
@@ -2795,9 +2799,7 @@ const App: React.FC = () => {
             title={t("tracker.footer.github")}
           >
             <FaGithub size={18} aria-hidden="true" />
-            <span className="text-sm">
-              vibecoded by joos-too & FreakMediaLP
-            </span>
+            <span className="text-sm">Coded by joos-too & FreakMediaLP</span>
           </a>
         </footer>
       </div>
