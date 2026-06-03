@@ -90,6 +90,7 @@ export const INITIAL_STATE: AppState = {
   stats: ensureStatsForPlayers(undefined, DEFAULT_PLAYER_NAME_SET.length),
   legendaryTrackerEnabled: true,
   rivalCensorEnabled: true,
+  rivalCensorMode: "on",
   hardcoreModeEnabled: true,
   infiniteFossilsEnabled: false,
   megaStoneSpriteStyle: "item",

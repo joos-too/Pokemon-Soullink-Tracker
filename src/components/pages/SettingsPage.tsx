@@ -6,6 +6,7 @@ import {
 } from "@/src/services/init.ts";
 import type {
   GameVersion,
+  RivalCensorMode,
   RivalGender,
   Ruleset,
   TrackerMember,
@@ -32,6 +33,7 @@ import {
   focusRingRedClasses,
 } from "@/src/styles/focusRing.ts";
 import ToggleSwitch from "@/src/components/toggles/ToggleSwitch.tsx";
+import TriStateToggle from "@/src/components/toggles/TriStateToggle.tsx";
 import Tooltip from "@/src/components/other/Tooltip.tsx";
 import { useTranslation } from "react-i18next";
 import { getLocalizedRivalEntry } from "@/src/services/gameLocalization.ts";
@@ -49,8 +51,8 @@ interface SettingsPageProps {
   onBack: () => void;
   legendaryTrackerEnabled: boolean;
   onlegendaryTrackerToggle: (enabled: boolean) => void;
-  rivalCensorEnabled: boolean;
-  onRivalCensorToggle: (enabled: boolean) => void;
+  rivalCensorMode: RivalCensorMode;
+  onRivalCensorModeChange: (mode: RivalCensorMode) => void;
   hardcoreModeEnabled: boolean;
   onHardcoreModeToggle: (enabled: boolean) => void;
   infiniteFossilsEnabled: boolean;
@@ -86,8 +88,8 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
   onBack,
   legendaryTrackerEnabled,
   onlegendaryTrackerToggle,
-  rivalCensorEnabled,
-  onRivalCensorToggle,
+  rivalCensorMode,
+  onRivalCensorModeChange,
   hardcoreModeEnabled,
   onHardcoreModeToggle,
   infiniteFossilsEnabled,
@@ -389,6 +391,54 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                 <div>
                   <div className="flex items-center gap-2">
                     <div className="font-medium text-gray-800 dark:text-gray-200">
+                      {t("settings.features.rivalCensor.title")}
+                    </div>
+                    <Tooltip
+                      side="top"
+                      content={t("settings.features.rivalCensor.tooltip")}
+                    >
+                      <span
+                        className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-help"
+                        aria-label={t(
+                          "settings.features.rivalCensor.tooltipLabel",
+                        )}
+                      >
+                        <FiInfo size={16} />
+                      </span>
+                    </Tooltip>
+                  </div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400">
+                    {t("settings.features.rivalCensor.description")}
+                  </div>
+                </div>
+                <TriStateToggle
+                  id="rival-censor-toggle"
+                  value={rivalCensorMode}
+                  options={[
+                    {
+                      value: "off" as const,
+                      label: t("settings.features.rivalCensor.modes.off"),
+                    },
+                    {
+                      value: "showLevels" as const,
+                      label: t(
+                        "settings.features.rivalCensor.modes.showLevels",
+                      ),
+                    },
+                    {
+                      value: "on" as const,
+                      label: t("settings.features.rivalCensor.modes.on"),
+                    },
+                  ]}
+                  onChange={onRivalCensorModeChange}
+                  ariaLabel={t("settings.features.rivalCensor.title")}
+                  disabled={isGuest}
+                />
+              </div>
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <div className="font-medium text-gray-800 dark:text-gray-200">
                       {t("settings.features.hardcore.title")}
                     </div>
                     <Tooltip
@@ -414,38 +464,6 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                   checked={hardcoreModeEnabled}
                   onChange={onHardcoreModeToggle}
                   ariaLabel={t("settings.features.hardcore.title")}
-                  disabled={isGuest}
-                />
-              </div>
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <div className="font-medium text-gray-800 dark:text-gray-200">
-                      {t("settings.features.rivalCensor.title")}
-                    </div>
-                    <Tooltip
-                      side="top"
-                      content={t("settings.features.rivalCensor.tooltip")}
-                    >
-                      <span
-                        className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-help"
-                        aria-label={t(
-                          "settings.features.rivalCensor.tooltipLabel",
-                        )}
-                      >
-                        <FiInfo size={16} />
-                      </span>
-                    </Tooltip>
-                  </div>
-                  <div className="text-xs text-gray-500 dark:text-gray-400">
-                    {t("settings.features.rivalCensor.description")}
-                  </div>
-                </div>
-                <ToggleSwitch
-                  id="rival-censor-toggle"
-                  checked={rivalCensorEnabled}
-                  onChange={onRivalCensorToggle}
-                  ariaLabel={t("settings.features.rivalCensor.title")}
                   disabled={isGuest}
                 />
               </div>

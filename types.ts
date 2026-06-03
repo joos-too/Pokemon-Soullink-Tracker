@@ -70,6 +70,8 @@ export interface Stats {
   legendaryEncounters?: number;
 }
 
+export type RivalCensorMode = "off" | "showLevels" | "on";
+
 export interface AppState {
   playerNames: string[];
   team: PokemonLink[];
@@ -81,6 +83,8 @@ export interface AppState {
   rivalCaps: RivalCap[];
   stats: Stats;
   legendaryTrackerEnabled?: boolean;
+  rivalCensorMode?: RivalCensorMode;
+  /** @deprecated Use rivalCensorMode instead */
   rivalCensorEnabled?: boolean;
   hardcoreModeEnabled?: boolean;
   infiniteFossilsEnabled?: boolean;

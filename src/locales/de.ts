@@ -506,9 +506,14 @@ export const de = {
       rivalCensor: {
         title: "Rivalenkämpfe zensieren",
         tooltipLabel: "Info Rivalenkämpfe zensieren",
-        tooltip: `Um Spoiler zu vermeiden und die Story besser genießen zu können, werden Rivalenkämpfe zensiert und müssen händisch aufgedeckt werden.\n\nNach einmaligem Aufdecken und auch in folgenden Runs bleiben sie dann aufgedeckt.`,
+        tooltip: `Um Spoiler zu vermeiden und die Story besser genießen zu können, werden Rivalenkämpfe zensiert und müssen händisch aufgedeckt werden.\n\nNach einmaligem Aufdecken und auch in folgenden Runs bleiben sie dann aufgedeckt. Du kannst auch nur die Level der anstehenden Rivalenkämpfen anzeigen lassen.`,
         description:
           "Verbirgt Details zu Rivalenkämpfen, bis sie aufgedeckt werden.",
+        modes: {
+          off: "Aus",
+          showLevels: "Zeige Level",
+          on: "An",
+        },
       },
       legendary: {
         title: "Legendary Tracker",
