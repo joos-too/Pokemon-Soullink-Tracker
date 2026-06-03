@@ -221,4 +221,6 @@ Click **"New Issue"** on GitHub and select the appropriate template. Fill in all
 4. **Open a Pull Request** - on GitHub, navigate to the original repository, click **"New Pull Request"**, and select your fork/branch. The **PR template** loads automatically — fill in all sections, link the related issue (e.g. `Closes #42`), and complete the checklist.
 5. **Request a review** - assign the PR to a code owner and wait for approval before merging.
 
+---
+
 <p align="center"><b>Thank you for contributing! 🎉</b></p>
