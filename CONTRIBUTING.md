@@ -54,40 +54,6 @@ npm run build
 # 4. Serve the dist/ folder with any static host (nginx, Vercel, Netlify …)
 ```
 
-## ⚙️ Environment & Firebase Setup
-
-The project supports two modes:
-
-<details>
-<summary><b>Local development (Firebase Emulators)</b></summary>
-
-```env
-VITE_FIREBASE_PROJECT_ID=soullink-tracker-d6d9a
-VITE_USE_FIREBASE_EMULATOR=true
-VITE_FIREBASE_EMULATOR_HOST=localhost
-VITE_FIREBASE_AUTH_EMULATOR_PORT=9099
-VITE_FIREBASE_DB_EMULATOR_PORT=9000
-```
-
-</details>
-
-<details>
-<summary><b>Production (real Firebase project)</b></summary>
-
-```env
-VITE_FIREBASE_API_KEY=...
-VITE_FIREBASE_AUTH_DOMAIN=...
-VITE_FIREBASE_DATABASE_URL=...
-VITE_FIREBASE_PROJECT_ID=...
-VITE_FIREBASE_STORAGE_BUCKET=...
-VITE_FIREBASE_MESSAGING_SENDER_ID=...
-VITE_FIREBASE_APP_ID=...
-```
-
-> Do **not** set `VITE_USE_FIREBASE_EMULATOR` in production. The app validates these variables at runtime and throws a helpful error if any are missing.
-
-</details>
-
 ## 📦 Available Commands
 
 | Command                    | Description                              |
@@ -97,50 +63,23 @@ VITE_FIREBASE_APP_ID=...
 | `npm run build`            | Create a production build                |
 | `npm run generate-pokemon` | Regenerate Pokémon datasets from PokéAPI |
 
-## 🏛 Architecture
+## 📜 Scripts
 
-### Project Structure
+The app relies heavily on external data (Pokémon, items, locations, evolutions...), which are gatered from two main sources,
+PokéAPI and PokéWiki. To merge the live and static data from these two sources into a usable format, multiple scripts were
+created. These data-generation scripts live in `scripts/` and produce pre-built TypeScript datasets. These scripts read
+from a local clone of the [PokeAPI/api-data](https://github.com/PokeAPI/api-data) repository via a shared static client
+(`pokeapi-static-client.mjs`) instead of making individual live HTTP requests.
 
-```
-├── index.html / index.tsx            # Entry point
-├── types.ts                          # Shared domain types
-│
-├── src/
-│   ├── App.tsx                       # Routing, auth, tracker lifecycle, modals
-│   ├── i18n.ts                       # i18next setup (Localization)
-│   │
-│   ├── components/
-│   │   ├── pages/                    # Top-level views (Home, Login, Settings, Ruleset Editor …)
-│   │   ├── modals/                   # Dialogs (create tracker, add fossil, evolve, delete …)
-│   │   ├── widgets/                  # Tracker panels (team table, graveyard, items, level caps …)
-│   │   ├── inputs/                   # Autocomplete inputs (Pokémon, location, item)
-│   │   ├── pickers/                  # Game version & ruleset pickers
-│   │   ├── badges/                   # Game version & type badge components
-│   │   ├── toggles/                  # Dark mode, language, generic toggle
-│   │   └── other/                    # Shared UI helpers (tooltips, game images)
-│   │
-│   ├── data/                         # Generated & static datasets (do not edit by hand)
-│   ├── locales/                      # Translation dictionaries (de.ts, en.ts)
-│   ├── services/                     # Business logic & Firebase access
-│   ├── utils/                        # Helper functions (routes, wiki links, stats)
-│
-├── public/                           # Static assets (badge / rival / champion / fossil sprites …)
-│
-└── scripts/                          # Data generation pipeline
-    ├── generate-pokemon-de.mjs       # PokéAPI → Pokémon / evolution / location / type data
-    ├── generate-items.mjs            # PokéAPI + local lists → version-tagged item data
-```
+| Script                      | Command                           | Purpose                                                                                                                                                                                                          |
+| --------------------------- | --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `generate-pokemon.mjs`      | `npm run generate-pokemon`        | Reads species, evolutions, types, and locations... from the local PokéAPI data and writes the localized (EN/DE) files (`src/data/pokemon.ts`, `src/data/locations.ts`).                                          |
+| `generate-items.mjs`        | `node scripts/generate-items.mjs` | Parses raw PokéWiki `.txt` files in `scripts/itemlists-source/version-files/`, cross-references them with the local PokéAPI data to determine each item's earliest game version, and writes `src/data/items.ts`. |
+| `pokeapi-static-client.mjs` | _(library, not run directly)_     | Shared client that reads JSON from a local `scripts/pokeapi-data/` clone, providing the same interface as `pokedex-promise-v2` without network requests.                                                         |
 
-### Data Model (Firebase Realtime Database)
-
-| Path                            | Description                                                                          |
-| ------------------------------- | ------------------------------------------------------------------------------------ |
-| `trackers/{trackerId}/meta`     | Tracker metadata: title, players, game version, members, guests, public flag         |
-| `trackers/{trackerId}/state`    | Runtime state: team, box, graveyard, rules, level/rival caps, stats, fossils, stones |
-| `userTrackers/{userId}`         | Membership index - maps a user to all trackers they belong to                        |
-| `users/{userId}`                | User profile                                                                         |
-| `userEmails/{encodedEmail}`     | Email → UID reverse lookup (for the invite system)                                   |
-| `rulesets/{userId}/{rulesetId}` | User-owned custom rulesets                                                           |
+**Why these exist:** PokéAPI provides comprehensive Pokémon data but lacks version-introduction metadata for items and
+would be too slow to query at runtime. The scripts combinine local API data with hand-curated item lists from
+[PokéWiki](https://www.pokewiki.de/), producing static datasets.
 
 ### Sprites
 
@@ -190,9 +129,9 @@ node scripts/generate-items.mjs
 
 The UI supports **English** and **German**.
 
-- Prefer translation keys over inline user-facing strings.
-- When adding or changing UI-text-elements, update both `src/locales/en.ts` and `src/locales/de.ts`, as well as more to come in the future.
-- Keep labels, button text, and validation messages aligned across both locales.
+- Use translation keys over inline user-facing strings
+- When adding or changing UI-text-elements, update both `src/locales/en.ts` and `src/locales/de.ts`
+- Keep labels, button text, and validation messages aligned across both languages
 
 ## 🎨 Code Formatting
 
@@ -211,7 +150,7 @@ When opening a new issue, please use the provided **issue templates**:
 - **Enhancement** - for improvements to existing features
 - **New Feature** - for entirely new functionality
 
-Click **"New Issue"** on GitHub and select the appropriate template. Fill in all sections — the more detail you provide, the faster we can act on it.
+Click **"New Issue"** on GitHub and select the appropriate template. Fill in all sections - the more detail you provide, the faster we can act on it.
 
 ## 🚢 Submitting Changes
 
