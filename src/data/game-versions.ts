@@ -419,6 +419,7 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
   gen3_rusa: {
     id: "gen3_rusa",
     badgeSet: "gen3/rusaem",
+    defaultRivalPreferences: { brendan_may: "female" },
     badge: {
       segments: [
         {
@@ -568,6 +569,7 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
   gen3_em: {
     id: "gen3_em",
     badgeSet: "gen3/rusaem",
+    defaultRivalPreferences: { brendan_may: "female" },
     badge: {
       segments: [
         {
@@ -1732,6 +1734,7 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
   gen6_oras: {
     id: "gen6_oras",
     badgeSet: "gen3/rusaem",
+    defaultRivalPreferences: { brendan_may: "female" },
     badge: {
       segments: [
         {

@@ -127,7 +127,10 @@ const Levelcaps: React.FC<LevelcapsProps> = ({
     if (typeof cap.rival !== "object") {
       return baseName;
     }
-    const preference = rivalPreferences?.[cap.rival.key] || "male";
+    const preference =
+      rivalPreferences?.[cap.rival.key] ??
+      gameVersion?.defaultRivalPreferences?.[cap.rival.key] ??
+      "male";
     const localizedEntry = getLocalizedRivalEntry(t, cap.rival);
     const localizedOptions: Record<"male" | "female", string> | undefined =
       localizedEntry &&
@@ -360,6 +363,7 @@ const Levelcaps: React.FC<LevelcapsProps> = ({
                 <RivalImage
                   rival={cap.rival}
                   preferences={rivalPreferences}
+                  defaultPreferences={gameVersion?.defaultRivalPreferences}
                   displayName={resolvePreferredRivalName(cap)}
                 />
                 <span className="font-bold text-lg text-gray-800 dark:text-gray-200 text-center">

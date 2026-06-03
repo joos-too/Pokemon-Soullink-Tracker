@@ -583,20 +583,24 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                         <input
                           type="radio"
                           name={`rival-${rival.key}`}
-                          value="male"
+                          value="female"
                           checked={
-                            (rivalPreferences?.[rival.key] || "male") === "male"
+                            (rivalPreferences?.[rival.key] ??
+                              gameVersion?.defaultRivalPreferences?.[
+                                rival.key
+                              ] ??
+                              "male") === "female"
                           }
                           onChange={() =>
-                            onRivalPreferenceChange(rival.key, "male")
+                            onRivalPreferenceChange(rival.key, "female")
                           }
                           disabled={isGuest}
                           className="h-4 w-4 accent-green-600 disabled:opacity-60"
                         />{" "}
                         {getRivalOptionLabel(
                           rival.key,
-                          "male",
-                          rival.options.male,
+                          "female",
+                          rival.options.female,
                         )}
                       </label>
                       <label
@@ -609,18 +613,24 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                         <input
                           type="radio"
                           name={`rival-${rival.key}`}
-                          value="female"
-                          checked={rivalPreferences?.[rival.key] === "female"}
+                          value="male"
+                          checked={
+                            (rivalPreferences?.[rival.key] ??
+                              gameVersion?.defaultRivalPreferences?.[
+                                rival.key
+                              ] ??
+                              "male") === "male"
+                          }
                           onChange={() =>
-                            onRivalPreferenceChange(rival.key, "female")
+                            onRivalPreferenceChange(rival.key, "male")
                           }
                           disabled={isGuest}
                           className="h-4 w-4 accent-green-600 disabled:opacity-60"
                         />{" "}
                         {getRivalOptionLabel(
                           rival.key,
-                          "female",
-                          rival.options.female,
+                          "male",
+                          rival.options.male,
                         )}
                       </label>
                     </div>
