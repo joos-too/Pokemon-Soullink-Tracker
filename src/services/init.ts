@@ -91,7 +91,7 @@ export const INITIAL_STATE: AppState = {
   legendaryTrackerEnabled: true,
   rivalCensorEnabled: true,
   rivalCensorMode: "on",
-  hardcoreModeEnabled: true,
+  hardcoreModeEnabled: false,
   infiniteFossilsEnabled: false,
   megaStoneSpriteStyle: "item",
   fossils: [],
