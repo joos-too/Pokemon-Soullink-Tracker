@@ -24,6 +24,7 @@ import type {
   Pokemon,
   PokemonLink,
   RivalCap,
+  RivalCensorMode,
   RivalGender,
   Ruleset,
   TrackerMeta,
@@ -685,6 +686,14 @@ const App: React.FC = () => {
           safe.legendaryTrackerEnabled ?? base.legendaryTrackerEnabled ?? true,
         rivalCensorEnabled:
           safe.rivalCensorEnabled ?? base.rivalCensorEnabled ?? true,
+        rivalCensorMode:
+          safe.rivalCensorMode ??
+          base.rivalCensorMode ??
+          (safe.rivalCensorEnabled === false
+            ? "off"
+            : safe.rivalCensorEnabled === true
+              ? "on"
+              : "on"),
         hardcoreModeEnabled:
           safe.hardcoreModeEnabled ?? base.hardcoreModeEnabled ?? true,
         infiniteFossilsEnabled:
@@ -1245,6 +1254,7 @@ const App: React.FC = () => {
         // keep toggled settings
         legendaryTrackerEnabled: prev.legendaryTrackerEnabled,
         rivalCensorEnabled: prev.rivalCensorEnabled,
+        rivalCensorMode: prev.rivalCensorMode,
         hardcoreModeEnabled: prev.hardcoreModeEnabled,
         infiniteFossilsEnabled: prev.infiniteFossilsEnabled,
         megaStoneSpriteStyle: prev.megaStoneSpriteStyle,
@@ -1734,9 +1744,13 @@ const App: React.FC = () => {
     setData((prev) => ({ ...prev, legendaryTrackerEnabled: enabled }));
   };
 
-  const handleRivalCensorToggle = (enabled: boolean) => {
+  const handleRivalCensorToggle = (mode: RivalCensorMode) => {
     if (isReadOnly) return;
-    setData((prev) => ({ ...prev, rivalCensorEnabled: enabled }));
+    setData((prev) => ({
+      ...prev,
+      rivalCensorMode: mode,
+      rivalCensorEnabled: mode !== "off",
+    }));
   };
 
   const handleHardcoreModeToggle = (enabled: boolean) => {
@@ -2505,8 +2519,11 @@ const App: React.FC = () => {
       onBack={closeSettingsPanel}
       legendaryTrackerEnabled={data.legendaryTrackerEnabled ?? true}
       onlegendaryTrackerToggle={handleLegendaryTrackerToggle}
-      rivalCensorEnabled={data.rivalCensorEnabled ?? true}
-      onRivalCensorToggle={handleRivalCensorToggle}
+      rivalCensorMode={
+        data.rivalCensorMode ??
+        (data.rivalCensorEnabled === false ? "off" : "on")
+      }
+      onRivalCensorModeChange={handleRivalCensorToggle}
       hardcoreModeEnabled={data.hardcoreModeEnabled ?? true}
       onHardcoreModeToggle={handleHardcoreModeToggle}
       infiniteFossilsEnabled={data.infiniteFossilsEnabled ?? false}
@@ -2849,6 +2866,10 @@ const App: React.FC = () => {
               onRulesChange={(rules) => setData((prev) => ({ ...prev, rules }))}
               legendaryTrackerEnabled={data.legendaryTrackerEnabled ?? true}
               rivalCensorEnabled={data.rivalCensorEnabled ?? true}
+              rivalCensorMode={
+                data.rivalCensorMode ??
+                (data.rivalCensorEnabled === false ? "off" : "on")
+              }
               hardcoreModeEnabled={data.hardcoreModeEnabled ?? true}
               onlegendaryIncrement={handleLegendaryIncrement}
               onlegendaryDecrement={handleLegendaryDecrement}
