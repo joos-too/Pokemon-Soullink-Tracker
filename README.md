@@ -93,7 +93,7 @@ two options, to expand the supported versions
 
 ## 🤝 Contributing
 
-Contributions are welcome! Check out the **[Contributing Guide](CONTRIBUTING.md)** for everything you need - local
+Contributions are welcome! Check out the **[Contributing Guide](https://github.com/joos-too/Pokemon-Soullink-Tracker?tab=contributing-ov-file)** for everything you need - local
 setup, architecture overview, coding conventions, and how to submit a pull request.
 
 _Have an idea or found a bug? [Open an issue!](https://github.com/joos-too/pokemon-soullink-tracker/issues)_
