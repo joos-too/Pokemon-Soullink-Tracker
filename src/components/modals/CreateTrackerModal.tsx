@@ -298,7 +298,7 @@ const CreateTrackerModal: React.FC<CreateTrackerModalProps> = ({
                   {t("modals.createTracker.allPokemonAndItemsLabel")}
                 </label>
                 <Tooltip
-                  side="top"
+                  side={localeTag == "EN" ? "right" : "top"}
                   content={t(
                     "modals.createTracker.allPokemonAndItemsDescription",
                   )}
