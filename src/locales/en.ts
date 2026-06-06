@@ -534,7 +534,7 @@ export const en = {
         title: "Version override",
         tooltipLabel: "Info about suggestions and evolutions",
         tooltip:
-          "Includes Pokemon and item suggestions plus available evolutions from all supported generations.",
+        "By default, a tracker only suggests Pokémon and items up to the selected game version. This override allows you to select all Pokémon and items, as well as Evolutions, up to the newest Gen.",
         description:
           "Expands suggestions and evolution options beyond the game version.",
       },
