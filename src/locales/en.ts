@@ -104,7 +104,7 @@ export const en = {
       versionRequired: "Please select a game version.",
       allPokemonAndItemsLabel: "Version override",
       allPokemonAndItemsDescription:
-        "Includes Pokemon and item suggestions plus evolution options from all supported generations. The selected game version stays unchanged.",
+        "By default, a tracker only suggests Pokémon and items up to the selected game version. This override allows you to select all Pokémon and items, as well as Evolutions, up to the newest Gen.",
       allPokemonAndItemsTooltipLabel: "Info about suggestions and evolutions",
       rulesetLabel: "Ruleset",
       rulesetButton: "Select ruleset",
