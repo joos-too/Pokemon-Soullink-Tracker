@@ -538,7 +538,7 @@ export const de = {
         title: "Versionsbeschränkung aufheben",
         tooltipLabel: "Info zu Vorschlägen und Entwicklungen",
         tooltip:
-          "Berücksichtigt Pokémon- und Item-Vorschläge sowie verfügbare Entwicklungen aus allen unterstützten Generationen.",
+        "Standardmäßig schlägt ein Tracker nur Pokémon und Items bis zur ausgewählten Spielversion vor. Diese Einstellung ermöglicht es alle Pokémon und Items, sowie Entwicklungen bis zur neusten Gen auszuwählen.",
         description:
           "Erweitert Vorschläge und Entwicklungsoptionen über die Spielversion hinaus.",
       },
