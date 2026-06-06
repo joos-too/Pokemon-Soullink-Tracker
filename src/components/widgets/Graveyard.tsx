@@ -8,7 +8,7 @@ import AddLostPokemonModal from "@/src/components/modals/AddLostPokemonModal.tsx
 import EditPairModal from "@/src/components/modals/EditPairModal.tsx";
 import { getWikiUrlById, type WikiId } from "@/src/utils/wiki.ts";
 import { resolvePokemonDisplay } from "@/src/services/pokemonDisplay.ts";
-import { resolveLocationDisplay } from "@/src/services/locationSearch.ts";
+import { resolvePokemonLocationDisplay } from "@/src/services/locationSearch.ts";
 import { normalizeLanguage } from "@/src/utils/language.ts";
 
 interface LinkEditPayload {
@@ -126,11 +126,7 @@ const Graveyard: React.FC<GraveyardProps> = ({
         {graveyard && graveyard.length > 0 ? (
           <div className="space-y-3">
             {[...graveyard].reverse().map((pair) => {
-              const routeLabel = resolveLocationDisplay(
-                pair.routeSlug,
-                pair.route,
-                locale,
-              );
+              const routeLabel = resolvePokemonLocationDisplay(pair, locale);
               const canEdit =
                 !readOnly &&
                 (routeLabel ||

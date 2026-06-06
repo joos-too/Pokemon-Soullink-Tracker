@@ -14,6 +14,7 @@ import {
 } from "@/src/services/pokemonSearch.ts";
 import {
   findLocationByName,
+  getFossilLocationName,
   getLocationName,
 } from "@/src/services/locationSearch.ts";
 import { normalizeLanguage } from "@/src/utils/language.ts";
@@ -24,6 +25,7 @@ interface EditPairModalProps {
   onSave: (payload: {
     route: string;
     routeSlug?: string;
+    fossilSlugs?: string[];
     members: Pokemon[];
   }) => void;
   playerLabels: string[];
@@ -112,31 +114,26 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
   const locale = normalizeLanguage(i18n.language);
   const { containerRef } = useFocusTrap(isOpen);
   const titleId = useId();
-  const [route, setRoute] = useState(
-    initial.routeSlug
-      ? getLocationName(initial.routeSlug, locale)
-      : initial.route || "",
-  );
-  const [routeSlug, setRouteSlug] = useState(initial.routeSlug || "");
-  const [fossilSlugs, setFossilSlugs] = useState<string[]>(
-    initial.fossilSlugs || [],
-  );
+  const [route, setRoute] = useState("");
+  const [routeSlug, setRouteSlug] = useState("");
+  const [fossilSlugs, setFossilSlugs] = useState<string[]>([]);
+  const [members, setMembers] = useState<PokemonDraft[]>([]);
+
   const memberToDraft = (member?: Pokemon): PokemonDraft => ({
     name:
       getPokemonNameById(member?.id, locale) ||
       (typeof member?.name === "string" ? member.name : ""),
     nickname: member?.nickname ?? "",
   });
-  const [members, setMembers] = useState<PokemonDraft[]>(() =>
-    playerLabels.map((_, index) => memberToDraft(initial.members?.[index])),
-  );
 
   useEffect(() => {
     if (isOpen) {
       setRoute(
         initial.routeSlug
           ? getLocationName(initial.routeSlug, locale)
-          : initial.route || "",
+          : initial.fossilSlugs
+            ? getFossilLocationName(initial.fossilSlugs)
+            : initial.route || "",
       );
       setRouteSlug(initial.routeSlug || "");
       setFossilSlugs(initial.fossilSlugs || []);
@@ -173,6 +170,7 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
     onSave({
       route: resolvedLocation ? "" : trimmedRoute,
       routeSlug: resolvedLocation?.slug,
+      fossilSlugs,
       members: trimmedMembers,
     });
   };

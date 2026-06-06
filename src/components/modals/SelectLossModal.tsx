@@ -6,7 +6,7 @@ import { focusRingClasses } from "@/src/styles/focusRing.ts";
 import { FiInfo } from "react-icons/fi";
 import Tooltip from "@/src/components/other/Tooltip.tsx";
 import { resolvePokemonDisplay } from "@/src/services/pokemonDisplay.ts";
-import { resolveLocationDisplay } from "@/src/services/locationSearch.ts";
+import { resolvePokemonLocationDisplay } from "@/src/services/locationSearch.ts";
 import { normalizeLanguage } from "@/src/utils/language.ts";
 
 interface SelectLossModalProps {
@@ -39,9 +39,7 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({
   }, [isOpen, playerNames.length]);
 
   if (!isOpen) return null;
-  const routeLabel = pair
-    ? resolveLocationDisplay(pair.routeSlug, pair.route, locale)
-    : "";
+  const routeLabel = pair ? resolvePokemonLocationDisplay(pair, locale) : "";
 
   const handleSubmit = (e: React.SubmitEvent) => {
     e.preventDefault();

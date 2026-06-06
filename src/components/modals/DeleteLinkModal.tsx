@@ -6,7 +6,7 @@ import { focusRingClasses } from "@/src/styles/focusRing.ts";
 import { FiAlertTriangle, FiInfo } from "react-icons/fi";
 import Tooltip from "@/src/components/other/Tooltip.tsx";
 import { resolvePokemonDisplay } from "@/src/services/pokemonDisplay.ts";
-import { resolveLocationDisplay } from "@/src/services/locationSearch.ts";
+import { resolvePokemonLocationDisplay } from "@/src/services/locationSearch.ts";
 import { normalizeLanguage } from "@/src/utils/language.ts";
 
 interface DeleteLinkModalProps {
@@ -32,7 +32,7 @@ const DeleteLinkModal: React.FC<DeleteLinkModalProps> = ({
   const titleId = useId();
 
   if (!isOpen || !pair) return null;
-  const routeLabel = resolveLocationDisplay(pair.routeSlug, pair.route, locale);
+  const routeLabel = resolvePokemonLocationDisplay(pair, locale);
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">

@@ -305,11 +305,7 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
                     : isCustomItem
                       ? getItemName(itemId.replace("item:", ""), locale)
                       : t(`stones.${itemId}`);
-                  const locationLabel = resolveLocationDisplay(
-                    entry.locationSlug,
-                    entry.location,
-                    locale,
-                  );
+                  const locationLabel = resolveLocationDisplay(entry, locale);
 
                   return (
                     <div
@@ -454,11 +450,7 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
                 {displayFossils[pIdx]?.map((entry, fIdx) => {
                   const def = FOSSILS.find((f) => f.id === entry.fossilId);
                   const locale = normalizeLanguage(i18n.language);
-                  const locationLabel = resolveLocationDisplay(
-                    entry.locationSlug,
-                    entry.location,
-                    locale,
-                  );
+                  const locationLabel = resolveLocationDisplay(entry, locale);
                   const isSelected = fossilSelections[pIdx] === fIdx;
                   const canBeSelected =
                     entry.inBag && !entry.revived && !isFossilEditing;

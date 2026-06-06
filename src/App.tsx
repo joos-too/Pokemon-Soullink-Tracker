@@ -117,7 +117,7 @@ import {
 } from "@/src/utils/wiki.ts";
 import {
   findLocationByName,
-  resolveLocationDisplay,
+  resolvePokemonLocationDisplay,
 } from "@/src/services/locationSearch.ts";
 import { normalizeLanguage } from "@/src/utils/language.ts";
 import "@/src/pokeapi"; // initialize Pokedex once so sprite caching SW gets registered
@@ -1867,9 +1867,6 @@ const App: React.FC = () => {
     const selectedFossils = selectedIndices.map(
       (fIdx, pIdx) => data.fossils[pIdx][fIdx].fossilId,
     );
-    // const areaName = selectedFossils
-    //   .map((f) => t(`fossils.${f.fossilId}`))
-    //   .join("/");
 
     setReviveFossilSlugs(selectedFossils);
     setPendingReviveIndices(selectedIndices);
@@ -2371,7 +2368,7 @@ const App: React.FC = () => {
     const collect = (arr: PokemonLink[] | undefined | null) => {
       const list = Array.isArray(arr) ? arr : [];
       for (const p of list) {
-        const r = resolveLocationDisplay(p?.routeSlug, p?.route, locale).trim();
+        const r = resolvePokemonLocationDisplay(p, locale).trim();
         if (r) routes.push(r);
       }
     };

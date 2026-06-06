@@ -20,7 +20,7 @@ import { useTranslation } from "react-i18next";
 import { focusRingClasses } from "@/src/styles/focusRing.ts";
 import { getWikiUrlById, type WikiId } from "@/src/utils/wiki.ts";
 import { resolvePokemonDisplay } from "@/src/services/pokemonDisplay.ts";
-import { resolveLocationDisplay } from "@/src/services/locationSearch.ts";
+import { resolvePokemonLocationDisplay } from "@/src/services/locationSearch.ts";
 import { normalizeLanguage } from "@/src/utils/language.ts";
 
 interface LinkEditPayload {
@@ -237,11 +237,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
               </tr>
             )}
             {rows.map(({ pair, originalIndex }, displayIndex) => {
-              const routeLabel = resolveLocationDisplay(
-                pair.routeSlug,
-                pair.route,
-                locale,
-              );
+              const routeLabel = resolvePokemonLocationDisplay(pair, locale);
               return (
                 <tr
                   key={pair.id}

@@ -16,6 +16,7 @@ import { getItemName, getItemSpriteUrl } from "@/src/services/itemSearch";
 import {
   locationMatchesQuery,
   resolveLocationDisplay,
+  resolvePokemonLocationDisplay,
 } from "@/src/services/locationSearch";
 import { normalizeLanguage } from "@/src/utils/language";
 
@@ -100,11 +101,7 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
   );
 
   const matchesPokemonQuery = (pair: PokemonLink) => {
-    const routeLabel = resolveLocationDisplay(
-      pair.routeSlug,
-      pair.route,
-      locale,
-    );
+    const routeLabel = resolvePokemonLocationDisplay(pair, locale);
 
     if (!normalizedQuery) {
       return pair.members.some(
@@ -175,11 +172,7 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
     (fossils ?? []).forEach((playerFossils, pIdx) => {
       (playerFossils ?? []).forEach((entry) => {
         const def = FOSSILS.find((f) => f.id === entry.fossilId);
-        const location = resolveLocationDisplay(
-          entry.locationSlug,
-          entry.location,
-          locale,
-        );
+        const location = resolveLocationDisplay(entry, locale);
         const status = entry.revived
           ? entry.pokemonId
             ? `${t("tracker.infoPanel.fossilRevived")}: ${getPokemonNameById(entry.pokemonId, locale) || ""}`
@@ -238,11 +231,7 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
           spriteUrl = "";
         }
 
-        const location = resolveLocationDisplay(
-          entry.locationSlug,
-          entry.location,
-          locale,
-        );
+        const location = resolveLocationDisplay(entry, locale);
         const status = entry.used
           ? t("tracker.infoPanel.stoneUsed")
           : entry.inBag
@@ -389,11 +378,8 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
                           <p className="text-center font-bold text-gray-600 dark:text-gray-300 mb-1">
                             {t("graveyard.areaLabel", {
                               route:
-                                resolveLocationDisplay(
-                                  pair.routeSlug,
-                                  pair.route,
-                                  locale,
-                                ) || t("common.unknownRoute"),
+                                resolvePokemonLocationDisplay(pair, locale) ||
+                                t("common.unknownRoute"),
                             })}
                           </p>
                           <div

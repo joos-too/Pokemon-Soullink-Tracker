@@ -1,5 +1,7 @@
 import { LOCATIONS } from "@/src/data/locations";
 import { SupportedLanguage } from "@/src/utils/language";
+import { t } from "i18next";
+import { FossilEntry, ItemEntry, PokemonLink } from "@/types.ts";
 
 const DEFAULT_GAME_VERSION_ID = "gen5_bw";
 
@@ -189,6 +191,11 @@ export function getLocationName(
   return entry?.name ?? slug;
 }
 
+export function getFossilLocationName(slugs: string[]): string {
+  if (slugs.length === 0) return "";
+  return slugs.map((slug) => t(`fossils.${slug}`)).join("/");
+}
+
 export function findLocationByName(
   name: string | undefined | null,
   options: SearchOptions = {},
@@ -235,10 +242,22 @@ export function locationMatchesQuery(
   );
 }
 
-export function resolveLocationDisplay(
-  slug: string | undefined | null,
-  fallbackName: string | undefined | null,
+export function resolvePokemonLocationDisplay(
+  pokemon: PokemonLink | undefined | null,
   locale: SupportedLanguage = DEFAULT_LOCATION_LOCALE,
 ): string {
-  return slug ? getLocationName(slug, locale) : fallbackName || "";
+  return pokemon.routeSlug
+    ? getLocationName(pokemon.routeSlug, locale)
+    : pokemon.fossilSlugs
+      ? getFossilLocationName(pokemon.fossilSlugs)
+      : pokemon.route || "";
+}
+
+export function resolveLocationDisplay(
+  fossil: FossilEntry | ItemEntry | undefined | null,
+  locale: SupportedLanguage = DEFAULT_LOCATION_LOCALE,
+): string {
+  return fossil.locationSlug
+    ? getLocationName(fossil.locationSlug, locale)
+    : fossil.location || "";
 }
