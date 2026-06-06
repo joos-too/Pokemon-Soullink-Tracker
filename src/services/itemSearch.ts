@@ -17,7 +17,7 @@ function stripDiacritics(s: string): string {
   return s.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
-interface ItemEntry {
+interface ItemDataEntry {
   slug: string;
   de: string;
   en: string;
@@ -26,7 +26,7 @@ interface ItemEntry {
   normEn: string;
 }
 
-const ITEM_ENTRIES: ItemEntry[] = ITEMS.map((item) => ({
+const ITEM_ENTRIES: ItemDataEntry[] = ITEMS.map((item) => ({
   ...item,
   normDe: stripDiacritics(item.de.toLowerCase()),
   normEn: stripDiacritics(item.en.toLowerCase()),
@@ -74,6 +74,45 @@ export function searchItems(
       name: entry[nameField],
       spriteUrl: getSpriteUrl(entry.slug),
     }));
+}
+
+export function findItemByName(
+  name: string,
+  locale: SupportedLanguage = "de",
+  gameVersionId?: string,
+): ItemSearchResult | null {
+  const normalizedName = stripDiacritics(name.trim().toLowerCase());
+  if (!normalizedName) return null;
+
+  const allowedSlugs = gameVersionId
+    ? new Set(getItemsForVersion(gameVersionId).map((i) => i.slug))
+    : null;
+
+  const nameField = locale === "de" ? "de" : "en";
+  const preferredField = locale === "de" ? "normDe" : "normEn";
+  const fallbackField = locale === "de" ? "normEn" : "normDe";
+  const isAvailableEntry = (entry: ItemDataEntry) =>
+    !STONE_SLUGS.has(entry.slug) &&
+    !FOSSIL_SLUGS.has(entry.slug) &&
+    !MEGA_STONE_SLUGS.has(entry.slug) &&
+    (!allowedSlugs || allowedSlugs.has(entry.slug));
+  const entry =
+    ITEM_ENTRIES.find(
+      (entry) =>
+        isAvailableEntry(entry) && entry[preferredField] === normalizedName,
+    ) ??
+    ITEM_ENTRIES.find(
+      (entry) =>
+        isAvailableEntry(entry) && entry[fallbackField] === normalizedName,
+    );
+
+  return entry
+    ? {
+        slug: entry.slug,
+        name: entry[nameField],
+        spriteUrl: getSpriteUrl(entry.slug),
+      }
+    : null;
 }
 
 export function getItemName(

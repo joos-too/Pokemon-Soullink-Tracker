@@ -94,7 +94,7 @@ export const INITIAL_STATE: AppState = {
   infiniteFossilsEnabled: false,
   megaStoneSpriteStyle: "item",
   fossils: [],
-  stones: [],
+  items: [],
   runStartedAt: Date.now(),
 };
 
@@ -125,7 +125,7 @@ export const createInitialState = (
     revealed: false,
   }));
   base.fossils = normalizedNames.map(() => []);
-  base.stones = normalizedNames.map(() => []);
+  base.items = normalizedNames.map(() => []);
   base.runStartedAt = Date.now();
   return base;
 };

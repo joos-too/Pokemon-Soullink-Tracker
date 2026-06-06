@@ -3,9 +3,9 @@ import type { PokemonLink } from "@/types.ts";
 import { useTranslation } from "react-i18next";
 import { useFocusTrap } from "@/src/hooks/useFocusTrap.ts";
 import { focusRingClasses } from "@/src/styles/focusRing.ts";
-import { getSpriteUrlForPokemonName } from "@/src/services/sprites.ts";
 import { FiAlertTriangle, FiInfo } from "react-icons/fi";
 import Tooltip from "@/src/components/other/Tooltip.tsx";
+import { resolvePokemonDisplay } from "@/src/services/pokemonDisplay.ts";
 import { resolveLocationDisplay } from "@/src/services/locationSearch.ts";
 import { normalizeLanguage } from "@/src/utils/language.ts";
 
@@ -15,6 +15,7 @@ interface DeleteLinkModalProps {
   onConfirm: () => void;
   pair: PokemonLink | null;
   playerNames: string[];
+  generationSpritePath: string;
 }
 
 const DeleteLinkModal: React.FC<DeleteLinkModalProps> = ({
@@ -23,17 +24,15 @@ const DeleteLinkModal: React.FC<DeleteLinkModalProps> = ({
   onConfirm,
   pair,
   playerNames,
+  generationSpritePath,
 }) => {
   const { t, i18n } = useTranslation();
+  const locale = normalizeLanguage(i18n.language);
   const { containerRef } = useFocusTrap(isOpen);
   const titleId = useId();
 
   if (!isOpen || !pair) return null;
-  const routeLabel = resolveLocationDisplay(
-    pair.routeSlug,
-    pair.route,
-    normalizeLanguage(i18n.language),
-  );
+  const routeLabel = resolveLocationDisplay(pair.routeSlug, pair.route, locale);
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
@@ -91,10 +90,14 @@ const DeleteLinkModal: React.FC<DeleteLinkModalProps> = ({
           <div className="flex flex-col gap-1.5">
             {playerNames.map((name, index) => {
               const member = pair.members?.[index] ?? {
-                name: "",
+                id: null,
                 nickname: "",
               };
-              const spriteUrl = getSpriteUrlForPokemonName(member.name);
+              const { displayName, spriteUrl } = resolvePokemonDisplay(
+                member,
+                locale,
+                generationSpritePath,
+              );
               return (
                 <div
                   key={`delete-preview-${index}`}
@@ -103,14 +106,10 @@ const DeleteLinkModal: React.FC<DeleteLinkModalProps> = ({
                   <div className="font-semibold">{name}</div>
                   <div className="flex items-center gap-1.5">
                     {spriteUrl && (
-                      <img
-                        src={spriteUrl}
-                        alt={member.name}
-                        className="w-8 h-8"
-                      />
+                      <img src={spriteUrl} alt="" className="w-8 h-8" />
                     )}
                     <span>
-                      {member.name || "-"}
+                      {displayName || "-"}
                       {member.nickname ? ` (${member.nickname})` : ""}
                     </span>
                   </div>

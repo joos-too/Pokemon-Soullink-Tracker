@@ -42,7 +42,7 @@ export const de = {
     progressLabel: "Fortschritt",
     runCount: "Run {{count}}",
     activePokemon: "Aktiv",
-    fallenPokemon: "Tot",
+    fallenPokemon: "Verloren",
     completedBadge: "Abgeschlossen",
     progressFallback: "Noch keine Arena",
     privateTracker: "Privater Tracker",
@@ -104,6 +104,10 @@ export const de = {
       versionButton: "Spielversion auswählen",
       versionPlaceholder: "Keine Version ausgewählt",
       versionRequired: "Bitte wähle eine Spielversion aus.",
+      allPokemonAndItemsLabel: "Versionsbeschränkung aufheben",
+      allPokemonAndItemsDescription:
+        "Standardmäßig schlägt ein Tracker nur Pokémon und Items bis zur ausgewählten Spielversion vor. Diese Einstellung ermöglicht es alle Pokémon und Items, sowie Entwicklungen bis zur neusten Gen auszuwählen.",
+      allPokemonAndItemsTooltipLabel: "Info zu Vorschlägen und Entwicklungen",
       rulesetLabel: "Regeln",
       rulesetButton: "Regeln auswählen",
       rulesetPlaceholder: "Standard-Regeln",
@@ -170,19 +174,17 @@ export const de = {
       title: "Entwicklungsstein hinzufügen",
       itemTitle: "Item hinzufügen",
       megaTitle: "Mega-Stein hinzufügen",
-      tabStones: "Steine",
+      tabStones: "Entwicklungssteine",
       tabItems: "Items",
       tabMegaStones: "Mega-Steine",
       stoneLabel: "Stein auswählen",
       megaStoneLabel: "Mega-Stein auswählen",
-      spritePokemon: "Pokémon",
-      spriteItem: "Steine",
       showPokemon: "Pokémon zeigen?",
-      itemLabel: "Item suchen",
+      itemLabel: "Item-Name",
       itemSearchPlaceholder: "Nach Name suchen…",
       locationLabel: "Fundort",
       locationTooltip:
-        "Falls ein Entwicklungsstein gefunden wurde, aber noch nicht erworben wurde, kann hier der Fundort notiert werden. Später lässt er sich mit einem Klick in den Beutel verschieben.",
+        "Falls ein Item gefunden wurde, aber noch nicht erworben wurde, kann hier der Fundort notiert werden. Später lässt er sich mit einem Klick in den Beutel verschieben.",
       locationTooltipLabel: "Info zum Fundort",
       inBagLabel: "Bereits im Beutel",
       submit: "Hinzufügen",
@@ -235,6 +237,7 @@ export const de = {
     search: {
       title: "Tracker durchsuchen",
       open: "Suche öffnen",
+      openWithShortcut: "Suche öffnen (Strg + F)",
       modePokemon: "Pokémon",
       modeItems: "Items",
       fieldLabel: "Tracker durchsuchen",
@@ -248,8 +251,6 @@ export const de = {
       runStats: "Run Stats",
       currentRun: "Aktueller Run",
       bestRunLabel: "Bester Run",
-      statActiveLabel: "Aktiv",
-      statFallenLabel: "Tot",
       currentLevelCap: "Aktuelle Level Cap",
       challengeComplete: "Challenge geschafft!",
       activeLabel: "Aktuell:",
@@ -415,7 +416,7 @@ export const de = {
     resetHiddenLinks: "Versteckte Links zurücksetzen",
   },
   graveyard: {
-    title: "Tote / verlorene Pokémon",
+    title: "Verlorene Pokémon",
     manualAddTitle: "Verlorene Pokémon hinzufügen",
     titleEdit: "Bearbeiten",
     statusDead: "Tot",
@@ -425,7 +426,7 @@ export const de = {
     nicknameLabel: "Spitzname: {{nickname}}",
     noNickname: "-",
     unknownPokemon: "Pokémon",
-    empty: "Noch keine toten oder verlorenen Pokémon vorhanden.",
+    empty: "Noch keine verlorenen Pokémon vorhanden.",
     defaultPlayer: "Spieler {{index}}",
   },
   settings: {
@@ -545,6 +546,14 @@ export const de = {
         tooltip:
           "Standardmäßig kann jedes Fossil pro Spieler nur einmal wiederbelebt werden. Wenn aktiviert, können Spieler das gleiche Fossil unendlich oft sammeln und wiederbeleben.",
         description: "Erlaube Spielern, Fossile mehrfach zu sammeln.",
+      },
+      allPokemonAndItems: {
+        title: "Versionsbeschränkung aufheben",
+        tooltipLabel: "Info zu Vorschlägen und Entwicklungen",
+        tooltip:
+          "Standardmäßig schlägt ein Tracker nur Pokémon und Items bis zur ausgewählten Spielversion vor. Diese Einstellung ermöglicht es alle Pokémon und Items, sowie Entwicklungen bis zur neusten Gen auszuwählen.",
+        description:
+          "Erweitert Vorschläge und Entwicklungsoptionen über die Spielversion hinaus.",
       },
       megaStoneSpriteStyle: {
         title: "Pokémon Mega-Stein Sprites",

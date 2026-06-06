@@ -38,7 +38,7 @@ const AddFossilModal: React.FC<AddFossilModalProps> = ({
 }) => {
   const { t, i18n } = useTranslation();
   const { containerRef } = useFocusTrap(isOpen);
-  const language = normalizeLanguage(i18n.language);
+  const locale = normalizeLanguage(i18n.language);
   const [selectedFossilId, setSelectedFossilId] = useState("");
   const [location, setLocation] = useState("");
   const [locationSlug, setLocationSlug] = useState("");
@@ -65,7 +65,7 @@ const AddFossilModal: React.FC<AddFossilModalProps> = ({
         ? { slug: locationSlug }
         : !inBag
           ? findLocationByName(trimmedLocation, {
-              locale: language,
+              locale: locale,
               gameVersionId,
             })
           : null;
@@ -123,7 +123,7 @@ const AddFossilModal: React.FC<AddFossilModalProps> = ({
                   >
                     <img
                       src={`/fossil-sprites/${f.sprite}`}
-                      alt={f.id}
+                      alt=""
                       className="w-10 h-10 object-contain"
                       style={{ imageRendering: "pixelated" }}
                     />

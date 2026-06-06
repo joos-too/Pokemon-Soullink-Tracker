@@ -103,6 +103,10 @@ export const en = {
       versionButton: "Select game version",
       versionPlaceholder: "No version selected",
       versionRequired: "Please select a game version.",
+      allPokemonAndItemsLabel: "Version override",
+      allPokemonAndItemsDescription:
+        "By default, a tracker only suggests Pokémon and items up to the selected game version. This override allows you to select all Pokémon and items, as well as Evolutions, up to the newest Gen.",
+      allPokemonAndItemsTooltipLabel: "Info about suggestions and evolutions",
       rulesetLabel: "Ruleset",
       rulesetButton: "Select ruleset",
       rulesetPlaceholder: "Default ruleset",
@@ -168,19 +172,17 @@ export const en = {
       title: "Add Evolution Stone",
       itemTitle: "Add Item",
       megaTitle: "Add Mega Stone",
-      tabStones: "Stones",
+      tabStones: "Evolution Stones",
       tabItems: "Items",
       tabMegaStones: "Mega Stones",
       stoneLabel: "Select Stone",
       megaStoneLabel: "Select Mega Stone",
-      spritePokemon: "Pokémon",
-      spriteItem: "Stones",
       showPokemon: "Show Pokémon?",
-      itemLabel: "Search Item",
+      itemLabel: "Item name",
       itemSearchPlaceholder: "Search by name…",
       locationLabel: "Location",
       locationTooltip:
-        "If an evolution stone has been discovered but not yet obtained, you can note its location here. You can then move it to your bag later with a single click.",
+        "If an item has been discovered but not yet obtained, you can note its location here. You can then move it to your bag later with a single click.",
       locationTooltipLabel: "Location Info",
       inBagLabel: "Already in bag",
       submit: "Add",
@@ -233,6 +235,7 @@ export const en = {
     search: {
       title: "Search tracker",
       open: "Open search",
+      openWithShortcut: "Open search (Ctrl + F)",
       modePokemon: "Pokémon",
       modeItems: "Items",
       fieldLabel: "Search tracker",
@@ -410,7 +413,7 @@ export const en = {
     resetHiddenLinks: "Reset hidden links",
   },
   graveyard: {
-    title: "Dead / lost Pokémon",
+    title: "Lost Pokémon",
     manualAddTitle: "Add lost Pokémon",
     titleEdit: "Edit",
     statusDead: "Dead",
@@ -420,7 +423,7 @@ export const en = {
     nicknameLabel: "Nickname: {{nickname}}",
     noNickname: "-",
     unknownPokemon: "Pokémon",
-    empty: "No fallen or lost Pokémon yet.",
+    empty: "No lost Pokémon yet.",
     defaultPlayer: "Player {{index}}",
   },
   settings: {
@@ -499,7 +502,7 @@ export const en = {
       rivalCensor: {
         title: "Censor rival battles",
         tooltipLabel: "Rival info",
-        tooltip: `To avoid spoilers and keep the story fresh, rival battkes are hidden and must be revealed manually.\n\nOnce uncovered they stay visible, even on future runs.`,
+        tooltip: `To avoid spoilers and keep the story fresh, rival battles are hidden and must be revealed manually.\n\nOnce uncovered they stay visible, even on future runs.`,
         description: "Hides rival battles until you reveal them manually.",
       },
       legendary: {
@@ -539,6 +542,14 @@ export const en = {
           "By default, each fossil can only be owned once per player. When enabled, players can collect and revive the same fossil multiple times.",
         description:
           "Allow players to collect the same fossils multiple times.",
+      },
+      allPokemonAndItems: {
+        title: "Version override",
+        tooltipLabel: "Info about suggestions and evolutions",
+        tooltip:
+          "By default, a tracker only suggests Pokémon and items up to the selected game version. This override allows you to select all Pokémon and items, as well as Evolutions, up to the newest Gen.",
+        description:
+          "Expands suggestions and evolution options beyond the game version.",
       },
       megaStoneSpriteStyle: {
         title: "Pokémon Mega Stone Sprites",

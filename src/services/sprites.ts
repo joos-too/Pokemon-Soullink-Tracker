@@ -26,7 +26,7 @@ export function getGenerationSpritePath(gameVersionId: string): string | null {
   return mapping[gameVersionId] || null;
 }
 
-// Known gaps where PokeAPI does not provide a sprite for the requested game,
+// Known gaps where PokeAPI does not provide a sprite/one does not exist for the requested game,
 // so we swap in a nearby generation path (or the default modern sprite).
 type GenerationFallbackRule = {
   generationPath: string;
@@ -36,12 +36,62 @@ type GenerationFallbackRule = {
   missingIds?: Set<number>;
 };
 
+const GENERATION_1_MAX_ID = 151;
+const GENERATION_2_MAX_ID = GENERATION_1_MAX_ID + 100;
+const GENERATION_3_MAX_ID = GENERATION_2_MAX_ID + 135;
+const GENERATION_4_MAX_ID = GENERATION_3_MAX_ID + 107;
+
 const GENERATION_SPRITE_FALLBACKS: GenerationFallbackRule[] = [
+  {
+    generationPath: "versions/generation-i/red-blue/transparent",
+    maxSupportedId: GENERATION_1_MAX_ID,
+    fallbackPath: "versions/generation-v/black-white",
+  },
+  {
+    generationPath: "versions/generation-i/yellow/transparent",
+    maxSupportedId: GENERATION_1_MAX_ID,
+    fallbackPath: "versions/generation-v/black-white",
+  },
+  {
+    generationPath: "versions/generation-ii/gold/transparent",
+    maxSupportedId: GENERATION_2_MAX_ID,
+    fallbackPath: "versions/generation-v/black-white",
+  },
+  {
+    generationPath: "versions/generation-ii/crystal/transparent",
+    maxSupportedId: GENERATION_2_MAX_ID,
+    fallbackPath: "versions/generation-v/black-white",
+  },
+  {
+    generationPath: "versions/generation-iii/ruby-sapphire",
+    maxSupportedId: GENERATION_3_MAX_ID,
+    fallbackPath: "versions/generation-v/black-white",
+  },
+  {
+    generationPath: "versions/generation-iii/emerald",
+    maxSupportedId: GENERATION_3_MAX_ID,
+    fallbackPath: "versions/generation-v/black-white",
+  },
   {
     // PokeAPI only ships Kanto sprites for FR/LG; anything above 151 falls back to Emerald
     generationPath: "versions/generation-iii/firered-leafgreen",
-    maxSupportedId: 151,
+    maxSupportedId: GENERATION_1_MAX_ID,
     fallbackPath: "versions/generation-iii/emerald",
+  },
+  {
+    generationPath: "versions/generation-iv/diamond-pearl",
+    maxSupportedId: GENERATION_4_MAX_ID,
+    fallbackPath: "versions/generation-v/black-white",
+  },
+  {
+    generationPath: "versions/generation-iv/platinum",
+    maxSupportedId: GENERATION_4_MAX_ID,
+    fallbackPath: "versions/generation-v/black-white",
+  },
+  {
+    generationPath: "versions/generation-iv/heartgold-soulsilver",
+    maxSupportedId: GENERATION_4_MAX_ID,
+    fallbackPath: "versions/generation-v/black-white",
   },
 ];
 
@@ -49,20 +99,32 @@ function applySpriteGenerationFallback(
   generationPath: string | null | undefined,
   id: number | null,
 ): string | null {
-  if (!generationPath || !id) return generationPath || null;
-  const rule = GENERATION_SPRITE_FALLBACKS.find(
-    (entry) => entry.generationPath === generationPath,
-  );
-  if (!rule) return generationPath;
+  let effectiveGenerationPath = generationPath || null;
 
-  const outsideMin =
-    typeof rule.minSupportedId === "number" && id < rule.minSupportedId;
-  const outsideMax =
-    typeof rule.maxSupportedId === "number" && id > rule.maxSupportedId;
-  const explicitlyMissing = rule.missingIds?.has(id);
+  while (effectiveGenerationPath && id) {
+    const rule = GENERATION_SPRITE_FALLBACKS.find(
+      (entry) => entry.generationPath === effectiveGenerationPath,
+    );
+    if (!rule) return effectiveGenerationPath;
 
-  if (outsideMin || outsideMax || explicitlyMissing) return rule.fallbackPath;
-  return generationPath;
+    const outsideMin =
+      typeof rule.minSupportedId === "number" && id < rule.minSupportedId;
+    const outsideMax =
+      typeof rule.maxSupportedId === "number" && id > rule.maxSupportedId;
+    const explicitlyMissing = rule.missingIds?.has(id);
+
+    if (!outsideMin && !outsideMax && !explicitlyMissing) {
+      return effectiveGenerationPath;
+    }
+
+    if (rule.fallbackPath === effectiveGenerationPath) {
+      return effectiveGenerationPath;
+    }
+
+    effectiveGenerationPath = rule.fallbackPath;
+  }
+
+  return effectiveGenerationPath;
 }
 
 // Official artwork (high-res) by numeric id
@@ -83,15 +145,6 @@ export function getSpriteUrlById(
     return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${effectiveGenerationPath}/${id}.png`;
   }
   return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
-}
-
-// Resolve official artwork by localized name
-export function getOfficialArtworkUrlForPokemonName(
-  name: string | undefined | null,
-): string | null {
-  const match = findPokemonIdByName(name);
-  if (!match) return null;
-  return getOfficialArtworkUrlById(match.id);
 }
 
 // Resolve classic sprite by localized name

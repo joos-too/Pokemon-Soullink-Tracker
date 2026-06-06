@@ -30,4 +30,7 @@ dist-ssr
 
 # Item list source data (regenerate with scripts/generate-items.mjs)
 scripts/itemlists-source/*
-!scripts/itemlists-source/.gitkeep
+!scripts/.gitkeep
+
+# Local PokeAPI static JSON checkout (https://github.com/PokeAPI/api-data)
+scripts/pokeapi-data/

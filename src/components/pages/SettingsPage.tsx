@@ -55,6 +55,8 @@ interface SettingsPageProps {
   onHardcoreModeToggle: (enabled: boolean) => void;
   infiniteFossilsEnabled: boolean;
   onInfiniteFossilsToggle: (enabled: boolean) => void;
+  allPokemonAndItems: boolean;
+  onAllPokemonAndItemsToggle: (enabled: boolean) => void;
   isPublic: boolean;
   onPublicToggle: (enabled: boolean) => void;
   members: TrackerMember[];
@@ -92,6 +94,8 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
   onHardcoreModeToggle,
   infiniteFossilsEnabled,
   onInfiniteFossilsToggle,
+  allPokemonAndItems,
+  onAllPokemonAndItemsToggle,
   isPublic,
   onPublicToggle,
   members,
@@ -510,6 +514,40 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                   checked={infiniteFossilsEnabled}
                   onChange={onInfiniteFossilsToggle}
                   ariaLabel={t("settings.features.infiniteFossils.title")}
+                  disabled={isGuest}
+                />
+              </div>
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <div className="font-medium text-gray-800 dark:text-gray-200">
+                      {t("settings.features.allPokemonAndItems.title")}
+                    </div>
+                    <Tooltip
+                      side="top"
+                      content={t(
+                        "settings.features.allPokemonAndItems.tooltip",
+                      )}
+                    >
+                      <span
+                        className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-help"
+                        aria-label={t(
+                          "settings.features.allPokemonAndItems.tooltipLabel",
+                        )}
+                      >
+                        <FiInfo size={16} />
+                      </span>
+                    </Tooltip>
+                  </div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400">
+                    {t("settings.features.allPokemonAndItems.description")}
+                  </div>
+                </div>
+                <ToggleSwitch
+                  id="all-pokemon-and-items-toggle"
+                  checked={allPokemonAndItems}
+                  onChange={onAllPokemonAndItemsToggle}
+                  ariaLabel={t("settings.features.allPokemonAndItems.title")}
                   disabled={isGuest}
                 />
               </div>

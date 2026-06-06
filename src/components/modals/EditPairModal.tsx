@@ -9,6 +9,10 @@ import LocationSuggestionInput from "@/src/components/inputs/LocationSuggestionI
 import PokemonSuggestionInput from "@/src/components/inputs/PokemonSuggestionInput.tsx";
 import { useFocusTrap } from "@/src/hooks/useFocusTrap.ts";
 import {
+  getPokemonIdFromName,
+  getPokemonNameById,
+} from "@/src/services/pokemonSearch.ts";
+import {
   findLocationByName,
   getLocationName,
 } from "@/src/services/locationSearch.ts";
@@ -44,6 +48,11 @@ interface PokemonFieldProps {
   isOpen: boolean;
   generationLimit?: number;
   generationSpritePath?: string | null;
+}
+
+interface PokemonDraft {
+  name: string;
+  nickname: string;
 }
 
 const PokemonField: React.FC<PokemonFieldProps> = ({
@@ -100,59 +109,67 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
   generationSpritePath,
 }) => {
   const { t, i18n } = useTranslation();
+  const locale = normalizeLanguage(i18n.language);
   const { containerRef } = useFocusTrap(isOpen);
   const titleId = useId();
-  const language = normalizeLanguage(i18n.language);
   const [route, setRoute] = useState(
     initial.routeSlug
-      ? getLocationName(initial.routeSlug, language)
+      ? getLocationName(initial.routeSlug, locale)
       : initial.route || "",
   );
   const [routeSlug, setRouteSlug] = useState(initial.routeSlug || "");
   const [fossilSlugs, setFossilSlugs] = useState<string[]>(
     initial.fossilSlugs || [],
   );
-  const [members, setMembers] = useState<Pokemon[]>(() =>
-    playerLabels.map(
-      (_, index) => initial.members?.[index] ?? { name: "", nickname: "" },
-    ),
+  const memberToDraft = (member?: Pokemon): PokemonDraft => ({
+    name:
+      getPokemonNameById(member?.id, locale) ||
+      (typeof member?.name === "string" ? member.name : ""),
+    nickname: member?.nickname ?? "",
+  });
+  const [members, setMembers] = useState<PokemonDraft[]>(() =>
+    playerLabels.map((_, index) => memberToDraft(initial.members?.[index])),
   );
 
   useEffect(() => {
     if (isOpen) {
       setRoute(
         initial.routeSlug
-          ? getLocationName(initial.routeSlug, language)
+          ? getLocationName(initial.routeSlug, locale)
           : initial.route || "",
       );
       setRouteSlug(initial.routeSlug || "");
       setFossilSlugs(initial.fossilSlugs || []);
       setMembers(
-        playerLabels.map(
-          (_, index) => initial.members?.[index] ?? { name: "", nickname: "" },
-        ),
+        playerLabels.map((_, index) => memberToDraft(initial.members?.[index])),
       );
     }
-  }, [isOpen, initial, playerLabels, language]);
+  }, [isOpen, initial, playerLabels, locale]);
 
   const handleSubmit = (e: React.SubmitEvent) => {
     e.preventDefault();
     const trimmedRoute = route.trim();
-    const trimmedMembers = playerLabels.map((_, index) => ({
-      name: members[index]?.name.trim() ?? "",
-      nickname: members[index]?.nickname.trim() ?? "",
-    }));
+    const trimmedMembers = playerLabels.map((_, index) => {
+      const name = members[index]?.name.trim() ?? "";
+      const pokemonId = getPokemonIdFromName(name);
+      return {
+        id: pokemonId,
+        ...(pokemonId === null && name ? { name } : {}),
+        nickname: members[index]?.nickname.trim() ?? "",
+      };
+    });
     if (
       !trimmedRoute ||
       trimmedMembers.some(
-        (member) => member.name.length === 0 || member.nickname.length === 0,
+        (member) =>
+          (member.id === null && !member.name) || member.nickname.length === 0,
       )
     ) {
       return;
     }
     const resolvedLocation = routeSlug
       ? { slug: routeSlug }
-      : findLocationByName(trimmedRoute, { locale: language, gameVersionId });
+      : findLocationByName(trimmedRoute, { locale: locale, gameVersionId });
     onSave({
       route: resolvedLocation ? "" : trimmedRoute,
       routeSlug: resolvedLocation?.slug,
@@ -170,7 +187,11 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
     route.trim().length > 0 &&
     playerLabels.every((_, index) => {
       const member = members[index];
-      return Boolean(member?.name.trim()) && Boolean(member?.nickname.trim());
+      const name = member?.name.trim() ?? "";
+      return (
+        (getPokemonIdFromName(name) !== null || name.length > 0) &&
+        Boolean(member?.nickname.trim())
+      );
     });
   const useTwoColumnLayout = playerLabels.length > 1;
   const gridClasses = useTwoColumnLayout
