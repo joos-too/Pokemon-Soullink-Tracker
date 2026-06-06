@@ -280,7 +280,7 @@ const App: React.FC = () => {
   const [rulesetCopyName, setRulesetCopyName] = useState<string>("");
   const [rulesetOverwriteName, setRulesetOverwriteName] = useState<string>("");
 
-  const [reviveArea, setReviveArea] = useState("");
+  const [reviveFossilSlugs, setReviveFossilSlugs] = useState<string[]>([]);
   const [addRevivedPokemonOpen, setAddRevivedPokemonOpen] = useState(false);
   const [pendingReviveIndices, setPendingReviveIndices] = useState<
     number[] | null
@@ -1818,13 +1818,13 @@ const App: React.FC = () => {
     if (isReadOnly || !data.fossils) return;
 
     const selectedFossils = selectedIndices.map(
-      (fIdx, pIdx) => data.fossils![pIdx][fIdx],
+      (fIdx, pIdx) => data.fossils[pIdx][fIdx].fossilId,
     );
-    const areaName = selectedFossils
-      .map((f) => t(`fossils.${f.fossilId}`))
-      .join("/");
+    // const areaName = selectedFossils
+    //   .map((f) => t(`fossils.${f.fossilId}`))
+    //   .join("/");
 
-    setReviveArea(areaName);
+    setReviveFossilSlugs(selectedFossils);
     setPendingReviveIndices(selectedIndices);
     setAddRevivedPokemonOpen(true);
   };
@@ -2543,11 +2543,11 @@ const App: React.FC = () => {
         gameVersionId={activeGameVersionId || undefined}
       />
       {readOnlyNotice && (
-        <div className="max-w-[1920px] mx-auto mt-3 mb-3 bg-blue-50 border border-blue-200 text-blue-800 dark:bg-slate-800 dark:border-slate-700 dark:text-blue-100 rounded-md px-3 py-2 text-sm shadow-sm">
+        <div className="max-w-480 mx-auto mt-3 mb-3 bg-blue-50 border border-blue-200 text-blue-800 dark:bg-slate-800 dark:border-slate-700 dark:text-blue-100 rounded-md px-3 py-2 text-sm shadow-sm">
           {readOnlyNotice}
         </div>
       )}
-      <div className="max-w-[1920px] mx-auto bg-white dark:bg-gray-800 shadow-lg p-4 rounded-lg">
+      <div className="max-w-480 mx-auto bg-white dark:bg-gray-800 shadow-lg p-4 rounded-lg">
         <header className="relative py-4 border-b-2 border-gray-300 dark:border-gray-700">
           <div className="mx-auto max-w-full px-2 pr-14 sm:pr-16 xl:px-0 xl:pr-0 text-center">
             <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-3xl 2xl:text-4xl font-bold font-press-start tracking-tighter dark:text-gray-100">
@@ -2879,7 +2879,7 @@ const App: React.FC = () => {
         playerLabels={resolvedPlayerNames}
         mode="create"
         initial={{
-          route: reviveArea,
+          fossilSlugs: reviveFossilSlugs,
           members: resolvedPlayerNames.map(() => ({ name: "", nickname: "" })),
         }}
         generationLimit={pokemonGenerationLimit}

@@ -25,8 +25,9 @@ interface EditPairModalProps {
   playerLabels: string[];
   mode?: "create" | "edit";
   initial: {
-    route: string;
+    route?: string;
     routeSlug?: string;
+    fossilSlugs?: string[];
     members: Pokemon[];
   };
   generationLimit?: number;
@@ -61,7 +62,7 @@ const PokemonField: React.FC<PokemonFieldProps> = ({
     <div className="space-y-2">
       <PokemonSuggestionInput
         label={
-          <span className="inline-block min-h-[2.5rem] leading-tight whitespace-normal break-words">
+          <span className="inline-block min-h-10 leading-tight whitespace-normal wrap-break-word">
             {label} - {t("modals.editPair.pokemonLabel")}
           </span>
         }
@@ -108,6 +109,9 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
       : initial.route || "",
   );
   const [routeSlug, setRouteSlug] = useState(initial.routeSlug || "");
+  const [fossilSlugs, setFossilSlugs] = useState<string[]>(
+    initial.fossilSlugs || [],
+  );
   const [members, setMembers] = useState<Pokemon[]>(() =>
     playerLabels.map(
       (_, index) => initial.members?.[index] ?? { name: "", nickname: "" },
@@ -122,6 +126,7 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
           : initial.route || "",
       );
       setRouteSlug(initial.routeSlug || "");
+      setFossilSlugs(initial.fossilSlugs || []);
       setMembers(
         playerLabels.map(
           (_, index) => initial.members?.[index] ?? { name: "", nickname: "" },

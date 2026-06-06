@@ -7,6 +7,7 @@ export interface PokemonLink {
   id: number;
   route: string;
   routeSlug?: string;
+  fossilSlugs?: string[];
   members: Pokemon[];
   isLost?: boolean;
 }
