@@ -29,7 +29,7 @@ export const RivalImage: React.FC<{
   return (
     <img
       src={imagePath}
-      alt={resolvedDisplayName}
+      alt=""
       title={resolvedDisplayName}
       className="w-8 h-8 object-contain mx-auto"
       style={{ imageRendering: "pixelated" }}
@@ -65,22 +65,19 @@ export const BadgeImage: React.FC<{
   posIndex: number;
   badgeSet?: string;
   className?: string;
-  displayName?: string;
 }> = ({
   arenaLabel,
   posIndex,
   badgeSet,
   className = "w-8 h-8 object-contain",
-  displayName,
 }) => {
   const badgeUrl = getBadgeUrl(arenaLabel, posIndex, badgeSet);
-  const altText = displayName ?? arenaLabel;
   const isPixelated = !arenaLabel.toLowerCase().includes("gym");
 
   return (
     <img
       src={badgeUrl}
-      alt={`${altText} Badge`}
+      alt=""
       className={className}
       style={{ imageRendering: isPixelated ? "pixelated" : "inherit" }}
     />

@@ -18,7 +18,7 @@ import { FaGithub } from "react-icons/fa";
 import type {
   AppState,
   FossilEntry,
-  StoneEntry,
+  itemEntry,
   LevelCap,
   Pokemon,
   PokemonLink,
@@ -41,7 +41,7 @@ import BoxFilters, {
   type TypeFilterEntry,
 } from "@/src/components/widgets/BoxFilters.tsx";
 import { useHiddenLinks } from "@/src/hooks/useHiddenLinks.ts";
-import { getPokemonTypeSlugsForName } from "@/src/services/pokemonTypes.ts";
+import { getPokemonTypeSlugsById } from "@/src/services/pokemonTypes.ts";
 import InfoPanel from "@/src/components/widgets/InfoPanel.tsx";
 import Graveyard from "@/src/components/widgets/Graveyard.tsx";
 import ClearedRoutes from "@/src/components/widgets/ClearedRoutes.tsx";
@@ -119,15 +119,24 @@ import "@/src/pokeapi"; // initialize Pokedex once so sprite caching SW gets reg
 
 const LAST_TRACKER_STORAGE_KEY = "soullink:lastTrackerId";
 
-const MAX_DATA_GENERATION = 6;
+const MAX_SUPPORTED_GENERATION = 9;
 const resolveGenerationFromVersionId = (versionId?: string | null): number => {
-  if (!versionId) return MAX_DATA_GENERATION;
+  if (!versionId) return MAX_SUPPORTED_GENERATION;
   const match = /^gen(\d+)/i.exec(versionId);
-  if (!match) return MAX_DATA_GENERATION;
+  if (!match) return MAX_SUPPORTED_GENERATION;
   const parsed = Number(match[1]);
-  if (!Number.isFinite(parsed) || parsed <= 0) return MAX_DATA_GENERATION;
+  if (!Number.isFinite(parsed) || parsed <= 0) return MAX_SUPPORTED_GENERATION;
   return parsed;
 };
+
+const normalizeTrackerMeta = (
+  trackerId: string,
+  meta: TrackerMeta,
+): TrackerMeta => ({
+  ...meta,
+  id: trackerId,
+  allPokemonAndItems: meta.allPokemonAndItems === true ? true : undefined,
+});
 
 const computeTrackerSummary = (
   state?: Partial<AppState> | null,
@@ -281,6 +290,8 @@ const App: React.FC = () => {
   const activeGameVersion = activeGameVersionId
     ? GAME_VERSIONS[activeGameVersionId]
     : undefined;
+  const activeTrackerAllPokemonAndItems =
+    activeTrackerMeta?.allPokemonAndItems === true;
   const currentRuleset = useMemo(() => {
     const id = data.rulesetId || defaultLocaleRulesetId;
     return (
@@ -305,10 +316,16 @@ const App: React.FC = () => {
       ),
     [normalizedTrackerRules, savedRulesetRules],
   );
-  const pokemonGenerationLimit = useMemo(
+  const versionGenerationLimit = useMemo(
     () => resolveGenerationFromVersionId(activeGameVersionId),
     [activeGameVersionId],
   );
+  const pokemonGenerationLimit = activeTrackerAllPokemonAndItems
+    ? MAX_SUPPORTED_GENERATION
+    : versionGenerationLimit;
+  const itemGenerationLimit = activeTrackerAllPokemonAndItems
+    ? MAX_SUPPORTED_GENERATION
+    : versionGenerationLimit;
   const isMember = Boolean(user && activeTrackerMeta?.members?.[user.uid]);
   const isGuest = Boolean(user && activeTrackerMeta?.guests?.[user.uid]);
   const isReadOnly = !isMember;
@@ -390,11 +407,8 @@ const App: React.FC = () => {
             ? [link.members[boxTypeFilter.playerIndex]].filter(Boolean)
             : link.members;
         return membersToCheck.some((m) => {
-          if (!m?.name) return false;
-          const slugs = getPokemonTypeSlugsForName(
-            m.name,
-            pokemonGenerationLimit,
-          );
+          if (!m?.id) return false;
+          const slugs = getPokemonTypeSlugsById(m.id, pokemonGenerationLimit);
           return slugs.some((s) => boxTypeFilter.types.includes(s));
         });
       });
@@ -416,10 +430,10 @@ const App: React.FC = () => {
     const map = new Map<number, Set<string>>();
     for (const link of data.team) {
       link.members.forEach((m, idx) => {
-        if (m?.name) {
+        if (m?.id) {
           if (!map.has(idx)) map.set(idx, new Set());
-          for (const s of getPokemonTypeSlugsForName(
-            m.name,
+          for (const s of getPokemonTypeSlugsById(
+            m.id,
             pokemonGenerationLimit,
           )) {
             map.get(idx)!.add(s);
@@ -556,9 +570,22 @@ const App: React.FC = () => {
       );
       const playerCount = normalizedNames.length;
 
+      const resolvePokemonId = (pokemon: any): number | null => {
+        if (Number.isFinite(Number(pokemon?.id)) && Number(pokemon?.id) > 0) {
+          return Number(pokemon.id);
+        }
+        if (typeof pokemon?.pokemonId === "number" && pokemon.pokemonId > 0) {
+          return pokemon.pokemonId;
+        }
+        return null;
+      };
+
       const sanitizePokemon = (pokemon: any): Pokemon => ({
-        name: typeof pokemon?.name === "string" ? pokemon.name : "",
+        id: resolvePokemonId(pokemon),
         nickname: typeof pokemon?.nickname === "string" ? pokemon.nickname : "",
+        ...(typeof pokemon?.name === "string" && pokemon.name.trim().length > 0
+          ? { name: pokemon.name.trim() }
+          : {}),
       });
 
       const sanitizeMembers = (link: any): Pokemon[] => {
@@ -607,21 +634,39 @@ const App: React.FC = () => {
             location: f.location || "",
             inBag: !!f.inBag,
             revived: !!f.revived,
-            pokemonName: f.pokemonName || "",
+            pokemonId:
+              Number.isFinite(Number(f.pokemonId)) && Number(f.pokemonId) > 0
+                ? Number(f.pokemonId)
+                : null,
+            ...(typeof f.pokemonName === "string" &&
+            f.pokemonName.trim().length > 0
+              ? { pokemonName: f.pokemonName.trim() }
+              : {}),
           }));
         });
       };
 
-      const sanitizeStones = (playerStones: any): StoneEntry[][] => {
+      const sanitizeItems = (playerItems: any): itemEntry[][] => {
         return normalizedNames.map((_, i) => {
-          const list = Array.isArray(playerStones) ? playerStones[i] : null;
+          const list = Array.isArray(playerItems) ? playerItems[i] : null;
           if (!Array.isArray(list)) return [];
-          return list.map((s: any) => ({
-            stoneId: s.stoneId || "",
-            location: s.location || "",
-            inBag: !!s.inBag,
-            used: !!s.used,
-          }));
+          return list.map((s: any) => {
+            const itemId =
+              typeof s.id === "string" && s.id.trim().length > 0
+                ? s.id.trim()
+                : typeof s.stoneId === "string" && s.stoneId.trim().length > 0
+                  ? s.stoneId.trim()
+                  : "";
+            return {
+              ...(itemId ? { id: itemId } : {}),
+              ...(typeof s.name === "string" && s.name.trim().length > 0
+                ? { name: s.name.trim() }
+                : {}),
+              location: s.location || "",
+              inBag: !!s.inBag,
+              used: !!s.used,
+            };
+          });
         });
       };
 
@@ -665,7 +710,7 @@ const App: React.FC = () => {
         megaStoneSpriteStyle:
           safe.megaStoneSpriteStyle ?? base.megaStoneSpriteStyle ?? "item",
         fossils: sanitizeFossils(safe.fossils),
-        stones: sanitizeStones(safe.stones),
+        items: sanitizeItems(safe.items ?? safe.stones),
         runStartedAt:
           typeof safe.runStartedAt === "number"
             ? safe.runStartedAt
@@ -834,7 +879,7 @@ const App: React.FC = () => {
           setTrackerMetas((prev) => {
             const next = { ...prev };
             if (meta) {
-              next[trackerId] = { ...meta, id: trackerId };
+              next[trackerId] = normalizeTrackerMeta(trackerId, meta);
             } else {
               delete next[trackerId];
             }
@@ -935,7 +980,7 @@ const App: React.FC = () => {
         if (meta && meta.isPublic) {
           setTrackerMetas((prev) => ({
             ...prev,
-            [routeTrackerId]: { ...meta, id: routeTrackerId },
+            [routeTrackerId]: normalizeTrackerMeta(routeTrackerId, meta),
           }));
           setActiveTrackerId(routeTrackerId);
         } else {
@@ -1338,7 +1383,7 @@ const App: React.FC = () => {
       index: number,
       playerIndex: number,
       field: keyof Pokemon,
-      value: string,
+      value: string | number | null,
     ) => {
       if (isReadOnly) return;
       setData((prev) => {
@@ -1347,7 +1392,7 @@ const App: React.FC = () => {
         if (!target) return prev;
         const members = [...target.members];
         members[playerIndex] = {
-          ...(members[playerIndex] ?? { name: "", nickname: "" }),
+          ...(members[playerIndex] ?? { id: null, nickname: "" }),
           [field]: value,
         };
         list[index] = { ...target, members };
@@ -1376,7 +1421,7 @@ const App: React.FC = () => {
       index: number,
       playerIndex: number,
       field: keyof Pokemon,
-      value: string,
+      value: string | number | null,
     ) => {
       updateLinkMember("team", index, playerIndex, field, value);
     },
@@ -1395,7 +1440,7 @@ const App: React.FC = () => {
       index: number,
       playerIndex: number,
       field: keyof Pokemon,
-      value: string,
+      value: string | number | null,
     ) => {
       // index is relative to filteredBox; resolve to data.box index via ID
       const link = filteredBox[index];
@@ -1556,7 +1601,8 @@ const App: React.FC = () => {
       id: Date.now(),
       route: route.trim(),
       members: members.map((member) => ({
-        name: member.name.trim(),
+        id: member.id,
+        ...(member.name?.trim() ? { name: member.name.trim() } : {}),
         nickname: "",
       })),
       isLost: true,
@@ -1576,7 +1622,8 @@ const App: React.FC = () => {
         if (pair.id !== pairId) return pair;
         const isLost = pair.isLost ?? false;
         const members = payload.members.map((member) => ({
-          name: member.name.trim(),
+          id: member.id,
+          ...(member.name?.trim() ? { name: member.name.trim() } : {}),
           nickname: isLost ? "" : member.nickname.trim(),
         }));
         return {
@@ -1604,7 +1651,8 @@ const App: React.FC = () => {
             id: Date.now(),
             route: payload.route.trim(),
             members: payload.members.map((member) => ({
-              name: member.name.trim(),
+              id: member.id,
+              ...(member.name?.trim() ? { name: member.name.trim() } : {}),
               nickname: member.nickname.trim(),
             })),
           },
@@ -1623,7 +1671,8 @@ const App: React.FC = () => {
           id: Date.now(),
           route: payload.route.trim(),
           members: payload.members.map((member) => ({
-            name: member.name.trim(),
+            id: member.id,
+            ...(member.name?.trim() ? { name: member.name.trim() } : {}),
             nickname: member.nickname.trim(),
           })),
         },
@@ -1753,7 +1802,10 @@ const App: React.FC = () => {
     setAddRevivedPokemonOpen(true);
   };
 
-  const confirmRevival = (revivedNames: string[]) => {
+  const confirmRevival = (
+    revivedIds: (number | null)[],
+    revivedNames: string[] = [],
+  ) => {
     if (!pendingReviveIndices) return;
 
     setData((prev) => {
@@ -1762,7 +1814,14 @@ const App: React.FC = () => {
         if (newFossils[pIdx] && newFossils[pIdx][fIdx]) {
           newFossils[pIdx] = newFossils[pIdx].map((f, i) =>
             i === fIdx
-              ? { ...f, revived: true, pokemonName: revivedNames[pIdx] }
+              ? {
+                  ...f,
+                  revived: true,
+                  pokemonId: revivedIds[pIdx] ?? null,
+                  ...(revivedNames[pIdx]?.trim()
+                    ? { pokemonName: revivedNames[pIdx].trim() }
+                    : {}),
+                }
               : f,
           );
         }
@@ -1784,57 +1843,64 @@ const App: React.FC = () => {
     [isReadOnly],
   );
 
-  const handleAddStone = (
+  const handleAddItem = (
     pIdx: number,
-    stoneId: string,
+    itemId: string | null,
     location: string,
     inBag: boolean,
+    name?: string,
   ) => {
     if (isReadOnly) return;
     setData((prev) => {
-      const newStones = [...(prev.stones || prev.playerNames.map(() => []))];
-      const playerList = Array.isArray(newStones[pIdx])
-        ? [...newStones[pIdx]]
+      const newItems = [...(prev.items || prev.playerNames.map(() => []))];
+      const playerList = Array.isArray(newItems[pIdx])
+        ? [...newItems[pIdx]]
         : [];
-      newStones[pIdx] = [
+      newItems[pIdx] = [
         ...playerList,
-        { stoneId, location, inBag, used: false },
+        {
+          ...(itemId ? { id: itemId } : {}),
+          ...(name?.trim() ? { name: name.trim() } : {}),
+          location,
+          inBag,
+          used: false,
+        },
       ];
-      return { ...prev, stones: newStones };
+      return { ...prev, items: newItems };
     });
   };
 
-  const handleToggleStoneBag = (pIdx: number, sIdx: number) => {
+  const handleToggleItemBag = (pIdx: number, sIdx: number) => {
     if (isReadOnly) return;
     setData((prev) => {
-      const newStones = [...(prev.stones || [])];
-      if (!newStones[pIdx]) return prev;
-      newStones[pIdx] = newStones[pIdx].map((s, i) =>
+      const newItems = [...(prev.items || [])];
+      if (!newItems[pIdx]) return prev;
+      newItems[pIdx] = newItems[pIdx].map((s, i) =>
         i === sIdx ? { ...s, inBag: true, location: "" } : s,
       );
-      return { ...prev, stones: newStones };
+      return { ...prev, items: newItems };
     });
   };
 
   const handleUseStone = (pIdx: number, sIdx: number) => {
-    if (isReadOnly || !data.stones) return;
+    if (isReadOnly || !data.items) return;
     setData((prev) => {
-      const newStones = [...(prev.stones || [])];
-      if (newStones[pIdx] && newStones[pIdx][sIdx]) {
-        newStones[pIdx] = newStones[pIdx].map((s, i) =>
+      const newItems = [...(prev.items || [])];
+      if (newItems[pIdx] && newItems[pIdx][sIdx]) {
+        newItems[pIdx] = newItems[pIdx].map((s, i) =>
           i === sIdx ? { ...s, used: true } : s,
         );
       }
-      return { ...prev, stones: newStones };
+      return { ...prev, items: newItems };
     });
   };
 
   const handleUpdateStoneList = useCallback(
-    (newStones: StoneEntry[][]) => {
+    (newItems: itemEntry[][]) => {
       if (isReadOnly) return;
       setData((prev) => ({
         ...prev,
-        stones: newStones,
+        items: newItems,
       }));
     },
     [isReadOnly],
@@ -1927,6 +1993,24 @@ const App: React.FC = () => {
       };
     });
     update(ref(db, `trackers/${activeTrackerId}/meta`), { isPublic: enabled });
+  };
+
+  const handleAllPokemonAndItemsToggle = (enabled: boolean) => {
+    if (!activeTrackerId || isReadOnly) return;
+    setTrackerMetas((prev) => {
+      const existing = prev[activeTrackerId];
+      if (!existing) return prev;
+      return {
+        ...prev,
+        [activeTrackerId]: {
+          ...existing,
+          allPokemonAndItems: enabled,
+        },
+      };
+    });
+    update(ref(db, `trackers/${activeTrackerId}/meta`), {
+      allPokemonAndItems: enabled,
+    });
   };
 
   const closeRulesetSaveModal = () => {
@@ -2055,6 +2139,7 @@ const App: React.FC = () => {
     playerNames: string[];
     memberInvites: Array<{ email: string; role: "editor" | "guest" }>;
     gameVersionId: string;
+    allPokemonAndItems?: boolean;
     rulesetId?: string;
   }) => {
     if (!user) return;
@@ -2079,6 +2164,7 @@ const App: React.FC = () => {
         memberInvites: payload.memberInvites,
         owner: user,
         gameVersionId: payload.gameVersionId,
+        allPokemonAndItems: payload.allPokemonAndItems,
         rulesetId,
         rules:
           initialRules.length > 0
@@ -2405,6 +2491,8 @@ const App: React.FC = () => {
       onHardcoreModeToggle={handleHardcoreModeToggle}
       infiniteFossilsEnabled={data.infiniteFossilsEnabled ?? false}
       onInfiniteFossilsToggle={handleInfiniteFossilsToggle}
+      allPokemonAndItems={activeTrackerAllPokemonAndItems}
+      onAllPokemonAndItemsToggle={handleAllPokemonAndItemsToggle}
       isPublic={activeTrackerMeta?.isPublic ?? false}
       onPublicToggle={handlePublicToggle}
       members={trackerMembers}
@@ -2451,6 +2539,7 @@ const App: React.FC = () => {
         onConfirm={handleConfirmLoss}
         pair={pendingLossPair}
         playerNames={resolvedPlayerNames}
+        generationSpritePath={generationSpritePath}
       />
       <DeleteLinkModal
         isOpen={!isReadOnly && showDeleteLinkModal}
@@ -2460,6 +2549,7 @@ const App: React.FC = () => {
         }}
         onConfirm={handleConfirmDeleteLink}
         pair={pendingDeletePair}
+        generationSpritePath={generationSpritePath}
         playerNames={resolvedPlayerNames}
       />
       <ResetModal
@@ -2477,15 +2567,15 @@ const App: React.FC = () => {
         graveyard={data.graveyard}
         routes={clearedRoutes}
         fossils={data.fossils ?? []}
-        stones={data.stones ?? []}
+        items={data.items ?? []}
         generationSpritePath={generationSpritePath}
       />
       {readOnlyNotice && (
-        <div className="max-w-[1920px] mx-auto mt-3 mb-3 bg-blue-50 border border-blue-200 text-blue-800 dark:bg-slate-800 dark:border-slate-700 dark:text-blue-100 rounded-md px-3 py-2 text-sm shadow-sm">
+        <div className="max-w-480 mx-auto mt-3 mb-3 bg-blue-50 border border-blue-200 text-blue-800 dark:bg-slate-800 dark:border-slate-700 dark:text-blue-100 rounded-md px-3 py-2 text-sm shadow-sm">
           {readOnlyNotice}
         </div>
       )}
-      <div className="max-w-[1920px] mx-auto bg-white dark:bg-gray-800 shadow-lg p-4 rounded-lg">
+      <div className="max-w-480 mx-auto bg-white dark:bg-gray-800 shadow-lg p-4 rounded-lg">
         <header className="relative py-4 border-b-2 border-gray-300 dark:border-gray-700">
           <div className="mx-auto max-w-full px-2 pr-14 sm:pr-16 xl:px-0 xl:pr-0 text-center">
             <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-3xl 2xl:text-4xl font-bold font-press-start tracking-tighter dark:text-gray-100">
@@ -2753,19 +2843,20 @@ const App: React.FC = () => {
             <ItemTracker
               playerNames={resolvedPlayerNames}
               fossils={data.fossils || resolvedPlayerNames.map(() => [])}
-              stones={data.stones || resolvedPlayerNames.map(() => [])}
-              maxGeneration={pokemonGenerationLimit}
+              items={data.items || resolvedPlayerNames.map(() => [])}
+              maxGeneration={itemGenerationLimit}
               infiniteFossilsEnabled={data.infiniteFossilsEnabled ?? false}
               onAddFossil={handleAddFossil}
               onToggleBag={handleToggleFossilBag}
               onRevive={handleReviveFossils}
               onUpdateFossils={handleUpdateFossilList}
-              onAddStone={handleAddStone}
-              onToggleStoneBag={handleToggleStoneBag}
-              onUseStone={handleUseStone}
-              onUpdateStones={handleUpdateStoneList}
+              onAddItems={handleAddItem}
+              onToggleItemBag={handleToggleItemBag}
+              onUseItem={handleUseStone}
+              onUpdateItems={handleUpdateStoneList}
               readOnly={isReadOnly}
               gameVersionId={activeGameVersionId || undefined}
+              allPokemonAndItems={activeTrackerAllPokemonAndItems}
               generationSpritePath={generationSpritePath}
               megaStoneSpriteStyle={data.megaStoneSpriteStyle ?? "item"}
               onMegaStoneSpriteStyleToggle={handleMegaStoneSpriteStyleToggle}
@@ -2810,15 +2901,16 @@ const App: React.FC = () => {
         }}
         onSave={(payload) => {
           handleAddBoxPair(payload);
-          const names = payload.members.map((m) => m.name);
-          confirmRevival(names);
+          const pokemonIds = payload.members.map((m) => m.id);
+          const pokemonNames = payload.members.map((m) => m.name ?? "");
+          confirmRevival(pokemonIds, pokemonNames);
           setAddRevivedPokemonOpen(false);
         }}
         playerLabels={resolvedPlayerNames}
         mode="create"
         initial={{
           route: reviveArea,
-          members: resolvedPlayerNames.map(() => ({ name: "", nickname: "" })),
+          members: resolvedPlayerNames.map(() => ({ id: null, nickname: "" })),
         }}
         generationLimit={pokemonGenerationLimit}
         gameVersionId={activeGameVersionId || undefined}

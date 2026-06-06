@@ -12,7 +12,6 @@ interface PokemonSuggestionInputProps {
   isOpen: boolean;
   generationLimit?: number;
   generationSpritePath?: string | null;
-  showNoMatches?: boolean;
 }
 
 const PokemonSuggestionInput: React.FC<PokemonSuggestionInputProps> = ({
@@ -22,7 +21,6 @@ const PokemonSuggestionInput: React.FC<PokemonSuggestionInputProps> = ({
   isOpen,
   generationLimit,
   generationSpritePath,
-  showNoMatches = true,
 }) => {
   const { t, i18n } = useTranslation();
   const language = useMemo(
@@ -48,7 +46,6 @@ const PokemonSuggestionInput: React.FC<PokemonSuggestionInputProps> = ({
       isOpen={isOpen}
       placeholder={t("common.pokemonPlaceholder")}
       inputClassName="pr-14"
-      showNoMatches={showNoMatches}
       renderSuggestion={(suggestion) => {
         const suggestionSpriteUrl = getSpriteUrlForPokemonName(
           suggestion,

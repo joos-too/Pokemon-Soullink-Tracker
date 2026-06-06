@@ -98,7 +98,7 @@ const AddFossilModal: React.FC<AddFossilModalProps> = ({
                   >
                     <img
                       src={`/fossil-sprites/${f.sprite}`}
-                      alt={f.id}
+                      alt=""
                       className="w-10 h-10 object-contain"
                       style={{ imageRendering: "pixelated" }}
                     />

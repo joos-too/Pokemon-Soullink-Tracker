@@ -103,6 +103,10 @@ export const en = {
       versionButton: "Select game version",
       versionPlaceholder: "No version selected",
       versionRequired: "Please select a game version.",
+      allPokemonAndItemsLabel: "Version override",
+      allPokemonAndItemsDescription:
+        "By default, a tracker only suggests Pokémon and items up to the selected game version. This override allows you to select all Pokémon and items, as well as Evolutions, up to the newest Gen.",
+      allPokemonAndItemsTooltipLabel: "Info about suggestions and evolutions",
       rulesetLabel: "Ruleset",
       rulesetButton: "Select ruleset",
       rulesetPlaceholder: "Default ruleset",
@@ -168,19 +172,17 @@ export const en = {
       title: "Add Evolution Stone",
       itemTitle: "Add Item",
       megaTitle: "Add Mega Stone",
-      tabStones: "Stones",
+      tabStones: "Evolution Stones",
       tabItems: "Items",
       tabMegaStones: "Mega Stones",
       stoneLabel: "Select Stone",
       megaStoneLabel: "Select Mega Stone",
-      spritePokemon: "Pokémon",
-      spriteItem: "Stones",
       showPokemon: "Show Pokémon?",
-      itemLabel: "Search Item",
+      itemLabel: "Item name",
       itemSearchPlaceholder: "Search by name…",
       locationLabel: "Location",
       locationTooltip:
-        "If an evolution stone has been discovered but not yet obtained, you can note its location here. You can then move it to your bag later with a single click.",
+        "If an item has been discovered but not yet obtained, you can note its location here. You can then move it to your bag later with a single click.",
       locationTooltipLabel: "Location Info",
       inBagLabel: "Already in bag",
       submit: "Add",
@@ -542,6 +544,14 @@ export const en = {
           "By default, each fossil can only be owned once per player. When enabled, players can collect and revive the same fossil multiple times.",
         description:
           "Allow players to collect the same fossils multiple times.",
+      },
+      allPokemonAndItems: {
+        title: "Version override",
+        tooltipLabel: "Info about suggestions and evolutions",
+        tooltip:
+          "By default, a tracker only suggests Pokémon and items up to the selected game version. This override allows you to select all Pokémon and items, as well as Evolutions, up to the newest Gen.",
+        description:
+          "Expands suggestions and evolution options beyond the game version.",
       },
       megaStoneSpriteStyle: {
         title: "Pokémon Mega Stone Sprites",

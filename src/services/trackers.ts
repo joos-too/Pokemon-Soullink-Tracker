@@ -126,6 +126,7 @@ interface CreateTrackerPayload {
   memberInvites: InviteEntry[];
   owner: User;
   gameVersionId: string;
+  allPokemonAndItems?: boolean;
   rulesetId?: string;
   rules?: string[];
 }
@@ -136,6 +137,7 @@ export const createTracker = async ({
   memberInvites,
   owner,
   gameVersionId,
+  allPokemonAndItems,
   rulesetId,
   rules,
 }: CreateTrackerPayload): Promise<{ trackerId: string; meta: TrackerMeta }> => {
@@ -219,6 +221,7 @@ export const createTracker = async ({
     members,
     guests,
     gameVersionId,
+    ...(allPokemonAndItems ? { allPokemonAndItems: true } : {}),
     rulesetId: resolvedRulesetId,
     isPublic: false,
   };

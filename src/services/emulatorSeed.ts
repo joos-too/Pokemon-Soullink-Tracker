@@ -13,6 +13,7 @@ import {
 import { get, ref, update } from "firebase/database";
 import { createInitialState } from "@/src/services/init.ts";
 import { FossilEntry, StoneEntry } from "@/types";
+import { getPokemonIdFromName } from "@/src/services/pokemonSearch";
 
 // Test user credentials for emulator mode
 const TEST_USER_EMAIL = "test@example.com";
@@ -143,13 +144,29 @@ async function createTracker(
   );
 
   // Add sample data
-  initialState.team = config.teamPokemon;
-  initialState.box = config.boxPokemon;
-  initialState.graveyard = config.graveyardPokemon;
+  const normalizeSampleLinks = (
+    links: typeof config.teamPokemon,
+  ): typeof initialState.team =>
+    links.map((link) => ({
+      ...link,
+      members: link.members.map((member) => ({
+        id: getPokemonIdFromName(member.name),
+        nickname: member.nickname,
+      })),
+    }));
+
+  initialState.team = normalizeSampleLinks(config.teamPokemon);
+  initialState.box = normalizeSampleLinks(config.boxPokemon);
+  initialState.graveyard = normalizeSampleLinks(config.graveyardPokemon);
 
   // Add fossil data if provided
   if (config.fossilEntries) {
-    initialState.fossils = config.fossilEntries;
+    initialState.fossils = config.fossilEntries.map((playerFossils) =>
+      playerFossils.map((entry) => ({
+        ...entry,
+        pokemonId: entry.pokemonId ?? getPokemonIdFromName(entry.pokemonName),
+      })),
+    );
   }
 
   if (config.stoneEntries) {

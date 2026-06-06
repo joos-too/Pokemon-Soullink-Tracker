@@ -15,12 +15,18 @@ import { getItemSpriteUrl, getItemName } from "@/src/services/itemSearch";
 import { getSpriteUrlById } from "@/src/services/sprites";
 import { normalizeLanguage } from "@/src/utils/language";
 
-interface AddStoneModalProps {
+interface AddItemModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onAdd: (stoneId: string, location: string, inBag: boolean) => void;
+  onAdd: (
+    id: string | null,
+    location: string,
+    inBag: boolean,
+    name?: string,
+  ) => void;
   maxGeneration: number;
   gameVersionId?: string;
+  allPokemonAndItems?: boolean;
   generationSpritePath?: string | null;
   megaStoneSpriteStyle?: "item" | "pokemon";
   onMegaStoneSpriteStyleToggle?: (usePokemon: boolean) => void;
@@ -28,12 +34,13 @@ interface AddStoneModalProps {
 
 type Tab = "stones" | "items" | "mega";
 
-const AddItemModal: React.FC<AddStoneModalProps> = ({
+const AddItemModal: React.FC<AddItemModalProps> = ({
   isOpen,
   onClose,
   onAdd,
   maxGeneration,
   gameVersionId,
+  allPokemonAndItems = false,
   generationSpritePath,
   megaStoneSpriteStyle = "item",
   onMegaStoneSpriteStyleToggle,
@@ -41,7 +48,7 @@ const AddItemModal: React.FC<AddStoneModalProps> = ({
   const { t, i18n } = useTranslation();
   const { containerRef } = useFocusTrap(isOpen);
   const [activeTab, setActiveTab] = useState<Tab>("stones");
-  const [selectedStoneId, setSelectedStoneId] = useState("");
+  const [selectedItemId, setSelectedItemId] = useState("");
   const [location, setLocation] = useState("");
   const [inBag, setInBag] = useState(true);
 
@@ -55,39 +62,50 @@ const AddItemModal: React.FC<AddStoneModalProps> = ({
   }, [maxGeneration]);
 
   const showMegaTab =
-    gameVersionId === "gen6_xy" || gameVersionId === "gen6_oras";
+    allPokemonAndItems ||
+    gameVersionId === "gen6_xy" ||
+    gameVersionId === "gen6_oras";
 
   const availableMegaStones = useMemo(() => {
     if (!showMegaTab) return [];
+    if (allPokemonAndItems) return MEGA_STONES;
     if (gameVersionId === "gen6_xy")
       return MEGA_STONES.filter((m) => m.version === "XY");
     return MEGA_STONES; // ORAS gets all (XY + ORAS)
-  }, [showMegaTab, gameVersionId]);
+  }, [showMegaTab, allPokemonAndItems, gameVersionId]);
 
   if (!isOpen) return null;
 
   const currentSelection =
     activeTab === "stones"
-      ? selectedStoneId
+      ? selectedItemId
       : activeTab === "mega"
-        ? selectedStoneId
-        : selectedItemSlug;
+        ? selectedItemId
+        : selectedItemSlug || itemQuery.trim();
 
   const handleSubmit = (e: React.SubmitEvent) => {
     e.preventDefault();
     if (!currentSelection) return;
+    const customName = itemQuery.trim();
     const id =
       activeTab === "stones"
-        ? selectedStoneId
+        ? selectedItemId
         : activeTab === "mega"
-          ? `item:${selectedStoneId}`
-          : `item:${selectedItemSlug}`;
-    onAdd(id, inBag ? "" : location, inBag);
+          ? `item:${selectedItemId}`
+          : selectedItemSlug
+            ? `item:${selectedItemSlug}`
+            : null;
+    onAdd(
+      id,
+      inBag ? "" : location,
+      inBag,
+      id === null ? customName : undefined,
+    );
     resetForm();
   };
 
   const resetForm = () => {
-    setSelectedStoneId("");
+    setSelectedItemId("");
     setSelectedItemSlug("");
     setItemQuery("");
     setLocation("");
@@ -145,7 +163,7 @@ const AddItemModal: React.FC<AddStoneModalProps> = ({
             type="button"
             onClick={() => {
               setActiveTab("items");
-              setSelectedStoneId("");
+              setSelectedItemId("");
             }}
             className={`px-3 py-1.5 text-xs font-semibold rounded-t-md transition-colors ${focusRingClasses} ${
               activeTab === "items"
@@ -189,16 +207,16 @@ const AddItemModal: React.FC<AddStoneModalProps> = ({
                     <button
                       key={s.id}
                       type="button"
-                      onClick={() => setSelectedStoneId(s.id)}
+                      onClick={() => setSelectedItemId(s.id)}
                       className={`flex flex-col items-center p-2 rounded-md border transition-all ${focusRingCardClasses} ${
-                        selectedStoneId === s.id
+                        selectedItemId === s.id
                           ? "border-green-500 bg-green-50 dark:bg-green-900/20"
                           : "border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700"
                       }`}
                     >
                       <img
                         src={`/stone-sprites/${s.sprite}`}
-                        alt={s.id}
+                        alt=""
                         className="w-10 h-10 object-contain"
                         style={{ imageRendering: "pixelated" }}
                       />
@@ -242,9 +260,9 @@ const AddItemModal: React.FC<AddStoneModalProps> = ({
                     <button
                       key={m.id}
                       type="button"
-                      onClick={() => setSelectedStoneId(m.id)}
+                      onClick={() => setSelectedItemId(m.id)}
                       className={`flex flex-col items-center p-2 rounded-md border transition-all ${focusRingCardClasses} ${
-                        selectedStoneId === m.id
+                        selectedItemId === m.id
                           ? "border-green-500 bg-green-50 dark:bg-green-900/20"
                           : "border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700"
                       }`}
@@ -258,7 +276,7 @@ const AddItemModal: React.FC<AddStoneModalProps> = ({
                               )
                             : getItemSpriteUrl(m.id)
                         }
-                        alt={megaName}
+                        alt=""
                         className="w-10 h-10 object-contain"
                         style={
                           megaStoneSpriteStyle !== "pokemon"
@@ -285,6 +303,7 @@ const AddItemModal: React.FC<AddStoneModalProps> = ({
                 onSelectedSlugChange={setSelectedItemSlug}
                 isOpen={isOpen}
                 gameVersionId={gameVersionId}
+                allPokemonAndItems={allPokemonAndItems}
               />
             </div>
           )}

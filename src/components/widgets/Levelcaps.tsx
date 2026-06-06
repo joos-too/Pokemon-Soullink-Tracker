@@ -224,7 +224,6 @@ const Levelcaps: React.FC<LevelcapsProps> = ({
             <div className="flex items-center justify-end shrink-0 px-3">
               <BadgeImage
                 arenaLabel={cap.arena}
-                displayName={arenaLabel}
                 posIndex={index}
                 badgeSet={gameVersion?.badgeSet}
               />

@@ -3,9 +3,10 @@ import type { PokemonLink } from "@/types.ts";
 import { Trans, useTranslation } from "react-i18next";
 import { useFocusTrap } from "@/src/hooks/useFocusTrap.ts";
 import { focusRingClasses } from "@/src/styles/focusRing.ts";
-import { getSpriteUrlForPokemonName } from "@/src/services/sprites.ts";
 import { FiInfo } from "react-icons/fi";
 import Tooltip from "@/src/components/other/Tooltip.tsx";
+import { resolvePokemonDisplay } from "@/src/services/pokemonDisplay.ts";
+import { normalizeLanguage } from "@/src/utils/language.ts";
 
 interface SelectLossModalProps {
   isOpen: boolean;
@@ -13,6 +14,7 @@ interface SelectLossModalProps {
   onConfirm: (playerIndex: number) => void;
   pair: PokemonLink | null;
   playerNames: string[];
+  generationSpritePath: string;
 }
 
 const SelectLossModal: React.FC<SelectLossModalProps> = ({
@@ -21,9 +23,11 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({
   onConfirm,
   pair,
   playerNames,
+  generationSpritePath,
 }) => {
   const [selected, setSelected] = useState<number | null>(null);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const language = normalizeLanguage(i18n.language);
   const { containerRef } = useFocusTrap(isOpen);
   const titleId = useId();
 
@@ -100,10 +104,15 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({
                 <div className="flex flex-col gap-1 bg-gray-50 dark:bg-gray-700/50 rounded-md px-2.5 py-1.5">
                   {playerNames.map((name, index) => {
                     const member = pair.members?.[index] ?? {
-                      name: "",
+                      id: null,
                       nickname: "",
                     };
-                    const spriteUrl = getSpriteUrlForPokemonName(member.name);
+                    const { displayName, spriteUrl } = resolvePokemonDisplay(
+                      member,
+                      language,
+                      generationSpritePath,
+                    );
+
                     return (
                       <div
                         key={`loss-preview-${index}`}
@@ -112,14 +121,10 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({
                         <div className="font-semibold">{name}</div>
                         <div className="flex items-center gap-1.5">
                           {spriteUrl && (
-                            <img
-                              src={spriteUrl}
-                              alt={member.name}
-                              className="w-8 h-8"
-                            />
+                            <img src={spriteUrl} alt="" className="w-8 h-8" />
                           )}
                           <span>
-                            {member.name || "-"}
+                            {displayName || "-"}
                             {member.nickname ? ` (${member.nickname})` : ""}
                           </span>
                         </div>
@@ -131,10 +136,14 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({
                 <fieldset className="flex flex-col gap-1.5">
                   {playerNames.map((name, index) => {
                     const member = pair.members?.[index] ?? {
-                      name: "",
+                      id: null,
                       nickname: "",
                     };
-                    const spriteUrl = getSpriteUrlForPokemonName(member.name);
+                    const { displayName, spriteUrl } = resolvePokemonDisplay(
+                      member,
+                      language,
+                      generationSpritePath,
+                    );
                     const isSelected = selected === index;
                     return (
                       <label
@@ -159,14 +168,10 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({
                         </div>
                         <div className="flex items-center gap-1.5 text-xs">
                           {spriteUrl && (
-                            <img
-                              src={spriteUrl}
-                              alt={member.name}
-                              className="w-8 h-8"
-                            />
+                            <img src={spriteUrl} alt="" className="w-8 h-8" />
                           )}
                           <span>
-                            {member.name || "-"}
+                            {displayName || "-"}
                             {member.nickname ? ` (${member.nickname})` : ""}
                           </span>
                         </div>

@@ -3,10 +3,7 @@ import {
   getOfficialArtworkUrlById,
   getSpriteUrlById,
 } from "@/src/services/sprites.ts";
-import {
-  findPokemonIdByName,
-  getPokemonNameById,
-} from "@/src/services/pokemonSearch.ts";
+import { getPokemonNameById } from "@/src/services/pokemonSearch.ts";
 import type { PokemonLink } from "@/types.ts";
 import { useTranslation } from "react-i18next";
 import { normalizeLanguage } from "@/src/utils/language.ts";
@@ -30,7 +27,7 @@ interface SelectEvolveModalProps {
 
 interface EvoInfo {
   id: number;
-  name: string; // German name if available, otherwise fallback from API
+  name: string;
   methods: string[];
   artworkUrl?: string | null;
 }
@@ -98,12 +95,10 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
     return playerLabels
       .map((label, index) => {
         const member = pair.members?.[index];
-        const name = member?.name;
-        if (!name) return null;
-        const match = findPokemonIdByName(name);
-        if (!match) return null;
+        const pokemonId = member?.id;
+        if (!pokemonId) return null;
         const entries = getFilteredEvolutionEntriesForPokemon(
-          match.id,
+          pokemonId,
           language,
           t,
           maxGeneration,
@@ -130,8 +125,12 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
 
   const currentName = useMemo(() => {
     if (!pair || selectedPlayer === null) return "";
-    return pair.members?.[selectedPlayer]?.name || "";
-  }, [pair, selectedPlayer]);
+    const member = pair.members?.[selectedPlayer];
+    return (
+      getPokemonNameById(member?.id, language) ||
+      (typeof member?.name === "string" ? member.name : "")
+    );
+  }, [pair, selectedPlayer, language]);
 
   // when a player gets selected, compute evolutions
   useEffect(() => {
@@ -139,20 +138,15 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
       setAvailableEvos(null);
       setSelectedEvoId(null);
       if (!pair || selectedPlayer === null) return;
-      const name = pair.members?.[selectedPlayer]?.name;
-      if (!name) {
+      const member = pair.members?.[selectedPlayer];
+      const pokemonId = member?.id;
+      if (!pokemonId) {
         setAvailableEvos([]);
         return;
       }
-      const match = findPokemonIdByName(name);
-      if (!match) {
-        setAvailableEvos([]);
-        return;
-      }
-      const numericId = match.id;
 
       const filteredEntries = getFilteredEvolutionEntriesForPokemon(
-        numericId,
+        pokemonId,
         language,
         t,
         maxGeneration,
@@ -178,7 +172,7 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
               : [t("tracker.evolveModal.unavailable")];
             try {
               const art = getOfficialArtworkUrlById(eid);
-              const localizedName = getPokemonNameById(eid, language);
+              const localizedName = getPokemonNameById(eid, language) || "";
               return {
                 id: eid,
                 name: localizedName,
@@ -221,7 +215,7 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
   const handleConfirm = (e: React.SubmitEvent) => {
     e.preventDefault();
     if (selectedPlayer === null || selectedEvoId === null) return;
-    const targetName = getPokemonNameById(selectedEvoId, language);
+    const targetName = getPokemonNameById(selectedEvoId, language) || "";
     onConfirm(selectedPlayer, targetName, selectedEvoId);
   };
 
@@ -278,6 +272,10 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
                 )}
                 {evolvablePlayers.map(({ index, label }) => {
                   const member = pair?.members?.[index];
+                  const displayName =
+                    getPokemonNameById(member?.id, language) ||
+                    member?.name ||
+                    "";
                   return (
                     <label
                       key={`evolve-player-${index}`}
@@ -305,7 +303,7 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
                       <div>
                         <div className="font-semibold">{label}</div>
                         <div className="text-sm">
-                          {member?.name || "-"}
+                          {displayName || "-"}
                           {member?.nickname ? ` (${member.nickname})` : ""}
                         </div>
                       </div>

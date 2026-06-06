@@ -1,4 +1,4 @@
-import { LOCATION_SUGGESTIONS } from "@/src/data/location-suggestions";
+import { LOCATIONS } from "@/src/data/locations";
 import { SupportedLanguage } from "@/src/utils/language";
 
 const DEFAULT_GAME_VERSION_ID = "gen5_bw";
@@ -83,10 +83,10 @@ const buildEntries = (
   });
 
 const getEntriesForLocale = (locale: SupportedLanguage): LocationEntry[] => {
-  const baseList = LOCATION_SUGGESTIONS[locale] || [];
+  const baseList = LOCATIONS[locale] || [];
   const entries = buildEntries(baseList);
   if (entries.length) return entries;
-  const fallback = LOCATION_SUGGESTIONS[DEFAULT_LOCATION_LOCALE] || [];
+  const fallback = LOCATIONS[DEFAULT_LOCATION_LOCALE] || [];
   return buildEntries(fallback);
 };
 
