@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
+  FiAward,
   FiEdit,
   FiEye,
   FiFilter,
@@ -53,7 +54,6 @@ const HomePage: React.FC<HomePageProps> = ({
   isLoading,
   onOpenUserSettings,
   onOpenRulesetEditor,
-  activeTrackerId,
   trackerSummaries,
   currentUserId,
 }) => {
@@ -547,11 +547,10 @@ const HomePage: React.FC<HomePageProps> = ({
                 const playerCount = Object.keys(
                   tracker.playerNames ?? {},
                 ).length;
-                const isActive = tracker.id === activeTrackerId;
                 const summary = trackerSummaries[tracker.id];
                 const activePokemon =
                   (summary?.teamCount ?? 0) + (summary?.boxCount ?? 0);
-                const deadPokemon = summary?.deathCount ?? 0;
+                const deadPokemon = summary?.graveyardCount ?? 0;
                 const runNumber = summary?.runs ?? 0;
                 const doneCapsCount = summary?.doneCapsCount;
                 const gameVersion = GAME_VERSIONS[tracker.gameVersionId];
@@ -568,6 +567,8 @@ const HomePage: React.FC<HomePageProps> = ({
                     tracker.guests?.[currentUserId] &&
                     !tracker.members?.[currentUserId],
                 );
+                const isCompleted = summary?.championDone === true;
+                const progressPct = summary?.progressPct ?? 0;
                 return (
                   <div
                     key={tracker.id}
@@ -580,11 +581,7 @@ const HomePage: React.FC<HomePageProps> = ({
                         onOpenTracker(tracker.id);
                       }
                     }}
-                    className={`rounded-lg border px-4 py-5 shadow-sm transition cursor-pointer ${focusRingCardClasses} hover:transform hover:scale-[1.02] hover:shadow-md ${
-                      isActive
-                        ? "border-green-500 bg-green-50/70 dark:border-green-500 dark:bg-green-900/10"
-                        : "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900"
-                    }`}
+                    className={`rounded-lg border px-4 py-5 shadow-sm transition cursor-pointer ${focusRingCardClasses} hover:transform hover:scale-[1.02] hover:shadow-md border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900`}
                   >
                     <div className="flex flex-col gap-4">
                       <div className="flex flex-wrap items-center gap-3 text-sm text-gray-600 dark:text-gray-300">
@@ -621,6 +618,17 @@ const HomePage: React.FC<HomePageProps> = ({
                             <FiLock size={14} />
                           )}
                         </span>
+                        {isCompleted && (
+                          <span
+                            className="inline-flex items-center gap-1 rounded-full bg-yellow-100 dark:bg-yellow-300/5 text-yellow-700 dark:text-yellow-400 px-2 py-1 text-xs font-semibold"
+                            title={t("home.completedBadge")}
+                          >
+                            <FiAward size={14} />{" "}
+                            <span className="hidden min-[480px]:inline">
+                              {t("home.completedBadge")}
+                            </span>
+                          </span>
+                        )}
                         <div className="ml-auto shrink-0">
                           <GameVersionBadge
                             gameVersionId={tracker.gameVersionId}
@@ -648,10 +656,10 @@ const HomePage: React.FC<HomePageProps> = ({
                         </p>
                       </div>
                       <div className="flex flex-col gap-4">
-                        <div className="grid grid-cols-4 gap-3 w-full">
+                        <div className="grid grid-cols-2 gap-3 w-full sm:grid-cols-4">
                           {/* Progress field (takes 2 columns) */}
                           <div className="col-span-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/40 p-3">
-                            <div className="mb-1 flex flex-col items-start gap-1 sm:flex-row sm:items-center sm:justify-between">
+                            <div className="mb-1 flex items-center justify-between gap-2">
                               <p className="text-[0.65rem] uppercase tracking-[0.3em] text-gray-500">
                                 {t("home.progressLabel")}
                               </p>
@@ -664,22 +672,35 @@ const HomePage: React.FC<HomePageProps> = ({
                                 {progressLabel}
                               </p>
                             </div>
+                            {summary && (
+                              <div className="mt-2 flex items-center gap-2">
+                                <div className="flex-1 h-1.5 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+                                  <div
+                                    className={`h-full rounded-full transition-all ${isCompleted ? "bg-yellow-400 dark:bg-yellow-500" : "bg-green-500 dark:bg-green-400"}`}
+                                    style={{ width: `${progressPct}%` }}
+                                  />
+                                </div>
+                                <span className="text-[0.6rem] font-semibold text-gray-500 dark:text-gray-400 tabular-nums">
+                                  {progressPct}%
+                                </span>
+                              </div>
+                            )}
                           </div>
 
                           {/* Stats fields (1 column each) */}
-                          <div className="h-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/40 p-3 text-center flex flex-col items-center justify-center">
-                            <p className="text-[0.65rem] uppercase tracking-[0.3em] text-gray-500 whitespace-nowrap">
+                          <div className="flex h-full items-center justify-between gap-2 rounded-lg border border-gray-200 bg-white/60 p-3 text-left dark:border-gray-700 dark:bg-gray-900/40 sm:flex-col sm:justify-center sm:text-center">
+                            <p className="min-w-0 flex-1 text-left text-[0.65rem] uppercase leading-tight tracking-[0.18em] text-gray-500 sm:flex-none sm:text-center sm:tracking-[0.3em]">
                               {t("home.activePokemon")}
                             </p>
-                            <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                            <p className="shrink-0 text-lg font-semibold text-gray-900 dark:text-gray-100">
                               {activePokemon}
                             </p>
                           </div>
-                          <div className="h-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/40 p-3 text-center flex flex-col items-center justify-center">
-                            <p className="text-[0.65rem] uppercase tracking-[0.3em] text-gray-500 whitespace-nowrap">
+                          <div className="flex h-full items-center justify-between gap-2 rounded-lg border border-gray-200 bg-white/60 p-3 text-left dark:border-gray-700 dark:bg-gray-900/40 sm:flex-col sm:justify-center sm:text-center">
+                            <p className="min-w-0 flex-1 text-left text-[0.65rem] uppercase leading-tight tracking-[0.18em] text-gray-500 sm:flex-none sm:text-center sm:tracking-[0.3em]">
                               {t("home.fallenPokemon")}
                             </p>
-                            <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                            <p className="shrink-0 text-lg font-semibold text-gray-900 dark:text-gray-100">
                               {deadPokemon}
                             </p>
                           </div>

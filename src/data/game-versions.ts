@@ -1794,7 +1794,7 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
       {
         id: 7,
         arena: "gym_7",
-        level: "45/45",
+        level: "45",
       },
       {
         id: 8,

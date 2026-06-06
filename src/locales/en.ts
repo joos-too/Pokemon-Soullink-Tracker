@@ -42,6 +42,7 @@ export const en = {
     runCount: "Run {{count}}",
     activePokemon: "Active",
     fallenPokemon: "Lost",
+    completedBadge: "Completed",
     progressFallback: "No gyms cleared",
     privateTracker: "Private tracker",
     publicTracker: "Public tracker",
@@ -234,6 +235,7 @@ export const en = {
     search: {
       title: "Search tracker",
       open: "Open search",
+      openWithShortcut: "Open search (Ctrl + F)",
       modePokemon: "Pokémon",
       modeRoutes: "Areas",
       modeItems: "Items",
@@ -398,9 +400,22 @@ export const en = {
     titleEvolve: "Evolve",
     titleDeleteLink: "Delete link",
     moveToTeam: "Move to team",
+    filtersTitle: "Filters",
+    filterByType: "Filter by type",
+    filterPlayerLabel: "Player",
+    filterAllPlayers: "All",
+    hideHiddenLinks: "Completely hide hidden links",
+    hiddenLinksSection: "Hidden Links",
+    autoTypeFilter: "Auto",
+    autoTypeFilterTooltip: "Select all types not covered by this player's team",
+    autoTypeFilterDisabledTooltip: "Select a player first to use auto filter",
+    clearFilters: "Clear filters",
+    toggleHideLink: "Hide link",
+    unhideLink: "Unhide link",
+    resetHiddenLinks: "Reset hidden links",
   },
   graveyard: {
-    title: "Dead / lost Pokémon",
+    title: "Lost Pokémon",
     manualAddTitle: "Add lost Pokémon",
     titleEdit: "Edit",
     statusDead: "Dead",
@@ -410,7 +425,7 @@ export const en = {
     nicknameLabel: "Nickname: {{nickname}}",
     noNickname: "-",
     unknownPokemon: "Pokémon",
-    empty: "No fallen or lost Pokémon yet.",
+    empty: "No lost Pokémon yet.",
     defaultPlayer: "Player {{index}}",
   },
   settings: {
@@ -489,7 +504,7 @@ export const en = {
       rivalCensor: {
         title: "Censor rival battles",
         tooltipLabel: "Rival info",
-        tooltip: `To avoid spoilers and keep the story fresh, rival battkes are hidden and must be revealed manually.\n\nOnce uncovered they stay visible, even on future runs.`,
+        tooltip: `To avoid spoilers and keep the story fresh, rival battles are hidden and must be revealed manually.\n\nOnce uncovered they stay visible, even on future runs.`,
         description: "Hides rival battles until you reveal them manually.",
       },
       legendary: {
@@ -534,7 +549,7 @@ export const en = {
         title: "Version override",
         tooltipLabel: "Info about suggestions and evolutions",
         tooltip:
-        "By default, a tracker only suggests Pokémon and items up to the selected game version. This override allows you to select all Pokémon and items, as well as Evolutions, up to the newest Gen.",
+          "By default, a tracker only suggests Pokémon and items up to the selected game version. This override allows you to select all Pokémon and items, as well as Evolutions, up to the newest Gen.",
         description:
           "Expands suggestions and evolution options beyond the game version.",
       },
