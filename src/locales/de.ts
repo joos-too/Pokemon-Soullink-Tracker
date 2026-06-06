@@ -105,7 +105,7 @@ export const de = {
       versionRequired: "Bitte wähle eine Spielversion aus.",
       allPokemonAndItemsLabel: "Versionsbeschränkung aufheben",
       allPokemonAndItemsDescription:
-        "Berücksichtigt Pokémon- und Item-Vorschläge sowie Entwicklungsoptionen aus allen unterstützten Generationen. Die gewählte Spielversion bleibt unverändert.",
+        "Standardmäßig schlägt ein Tracker nur Pokémon und Items bis zur ausgewählten Spielversion vor. Diese Einstellung ermöglicht es alle Pokémon und Items, sowie Entwicklungen bis zur neusten Gen auszuwählen.",
       allPokemonAndItemsTooltipLabel: "Info zu Vorschlägen und Entwicklungen",
       rulesetLabel: "Regeln",
       rulesetButton: "Regeln auswählen",
