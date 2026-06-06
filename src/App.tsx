@@ -41,7 +41,7 @@ import BoxFilters, {
   type TypeFilterEntry,
 } from "@/src/components/widgets/BoxFilters.tsx";
 import { useHiddenLinks } from "@/src/hooks/useHiddenLinks.ts";
-import { getPokemonTypeSlugsForName } from "@/src/services/pokemonTypes.ts";
+import { getPokemonTypeSlugsById } from "@/src/services/pokemonTypes.ts";
 import InfoPanel from "@/src/components/widgets/InfoPanel.tsx";
 import Graveyard from "@/src/components/widgets/Graveyard.tsx";
 import ClearedRoutes from "@/src/components/widgets/ClearedRoutes.tsx";
@@ -407,11 +407,8 @@ const App: React.FC = () => {
             ? [link.members[boxTypeFilter.playerIndex]].filter(Boolean)
             : link.members;
         return membersToCheck.some((m) => {
-          if (!m?.name) return false;
-          const slugs = getPokemonTypeSlugsForName(
-            m.name,
-            pokemonGenerationLimit,
-          );
+          if (!m?.id) return false;
+          const slugs = getPokemonTypeSlugsById(m.id, pokemonGenerationLimit);
           return slugs.some((s) => boxTypeFilter.types.includes(s));
         });
       });
@@ -433,10 +430,10 @@ const App: React.FC = () => {
     const map = new Map<number, Set<string>>();
     for (const link of data.team) {
       link.members.forEach((m, idx) => {
-        if (m?.name) {
+        if (m?.id) {
           if (!map.has(idx)) map.set(idx, new Set());
-          for (const s of getPokemonTypeSlugsForName(
-            m.name,
+          for (const s of getPokemonTypeSlugsById(
+            m.id,
             pokemonGenerationLimit,
           )) {
             map.get(idx)!.add(s);

@@ -16458,3 +16458,5 @@ export const POKEMON_TYPE_NAMES: Record<
     dark: "Dark",
   },
 };
+
+export const ALL_TYPE_SLUGS = Object.keys(POKEMON_TYPE_NAMES.en);

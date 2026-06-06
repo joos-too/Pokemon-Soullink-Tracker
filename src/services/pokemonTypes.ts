@@ -6,7 +6,10 @@ const TYPE_NAMES: Record<SupportedLanguage, Record<string, string>> = {
   en: POKEMON_TYPE_NAMES.en,
 };
 
-function getResolvedTypeSlugsForGeneration(
+/**
+ * Returns the raw type slugs (e.g. ["grass", "poison"]) for a Pokémon id.
+ */
+export function getPokemonTypeSlugsById(
   id: number,
   generation?: number | null,
 ): string[] {
@@ -17,16 +20,6 @@ function getResolvedTypeSlugsForGeneration(
     (entry) => generation <= entry.generation,
   );
   return matchingPastEntry?.types ?? currentTypes;
-}
-
-/**
- * Returns the raw type slugs (e.g. ["grass", "poison"]) for a Pokémon id.
- */
-export function getPokemonTypeSlugsById(
-  id: number,
-  generation?: number | null,
-): string[] {
-  return getResolvedTypeSlugsForGeneration(id, generation);
 }
 
 /**
