@@ -6,11 +6,17 @@ export interface Pokemon {
 
 export interface PokemonLink {
   id: number;
-  route: string;
-  routeSlug?: string;
+  locationSlug: string | null;
+  location?: string;
   fossilSlugs?: string[];
   members: Pokemon[];
   isLost?: boolean;
+}
+
+export interface LinkEditPayload {
+  locationSlug: string | null;
+  location?: string;
+  members: Pokemon[];
 }
 
 export interface Ruleset {

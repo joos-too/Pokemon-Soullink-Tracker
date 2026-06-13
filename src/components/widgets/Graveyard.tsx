@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import type { Pokemon, PokemonLink } from "@/types.ts";
+import type { LinkEditPayload, PokemonLink } from "@/types.ts";
 import { PLAYER_COLORS } from "@/src/services/init.ts";
 import { useTranslation } from "react-i18next";
 import { focusRingClasses } from "@/src/styles/focusRing.ts";
@@ -10,12 +10,6 @@ import { getWikiUrlById, type WikiId } from "@/src/utils/wiki.ts";
 import { resolvePokemonDisplay } from "@/src/services/pokemonDisplay.ts";
 import { resolvePokemonLocationDisplay } from "@/src/services/locationSearch.ts";
 import { normalizeLanguage } from "@/src/utils/language.ts";
-
-interface LinkEditPayload {
-  route: string;
-  routeSlug?: string;
-  members: Pokemon[];
-}
 
 interface GraveyardProps {
   graveyard?: PokemonLink[];
@@ -79,8 +73,9 @@ const Graveyard: React.FC<GraveyardProps> = ({
   const editInitial = useMemo(() => {
     if (!activePair) return null;
     return {
-      route: activePair.route ?? "",
-      routeSlug: activePair.routeSlug,
+      location: activePair.location ?? "",
+      locationSlug: activePair.locationSlug,
+      fossilSlugs: activePair.fossilSlugs,
       members: names.map(
         (_, index) => activePair.members?.[index] ?? { id: null, nickname: "" },
       ),
@@ -274,7 +269,8 @@ const Graveyard: React.FC<GraveyardProps> = ({
         mode="edit"
         initial={
           editInitial || {
-            route: "",
+            location: "",
+            fossilSlugs: [],
             members: names.map(() => ({ id: null, nickname: "" })),
           }
         }
@@ -285,9 +281,7 @@ const Graveyard: React.FC<GraveyardProps> = ({
       <AddLostPokemonModal
         isOpen={!readOnly && editIndex !== null && isLostPair}
         onClose={() => setEditIndex(null)}
-        onAdd={(route, members, routeSlug) =>
-          handleSave({ route, routeSlug, members })
-        }
+        onAdd={handleSave}
         playerNames={names}
         generationLimit={pokemonGenerationLimit}
         generationSpritePath={generationSpritePath}
@@ -295,7 +289,7 @@ const Graveyard: React.FC<GraveyardProps> = ({
         mode="edit"
         initial={
           editInitial || {
-            route: "",
+            location: "",
             members: names.map(() => ({ id: null, nickname: "" })),
           }
         }

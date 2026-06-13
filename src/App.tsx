@@ -20,6 +20,7 @@ import type {
   FossilEntry,
   ItemEntry,
   LevelCap,
+  LinkEditPayload,
   Pokemon,
   PokemonLink,
   RivalCap,
@@ -115,20 +116,11 @@ import {
   DEFAULT_WIKI_EN,
   type WikiId,
 } from "@/src/utils/wiki.ts";
-import {
-  findLocationByName,
-  resolvePokemonLocationDisplay,
-} from "@/src/services/locationSearch.ts";
+import { resolvePokemonLocationDisplay } from "@/src/services/locationSearch.ts";
 import { normalizeLanguage } from "@/src/utils/language.ts";
 import "@/src/pokeapi"; // initialize Pokedex once so sprite caching SW gets registered
 
 const LAST_TRACKER_STORAGE_KEY = "soullink:lastTrackerId";
-
-interface LinkEditPayload {
-  route: string;
-  routeSlug?: string;
-  members: Pokemon[];
-}
 
 const MAX_SUPPORTED_GENERATION = 9;
 const resolveGenerationFromVersionId = (versionId?: string | null): number => {
@@ -582,18 +574,8 @@ const App: React.FC = () => {
       );
       const playerCount = normalizedNames.length;
 
-      const resolvePokemonId = (pokemon: any): number | null => {
-        if (Number.isFinite(Number(pokemon?.id)) && Number(pokemon?.id) > 0) {
-          return Number(pokemon.id);
-        }
-        if (typeof pokemon?.pokemonId === "number" && pokemon.pokemonId > 0) {
-          return pokemon.pokemonId;
-        }
-        return null;
-      };
-
       const sanitizePokemon = (pokemon: any): Pokemon => ({
-        id: resolvePokemonId(pokemon),
+        id: pokemon.id,
         nickname: typeof pokemon?.nickname === "string" ? pokemon.nickname : "",
         ...(typeof pokemon?.name === "string" && pokemon.name.trim().length > 0
           ? { name: pokemon.name.trim() }
@@ -614,20 +596,6 @@ const App: React.FC = () => {
         return members;
       };
 
-      const resolveLegacyLocationSlug = (name: unknown): string | undefined => {
-        if (typeof name !== "string" || !name.trim()) return undefined;
-        return (
-          findLocationByName(name, {
-            locale: "en",
-            gameVersionId: activeGameVersion?.id,
-          }) ??
-          findLocationByName(name, {
-            locale: "de",
-            gameVersionId: activeGameVersion?.id,
-          })
-        )?.slug;
-      };
-
       const sanitizeLink = (p: any, fallbackId: number): PokemonLink => {
         const members = sanitizeMembers(p);
         const hasNickname = members.some(
@@ -635,17 +603,20 @@ const App: React.FC = () => {
         );
         const inferredLost = members.length > 0 && !hasNickname;
         const isLost = typeof p?.isLost === "boolean" ? p.isLost : inferredLost;
-        const routeSlug =
-          typeof p?.routeSlug === "string" && p.routeSlug.trim().length
-            ? p.routeSlug
-            : resolveLegacyLocationSlug(p?.route);
+        const locationText =
+          typeof p?.location === "string" && p.location.trim().length > 0
+            ? p.location.trim()
+            : typeof p?.route === "string" && p.route.trim().length > 0
+              ? p.route.trim()
+              : "";
         return {
           id:
             Number.isFinite(Number(p?.id)) && Number(p?.id) > 0
               ? Number(p?.id)
               : fallbackId,
-          route: typeof p?.route === "string" ? p.route : "",
-          ...(routeSlug ? { routeSlug } : {}),
+          locationSlug: p?.locationSlug ?? p?.routeSlug ?? null,
+          ...(locationText ? { location: locationText } : {}),
+          fossilSlugs: p.fossilSlugs || [],
           members,
           isLost,
         };
@@ -661,14 +632,10 @@ const App: React.FC = () => {
           const list = Array.isArray(playerFossils) ? playerFossils[i] : null;
           if (!Array.isArray(list)) return [];
           return list.map((f: any) => {
-            const locationSlug =
-              typeof f.locationSlug === "string" && f.locationSlug.trim().length
-                ? f.locationSlug
-                : resolveLegacyLocationSlug(f.location);
             return {
               fossilId: f.fossilId || "",
               location: f.location || "",
-              ...(locationSlug ? { locationSlug } : {}),
+              locationSlug: f.locationSlug,
               inBag: !!f.inBag,
               revived: !!f.revived,
               pokemonId:
@@ -695,17 +662,13 @@ const App: React.FC = () => {
                 : typeof s.stoneId === "string" && s.stoneId.trim().length > 0
                   ? s.stoneId.trim()
                   : "";
-            const locationSlug =
-              typeof s.locationSlug === "string" && s.locationSlug.trim().length
-                ? s.locationSlug
-                : resolveLegacyLocationSlug(s.location);
             return {
               ...(itemId ? { id: itemId } : {}),
               ...(typeof s.name === "string" && s.name.trim().length > 0
                 ? { name: s.name.trim() }
                 : {}),
-              location: s.location || "",
-              ...(locationSlug ? { locationSlug } : {}),
+              location: s.location,
+              locationSlug: s.locationSlug,
               inBag: !!s.inBag,
               used: !!s.used,
             };
@@ -1446,17 +1409,27 @@ const App: React.FC = () => {
   );
 
   const updateLinkRoute = useCallback(
-    (key: "team" | "box", index: number, value: string, routeSlug?: string) => {
+    (
+      key: "team" | "box",
+      index: number,
+      value: string,
+      locationSlug?: string,
+    ) => {
       if (isReadOnly) return;
       setData((prev) => {
         const list = [...prev[key]];
         const target = list[index];
         if (!target) return prev;
-        const next = { ...target, route: value };
-        if (routeSlug) {
-          next.routeSlug = routeSlug;
+        const next: PokemonLink & { route?: string; routeSlug?: string } = {
+          ...target,
+          location: value,
+        };
+        delete next.route;
+        delete next.routeSlug;
+        if (locationSlug) {
+          next.locationSlug = locationSlug;
         } else {
-          delete next.routeSlug;
+          next.locationSlug = null;
         }
         list[index] = next;
         return { ...prev, [key]: list };
@@ -1478,8 +1451,8 @@ const App: React.FC = () => {
   );
 
   const handleRouteChange = useCallback(
-    (index: number, value: string, routeSlug?: string) => {
-      updateLinkRoute("team", index, value, routeSlug);
+    (index: number, value: string, locationSlug?: string) => {
+      updateLinkRoute("team", index, value, locationSlug);
     },
     [updateLinkRoute],
   );
@@ -1502,12 +1475,12 @@ const App: React.FC = () => {
   );
 
   const handleBoxRouteChange = useCallback(
-    (index: number, value: string, routeSlug?: string) => {
+    (index: number, value: string, locationSlug?: string) => {
       const link = filteredBox[index];
       if (!link) return;
       const realIndex = data.box.findIndex((p) => p.id === link.id);
       if (realIndex === -1) return;
-      updateLinkRoute("box", realIndex, value, routeSlug);
+      updateLinkRoute("box", realIndex, value, locationSlug);
     },
     [updateLinkRoute, filteredBox, data.box],
   );
@@ -1644,25 +1617,19 @@ const App: React.FC = () => {
     }));
   };
 
-  const handleManualAddFromModal = (
-    route: string,
-    members: Pokemon[],
-    routeSlug?: string,
-  ) => {
+  const handleManualAddFromModal = (payload: LinkEditPayload) => {
     if (isReadOnly) return;
     const newPair: PokemonLink = {
       id: Date.now(),
-      route: route.trim(),
-      members: members.map((member) => ({
+      location: payload.location?.trim() || "",
+      locationSlug: payload.locationSlug,
+      members: payload.members.map((member) => ({
         id: member.id,
         ...(member.name?.trim() ? { name: member.name.trim() } : {}),
         nickname: "",
       })),
       isLost: true,
     };
-    if (routeSlug) {
-      newPair.routeSlug = routeSlug;
-    }
     handleManualAddToGraveyard(newPair);
     setIsModalOpen(false);
   };
@@ -1682,16 +1649,18 @@ const App: React.FC = () => {
           ...(member.name?.trim() ? { name: member.name.trim() } : {}),
           nickname: isLost ? "" : member.nickname.trim(),
         }));
-        const next = {
+        const next: PokemonLink & { route?: string; routeSlug?: string } = {
           ...pair,
-          route: payload.route.trim(),
+          location: payload.location?.trim() || "",
           members,
           isLost,
         };
-        if (payload.routeSlug) {
-          next.routeSlug = payload.routeSlug;
+        delete next.route;
+        delete next.routeSlug;
+        if (payload.locationSlug) {
+          next.locationSlug = payload.locationSlug;
         } else {
-          delete next.routeSlug;
+          next.locationSlug = null;
         }
         return next;
       }),
@@ -1708,8 +1677,8 @@ const App: React.FC = () => {
           ...prev.team,
           {
             id: Date.now(),
-            route: payload.route.trim(),
-            ...(payload.routeSlug ? { routeSlug: payload.routeSlug } : {}),
+            location: payload.location?.trim() || "",
+            locationSlug: payload.locationSlug,
             members: payload.members.map((member) => ({
               id: member.id,
               ...(member.name?.trim() ? { name: member.name.trim() } : {}),
@@ -1729,8 +1698,8 @@ const App: React.FC = () => {
         ...prev.box,
         {
           id: Date.now(),
-          route: payload.route.trim(),
-          ...(payload.routeSlug ? { routeSlug: payload.routeSlug } : {}),
+          location: payload.location?.trim() || "",
+          locationSlug: payload.locationSlug,
           members: payload.members.map((member) => ({
             id: member.id,
             ...(member.name?.trim() ? { name: member.name.trim() } : {}),

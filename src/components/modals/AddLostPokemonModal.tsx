@@ -1,6 +1,6 @@
 import React, { useEffect, useId, useState } from "react";
 import { focusRingClasses } from "@/src/styles/focusRing.ts";
-import type { Pokemon } from "@/types.ts";
+import type { LinkEditPayload, Pokemon } from "@/types.ts";
 import { useTranslation } from "react-i18next";
 import LocationSuggestionInput from "@/src/components/inputs/LocationSuggestionInput.tsx";
 import PokemonSuggestionInput from "@/src/components/inputs/PokemonSuggestionInput.tsx";
@@ -18,15 +18,15 @@ import { normalizeLanguage } from "@/src/utils/language.ts";
 interface AddLostPokemonModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onAdd: (route: string, members: Pokemon[], routeSlug?: string) => void;
+  onAdd: (payload: LinkEditPayload) => void;
   playerNames: string[];
   generationLimit?: number;
   generationSpritePath?: string | null;
   gameVersionId?: string;
   mode?: "add" | "edit";
   initial?: {
-    route: string;
-    routeSlug?: string;
+    location?: string;
+    locationSlug?: string | null;
     members: Pokemon[];
   };
 }
@@ -47,7 +47,7 @@ const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({
   const { containerRef } = useFocusTrap(isOpen);
   const titleId = useId();
   const [route, setRoute] = useState("");
-  const [routeSlug, setRouteSlug] = useState("");
+  const [locationSlug, setLocationSlug] = useState("");
   const [pokemonNames, setPokemonNames] = useState<string[]>(() =>
     playerNames.map(() => ""),
   );
@@ -55,11 +55,11 @@ const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({
   useEffect(() => {
     if (isOpen) {
       setRoute(
-        initial?.routeSlug
-          ? getLocationName(initial.routeSlug, locale)
-          : (initial?.route ?? ""),
+        initial?.locationSlug
+          ? getLocationName(initial.locationSlug, locale)
+          : (initial?.location ?? ""),
       );
-      setRouteSlug(initial?.routeSlug ?? "");
+      setLocationSlug(initial?.locationSlug ?? "");
       setPokemonNames(
         playerNames.map((_, index) => {
           const member = initial?.members?.[index];
@@ -91,8 +91,8 @@ const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({
       )
     )
       return;
-    const resolvedLocation = routeSlug
-      ? { slug: routeSlug }
+    const resolvedLocation = locationSlug
+      ? { slug: locationSlug }
       : findLocationByName(trimmedRoute, { locale: locale, gameVersionId });
     const members: Pokemon[] = trimmedNames.map((name) => {
       const pokemonId = getPokemonIdFromName(name);
@@ -102,11 +102,11 @@ const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({
         nickname: "",
       };
     });
-    onAdd(
-      resolvedLocation ? "" : trimmedRoute,
+    onAdd({
+      location: resolvedLocation ? undefined : trimmedRoute,
+      locationSlug: resolvedLocation?.slug ?? null,
       members,
-      resolvedLocation?.slug,
-    );
+    });
   };
 
   const isValid =
@@ -157,8 +157,8 @@ const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({
                 label={t("modals.addLost.routeLabel")}
                 value={route}
                 onChange={setRoute}
-                selectedSlug={routeSlug}
-                onSelectedSlugChange={setRouteSlug}
+                selectedSlug={locationSlug}
+                onSelectedSlugChange={setLocationSlug}
                 isOpen={isOpen}
                 gameVersionId={gameVersionId}
               />

@@ -17,6 +17,12 @@ interface LocationEntry {
   region: string | null;
 }
 
+interface LocationDataEntry {
+  names: Record<SupportedLanguage, string>;
+  slug: string;
+  region: string;
+}
+
 const DEFAULT_LOCATION_LOCALE: SupportedLanguage = "en";
 
 const ROUTE_NUMBER_NAME_REGEX = /\broute[\s-]*(\d+)\b/i;
@@ -79,23 +85,25 @@ const getRouteNumberForEntry = (entry: LocationEntry): number | null =>
   parseRouteNumberFromName(entry.name) ?? parseRouteNumberFromSlug(entry.slug);
 
 const buildEntries = (
-  items: { name: string; slug: string; region: string }[],
+  items: LocationDataEntry[],
+  locale: SupportedLanguage,
 ): LocationEntry[] =>
   items.map((entry) => {
-    const normalizedName = normalizeRouteDisplayName(entry.name);
+    const name =
+      entry.names[locale] ?? entry.names[DEFAULT_LOCATION_LOCALE] ?? entry.slug;
+    const normalizedName = normalizeRouteDisplayName(name);
     return {
-      ...entry,
+      slug: entry.slug,
+      region: entry.region,
       name: normalizedName,
       normalized: normalizeForSearch(normalizedName),
     };
   });
 
 const getEntriesForLocale = (locale: SupportedLanguage): LocationEntry[] => {
-  const baseList = LOCATIONS[locale] || [];
-  const entries = buildEntries(baseList);
+  const entries = buildEntries(LOCATIONS, locale);
   if (entries.length) return entries;
-  const fallback = LOCATIONS[DEFAULT_LOCATION_LOCALE] || [];
-  return buildEntries(fallback);
+  return buildEntries(LOCATIONS, DEFAULT_LOCATION_LOCALE);
 };
 
 const LOCATION_LISTS: Record<SupportedLanguage, LocationEntry[]> = {
@@ -246,11 +254,11 @@ export function resolvePokemonLocationDisplay(
   pokemon: PokemonLink | undefined | null,
   locale: SupportedLanguage = DEFAULT_LOCATION_LOCALE,
 ): string {
-  return pokemon.routeSlug
-    ? getLocationName(pokemon.routeSlug, locale)
+  return pokemon.locationSlug
+    ? getLocationName(pokemon.locationSlug, locale)
     : pokemon.fossilSlugs
       ? getFossilLocationName(pokemon.fossilSlugs)
-      : pokemon.route || "";
+      : pokemon.location || "";
 }
 
 export function resolveLocationDisplay(

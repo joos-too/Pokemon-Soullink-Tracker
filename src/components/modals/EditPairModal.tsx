@@ -1,5 +1,5 @@
 import React, { useEffect, useId, useState } from "react";
-import type { Pokemon } from "@/types.ts";
+import type { LinkEditPayload, Pokemon } from "@/types.ts";
 import {
   focusRingClasses,
   focusRingInputClasses,
@@ -22,17 +22,12 @@ import { normalizeLanguage } from "@/src/utils/language.ts";
 interface EditPairModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: (payload: {
-    route: string;
-    routeSlug?: string;
-    fossilSlugs?: string[];
-    members: Pokemon[];
-  }) => void;
+  onSave: (payload: LinkEditPayload & { fossilSlugs?: string[] }) => void;
   playerLabels: string[];
   mode?: "create" | "edit";
   initial: {
-    route?: string;
-    routeSlug?: string;
+    location?: string;
+    locationSlug?: string | null;
     fossilSlugs?: string[];
     members: Pokemon[];
   };
@@ -115,7 +110,7 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
   const { containerRef } = useFocusTrap(isOpen);
   const titleId = useId();
   const [route, setRoute] = useState("");
-  const [routeSlug, setRouteSlug] = useState("");
+  const [locationSlug, setLocationSlug] = useState("");
   const [fossilSlugs, setFossilSlugs] = useState<string[]>([]);
   const [members, setMembers] = useState<PokemonDraft[]>([]);
 
@@ -129,13 +124,13 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
   useEffect(() => {
     if (isOpen) {
       setRoute(
-        initial.routeSlug
-          ? getLocationName(initial.routeSlug, locale)
+        initial.locationSlug
+          ? getLocationName(initial.locationSlug, locale)
           : initial.fossilSlugs
             ? getFossilLocationName(initial.fossilSlugs)
-            : initial.route || "",
+            : initial.location || "",
       );
-      setRouteSlug(initial.routeSlug || "");
+      setLocationSlug(initial.locationSlug || "");
       setFossilSlugs(initial.fossilSlugs || []);
       setMembers(
         playerLabels.map((_, index) => memberToDraft(initial.members?.[index])),
@@ -164,12 +159,12 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
     ) {
       return;
     }
-    const resolvedLocation = routeSlug
-      ? { slug: routeSlug }
+    const resolvedLocation = locationSlug
+      ? { slug: locationSlug }
       : findLocationByName(trimmedRoute, { locale: locale, gameVersionId });
     onSave({
-      route: resolvedLocation ? "" : trimmedRoute,
-      routeSlug: resolvedLocation?.slug,
+      location: resolvedLocation ? undefined : trimmedRoute,
+      locationSlug: resolvedLocation?.slug ?? null,
       fossilSlugs,
       members: trimmedMembers,
     });
@@ -238,8 +233,9 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
               label={t("modals.addLost.routeLabel")}
               value={route}
               onChange={setRoute}
-              selectedSlug={routeSlug}
-              onSelectedSlugChange={setRouteSlug}
+              disabled={fossilSlugs.length > 0}
+              selectedSlug={locationSlug}
+              onSelectedSlugChange={setLocationSlug}
               isOpen={isOpen}
               gameVersionId={gameVersionId}
             />

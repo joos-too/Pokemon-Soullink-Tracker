@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import type { Pokemon, PokemonLink } from "@/types.ts";
+import type { LinkEditPayload, Pokemon, PokemonLink } from "@/types.ts";
 import EditPairModal from "@/src/components/modals/EditPairModal.tsx";
 import SelectEvolveModal from "@/src/components/modals/SelectEvolveModal.tsx";
 import {
@@ -23,12 +23,6 @@ import { resolvePokemonDisplay } from "@/src/services/pokemonDisplay.ts";
 import { resolvePokemonLocationDisplay } from "@/src/services/locationSearch.ts";
 import { normalizeLanguage } from "@/src/utils/language.ts";
 
-interface LinkEditPayload {
-  route: string;
-  routeSlug?: string;
-  members: Pokemon[];
-}
-
 interface TeamTableProps {
   title: string;
   data: PokemonLink[];
@@ -40,7 +34,7 @@ interface TeamTableProps {
     field: keyof Pokemon,
     value: string | number | null,
   ) => void;
-  onRouteChange: (index: number, value: string, routeSlug?: string) => void;
+  onRouteChange: (index: number, value: string, locationSlug?: string) => void;
   onAddToGraveyard: (pair: PokemonLink) => void;
   onDeleteLink?: (pair: PokemonLink) => void;
   onAddLink: (payload: LinkEditPayload) => void;
@@ -111,8 +105,9 @@ const TeamTable: React.FC<TeamTableProps> = ({
         .map((pair, i) => ({ pair, originalIndex: i }))
         .filter(
           ({ pair }) =>
-            pair.routeSlug ||
-            pair.route ||
+            pair.locationSlug ||
+            pair.location ||
+            pair.fossilSlugs?.length ||
             pair.members.some(
               (member) =>
                 typeof member?.id === "number" || Boolean(member?.name),
@@ -128,7 +123,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
       onPokemonChange(editIndex, playerIndex, "name", member.name ?? "");
       onPokemonChange(editIndex, playerIndex, "nickname", member.nickname);
     });
-    onRouteChange(editIndex, payload.route, payload.routeSlug);
+    onRouteChange(editIndex, payload.location ?? "", payload.locationSlug);
     setEditIndex(null);
   };
 
@@ -136,8 +131,9 @@ const TeamTable: React.FC<TeamTableProps> = ({
     if (editIndex === null) return null;
     const current = data[editIndex];
     return {
-      route: current?.route ?? "",
-      routeSlug: current?.routeSlug,
+      location: current?.location,
+      locationSlug: current?.locationSlug,
+      fossilSlugs: current?.fossilSlugs,
       members: playerNames.map(
         (_, index) => current?.members?.[index] ?? { id: null, nickname: "" },
       ),
@@ -336,7 +332,9 @@ const TeamTable: React.FC<TeamTableProps> = ({
                         {(pair.members.some(
                           (m) => typeof m?.id === "number" || Boolean(m?.name),
                         ) ||
-                          pair.route) && (
+                          pair.location ||
+                          pair.locationSlug ||
+                          pair.fossilSlugs?.length) && (
                           <button
                             type="button"
                             onClick={() => {
@@ -456,7 +454,8 @@ const TeamTable: React.FC<TeamTableProps> = ({
         mode="edit"
         initial={
           editInitial || {
-            route: "",
+            location: "",
+            locationSlug: null,
             members: playerNames.map(() => ({ id: null, nickname: "" })),
           }
         }
@@ -490,7 +489,8 @@ const TeamTable: React.FC<TeamTableProps> = ({
         playerLabels={playerNames}
         mode="create"
         initial={{
-          route: "",
+          location: "",
+          locationSlug: null,
           members: playerNames.map(() => ({ id: null, nickname: "" })),
         }}
         generationLimit={pokemonGenerationLimit}
