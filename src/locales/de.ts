@@ -13,10 +13,10 @@ export const de = {
     searchPlaceholder: "Suchen…",
     overview: "Zur Übersicht",
     unknownPlayers: "Unbekannte Spieler",
-    unknownRoute: "Unbekanntes Gebiet",
+    unknownLocation: "Unbekanntes Gebiet",
     nickname: "Spitzname",
     pokemonPlaceholder: "Pokémon",
-    routePlaceholder: "z. B. Route 1",
+    locationPlaceholder: "z. B. Route 1",
     logout: "Logout",
     languageToggleLabel: "Sprache wechseln",
     darkModeToggleLabel: "Darkmode umschalten",
@@ -75,7 +75,7 @@ export const de = {
     },
     addLost: {
       title: "Verlorene Pokémon hinzufügen",
-      routeLabel: "Gebiet",
+      locationLabel: "Gebiet",
       playerPokemonLabel: "{{name}}’s Pokémon",
     },
     editLost: {
@@ -140,7 +140,7 @@ export const de = {
     },
     selectLoss: {
       title: "Link töten?",
-      routeLabel: "Gebiet: {{route}}",
+      locationLabel: "Gebiet: {{location}}",
       description:
         "Diese Funktion ist dazu gedacht, gestorbene Links in den Friedhof zu verschieben.",
       tooltipLabel: "Info zum Link töten",
@@ -154,7 +154,7 @@ export const de = {
       description:
         "Diese Funktion ist dazu gedacht Links zu löschen, welche versehentlich erstellt worden sind.",
       tooltipLabel: "Info zum Link löschen",
-      routeLabel: "Gebiet: {{route}}",
+      locationLabel: "Gebiet: {{location}}",
       warning: "Link wird endgültig gelöscht!",
       confirm: "Endgültig löschen",
     },
@@ -230,7 +230,7 @@ export const de = {
     footer: {
       github: "Auf GitHub ansehen",
     },
-    routes: {
+    locations: {
       title: "Abgegraste Gebiete",
       empty: "Noch keine Gebiete eingetragen.",
     },
@@ -391,7 +391,7 @@ export const de = {
     pokemonColumn: "Pokémon",
     nameColumn: "Name & Typ",
     nicknameColumn: "Spitzname",
-    routeColumn: "Gebiet",
+    locationColumn: "Gebiet",
     actionsColumn: "Aktionen",
     titleEdit: "Bearbeiten",
     titleMoveToBox: "In die Box verschieben",
@@ -421,7 +421,7 @@ export const de = {
     titleEdit: "Bearbeiten",
     statusDead: "Tot",
     statusLost: "Verloren",
-    areaLabel: "Gebiet: {{route}}",
+    areaLabel: "Gebiet: {{location}}",
     memberTitle: "{{name}}'s {{pokemon}}",
     nicknameLabel: "Spitzname: {{nickname}}",
     noNickname: "-",

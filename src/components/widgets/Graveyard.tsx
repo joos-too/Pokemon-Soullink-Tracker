@@ -121,10 +121,10 @@ const Graveyard: React.FC<GraveyardProps> = ({
         {graveyard && graveyard.length > 0 ? (
           <div className="space-y-3">
             {[...graveyard].reverse().map((pair) => {
-              const routeLabel = resolvePokemonLocationDisplay(pair, locale);
+              const locationLabel = resolvePokemonLocationDisplay(pair, locale);
               const canEdit =
                 !readOnly &&
-                (routeLabel ||
+                (locationLabel ||
                   pair.members.some(
                     (member) =>
                       typeof member?.id === "number" || Boolean(member?.name),
@@ -176,7 +176,7 @@ const Graveyard: React.FC<GraveyardProps> = ({
                   )}
                   <p className="text-center font-bold text-gray-600 dark:text-gray-300 mb-1">
                     {t("graveyard.areaLabel", {
-                      route: routeLabel || t("common.unknownRoute"),
+                      location: locationLabel || t("common.unknownLocation"),
                     })}
                   </p>
                   <div

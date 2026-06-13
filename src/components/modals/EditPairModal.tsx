@@ -109,7 +109,7 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
   const locale = normalizeLanguage(i18n.language);
   const { containerRef } = useFocusTrap(isOpen);
   const titleId = useId();
-  const [route, setRoute] = useState("");
+  const [location, setLocation] = useState("");
   const [locationSlug, setLocationSlug] = useState("");
   const [fossilSlugs, setFossilSlugs] = useState<string[]>([]);
   const [members, setMembers] = useState<PokemonDraft[]>([]);
@@ -123,7 +123,7 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
 
   useEffect(() => {
     if (isOpen) {
-      setRoute(
+      setLocation(
         initial.locationSlug
           ? getLocationName(initial.locationSlug, locale)
           : initial.fossilSlugs
@@ -140,7 +140,7 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
 
   const handleSubmit = (e: React.SubmitEvent) => {
     e.preventDefault();
-    const trimmedRoute = route.trim();
+    const trimmedRoute = location.trim();
     const trimmedMembers = playerLabels.map((_, index) => {
       const name = members[index]?.name.trim() ?? "";
       const pokemonId = getPokemonIdFromName(name);
@@ -177,7 +177,7 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
   const cancelLabel = mode === "create" ? t("common.back") : t("common.cancel");
   const submitLabel = mode === "create" ? t("common.add") : t("common.save");
   const isValid =
-    route.trim().length > 0 &&
+    location.trim().length > 0 &&
     playerLabels.every((_, index) => {
       const member = members[index];
       const name = member?.name.trim() ?? "";
@@ -230,9 +230,9 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <LocationSuggestionInput
-              label={t("modals.addLost.routeLabel")}
-              value={route}
-              onChange={setRoute}
+              label={t("modals.addLost.locationLabel")}
+              value={location}
+              onChange={setLocation}
               disabled={fossilSlugs.length > 0}
               selectedSlug={locationSlug}
               onSelectedSlugChange={setLocationSlug}

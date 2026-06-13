@@ -381,7 +381,7 @@ const AddItemModal: React.FC<AddItemModalProps> = ({
                 inBag ||
                 (activeTab === "stones" && availableStones.length === 0)
               }
-              placeholder={inBag ? "" : t("common.routePlaceholder")}
+              placeholder={inBag ? "" : t("common.locationPlaceholder")}
             />
           </div>
 

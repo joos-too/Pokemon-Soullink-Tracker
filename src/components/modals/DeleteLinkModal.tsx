@@ -32,7 +32,7 @@ const DeleteLinkModal: React.FC<DeleteLinkModalProps> = ({
   const titleId = useId();
 
   if (!isOpen || !pair) return null;
-  const routeLabel = resolvePokemonLocationDisplay(pair, locale);
+  const locationLabel = resolvePokemonLocationDisplay(pair, locale);
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
@@ -81,9 +81,11 @@ const DeleteLinkModal: React.FC<DeleteLinkModalProps> = ({
         </div>
 
         <div className="mb-4 text-sm text-gray-700 dark:text-gray-300">
-          {routeLabel && (
+          {locationLabel && (
             <div className="text-sm text-gray-500 dark:text-gray-400 mb-3 px-1">
-              {t("modals.deleteLink.routeLabel", { route: routeLabel })}
+              {t("modals.deleteLink.locationLabel", {
+                location: locationLabel,
+              })}
             </div>
           )}
 

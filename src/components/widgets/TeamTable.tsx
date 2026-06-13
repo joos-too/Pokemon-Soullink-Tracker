@@ -193,7 +193,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                 rowSpan={2}
                 className="p-2 text-center text-xs font-bold text-gray-700 dark:text-gray-300 border-t border-b border-l border-gray-300 dark:border-gray-700"
               >
-                {t("team.routeColumn")}
+                {t("team.locationColumn")}
               </th>
               {!readOnly && (
                 <th
@@ -233,7 +233,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
               </tr>
             )}
             {rows.map(({ pair, originalIndex }, displayIndex) => {
-              const routeLabel = resolvePokemonLocationDisplay(pair, locale);
+              const locationLabel = resolvePokemonLocationDisplay(pair, locale);
               return (
                 <tr
                   key={pair.id}
@@ -321,7 +321,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                     );
                   })}
                   <td className="p-2 text-sm text-center text-gray-800 dark:text-gray-200 border-l border-gray-200 dark:border-gray-700">
-                    {routeLabel || "-"}
+                    {locationLabel || "-"}
                   </td>
                   {!readOnly && (
                     <td

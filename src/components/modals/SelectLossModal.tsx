@@ -39,7 +39,7 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({
   }, [isOpen, playerNames.length]);
 
   if (!isOpen) return null;
-  const routeLabel = pair ? resolvePokemonLocationDisplay(pair, locale) : "";
+  const locationLabel = pair ? resolvePokemonLocationDisplay(pair, locale) : "";
 
   const handleSubmit = (e: React.SubmitEvent) => {
     e.preventDefault();
@@ -96,9 +96,11 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({
         <form onSubmit={handleSubmit}>
           {pair && (
             <div className="mb-4 text-sm text-gray-700 dark:text-gray-300">
-              {routeLabel && (
+              {locationLabel && (
                 <div className="text-sm text-gray-500 dark:text-gray-400 mb-3 px-1">
-                  {t("modals.selectLoss.routeLabel", { route: routeLabel })}
+                  {t("modals.selectLoss.locationLabel", {
+                    location: locationLabel,
+                  })}
                 </div>
               )}
 

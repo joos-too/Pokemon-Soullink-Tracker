@@ -45,7 +45,7 @@ import { useHiddenLinks } from "@/src/hooks/useHiddenLinks.ts";
 import { getPokemonTypeSlugsById } from "@/src/services/pokemonTypes.ts";
 import InfoPanel from "@/src/components/widgets/InfoPanel.tsx";
 import Graveyard from "@/src/components/widgets/Graveyard.tsx";
-import ClearedRoutes from "@/src/components/widgets/ClearedRoutes.tsx";
+import ClearedLocations from "@/src/components/widgets/ClearedLocations.tsx";
 import AddLostPokemonModal from "@/src/components/modals/AddLostPokemonModal.tsx";
 import RulesetSaveModal from "@/src/components/modals/RulesetSaveModal.tsx";
 import ItemTracker from "@/src/components/widgets/ItemTracker.tsx";
@@ -2304,19 +2304,19 @@ const App: React.FC = () => {
     [activeTrackerId, user, navigate, closeSettingsPanel],
   );
 
-  const clearedRoutes = useMemo(() => {
-    const routes: string[] = [];
+  const clearedLocations = useMemo(() => {
+    const locations: string[] = [];
     const collect = (arr: PokemonLink[] | undefined | null) => {
       const list = Array.isArray(arr) ? arr : [];
       for (const p of list) {
         const r = resolvePokemonLocationDisplay(p, locale).trim();
-        if (r) routes.push(r);
+        if (r) locations.push(r);
       }
     };
     collect(data?.team);
     collect(data?.box);
     collect(data?.graveyard);
-    return Array.from(new Set(routes)).sort((a, b) => a.localeCompare(b));
+    return Array.from(new Set(locations)).sort((a, b) => a.localeCompare(b));
   }, [data, locale]);
 
   const trackerList = useMemo(
@@ -2894,7 +2894,7 @@ const App: React.FC = () => {
               gameVersionId={activeGameVersionId || undefined}
               wikiId={effectiveWikiId}
             />
-            <ClearedRoutes routes={clearedRoutes} />
+            <ClearedLocations locations={clearedLocations} />
           </div>
         </main>
         <footer className="text-center mt-8 py-4 border-t-2 border-gray-200 dark:border-gray-700">

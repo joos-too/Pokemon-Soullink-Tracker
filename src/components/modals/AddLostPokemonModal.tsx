@@ -46,7 +46,7 @@ const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({
   const locale = normalizeLanguage(i18n.language);
   const { containerRef } = useFocusTrap(isOpen);
   const titleId = useId();
-  const [route, setRoute] = useState("");
+  const [location, setLocation] = useState("");
   const [locationSlug, setLocationSlug] = useState("");
   const [pokemonNames, setPokemonNames] = useState<string[]>(() =>
     playerNames.map(() => ""),
@@ -54,7 +54,7 @@ const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({
 
   useEffect(() => {
     if (isOpen) {
-      setRoute(
+      setLocation(
         initial?.locationSlug
           ? getLocationName(initial.locationSlug, locale)
           : (initial?.location ?? ""),
@@ -82,10 +82,10 @@ const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({
 
   const handleSubmit = (e: React.SubmitEvent) => {
     e.preventDefault();
-    const trimmedRoute = route.trim();
+    const trimmedLocation = location.trim();
     const trimmedNames = pokemonNames.map((name) => name.trim());
     if (
-      !trimmedRoute ||
+      !trimmedLocation ||
       trimmedNames.some(
         (name) => getPokemonIdFromName(name) === null && name.length === 0,
       )
@@ -93,7 +93,7 @@ const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({
       return;
     const resolvedLocation = locationSlug
       ? { slug: locationSlug }
-      : findLocationByName(trimmedRoute, { locale: locale, gameVersionId });
+      : findLocationByName(trimmedLocation, { locale: locale, gameVersionId });
     const members: Pokemon[] = trimmedNames.map((name) => {
       const pokemonId = getPokemonIdFromName(name);
       return {
@@ -103,14 +103,14 @@ const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({
       };
     });
     onAdd({
-      location: resolvedLocation ? undefined : trimmedRoute,
+      location: resolvedLocation ? undefined : trimmedLocation,
       locationSlug: resolvedLocation?.slug ?? null,
       members,
     });
   };
 
   const isValid =
-    route.trim().length > 0 &&
+    location.trim().length > 0 &&
     pokemonNames.every((name) => {
       const trimmed = name.trim();
       return getPokemonIdFromName(trimmed) !== null || trimmed.length > 0;
@@ -154,9 +154,9 @@ const AddLostPokemonModal: React.FC<AddLostPokemonModalProps> = ({
           <div className="space-y-4">
             <div>
               <LocationSuggestionInput
-                label={t("modals.addLost.routeLabel")}
-                value={route}
-                onChange={setRoute}
+                label={t("modals.addLost.locationLabel")}
+                value={location}
+                onChange={setLocation}
                 selectedSlug={locationSlug}
                 onSelectedSlugChange={setLocationSlug}
                 isOpen={isOpen}

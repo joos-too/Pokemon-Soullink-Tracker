@@ -194,7 +194,7 @@ const AddFossilModal: React.FC<AddFossilModalProps> = ({
               isOpen={isOpen}
               gameVersionId={gameVersionId}
               disabled={inBag || availableFossils.length === 0}
-              placeholder={inBag ? "" : t("common.routePlaceholder")}
+              placeholder={inBag ? "" : t("common.locationPlaceholder")}
             />
           </div>
 

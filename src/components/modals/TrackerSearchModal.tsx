@@ -101,7 +101,7 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
   );
 
   const matchesPokemonQuery = (pair: PokemonLink) => {
-    const routeLabel = resolvePokemonLocationDisplay(pair, locale);
+    const locationLabel = resolvePokemonLocationDisplay(pair, locale);
 
     if (!normalizedQuery) {
       return pair.members.some(
@@ -110,7 +110,7 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
     }
 
     if (
-      locationMatchesQuery(routeLabel, normalizedQuery, {
+      locationMatchesQuery(locationLabel, normalizedQuery, {
         locale,
         gameVersionId,
       })
@@ -377,9 +377,9 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
                         >
                           <p className="text-center font-bold text-gray-600 dark:text-gray-300 mb-1">
                             {t("graveyard.areaLabel", {
-                              route:
+                              location:
                                 resolvePokemonLocationDisplay(pair, locale) ||
-                                t("common.unknownRoute"),
+                                t("common.unknownLocation"),
                             })}
                           </p>
                           <div

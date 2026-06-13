@@ -45,7 +45,7 @@ const LocationSuggestionInput: React.FC<LocationSuggestionInputProps> = ({
 
   return (
     <SuggestionInput<LocationSearchResult>
-      id="route"
+      id="location"
       label={label}
       value={value}
       onChange={(nextValue) => {
@@ -54,7 +54,7 @@ const LocationSuggestionInput: React.FC<LocationSuggestionInputProps> = ({
       }}
       fetchSuggestions={fetchSuggestions}
       isOpen={isOpen}
-      placeholder={placeholder || t("common.routePlaceholder")}
+      placeholder={placeholder || t("common.locationPlaceholder")}
       disabled={disabled}
       getSuggestionValue={(suggestion) => suggestion.name}
       getSuggestionKey={(suggestion) => suggestion.slug}
