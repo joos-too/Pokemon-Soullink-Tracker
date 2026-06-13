@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { compareLocations } from "@/src/utils/routes.ts";
+import { compareLocations } from "@/src/utils/locationSorting.ts";
 
 interface ClearedLocationProps {
   locations: string[];
