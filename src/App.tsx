@@ -557,20 +557,8 @@ const App: React.FC = () => {
       );
 
       const safe = incoming && typeof incoming === "object" ? incoming : {};
-      const legacyNames: string[] = [
-        safe.player1Name,
-        safe.player2Name,
-        safe.player3Name,
-      ].filter(
-        (name): name is string =>
-          typeof name === "string" && name.trim().length > 0,
-      );
       const normalizedNames = sanitizePlayerNames(
-        Array.isArray(safe.playerNames)
-          ? safe.playerNames
-          : legacyNames.length > 0
-            ? legacyNames
-            : base.playerNames,
+        Array.isArray(safe.playerNames) ? safe.playerNames : base.playerNames,
       );
       const playerCount = normalizedNames.length;
 
@@ -583,17 +571,9 @@ const App: React.FC = () => {
       });
 
       const sanitizeMembers = (link: any): Pokemon[] => {
-        const members = Array.isArray(link?.members)
+        return Array.isArray(link?.members)
           ? link.members.map(sanitizePokemon)
           : [];
-        if (members.length === 0) {
-          ["player1", "player2", "player3"].forEach((key) => {
-            if (link?.[key]) {
-              members.push(sanitizePokemon(link[key]));
-            }
-          });
-        }
-        return members;
       };
 
       const sanitizeLink = (p: any, fallbackId: number): PokemonLink => {
@@ -606,15 +586,13 @@ const App: React.FC = () => {
         const locationText =
           typeof p?.location === "string" && p.location.trim().length > 0
             ? p.location.trim()
-            : typeof p?.route === "string" && p.route.trim().length > 0
-              ? p.route.trim()
-              : "";
+            : "";
         return {
           id:
             Number.isFinite(Number(p?.id)) && Number(p?.id) > 0
               ? Number(p?.id)
               : fallbackId,
-          locationSlug: p?.locationSlug ?? p?.routeSlug ?? null,
+          locationSlug: p?.locationSlug ?? null,
           ...(locationText ? { location: locationText } : {}),
           fossilSlugs: p.fossilSlugs || [],
           members,
@@ -659,9 +637,7 @@ const App: React.FC = () => {
             const itemId =
               typeof s.id === "string" && s.id.trim().length > 0
                 ? s.id.trim()
-                : typeof s.stoneId === "string" && s.stoneId.trim().length > 0
-                  ? s.stoneId.trim()
-                  : "";
+                : "";
             return {
               ...(itemId ? { id: itemId } : {}),
               ...(typeof s.name === "string" && s.name.trim().length > 0
@@ -716,7 +692,7 @@ const App: React.FC = () => {
         megaStoneSpriteStyle:
           safe.megaStoneSpriteStyle ?? base.megaStoneSpriteStyle ?? "item",
         fossils: sanitizeFossils(safe.fossils),
-        items: sanitizeItems(safe.items ?? safe.stones),
+        items: sanitizeItems(safe.items),
         runStartedAt:
           typeof safe.runStartedAt === "number"
             ? safe.runStartedAt
@@ -1420,12 +1396,10 @@ const App: React.FC = () => {
         const list = [...prev[key]];
         const target = list[index];
         if (!target) return prev;
-        const next: PokemonLink & { route?: string; routeSlug?: string } = {
+        const next: PokemonLink = {
           ...target,
           location: value,
         };
-        delete next.route;
-        delete next.routeSlug;
         if (locationSlug) {
           next.locationSlug = locationSlug;
         } else {
@@ -1649,14 +1623,12 @@ const App: React.FC = () => {
           ...(member.name?.trim() ? { name: member.name.trim() } : {}),
           nickname: isLost ? "" : member.nickname.trim(),
         }));
-        const next: PokemonLink & { route?: string; routeSlug?: string } = {
+        const next: PokemonLink = {
           ...pair,
           location: payload.location?.trim() || "",
           members,
           isLost,
         };
-        delete next.route;
-        delete next.routeSlug;
         if (payload.locationSlug) {
           next.locationSlug = payload.locationSlug;
         } else {
