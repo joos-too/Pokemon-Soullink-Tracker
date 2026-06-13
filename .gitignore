@@ -34,3 +34,6 @@ scripts/itemlists-source/*
 
 # Local PokeAPI static JSON checkout (https://github.com/PokeAPI/api-data)
 scripts/pokeapi-data/
+
+# Database json exports
+database-exports
