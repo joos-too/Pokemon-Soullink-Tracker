@@ -126,7 +126,7 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
       setLocation(
         initial.locationSlug
           ? getLocationName(initial.locationSlug, locale)
-          : initial.fossilSlugs
+          : initial.fossilSlugs?.length
             ? getFossilLocationName(initial.fossilSlugs)
             : initial.location || "",
       );

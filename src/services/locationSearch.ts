@@ -256,7 +256,7 @@ export function resolvePokemonLocationDisplay(
 ): string {
   return pokemon.locationSlug
     ? getLocationName(pokemon.locationSlug, locale)
-    : pokemon.fossilSlugs
+    : pokemon.fossilSlugs?.length
       ? getFossilLocationName(pokemon.fossilSlugs)
       : pokemon.location || "";
 }
