@@ -351,9 +351,18 @@ const App: React.FC = () => {
   // ── Box filters & bad links (local view) ──────────────
   const { hiddenLinkIds, toggleHiddenLink, resetAllHiddenLinks } =
     useHiddenLinks(activeTrackerId);
-  const [boxTypeFilter, setBoxTypeFilter] = useState<TypeFilterEntry>(() => {
+
+  const boxTypeFilterKey = activeTrackerId
+    ? `boxTypeFilter:${activeTrackerId}`
+    : null;
+  const boxHideHiddenLinksKey = activeTrackerId
+    ? `boxHideHiddenLinks:${activeTrackerId}`
+    : null;
+
+  const loadBoxTypeFilter = (key: string | null): TypeFilterEntry => {
+    if (!key) return { types: [], playerIndex: null };
     try {
-      const stored = localStorage.getItem("boxTypeFilter");
+      const stored = localStorage.getItem(key);
       if (stored) {
         const parsed = JSON.parse(stored);
         if (parsed && Array.isArray(parsed.types)) {
@@ -368,26 +377,46 @@ const App: React.FC = () => {
       }
     } catch {}
     return { types: [], playerIndex: null };
-  });
+  };
+
+  const [boxTypeFilter, setBoxTypeFilter] = useState<TypeFilterEntry>(() =>
+    loadBoxTypeFilter(boxTypeFilterKey),
+  );
   const handleBoxTypeFilterChange = (filter: TypeFilterEntry) => {
     setBoxTypeFilter(filter);
     try {
-      localStorage.setItem("boxTypeFilter", JSON.stringify(filter));
+      if (boxTypeFilterKey) {
+        localStorage.setItem(boxTypeFilterKey, JSON.stringify(filter));
+      }
     } catch {}
   };
-  const [boxHideHiddenLinks, setBoxHideHiddenLinks] = useState(() => {
+
+  const loadBoxHideHiddenLinks = (key: string | null): boolean => {
+    if (!key) return false;
     try {
-      return localStorage.getItem("boxHideHiddenLinks") === "true";
+      return localStorage.getItem(key) === "true";
     } catch {
       return false;
     }
-  });
+  };
+
+  const [boxHideHiddenLinks, setBoxHideHiddenLinks] = useState(() =>
+    loadBoxHideHiddenLinks(boxHideHiddenLinksKey),
+  );
   const handleBoxHideHiddenLinksChange = (value: boolean) => {
     setBoxHideHiddenLinks(value);
     try {
-      localStorage.setItem("boxHideHiddenLinks", String(value));
+      if (boxHideHiddenLinksKey) {
+        localStorage.setItem(boxHideHiddenLinksKey, String(value));
+      }
     } catch {}
   };
+
+  // Reset filter state when switching trackers
+  useEffect(() => {
+    setBoxTypeFilter(loadBoxTypeFilter(boxTypeFilterKey));
+    setBoxHideHiddenLinks(loadBoxHideHiddenLinks(boxHideHiddenLinksKey));
+  }, [boxTypeFilterKey, boxHideHiddenLinksKey]);
   const [boxFiltersExpanded, setBoxFiltersExpanded] = useState(() => {
     try {
       return localStorage.getItem("boxFiltersExpanded") === "true";
