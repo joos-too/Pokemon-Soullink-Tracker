@@ -1537,6 +1537,7 @@ export const GAME_VERSIONS: Record<string, GameVersion> = {
   gen6_xy: {
     id: "gen6_xy",
     badgeSet: "gen6/xy",
+    defaultRivalPreferences: { calem_serena: "female" },
     badge: {
       segments: [
         {
