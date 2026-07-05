@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FossilEntry, itemEntry } from "@/types";
+import { FossilEntry, ItemEntry } from "@/types";
 import { PLAYER_COLORS } from "@/src/services/init";
 import { MEGA_STONES, FOSSILS, STONES } from "@/src/data/special-items.ts";
 import { getItemName, getItemSpriteUrl } from "@/src/services/itemSearch";
+import { resolveLocationDisplay } from "@/src/services/locationSearch";
 import { normalizeLanguage } from "@/src/utils/language";
 import { getPokemonNameById } from "@/src/services/pokemonSearch";
 import {
@@ -28,7 +29,7 @@ import {
 interface ItemTrackerProps {
   playerNames: string[];
   fossils: FossilEntry[][];
-  items: itemEntry[][];
+  items: ItemEntry[][];
   maxGeneration: number;
   infiniteFossilsEnabled: boolean;
   onAddFossil: (
@@ -36,6 +37,7 @@ interface ItemTrackerProps {
     fossilId: string,
     location: string,
     inBag: boolean,
+    locationSlug?: string,
   ) => void;
   onToggleBag: (playerIndex: number, fossilIndex: number) => void;
   onRevive: (selectedIndices: number[]) => void;
@@ -46,10 +48,11 @@ interface ItemTrackerProps {
     location: string,
     inBag: boolean,
     name?: string,
+    locationSlug?: string,
   ) => void;
   onToggleItemBag: (playerIndex: number, itemIndex: number) => void;
   onUseItem: (playerIndex: number, itemIndex: number) => void;
-  onUpdateItems: (newItems: itemEntry[][]) => void;
+  onUpdateItems: (newItems: ItemEntry[][]) => void;
   readOnly?: boolean;
   gameVersionId?: string;
   allPokemonAndItems?: boolean;
@@ -85,7 +88,7 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
 
   // --- Item state ---
   const [isItemEditing, setIsItemEditing] = useState(false);
-  const [draftItems, setDraftItems] = useState<itemEntry[][]>([]);
+  const [draftItems, setDraftItems] = useState<ItemEntry[][]>([]);
   const [itemModalOpen, setItemModalOpen] = useState<{
     open: boolean;
     playerIndex: number;
@@ -302,6 +305,7 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
                     : isCustomItem
                       ? getItemName(itemId.replace("item:", ""), locale)
                       : t(`stones.${itemId}`);
+                  const locationLabel = resolveLocationDisplay(entry, locale);
 
                   return (
                     <div
@@ -335,7 +339,7 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
                             : entry.inBag
                               ? t("tracker.infoPanel.stoneBag")
                               : t("tracker.infoPanel.stoneLocation", {
-                                  location: entry.location,
+                                  location: locationLabel,
                                 })}
                         </div>
                       </div>
@@ -445,15 +449,14 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
               <div className="space-y-1 px-1">
                 {displayFossils[pIdx]?.map((entry, fIdx) => {
                   const def = FOSSILS.find((f) => f.id === entry.fossilId);
+                  const locale = normalizeLanguage(i18n.language);
+                  const locationLabel = resolveLocationDisplay(entry, locale);
                   const isSelected = fossilSelections[pIdx] === fIdx;
                   const canBeSelected =
                     entry.inBag && !entry.revived && !isFossilEditing;
                   const isInteractive = !readOnly && canBeSelected;
                   const revivedPokemonName =
-                    getPokemonNameById(
-                      entry.pokemonId,
-                      normalizeLanguage(i18n.language),
-                    ) ||
+                    getPokemonNameById(entry.pokemonId, locale) ||
                     entry.pokemonName ||
                     "";
 
@@ -508,7 +511,7 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
                             : entry.inBag
                               ? t("tracker.infoPanel.fossilBag")
                               : t("tracker.infoPanel.fossilLocation", {
-                                  location: entry.location,
+                                  location: locationLabel,
                                 })}
                         </div>
                       </div>
@@ -657,8 +660,15 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
         generationSpritePath={generationSpritePath}
         megaStoneSpriteStyle={megaStoneSpriteStyle}
         onMegaStoneSpriteStyleToggle={onMegaStoneSpriteStyleToggle}
-        onAdd={(id, loc, bag, name) => {
-          onAddItems(itemModalOpen.playerIndex, id, loc, bag, name);
+        onAdd={(id, loc, bag, name, locationSlug) => {
+          onAddItems(
+            itemModalOpen.playerIndex,
+            id,
+            loc,
+            bag,
+            name,
+            locationSlug,
+          );
           setItemModalOpen({ open: false, playerIndex: 0 });
         }}
       />
@@ -671,8 +681,8 @@ const ItemTracker: React.FC<ItemTrackerProps> = ({
         }
         infiniteFossilsEnabled={infiniteFossilsEnabled}
         gameVersionId={gameVersionId}
-        onAdd={(id, loc, bag) => {
-          onAddFossil(fossilModalOpen.playerIndex, id, loc, bag);
+        onAdd={(id, loc, bag, locationSlug) => {
+          onAddFossil(fossilModalOpen.playerIndex, id, loc, bag, locationSlug);
           setFossilModalOpen({ open: false, playerIndex: 0 });
         }}
       />

@@ -1,5 +1,5 @@
 import React, { useEffect, useId, useMemo, useState } from "react";
-import type { FossilEntry, PokemonLink, itemEntry } from "@/types";
+import type { FossilEntry, PokemonLink, ItemEntry } from "@/types";
 import { useTranslation } from "react-i18next";
 import { useFocusTrap } from "@/src/hooks/useFocusTrap.ts";
 import {
@@ -13,10 +13,14 @@ import {
 import { resolvePokemonDisplay } from "@/src/services/pokemonDisplay.ts";
 import { FOSSILS, STONES, MEGA_STONES } from "@/src/data/special-items.ts";
 import { getItemName, getItemSpriteUrl } from "@/src/services/itemSearch";
+import {
+  locationMatchesQuery,
+  resolveLocationDisplay,
+  resolvePokemonLocationDisplay,
+} from "@/src/services/locationSearch";
 import { normalizeLanguage } from "@/src/utils/language";
-import { compareRoutes } from "@/src/utils/routes.ts";
 
-type SearchMode = "pokemon" | "routes" | "items";
+type SearchMode = "pokemon" | "items";
 type PokemonSectionKey = "team" | "box" | "graveyard";
 type ItemCategory = "fossils" | "stones" | "megaStones" | "items";
 
@@ -28,10 +32,10 @@ interface TrackerSearchModalProps {
   team: PokemonLink[];
   box: PokemonLink[];
   graveyard: PokemonLink[];
-  routes: string[];
   fossils: FossilEntry[][];
-  items: itemEntry[][];
+  items: ItemEntry[][];
   generationSpritePath?: string | null;
+  gameVersionId?: string;
 }
 
 interface PokemonSection {
@@ -64,10 +68,10 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
   team,
   box,
   graveyard,
-  routes,
   fossils,
   items,
   generationSpritePath,
+  gameVersionId,
 }) => {
   const { t, i18n } = useTranslation();
   const { containerRef } = useFocusTrap(isOpen);
@@ -97,10 +101,21 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
   );
 
   const matchesPokemonQuery = (pair: PokemonLink) => {
+    const locationLabel = resolvePokemonLocationDisplay(pair, locale);
+
     if (!normalizedQuery) {
       return pair.members.some(
         (member) => typeof member?.id === "number" || member?.name?.trim(),
       );
+    }
+
+    if (
+      locationMatchesQuery(locationLabel, normalizedQuery, {
+        locale,
+        gameVersionId,
+      })
+    ) {
+      return true;
     }
 
     return pair.members.some((member) => {
@@ -139,15 +154,16 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
     ];
 
     return sections.filter((section) => section.pairs.length > 0);
-  }, [box, graveyard, team, t, matchingFamilyIds, normalizedQuery, locale]);
-
-  const filteredRoutes = useMemo(() => {
-    const uniqueRoutes = Array.from(new Set(routes)).sort(compareRoutes);
-    if (!normalizedQuery) return uniqueRoutes;
-    return uniqueRoutes.filter((route) =>
-      route.toLowerCase().includes(normalizedQuery),
-    );
-  }, [normalizedQuery, routes]);
+  }, [
+    box,
+    gameVersionId,
+    graveyard,
+    locale,
+    team,
+    t,
+    matchingFamilyIds,
+    normalizedQuery,
+  ]);
 
   const allItems = useMemo<ItemRow[]>(() => {
     const rows: ItemRow[] = [];
@@ -156,6 +172,7 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
     (fossils ?? []).forEach((playerFossils, pIdx) => {
       (playerFossils ?? []).forEach((entry) => {
         const def = FOSSILS.find((f) => f.id === entry.fossilId);
+        const location = resolveLocationDisplay(entry, locale);
         const status = entry.revived
           ? entry.pokemonId
             ? `${t("tracker.infoPanel.fossilRevived")}: ${getPokemonNameById(entry.pokemonId, locale) || ""}`
@@ -165,7 +182,7 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
           : entry.inBag
             ? t("tracker.infoPanel.fossilBag")
             : t("tracker.infoPanel.fossilLocation", {
-                location: entry.location,
+                location,
               });
         rows.push({
           category: "fossils",
@@ -174,7 +191,7 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
           spriteUrl: def ? `/fossil-sprites/${def.sprite}` : "",
           playerIndex: pIdx,
           status,
-          location: entry.location,
+          location,
           pixelated: true,
         });
       });
@@ -214,12 +231,13 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
           spriteUrl = "";
         }
 
+        const location = resolveLocationDisplay(entry, locale);
         const status = entry.used
           ? t("tracker.infoPanel.stoneUsed")
           : entry.inBag
             ? t("tracker.infoPanel.stoneBag")
             : t("tracker.infoPanel.stoneLocation", {
-                location: entry.location,
+                location,
               });
 
         rows.push({
@@ -229,7 +247,7 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
           spriteUrl,
           playerIndex: pIdx,
           status,
-          location: entry.location,
+          location,
           pixelated: true,
         });
       });
@@ -253,16 +271,18 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
           if (!normalizedQuery) return true;
           return (
             item.name.toLowerCase().includes(normalizedQuery) ||
-            item.location.toLowerCase().includes(normalizedQuery)
+            locationMatchesQuery(item.location, normalizedQuery, {
+              locale,
+              gameVersionId,
+            })
           );
         });
         return { key, title: t(titleKey), items };
       })
       .filter((section) => section.items.length > 0);
-  }, [allItems, normalizedQuery, t]);
+  }, [allItems, gameVersionId, locale, normalizedQuery, t]);
 
   const hasPokemonResults = pokemonSections.length > 0;
-  const hasRouteResults = filteredRoutes.length > 0;
   const hasItemResults = itemSections.length > 0;
 
   if (!isOpen) return null;
@@ -318,17 +338,6 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
             </button>
             <button
               type="button"
-              onClick={() => setMode("routes")}
-              className={`${SEARCH_MODE_BUTTON_CLASS} ${
-                mode === "routes"
-                  ? "bg-green-600 text-white"
-                  : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600"
-              } ${focusRingClasses}`}
-            >
-              {t("tracker.search.modeRoutes")}
-            </button>
-            <button
-              type="button"
               onClick={() => setMode("items")}
               className={`${SEARCH_MODE_BUTTON_CLASS} ${
                 mode === "items"
@@ -368,7 +377,9 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
                         >
                           <p className="text-center font-bold text-gray-600 dark:text-gray-300 mb-1">
                             {t("graveyard.areaLabel", {
-                              route: pair.route || t("common.unknownRoute"),
+                              location:
+                                resolvePokemonLocationDisplay(pair, locale) ||
+                                t("common.unknownLocation"),
                             })}
                           </p>
                           <div
@@ -442,25 +453,6 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
                 {normalizedQuery
                   ? t("modals.common.noMatches")
                   : t("tracker.search.emptyPokemon")}
-              </p>
-            )
-          ) : mode === "routes" ? (
-            hasRouteResults ? (
-              <ul className="grid grid-cols-1 gap-2 pb-2 text-sm text-gray-800 dark:text-gray-200">
-                {filteredRoutes.map((route) => (
-                  <li
-                    key={route}
-                    className="px-3 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-md"
-                  >
-                    {route}
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-center text-gray-500 dark:text-gray-400 text-sm py-8">
-                {normalizedQuery
-                  ? t("modals.common.noMatches")
-                  : t("tracker.search.emptyRoutes")}
               </p>
             )
           ) : hasItemResults ? (

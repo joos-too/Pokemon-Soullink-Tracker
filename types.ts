@@ -6,9 +6,17 @@ export interface Pokemon {
 
 export interface PokemonLink {
   id: number;
-  route: string;
+  locationSlug: string | null;
+  location?: string;
+  fossilSlugs?: string[];
   members: Pokemon[];
   isLost?: boolean;
+}
+
+export interface LinkEditPayload {
+  locationSlug: string | null;
+  location?: string;
+  members: Pokemon[];
 }
 
 export interface Ruleset {
@@ -50,16 +58,18 @@ export interface RivalCap {
 export interface FossilEntry {
   fossilId: string;
   location: string;
+  locationSlug?: string;
   inBag: boolean;
   revived: boolean;
   pokemonId?: number | null;
   pokemonName?: string;
 }
 
-export interface itemEntry {
+export interface ItemEntry {
   id?: string;
   name?: string;
   location: string;
+  locationSlug?: string;
   inBag: boolean;
   used: boolean;
 }
@@ -73,6 +83,8 @@ export interface Stats {
   legendaryEncounters?: number;
 }
 
+export type RivalCensorMode = "off" | "showLevels" | "on";
+
 export interface AppState {
   playerNames: string[];
   team: PokemonLink[];
@@ -84,12 +96,14 @@ export interface AppState {
   rivalCaps: RivalCap[];
   stats: Stats;
   legendaryTrackerEnabled?: boolean;
+  rivalCensorMode?: RivalCensorMode;
+  /** @deprecated Use rivalCensorMode instead */
   rivalCensorEnabled?: boolean;
   hardcoreModeEnabled?: boolean;
   infiniteFossilsEnabled?: boolean;
   megaStoneSpriteStyle?: "item" | "pokemon";
   fossils?: FossilEntry[][];
-  items?: itemEntry[][];
+  items?: ItemEntry[][];
   runStartedAt?: number;
 }
 
@@ -131,6 +145,7 @@ export interface GameVersion {
   selectionColors?: Record<string, GameSelectionColor>;
   levelCaps: Omit<LevelCap, "done">[];
   rivalCaps: Omit<RivalCap, "done" | "revealed">[];
+  defaultRivalPreferences?: Record<string, RivalGender>;
 }
 
 export interface TrackerMeta {

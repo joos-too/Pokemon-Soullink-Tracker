@@ -1,5 +1,5 @@
 import React, { useEffect, useId, useState } from "react";
-import type { Pokemon } from "@/types.ts";
+import type { LinkEditPayload, Pokemon } from "@/types.ts";
 import {
   focusRingClasses,
   focusRingInputClasses,
@@ -12,16 +12,23 @@ import {
   getPokemonIdFromName,
   getPokemonNameById,
 } from "@/src/services/pokemonSearch.ts";
+import {
+  findLocationByName,
+  getFossilLocationName,
+  getLocationName,
+} from "@/src/services/locationSearch.ts";
 import { normalizeLanguage } from "@/src/utils/language.ts";
 
 interface EditPairModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: (payload: { route: string; members: Pokemon[] }) => void;
+  onSave: (payload: LinkEditPayload & { fossilSlugs?: string[] }) => void;
   playerLabels: string[];
   mode?: "create" | "edit";
   initial: {
-    route: string;
+    location?: string;
+    locationSlug?: string | null;
+    fossilSlugs?: string[];
     members: Pokemon[];
   };
   generationLimit?: number;
@@ -61,7 +68,7 @@ const PokemonField: React.FC<PokemonFieldProps> = ({
     <div className="space-y-2">
       <PokemonSuggestionInput
         label={
-          <span className="inline-block min-h-[2.5rem] leading-tight whitespace-normal break-words">
+          <span className="inline-block min-h-10 leading-tight whitespace-normal wrap-break-word">
             {label} - {t("modals.editPair.pokemonLabel")}
           </span>
         }
@@ -99,32 +106,41 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
   generationSpritePath,
 }) => {
   const { t, i18n } = useTranslation();
-  const language = normalizeLanguage(i18n.language);
+  const locale = normalizeLanguage(i18n.language);
   const { containerRef } = useFocusTrap(isOpen);
   const titleId = useId();
-  const [route, setRoute] = useState(initial.route || "");
+  const [location, setLocation] = useState("");
+  const [locationSlug, setLocationSlug] = useState("");
+  const [fossilSlugs, setFossilSlugs] = useState<string[]>([]);
+  const [members, setMembers] = useState<PokemonDraft[]>([]);
+
   const memberToDraft = (member?: Pokemon): PokemonDraft => ({
     name:
-      getPokemonNameById(member?.id, language) ||
+      getPokemonNameById(member?.id, locale) ||
       (typeof member?.name === "string" ? member.name : ""),
     nickname: member?.nickname ?? "",
   });
-  const [members, setMembers] = useState<PokemonDraft[]>(() =>
-    playerLabels.map((_, index) => memberToDraft(initial.members?.[index])),
-  );
 
   useEffect(() => {
     if (isOpen) {
-      setRoute(initial.route || "");
+      setLocation(
+        initial.locationSlug
+          ? getLocationName(initial.locationSlug, locale)
+          : initial.fossilSlugs?.length
+            ? getFossilLocationName(initial.fossilSlugs)
+            : initial.location || "",
+      );
+      setLocationSlug(initial.locationSlug || "");
+      setFossilSlugs(initial.fossilSlugs || []);
       setMembers(
         playerLabels.map((_, index) => memberToDraft(initial.members?.[index])),
       );
     }
-  }, [isOpen, initial, playerLabels, language]);
+  }, [isOpen, initial, playerLabels, locale]);
 
   const handleSubmit = (e: React.SubmitEvent) => {
     e.preventDefault();
-    const trimmedRoute = route.trim();
+    const trimmedRoute = location.trim();
     const trimmedMembers = playerLabels.map((_, index) => {
       const name = members[index]?.name.trim() ?? "";
       const pokemonId = getPokemonIdFromName(name);
@@ -143,8 +159,13 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
     ) {
       return;
     }
+    const resolvedLocation = locationSlug
+      ? { slug: locationSlug }
+      : findLocationByName(trimmedRoute, { locale: locale, gameVersionId });
     onSave({
-      route: trimmedRoute,
+      location: resolvedLocation ? undefined : trimmedRoute,
+      locationSlug: resolvedLocation?.slug ?? null,
+      fossilSlugs,
       members: trimmedMembers,
     });
   };
@@ -156,7 +177,7 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
   const cancelLabel = mode === "create" ? t("common.back") : t("common.cancel");
   const submitLabel = mode === "create" ? t("common.add") : t("common.save");
   const isValid =
-    route.trim().length > 0 &&
+    location.trim().length > 0 &&
     playerLabels.every((_, index) => {
       const member = members[index];
       const name = member?.name.trim() ?? "";
@@ -209,9 +230,12 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <LocationSuggestionInput
-              label={t("modals.addLost.routeLabel")}
-              value={route}
-              onChange={setRoute}
+              label={t("modals.addLost.locationLabel")}
+              value={location}
+              onChange={setLocation}
+              disabled={fossilSlugs.length > 0}
+              selectedSlug={locationSlug}
+              onSelectedSlugChange={setLocationSlug}
               isOpen={isOpen}
               gameVersionId={gameVersionId}
             />

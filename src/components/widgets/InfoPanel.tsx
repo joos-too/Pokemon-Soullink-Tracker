@@ -3,6 +3,7 @@ import type {
   GameVersion,
   LevelCap,
   RivalCap,
+  RivalCensorMode,
   Stats,
   UserSettings,
 } from "@/types.ts";
@@ -33,6 +34,7 @@ interface InfoPanelProps {
   onRulesChange: (rules: string[]) => void;
   legendaryTrackerEnabled: boolean;
   rivalCensorEnabled: boolean;
+  rivalCensorMode?: RivalCensorMode;
   hardcoreModeEnabled: boolean;
   onlegendaryIncrement: () => void;
   onlegendaryDecrement: () => void;
@@ -59,6 +61,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
   onRulesChange,
   legendaryTrackerEnabled,
   rivalCensorEnabled,
+  rivalCensorMode,
   hardcoreModeEnabled,
   onlegendaryIncrement,
   onlegendaryDecrement,
@@ -102,6 +105,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
           onRivalCapToggleDone={onRivalCapToggleDone}
           onRivalCapReveal={onRivalCapReveal}
           rivalCensorEnabled={rivalCensorEnabled}
+          rivalCensorMode={rivalCensorMode}
           hardcoreModeEnabled={hardcoreModeEnabled}
           gameVersion={gameVersion}
           rivalPreferences={rivalPreferences}

@@ -13,10 +13,10 @@ export const en = {
     searchPlaceholder: "Search…",
     overview: "Back to overview",
     unknownPlayers: "Unknown players",
-    unknownRoute: "Unknown area",
+    unknownLocation: "Unknown area",
     nickname: "Nickname",
     pokemonPlaceholder: "Pokémon",
-    routePlaceholder: "e.g. Route 1",
+    locationPlaceholder: "e.g. Route 1",
     logout: "Logout",
     languageToggleLabel: "Change language",
     darkModeToggleLabel: "Toggle dark mode",
@@ -74,7 +74,7 @@ export const en = {
     },
     addLost: {
       title: "Add lost Pokémon",
-      routeLabel: "Area",
+      locationLabel: "Area",
       playerPokemonLabel: "{{name}}’s Pokémon",
     },
     editLost: {
@@ -138,7 +138,7 @@ export const en = {
     },
     selectLoss: {
       title: "Kill link?",
-      routeLabel: "Area: {{route}}",
+      locationLabel: "Area: {{location}}",
       description:
         "This function is intended to move dead links to the graveyard.",
       tooltipLabel: "Info about kill link",
@@ -152,7 +152,7 @@ export const en = {
       description:
         "This function is intended for deleting links, that were created accidentally.",
       tooltipLabel: "Info about delete link",
-      routeLabel: "Area: {{route}}",
+      locationLabel: "Area: {{location}}",
       warning: "Link will be permanently deleted!",
       confirm: "Delete permanently",
     },
@@ -228,7 +228,7 @@ export const en = {
     footer: {
       github: "View on GitHub",
     },
-    routes: {
+    locations: {
       title: "Cleared areas",
       empty: "No areas have been logged yet.",
     },
@@ -237,11 +237,9 @@ export const en = {
       open: "Open search",
       openWithShortcut: "Open search (Ctrl + F)",
       modePokemon: "Pokémon",
-      modeRoutes: "Areas",
       modeItems: "Items",
       fieldLabel: "Search tracker",
       emptyPokemon: "No Pokémon have been logged yet.",
-      emptyRoutes: "No routes have been logged yet.",
       emptyItems: "No items have been logged yet.",
       categoryStones: "Evolution Stones",
       categoryMegaStones: "Mega Stones",
@@ -392,7 +390,7 @@ export const en = {
     pokemonColumn: "Pokémon",
     nameColumn: "Name & Type",
     nicknameColumn: "Nickname",
-    routeColumn: "Area",
+    locationColumn: "Area",
     actionsColumn: "Actions",
     titleEdit: "Edit",
     titleMoveToBox: "Move to box",
@@ -420,7 +418,7 @@ export const en = {
     titleEdit: "Edit",
     statusDead: "Dead",
     statusLost: "Lost",
-    areaLabel: "Area: {{route}}",
+    areaLabel: "Area: {{location}}",
     memberTitle: "{{name}}’s {{pokemon}}",
     nicknameLabel: "Nickname: {{nickname}}",
     noNickname: "-",
@@ -504,8 +502,13 @@ export const en = {
       rivalCensor: {
         title: "Censor rival battles",
         tooltipLabel: "Rival info",
-        tooltip: `To avoid spoilers and keep the story fresh, rival battles are hidden and must be revealed manually.\n\nOnce uncovered they stay visible, even on future runs.`,
+        tooltip: `To avoid spoilers and keep the story fresh, rival battles are hidden and must be revealed manually.\n\nOnce uncovered they stay visible, even on future runs. You can also decide to only show the level of upcoming rival battles.`,
         description: "Hides rival battles until you reveal them manually.",
+        modes: {
+          off: "Off",
+          showLevels: "Show Levels",
+          on: "On",
+        },
       },
       legendary: {
         title: "Legendary tracker",

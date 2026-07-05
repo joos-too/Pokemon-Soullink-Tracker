@@ -1,6 +1,9 @@
 import React, { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { searchLocations } from "@/src/services/locationSearch.ts";
+import {
+  searchLocations,
+  type LocationSearchResult,
+} from "@/src/services/locationSearch.ts";
 import { normalizeLanguage } from "@/src/utils/language.ts";
 import SuggestionInput from "@/src/components/inputs/SuggestionInput.tsx";
 
@@ -8,6 +11,8 @@ interface LocationSuggestionInputProps {
   label: string;
   value: string;
   onChange: (value: string) => void;
+  selectedSlug?: string;
+  onSelectedSlugChange?: (slug: string) => void;
   isOpen: boolean;
   gameVersionId?: string;
   placeholder?: string;
@@ -18,6 +23,7 @@ const LocationSuggestionInput: React.FC<LocationSuggestionInputProps> = ({
   label,
   value,
   onChange,
+  onSelectedSlugChange,
   isOpen,
   gameVersionId,
   placeholder,
@@ -38,15 +44,23 @@ const LocationSuggestionInput: React.FC<LocationSuggestionInputProps> = ({
   );
 
   return (
-    <SuggestionInput
-      id="route"
+    <SuggestionInput<LocationSearchResult>
+      id="location"
       label={label}
       value={value}
-      onChange={onChange}
+      onChange={(nextValue) => {
+        onChange(nextValue);
+        onSelectedSlugChange?.("");
+      }}
       fetchSuggestions={fetchSuggestions}
       isOpen={isOpen}
-      placeholder={placeholder || t("common.routePlaceholder")}
+      placeholder={placeholder || t("common.locationPlaceholder")}
       disabled={disabled}
+      getSuggestionValue={(suggestion) => suggestion.name}
+      getSuggestionKey={(suggestion) => suggestion.slug}
+      onSelectSuggestion={(suggestion) =>
+        onSelectedSlugChange?.(suggestion.slug)
+      }
     />
   );
 };

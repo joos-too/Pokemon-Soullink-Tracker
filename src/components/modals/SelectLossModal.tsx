@@ -6,6 +6,7 @@ import { focusRingClasses } from "@/src/styles/focusRing.ts";
 import { FiInfo } from "react-icons/fi";
 import Tooltip from "@/src/components/other/Tooltip.tsx";
 import { resolvePokemonDisplay } from "@/src/services/pokemonDisplay.ts";
+import { resolvePokemonLocationDisplay } from "@/src/services/locationSearch.ts";
 import { normalizeLanguage } from "@/src/utils/language.ts";
 
 interface SelectLossModalProps {
@@ -27,7 +28,7 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({
 }) => {
   const [selected, setSelected] = useState<number | null>(null);
   const { t, i18n } = useTranslation();
-  const language = normalizeLanguage(i18n.language);
+  const locale = normalizeLanguage(i18n.language);
   const { containerRef } = useFocusTrap(isOpen);
   const titleId = useId();
 
@@ -38,6 +39,7 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({
   }, [isOpen, playerNames.length]);
 
   if (!isOpen) return null;
+  const locationLabel = pair ? resolvePokemonLocationDisplay(pair, locale) : "";
 
   const handleSubmit = (e: React.SubmitEvent) => {
     e.preventDefault();
@@ -94,9 +96,11 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({
         <form onSubmit={handleSubmit}>
           {pair && (
             <div className="mb-4 text-sm text-gray-700 dark:text-gray-300">
-              {pair.route && (
+              {locationLabel && (
                 <div className="text-sm text-gray-500 dark:text-gray-400 mb-3 px-1">
-                  {t("modals.selectLoss.routeLabel", { route: pair.route })}
+                  {t("modals.selectLoss.locationLabel", {
+                    location: locationLabel,
+                  })}
                 </div>
               )}
 
@@ -109,7 +113,7 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({
                     };
                     const { displayName, spriteUrl } = resolvePokemonDisplay(
                       member,
-                      language,
+                      locale,
                       generationSpritePath,
                     );
 
@@ -141,7 +145,7 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({
                     };
                     const { displayName, spriteUrl } = resolvePokemonDisplay(
                       member,
-                      language,
+                      locale,
                       generationSpritePath,
                     );
                     const isSelected = selected === index;

@@ -14,6 +14,7 @@ import {
 import { getItemSpriteUrl, getItemName } from "@/src/services/itemSearch";
 import { getSpriteUrlById } from "@/src/services/sprites";
 import { normalizeLanguage } from "@/src/utils/language";
+import { findLocationByName } from "@/src/services/locationSearch";
 
 interface AddItemModalProps {
   isOpen: boolean;
@@ -23,6 +24,7 @@ interface AddItemModalProps {
     location: string,
     inBag: boolean,
     name?: string,
+    locationSlug?: string,
   ) => void;
   maxGeneration: number;
   gameVersionId?: string;
@@ -50,6 +52,7 @@ const AddItemModal: React.FC<AddItemModalProps> = ({
   const [activeTab, setActiveTab] = useState<Tab>("stones");
   const [selectedItemId, setSelectedItemId] = useState("");
   const [location, setLocation] = useState("");
+  const [locationSlug, setLocationSlug] = useState("");
   const [inBag, setInBag] = useState(true);
 
   const [itemQuery, setItemQuery] = useState("");
@@ -95,9 +98,19 @@ const AddItemModal: React.FC<AddItemModalProps> = ({
           : selectedItemSlug
             ? `item:${selectedItemSlug}`
             : null;
+    const trimmedLocation = location.trim();
+    const resolvedLocation =
+      !inBag && locationSlug
+        ? { slug: locationSlug }
+        : !inBag
+          ? findLocationByName(trimmedLocation, {
+              locale,
+              gameVersionId,
+            })
+          : null;
     onAdd(
       id,
-      inBag ? "" : location,
+      inBag || resolvedLocation ? "" : trimmedLocation,
       inBag,
       id === null ? customName : undefined,
     );
@@ -109,6 +122,7 @@ const AddItemModal: React.FC<AddItemModalProps> = ({
     setSelectedItemSlug("");
     setItemQuery("");
     setLocation("");
+    setLocationSlug("");
     setInBag(true);
   };
 
@@ -315,7 +329,10 @@ const AddItemModal: React.FC<AddItemModalProps> = ({
               checked={inBag}
               onChange={(e) => {
                 setInBag(e.target.checked);
-                if (e.target.checked) setLocation("");
+                if (e.target.checked) {
+                  setLocation("");
+                  setLocationSlug("");
+                }
               }}
               disabled={
                 activeTab === "stones" ? availableStones.length === 0 : false
@@ -356,13 +373,15 @@ const AddItemModal: React.FC<AddItemModalProps> = ({
               label=""
               value={inBag ? "" : location}
               onChange={setLocation}
+              selectedSlug={locationSlug}
+              onSelectedSlugChange={setLocationSlug}
               isOpen={isOpen}
               gameVersionId={gameVersionId}
               disabled={
                 inBag ||
                 (activeTab === "stones" && availableStones.length === 0)
               }
-              placeholder={inBag ? "" : t("common.routePlaceholder")}
+              placeholder={inBag ? "" : t("common.locationPlaceholder")}
             />
           </div>
 
