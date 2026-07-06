@@ -133,6 +133,11 @@ const resolveGenerationFromVersionId = (versionId?: string | null): number => {
   return parsed;
 };
 
+const normalizePokemonId = (id: unknown): number | null => {
+  const parsed = Number(id);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : null;
+};
+
 const normalizeTrackerMeta = (
   trackerId: string,
   meta: TrackerMeta,
@@ -593,7 +598,7 @@ const App: React.FC = () => {
       const playerCount = normalizedNames.length;
 
       const sanitizePokemon = (pokemon: any): Pokemon => ({
-        id: pokemon.id,
+        id: normalizePokemonId(pokemon?.id),
         nickname: typeof pokemon?.nickname === "string" ? pokemon.nickname : "",
         ...(typeof pokemon?.name === "string" && pokemon.name.trim().length > 0
           ? { name: pokemon.name.trim() }
@@ -651,10 +656,7 @@ const App: React.FC = () => {
                 typeof f.locationSlug === "string" ? f.locationSlug : null,
               inBag: !!f.inBag,
               revived: !!f.revived,
-              pokemonId:
-                Number.isFinite(Number(f.pokemonId)) && Number(f.pokemonId) > 0
-                  ? Number(f.pokemonId)
-                  : null,
+              pokemonId: normalizePokemonId(f.pokemonId),
               ...(typeof f.pokemonName === "string" &&
               f.pokemonName.trim().length > 0
                 ? { pokemonName: f.pokemonName.trim() }
@@ -1645,7 +1647,7 @@ const App: React.FC = () => {
       location: payload.location?.trim() || "",
       locationSlug: payload.locationSlug,
       members: payload.members.map((member) => ({
-        id: member.id,
+        id: normalizePokemonId(member.id),
         ...(member.name?.trim() ? { name: member.name.trim() } : {}),
         nickname: "",
       })),
@@ -1666,7 +1668,7 @@ const App: React.FC = () => {
         if (pair.id !== pairId) return pair;
         const isLost = pair.isLost ?? false;
         const members = payload.members.map((member) => ({
-          id: member.id,
+          id: normalizePokemonId(member.id),
           ...(member.name?.trim() ? { name: member.name.trim() } : {}),
           nickname: isLost ? "" : member.nickname.trim(),
         }));
@@ -1699,7 +1701,7 @@ const App: React.FC = () => {
             location: payload.location?.trim() || "",
             locationSlug: payload.locationSlug,
             members: payload.members.map((member) => ({
-              id: member.id,
+              id: normalizePokemonId(member.id),
               ...(member.name?.trim() ? { name: member.name.trim() } : {}),
               nickname: member.nickname.trim(),
             })),
@@ -1720,7 +1722,7 @@ const App: React.FC = () => {
           location: payload.location?.trim() || "",
           locationSlug: payload.locationSlug,
           members: payload.members.map((member) => ({
-            id: member.id,
+            id: normalizePokemonId(member.id),
             ...(member.name?.trim() ? { name: member.name.trim() } : {}),
             nickname: member.nickname.trim(),
           })),
@@ -2979,7 +2981,9 @@ const App: React.FC = () => {
         }}
         onSave={(payload) => {
           handleAddBoxPair(payload);
-          const pokemonIds = payload.members.map((m) => m.id);
+          const pokemonIds = payload.members.map((m) =>
+            normalizePokemonId(m.id),
+          );
           const pokemonNames = payload.members.map((m) => m.name ?? "");
           confirmRevival(pokemonIds, pokemonNames);
           setAddRevivedPokemonOpen(false);
