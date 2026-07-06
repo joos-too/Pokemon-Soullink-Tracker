@@ -57,7 +57,7 @@ export interface RivalCap {
 
 export interface FossilEntry {
   fossilId: string;
-  location: string;
+  location?: string;
   locationSlug: string | null;
   inBag: boolean;
   revived: boolean;
@@ -68,7 +68,7 @@ export interface FossilEntry {
 export interface ItemEntry {
   id?: string;
   name?: string;
-  location: string;
+  location?: string;
   locationSlug: string | null;
   inBag: boolean;
   used: boolean;

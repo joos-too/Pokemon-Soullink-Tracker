@@ -640,9 +640,13 @@ const App: React.FC = () => {
           const list = Array.isArray(playerFossils) ? playerFossils[i] : null;
           if (!Array.isArray(list)) return [];
           return list.map((f: any) => {
+            const locationText =
+              typeof f.location === "string" && f.location.trim().length > 0
+                ? f.location.trim()
+                : "";
             return {
               fossilId: f.fossilId || "",
-              location: f.location || "",
+              ...(locationText ? { location: locationText } : {}),
               locationSlug:
                 typeof f.locationSlug === "string" ? f.locationSlug : null,
               inBag: !!f.inBag,
@@ -674,7 +678,9 @@ const App: React.FC = () => {
               ...(typeof s.name === "string" && s.name.trim().length > 0
                 ? { name: s.name.trim() }
                 : {}),
-              location: s.location,
+              ...(typeof s.location === "string" && s.location.trim().length > 0
+                ? { location: s.location.trim() }
+                : {}),
               locationSlug:
                 typeof s.locationSlug === "string" ? s.locationSlug : null,
               inBag: !!s.inBag,
@@ -1819,7 +1825,7 @@ const App: React.FC = () => {
         ...playerList,
         {
           fossilId,
-          location,
+          ...(location.trim() ? { location: location.trim() } : {}),
           locationSlug: locationSlug ?? null,
           inBag,
           revived: false,
@@ -1837,7 +1843,9 @@ const App: React.FC = () => {
       newFossils[pIdx] = newFossils[pIdx].map((f, i) =>
         i === fIdx
           ? (() => {
-              return { ...f, inBag: true, location: "", locationSlug: null };
+              const next = { ...f, inBag: true, locationSlug: null };
+              delete next.location;
+              return next;
             })()
           : f,
       );
@@ -1917,7 +1925,7 @@ const App: React.FC = () => {
         {
           ...(itemId ? { id: itemId } : {}),
           ...(name?.trim() ? { name: name.trim() } : {}),
-          location,
+          ...(location.trim() ? { location: location.trim() } : {}),
           locationSlug: locationSlug ?? null,
           inBag,
           used: false,
@@ -1935,7 +1943,9 @@ const App: React.FC = () => {
       newItems[pIdx] = newItems[pIdx].map((s, i) =>
         i === sIdx
           ? (() => {
-              return { ...s, inBag: true, location: "", locationSlug: null };
+              const next = { ...s, inBag: true, locationSlug: null };
+              delete next.location;
+              return next;
             })()
           : s,
       );
