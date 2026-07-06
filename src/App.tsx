@@ -643,7 +643,8 @@ const App: React.FC = () => {
             return {
               fossilId: f.fossilId || "",
               location: f.location || "",
-              locationSlug: f.locationSlug,
+              locationSlug:
+                typeof f.locationSlug === "string" ? f.locationSlug : null,
               inBag: !!f.inBag,
               revived: !!f.revived,
               pokemonId:
@@ -674,7 +675,8 @@ const App: React.FC = () => {
                 ? { name: s.name.trim() }
                 : {}),
               location: s.location,
-              locationSlug: s.locationSlug,
+              locationSlug:
+                typeof s.locationSlug === "string" ? s.locationSlug : null,
               inBag: !!s.inBag,
               used: !!s.used,
             };
@@ -1818,7 +1820,7 @@ const App: React.FC = () => {
         {
           fossilId,
           location,
-          ...(locationSlug ? { locationSlug } : {}),
+          locationSlug: locationSlug ?? null,
           inBag,
           revived: false,
         },
@@ -1835,9 +1837,7 @@ const App: React.FC = () => {
       newFossils[pIdx] = newFossils[pIdx].map((f, i) =>
         i === fIdx
           ? (() => {
-              const next = { ...f, inBag: true, location: "" };
-              delete next.locationSlug;
-              return next;
+              return { ...f, inBag: true, location: "", locationSlug: null };
             })()
           : f,
       );
@@ -1918,7 +1918,7 @@ const App: React.FC = () => {
           ...(itemId ? { id: itemId } : {}),
           ...(name?.trim() ? { name: name.trim() } : {}),
           location,
-          ...(locationSlug ? { locationSlug } : {}),
+          locationSlug: locationSlug ?? null,
           inBag,
           used: false,
         },
@@ -1935,9 +1935,7 @@ const App: React.FC = () => {
       newItems[pIdx] = newItems[pIdx].map((s, i) =>
         i === sIdx
           ? (() => {
-              const next = { ...s, inBag: true, location: "" };
-              delete next.locationSlug;
-              return next;
+              return { ...s, inBag: true, location: "", locationSlug: null };
             })()
           : s,
       );

@@ -113,6 +113,7 @@ const AddItemModal: React.FC<AddItemModalProps> = ({
       inBag || resolvedLocation ? "" : trimmedLocation,
       inBag,
       id === null ? customName : undefined,
+      resolvedLocation?.slug,
     );
     resetForm();
   };
