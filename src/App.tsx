@@ -60,6 +60,7 @@ import UserSettingsPage from "@/src/components/pages/UserSettingsPage.tsx";
 import PasswordResetPage from "@/src/components/pages/PasswordResetPage.tsx";
 import ResetModal from "@/src/components/modals/ResetModal.tsx";
 import EditPairModal from "@/src/components/modals/EditPairModal.tsx";
+import { MultiLocaleSearchContext } from "@/src/hooks/useMultiLocaleSearch.ts";
 import DarkModeToggle, {
   getDarkMode,
   setDarkMode,
@@ -88,12 +89,14 @@ import {
   deleteTracker,
   ensureUserProfile,
   getUserGenerationSpritePreference,
+  getUserMultiLocaleSearchPreference,
   getUserSpritesInTeamTablePreference,
   getUserWikiPreference,
   removeMemberFromTracker,
   TrackerOperationError,
   updateRivalPreference,
   updateUserGenerationSpritePreference,
+  updateUserMultiLocaleSearchPreference,
   updateUserSpritesInTeamTablePreference,
   updateUserWikiPreference,
 } from "@/src/services/trackers";
@@ -237,6 +240,7 @@ const App: React.FC = () => {
   const [userUseSpritesInTeamTable, setUserUseSpritesInTeamTable] =
     useState(false);
   const [userWikiId, setUserWikiId] = useState<string | null>(null);
+  const [userMultiLocaleSearch, setUserMultiLocaleSearch] = useState(false);
   const showSettings = searchParams.get("panel") === "settings";
   const openSettingsPanel = useCallback(() => {
     const next = new URLSearchParams(searchParams);
@@ -549,6 +553,22 @@ const App: React.FC = () => {
     [user],
   );
 
+  const handleMultiLocaleSearchToggle = useCallback(
+    async (enabled: boolean) => {
+      if (!user) return;
+      try {
+        await updateUserMultiLocaleSearchPreference(user.uid, enabled);
+        setUserMultiLocaleSearch(enabled);
+      } catch (error) {
+        console.error(
+          "Failed to update multi-locale search preference:",
+          error,
+        );
+      }
+    },
+    [user],
+  );
+
   const effectiveWikiId: WikiId =
     (userWikiId as WikiId | null) ??
     ((i18n.resolvedLanguage || i18n.language || "")
@@ -811,16 +831,19 @@ const App: React.FC = () => {
       getUserGenerationSpritePreference(user.uid),
       getUserSpritesInTeamTablePreference(user.uid),
       getUserWikiPreference(user.uid),
+      getUserMultiLocaleSearchPreference(user.uid),
     ])
-      .then(([genSprites, teamTableSprites, wikiId]) => {
+      .then(([genSprites, teamTableSprites, wikiId, multiLocale]) => {
         setUserUseGenerationSprites(genSprites);
         setUserUseSpritesInTeamTable(teamTableSprites);
         setUserWikiId(wikiId);
+        setUserMultiLocaleSearch(multiLocale);
       })
       .catch(() => {
         setUserUseGenerationSprites(false);
         setUserUseSpritesInTeamTable(false);
         setUserWikiId(null);
+        setUserMultiLocaleSearch(false);
       });
   }, [user]);
 
@@ -3002,7 +3025,7 @@ const App: React.FC = () => {
   );
 
   return (
-    <>
+    <MultiLocaleSearchContext.Provider value={userMultiLocaleSearch}>
       <CreateTrackerModal
         isOpen={showCreateModal}
         onClose={() => {
@@ -3097,6 +3120,8 @@ const App: React.FC = () => {
                 onSpritesInTeamTableToggle={handleSpritesInTeamTableToggle}
                 wikiId={userWikiId ?? effectiveWikiId}
                 onWikiChange={handleWikiChange}
+                multiLocaleSearch={userMultiLocaleSearch}
+                onMultiLocaleSearchToggle={handleMultiLocaleSearchToggle}
               />
             ) : (
               <Navigate to="/" replace />
@@ -3105,7 +3130,7 @@ const App: React.FC = () => {
         />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-    </>
+    </MultiLocaleSearchContext.Provider>
   );
 };
 

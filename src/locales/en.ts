@@ -629,6 +629,12 @@ export const en = {
     language: {
       title: "Language",
       description: "Choose your preferred interface language below.",
+      multiLocaleSearch: {
+        title: "Multi-language search",
+        description: "Allows searching and resolving in multiple languages.",
+        tooltip:
+          "Whenever you search for Pokémon and Items, anywhere in a tracker, you can search in all languages, in addition to your selected language.",
+      },
     },
     sprites: {
       title: "Sprite Display",

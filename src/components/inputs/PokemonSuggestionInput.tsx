@@ -4,6 +4,7 @@ import { searchPokemonNames } from "@/src/services/pokemonSearch.ts";
 import { getSpriteUrlForPokemonName } from "@/src/services/sprites.ts";
 import { normalizeLanguage } from "@/src/utils/language.ts";
 import SuggestionInput from "@/src/components/inputs/SuggestionInput.tsx";
+import { useMultiLocaleSearch } from "@/src/hooks/useMultiLocaleSearch.ts";
 
 interface PokemonSuggestionInputProps {
   label?: React.ReactNode;
@@ -12,6 +13,7 @@ interface PokemonSuggestionInputProps {
   isOpen: boolean;
   generationLimit?: number;
   generationSpritePath?: string | null;
+  multiLocaleSearch?: boolean;
 }
 
 const PokemonSuggestionInput: React.FC<PokemonSuggestionInputProps> = ({
@@ -21,20 +23,29 @@ const PokemonSuggestionInput: React.FC<PokemonSuggestionInputProps> = ({
   isOpen,
   generationLimit,
   generationSpritePath,
+  multiLocaleSearch: multiLocaleSearchProp,
 }) => {
   const { t, i18n } = useTranslation();
   const language = useMemo(
     () => normalizeLanguage(i18n.language),
     [i18n.language],
   );
-  const spriteUrl = getSpriteUrlForPokemonName(value, generationSpritePath);
+  const contextMultiLocaleSearch = useMultiLocaleSearch();
+  const multiLocaleSearch = multiLocaleSearchProp ?? contextMultiLocaleSearch;
+  const spriteLocale = multiLocaleSearch ? undefined : language;
+  const spriteUrl = getSpriteUrlForPokemonName(
+    value,
+    generationSpritePath,
+    spriteLocale,
+  );
   const fetchSuggestions = useCallback(
     (term: string) =>
       searchPokemonNames(term, 10, {
         maxGeneration: generationLimit,
         locale: language,
+        multiLocaleSearch,
       }),
-    [generationLimit, language],
+    [generationLimit, language, multiLocaleSearch],
   );
 
   return (
