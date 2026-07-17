@@ -23,6 +23,7 @@ interface GraveyardProps {
   pokemonGenerationLimit?: number;
   gameVersionId?: string;
   wikiId?: WikiId | string | null;
+  nicknamesEnabled?: boolean;
 }
 
 const Graveyard: React.FC<GraveyardProps> = ({
@@ -37,6 +38,7 @@ const Graveyard: React.FC<GraveyardProps> = ({
   gameVersionId,
   readOnly = false,
   wikiId,
+  nicknamesEnabled = true,
 }) => {
   const { t, i18n } = useTranslation();
   const locale = normalizeLanguage(i18n.language);
@@ -238,13 +240,15 @@ const Graveyard: React.FC<GraveyardProps> = ({
                                   t("graveyard.unknownPokemon")
                                 )}
                               </p>
-                              <p className="text-gray-700 dark:text-gray-400">
-                                {t("graveyard.nicknameLabel", {
-                                  nickname:
-                                    member.nickname ||
-                                    t("graveyard.noNickname"),
-                                })}
-                              </p>
+                              {nicknamesEnabled && (
+                                <p className="text-gray-700 dark:text-gray-400">
+                                  {t("graveyard.nicknameLabel", {
+                                    nickname:
+                                      member.nickname ||
+                                      t("graveyard.noNickname"),
+                                  })}
+                                </p>
+                              )}
                             </div>
                           </div>
                         </div>
@@ -277,6 +281,7 @@ const Graveyard: React.FC<GraveyardProps> = ({
         generationLimit={pokemonGenerationLimit}
         gameVersionId={gameVersionId}
         generationSpritePath={generationSpritePath}
+        nicknamesEnabled={nicknamesEnabled}
       />
       <AddLostPokemonModal
         isOpen={!readOnly && editIndex !== null && isLostPair}

@@ -100,6 +100,7 @@ export interface AppState {
   /** @deprecated Use rivalCensorMode instead */
   rivalCensorEnabled?: boolean;
   hardcoreModeEnabled?: boolean;
+  nicknamesEnabled?: boolean;
   infiniteFossilsEnabled?: boolean;
   megaStoneSpriteStyle?: "item" | "pokemon";
   fossils?: FossilEntry[][];

@@ -34,6 +34,7 @@ interface EditPairModalProps {
   generationLimit?: number;
   gameVersionId?: string;
   generationSpritePath?: string | null;
+  nicknamesEnabled?: boolean;
 }
 
 interface PokemonFieldProps {
@@ -45,6 +46,7 @@ interface PokemonFieldProps {
   isOpen: boolean;
   generationLimit?: number;
   generationSpritePath?: string | null;
+  nicknamesEnabled?: boolean;
 }
 
 interface PokemonDraft {
@@ -61,6 +63,7 @@ const PokemonField: React.FC<PokemonFieldProps> = ({
   isOpen,
   generationLimit,
   generationSpritePath,
+  nicknamesEnabled = true,
 }) => {
   const { t } = useTranslation();
 
@@ -78,18 +81,22 @@ const PokemonField: React.FC<PokemonFieldProps> = ({
         generationLimit={generationLimit}
         generationSpritePath={generationSpritePath}
       />
-      <label className="block text-xs text-gray-600 dark:text-gray-400">
-        {t("modals.editPair.nicknameLabel")}{" "}
-        <span className="text-red-500">*</span>
-      </label>
-      <input
-        type="text"
-        value={nickname}
-        onChange={(e) => onNicknameChange(e.target.value)}
-        className={`w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
-        placeholder={t("modals.editPair.nicknamePlaceholder")}
-        required
-      />
+      {nicknamesEnabled && (
+        <>
+          <label className="block text-xs text-gray-600 dark:text-gray-400">
+            {t("modals.editPair.nicknameLabel")}{" "}
+            <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            value={nickname}
+            onChange={(e) => onNicknameChange(e.target.value)}
+            className={`w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
+            placeholder={t("modals.editPair.nicknamePlaceholder")}
+            required
+          />
+        </>
+      )}
     </div>
   );
 };
@@ -104,6 +111,7 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
   generationLimit,
   gameVersionId,
   generationSpritePath,
+  nicknamesEnabled = true,
 }) => {
   const { t, i18n } = useTranslation();
   const locale = normalizeLanguage(i18n.language);
@@ -154,7 +162,8 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
       !trimmedRoute ||
       trimmedMembers.some(
         (member) =>
-          (member.id === null && !member.name) || member.nickname.length === 0,
+          (member.id === null && !member.name) ||
+          (nicknamesEnabled && member.nickname.length === 0),
       )
     ) {
       return;
@@ -183,7 +192,7 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
       const name = member?.name.trim() ?? "";
       return (
         (getPokemonIdFromName(name) !== null || name.length > 0) &&
-        Boolean(member?.nickname.trim())
+        (!nicknamesEnabled || Boolean(member?.nickname.trim()))
       );
     });
   const useTwoColumnLayout = playerLabels.length > 1;
@@ -276,6 +285,7 @@ const EditPairModal: React.FC<EditPairModalProps> = ({
                     isOpen={isOpen}
                     generationLimit={generationLimit}
                     generationSpritePath={generationSpritePath}
+                    nicknamesEnabled={nicknamesEnabled}
                   />
                 </div>
               );
