@@ -70,6 +70,48 @@ Expected output for `supabase-kong` includes
 `127.0.0.1:8000->8000/tcp`. Ports such as `8001-8004/tcp` and `8443-8447/tcp`
 without a host address are container-internal and are not exposed publicly.
 
+### Bind the database pooler to localhost only
+
+Supavisor (the `pooler` service) exposes PostgreSQL-compatible ports `5432`
+(session mode) and `6543` (transaction mode). The web application communicates
+with Supabase through Kong and does not need either database port exposed to the
+Internet.
+
+In the `pooler` service in `supabase-project/docker-compose.yml`, bind both
+published ports to localhost (adjust the existing port variables if the Compose
+file uses them):
+
+```yaml
+ports:
+  - "127.0.0.1:5432:5432/tcp"
+  - "127.0.0.1:6543:6543/tcp"
+```
+
+Recreate the pooler and verify that neither port is bound to `0.0.0.0` or
+`[::]`:
+
+```bash
+docker compose up -d --force-recreate pooler
+docker ps --format "table {{.Names}}\t{{.Ports}}"
+```
+
+Expected output includes:
+
+```text
+supabase-pooler  127.0.0.1:5432->5432/tcp, 127.0.0.1:6543->6543/tcp
+```
+
+For database administration from a remote computer, use an SSH tunnel rather
+than exposing PostgreSQL publicly:
+
+```bash
+ssh -L 5432:127.0.0.1:5432 your-user@your-server
+```
+
+Ports shown by `docker ps` without a host mapping, such as `5000/tcp` or
+`3000/tcp`, are container-internal. Only mappings in the form
+`IP:host-port->container-port` are published on the server.
+
 ### Nginx virtual host
 
 Create an Nginx site for the Supabase subdomain (using the same certificate and
