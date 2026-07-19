@@ -23,6 +23,7 @@ interface SelectEvolveModalProps {
   gameVersionId?: string;
   generationSpritePath?: string | null;
   useSpritesEverywhere?: boolean;
+  nicknamesEnabled?: boolean;
 }
 
 interface EvoInfo {
@@ -66,6 +67,7 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
   gameVersionId,
   generationSpritePath,
   useSpritesEverywhere = false,
+  nicknamesEnabled = true,
 }) => {
   const [selectedPlayer, setSelectedPlayer] = useState<number | null>(null);
   const [availableEvos, setAvailableEvos] = useState<EvoInfo[] | null>(null);
@@ -304,7 +306,9 @@ const SelectEvolveModal: React.FC<SelectEvolveModalProps> = ({
                         <div className="font-semibold">{label}</div>
                         <div className="text-sm">
                           {displayName || "-"}
-                          {member?.nickname ? ` (${member.nickname})` : ""}
+                          {nicknamesEnabled && member?.nickname
+                            ? ` (${member.nickname})`
+                            : ""}
                         </div>
                       </div>
                     </label>

@@ -55,6 +55,7 @@ interface TeamTableProps {
   onToggleBadLink?: (id: number) => void;
   filterBar?: React.ReactNode;
   filtersExpanded?: boolean;
+  nicknamesEnabled?: boolean;
 }
 
 const TeamTable: React.FC<TeamTableProps> = ({
@@ -84,6 +85,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
   onToggleBadLink,
   filterBar,
   filtersExpanded = false,
+  nicknamesEnabled = true,
 }) => {
   const { t, i18n } = useTranslation();
   const locale = normalizeLanguage(i18n.language);
@@ -182,7 +184,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
               {playerNames.map((name, index) => (
                 <th
                   key={`player-header-${index}`}
-                  colSpan={3}
+                  colSpan={nicknamesEnabled ? 3 : 2}
                   className="p-2 text-xs font-press-start text-white text-center border-t border-b border-l border-gray-300 dark:border-gray-700"
                   style={{ backgroundColor: playerColors[index] ?? "#4b5563" }}
                 >
@@ -214,9 +216,11 @@ const TeamTable: React.FC<TeamTableProps> = ({
                   <th className="p-1 text-[11px] text-gray-600 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700 text-center">
                     {t("team.nameColumn")}
                   </th>
-                  <th className="p-1 text-[11px] text-gray-600 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700 text-center">
-                    {t("team.nicknameColumn")}
-                  </th>
+                  {nicknamesEnabled && (
+                    <th className="p-1 text-[11px] text-gray-600 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700 text-center">
+                      {t("team.nicknameColumn")}
+                    </th>
+                  )}
                 </React.Fragment>
               ))}
             </tr>
@@ -226,7 +230,11 @@ const TeamTable: React.FC<TeamTableProps> = ({
               <tr>
                 <td
                   className="p-3 text-center text-sm text-gray-500 dark:text-gray-400"
-                  colSpan={2 + playerNames.length * 3 + (readOnly ? 0 : 1)}
+                  colSpan={
+                    2 +
+                    playerNames.length * (nicknamesEnabled ? 3 : 2) +
+                    (readOnly ? 0 : 1)
+                  }
                 >
                   {emptyMessage}
                 </td>
@@ -314,9 +322,11 @@ const TeamTable: React.FC<TeamTableProps> = ({
                               ) : null;
                             })()}
                         </td>
-                        <td className="p-2 text-sm text-gray-800 dark:text-gray-300 text-center">
-                          {member.nickname || "-"}
-                        </td>
+                        {nicknamesEnabled && (
+                          <td className="p-2 text-sm text-gray-800 dark:text-gray-300 text-center">
+                            {member.nickname || "-"}
+                          </td>
+                        )}
                       </React.Fragment>
                     );
                   })}
@@ -462,6 +472,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
         generationLimit={pokemonGenerationLimit}
         gameVersionId={gameVersionId}
         generationSpritePath={generationSpritePath}
+        nicknamesEnabled={nicknamesEnabled}
       />
       <SelectEvolveModal
         isOpen={!readOnly && evolveIndex !== null}
@@ -478,6 +489,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
         gameVersionId={gameVersionId}
         generationSpritePath={generationSpritePath}
         useSpritesEverywhere={useSpritesInTeamTable}
+        nicknamesEnabled={nicknamesEnabled}
       />
       <EditPairModal
         isOpen={!readOnly && addOpen}
@@ -496,6 +508,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
         generationLimit={pokemonGenerationLimit}
         gameVersionId={gameVersionId}
         generationSpritePath={generationSpritePath}
+        nicknamesEnabled={nicknamesEnabled}
       />
     </div>
   );

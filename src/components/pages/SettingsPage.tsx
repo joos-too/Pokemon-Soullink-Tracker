@@ -55,6 +55,8 @@ interface SettingsPageProps {
   onRivalCensorModeChange: (mode: RivalCensorMode) => void;
   hardcoreModeEnabled: boolean;
   onHardcoreModeToggle: (enabled: boolean) => void;
+  nicknamesEnabled: boolean;
+  onNicknamesToggle: (enabled: boolean) => void;
   infiniteFossilsEnabled: boolean;
   onInfiniteFossilsToggle: (enabled: boolean) => void;
   allPokemonAndItems: boolean;
@@ -94,6 +96,8 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
   onRivalCensorModeChange,
   hardcoreModeEnabled,
   onHardcoreModeToggle,
+  nicknamesEnabled,
+  onNicknamesToggle,
   infiniteFossilsEnabled,
   onInfiniteFossilsToggle,
   allPokemonAndItems,
@@ -389,7 +393,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
 
             <section>
               <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-gray-500 mb-4">
-                {t("settings.sections.options")}
+                {t("settings.sections.gameplay")}
               </h2>
               <div className="flex items-center justify-between mb-4">
                 <div>
@@ -471,39 +475,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                   disabled={isGuest}
                 />
               </div>
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <div className="font-medium text-gray-800 dark:text-gray-200">
-                      {t("settings.features.legendary.title")}
-                    </div>
-                    <Tooltip
-                      side="top"
-                      content={t("settings.features.legendary.tooltip")}
-                    >
-                      <span
-                        className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-help"
-                        aria-label={t(
-                          "settings.features.legendary.tooltipLabel",
-                        )}
-                      >
-                        <FiInfo size={16} />
-                      </span>
-                    </Tooltip>
-                  </div>
-                  <div className="text-xs text-gray-500 dark:text-gray-400">
-                    {t("settings.features.legendary.description")}
-                  </div>
-                </div>
-                <ToggleSwitch
-                  id="legendary-toggle"
-                  checked={legendaryTrackerEnabled}
-                  onChange={onlegendaryTrackerToggle}
-                  ariaLabel={t("settings.features.legendary.title")}
-                  disabled={isGuest}
-                />
-              </div>
-              <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center justify-between">
                 <div>
                   <div className="flex items-center gap-2">
                     <div className="font-medium text-gray-800 dark:text-gray-200">
@@ -535,6 +507,82 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                   disabled={isGuest}
                 />
               </div>
+            </section>
+
+            <section>
+              <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-gray-500 mb-4">
+                {t("settings.sections.general")}
+              </h2>
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <div className="font-medium text-gray-800 dark:text-gray-200">
+                      {t("settings.features.nicknames.title")}
+                    </div>
+                    <Tooltip
+                      side="top"
+                      content={t("settings.features.nicknames.tooltip")}
+                    >
+                      <span
+                        className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-help"
+                        aria-label={t(
+                          "settings.features.nicknames.tooltipLabel",
+                        )}
+                      >
+                        <FiInfo size={16} />
+                      </span>
+                    </Tooltip>
+                  </div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400">
+                    {t("settings.features.nicknames.description")}
+                  </div>
+                </div>
+                <ToggleSwitch
+                  id="nicknames-toggle"
+                  checked={!nicknamesEnabled}
+                  onChange={(checked) => onNicknamesToggle(!checked)}
+                  ariaLabel={t("settings.features.nicknames.title")}
+                  disabled={isGuest}
+                />
+              </div>
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <div className="font-medium text-gray-800 dark:text-gray-200">
+                      {t("settings.features.legendary.title")}
+                    </div>
+                    <Tooltip
+                      side="top"
+                      content={t("settings.features.legendary.tooltip")}
+                    >
+                      <span
+                        className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-help"
+                        aria-label={t(
+                          "settings.features.legendary.tooltipLabel",
+                        )}
+                      >
+                        <FiInfo size={16} />
+                      </span>
+                    </Tooltip>
+                  </div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400">
+                    {t("settings.features.legendary.description")}
+                  </div>
+                </div>
+                <ToggleSwitch
+                  id="legendary-toggle"
+                  checked={legendaryTrackerEnabled}
+                  onChange={onlegendaryTrackerToggle}
+                  ariaLabel={t("settings.features.legendary.title")}
+                  disabled={isGuest}
+                />
+              </div>
+            </section>
+
+            <section>
+              <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-gray-500 mb-4">
+                {t("settings.sections.configuration")}
+              </h2>
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <div className="flex items-center gap-2">

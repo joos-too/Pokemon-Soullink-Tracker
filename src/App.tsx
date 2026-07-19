@@ -735,6 +735,8 @@ const App: React.FC = () => {
               : "on"),
         hardcoreModeEnabled:
           safe.hardcoreModeEnabled ?? base.hardcoreModeEnabled ?? true,
+        nicknamesEnabled:
+          safe.nicknamesEnabled ?? base.nicknamesEnabled ?? true,
         infiniteFossilsEnabled:
           safe.infiniteFossilsEnabled ?? base.infiniteFossilsEnabled ?? false,
         megaStoneSpriteStyle:
@@ -1295,6 +1297,7 @@ const App: React.FC = () => {
         rivalCensorEnabled: prev.rivalCensorEnabled,
         rivalCensorMode: prev.rivalCensorMode,
         hardcoreModeEnabled: prev.hardcoreModeEnabled,
+        nicknamesEnabled: prev.nicknamesEnabled,
         infiniteFossilsEnabled: prev.infiniteFossilsEnabled,
         megaStoneSpriteStyle: prev.megaStoneSpriteStyle,
         stats: {
@@ -1795,6 +1798,11 @@ const App: React.FC = () => {
   const handleHardcoreModeToggle = (enabled: boolean) => {
     if (isReadOnly) return;
     setData((prev) => ({ ...prev, hardcoreModeEnabled: enabled }));
+  };
+
+  const handleNicknamesToggle = (enabled: boolean) => {
+    if (isReadOnly) return;
+    setData((prev) => ({ ...prev, nicknamesEnabled: enabled }));
   };
 
   const handleInfiniteFossilsToggle = (enabled: boolean) => {
@@ -2565,6 +2573,8 @@ const App: React.FC = () => {
       onRivalCensorModeChange={handleRivalCensorToggle}
       hardcoreModeEnabled={data.hardcoreModeEnabled ?? true}
       onHardcoreModeToggle={handleHardcoreModeToggle}
+      nicknamesEnabled={data.nicknamesEnabled ?? true}
+      onNicknamesToggle={handleNicknamesToggle}
       infiniteFossilsEnabled={data.infiniteFossilsEnabled ?? false}
       onInfiniteFossilsToggle={handleInfiniteFossilsToggle}
       allPokemonAndItems={activeTrackerAllPokemonAndItems}
@@ -2616,6 +2626,7 @@ const App: React.FC = () => {
         pair={pendingLossPair}
         playerNames={resolvedPlayerNames}
         generationSpritePath={generationSpritePath}
+        nicknamesEnabled={data.nicknamesEnabled ?? true}
       />
       <DeleteLinkModal
         isOpen={!isReadOnly && showDeleteLinkModal}
@@ -2627,6 +2638,7 @@ const App: React.FC = () => {
         pair={pendingDeletePair}
         generationSpritePath={generationSpritePath}
         playerNames={resolvedPlayerNames}
+        nicknamesEnabled={data.nicknamesEnabled ?? true}
       />
       <ResetModal
         isOpen={!isReadOnly && showResetModal}
@@ -2837,6 +2849,7 @@ const App: React.FC = () => {
               badLinkIds={hiddenLinkIds}
               onToggleBadLink={isReadOnly ? undefined : toggleHiddenLink}
               filtersExpanded={boxFiltersExpanded}
+              nicknamesEnabled={data.nicknamesEnabled ?? true}
             />
             <TeamTable
               title={t("team.boxTitle")}
@@ -2871,6 +2884,7 @@ const App: React.FC = () => {
               badLinkIds={hiddenLinkIds}
               onToggleBadLink={isReadOnly ? undefined : toggleHiddenLink}
               filtersExpanded={boxFiltersExpanded}
+              nicknamesEnabled={data.nicknamesEnabled ?? true}
               filterBar={
                 <BoxFilters
                   playerNames={resolvedPlayerNames}
@@ -2953,6 +2967,7 @@ const App: React.FC = () => {
               pokemonGenerationLimit={pokemonGenerationLimit}
               gameVersionId={activeGameVersionId || undefined}
               wikiId={effectiveWikiId}
+              nicknamesEnabled={data.nicknamesEnabled ?? true}
             />
             <ClearedLocations locations={clearedLocations} />
           </div>
@@ -2997,6 +3012,7 @@ const App: React.FC = () => {
         generationLimit={pokemonGenerationLimit}
         gameVersionId={activeGameVersionId || undefined}
         generationSpritePath={generationSpritePath}
+        nicknamesEnabled={data.nicknamesEnabled ?? true}
       />
     </div>
   );
