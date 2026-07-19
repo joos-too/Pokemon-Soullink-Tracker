@@ -20,6 +20,12 @@
     "supabase:migration:new": "supabase migration new",
     "supabase:db:push": "supabase db push",
     "supabase:db:push:dry-run": "supabase db push --dry-run",
+    "test": "vitest run",
+    "test:unit": "vitest run",
+    "test:unit:watch": "vitest",
+    "test:e2e": "node scripts/run-supabase-e2e.mjs",
+    "test:e2e:run": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
     "prettier": "prettier --write .",
     "prettier:check": "prettier --check .",
     "prepare": "husky"
@@ -43,14 +49,20 @@
   "devDependencies": {
     "@emnapi/core": "^1.11.1",
     "@emnapi/runtime": "^1.11.1",
+    "@playwright/test": "^1.61.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
     "@types/node": "^22.19.17",
     "@types/react": "^19.2.14",
     "husky": "^9.1.7",
+    "jsdom": "^29.1.1",
     "lint-staged": "^16.4.0",
     "pokedex-promise-v2": "^4.2.1",
     "prettier": "3.6.2",
     "supabase": "^2.109.1",
     "typescript": "~5.8.2",
-    "vite": "^8.0.16"
+    "vite": "^8.0.16",
+    "vitest": "^4.1.10"
   }
 }

@@ -80,6 +80,24 @@ The local seed accounts all use password `testpassword123`:
 
 The four tracker IDs and all user IDs are fixed UUIDs so database and frontend tests remain deterministic. Seeds are local fixtures only and must never be included in a staging or production database push.
 
+## Automated tests
+
+Run isolated frontend unit tests with:
+
+```bash
+npm run test:unit
+```
+
+Run the Supabase-backed browser integration tests with:
+
+```bash
+npm run test:e2e
+```
+
+`test:e2e` deliberately runs `supabase db reset` before Playwright and again afterward so the browser mutations cannot leave dirty fixtures behind. Each reset destroys and recreates all data in the local Supabase stack, applies every migration, and loads `seed.sql`; never point this workflow at staging or production. The runner also restarts the local Kong gateway and waits for Auth health because Docker Desktop can otherwise retain the replaced Auth container's old address after a reset. Start the local stack first and ensure the repository-root `.env` contains the local `VITE_SUPABASE_ANON_KEY` shown by `npm run supabase:status`.
+
+Use `npm run test:e2e:run` only when you intentionally want to rerun Playwright without resetting the fixtures. Install the browser once per machine with `npx playwright install chromium`.
+
 ## Creating and deploying migrations
 
 Create a migration with a descriptive name:
