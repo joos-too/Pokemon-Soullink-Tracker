@@ -145,6 +145,7 @@ const SUPABASE_LAST_TRACKER_STORAGE_KEY = "soullink:lastSupabaseTrackerId";
 const BACKEND_MIGRATION_VERSION_STORAGE_KEY =
   "soullink:backendMigrationVersion";
 const SUPABASE_BACKEND_MIGRATION_VERSION = "1";
+const AUTOSAVE_DEBOUNCE_MS = 200;
 const LAST_TRACKER_STORAGE_KEY = isSupabaseBackend
   ? SUPABASE_LAST_TRACKER_STORAGE_KEY
   : LEGACY_LAST_TRACKER_STORAGE_KEY;
@@ -344,6 +345,10 @@ const App: React.FC = () => {
   const [stateConflict, setStateConflict] = useState(false);
   const skipNextWriteRef = useRef(false);
   const pendingWriteRef = useRef<Promise<void>>(Promise.resolve());
+  const pendingWriteTimerRef = useRef<ReturnType<typeof setTimeout> | null>(
+    null,
+  );
+  const writeSessionRef = useRef(0);
   const isHydratingRef = useRef(true);
   const [showLossModal, setShowLossModal] = useState(false);
   const [pendingLossPair, setPendingLossPair] = useState<PokemonLink | null>(
@@ -1428,18 +1433,43 @@ const App: React.FC = () => {
       return;
     }
 
-    pendingWriteRef.current = pendingWriteRef.current
-      .then(() => saveTrackerState(activeTrackerId, data))
-      .catch((error) => {
-        if (error instanceof TrackerStateConflictError) {
-          setStateConflict(true);
-          return;
-        }
-        console.error("Tracker state write failed", error);
-      });
+    if (pendingWriteTimerRef.current) {
+      clearTimeout(pendingWriteTimerRef.current);
+    }
+
+    const trackerId = activeTrackerId;
+    const session = writeSessionRef.current;
+    const stateToPersist = data;
+    pendingWriteTimerRef.current = setTimeout(() => {
+      pendingWriteTimerRef.current = null;
+      pendingWriteRef.current = pendingWriteRef.current
+        .then(() => saveTrackerState(trackerId, stateToPersist))
+        .catch((error) => {
+          if (
+            error instanceof TrackerStateConflictError &&
+            writeSessionRef.current === session
+          ) {
+            setStateConflict(true);
+            return;
+          }
+          console.error("Tracker state write failed", error);
+        });
+    }, AUTOSAVE_DEBOUNCE_MS);
+
+    return () => {
+      if (pendingWriteTimerRef.current) {
+        clearTimeout(pendingWriteTimerRef.current);
+        pendingWriteTimerRef.current = null;
+      }
+    };
   }, [data, user, dataLoaded, activeTrackerId, stateConflict]);
 
   useEffect(() => {
+    writeSessionRef.current += 1;
+    if (pendingWriteTimerRef.current) {
+      clearTimeout(pendingWriteTimerRef.current);
+      pendingWriteTimerRef.current = null;
+    }
     pendingWriteRef.current = Promise.resolve();
     setStateConflict(false);
   }, [activeTrackerId, user]);

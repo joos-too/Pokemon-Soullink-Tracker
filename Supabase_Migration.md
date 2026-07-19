@@ -523,6 +523,21 @@ Always remove channels during effect cleanup, logout, tracker changes, and compo
 
 This prevents the current unconditional whole-state last-write-wins behavior from silently losing another editor's update. Fully granular collaborative commands can be designed later if frequent conflicts make them necessary.
 
+### Optional post-migration optimization: split gameplay state
+
+Do not change the initial migration's single versioned `tracker_states.state` document solely for anticipated performance. Revisit this only when production metrics show that whole-document saves, Realtime payloads, or revision conflicts are a practical problem.
+
+The first optimization should retain flexible JSONB but split independently edited areas into separately versioned sections rather than fully normalizing every gameplay entity. For example, use a `tracker_state_sections` table with `(tracker_id, section)` as its key, a `state jsonb` document, `revision`, `updated_at`, and `updated_by`. Candidate sections are `team`, `box`, `graveyard`, `rules`, `progress` (badges/caps/champion state), and `run_stats`. The exact boundaries must follow real edit patterns and preserve data that must change together.
+
+- Replace a complete section document on save; do not introduce arbitrary JSON-path patches initially.
+- Give each section its own compare-and-swap revision and Realtime subscription, so an edit to rules does not conflict with a concurrent box edit.
+- Provide a transactional RPC for mutations that span sections, such as moving a linked Pokemon between team, box, and graveyard. It must validate every expected section revision and update all affected sections atomically.
+- Adapt the frontend repository to load and assemble sections into the existing `AppState` view model. The UI may keep its cohesive in-memory state while persistence tracks dirty sections.
+- Backfill sections from existing `tracker_states.state` with a tested, idempotent migration; retain the old document until validation and rollback gates pass.
+- Add RLS, RPC atomicity, section-conflict, reconnect, and cross-section move tests before enabling the new path.
+
+This is a targeted performance and collaboration optimization. It is substantially smaller than a full relational redesign, but it remains post-migration work because it introduces new state boundaries, migration logic, and cross-section consistency requirements.
+
 ### 8.6 New tracker IDs and routes
 
 On the first Supabase release:

@@ -36,6 +36,25 @@ npm run supabase:types
 
 `supabase:reset` applies every migration and then `seed.sql`. Supabase Studio is available at `http://127.0.0.1:54323`, and local Auth email is available through Mailpit at `http://127.0.0.1:54324`.
 
+### Connect the frontend to local Supabase
+
+After `npm run supabase:start`, retrieve the local frontend values with:
+
+```bash
+npm run supabase:status
+```
+
+Copy `API_URL` and `ANON_KEY` into the repository-root `.env` file:
+
+```dotenv
+VITE_BACKEND=supabase
+VITE_SUPABASE_URL=<API_URL>
+VITE_SUPABASE_ANON_KEY=<ANON_KEY>
+```
+
+For the default local stack, `API_URL` is normally `http://127.0.0.1:54321`.
+The anon key is the browser-safe key. Never copy `SERVICE_ROLE_KEY`, `DB_URL`, or any database password into `.env` or the frontend bundle. Restart Vite after changing `.env`.
+
 ### Initial migration layout
 
 The initial database is split into ordered migrations with explicit dependencies:
