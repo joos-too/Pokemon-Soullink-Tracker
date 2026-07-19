@@ -114,8 +114,8 @@ select is(
     from public.tracker_states
     where tracker_id = '30000000-0000-0000-0000-000000000001'
   ),
-  'false',
-  'seed data covers disabled nicknames'
+  'true',
+  'seed data mirrors the emulator nickname default'
 );
 select is(
   (

@@ -94,6 +94,17 @@ Run the Supabase-backed browser integration tests with:
 npm run test:e2e
 ```
 
+Run the real Firebase-fixture import against a freshly reset local database with:
+
+```bash
+npm run test:migration:integration
+```
+
+This local-only test creates the mapped Auth prerequisite, runs the database
+migration CLI twice, checks counts, deterministic tracker IDs, relational rows,
+legacy defaults, and canonical state hashes, and restores the normal seed. It
+rejects every non-loopback database URL before resetting or importing.
+
 `test:e2e` deliberately runs `supabase db reset` before Playwright and again afterward so the browser mutations cannot leave dirty fixtures behind. Each reset destroys and recreates all data in the local Supabase stack, applies every migration, and loads `seed.sql`; never point this workflow at staging or production. The runner also restarts the local Kong gateway and waits for Auth health because Docker Desktop can otherwise retain the replaced Auth container's old address after a reset. Start the local stack first and ensure the repository-root `.env` contains the local `VITE_SUPABASE_ANON_KEY` shown by `npm run supabase:status`.
 
 Use `npm run test:e2e:run` only when you intentionally want to rerun Playwright without resetting the fixtures. Install the browser once per machine with `npx playwright install chromium`.
@@ -114,3 +125,8 @@ npm run supabase:db:push -- --db-url "<database-url>"
 ```
 
 Never put database URLs, service-role keys, Firebase exports, or migration reports containing user data in this repository. Do not add `--include-seed` when pushing to staging or production.
+
+The separate hosted environment, safety marker, SSH tunnel, preflight, import
+order, and evidence checklist are documented in
+[`Staging_Rehearsal.md`](Staging_Rehearsal.md). Run its read-only preflight with
+`npm run supabase:staging:preflight` before any hosted rehearsal step.

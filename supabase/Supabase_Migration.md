@@ -622,6 +622,12 @@ Every meaningful migration change must pass database tests, migration fixtures, 
 
 ## 10. Staging rehearsal
 
+The executable preparation and operator checklist for the separate hosted
+stack are maintained in [`Staging_Rehearsal.md`](Staging_Rehearsal.md). Its
+preflight requires an explicit `app.environment=staging` database marker and
+rejects the documented production hostnames before making any connection-driven
+rehearsal decision.
+
 Run at least one full rehearsal with a recent production export:
 
 1. Reset the isolated staging database.
