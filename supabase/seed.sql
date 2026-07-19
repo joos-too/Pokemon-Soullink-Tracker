@@ -114,8 +114,7 @@ set
   use_sprites_in_team_table = id = '10000000-0000-0000-0000-000000000001'::uuid,
   wiki_id = case
     when id = '10000000-0000-0000-0000-000000000001'::uuid then 'pokewiki'
-    else null
-  end;
+      end;
 
 insert into public.trackers (
   id,
