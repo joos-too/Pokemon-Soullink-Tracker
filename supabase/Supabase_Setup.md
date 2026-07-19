@@ -48,6 +48,27 @@ cd supabase-project
 sh run.sh recreate
 ```
 
+### Password length
+
+Require at least eight characters for new passwords and password changes. In
+`supabase-project/.env`, configure Supabase Auth with:
+
+```dotenv
+GOTRUE_PASSWORD_MIN_LENGTH=8
+```
+
+Recreate the Auth service after changing this value:
+
+```bash
+cd supabase-project
+docker compose up -d --force-recreate auth
+```
+
+The equivalent local CLI setting is maintained in `supabase/config.toml` as
+`minimum_password_length = 8`. Existing migrated Firebase passwords remain
+valid even if they are shorter; the limit applies when creating or changing a
+password.
+
 ### Bind Kong to localhost only
 
 In `supabase-project/docker-compose.yml`, bind Kong's HTTP port to localhost.

@@ -2,6 +2,8 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   completePasswordReset,
+  getAuthErrorCode,
+  passwordResetRequiresCode,
   signOutCurrentUser,
   verifyPasswordReset,
 } from "@/src/services/backend/auth.ts";
@@ -26,7 +28,7 @@ const PasswordResetPage: React.FC<PasswordResetPageProps> = ({ oobCode }) => {
   useEffect(() => {
     let active = true;
     const verify = async () => {
-      if (!oobCode) {
+      if (passwordResetRequiresCode && !oobCode) {
         setError(t("auth.passwordReset.invalidLink"));
         setLoading(false);
         return;
@@ -54,7 +56,7 @@ const PasswordResetPage: React.FC<PasswordResetPageProps> = ({ oobCode }) => {
   const handleSubmit = async (event: React.SubmitEvent) => {
     event.preventDefault();
     if (submittingRef.current || success) return;
-    if (!oobCode) {
+    if (passwordResetRequiresCode && !oobCode) {
       setError(t("auth.passwordReset.missingCode"));
       return;
     }
@@ -75,7 +77,11 @@ const PasswordResetPage: React.FC<PasswordResetPageProps> = ({ oobCode }) => {
       setError(null);
     } catch (err) {
       console.error("confirmPasswordReset failed", err);
-      setError(t("auth.passwordReset.resetFailed"));
+      setError(
+        getAuthErrorCode(err) === "same-password"
+          ? t("auth.passwordReset.samePassword")
+          : t("auth.passwordReset.resetFailed"),
+      );
     } finally {
       setSubmitting(false);
       submittingRef.current = false;
@@ -91,19 +97,6 @@ const PasswordResetPage: React.FC<PasswordResetPageProps> = ({ oobCode }) => {
       navigate("/");
     }
   }, [navigate]);
-
-  useEffect(() => {
-    if (!success) return;
-    let cancelled = false;
-    const timeout = window.setTimeout(async () => {
-      if (cancelled) return;
-      await handleBackToLogin();
-    }, 4000);
-    return () => {
-      cancelled = true;
-      window.clearTimeout(timeout);
-    };
-  }, [success, handleBackToLogin]);
 
   const actionDisabled = submitting || loading || success;
 
@@ -136,9 +129,6 @@ const PasswordResetPage: React.FC<PasswordResetPageProps> = ({ oobCode }) => {
             <div className="py-8 text-center space-y-4">
               <p className="text-lg font-semibold text-green-600">
                 {t("auth.passwordReset.successMessage")}
-              </p>
-              <p className="text-sm text-gray-600 dark:text-gray-300">
-                {t("auth.passwordReset.successHint")}
               </p>
               <button
                 type="button"
@@ -173,10 +163,14 @@ const PasswordResetPage: React.FC<PasswordResetPageProps> = ({ oobCode }) => {
                 <p>{email}</p>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label
+                  htmlFor="reset-new-password"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                >
                   {t("auth.passwordReset.newPasswordLabel")}
                 </label>
                 <input
+                  id="reset-new-password"
                   type="password"
                   autoComplete="new-password"
                   required
@@ -189,10 +183,14 @@ const PasswordResetPage: React.FC<PasswordResetPageProps> = ({ oobCode }) => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label
+                  htmlFor="reset-confirm-password"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                >
                   {t("auth.passwordReset.confirmPasswordLabel")}
                 </label>
                 <input
+                  id="reset-confirm-password"
                   type="password"
                   autoComplete="new-password"
                   required

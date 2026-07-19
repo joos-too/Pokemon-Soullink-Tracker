@@ -13,6 +13,7 @@ type RegisterPageProps = {
 
 const RegisterPage: React.FC<RegisterPageProps> = ({ onSwitchToLogin }) => {
   const [email, setEmail] = useState("");
+  const [displayName, setDisplayName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -41,6 +42,17 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onSwitchToLogin }) => {
       return;
     }
 
+    const normalizedDisplayName = displayName.trim().replace(/\s+/g, " ");
+    if (!normalizedDisplayName) {
+      setError(t("auth.register.displayNameRequired"));
+      return;
+    }
+
+    if (normalizedDisplayName.length > 50) {
+      setError(t("auth.register.displayNameTooLong"));
+      return;
+    }
+
     if (password !== confirmPassword) {
       setError(t("auth.register.passwordMismatch"));
       return;
@@ -48,7 +60,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onSwitchToLogin }) => {
 
     setLoading(true);
     try {
-      await signUp(email.trim(), password);
+      await signUp(email.trim(), password, normalizedDisplayName);
     } catch (err) {
       console.error("Error registering user", err);
       setError(resolveErrorMessage(err));
@@ -87,10 +99,36 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onSwitchToLogin }) => {
 
           <form onSubmit={handleRegister} className="mt-6 space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label
+                htmlFor="register-display-name"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+              >
+                {t("auth.register.displayNameLabel")}
+              </label>
+              <input
+                id="register-display-name"
+                type="text"
+                autoComplete="nickname"
+                required
+                maxLength={50}
+                className={`w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${focusRingInputClasses}`}
+                placeholder={t("auth.register.displayNamePlaceholder")}
+                value={displayName}
+                onChange={(event) => setDisplayName(event.target.value)}
+              />
+              <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                {t("auth.register.displayNameInfo")}
+              </p>
+            </div>
+            <div>
+              <label
+                htmlFor="register-email"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+              >
                 {t("auth.register.emailLabel")}
               </label>
               <input
+                id="register-email"
                 type="email"
                 autoComplete="email"
                 required
@@ -101,10 +139,14 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onSwitchToLogin }) => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label
+                htmlFor="register-password"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+              >
                 {t("auth.register.passwordLabel")}
               </label>
               <input
+                id="register-password"
                 type="password"
                 autoComplete="new-password"
                 required
@@ -115,10 +157,14 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onSwitchToLogin }) => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label
+                htmlFor="register-confirm-password"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+              >
                 {t("auth.register.confirmPasswordLabel")}
               </label>
               <input
+                id="register-confirm-password"
                 type="password"
                 autoComplete="new-password"
                 required

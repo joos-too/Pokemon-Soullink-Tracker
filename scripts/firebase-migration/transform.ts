@@ -350,6 +350,7 @@ export const transformFirebaseExport = (
       id: authEntry.supabaseUserId,
       firebaseUid,
       displayName: normalizeDisplayName(user.displayName, authEntry.email),
+      displayNameRequiresUpdate: cleanString(user.displayName) === "",
       createdAt: toIsoTimestamp(user.createdAt),
       lastLoginAt: toIsoTimestamp(
         user.lastLoginAt,

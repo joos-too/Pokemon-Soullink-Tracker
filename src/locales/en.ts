@@ -136,6 +136,18 @@ export const en = {
         "Team, box, graveyard, and arena status will be cleared. Stats and rule changes remain. This can’t be undone.",
       submit: "Reset run",
     },
+    migrationDisplayName: {
+      title: "Choose your display name",
+      description:
+        "Your account currently uses a name generated during the migration. Choose the name other tracker members should see.",
+      label: "Display name",
+      required: "Enter a display name.",
+      tooLong: "A display name can contain at most 50 characters.",
+      saveFailed: "Saving the display name failed.",
+      later: "Later",
+      save: "Save",
+      saving: "Saving…",
+    },
     selectLoss: {
       title: "Kill link?",
       locationLabel: "Area: {{location}}",
@@ -688,6 +700,12 @@ export const en = {
       title: "Register",
       headline: "Create your account",
       emailLabel: "Email",
+      displayNameLabel: "Display name",
+      displayNamePlaceholder: "Trainer name",
+      displayNameInfo:
+        "This name is visible to members of your trackers and does not have to be unique.",
+      displayNameRequired: "Enter a display name.",
+      displayNameTooLong: "A display name can contain at most 50 characters.",
       passwordLabel: "Password",
       confirmPasswordLabel: "Confirm password",
       passwordMismatch: "Passwords do not match.",
@@ -721,8 +739,9 @@ export const en = {
       confirmPasswordLabel: "Confirm password",
       passwordTooShort: "The new password must be at least 8 characters long.",
       passwordMismatch: "Passwords do not match.",
+      samePassword:
+        "The new password must be different from your old password.",
       successMessage: "Password updated!",
-      successHint: "You will be redirected shortly.",
       buttonSave: "Set password",
       buttonBack: "Back",
       accountLabel: "Account",

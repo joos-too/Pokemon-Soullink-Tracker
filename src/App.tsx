@@ -242,6 +242,8 @@ const App: React.FC = () => {
   const [userWikiId, setUserWikiId] = useState<string | null>(null);
   const [userMultiLocaleSearch, setUserMultiLocaleSearch] = useState(false);
   const [userDisplayName, setUserDisplayName] = useState("");
+  const [userDisplayNameRequiresUpdate, setUserDisplayNameRequiresUpdate] =
+    useState(false);
   const showSettings = searchParams.get("panel") === "settings";
   const openSettingsPanel = useCallback(() => {
     const next = new URLSearchParams(searchParams);
@@ -569,6 +571,7 @@ const App: React.FC = () => {
     async (displayName: string) => {
       if (!user) return;
       setUserDisplayName(await updateUserDisplayName(user.uid, displayName));
+      setUserDisplayNameRequiresUpdate(false);
     },
     [user],
   );
@@ -809,6 +812,7 @@ const App: React.FC = () => {
         setUserWikiId(preferences.wikiId);
         setUserMultiLocaleSearch(preferences.multiLocaleSearch);
         setUserDisplayName(preferences.displayName);
+        setUserDisplayNameRequiresUpdate(preferences.displayNameRequiresUpdate);
       })
       .catch(() => {
         setUserUseGenerationSprites(false);
@@ -816,6 +820,7 @@ const App: React.FC = () => {
         setUserWikiId(null);
         setUserMultiLocaleSearch(false);
         setUserDisplayName(getDefaultDisplayName(user.email));
+        setUserDisplayNameRequiresUpdate(false);
       });
   }, [user]);
 
@@ -2856,6 +2861,9 @@ const App: React.FC = () => {
               activeTrackerId={activeTrackerId}
               userEmail={user?.email ?? undefined}
               currentUserId={user?.uid ?? null}
+              displayName={userDisplayName}
+              displayNameRequiresUpdate={userDisplayNameRequiresUpdate}
+              onDisplayNameChange={handleDisplayNameChange}
               trackerSummaries={trackerSummaries}
             />
           }

@@ -38,6 +38,7 @@ export type Database = {
         Row: {
           created_at: string;
           display_name: string;
+          display_name_requires_update: boolean;
           firebase_uid: string | null;
           id: string;
           last_login_at: string;
@@ -49,6 +50,7 @@ export type Database = {
         Insert: {
           created_at?: string;
           display_name: string;
+          display_name_requires_update?: boolean;
           firebase_uid?: string | null;
           id: string;
           last_login_at?: string;
@@ -60,6 +62,7 @@ export type Database = {
         Update: {
           created_at?: string;
           display_name?: string;
+          display_name_requires_update?: boolean;
           firebase_uid?: string | null;
           id?: string;
           last_login_at?: string;

@@ -8,7 +8,7 @@ const authMock = vi.hoisted(() => ({
   unsubscribe: vi.fn(),
 }));
 
-vi.mock("@/src/services/auth.ts", () => ({
+vi.mock("@/src/services/backend/auth.ts", () => ({
   onCurrentAuthStateChange: (
     callback: (user: AuthenticatedUser | null) => void,
   ) => {

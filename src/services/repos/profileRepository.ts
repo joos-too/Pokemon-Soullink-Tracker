@@ -11,6 +11,7 @@ export class ProfileOperationError extends Error {
 
 export interface UserProfilePreferences {
   displayName: string;
+  displayNameRequiresUpdate: boolean;
   useGenerationSprites: boolean;
   useSpritesInTeamTable: boolean;
   wikiId: string | null;
@@ -45,7 +46,7 @@ const getSupabaseProfile = async (userId: string) => {
   const { data, error } = await getSupabaseClient()
     .from("profiles")
     .select(
-      "display_name, use_generation_sprites, use_sprites_in_team_table, wiki_id, multi_locale_search",
+      "display_name, display_name_requires_update, use_generation_sprites, use_sprites_in_team_table, wiki_id, multi_locale_search",
     )
     .eq("id", userId)
     .single();
@@ -98,6 +99,7 @@ export const getUserProfilePreferences = async (
     const profile = await getSupabaseProfile(userId);
     return {
       displayName: profile.display_name,
+      displayNameRequiresUpdate: profile.display_name_requires_update,
       useGenerationSprites: profile.use_generation_sprites,
       useSpritesInTeamTable: profile.use_sprites_in_team_table,
       wikiId: profile.wiki_id,
@@ -113,6 +115,7 @@ export const getUserProfilePreferences = async (
       typeof displayName === "string" && displayName.trim()
         ? displayName.trim().slice(0, 50)
         : getDefaultDisplayName(email),
+    displayNameRequiresUpdate: false,
     useGenerationSprites: value?.useGenerationSprites === true,
     useSpritesInTeamTable: value?.useSpritesInTeamTable === true,
     wikiId: typeof value?.wikiId === "string" ? value.wikiId : null,
@@ -183,6 +186,7 @@ export const updateUserDisplayName = async (
   if (BACKEND === "supabase") {
     await updateSupabaseProfile(userId, {
       display_name: normalizedDisplayName,
+      display_name_requires_update: false,
     });
     return normalizedDisplayName;
   }

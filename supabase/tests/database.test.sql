@@ -3,7 +3,7 @@ begin;
 create extension if not exists pgtap with schema extensions;
 set search_path = public, extensions;
 
-select plan(36);
+select plan(41);
 
 select has_table('public', 'profiles', 'profiles table exists');
 select has_table('public', 'trackers', 'trackers table exists');
@@ -24,6 +24,55 @@ select col_type_is(
   'display_name',
   'text',
   'display names are typed profile data'
+);
+select col_type_is(
+  'public',
+  'profiles',
+  'display_name_requires_update',
+  'boolean',
+  'display-name onboarding state is explicit profile data'
+);
+
+insert into auth.users (
+  instance_id, id, aud, role, email, encrypted_password,
+  raw_app_meta_data, raw_user_meta_data, created_at, updated_at,
+  confirmation_token, email_change, email_change_token_new, recovery_token
+)
+values
+  (
+    '00000000-0000-0000-0000-000000000000',
+    '10000000-0000-4000-8000-000000000010',
+    'authenticated', 'authenticated', 'chosen@example.com', '',
+    '{}'::jsonb, '{"display_name":"Chosen Trainer"}'::jsonb,
+    now(), now(), '', '', '', ''
+  ),
+  (
+    '00000000-0000-0000-0000-000000000000',
+    '10000000-0000-4000-8000-000000000011',
+    'authenticated', 'authenticated', 'fallback@example.com', '',
+    '{}'::jsonb, '{}'::jsonb,
+    now(), now(), '', '', '', ''
+  );
+
+select is(
+  (select display_name from public.profiles where id = '10000000-0000-4000-8000-000000000010'),
+  'Chosen Trainer',
+  'Auth signup metadata becomes the profile display name'
+);
+select is(
+  (select display_name_requires_update from public.profiles where id = '10000000-0000-4000-8000-000000000010'),
+  false,
+  'a chosen signup display name does not require onboarding'
+);
+select is(
+  (select display_name from public.profiles where id = '10000000-0000-4000-8000-000000000011'),
+  'fallback',
+  'missing signup metadata falls back to the email prefix'
+);
+select is(
+  (select display_name_requires_update from public.profiles where id = '10000000-0000-4000-8000-000000000011'),
+  true,
+  'an automatically generated display name requires onboarding'
 );
 select col_type_is('public', 'trackers', 'id', 'uuid', 'tracker IDs are UUIDs');
 select has_index(

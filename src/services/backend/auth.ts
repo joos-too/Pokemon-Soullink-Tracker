@@ -10,6 +10,7 @@ import {
 import { auth as firebaseAuth } from "@/src/firebaseConfig.ts";
 import { BACKEND } from "@/src/services/backend/backend.ts";
 import { getSupabaseClient } from "@/src/services/backend/supabase.ts";
+import { updateUserDisplayName } from "@/src/services/repos/profileRepository.ts";
 
 export interface AuthenticatedUser {
   uid: string;
@@ -19,8 +20,11 @@ export interface AuthenticatedUser {
 export type AuthErrorCode =
   | "email-already-in-use"
   | "invalid-email"
+  | "same-password"
   | "weak-password"
   | "unknown";
+
+export const passwordResetRequiresCode = BACKEND === "firebase";
 
 const normalizeEmail = (email?: string | null): string =>
   email?.trim().toLowerCase() ?? "";
@@ -56,8 +60,15 @@ export const getAuthErrorCode = (error: unknown): AuthErrorCode => {
     case "auth/weak-password":
     case "weak_password":
       return "weak-password";
+    case "same_password":
+      return "same-password";
     default:
-      return "unknown";
+      return "message" in error &&
+        String(error.message).includes(
+          "New password should be different from the old password",
+        )
+        ? "same-password"
+        : "unknown";
   }
 };
 
@@ -96,15 +107,24 @@ export const signIn = async (
 export const signUp = async (
   email: string,
   password: string,
+  displayName: string,
 ): Promise<void> => {
   if (BACKEND === "firebase") {
-    await createUserWithEmailAndPassword(firebaseAuth, email, password);
+    const credential = await createUserWithEmailAndPassword(
+      firebaseAuth,
+      email,
+      password,
+    );
+    await updateUserDisplayName(credential.user.uid, displayName);
     return;
   }
 
   const { error } = await getSupabaseClient().auth.signUp({
     email: normalizeEmail(email),
     password,
+    options: {
+      data: { display_name: displayName },
+    },
   });
   if (error) throw error;
 };

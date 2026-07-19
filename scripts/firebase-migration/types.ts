@@ -19,6 +19,7 @@ export interface ProfileRow {
   id: string;
   firebaseUid: string;
   displayName: string;
+  displayNameRequiresUpdate: boolean;
   createdAt: string;
   lastLoginAt: string;
   useGenerationSprites: boolean;

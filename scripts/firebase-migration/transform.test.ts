@@ -124,6 +124,7 @@ describe("Firebase migration transformation", () => {
       id: OWNER_SUPABASE_ID,
       firebaseUid: OWNER_FIREBASE_UID,
       displayName: "owner",
+      displayNameRequiresUpdate: true,
       useGenerationSprites: true,
       multiLocaleSearch: false,
     });

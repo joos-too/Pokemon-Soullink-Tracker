@@ -106,6 +106,7 @@ set
     when id = '10000000-0000-0000-0000-000000000003'::uuid then 'Guest Gary'
     else 'Unrelated User'
   end,
+  display_name_requires_update = false,
   multi_locale_search = id in (
     '10000000-0000-0000-0000-000000000001'::uuid,
     '10000000-0000-0000-0000-000000000002'::uuid

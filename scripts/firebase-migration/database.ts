@@ -151,7 +151,7 @@ const assertExistingProfilesCompatible = async (
       select
         id, firebase_uid, display_name, created_at, last_login_at,
         use_generation_sprites, use_sprites_in_team_table, wiki_id,
-        multi_locale_search
+        multi_locale_search, display_name_requires_update
       from public.profiles
       where id = any($1::uuid[])
     `,
@@ -166,6 +166,7 @@ const assertExistingProfilesCompatible = async (
     const comparableExisting = {
       firebaseUid: existing.firebase_uid,
       displayName: existing.display_name,
+      displayNameRequiresUpdate: existing.display_name_requires_update,
       createdAt: normalizedDate(existing.created_at),
       lastLoginAt: normalizedDate(existing.last_login_at),
       useGenerationSprites: existing.use_generation_sprites,
@@ -234,8 +235,8 @@ const insertRows = async (
         insert into public.profiles (
           id, firebase_uid, display_name, created_at, last_login_at,
           use_generation_sprites, use_sprites_in_team_table, wiki_id,
-          multi_locale_search
-        ) values ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+          multi_locale_search, display_name_requires_update
+        ) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
         on conflict (id) do update set
           firebase_uid = excluded.firebase_uid,
           display_name = excluded.display_name,
@@ -244,7 +245,8 @@ const insertRows = async (
           use_generation_sprites = excluded.use_generation_sprites,
           use_sprites_in_team_table = excluded.use_sprites_in_team_table,
           wiki_id = excluded.wiki_id,
-          multi_locale_search = excluded.multi_locale_search
+          multi_locale_search = excluded.multi_locale_search,
+          display_name_requires_update = excluded.display_name_requires_update
         where public.profiles.firebase_uid is null
       `,
       values: [
@@ -257,6 +259,7 @@ const insertRows = async (
         row.useSpritesInTeamTable,
         row.wikiId,
         row.multiLocaleSearch,
+        row.displayNameRequiresUpdate,
       ],
     });
   }
