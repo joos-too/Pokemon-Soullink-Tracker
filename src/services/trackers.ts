@@ -26,6 +26,7 @@ import type {
   TrackerMeta,
   TrackerRole,
 } from "@/types";
+import { AuthenticatedUser } from "@/src/services/auth.ts";
 
 export class TrackerOperationError extends Error {
   code: "user-not-found" | "member-exists" | "invalid-input" | "unknown";

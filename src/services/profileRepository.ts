@@ -3,6 +3,7 @@ import { db } from "@/src/firebaseConfig";
 import type { AuthenticatedUser } from "@/src/services/auth.ts";
 import { BACKEND } from "@/src/services/backend.ts";
 import { getSupabaseClient } from "@/src/services/supabase.ts";
+import type { TablesUpdate } from "@/src/types/database.ts";
 
 export class ProfileOperationError extends Error {
   readonly code = "invalid-input";
@@ -121,7 +122,7 @@ export const getUserProfilePreferences = async (
 
 const updateSupabaseProfile = async (
   userId: string,
-  values: Record<string, string | boolean | null>,
+  values: TablesUpdate<"profiles">,
 ): Promise<void> => {
   const { error } = await getSupabaseClient()
     .from("profiles")
