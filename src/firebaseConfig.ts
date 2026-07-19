@@ -82,7 +82,9 @@ const firebaseConfig: FirebaseOptions = USE_EMULATORS
     : {
         apiKey: "firebase-not-active",
         authDomain: "firebase-not-active.invalid",
-        databaseURL: "https://firebase-not-active.invalid",
+        // Firebase validates this value during SDK initialization even when
+        // Supabase is the selected backend.
+        databaseURL: "https://firebase-not-active.firebaseio.com",
         projectId: "firebase-not-active",
         storageBucket: "firebase-not-active.invalid",
         messagingSenderId: "0",

@@ -114,6 +114,7 @@ import {
   updateUserSpritesInTeamTablePreference,
   updateUserWikiPreference,
 } from "@/src/services/profileRepository.ts";
+import { isSupabaseBackend } from "@/src/services/backend.ts";
 import { GAME_VERSIONS } from "@/src/data/game-versions";
 import {
   DEFAULT_RULES,
@@ -138,7 +139,48 @@ import { resolvePokemonLocationDisplay } from "@/src/services/locationSearch.ts"
 import { normalizeLanguage } from "@/src/utils/language.ts";
 import "@/src/pokeapi"; // initialize Pokedex once so sprite caching SW gets registered
 
-const LAST_TRACKER_STORAGE_KEY = "soullink:lastTrackerId";
+const LEGACY_LAST_TRACKER_STORAGE_KEY = "soullink:lastTrackerId";
+const SUPABASE_LAST_TRACKER_STORAGE_KEY = "soullink:lastSupabaseTrackerId";
+const BACKEND_MIGRATION_VERSION_STORAGE_KEY =
+  "soullink:backendMigrationVersion";
+const SUPABASE_BACKEND_MIGRATION_VERSION = "1";
+const LAST_TRACKER_STORAGE_KEY = isSupabaseBackend
+  ? SUPABASE_LAST_TRACKER_STORAGE_KEY
+  : LEGACY_LAST_TRACKER_STORAGE_KEY;
+
+const UUID_PATTERN =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+const isTrackerUuid = (value: string | null): value is string =>
+  Boolean(value && UUID_PATTERN.test(value));
+
+const getInitialActiveTrackerId = (): string | null => {
+  if (typeof window === "undefined") return null;
+
+  if (isSupabaseBackend) {
+    if (
+      window.localStorage.getItem(BACKEND_MIGRATION_VERSION_STORAGE_KEY) !==
+      SUPABASE_BACKEND_MIGRATION_VERSION
+    ) {
+      window.localStorage.removeItem(LEGACY_LAST_TRACKER_STORAGE_KEY);
+      window.localStorage.setItem(
+        BACKEND_MIGRATION_VERSION_STORAGE_KEY,
+        SUPABASE_BACKEND_MIGRATION_VERSION,
+      );
+    }
+
+    const storedSupabaseTrackerId = window.localStorage.getItem(
+      SUPABASE_LAST_TRACKER_STORAGE_KEY,
+    );
+    if (!isTrackerUuid(storedSupabaseTrackerId)) {
+      window.localStorage.removeItem(SUPABASE_LAST_TRACKER_STORAGE_KEY);
+      return null;
+    }
+    return storedSupabaseTrackerId;
+  }
+
+  return window.localStorage.getItem(LEGACY_LAST_TRACKER_STORAGE_KEY);
+};
 
 const MAX_SUPPORTED_GENERATION = 9;
 const resolveGenerationFromVersionId = (versionId?: string | null): number => {
@@ -232,16 +274,19 @@ const App: React.FC = () => {
     ? searchParams.get("oobCode")
     : null;
   const trackerRouteMatch = useMatch("/tracker/:trackerId");
-  const routeTrackerId = trackerRouteMatch?.params?.trackerId ?? null;
+  const routeTrackerParam = trackerRouteMatch?.params?.trackerId ?? null;
+  const isInvalidSupabaseTrackerRoute =
+    isSupabaseBackend &&
+    routeTrackerParam !== null &&
+    !isTrackerUuid(routeTrackerParam);
+  const routeTrackerId = isInvalidSupabaseTrackerRoute
+    ? null
+    : routeTrackerParam;
   const [data, setData] = useState<AppState>(createInitialState());
   const [user, setUser] = useState<AuthenticatedUser | null>(null);
   const [loading, setLoading] = useState(true);
-  const storedTrackerId =
-    typeof window !== "undefined"
-      ? window.localStorage.getItem(LAST_TRACKER_STORAGE_KEY)
-      : null;
   const [activeTrackerId, setActiveTrackerId] = useState<string | null>(
-    storedTrackerId,
+    getInitialActiveTrackerId,
   );
   const [userTrackerIds, setUserTrackerIds] = useState<string[]>([]);
   const [trackerMetas, setTrackerMetas] = useState<Record<string, TrackerMeta>>(
@@ -913,6 +958,8 @@ const App: React.FC = () => {
     // Don't redirect away from tracker route while we are still resolving whether it is public
     if (user || loading) return;
 
+    if (isInvalidSupabaseTrackerRoute) return;
+
     if (!routeTrackerId) {
       navigate("/", { replace: true });
       return;
@@ -928,6 +975,7 @@ const App: React.FC = () => {
     loading,
     navigate,
     routeTrackerId,
+    isInvalidSupabaseTrackerRoute,
     publicTrackerLoading,
     trackerMetas,
     isViewingPublicTracker,
@@ -938,6 +986,12 @@ const App: React.FC = () => {
       closeSettingsPanel();
     }
   }, [location.pathname, showSettings, closeSettingsPanel]);
+
+  useEffect(() => {
+    if (isInvalidSupabaseTrackerRoute) {
+      setActiveTrackerId(null);
+    }
+  }, [isInvalidSupabaseTrackerRoute]);
 
   useEffect(() => {
     if (!user) {
@@ -1196,12 +1250,13 @@ const App: React.FC = () => {
     ? Boolean(trackerMetas[routeTrackerId]?.isPublic)
     : false;
   const routeTrackerKnownMissing = Boolean(
-    user &&
-      routeTrackerId &&
-      !userTrackersLoading &&
-      !routeTrackerExistsForUser &&
-      !routeTrackerIsPublic &&
-      !publicTrackerLoading,
+    isInvalidSupabaseTrackerRoute ||
+      (user &&
+        routeTrackerId &&
+        !userTrackersLoading &&
+        !routeTrackerExistsForUser &&
+        !routeTrackerIsPublic &&
+        !publicTrackerLoading),
   );
   const routeTrackerPendingSelection = user
     ? Boolean(
@@ -2601,7 +2656,7 @@ const App: React.FC = () => {
     );
   }
 
-  if (!user && !isViewingPublicTracker) {
+  if (!user && !isViewingPublicTracker && !routeTrackerKnownMissing) {
     return authScreen === "login" ? (
       <LoginPage onSwitchToRegister={() => setAuthScreen("register")} />
     ) : (
