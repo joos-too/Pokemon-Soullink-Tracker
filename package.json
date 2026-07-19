@@ -11,6 +11,15 @@
     "generate-items": "node scripts/generate-items.mjs",
     "migrate-pokemon-ids": "node scripts/migrate-pokemon-names-to-ids.mjs",
     "emulators": "firebase emulators:start",
+    "supabase:start": "supabase start",
+    "supabase:stop": "supabase stop",
+    "supabase:status": "supabase status",
+    "supabase:reset": "supabase db reset",
+    "supabase:test": "supabase test db",
+    "supabase:types": "node scripts/generate-supabase-types.mjs",
+    "supabase:migration:new": "supabase migration new",
+    "supabase:db:push": "supabase db push",
+    "supabase:db:push:dry-run": "supabase db push --dry-run",
     "prettier": "prettier --write .",
     "prettier:check": "prettier --check .",
     "prepare": "husky"
@@ -19,6 +28,7 @@
     "**/*": "prettier --write --ignore-unknown"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.110.7",
     "@tailwindcss/vite": "^4.2.4",
     "firebase": "^12.12.1",
     "i18next": "^25.10.10",
@@ -39,6 +49,7 @@
     "lint-staged": "^16.4.0",
     "pokedex-promise-v2": "^4.2.1",
     "prettier": "3.6.2",
+    "supabase": "^2.109.1",
     "typescript": "~5.8.2",
     "vite": "^8.0.16"
   }

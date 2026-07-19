@@ -225,6 +225,11 @@ Implement these functions transactionally:
    - Increment the revision, recompute summary, and record `auth.uid()` and `now()`.
    - Return the updated row. If zero rows update, raise a stable `state_revision_conflict` error.
 
+6. `set_tracker_visibility(tracker_id, is_public)`
+   - Require the caller to be owner.
+   - Change only `is_public` and return the updated tracker.
+   - Do not grant clients direct update access to the `is_public` column. Editors receive column-level update grants only for editable metadata such as title, player names, game version, tracker options, and ruleset reference.
+
 All exposed functions revoke execution from `public` and grant it only to the needed Supabase roles. Security-definer functions set an explicit safe `search_path` and schema-qualify referenced objects.
 
 ## 5. Development and deployment workflow
