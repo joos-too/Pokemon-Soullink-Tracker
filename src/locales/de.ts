@@ -510,7 +510,7 @@ export const de = {
         title: "Spitznamen deaktivieren",
         tooltipLabel: "Info Spitznamen",
         tooltip:
-          "Wenn aktiviert, werden Spitznamen ausgeblendet und deaktiviert. Nützlich, man ohne Spitznamen spielen möchte.",
+          "Wenn aktiviert, werden Spitznamen ausgeblendet und deaktiviert. Nützlich, wenn man ohne Spitznamen spielen möchte.",
         description:
           "Spitznamen beim Hinzufügen und Anzeigen von Pokémon überspringen.",
       },
