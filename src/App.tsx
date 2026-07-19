@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   FiHome,
   FiMenu,
@@ -40,6 +34,7 @@ import BoxFilters, {
 } from "@/src/components/widgets/BoxFilters.tsx";
 import { useHiddenLinks } from "@/src/hooks/useHiddenLinks.ts";
 import { useAuthSession } from "@/src/hooks/useAuthSession.ts";
+import { useActiveTracker } from "@/src/hooks/useActiveTracker.ts";
 import { useRulesets } from "@/src/hooks/useRulesets.ts";
 import { useTrackerList } from "@/src/hooks/useTrackerList.ts";
 import { getPokemonTypeSlugsById } from "@/src/services/pokemonTypes.ts";
@@ -81,12 +76,8 @@ import {
 import { USE_EMULATORS } from "@/src/firebaseConfig";
 import { seedEmulatorData } from "@/src/services/emulatorSeed";
 import {
-  getTrackerState,
-  saveTrackerState,
   setTrackerVisibility,
   subscribeToTrackerMeta,
-  subscribeToTrackerState,
-  TrackerStateConflictError,
   updateTrackerMetadata,
 } from "@/src/services/trackerRepository.ts";
 import { signOutCurrentUser } from "@/src/services/auth.ts";
@@ -263,15 +254,6 @@ const App: React.FC = () => {
     setSearchParams(next, { replace: true });
   }, [searchParams, setSearchParams]);
   const [showResetModal, setShowResetModal] = useState(false);
-  const [dataLoaded, setDataLoaded] = useState(false);
-  const [stateConflict, setStateConflict] = useState(false);
-  const skipNextWriteRef = useRef(false);
-  const pendingWriteRef = useRef<Promise<void>>(Promise.resolve());
-  const pendingWriteTimerRef = useRef<ReturnType<typeof setTimeout> | null>(
-    null,
-  );
-  const writeSessionRef = useRef(0);
-  const isHydratingRef = useRef(true);
   const [showLossModal, setShowLossModal] = useState(false);
   const [pendingLossPair, setPendingLossPair] = useState<PokemonLink | null>(
     null,
@@ -796,20 +778,6 @@ const App: React.FC = () => {
     [activeGameVersion],
   );
 
-  const handleReloadAfterStateConflict = useCallback(async () => {
-    if (!activeTrackerId) return;
-    try {
-      const remoteState = await getTrackerState(activeTrackerId);
-      if (remoteState) {
-        skipNextWriteRef.current = true;
-        setData((previous) => coerceAppState(remoteState, previous));
-      }
-      setStateConflict(false);
-    } catch (error) {
-      console.error("Failed to reload tracker after state conflict", error);
-    }
-  }, [activeTrackerId, coerceAppState]);
-
   /**
    * Seed emulator with test data when running in emulator mode
    * This effect runs after Firebase initialization and creates:
@@ -1031,152 +999,24 @@ const App: React.FC = () => {
       )
     : false;
 
-  useEffect(() => {
-    isHydratingRef.current = true;
-    const gameVersionId = activeGameVersionId;
-    if (!user && !isViewingPublicTracker) {
-      setData(createInitialState());
-      setDataLoaded(false);
-      isHydratingRef.current = false;
-      return;
-    }
-
-    if (!isViewingPublicTracker && routeTrackerPendingSelection) {
-      setData(createInitialState());
-      setDataLoaded(false);
-      return;
-    }
-
-    if (!isViewingPublicTracker && routeTrackerKnownMissing) {
-      setData(createInitialState());
-      setDataLoaded(true);
-      isHydratingRef.current = false;
-      return;
-    }
-
-    if (!activeTrackerId) {
-      setData(createInitialState());
-      setDataLoaded(true);
-      isHydratingRef.current = false;
-      return;
-    }
-
-    let unsub: (() => void) | undefined;
-    let cancelled = false;
-    let initialSnapshotApplied = false;
-    const markInitialSnapshot = () => {
-      if (!initialSnapshotApplied) {
-        initialSnapshotApplied = true;
-        isHydratingRef.current = false;
-        setDataLoaded(true);
-      }
-    };
-
-    (async () => {
-      try {
-        const dbData = await getTrackerState(activeTrackerId);
-        if (cancelled) return;
-        if (dbData) {
-          skipNextWriteRef.current = true;
-          setData((prev) => coerceAppState(dbData, prev));
-        } else {
-          setData(createInitialState(gameVersionId));
-        }
-        markInitialSnapshot();
-      } catch (e) {
-        console.error("Tracker state fetch failed", e);
-        setData(createInitialState(gameVersionId));
-      } finally {
-        if (!cancelled) {
-          unsub = subscribeToTrackerState(
-            activeTrackerId,
-            (liveData) => {
-              if (liveData) {
-                skipNextWriteRef.current = true;
-                setData((prev) => coerceAppState(liveData, prev));
-              }
-              markInitialSnapshot();
-            },
-            (error) => {
-              console.error("Tracker state listener error", error);
-            },
-          );
-        }
-      }
-    })();
-
-    return () => {
-      cancelled = true;
-      if (unsub) unsub();
-      isHydratingRef.current = true;
-      setDataLoaded(false);
-    };
-  }, [
-    user,
+  const {
+    dataLoaded,
+    stateConflict,
+    reloadAfterConflict: handleReloadAfterStateConflict,
+  } = useActiveTracker({
     activeTrackerId,
-    activeGameVersionId,
-    coerceAppState,
+    userId: user?.uid,
+    gameVersionId: activeGameVersionId,
+    canLoad: Boolean(user || isViewingPublicTracker),
+    canWrite: Boolean(user && !isReadOnly),
+    isViewingPublicTracker,
     routeTrackerPendingSelection,
     routeTrackerKnownMissing,
-    isViewingPublicTracker,
-  ]);
-
-  useEffect(() => {
-    if (
-      !user ||
-      !dataLoaded ||
-      !activeTrackerId ||
-      isHydratingRef.current ||
-      stateConflict
-    )
-      return;
-
-    if (skipNextWriteRef.current) {
-      // Skip echoing writes caused by remote updates
-      skipNextWriteRef.current = false;
-      return;
-    }
-
-    if (pendingWriteTimerRef.current) {
-      clearTimeout(pendingWriteTimerRef.current);
-    }
-
-    const trackerId = activeTrackerId;
-    const session = writeSessionRef.current;
-    const stateToPersist = data;
-    pendingWriteTimerRef.current = setTimeout(() => {
-      pendingWriteTimerRef.current = null;
-      pendingWriteRef.current = pendingWriteRef.current
-        .then(() => saveTrackerState(trackerId, stateToPersist))
-        .catch((error) => {
-          if (
-            error instanceof TrackerStateConflictError &&
-            writeSessionRef.current === session
-          ) {
-            setStateConflict(true);
-            return;
-          }
-          console.error("Tracker state write failed", error);
-        });
-    }, AUTOSAVE_DEBOUNCE_MS);
-
-    return () => {
-      if (pendingWriteTimerRef.current) {
-        clearTimeout(pendingWriteTimerRef.current);
-        pendingWriteTimerRef.current = null;
-      }
-    };
-  }, [data, user, dataLoaded, activeTrackerId, stateConflict]);
-
-  useEffect(() => {
-    writeSessionRef.current += 1;
-    if (pendingWriteTimerRef.current) {
-      clearTimeout(pendingWriteTimerRef.current);
-      pendingWriteTimerRef.current = null;
-    }
-    pendingWriteRef.current = Promise.resolve();
-    setStateConflict(false);
-  }, [activeTrackerId, user]);
+    data,
+    setData,
+    coerceState: coerceAppState,
+    debounceMs: AUTOSAVE_DEBOUNCE_MS,
+  });
 
   const handleReset = () => {
     if (isReadOnly) return;
