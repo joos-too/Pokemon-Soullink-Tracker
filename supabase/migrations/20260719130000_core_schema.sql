@@ -9,12 +9,15 @@ create type public.tracker_role as enum ('owner', 'editor', 'guest');
 create table public.profiles (
   id uuid primary key references auth.users (id) on delete cascade,
   firebase_uid text unique,
+  display_name text not null,
   created_at timestamptz not null default now(),
   last_login_at timestamptz not null default now(),
   use_generation_sprites boolean not null default false,
   use_sprites_in_team_table boolean not null default false,
   wiki_id text,
-  multi_locale_search boolean not null default false
+  multi_locale_search boolean not null default false,
+  constraint profiles_display_name_not_blank check (length(btrim(display_name)) > 0),
+  constraint profiles_display_name_length check (char_length(display_name) <= 50)
 );
 
 create table public.trackers (
@@ -90,4 +93,3 @@ create table public.rulesets (
   constraint ruleset_id_not_blank check (length(btrim(id)) > 0),
   constraint ruleset_name_not_blank check (length(btrim(name)) > 0)
 );
-

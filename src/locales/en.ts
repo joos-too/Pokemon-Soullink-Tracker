@@ -586,7 +586,7 @@ export const en = {
         member: "Member",
         guest: "Guest",
       },
-      removeAriaLabel: "Remove {{email}}",
+      removeAriaLabel: "Remove {{name}}",
       inviteTitle: "Add member or guest",
       inviteSuccess: "User added successfully.",
       inviteError: "Something went wrong while inviting the user.",
@@ -622,6 +622,14 @@ export const en = {
     },
     emailLabel: "Email",
     emailInfo: "We will send the reset link to this address.",
+    displayName: {
+      label: "Display name",
+      info: "This name is shown to other members of your trackers. It does not have to be unique.",
+      save: "Save display name",
+      required: "Enter a display name.",
+      tooLong: "A display name can contain at most 50 characters.",
+      saveFailed: "Saving the display name failed.",
+    },
     actions: {
       resetPassword: "Reset password",
     },

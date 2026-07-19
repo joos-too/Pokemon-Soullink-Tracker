@@ -1,11 +1,10 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  confirmPasswordReset,
-  signOut,
-  verifyPasswordResetCode,
-} from "firebase/auth";
-import { auth } from "@/src/firebaseConfig.ts";
+  completePasswordReset,
+  signOutCurrentUser,
+  verifyPasswordReset,
+} from "@/src/services/auth.ts";
 import { useTranslation } from "react-i18next";
 
 interface PasswordResetPageProps {
@@ -33,7 +32,7 @@ const PasswordResetPage: React.FC<PasswordResetPageProps> = ({ oobCode }) => {
         return;
       }
       try {
-        const emailFromCode = await verifyPasswordResetCode(auth, oobCode);
+        const emailFromCode = await verifyPasswordReset(oobCode);
         if (!active) return;
         setEmail(emailFromCode);
       } catch (err) {
@@ -71,7 +70,7 @@ const PasswordResetPage: React.FC<PasswordResetPageProps> = ({ oobCode }) => {
     submittingRef.current = true;
     setSubmitting(true);
     try {
-      await confirmPasswordReset(auth, oobCode, password);
+      await completePasswordReset(oobCode, password);
       setSuccess(true);
       setError(null);
     } catch (err) {
@@ -85,7 +84,7 @@ const PasswordResetPage: React.FC<PasswordResetPageProps> = ({ oobCode }) => {
 
   const handleBackToLogin = useCallback(async () => {
     try {
-      await signOut(auth);
+      await signOutCurrentUser();
     } catch {
       // ignore sign out errors (e.g., already signed out)
     } finally {

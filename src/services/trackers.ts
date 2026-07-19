@@ -1,6 +1,6 @@
 import { get, ref, set, update } from "firebase/database";
-import type { User } from "firebase/auth";
 import { db } from "@/src/firebaseConfig";
+import type { AuthenticatedUser } from "@/src/services/auth.ts";
 import {
   createInitialState,
   MIN_PLAYER_COUNT,
@@ -30,11 +30,36 @@ export class TrackerOperationError extends Error {
   }
 }
 
-const normalizeEmail = (email: string): string => email.trim().toLowerCase();
+const normalizeEmail = (email?: string | null): string =>
+  email?.trim().toLowerCase() ?? "";
 const encodeEmailKey = (normalizedEmail: string): string =>
   normalizedEmail.replace(/[.#$/\[\]]/g, "_");
 
-export const ensureUserProfile = async (user: User): Promise<void> => {
+export const getDefaultDisplayName = (email?: string | null): string => {
+  const localPart = normalizeEmail(email).split("@", 1)[0]?.trim();
+  return (localPart || "Trainer").slice(0, 50);
+};
+
+const normalizeDisplayName = (displayName: string): string => {
+  const normalized = displayName.trim().replace(/\s+/g, " ");
+  if (!normalized) {
+    throw new TrackerOperationError(
+      "Bitte gib einen Anzeigenamen ein.",
+      "invalid-input",
+    );
+  }
+  if (normalized.length > 50) {
+    throw new TrackerOperationError(
+      "Der Anzeigename darf höchstens 50 Zeichen lang sein.",
+      "invalid-input",
+    );
+  }
+  return normalized;
+};
+
+export const ensureUserProfile = async (
+  user: AuthenticatedUser,
+): Promise<void> => {
   if (!user.email) return;
   const now = Date.now();
   const profileRef = ref(db, `users/${user.uid}`);
@@ -43,12 +68,18 @@ export const ensureUserProfile = async (user: User): Promise<void> => {
     uid: user.uid,
     lastLoginAt: now,
   };
+  const existingDisplayName = snapshot.child("displayName").val();
+  const displayName =
+    typeof existingDisplayName === "string" && existingDisplayName.trim()
+      ? existingDisplayName.trim()
+      : getDefaultDisplayName(user.email);
   if (snapshot.exists()) {
-    await update(profileRef, payload);
+    await update(profileRef, { ...payload, displayName });
   } else {
     await set(profileRef, {
       ...payload,
       createdAt: now,
+      displayName,
     });
   }
 
@@ -106,9 +137,11 @@ const buildMember = (
   uid: string,
   email: string,
   role: TrackerRole,
+  displayName = getDefaultDisplayName(email),
 ): TrackerMember => ({
   uid,
   email,
+  displayName,
   role,
   addedAt: Date.now(),
 });
@@ -124,7 +157,7 @@ interface CreateTrackerPayload {
   title: string;
   playerNames: string[];
   memberInvites: InviteEntry[];
-  owner: User;
+  owner: AuthenticatedUser;
   gameVersionId: string;
   allPokemonAndItems?: boolean;
   rulesetId?: string;
@@ -189,8 +222,14 @@ export const createTracker = async ({
       ? crypto.randomUUID()
       : `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
   const createdAt = Date.now();
+  const ownerDisplayName = await getUserDisplayName(owner.uid, owner.email);
   const members: Record<string, TrackerMember> = {
-    [owner.uid]: buildMember(owner.uid, owner.email!, "owner"),
+    [owner.uid]: buildMember(
+      owner.uid,
+      owner.email!,
+      "owner",
+      ownerDisplayName,
+    ),
   };
   const guests: Record<string, TrackerMember> = {};
 
@@ -407,6 +446,62 @@ export const updateUserGenerationSpritePreference = async (
 ): Promise<void> => {
   const userPath = `users/${userId}/useGenerationSprites`;
   await set(ref(db, userPath), useGenerationSprites);
+};
+
+export const getUserDisplayName = async (
+  userId: string,
+  email?: string | null,
+): Promise<string> => {
+  const snapshot = await get(ref(db, `users/${userId}/displayName`));
+  const storedDisplayName = snapshot.val();
+  return typeof storedDisplayName === "string" && storedDisplayName.trim()
+    ? storedDisplayName.trim().slice(0, 50)
+    : getDefaultDisplayName(email);
+};
+
+export const updateUserDisplayName = async (
+  userId: string,
+  displayName: string,
+): Promise<void> => {
+  const normalizedDisplayName = normalizeDisplayName(displayName);
+  const userTrackersSnapshot = await get(ref(db, `userTrackers/${userId}`));
+  const trackerIds = userTrackersSnapshot.exists()
+    ? Object.keys(userTrackersSnapshot.val())
+    : [];
+  const trackerMetas = await Promise.all(
+    trackerIds.map(async (trackerId) => ({
+      trackerId,
+      snapshot: await get(ref(db, `trackers/${trackerId}/meta`)),
+    })),
+  );
+
+  await set(ref(db, `users/${userId}/displayName`), normalizedDisplayName);
+
+  const memberUpdates: Record<string, unknown> = {};
+  trackerMetas.forEach(({ trackerId, snapshot }) => {
+    const meta = snapshot.val() as TrackerMeta | null;
+    if (meta?.members?.[userId]) {
+      memberUpdates[
+        `trackers/${trackerId}/meta/members/${userId}/displayName`
+      ] = normalizedDisplayName;
+    } else if (meta?.guests?.[userId]) {
+      memberUpdates[`trackers/${trackerId}/meta/guests/${userId}/displayName`] =
+        normalizedDisplayName;
+    }
+  });
+
+  if (Object.keys(memberUpdates).length === 0) return;
+
+  try {
+    await update(ref(db), memberUpdates);
+  } catch (error) {
+    // Legacy Firebase rules grant guests read-only tracker access. Their
+    // profile still updates; Supabase reads display names from profiles.
+    console.warn(
+      "Could not mirror display name into Firebase tracker data",
+      error,
+    );
+  }
 };
 
 export const getUserGenerationSpritePreference = async (

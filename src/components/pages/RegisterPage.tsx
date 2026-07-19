@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import type { FirebaseError } from "firebase/app";
-import { auth } from "@/src/firebaseConfig.ts";
+import { getAuthErrorCode, signUp } from "@/src/services/auth.ts";
 import {
   focusRingBlueClasses,
   focusRingClasses,
@@ -22,20 +20,16 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onSwitchToLogin }) => {
   const { t } = useTranslation();
 
   const resolveErrorMessage = (err: unknown): string => {
-    if (typeof err === "object" && err !== null && "code" in err) {
-      const code = (err as FirebaseError).code;
-      switch (code) {
-        case "auth/email-already-in-use":
-          return t("auth.register.errors.emailInUse");
-        case "auth/invalid-email":
-          return t("auth.register.errors.invalidEmail");
-        case "auth/weak-password":
-          return t("auth.register.errors.weakPassword");
-        default:
-          break;
-      }
+    switch (getAuthErrorCode(err)) {
+      case "email-already-in-use":
+        return t("auth.register.errors.emailInUse");
+      case "invalid-email":
+        return t("auth.register.errors.invalidEmail");
+      case "weak-password":
+        return t("auth.register.errors.weakPassword");
+      default:
+        return t("auth.register.errors.general");
     }
-    return t("auth.register.errors.general");
   };
 
   const handleRegister = async (e: React.SubmitEvent) => {
@@ -54,7 +48,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onSwitchToLogin }) => {
 
     setLoading(true);
     try {
-      await createUserWithEmailAndPassword(auth, email.trim(), password);
+      await signUp(email.trim(), password);
     } catch (err) {
       console.error("Error registering user", err);
       setError(resolveErrorMessage(err));

@@ -79,16 +79,22 @@ import {
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
-import { auth, db, USE_EMULATORS } from "@/src/firebaseConfig";
+import { db, USE_EMULATORS } from "@/src/firebaseConfig";
 import { get, onValue, ref, set, update } from "firebase/database";
-import { onAuthStateChanged, signOut, User } from "firebase/auth";
 import { seedEmulatorData } from "@/src/services/emulatorSeed";
+import {
+  onCurrentAuthStateChange,
+  signOutCurrentUser,
+  type AuthenticatedUser,
+} from "@/src/services/auth.ts";
 import {
   addMemberByEmail,
   createTracker,
   deleteTracker,
   ensureUserProfile,
+  getDefaultDisplayName,
   getUserGenerationSpritePreference,
+  getUserDisplayName,
   getUserMultiLocaleSearchPreference,
   getUserSpritesInTeamTablePreference,
   getUserWikiPreference,
@@ -96,6 +102,7 @@ import {
   TrackerOperationError,
   updateRivalPreference,
   updateUserGenerationSpritePreference,
+  updateUserDisplayName,
   updateUserMultiLocaleSearchPreference,
   updateUserSpritesInTeamTablePreference,
   updateUserWikiPreference,
@@ -147,6 +154,32 @@ const normalizeTrackerMeta = (
 ): TrackerMeta => ({
   ...meta,
   id: trackerId,
+  members: Object.fromEntries(
+    Object.entries(meta.members ?? {}).map(([uid, member]) => [
+      uid,
+      {
+        ...member,
+        uid,
+        displayName:
+          typeof member.displayName === "string" && member.displayName.trim()
+            ? member.displayName.trim()
+            : getDefaultDisplayName(member.email),
+      },
+    ]),
+  ),
+  guests: Object.fromEntries(
+    Object.entries(meta.guests ?? {}).map(([uid, member]) => [
+      uid,
+      {
+        ...member,
+        uid,
+        displayName:
+          typeof member.displayName === "string" && member.displayName.trim()
+            ? member.displayName.trim()
+            : getDefaultDisplayName(member.email),
+      },
+    ]),
+  ),
   allPokemonAndItems: meta.allPokemonAndItems === true ? true : undefined,
 });
 
@@ -194,7 +227,7 @@ const App: React.FC = () => {
   const trackerRouteMatch = useMatch("/tracker/:trackerId");
   const routeTrackerId = trackerRouteMatch?.params?.trackerId ?? null;
   const [data, setData] = useState<AppState>(createInitialState());
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<AuthenticatedUser | null>(null);
   const [loading, setLoading] = useState(true);
   const storedTrackerId =
     typeof window !== "undefined"
@@ -241,6 +274,7 @@ const App: React.FC = () => {
     useState(false);
   const [userWikiId, setUserWikiId] = useState<string | null>(null);
   const [userMultiLocaleSearch, setUserMultiLocaleSearch] = useState(false);
+  const [userDisplayName, setUserDisplayName] = useState("");
   const showSettings = searchParams.get("panel") === "settings";
   const openSettingsPanel = useCallback(() => {
     const next = new URLSearchParams(searchParams);
@@ -569,6 +603,15 @@ const App: React.FC = () => {
     [user],
   );
 
+  const handleDisplayNameChange = useCallback(
+    async (displayName: string) => {
+      if (!user) return;
+      await updateUserDisplayName(user.uid, displayName);
+      setUserDisplayName(displayName.trim());
+    },
+    [user],
+  );
+
   const effectiveWikiId: WikiId =
     (userWikiId as WikiId | null) ??
     ((i18n.resolvedLanguage || i18n.language || "")
@@ -775,7 +818,7 @@ const App: React.FC = () => {
   );
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onCurrentAuthStateChange((user) => {
       setUser(user);
       setLoading(false);
     });
@@ -834,18 +877,23 @@ const App: React.FC = () => {
       getUserSpritesInTeamTablePreference(user.uid),
       getUserWikiPreference(user.uid),
       getUserMultiLocaleSearchPreference(user.uid),
+      getUserDisplayName(user.uid, user.email),
     ])
-      .then(([genSprites, teamTableSprites, wikiId, multiLocale]) => {
-        setUserUseGenerationSprites(genSprites);
-        setUserUseSpritesInTeamTable(teamTableSprites);
-        setUserWikiId(wikiId);
-        setUserMultiLocaleSearch(multiLocale);
-      })
+      .then(
+        ([genSprites, teamTableSprites, wikiId, multiLocale, displayName]) => {
+          setUserUseGenerationSprites(genSprites);
+          setUserUseSpritesInTeamTable(teamTableSprites);
+          setUserWikiId(wikiId);
+          setUserMultiLocaleSearch(multiLocale);
+          setUserDisplayName(displayName);
+        },
+      )
       .catch(() => {
         setUserUseGenerationSprites(false);
         setUserUseSpritesInTeamTable(false);
         setUserWikiId(null);
         setUserMultiLocaleSearch(false);
+        setUserDisplayName(getDefaultDisplayName(user.email));
       });
   }, [user]);
 
@@ -1345,7 +1393,9 @@ const App: React.FC = () => {
       window.localStorage.removeItem(LAST_TRACKER_STORAGE_KEY);
     }
     navigate("/");
-    signOut(auth);
+    signOutCurrentUser().catch((error) => {
+      console.error("Error signing out", error);
+    });
   };
 
   const handleOpenUserSettings = useCallback(() => {
@@ -2614,7 +2664,6 @@ const App: React.FC = () => {
         }
       }}
       canManageMembers={canManageMembers}
-      currentUserEmail={user?.email}
       currentUserId={user?.uid}
       gameVersion={activeGameVersion}
       rivalPreferences={currentUserRivalPreferences}
@@ -3128,6 +3177,8 @@ const App: React.FC = () => {
             user ? (
               <UserSettingsPage
                 email={user.email}
+                displayName={userDisplayName}
+                onDisplayNameChange={handleDisplayNameChange}
                 onBack={handleNavigateHome}
                 onLogout={handleLogout}
                 useGenerationSprites={userUseGenerationSprites}

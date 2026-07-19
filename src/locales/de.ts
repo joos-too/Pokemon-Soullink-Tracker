@@ -591,7 +591,7 @@ export const de = {
         member: "Mitglied",
         guest: "Gast",
       },
-      removeAriaLabel: "{{email}} entfernen",
+      removeAriaLabel: "{{name}} entfernen",
       inviteTitle: "Mitglied oder Gast hinzufügen",
       inviteSuccess: "Nutzer erfolgreich hinzugefügt.",
       inviteError: "Ein unbekannter Fehler ist aufgetreten.",
@@ -628,6 +628,14 @@ export const de = {
     },
     emailLabel: "Email",
     emailInfo: "Wir senden den Reset-Link an diese Adresse.",
+    displayName: {
+      label: "Anzeigename",
+      info: "Dieser Name wird anderen Mitgliedern deiner Tracker angezeigt. Er muss nicht eindeutig sein.",
+      save: "Anzeigenamen speichern",
+      required: "Bitte gib einen Anzeigenamen ein.",
+      tooLong: "Ein Anzeigename darf höchstens 50 Zeichen enthalten.",
+      saveFailed: "Der Anzeigename konnte nicht gespeichert werden.",
+    },
     actions: {
       resetPassword: "Passwort zurücksetzen",
     },

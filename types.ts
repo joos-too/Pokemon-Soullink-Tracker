@@ -119,7 +119,9 @@ export interface UserSettings {
 
 export interface TrackerMember {
   uid: string;
-  email: string;
+  displayName: string;
+  /** Legacy Firebase metadata only. Never expose this field through Supabase. */
+  email?: string;
   role: TrackerRole;
   addedAt: number;
 }

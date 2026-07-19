@@ -235,12 +235,38 @@ begin
 end;
 $$;
 
+create or replace function public.list_tracker_members(p_tracker_id uuid)
+returns table (
+  user_id uuid,
+  display_name text,
+  role public.tracker_role,
+  added_at timestamptz
+)
+language plpgsql
+security definer
+set search_path = pg_catalog
+as $$
+begin
+  if not private.is_tracker_reader(p_tracker_id, auth.uid()) then
+    raise exception using errcode = '42501', message = 'tracker_read_access_required';
+  end if;
+
+  return query
+  select member.user_id, profile.display_name, member.role, member.added_at
+  from public.tracker_members as member
+  join public.profiles as profile on profile.id = member.user_id
+  where member.tracker_id = p_tracker_id
+  order by member.added_at;
+end;
+$$;
+
 revoke all on function public.create_tracker(text, text[], text, boolean, text, jsonb, jsonb) from public;
 revoke all on function public.invite_tracker_member(uuid, text, public.tracker_role) from public;
 revoke all on function public.remove_tracker_member(uuid, uuid) from public;
 revoke all on function public.delete_tracker(uuid) from public;
 revoke all on function public.set_tracker_visibility(uuid, boolean) from public;
 revoke all on function public.update_tracker_state(uuid, bigint, jsonb) from public;
+revoke all on function public.list_tracker_members(uuid) from public;
 
 grant execute on function public.create_tracker(text, text[], text, boolean, text, jsonb, jsonb) to authenticated;
 grant execute on function public.invite_tracker_member(uuid, text, public.tracker_role) to authenticated;
@@ -248,4 +274,4 @@ grant execute on function public.remove_tracker_member(uuid, uuid) to authentica
 grant execute on function public.delete_tracker(uuid) to authenticated;
 grant execute on function public.set_tracker_visibility(uuid, boolean) to authenticated;
 grant execute on function public.update_tracker_state(uuid, bigint, jsonb) to authenticated;
-
+grant execute on function public.list_tracker_members(uuid) to authenticated;

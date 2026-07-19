@@ -3,7 +3,7 @@ begin;
 create extension if not exists pgtap with schema extensions;
 set search_path = public, extensions;
 
-select plan(32);
+select plan(35);
 
 select has_table('public', 'profiles', 'profiles table exists');
 select has_table('public', 'trackers', 'trackers table exists');
@@ -17,6 +17,13 @@ select col_type_is(
   'multi_locale_search',
   'boolean',
   'multi-locale search is a typed profile preference'
+);
+select col_type_is(
+  'public',
+  'profiles',
+  'display_name',
+  'text',
+  'display names are typed profile data'
 );
 select col_type_is('public', 'trackers', 'id', 'uuid', 'tracker IDs are UUIDs');
 select has_index(
@@ -70,6 +77,15 @@ select is(
   true,
   'seed data covers enabled multi-locale search'
 );
+select is(
+  (
+    select display_name
+    from public.profiles
+    where id = '10000000-0000-0000-0000-000000000001'
+  ),
+  'Test Trainer',
+  'seed data includes a display name'
+);
 select ok(
   (
     select bool_and(owner_count = 1)
@@ -119,6 +135,15 @@ select is(
   ),
   1::bigint,
   'an editor can read their tracker'
+);
+select is(
+  (
+    select display_name
+    from public.list_tracker_members('30000000-0000-0000-0000-000000000001')
+    where user_id = '10000000-0000-0000-0000-000000000001'
+  ),
+  'Test Trainer',
+  'a tracker member can read participant display names through the RPC'
 );
 select lives_ok(
   $$select public.update_tracker_state(

@@ -64,6 +64,7 @@ Suggested helpers:
 create table public.profiles (
   id uuid primary key references auth.users(id) on delete cascade,
   firebase_uid text unique,
+  display_name text not null check (length(btrim(display_name)) > 0 and char_length(display_name) <= 50),
   created_at timestamptz not null default now(),
   last_login_at timestamptz not null default now(),
   use_generation_sprites boolean not null default false,
@@ -73,7 +74,7 @@ create table public.profiles (
 );
 ```
 
-New Auth users receive a profile through an `auth.users` insert trigger. Migrated profiles are updated with `firebase_uid` during import. Only the user may select or update their profile. The client must not write `firebase_uid`, `created_at`, or another user's profile.
+New Auth users receive a profile through an `auth.users` insert trigger. The trigger derives a non-unique initial `display_name` from the email prefix; migrated profiles use the Firebase display name when valid and otherwise the same fallback. Users may change it later without being prompted. Only the user may select or update their profile. The client must not write `firebase_uid`, `created_at`, or another user's profile.
 
 ### 3.3 `trackers`
 
@@ -413,6 +414,7 @@ Rules:
 
 - Convert epoch milliseconds to UTC `timestamptz`.
 - Map `users/{uid}/multiLocaleSearch` to `profiles.multi_locale_search`; use `false` when the Firebase field is absent or not a boolean.
+- Map `users/{uid}/displayName` to `profiles.display_name` after trimming and enforcing the 50-character limit. If it is missing or invalid, derive the non-unique fallback from the mapped Auth email prefix.
 - Use `meta.playerNames` as authoritative when present and valid; otherwise use sanitized `state.playerNames`. Record disagreements as warnings.
 - Remove `playerNames` and `rulesetId` from imported state JSON after moving them to `trackers`.
 - Preserve the tracker-specific rules snapshot.
@@ -478,6 +480,7 @@ During development, a repository-level `VITE_BACKEND=firebase|supabase` switch m
 - Introduce a persisted `TrackerState` type that excludes `playerNames` and `rulesetId` from `AppState`.
 - Keep `nicknamesEnabled` on `TrackerState`, not tracker metadata or the user profile.
 - Add `multiLocaleSearch` to the application profile/preferences type and map it to `profiles.multi_locale_search`.
+- Add a non-unique `displayName` to the application profile type. Tracker participant lists must show this name, never Auth email addresses; email remains an invitation-only input.
 - Keep `TrackerMeta` as a UI view model assembled from `trackers` and `tracker_members`.
 - Change tracker IDs and route parameters to UUID strings semantically, while runtime-validating them before queries.
 - Represent state reads as `{ state, revision, schemaVersion }`.
@@ -488,6 +491,7 @@ During development, a repository-level `VITE_BACKEND=firebase|supabase` switch m
 - Replace Firebase `User` usage with a small application user/session type.
 - Update login and registration to Supabase Auth methods.
 - Bootstrap/update `profiles.last_login_at` through a service or safe RPC.
+- Load and update `profiles.display_name` through the profile service. Read participant display names only through a reader-authorized `list_tracker_members(tracker_id)` RPC, not through a broadly readable profile or Auth-user query.
 - Load and update `multi_locale_search` through the profile service, preserving the current default of `false`; search services and `MultiLocaleSearchProvider` remain frontend-only consumers of this preference.
 - Replace the current reset page's Firebase verification-code flow with the Supabase `PASSWORD_RECOVERY` session event and `updateUser({ password })`.
 - Configure and pass an allowed `redirectTo` for reset requests.
@@ -692,6 +696,7 @@ After the observation period and explicit approval:
 - [ ] Every imported tracker has a new deterministic UUID and exactly one owner.
 - [ ] Migrated trackers preserve `nicknamesEnabled`, defaulting legacy records to `true`.
 - [ ] Migrated profiles preserve `multiLocaleSearch`, defaulting missing legacy records to `false`.
+- [ ] Migrated profiles have a non-empty, non-unique display name; absent legacy names use the mapped email prefix.
 - [ ] Source/target counts and state hashes match the approved report.
 - [ ] Owner, editor, guest, unrelated user, and anonymous behavior match the access matrix.
 - [ ] Password recovery works through Nginx and SMTP.

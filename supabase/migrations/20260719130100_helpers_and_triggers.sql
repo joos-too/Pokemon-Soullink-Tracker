@@ -24,9 +24,13 @@ security definer
 set search_path = pg_catalog
 as $$
 begin
-  insert into public.profiles (id, created_at, last_login_at)
+  insert into public.profiles (id, display_name, created_at, last_login_at)
   values (
     new.id,
+    left(
+      coalesce(nullif(btrim(split_part(coalesce(new.email, ''), '@', 1)), ''), 'Trainer'),
+      50
+    ),
     coalesce(new.created_at, now()),
     coalesce(new.last_sign_in_at, new.created_at, now())
   )
@@ -235,4 +239,3 @@ create constraint trigger tracker_members_enforce_owner
 after insert or update or delete on public.tracker_members
 deferrable initially deferred
 for each row execute function private.enforce_tracker_owner();
-

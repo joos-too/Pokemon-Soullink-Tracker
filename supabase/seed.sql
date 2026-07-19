@@ -100,6 +100,12 @@ on conflict (provider_id, provider) do nothing;
 
 update public.profiles
 set
+  display_name = case
+    when id = '10000000-0000-0000-0000-000000000001'::uuid then 'Test Trainer'
+    when id = '10000000-0000-0000-0000-000000000002'::uuid then 'Editor Erika'
+    when id = '10000000-0000-0000-0000-000000000003'::uuid then 'Guest Gary'
+    else 'Unrelated User'
+  end,
   multi_locale_search = id in (
     '10000000-0000-0000-0000-000000000001'::uuid,
     '10000000-0000-0000-0000-000000000002'::uuid

@@ -37,6 +37,7 @@ export type Database = {
       profiles: {
         Row: {
           created_at: string;
+          display_name: string;
           firebase_uid: string | null;
           id: string;
           last_login_at: string;
@@ -47,6 +48,7 @@ export type Database = {
         };
         Insert: {
           created_at?: string;
+          display_name: string;
           firebase_uid?: string | null;
           id: string;
           last_login_at?: string;
@@ -57,6 +59,7 @@ export type Database = {
         };
         Update: {
           created_at?: string;
+          display_name?: string;
           firebase_uid?: string | null;
           id?: string;
           last_login_at?: string;
@@ -276,6 +279,15 @@ export type Database = {
           isOneToOne: true;
           isSetofReturn: false;
         };
+      };
+      list_tracker_members: {
+        Args: { p_tracker_id: string };
+        Returns: {
+          added_at: string;
+          display_name: string;
+          role: Database["public"]["Enums"]["tracker_role"];
+          user_id: string;
+        }[];
       };
       remove_tracker_member: {
         Args: { p_tracker_id: string; p_user_id: string };
