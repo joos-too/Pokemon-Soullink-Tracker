@@ -12,7 +12,7 @@ The migration uses the following fixed decisions:
 - Preserve existing email/password accounts and Firebase Scrypt password hashes. Existing sessions are not preserved; every user signs in again after cutover.
 - Use the Supabase CLI stack for reproducible local development and a separate self-hosted staging stack for integration and migration rehearsals.
 - Use a scheduled maintenance outage for the final migration. Do not implement dual writes.
-- Refactor backend access out of `src/App.tsx`, but do not normalize every Pokemon link, cap, fossil, item, rule, or statistic during this migration.
+- Refactor backend access out of `../src/App.tsx`, but do not normalize every Pokemon link, cap, fossil, item, rule, or statistic during this migration.
 
 The migration is complete only when the application contains no runtime Firebase dependency, production data has been validated in Supabase, and Firebase has remained read-only through the agreed observation period.
 
@@ -29,7 +29,7 @@ The migration is complete only when the application contains no runtime Firebase
 | Realtime Database `get`, `set`, and `update` | PostgREST queries and PostgreSQL RPC calls                         | RPC for multi-table or permission-sensitive changes                |
 | Realtime Database `onValue`                  | Supabase Realtime Postgres Changes                                 | Subscribe only to list membership, active state, and user rulesets |
 | Root multi-location update                   | PostgreSQL transaction inside an RPC                               | Tracker creation, invitation, member removal, and deletion         |
-| `database.rules.json`                        | PostgreSQL grants, constraints, RLS policies, and helper functions | Deny access by default                                             |
+| `../database.rules.json`                     | PostgreSQL grants, constraints, RLS policies, and helper functions | Deny access by default                                             |
 | `userTrackers/{uid}`                         | Indexed rows in `tracker_members`                                  | No duplicated lookup tree                                          |
 | `userEmails/{emailKey}`                      | Exact-email lookup inside an owner-only RPC                        | Do not expose a user/email directory to clients                    |
 | Auth/Database emulators                      | Supabase CLI Docker stack                                          | Migrations and server-side seed data                               |
@@ -39,7 +39,7 @@ Supabase Storage and Edge Functions are not required for current feature parity.
 
 ## 3. Target database schema
 
-All schema changes must be timestamped SQL migrations under `supabase/migrations/`. Do not make untracked schema changes in local, staging, or production Studio.
+All schema changes must be timestamped SQL migrations under `migrations`. Do not make untracked schema changes in local, staging, or production Studio.
 
 ### 3.1 Extensions and private helpers
 
@@ -167,7 +167,7 @@ create table public.rulesets (
 );
 ```
 
-Only custom rulesets are stored here. Presets stay in `src/data/rulesets.ts` and cannot be edited or deleted.
+Only custom rulesets are stored here. Presets stay in `../src/data/rulesets.ts` and cannot be edited or deleted.
 
 ### 3.7 Realtime publication
 
@@ -247,10 +247,10 @@ npx supabase start
 
 Commit:
 
-- `supabase/config.toml`
-- `supabase/migrations/`
-- `supabase/seed.sql` or ordered files under `supabase/seeds/`
-- `supabase/tests/`
+- `config.toml`
+- `migrations`
+- `seed.sql` or ordered files under `supabase/seeds/`
+- `tests`
 
 Do not commit `.temp`, local database volumes, generated secrets, service-role keys, database URLs, exports, or migration reports containing email addresses.
 
@@ -272,7 +272,7 @@ Supabase applies seeds after migrations on start/reset: [Seeding your database](
 
 ### 5.2 Seed data
 
-Move the sample data from `src/services/emulatorSeed.ts` to server-side seed files. Seed:
+Move the sample data from `../src/services/emulatorSeed.ts` to server-side seed files. Seed:
 
 - `test@example.com` with password `testpassword123` in local/staging only.
 - Its Auth identity and profile.
@@ -363,7 +363,7 @@ Store exports outside Git with restricted permissions and a timestamped checksum
 
 ### 7.2 Migration tool interface
 
-Create an idempotent server-side TypeScript tool, for example `scripts/migrate-firebase-to-supabase.ts`, with this interface:
+Create an idempotent server-side TypeScript tool, for example `../scripts/migrate-firebase-to-supabase.ts`, with this interface:
 
 ```text
 --input <firebase-export.json>
@@ -375,7 +375,7 @@ Create an idempotent server-side TypeScript tool, for example `scripts/migrate-f
 
 Database credentials come from target-specific server environment variables, never command-line output or the input JSON. `--dry-run` parses, normalizes, validates, hashes, and reports without changing the target. A real import first writes protected staging tables or uses one database transaction; any error rolls back the complete import.
 
-The implemented CLI is `npm run firebase:migrate -- ...`. Its exact Auth-map format, environment variables, dry-run workflow, production confirmation gate, and validation commands are documented in [`scripts/firebase-migration/README.md`](scripts/firebase-migration/README.md). The tool uses a serializable transaction and refuses to overwrite an existing deterministic tracker when its target data differs from the migration output.
+The implemented CLI is `npm run firebase:migrate -- ...`. Its exact Auth-map format, environment variables, dry-run workflow, production confirmation gate, and validation commands are documented in [`../scripts/firebase-migration/README.md`](../scripts/firebase-migration/README.md). The tool uses a serializable transaction and refuses to overwrite an existing deterministic tracker when its target data differs from the migration output.
 
 ### 7.3 Deterministic new tracker UUIDs
 
@@ -478,7 +478,7 @@ During development, a repository-level `VITE_BACKEND=firebase|supabase` switch m
 ### 8.2 Type changes
 
 - Generate `Database` types from the local schema into a dedicated generated file.
-- Keep UI/domain types in `types.ts`.
+- Keep UI/domain types in `../types.ts`.
 - Introduce a persisted `TrackerState` type that excludes `playerNames` and `rulesetId` from `AppState`.
 - Keep `nicknamesEnabled` on `TrackerState`, not tracker metadata or the user profile.
 - Add `multiLocaleSearch` to the application profile/preferences type and map it to `profiles.multi_locale_search`.
@@ -553,12 +553,12 @@ On the first Supabase release:
 
 After the observation period:
 
-- Remove `firebase` from `package.json`.
-- Delete `src/firebaseConfig.ts` and `src/services/emulatorSeed.ts`.
+- Remove `firebase` from `../package.json`.
+- Delete `../src/firebaseConfig.ts` and `../src/services/emulatorSeed.ts`.
 - Remove all Firebase imports and the temporary Firebase repositories.
 - Remove Firebase environment variables and emulator scripts/configuration.
-- Remove `database.rules.json` and `firebase.json` after retaining them in the migration archive/history.
-- Update project documentation and `AGENTS.md` to describe Supabase paths and commands.
+- Remove `../database.rules.json` and `../firebase.json` after retaining them in the migration archive/history.
+- Update project documentation and `../AGENTS.md` to describe Supabase paths and commands.
 
 ## 9. Testing requirements
 
@@ -662,7 +662,7 @@ Do not approve production cutover unless:
 1. Deploy the maintenance build, blocking all Firebase writes and signups.
 2. Verify from multiple sessions that mutations are unavailable.
 3. Export final Firebase Auth users and password parameters.
-4. Export final Realtime Database JSON and `database.rules.json`.
+4. Export final Realtime Database JSON and `../database.rules.json`.
 5. Record checksums and store all exports securely.
 6. Run `supabase db push --db-url "$PRODUCTION_DB_URL" --dry-run`.
 7. Apply pending production migrations without seeds.

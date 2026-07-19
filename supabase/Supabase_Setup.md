@@ -171,7 +171,7 @@ sudo systemctl reload nginx
 ### Studio and verification
 
 Open `https://supabase.janlieder.de` and sign in with `DASHBOARD_USERNAME` and
-`DASHBOARD_PASSWORD` from `.env` (or from `sh run.sh secrets`).
+`DASHBOARD_PASSWORD` from `../.env` (or from `sh run.sh secrets`).
 
 Verify Auth through the reverse proxy:
 
