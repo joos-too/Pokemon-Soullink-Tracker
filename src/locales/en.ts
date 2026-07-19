@@ -378,6 +378,12 @@ export const en = {
       "Public tracker: editing is disabled unless you log in and are a member. This view is read-only.",
     guestReadOnlyNotice:
       "You were invited as a guest. You can view everything, but changes are disabled.",
+    stateConflict: {
+      title: "Tracker updated elsewhere",
+      description:
+        "Another session saved newer changes. Reload the tracker before editing again so nothing is overwritten.",
+      reload: "Reload tracker",
+    },
   },
   team: {
     teamTitle: "Team",

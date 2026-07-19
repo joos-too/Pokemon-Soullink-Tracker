@@ -379,6 +379,12 @@ export const de = {
       "Öffentlicher Tracker: Änderungen sind nur nach Anmeldung und Mitgliedschaft möglich. Dieser Modus ist schreibgeschützt.",
     guestReadOnlyNotice:
       "Du wurdest als Gast eingeladen. Du kannst alles ansehen, aber keine Änderungen vornehmen.",
+    stateConflict: {
+      title: "Tracker wurde anderswo aktualisiert",
+      description:
+        "Eine andere Sitzung hat neuere Änderungen gespeichert. Lade den Tracker neu, bevor du weiterarbeitest, damit nichts überschrieben wird.",
+      reload: "Tracker neu laden",
+    },
   },
   team: {
     teamTitle: "Team",

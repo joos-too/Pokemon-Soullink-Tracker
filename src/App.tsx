@@ -79,9 +79,18 @@ import {
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
-import { db, USE_EMULATORS } from "@/src/firebaseConfig";
-import { get, onValue, ref, set, update } from "firebase/database";
+import { USE_EMULATORS } from "@/src/firebaseConfig";
 import { seedEmulatorData } from "@/src/services/emulatorSeed";
+import {
+  getTrackerState,
+  saveTrackerState,
+  setTrackerVisibility,
+  subscribeToTrackerMeta,
+  subscribeToTrackerState,
+  subscribeToUserTrackerIds,
+  TrackerStateConflictError,
+  updateTrackerMetadata,
+} from "@/src/services/trackerRepository.ts";
 import {
   onCurrentAuthStateChange,
   signOutCurrentUser,
@@ -91,22 +100,20 @@ import {
   addMemberByEmail,
   createTracker,
   deleteTracker,
-  ensureUserProfile,
-  getDefaultDisplayName,
-  getUserGenerationSpritePreference,
-  getUserDisplayName,
-  getUserMultiLocaleSearchPreference,
-  getUserSpritesInTeamTablePreference,
-  getUserWikiPreference,
   removeMemberFromTracker,
   TrackerOperationError,
   updateRivalPreference,
-  updateUserGenerationSpritePreference,
+} from "@/src/services/trackers";
+import {
+  ensureUserProfile,
+  getDefaultDisplayName,
+  getUserProfilePreferences,
   updateUserDisplayName,
+  updateUserGenerationSpritePreference,
   updateUserMultiLocaleSearchPreference,
   updateUserSpritesInTeamTablePreference,
   updateUserWikiPreference,
-} from "@/src/services/trackers";
+} from "@/src/services/profileRepository.ts";
 import { GAME_VERSIONS } from "@/src/data/game-versions";
 import {
   DEFAULT_RULES,
@@ -288,6 +295,7 @@ const App: React.FC = () => {
   }, [searchParams, setSearchParams]);
   const [showResetModal, setShowResetModal] = useState(false);
   const [dataLoaded, setDataLoaded] = useState(false);
+  const [stateConflict, setStateConflict] = useState(false);
   const skipNextWriteRef = useRef(false);
   const pendingWriteRef = useRef<Promise<void>>(Promise.resolve());
   const isHydratingRef = useRef(true);
@@ -606,8 +614,7 @@ const App: React.FC = () => {
   const handleDisplayNameChange = useCallback(
     async (displayName: string) => {
       if (!user) return;
-      await updateUserDisplayName(user.uid, displayName);
-      setUserDisplayName(displayName.trim());
+      setUserDisplayName(await updateUserDisplayName(user.uid, displayName));
     },
     [user],
   );
@@ -817,6 +824,20 @@ const App: React.FC = () => {
     [activeGameVersion],
   );
 
+  const handleReloadAfterStateConflict = useCallback(async () => {
+    if (!activeTrackerId) return;
+    try {
+      const remoteState = await getTrackerState(activeTrackerId);
+      if (remoteState) {
+        skipNextWriteRef.current = true;
+        setData((previous) => coerceAppState(remoteState, previous));
+      }
+      setStateConflict(false);
+    } catch (error) {
+      console.error("Failed to reload tracker after state conflict", error);
+    }
+  }, [activeTrackerId, coerceAppState]);
+
   useEffect(() => {
     const unsubscribe = onCurrentAuthStateChange((user) => {
       setUser(user);
@@ -871,23 +892,14 @@ const App: React.FC = () => {
   useEffect(() => {
     if (!user) return;
     ensureUserProfile(user).catch(() => {});
-    // Load user's sprite preferences
-    Promise.all([
-      getUserGenerationSpritePreference(user.uid),
-      getUserSpritesInTeamTablePreference(user.uid),
-      getUserWikiPreference(user.uid),
-      getUserMultiLocaleSearchPreference(user.uid),
-      getUserDisplayName(user.uid, user.email),
-    ])
-      .then(
-        ([genSprites, teamTableSprites, wikiId, multiLocale, displayName]) => {
-          setUserUseGenerationSprites(genSprites);
-          setUserUseSpritesInTeamTable(teamTableSprites);
-          setUserWikiId(wikiId);
-          setUserMultiLocaleSearch(multiLocale);
-          setUserDisplayName(displayName);
-        },
-      )
+    getUserProfilePreferences(user.uid, user.email)
+      .then((preferences) => {
+        setUserUseGenerationSprites(preferences.useGenerationSprites);
+        setUserUseSpritesInTeamTable(preferences.useSpritesInTeamTable);
+        setUserWikiId(preferences.wikiId);
+        setUserMultiLocaleSearch(preferences.multiLocaleSearch);
+        setUserDisplayName(preferences.displayName);
+      })
       .catch(() => {
         setUserUseGenerationSprites(false);
         setUserUseSpritesInTeamTable(false);
@@ -939,11 +951,9 @@ const App: React.FC = () => {
     }
 
     setUserTrackersLoading(true);
-    const userTrackersRef = ref(db, `userTrackers/${user.uid}`);
-    const unsubscribe = onValue(
-      userTrackersRef,
-      (snapshot) => {
-        const ids = snapshot.exists() ? Object.keys(snapshot.val()) : [];
+    const unsubscribe = subscribeToUserTrackerIds(
+      user.uid,
+      (ids) => {
         setUserTrackerIds(ids);
         setUserTrackersLoading(false);
       },
@@ -974,11 +984,9 @@ const App: React.FC = () => {
 
     userTrackerIds.forEach((trackerId) => {
       if (listeners.has(trackerId)) return;
-      const metaRef = ref(db, `trackers/${trackerId}/meta`);
-      const unsubscribe = onValue(
-        metaRef,
-        (snapshot) => {
-          const meta = snapshot.val();
+      const unsubscribe = subscribeToTrackerMeta(
+        trackerId,
+        (meta) => {
           setTrackerMetas((prev) => {
             const next = { ...prev };
             if (meta) {
@@ -1031,11 +1039,9 @@ const App: React.FC = () => {
 
     userTrackerIds.forEach((trackerId) => {
       if (listeners.has(trackerId)) return;
-      const stateRef = ref(db, `trackers/${trackerId}/state`);
-      const unsubscribe = onValue(
-        stateRef,
-        (snapshot) => {
-          const stateValue = snapshot.val();
+      const unsubscribe = subscribeToTrackerState(
+        trackerId,
+        (stateValue) => {
           setTrackerSummaries((prev) => ({
             ...prev,
             [trackerId]: computeTrackerSummary(stateValue),
@@ -1075,11 +1081,9 @@ const App: React.FC = () => {
     }
 
     setPublicTrackerLoading(true);
-    const metaRef = ref(db, `trackers/${routeTrackerId}/meta`);
-    const unsubscribe = onValue(
-      metaRef,
-      (snapshot) => {
-        const meta = snapshot.val();
+    const unsubscribe = subscribeToTrackerMeta(
+      routeTrackerId,
+      (meta) => {
         if (meta && meta.isPublic) {
           setTrackerMetas((prev) => ({
             ...prev,
@@ -1237,7 +1241,6 @@ const App: React.FC = () => {
       return;
     }
 
-    const dbRef = ref(db, `trackers/${activeTrackerId}/state`);
     let unsub: (() => void) | undefined;
     let cancelled = false;
     let initialSnapshotApplied = false;
@@ -1251,9 +1254,8 @@ const App: React.FC = () => {
 
     (async () => {
       try {
-        const snapshot = await get(dbRef);
+        const dbData = await getTrackerState(activeTrackerId);
         if (cancelled) return;
-        const dbData = snapshot.val();
         if (dbData) {
           skipNextWriteRef.current = true;
           setData((prev) => coerceAppState(dbData, prev));
@@ -1266,10 +1268,9 @@ const App: React.FC = () => {
         setData(createInitialState(gameVersionId));
       } finally {
         if (!cancelled) {
-          unsub = onValue(
-            dbRef,
-            (snap) => {
-              const liveData = snap.val();
+          unsub = subscribeToTrackerState(
+            activeTrackerId,
+            (liveData) => {
               if (liveData) {
                 skipNextWriteRef.current = true;
                 setData((prev) => coerceAppState(liveData, prev));
@@ -1301,7 +1302,13 @@ const App: React.FC = () => {
   ]);
 
   useEffect(() => {
-    if (!user || !dataLoaded || !activeTrackerId || isHydratingRef.current)
+    if (
+      !user ||
+      !dataLoaded ||
+      !activeTrackerId ||
+      isHydratingRef.current ||
+      stateConflict
+    )
       return;
 
     if (skipNextWriteRef.current) {
@@ -1310,16 +1317,20 @@ const App: React.FC = () => {
       return;
     }
 
-    const dbRef = ref(db, `trackers/${activeTrackerId}/state`);
     pendingWriteRef.current = pendingWriteRef.current
-      .then(() => set(dbRef, data))
+      .then(() => saveTrackerState(activeTrackerId, data))
       .catch((error) => {
+        if (error instanceof TrackerStateConflictError) {
+          setStateConflict(true);
+          return;
+        }
         console.error("Tracker state write failed", error);
       });
-  }, [data, user, dataLoaded, activeTrackerId]);
+  }, [data, user, dataLoaded, activeTrackerId, stateConflict]);
 
   useEffect(() => {
     pendingWriteRef.current = Promise.resolve();
+    setStateConflict(false);
   }, [activeTrackerId, user]);
 
   const handleReset = () => {
@@ -1821,7 +1832,7 @@ const App: React.FC = () => {
           },
         };
       });
-      update(ref(db, `trackers/${activeTrackerId}/meta`), {
+      updateTrackerMetadata(activeTrackerId, {
         playerNames: names,
       }).catch(() => {});
     },
@@ -1851,7 +1862,7 @@ const App: React.FC = () => {
         },
       };
     });
-    update(ref(db, `trackers/${activeTrackerId}/meta`), { title });
+    updateTrackerMetadata(activeTrackerId, { title });
   };
 
   const handleLegendaryTrackerToggle = (enabled: boolean) => {
@@ -2088,7 +2099,7 @@ const App: React.FC = () => {
             },
           };
         });
-        update(ref(db, `trackers/${activeTrackerId}/meta`), {
+        updateTrackerMetadata(activeTrackerId, {
           rulesetId: resolvedId,
         });
       }
@@ -2146,7 +2157,7 @@ const App: React.FC = () => {
         },
       };
     });
-    update(ref(db, `trackers/${activeTrackerId}/meta`), { isPublic: enabled });
+    setTrackerVisibility(activeTrackerId, enabled);
   };
 
   const handleAllPokemonAndItemsToggle = (enabled: boolean) => {
@@ -2162,7 +2173,7 @@ const App: React.FC = () => {
         },
       };
     });
-    update(ref(db, `trackers/${activeTrackerId}/meta`), {
+    updateTrackerMetadata(activeTrackerId, {
       allPokemonAndItems: enabled,
     });
   };
@@ -3091,6 +3102,26 @@ const App: React.FC = () => {
 
   return (
     <MultiLocaleSearchContext.Provider value={userMultiLocaleSearch}>
+      {stateConflict && (
+        <div
+          role="alert"
+          className="fixed inset-x-4 top-4 z-[100] mx-auto max-w-lg rounded-lg border border-amber-300 bg-amber-50 p-4 shadow-lg dark:border-amber-700 dark:bg-amber-950"
+        >
+          <p className="font-semibold text-amber-900 dark:text-amber-100">
+            {t("app.stateConflict.title")}
+          </p>
+          <p className="mt-1 text-sm text-amber-800 dark:text-amber-200">
+            {t("app.stateConflict.description")}
+          </p>
+          <button
+            type="button"
+            onClick={() => void handleReloadAfterStateConflict()}
+            className={`mt-3 rounded-md bg-amber-700 px-3 py-2 text-sm font-semibold text-white hover:bg-amber-800 ${focusRingClasses}`}
+          >
+            {t("app.stateConflict.reload")}
+          </button>
+        </div>
+      )}
       <CreateTrackerModal
         isOpen={showCreateModal}
         onClose={() => {

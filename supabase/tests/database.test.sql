@@ -3,7 +3,7 @@ begin;
 create extension if not exists pgtap with schema extensions;
 set search_path = public, extensions;
 
-select plan(35);
+select plan(36);
 
 select has_table('public', 'profiles', 'profiles table exists');
 select has_table('public', 'trackers', 'trackers table exists');
@@ -245,6 +245,15 @@ select is(
   ),
   false,
   'clients have no direct update grant for public visibility'
+);
+select ok(
+  has_column_privilege(
+    'authenticated',
+    'public.profiles',
+    'display_name',
+    'update'
+  ),
+  'users can update their own display name'
 );
 
 reset role;

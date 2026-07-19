@@ -82,6 +82,7 @@ grant select on public.profiles, public.trackers, public.tracker_members,
   public.tracker_states, public.rulesets to authenticated;
 grant update (
   last_login_at,
+  display_name,
   use_generation_sprites,
   use_sprites_in_team_table,
   wiki_id,
@@ -97,4 +98,3 @@ revoke all on all functions in schema private from public;
 grant execute on function private.is_tracker_reader(uuid, uuid) to anon, authenticated;
 grant execute on function private.is_tracker_writer(uuid, uuid) to authenticated;
 grant execute on function private.is_tracker_owner(uuid, uuid) to authenticated;
-
