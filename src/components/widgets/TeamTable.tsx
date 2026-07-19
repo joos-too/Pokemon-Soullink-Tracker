@@ -489,6 +489,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
         gameVersionId={gameVersionId}
         generationSpritePath={generationSpritePath}
         useSpritesEverywhere={useSpritesInTeamTable}
+        nicknamesEnabled={nicknamesEnabled}
       />
       <EditPairModal
         isOpen={!readOnly && addOpen}

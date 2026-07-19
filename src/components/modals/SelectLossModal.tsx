@@ -16,6 +16,7 @@ interface SelectLossModalProps {
   pair: PokemonLink | null;
   playerNames: string[];
   generationSpritePath: string;
+  nicknamesEnabled?: boolean;
 }
 
 const SelectLossModal: React.FC<SelectLossModalProps> = ({
@@ -25,6 +26,7 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({
   pair,
   playerNames,
   generationSpritePath,
+  nicknamesEnabled = true,
 }) => {
   const [selected, setSelected] = useState<number | null>(null);
   const { t, i18n } = useTranslation();
@@ -129,7 +131,9 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({
                           )}
                           <span>
                             {displayName || "-"}
-                            {member.nickname ? ` (${member.nickname})` : ""}
+                            {nicknamesEnabled && member.nickname
+                              ? ` (${member.nickname})`
+                              : ""}
                           </span>
                         </div>
                       </div>
@@ -176,7 +180,9 @@ const SelectLossModal: React.FC<SelectLossModalProps> = ({
                           )}
                           <span>
                             {displayName || "-"}
-                            {member.nickname ? ` (${member.nickname})` : ""}
+                            {nicknamesEnabled && member.nickname
+                              ? ` (${member.nickname})`
+                              : ""}
                           </span>
                         </div>
                       </label>

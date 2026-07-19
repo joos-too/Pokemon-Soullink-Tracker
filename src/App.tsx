@@ -2626,6 +2626,7 @@ const App: React.FC = () => {
         pair={pendingLossPair}
         playerNames={resolvedPlayerNames}
         generationSpritePath={generationSpritePath}
+        nicknamesEnabled={data.nicknamesEnabled ?? true}
       />
       <DeleteLinkModal
         isOpen={!isReadOnly && showDeleteLinkModal}
@@ -2637,6 +2638,7 @@ const App: React.FC = () => {
         pair={pendingDeletePair}
         generationSpritePath={generationSpritePath}
         playerNames={resolvedPlayerNames}
+        nicknamesEnabled={data.nicknamesEnabled ?? true}
       />
       <ResetModal
         isOpen={!isReadOnly && showResetModal}

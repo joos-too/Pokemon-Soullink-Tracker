@@ -16,6 +16,7 @@ interface DeleteLinkModalProps {
   pair: PokemonLink | null;
   playerNames: string[];
   generationSpritePath: string;
+  nicknamesEnabled?: boolean;
 }
 
 const DeleteLinkModal: React.FC<DeleteLinkModalProps> = ({
@@ -25,6 +26,7 @@ const DeleteLinkModal: React.FC<DeleteLinkModalProps> = ({
   pair,
   playerNames,
   generationSpritePath,
+  nicknamesEnabled = true,
 }) => {
   const { t, i18n } = useTranslation();
   const locale = normalizeLanguage(i18n.language);
@@ -112,7 +114,9 @@ const DeleteLinkModal: React.FC<DeleteLinkModalProps> = ({
                     )}
                     <span>
                       {displayName || "-"}
-                      {member.nickname ? ` (${member.nickname})` : ""}
+                      {nicknamesEnabled && member.nickname
+                        ? ` (${member.nickname})`
+                        : ""}
                     </span>
                   </div>
                 </div>
