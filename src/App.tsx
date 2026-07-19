@@ -60,6 +60,7 @@ import UserSettingsPage from "@/src/components/pages/UserSettingsPage.tsx";
 import PasswordResetPage from "@/src/components/pages/PasswordResetPage.tsx";
 import ResetModal from "@/src/components/modals/ResetModal.tsx";
 import EditPairModal from "@/src/components/modals/EditPairModal.tsx";
+import { MultiLocaleSearchContext } from "@/src/hooks/useMultiLocaleSearch.ts";
 import DarkModeToggle, {
   getDarkMode,
   setDarkMode,
@@ -88,12 +89,14 @@ import {
   deleteTracker,
   ensureUserProfile,
   getUserGenerationSpritePreference,
+  getUserMultiLocaleSearchPreference,
   getUserSpritesInTeamTablePreference,
   getUserWikiPreference,
   removeMemberFromTracker,
   TrackerOperationError,
   updateRivalPreference,
   updateUserGenerationSpritePreference,
+  updateUserMultiLocaleSearchPreference,
   updateUserSpritesInTeamTablePreference,
   updateUserWikiPreference,
 } from "@/src/services/trackers";
@@ -131,6 +134,11 @@ const resolveGenerationFromVersionId = (versionId?: string | null): number => {
   const parsed = Number(match[1]);
   if (!Number.isFinite(parsed) || parsed <= 0) return MAX_SUPPORTED_GENERATION;
   return parsed;
+};
+
+const normalizePokemonId = (id: unknown): number | null => {
+  const parsed = Number(id);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : null;
 };
 
 const normalizeTrackerMeta = (
@@ -232,6 +240,7 @@ const App: React.FC = () => {
   const [userUseSpritesInTeamTable, setUserUseSpritesInTeamTable] =
     useState(false);
   const [userWikiId, setUserWikiId] = useState<string | null>(null);
+  const [userMultiLocaleSearch, setUserMultiLocaleSearch] = useState(false);
   const showSettings = searchParams.get("panel") === "settings";
   const openSettingsPanel = useCallback(() => {
     const next = new URLSearchParams(searchParams);
@@ -544,6 +553,22 @@ const App: React.FC = () => {
     [user],
   );
 
+  const handleMultiLocaleSearchToggle = useCallback(
+    async (enabled: boolean) => {
+      if (!user) return;
+      try {
+        await updateUserMultiLocaleSearchPreference(user.uid, enabled);
+        setUserMultiLocaleSearch(enabled);
+      } catch (error) {
+        console.error(
+          "Failed to update multi-locale search preference:",
+          error,
+        );
+      }
+    },
+    [user],
+  );
+
   const effectiveWikiId: WikiId =
     (userWikiId as WikiId | null) ??
     ((i18n.resolvedLanguage || i18n.language || "")
@@ -593,7 +618,7 @@ const App: React.FC = () => {
       const playerCount = normalizedNames.length;
 
       const sanitizePokemon = (pokemon: any): Pokemon => ({
-        id: pokemon.id,
+        id: normalizePokemonId(pokemon?.id),
         nickname: typeof pokemon?.nickname === "string" ? pokemon.nickname : "",
         ...(typeof pokemon?.name === "string" && pokemon.name.trim().length > 0
           ? { name: pokemon.name.trim() }
@@ -640,16 +665,18 @@ const App: React.FC = () => {
           const list = Array.isArray(playerFossils) ? playerFossils[i] : null;
           if (!Array.isArray(list)) return [];
           return list.map((f: any) => {
+            const locationText =
+              typeof f.location === "string" && f.location.trim().length > 0
+                ? f.location.trim()
+                : "";
             return {
               fossilId: f.fossilId || "",
-              location: f.location || "",
-              locationSlug: f.locationSlug,
+              ...(locationText ? { location: locationText } : {}),
+              locationSlug:
+                typeof f.locationSlug === "string" ? f.locationSlug : null,
               inBag: !!f.inBag,
               revived: !!f.revived,
-              pokemonId:
-                Number.isFinite(Number(f.pokemonId)) && Number(f.pokemonId) > 0
-                  ? Number(f.pokemonId)
-                  : null,
+              pokemonId: normalizePokemonId(f.pokemonId),
               ...(typeof f.pokemonName === "string" &&
               f.pokemonName.trim().length > 0
                 ? { pokemonName: f.pokemonName.trim() }
@@ -673,8 +700,11 @@ const App: React.FC = () => {
               ...(typeof s.name === "string" && s.name.trim().length > 0
                 ? { name: s.name.trim() }
                 : {}),
-              location: s.location,
-              locationSlug: s.locationSlug,
+              ...(typeof s.location === "string" && s.location.trim().length > 0
+                ? { location: s.location.trim() }
+                : {}),
+              locationSlug:
+                typeof s.locationSlug === "string" ? s.locationSlug : null,
               inBag: !!s.inBag,
               used: !!s.used,
             };
@@ -725,6 +755,8 @@ const App: React.FC = () => {
               : "on"),
         hardcoreModeEnabled:
           safe.hardcoreModeEnabled ?? base.hardcoreModeEnabled ?? true,
+        nicknamesEnabled:
+          safe.nicknamesEnabled ?? base.nicknamesEnabled ?? true,
         infiniteFossilsEnabled:
           safe.infiniteFossilsEnabled ?? base.infiniteFossilsEnabled ?? false,
         megaStoneSpriteStyle:
@@ -801,16 +833,19 @@ const App: React.FC = () => {
       getUserGenerationSpritePreference(user.uid),
       getUserSpritesInTeamTablePreference(user.uid),
       getUserWikiPreference(user.uid),
+      getUserMultiLocaleSearchPreference(user.uid),
     ])
-      .then(([genSprites, teamTableSprites, wikiId]) => {
+      .then(([genSprites, teamTableSprites, wikiId, multiLocale]) => {
         setUserUseGenerationSprites(genSprites);
         setUserUseSpritesInTeamTable(teamTableSprites);
         setUserWikiId(wikiId);
+        setUserMultiLocaleSearch(multiLocale);
       })
       .catch(() => {
         setUserUseGenerationSprites(false);
         setUserUseSpritesInTeamTable(false);
         setUserWikiId(null);
+        setUserMultiLocaleSearch(false);
       });
   }, [user]);
 
@@ -1285,6 +1320,7 @@ const App: React.FC = () => {
         rivalCensorEnabled: prev.rivalCensorEnabled,
         rivalCensorMode: prev.rivalCensorMode,
         hardcoreModeEnabled: prev.hardcoreModeEnabled,
+        nicknamesEnabled: prev.nicknamesEnabled,
         infiniteFossilsEnabled: prev.infiniteFossilsEnabled,
         megaStoneSpriteStyle: prev.megaStoneSpriteStyle,
         stats: {
@@ -1637,7 +1673,7 @@ const App: React.FC = () => {
       location: payload.location?.trim() || "",
       locationSlug: payload.locationSlug,
       members: payload.members.map((member) => ({
-        id: member.id,
+        id: normalizePokemonId(member.id),
         ...(member.name?.trim() ? { name: member.name.trim() } : {}),
         nickname: "",
       })),
@@ -1658,7 +1694,7 @@ const App: React.FC = () => {
         if (pair.id !== pairId) return pair;
         const isLost = pair.isLost ?? false;
         const members = payload.members.map((member) => ({
-          id: member.id,
+          id: normalizePokemonId(member.id),
           ...(member.name?.trim() ? { name: member.name.trim() } : {}),
           nickname: isLost ? "" : member.nickname.trim(),
         }));
@@ -1691,7 +1727,7 @@ const App: React.FC = () => {
             location: payload.location?.trim() || "",
             locationSlug: payload.locationSlug,
             members: payload.members.map((member) => ({
-              id: member.id,
+              id: normalizePokemonId(member.id),
               ...(member.name?.trim() ? { name: member.name.trim() } : {}),
               nickname: member.nickname.trim(),
             })),
@@ -1712,7 +1748,7 @@ const App: React.FC = () => {
           location: payload.location?.trim() || "",
           locationSlug: payload.locationSlug,
           members: payload.members.map((member) => ({
-            id: member.id,
+            id: normalizePokemonId(member.id),
             ...(member.name?.trim() ? { name: member.name.trim() } : {}),
             nickname: member.nickname.trim(),
           })),
@@ -1787,6 +1823,11 @@ const App: React.FC = () => {
     setData((prev) => ({ ...prev, hardcoreModeEnabled: enabled }));
   };
 
+  const handleNicknamesToggle = (enabled: boolean) => {
+    if (isReadOnly) return;
+    setData((prev) => ({ ...prev, nicknamesEnabled: enabled }));
+  };
+
   const handleInfiniteFossilsToggle = (enabled: boolean) => {
     if (isReadOnly) return;
     setData((prev) => ({ ...prev, infiniteFossilsEnabled: enabled }));
@@ -1817,8 +1858,8 @@ const App: React.FC = () => {
         ...playerList,
         {
           fossilId,
-          location,
-          ...(locationSlug ? { locationSlug } : {}),
+          ...(location.trim() ? { location: location.trim() } : {}),
+          locationSlug: locationSlug ?? null,
           inBag,
           revived: false,
         },
@@ -1835,8 +1876,8 @@ const App: React.FC = () => {
       newFossils[pIdx] = newFossils[pIdx].map((f, i) =>
         i === fIdx
           ? (() => {
-              const next = { ...f, inBag: true, location: "" };
-              delete next.locationSlug;
+              const next = { ...f, inBag: true, locationSlug: null };
+              delete next.location;
               return next;
             })()
           : f,
@@ -1917,8 +1958,8 @@ const App: React.FC = () => {
         {
           ...(itemId ? { id: itemId } : {}),
           ...(name?.trim() ? { name: name.trim() } : {}),
-          location,
-          ...(locationSlug ? { locationSlug } : {}),
+          ...(location.trim() ? { location: location.trim() } : {}),
+          locationSlug: locationSlug ?? null,
           inBag,
           used: false,
         },
@@ -1935,8 +1976,8 @@ const App: React.FC = () => {
       newItems[pIdx] = newItems[pIdx].map((s, i) =>
         i === sIdx
           ? (() => {
-              const next = { ...s, inBag: true, location: "" };
-              delete next.locationSlug;
+              const next = { ...s, inBag: true, locationSlug: null };
+              delete next.location;
               return next;
             })()
           : s,
@@ -2555,6 +2596,8 @@ const App: React.FC = () => {
       onRivalCensorModeChange={handleRivalCensorToggle}
       hardcoreModeEnabled={data.hardcoreModeEnabled ?? true}
       onHardcoreModeToggle={handleHardcoreModeToggle}
+      nicknamesEnabled={data.nicknamesEnabled ?? true}
+      onNicknamesToggle={handleNicknamesToggle}
       infiniteFossilsEnabled={data.infiniteFossilsEnabled ?? false}
       onInfiniteFossilsToggle={handleInfiniteFossilsToggle}
       allPokemonAndItems={activeTrackerAllPokemonAndItems}
@@ -2606,6 +2649,7 @@ const App: React.FC = () => {
         pair={pendingLossPair}
         playerNames={resolvedPlayerNames}
         generationSpritePath={generationSpritePath}
+        nicknamesEnabled={data.nicknamesEnabled ?? true}
       />
       <DeleteLinkModal
         isOpen={!isReadOnly && showDeleteLinkModal}
@@ -2617,6 +2661,7 @@ const App: React.FC = () => {
         pair={pendingDeletePair}
         generationSpritePath={generationSpritePath}
         playerNames={resolvedPlayerNames}
+        nicknamesEnabled={data.nicknamesEnabled ?? true}
       />
       <ResetModal
         isOpen={!isReadOnly && showResetModal}
@@ -2827,6 +2872,7 @@ const App: React.FC = () => {
               badLinkIds={hiddenLinkIds}
               onToggleBadLink={isReadOnly ? undefined : toggleHiddenLink}
               filtersExpanded={boxFiltersExpanded}
+              nicknamesEnabled={data.nicknamesEnabled ?? true}
             />
             <TeamTable
               title={t("team.boxTitle")}
@@ -2861,6 +2907,7 @@ const App: React.FC = () => {
               badLinkIds={hiddenLinkIds}
               onToggleBadLink={isReadOnly ? undefined : toggleHiddenLink}
               filtersExpanded={boxFiltersExpanded}
+              nicknamesEnabled={data.nicknamesEnabled ?? true}
               filterBar={
                 <BoxFilters
                   playerNames={resolvedPlayerNames}
@@ -2943,6 +2990,7 @@ const App: React.FC = () => {
               pokemonGenerationLimit={pokemonGenerationLimit}
               gameVersionId={activeGameVersionId || undefined}
               wikiId={effectiveWikiId}
+              nicknamesEnabled={data.nicknamesEnabled ?? true}
             />
             <ClearedLocations locations={clearedLocations} />
           </div>
@@ -2971,7 +3019,9 @@ const App: React.FC = () => {
         }}
         onSave={(payload) => {
           handleAddBoxPair(payload);
-          const pokemonIds = payload.members.map((m) => m.id);
+          const pokemonIds = payload.members.map((m) =>
+            normalizePokemonId(m.id),
+          );
           const pokemonNames = payload.members.map((m) => m.name ?? "");
           confirmRevival(pokemonIds, pokemonNames);
           setAddRevivedPokemonOpen(false);
@@ -2985,12 +3035,13 @@ const App: React.FC = () => {
         generationLimit={pokemonGenerationLimit}
         gameVersionId={activeGameVersionId || undefined}
         generationSpritePath={generationSpritePath}
+        nicknamesEnabled={data.nicknamesEnabled ?? true}
       />
     </div>
   );
 
   return (
-    <>
+    <MultiLocaleSearchContext.Provider value={userMultiLocaleSearch}>
       <CreateTrackerModal
         isOpen={showCreateModal}
         onClose={() => {
@@ -3085,6 +3136,8 @@ const App: React.FC = () => {
                 onSpritesInTeamTableToggle={handleSpritesInTeamTableToggle}
                 wikiId={userWikiId ?? effectiveWikiId}
                 onWikiChange={handleWikiChange}
+                multiLocaleSearch={userMultiLocaleSearch}
+                onMultiLocaleSearchToggle={handleMultiLocaleSearchToggle}
               />
             ) : (
               <Navigate to="/" replace />
@@ -3093,7 +3146,7 @@ const App: React.FC = () => {
         />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-    </>
+    </MultiLocaleSearchContext.Provider>
   );
 };
 

@@ -4,6 +4,7 @@ import { SUPPORTED_LANGUAGES, SupportedLanguage } from "@/src/utils/language";
 interface SearchOptions {
   maxGeneration?: number;
   locale?: SupportedLanguage;
+  multiLocaleSearch?: boolean;
 }
 
 type PokemonNameEntry = {
@@ -72,6 +73,11 @@ SUPPORTED_LANGUAGES.forEach((locale) => {
   });
 });
 
+const LOCALE_NAME_TO_ID: Record<SupportedLanguage, Record<string, number>> = {
+  de: Object.fromEntries(NAME_LISTS.de.map(({ lower, id }) => [lower, id])),
+  en: Object.fromEntries(NAME_LISTS.en.map(({ lower, id }) => [lower, id])),
+};
+
 export async function searchPokemonNames(
   query: string,
   max = 10,
@@ -79,17 +85,45 @@ export async function searchPokemonNames(
 ): Promise<string[]> {
   const q = query.trim().toLowerCase();
   if (q.length < 2) return [];
-  const { maxGeneration, locale = "de" } = options;
+  const { maxGeneration, locale = "de", multiLocaleSearch = false } = options;
   const list = NAME_LISTS[locale] || NAME_LISTS.de;
-  return list
-    .filter(
-      (entry) =>
+
+  const genFilter = (generation: number) =>
+    typeof maxGeneration !== "number" || generation <= maxGeneration;
+
+  const localMatches = list.filter(
+    (entry) => entry.lower.includes(q) && genFilter(entry.generation),
+  );
+  const localResults = localMatches.slice(0, max).map((entry) => entry.name);
+
+  if (!multiLocaleSearch || localResults.length >= max) {
+    return localResults;
+  }
+
+  // Cross-locale: find matching IDs from other locales, return current-locale names
+  const localIds = new Set(localMatches.map((entry) => entry.id));
+
+  const crossLocaleIds = new Set<number>();
+  SUPPORTED_LANGUAGES.forEach((lang) => {
+    if (lang === locale) return;
+    (NAME_LISTS[lang] || []).forEach((entry) => {
+      if (
         entry.lower.includes(q) &&
-        (typeof maxGeneration !== "number" ||
-          entry.generation <= maxGeneration),
-    )
-    .slice(0, max)
-    .map((entry) => entry.name);
+        genFilter(entry.generation) &&
+        !localIds.has(entry.id)
+      ) {
+        crossLocaleIds.add(entry.id);
+      }
+    });
+  });
+
+  const idToName = ID_TO_NAME[locale] || ID_TO_NAME.de;
+  const crossResults = Array.from(crossLocaleIds)
+    .map((id) => idToName[id])
+    .filter(Boolean)
+    .sort((a, b) => a.localeCompare(b, locale));
+
+  return [...localResults, ...crossResults].slice(0, max);
 }
 
 function collectPokemonFamilyIds(id: number): Set<number> {
@@ -121,8 +155,12 @@ export function getPokemonFamilyIdsMatchingQuery(
   const q = query.trim().toLowerCase();
   if (!q) return new Set<number>();
 
-  const { maxGeneration } = options;
-  return ALL_NAME_ENTRIES.reduce<Set<number>>((acc, entry) => {
+  const { maxGeneration, locale, multiLocaleSearch = true } = options;
+  const entries =
+    !multiLocaleSearch && locale
+      ? NAME_LISTS[locale] || NAME_LISTS.de
+      : ALL_NAME_ENTRIES;
+  return entries.reduce<Set<number>>((acc, entry) => {
     if (!entry.lower.includes(q)) return acc;
     if (typeof maxGeneration === "number" && entry.generation > maxGeneration) {
       return acc;
@@ -134,10 +172,16 @@ export function getPokemonFamilyIdsMatchingQuery(
 
 export function findPokemonIdByName(
   name: string | undefined | null,
+  locale?: SupportedLanguage,
 ): PokemonNameMatch | null {
   if (!name) return null;
   const key = name.trim().toLowerCase();
   if (!key) return null;
+  if (locale) {
+    const id = LOCALE_NAME_TO_ID[locale]?.[key];
+    if (typeof id === "number") return { id, language: locale };
+    return null;
+  }
   return MERGED_NAME_TO_ID[key] || null;
 }
 

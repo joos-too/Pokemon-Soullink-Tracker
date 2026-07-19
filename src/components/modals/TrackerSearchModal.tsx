@@ -19,6 +19,7 @@ import {
   resolvePokemonLocationDisplay,
 } from "@/src/services/locationSearch";
 import { normalizeLanguage } from "@/src/utils/language";
+import { useMultiLocaleSearch } from "@/src/hooks/useMultiLocaleSearch.ts";
 
 type SearchMode = "pokemon" | "items";
 type PokemonSectionKey = "team" | "box" | "graveyard";
@@ -79,6 +80,7 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
   const [mode, setMode] = useState<SearchMode>("pokemon");
   const [query, setQuery] = useState("");
   const locale = normalizeLanguage(i18n.language);
+  const multiLocaleSearch = useMultiLocaleSearch();
 
   useEffect(() => {
     if (!isOpen) return;
@@ -95,9 +97,12 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
   const matchingFamilyIds = useMemo(
     () =>
       normalizedQuery
-        ? getPokemonFamilyIdsMatchingQuery(normalizedQuery)
+        ? getPokemonFamilyIdsMatchingQuery(normalizedQuery, {
+            locale,
+            multiLocaleSearch,
+          })
         : new Set<number>(),
-    [normalizedQuery],
+    [normalizedQuery, locale, multiLocaleSearch],
   );
 
   const matchesPokemonQuery = (pair: PokemonLink) => {
@@ -113,6 +118,7 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
       locationMatchesQuery(locationLabel, normalizedQuery, {
         locale,
         gameVersionId,
+        multiLocaleSearch,
       })
     ) {
       return true;
@@ -159,6 +165,7 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
     gameVersionId,
     graveyard,
     locale,
+    multiLocaleSearch,
     team,
     t,
     matchingFamilyIds,
@@ -274,13 +281,14 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
             locationMatchesQuery(item.location, normalizedQuery, {
               locale,
               gameVersionId,
+              multiLocaleSearch,
             })
           );
         });
         return { key, title: t(titleKey), items };
       })
       .filter((section) => section.items.length > 0);
-  }, [allItems, gameVersionId, locale, normalizedQuery, t]);
+  }, [allItems, gameVersionId, locale, multiLocaleSearch, normalizedQuery, t]);
 
   const hasPokemonResults = pokemonSections.length > 0;
   const hasItemResults = itemSections.length > 0;

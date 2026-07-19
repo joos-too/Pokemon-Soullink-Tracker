@@ -492,6 +492,9 @@ export const de = {
     },
     sections: {
       options: "Tracker Optionen",
+      gameplay: "Gameplay",
+      general: "Allgemein",
+      configuration: "Tracker-Konfiguration",
       variableRivals: "Rivalen-Auswahl",
       variableRivalsDescription:
         "Wähle deinen Antagonisten für die korrekte Darstellung in den Rivalenkämpfen aus.",
@@ -502,6 +505,14 @@ export const de = {
         tooltipLabel: "Info Hardcore Modus",
         tooltip: `Standardmäßig orientiert sich die Level-Cap am höchsten Pokémon eines Trainers, im Hardcore Modus wird jedoch eine weitere Level-Cap hinzugefügt, welche sich am zweithöchsten Pokémon eines Trainers orientiert.\n\nEs darf nun lediglich ein Pokémon bis zur oberen Level-Cap gelevelt werden, der Rest des Teams darf die untere Level-Cap nicht überschreiten.`,
         description: "Erhöht die Schwierigkeit durch striktere Level-Caps.",
+      },
+      nicknames: {
+        title: "Spitznamen deaktivieren",
+        tooltipLabel: "Info Spitznamen",
+        tooltip:
+          "Wenn aktiviert, werden Spitznamen ausgeblendet und deaktiviert. Nützlich, wenn man ohne Spitznamen spielen möchte.",
+        description:
+          "Spitznamen beim Hinzufügen und Anzeigen von Pokémon überspringen.",
       },
       rivalCensor: {
         title: "Rivalenkämpfe zensieren",
@@ -636,6 +647,12 @@ export const de = {
       title: "Sprache",
       description:
         "Hier kannst du die Sprache der Benutzeroberfläche wechseln.",
+      multiLocaleSearch: {
+        title: "Mehrsprachige Suche",
+        description: "Erlaubt die Suche und Anzeige in verschiedenen Sprachen.",
+        tooltip:
+          "Wenn man irgendwo in Trackern, über Suchfelder nach Pokémon oder Items sucht, kann man auch nach Namen aus anderen Sprachen, als der ausgewählten suchen.",
+      },
     },
     sprites: {
       title: "Sprite-Anzeige",

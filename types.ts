@@ -57,8 +57,8 @@ export interface RivalCap {
 
 export interface FossilEntry {
   fossilId: string;
-  location: string;
-  locationSlug?: string;
+  location?: string;
+  locationSlug: string | null;
   inBag: boolean;
   revived: boolean;
   pokemonId?: number | null;
@@ -68,8 +68,8 @@ export interface FossilEntry {
 export interface ItemEntry {
   id?: string;
   name?: string;
-  location: string;
-  locationSlug?: string;
+  location?: string;
+  locationSlug: string | null;
   inBag: boolean;
   used: boolean;
 }
@@ -100,6 +100,7 @@ export interface AppState {
   /** @deprecated Use rivalCensorMode instead */
   rivalCensorEnabled?: boolean;
   hardcoreModeEnabled?: boolean;
+  nicknamesEnabled?: boolean;
   infiniteFossilsEnabled?: boolean;
   megaStoneSpriteStyle?: "item" | "pokemon";
   fossils?: FossilEntry[][];

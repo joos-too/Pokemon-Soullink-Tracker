@@ -92,6 +92,7 @@ export const INITIAL_STATE: AppState = {
   rivalCensorEnabled: true,
   rivalCensorMode: "on",
   hardcoreModeEnabled: false,
+  nicknamesEnabled: true,
   infiniteFossilsEnabled: false,
   megaStoneSpriteStyle: "item",
   fossils: [],

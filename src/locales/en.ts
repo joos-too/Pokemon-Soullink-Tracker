@@ -488,6 +488,9 @@ export const en = {
     },
     sections: {
       options: "Tracker options",
+      gameplay: "Gameplay",
+      general: "General",
+      configuration: "Tracker configuration",
       variableRivals: "Rival selector",
       variableRivalsDescription:
         "Choose your antagonist for the correct presentation in the rival battles.",
@@ -498,6 +501,13 @@ export const en = {
         tooltipLabel: "Hardcore info",
         tooltip: `By default the level cap is based on each trainer’s highest Pokémon. Hardcore mode adds a second cap tied to the second-highest Pokémon.\n\nOnly one Pokémon may match the upper cap, the rest must stay under the lower cap.`,
         description: "Raises the difficulty by enforcing tighter level caps.",
+      },
+      nicknames: {
+        title: "Disable nicknames",
+        tooltipLabel: "Nicknames info",
+        tooltip:
+          "When enabled, nicknames are no longer required or displayed. Useful if you prefer to play without nicknames.",
+        description: "Skip nicknames when adding and displaying Pokémon.",
       },
       rivalCensor: {
         title: "Censor rival battles",
@@ -629,6 +639,12 @@ export const en = {
     language: {
       title: "Language",
       description: "Choose your preferred interface language below.",
+      multiLocaleSearch: {
+        title: "Multi-language search",
+        description: "Allows searching and resolving in multiple languages.",
+        tooltip:
+          "Whenever you search for Pokémon and Items, anywhere in a tracker, you can search in all languages, in addition to your selected language.",
+      },
     },
     sprites: {
       title: "Sprite Display",
