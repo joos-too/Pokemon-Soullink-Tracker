@@ -19,18 +19,14 @@ import type {
   AppState,
   FossilEntry,
   ItemEntry,
-  LevelCap,
   LinkEditPayload,
   Pokemon,
   PokemonLink,
-  RivalCap,
   RivalCensorMode,
   RivalGender,
   Ruleset,
   TrackerMeta,
-  TrackerSummary,
 } from "@/types";
-import { computeWeightedProgress } from "@/src/utils/progressWeights";
 import {
   createInitialState,
   ensureStatsForPlayers,
@@ -43,6 +39,9 @@ import BoxFilters, {
   type TypeFilterEntry,
 } from "@/src/components/widgets/BoxFilters.tsx";
 import { useHiddenLinks } from "@/src/hooks/useHiddenLinks.ts";
+import { useAuthSession } from "@/src/hooks/useAuthSession.ts";
+import { useRulesets } from "@/src/hooks/useRulesets.ts";
+import { useTrackerList } from "@/src/hooks/useTrackerList.ts";
 import { getPokemonTypeSlugsById } from "@/src/services/pokemonTypes.ts";
 import InfoPanel from "@/src/components/widgets/InfoPanel.tsx";
 import Graveyard from "@/src/components/widgets/Graveyard.tsx";
@@ -85,18 +84,12 @@ import {
   getTrackerState,
   saveTrackerState,
   setTrackerVisibility,
-  subscribeToTrackerList,
   subscribeToTrackerMeta,
   subscribeToTrackerState,
-  subscribeToUserTrackerIds,
   TrackerStateConflictError,
   updateTrackerMetadata,
 } from "@/src/services/trackerRepository.ts";
-import {
-  onCurrentAuthStateChange,
-  signOutCurrentUser,
-  type AuthenticatedUser,
-} from "@/src/services/auth.ts";
+import { signOutCurrentUser } from "@/src/services/auth.ts";
 import {
   addMemberByEmail,
   createTracker,
@@ -125,7 +118,6 @@ import {
 } from "@/src/data/rulesets";
 import {
   deleteRuleset,
-  listenToUserRulesets,
   saveRuleset,
   SaveRulesetPayload,
 } from "@/src/services/rulesets";
@@ -199,74 +191,6 @@ const normalizePokemonId = (id: unknown): number | null => {
   return Number.isFinite(parsed) && parsed > 0 ? parsed : null;
 };
 
-const normalizeTrackerMeta = (
-  trackerId: string,
-  meta: TrackerMeta,
-): TrackerMeta => ({
-  ...meta,
-  id: trackerId,
-  members: Object.fromEntries(
-    Object.entries(meta.members ?? {}).map(([uid, member]) => [
-      uid,
-      {
-        ...member,
-        uid,
-        displayName:
-          typeof member.displayName === "string" && member.displayName.trim()
-            ? member.displayName.trim()
-            : getDefaultDisplayName(member.email),
-      },
-    ]),
-  ),
-  guests: Object.fromEntries(
-    Object.entries(meta.guests ?? {}).map(([uid, member]) => [
-      uid,
-      {
-        ...member,
-        uid,
-        displayName:
-          typeof member.displayName === "string" && member.displayName.trim()
-            ? member.displayName.trim()
-            : getDefaultDisplayName(member.email),
-      },
-    ]),
-  ),
-  allPokemonAndItems: meta.allPokemonAndItems === true ? true : undefined,
-});
-
-const computeTrackerSummary = (
-  state?: Partial<AppState> | null,
-): TrackerSummary => {
-  const teamCount = Array.isArray(state?.team) ? state.team.length : 0;
-  const boxCount = Array.isArray(state?.box) ? state.box.length : 0;
-  const graveyardCount = Array.isArray(state?.graveyard)
-    ? state.graveyard.length
-    : 0;
-  const runs = Number(state?.stats?.runs ?? 0) || 0;
-  const levelCaps = Array.isArray(state?.levelCaps)
-    ? (state.levelCaps as LevelCap[])
-    : [];
-  const rivalCaps = Array.isArray(state?.rivalCaps)
-    ? (state.rivalCaps as RivalCap[])
-    : [];
-  const doneCapsCount = levelCaps.filter((cap) => cap?.done).length;
-  const { pct: progressPct } = computeWeightedProgress(levelCaps, rivalCaps);
-
-  const deathCount = Array.isArray(state?.stats?.deaths)
-    ? state!.stats!.deaths.reduce((sum, value) => sum + Number(value || 0), 0)
-    : 0;
-  return {
-    teamCount,
-    boxCount,
-    graveyardCount,
-    deathCount,
-    runs,
-    championDone: doneCapsCount > 12,
-    doneCapsCount,
-    progressPct,
-  };
-};
-
 const App: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -285,26 +209,25 @@ const App: React.FC = () => {
     ? null
     : routeTrackerParam;
   const [data, setData] = useState<AppState>(createInitialState());
-  const [user, setUser] = useState<AuthenticatedUser | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { user, loading } = useAuthSession();
   const [activeTrackerId, setActiveTrackerId] = useState<string | null>(
     getInitialActiveTrackerId,
   );
-  const [userTrackerIds, setUserTrackerIds] = useState<string[]>([]);
-  const [trackerMetas, setTrackerMetas] = useState<Record<string, TrackerMeta>>(
-    {},
-  );
+  const {
+    userTrackerIds,
+    trackerMetas,
+    setTrackerMetas,
+    trackerSummaries,
+    loading: userTrackersLoading,
+    upsertTrackerMeta,
+    removeTrackerMeta,
+  } = useTrackerList(user?.uid, activeTrackerId);
   const isViewingPublicTracker = useMemo(
     () =>
       !user &&
       Boolean(routeTrackerId && trackerMetas[routeTrackerId]?.isPublic),
     [user, routeTrackerId, trackerMetas],
   );
-  const metaListenersRef = useRef<Map<string, () => void>>(new Map());
-  const trackerStateListenersRef = useRef<Map<string, () => void>>(new Map());
-  const [trackerSummaries, setTrackerSummaries] = useState<
-    Record<string, TrackerSummary>
-  >({});
   const { t, i18n } = useTranslation();
   const locale = normalizeLanguage(i18n.language);
   const defaultLocaleRulesetId = useMemo(() => {
@@ -317,7 +240,6 @@ const App: React.FC = () => {
       ? DEFAULT_RULESET_ID_EN
       : DEFAULT_RULESET_ID;
   }, [i18n.language, i18n.resolvedLanguage]);
-  const [userTrackersLoading, setUserTrackersLoading] = useState(false);
   const [publicTrackerLoading, setPublicTrackerLoading] = useState(() =>
     Boolean(routeTrackerId),
   );
@@ -372,8 +294,7 @@ const App: React.FC = () => {
   const [deleteTrackerError, setDeleteTrackerError] = useState<string | null>(
     null,
   );
-  const [rulesets, setRulesets] = useState<Ruleset[]>(PRESET_RULESETS);
-  const rulesetUnsubscribeRef = useRef<(() => void) | null>(null);
+  const rulesets = useRulesets(user?.uid);
   const [showRulesetSaveModal, setShowRulesetSaveModal] = useState(false);
   const [pendingRulesetId, setPendingRulesetId] = useState<string | null>(null);
   const [rulesetSaveReason, setRulesetSaveReason] = useState<
@@ -889,36 +810,6 @@ const App: React.FC = () => {
     }
   }, [activeTrackerId, coerceAppState]);
 
-  useEffect(() => {
-    const unsubscribe = onCurrentAuthStateChange((user) => {
-      setUser(user);
-      setLoading(false);
-    });
-    return () => unsubscribe();
-  }, []);
-
-  useEffect(() => {
-    if (rulesetUnsubscribeRef.current) {
-      rulesetUnsubscribeRef.current();
-      rulesetUnsubscribeRef.current = null;
-    }
-    setRulesets(PRESET_RULESETS);
-    if (!user) return;
-
-    const unsubscribe = listenToUserRulesets(user.uid, (customRulesets) => {
-      const sortedCustom = [...customRulesets].sort(
-        (a, b) => (b.updatedAt ?? 0) - (a.updatedAt ?? 0),
-      );
-      setRulesets([...sortedCustom, ...PRESET_RULESETS]);
-    });
-    rulesetUnsubscribeRef.current = unsubscribe;
-
-    return () => {
-      unsubscribe();
-      rulesetUnsubscribeRef.current = null;
-    };
-  }, [user]);
-
   /**
    * Seed emulator with test data when running in emulator mode
    * This effect runs after Firebase initialization and creates:
@@ -999,188 +890,6 @@ const App: React.FC = () => {
     }
   }, [isInvalidSupabaseTrackerRoute]);
 
-  useEffect(() => {
-    if (!user) {
-      setUserTrackerIds([]);
-      setTrackerMetas({});
-      metaListenersRef.current.forEach((unsub) => unsub());
-      metaListenersRef.current.clear();
-      setActiveTrackerId(null);
-      setUserTrackersLoading(false);
-      return;
-    }
-
-    setUserTrackersLoading(true);
-    if (isSupabaseBackend) {
-      const unsubscribe = subscribeToTrackerList(
-        user.uid,
-        (entries) => {
-          setUserTrackerIds(entries.map((entry) => entry.meta.id));
-          setTrackerMetas(() => {
-            const nextMetas: Record<string, TrackerMeta> = {};
-            entries.forEach(({ meta }) => {
-              nextMetas[meta.id] = normalizeTrackerMeta(meta.id, meta);
-            });
-            return nextMetas;
-          });
-          setTrackerSummaries(
-            Object.fromEntries(
-              entries.map(({ meta, summary }) => [meta.id, summary]),
-            ),
-          );
-          setUserTrackersLoading(false);
-        },
-        () => setUserTrackersLoading(false),
-      );
-
-      return () => {
-        unsubscribe();
-        setUserTrackersLoading(false);
-      };
-    }
-
-    const unsubscribe = subscribeToUserTrackerIds(
-      user.uid,
-      (ids) => {
-        setUserTrackerIds(ids);
-        setUserTrackersLoading(false);
-      },
-      () => setUserTrackersLoading(false),
-    );
-
-    return () => {
-      unsubscribe();
-      setUserTrackersLoading(false);
-    };
-  }, [user]);
-
-  useEffect(() => {
-    if (!user || isSupabaseBackend) return;
-
-    const listeners = metaListenersRef.current;
-    for (const [trackerId, unsub] of listeners.entries()) {
-      if (!userTrackerIds.includes(trackerId)) {
-        unsub();
-        listeners.delete(trackerId);
-        setTrackerMetas((prev) => {
-          const next = { ...prev };
-          delete next[trackerId];
-          return next;
-        });
-      }
-    }
-
-    userTrackerIds.forEach((trackerId) => {
-      if (listeners.has(trackerId)) return;
-      const unsubscribe = subscribeToTrackerMeta(
-        trackerId,
-        (meta) => {
-          setTrackerMetas((prev) => {
-            const next = { ...prev };
-            if (meta) {
-              next[trackerId] = normalizeTrackerMeta(trackerId, meta);
-            } else {
-              delete next[trackerId];
-            }
-            return next;
-          });
-        },
-        () => {
-          setTrackerMetas((prev) => {
-            const next = { ...prev };
-            delete next[trackerId];
-            return next;
-          });
-        },
-      );
-      listeners.set(trackerId, unsubscribe);
-    });
-
-    return () => {
-      if (!user) {
-        listeners.forEach((unsub) => unsub());
-        listeners.clear();
-      }
-    };
-  }, [userTrackerIds, user]);
-
-  useEffect(() => {
-    if (!user) {
-      trackerStateListenersRef.current.forEach((unsub) => unsub());
-      trackerStateListenersRef.current.clear();
-      setTrackerSummaries({});
-      return;
-    }
-
-    if (isSupabaseBackend) return;
-
-    const listeners = trackerStateListenersRef.current;
-    for (const [trackerId, unsubscribe] of listeners.entries()) {
-      if (!userTrackerIds.includes(trackerId)) {
-        unsubscribe();
-        listeners.delete(trackerId);
-        setTrackerSummaries((prev) => {
-          const next = { ...prev };
-          delete next[trackerId];
-          return next;
-        });
-      }
-    }
-
-    userTrackerIds.forEach((trackerId) => {
-      if (listeners.has(trackerId)) return;
-      const unsubscribe = subscribeToTrackerState(
-        trackerId,
-        (stateValue) => {
-          setTrackerSummaries((prev) => ({
-            ...prev,
-            [trackerId]: computeTrackerSummary(stateValue),
-          }));
-        },
-        () => {
-          setTrackerSummaries((prev) => {
-            const next = { ...prev };
-            delete next[trackerId];
-            return next;
-          });
-        },
-      );
-      listeners.set(trackerId, unsubscribe);
-    });
-
-    return () => {
-      if (!user) {
-        listeners.forEach((unsub) => unsub());
-        listeners.clear();
-      }
-    };
-  }, [user, userTrackerIds]);
-
-  // The list query deliberately omits every participant's directory. Fetch
-  // that richer view only for the active tracker.
-  useEffect(() => {
-    if (
-      !isSupabaseBackend ||
-      !user ||
-      !activeTrackerId ||
-      !userTrackerIds.includes(activeTrackerId)
-    ) {
-      return;
-    }
-
-    return subscribeToTrackerMeta(
-      activeTrackerId,
-      (meta) => {
-        if (!meta) return;
-        setTrackerMetas((previousMetas) => ({
-          ...previousMetas,
-          [activeTrackerId]: normalizeTrackerMeta(activeTrackerId, meta),
-        }));
-      },
-      () => {},
-    );
-  }, [user, activeTrackerId, userTrackerIds]);
-
   // Load tracker metadata for direct URL access (used for public trackers)
   useEffect(() => {
     if (!routeTrackerId) {
@@ -1200,28 +909,17 @@ const App: React.FC = () => {
       routeTrackerId,
       (meta) => {
         if (meta && meta.isPublic) {
-          setTrackerMetas((prev) => ({
-            ...prev,
-            [routeTrackerId]: normalizeTrackerMeta(routeTrackerId, meta),
-          }));
+          upsertTrackerMeta(routeTrackerId, meta);
           setActiveTrackerId(routeTrackerId);
         } else {
-          setTrackerMetas((prev) => {
-            const next = { ...prev };
-            delete next[routeTrackerId];
-            return next;
-          });
+          removeTrackerMeta(routeTrackerId);
           setActiveTrackerId(null);
         }
         setPublicTrackerLoading(false);
       },
       () => {
         // Error handling - tracker doesn't exist or can't be read
-        setTrackerMetas((prev) => {
-          const next = { ...prev };
-          delete next[routeTrackerId];
-          return next;
-        });
+        removeTrackerMeta(routeTrackerId);
         setActiveTrackerId(null);
         setPublicTrackerLoading(false);
       },
@@ -1230,7 +928,13 @@ const App: React.FC = () => {
     return () => {
       unsubscribe();
     };
-  }, [user, routeTrackerId, userTrackerIds]);
+  }, [
+    removeTrackerMeta,
+    routeTrackerId,
+    upsertTrackerMeta,
+    user,
+    userTrackerIds,
+  ]);
 
   useEffect(() => {
     if (!user) {
