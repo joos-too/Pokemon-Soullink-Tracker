@@ -1,4 +1,5 @@
 import { findPokemonIdByName } from "@/src/services/pokemonSearch";
+import type { SupportedLanguage } from "@/src/utils/language";
 
 // Map game version IDs to PokeAPI sprite generation paths
 export function getGenerationSpritePath(gameVersionId: string): string | null {
@@ -151,8 +152,9 @@ export function getSpriteUrlById(
 export function getSpriteUrlForPokemonName(
   name: string | undefined | null,
   generationPath?: string | null,
+  locale?: SupportedLanguage,
 ): string | null {
-  const match = findPokemonIdByName(name);
+  const match = findPokemonIdByName(name, locale);
   if (!match) return null;
   return getSpriteUrlById(match.id, generationPath);
 }

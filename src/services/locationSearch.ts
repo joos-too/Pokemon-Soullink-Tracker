@@ -8,6 +8,7 @@ const DEFAULT_GAME_VERSION_ID = "gen5_bw";
 interface SearchOptions {
   locale?: SupportedLanguage;
   gameVersionId?: string;
+  multiLocaleSearch?: boolean;
 }
 
 interface LocationEntry {
@@ -164,29 +165,41 @@ export async function searchLocations(
 ): Promise<LocationSearchResult[]> {
   const q = normalizeForSearch(query);
   if (q.length < 2) return [];
-  const { locale = "en", gameVersionId } = options;
+  const { locale = "en", gameVersionId, multiLocaleSearch = false } = options;
   const allowedRegions = getRegionsForVersion(gameVersionId);
   if (!allowedRegions.size) return [];
 
-  const filtered = getLocaleList(locale).filter((entry) => {
+  const isMatchingEntry = (entry: LocationEntry) => {
     const matchesTerm = entry.normalized.includes(q);
-    if (!matchesTerm) return;
-    if (!entry.region || !allowedRegions.has(entry.region)) return;
-    return true;
-  });
+    return matchesTerm && !!entry.region && allowedRegions.has(entry.region);
+  };
 
-  const sorted = sortLocations(filtered);
+  const localResults = getLocaleList(locale).filter(isMatchingEntry);
+  const matchingEntries =
+    multiLocaleSearch && localResults.length < max
+      ? [
+          ...localResults,
+          ...ALL_LOCATION_ENTRIES.filter(
+            (entry) =>
+              !localResults.some(
+                (localEntry) => localEntry.slug === entry.slug,
+              ) && isMatchingEntry(entry),
+          ),
+        ]
+      : localResults;
+
+  const sorted = sortLocations(matchingEntries);
   const unique: LocationEntry[] = [];
-  const seenNames = new Set<string>();
+  const seenSlugs = new Set<string>();
   sorted.forEach((entry) => {
-    if (!seenNames.has(entry.normalized)) {
-      seenNames.add(entry.normalized);
+    if (!seenSlugs.has(entry.slug)) {
+      seenSlugs.add(entry.slug);
       unique.push(entry);
     }
   });
   return unique.slice(0, max).map((entry) => ({
     slug: entry.slug,
-    name: entry.name,
+    name: getEntryBySlug(entry.slug, locale)?.name ?? entry.name,
   }));
 }
 
@@ -211,16 +224,25 @@ export function findLocationByName(
   const normalizedName = normalizeForSearch(name ?? "");
   if (!normalizedName) return null;
 
-  const { locale = DEFAULT_LOCATION_LOCALE, gameVersionId } = options;
+  const {
+    locale = DEFAULT_LOCATION_LOCALE,
+    gameVersionId,
+    multiLocaleSearch = false,
+  } = options;
   const allowedRegions = getRegionsForVersion(gameVersionId);
 
-  const found = ALL_LOCATION_ENTRIES.find((entry) => {
+  const isMatchingEntry = (entry: LocationEntry) => {
     if (!entry.region || !allowedRegions.has(entry.region)) return false;
     return (
       entry.normalized === normalizedName ||
       normalizeForSearch(entry.slug) === normalizedName
     );
-  });
+  };
+  const found =
+    getLocaleList(locale).find(isMatchingEntry) ??
+    (multiLocaleSearch
+      ? ALL_LOCATION_ENTRIES.find(isMatchingEntry)
+      : undefined);
   const displayEntry = found ? getEntryBySlug(found.slug, locale) : null;
 
   return found
@@ -237,17 +259,21 @@ export function locationMatchesQuery(
   if (!normalizedQuery) return true;
 
   const normalizedLocationName = normalizeForSearch(locationName ?? "");
-  if (normalizedLocationName.includes(normalizedQuery)) return true;
+  const matchedLocation = findLocationByName(locationName, {
+    ...options,
+    multiLocaleSearch: true,
+  });
+  if (!matchedLocation) return normalizedLocationName.includes(normalizedQuery);
 
-  const matchedLocation = findLocationByName(locationName, options);
-  if (!matchedLocation) return false;
+  const { locale = DEFAULT_LOCATION_LOCALE, multiLocaleSearch = false } =
+    options;
+  const entries = multiLocaleSearch
+    ? getEntriesBySlug(matchedLocation.slug)
+    : [getEntryBySlug(matchedLocation.slug, locale)].filter(
+        (entry): entry is LocationEntry => !!entry,
+      );
 
-  return (
-    normalizeForSearch(matchedLocation.slug).includes(normalizedQuery) ||
-    getEntriesBySlug(matchedLocation.slug).some((entry) =>
-      entry.normalized.includes(normalizedQuery),
-    )
-  );
+  return entries.some((entry) => entry.normalized.includes(normalizedQuery));
 }
 
 export function resolvePokemonLocationDisplay(

@@ -9,6 +9,7 @@ import {
 import { normalizeLanguage } from "@/src/utils/language";
 import SuggestionInput from "@/src/components/inputs/SuggestionInput.tsx";
 import ItemSprite from "@/src/components/other/ItemSprite.tsx";
+import { useMultiLocaleSearch } from "@/src/hooks/useMultiLocaleSearch.ts";
 
 interface ItemSuggestionInputProps {
   label?: React.ReactNode;
@@ -20,6 +21,7 @@ interface ItemSuggestionInputProps {
   gameVersionId?: string;
   allPokemonAndItems?: boolean;
   placeholder?: string;
+  multiLocaleSearch?: boolean;
 }
 
 const ItemSuggestionInput: React.FC<ItemSuggestionInputProps> = ({
@@ -32,20 +34,24 @@ const ItemSuggestionInput: React.FC<ItemSuggestionInputProps> = ({
   gameVersionId,
   allPokemonAndItems = false,
   placeholder,
+  multiLocaleSearch: multiLocaleSearchProp,
 }) => {
   const { t, i18n } = useTranslation();
   const language = useMemo(
     () => normalizeLanguage(i18n.language),
     [i18n.language],
   );
+  const contextMultiLocaleSearch = useMultiLocaleSearch();
+  const multiLocaleSearch = multiLocaleSearchProp ?? contextMultiLocaleSearch;
   const typedItemMatch = useMemo(
     () =>
       findItemByName(
         value,
         language,
         allPokemonAndItems ? undefined : gameVersionId,
+        multiLocaleSearch,
       ),
-    [allPokemonAndItems, gameVersionId, language, value],
+    [allPokemonAndItems, gameVersionId, language, multiLocaleSearch, value],
   );
   const resolvedSlug = selectedSlug || typedItemMatch?.slug || "";
   const spriteUrl = resolvedSlug ? getItemSpriteUrl(resolvedSlug) : null;
@@ -58,9 +64,10 @@ const ItemSuggestionInput: React.FC<ItemSuggestionInputProps> = ({
           language,
           allPokemonAndItems ? undefined : gameVersionId,
           20,
+          multiLocaleSearch,
         ),
       ),
-    [allPokemonAndItems, gameVersionId, language],
+    [allPokemonAndItems, gameVersionId, language, multiLocaleSearch],
   );
 
   useEffect(() => {

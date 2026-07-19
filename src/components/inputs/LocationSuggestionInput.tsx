@@ -1,11 +1,13 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import {
   searchLocations,
+  findLocationByName,
   type LocationSearchResult,
 } from "@/src/services/locationSearch.ts";
 import { normalizeLanguage } from "@/src/utils/language.ts";
 import SuggestionInput from "@/src/components/inputs/SuggestionInput.tsx";
+import { useMultiLocaleSearch } from "@/src/hooks/useMultiLocaleSearch.ts";
 
 interface LocationSuggestionInputProps {
   label: string;
@@ -23,6 +25,7 @@ const LocationSuggestionInput: React.FC<LocationSuggestionInputProps> = ({
   label,
   value,
   onChange,
+  selectedSlug,
   onSelectedSlugChange,
   isOpen,
   gameVersionId,
@@ -34,14 +37,30 @@ const LocationSuggestionInput: React.FC<LocationSuggestionInputProps> = ({
     () => normalizeLanguage(i18n.language),
     [i18n.language],
   );
+  const multiLocaleSearch = useMultiLocaleSearch();
+  const typedLocationMatch = useMemo(
+    () =>
+      findLocationByName(value, {
+        locale: language,
+        gameVersionId,
+        multiLocaleSearch,
+      }),
+    [gameVersionId, language, multiLocaleSearch, value],
+  );
   const fetchSuggestions = useCallback(
     (term: string) =>
       searchLocations(term, 1000, {
         locale: language,
         gameVersionId,
+        multiLocaleSearch,
       }),
-    [gameVersionId, language],
+    [gameVersionId, language, multiLocaleSearch],
   );
+
+  useEffect(() => {
+    if (!typedLocationMatch || typedLocationMatch.slug === selectedSlug) return;
+    onSelectedSlugChange?.(typedLocationMatch.slug);
+  }, [onSelectedSlugChange, selectedSlug, typedLocationMatch]);
 
   return (
     <SuggestionInput<LocationSearchResult>

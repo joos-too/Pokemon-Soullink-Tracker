@@ -647,6 +647,12 @@ export const de = {
       title: "Sprache",
       description:
         "Hier kannst du die Sprache der Benutzeroberfläche wechseln.",
+      multiLocaleSearch: {
+        title: "Mehrsprachige Suche",
+        description: "Erlaubt die Suche und Anzeige in verschiedenen Sprachen.",
+        tooltip:
+          "Wenn man irgendwo in Trackern, über Suchfelder nach Pokémon oder Items sucht, kann man auch nach Namen aus anderen Sprachen, als der ausgewählten suchen.",
+      },
     },
     sprites: {
       title: "Sprite-Anzeige",
