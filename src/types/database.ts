@@ -288,6 +288,7 @@ export type Database = {
         Returns: {
           added_at: string;
           display_name: string;
+          email: string;
           role: Database["public"]["Enums"]["tracker_role"];
           user_id: string;
         }[];

@@ -212,6 +212,7 @@ const App: React.FC = () => {
     loading: userTrackersLoading,
     upsertTrackerMeta,
     removeTrackerMeta,
+    removeTrackerLocally,
   } = useTrackerList(user?.uid, activeTrackerId);
   const isViewingPublicTracker = useMemo(
     () =>
@@ -274,6 +275,9 @@ const App: React.FC = () => {
   const [createTrackerLoading, setCreateTrackerLoading] = useState(false);
   const [trackerPendingDelete, setTrackerPendingDelete] =
     useState<TrackerMeta | null>(null);
+  const [trackerExitRedirectId, setTrackerExitRedirectId] = useState<
+    string | null
+  >(null);
   const [deleteTrackerLoading, setDeleteTrackerLoading] = useState(false);
   const [deleteTrackerError, setDeleteTrackerError] = useState<string | null>(
     null,
@@ -966,6 +970,12 @@ const App: React.FC = () => {
       window.localStorage.removeItem(LAST_TRACKER_STORAGE_KEY);
     }
   }, [activeTrackerId, user]);
+
+  useEffect(() => {
+    if (trackerExitRedirectId && routeTrackerId !== trackerExitRedirectId) {
+      setTrackerExitRedirectId(null);
+    }
+  }, [routeTrackerId, trackerExitRedirectId]);
 
   // Keep local isDark in sync with document class/localStorage
   useEffect(() => {
@@ -2069,17 +2079,21 @@ const App: React.FC = () => {
 
   const handleDeleteTracker = useCallback(async () => {
     if (!trackerPendingDelete) return;
+    const trackerId = trackerPendingDelete.id;
+    const shouldReturnHome =
+      routeTrackerId === trackerId || activeTrackerId === trackerId;
     setDeleteTrackerError(null);
     setDeleteTrackerLoading(true);
     try {
-      await deleteTracker(trackerPendingDelete.id);
-      if (trackerPendingDelete.id === activeTrackerId) {
+      await deleteTracker(trackerId);
+      removeTrackerLocally(trackerId);
+      if (shouldReturnHome) {
+        setTrackerExitRedirectId(trackerId);
         setActiveTrackerId(null);
         setData(createInitialState());
         if (typeof window !== "undefined") {
           window.localStorage.removeItem(LAST_TRACKER_STORAGE_KEY);
         }
-        navigate("/");
       }
       setTrackerPendingDelete(null);
     } catch (error) {
@@ -2091,7 +2105,12 @@ const App: React.FC = () => {
     } finally {
       setDeleteTrackerLoading(false);
     }
-  }, [trackerPendingDelete, activeTrackerId, navigate]);
+  }, [
+    trackerPendingDelete,
+    routeTrackerId,
+    activeTrackerId,
+    removeTrackerLocally,
+  ]);
 
   const handleInviteMember = useCallback(
     async (email: string, role: "editor" | "guest") => {
@@ -2118,16 +2137,17 @@ const App: React.FC = () => {
       if (!activeTrackerId) {
         throw new Error("Kein aktiver Tracker ausgewählt.");
       }
+      const trackerId = activeTrackerId;
       try {
-        await removeMemberFromTracker(activeTrackerId, memberUid);
+        await removeMemberFromTracker(trackerId, memberUid);
         if (user && memberUid === user.uid) {
-          closeSettingsPanel();
+          removeTrackerLocally(trackerId);
+          setTrackerExitRedirectId(trackerId);
           setActiveTrackerId(null);
           setData(createInitialState());
           if (typeof window !== "undefined") {
             window.localStorage.removeItem(LAST_TRACKER_STORAGE_KEY);
           }
-          navigate("/");
         }
       } catch (error) {
         if (error instanceof TrackerOperationError) {
@@ -2136,7 +2156,7 @@ const App: React.FC = () => {
         throw new Error("Mitglied konnte nicht entfernt werden.");
       }
     },
-    [activeTrackerId, user, navigate, closeSettingsPanel],
+    [activeTrackerId, user, removeTrackerLocally],
   );
 
   const clearedLocations = useMemo(() => {
@@ -2265,6 +2285,10 @@ const App: React.FC = () => {
 
   if (isPasswordResetRoute) {
     return <PasswordResetPage oobCode={passwordResetOobCode} />;
+  }
+
+  if (trackerExitRedirectId && routeTrackerId === trackerExitRedirectId) {
+    return <Navigate to="/" replace />;
   }
 
   // Show loading while auth is initializing, or while the target tracker is still resolving/loading

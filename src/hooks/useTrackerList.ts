@@ -99,6 +99,7 @@ export interface TrackerListState {
   loading: boolean;
   upsertTrackerMeta: (trackerId: string, meta: TrackerMeta) => void;
   removeTrackerMeta: (trackerId: string) => void;
+  removeTrackerLocally: (trackerId: string) => void;
 }
 
 export const useTrackerList = (
@@ -118,6 +119,26 @@ export const useTrackerList = (
 
   const removeTrackerMeta = useCallback((trackerId: string) => {
     setTrackerMetas((previous) => {
+      if (!(trackerId in previous)) return previous;
+      const next = { ...previous };
+      delete next[trackerId];
+      return next;
+    });
+  }, []);
+
+  const removeTrackerLocally = useCallback((trackerId: string) => {
+    setUserTrackerIds((previous) =>
+      previous.includes(trackerId)
+        ? previous.filter((id) => id !== trackerId)
+        : previous,
+    );
+    setTrackerMetas((previous) => {
+      if (!(trackerId in previous)) return previous;
+      const next = { ...previous };
+      delete next[trackerId];
+      return next;
+    });
+    setTrackerSummaries((previous) => {
       if (!(trackerId in previous)) return previous;
       const next = { ...previous };
       delete next[trackerId];
@@ -288,5 +309,6 @@ export const useTrackerList = (
     loading,
     upsertTrackerMeta,
     removeTrackerMeta,
+    removeTrackerLocally,
   };
 };

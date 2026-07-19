@@ -46,6 +46,7 @@ const toUserSettings = (value: Json): UserSettings | undefined => {
 const toMember = (entry: TrackerMemberDirectoryEntry): TrackerMember => ({
   uid: entry.user_id,
   displayName: entry.display_name,
+  ...(entry.email ? { email: entry.email } : {}),
   role: entry.role as TrackerRole,
   addedAt: toTimestamp(entry.added_at),
 });

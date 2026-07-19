@@ -551,7 +551,8 @@ export const en = {
         tooltipLabel: "Public tracker info",
         tooltip:
           "When enabled, anyone with the URL can view this tracker, even without logging in.\n\nOnly members can still edit the tracker.",
-        description: "Allow anyone to view this tracker via the URL.",
+        description:
+          "Allow anyone to view this tracker via the URL. Only the owner can change this setting.",
       },
       generationSprites: {
         title: "Generation-specific sprites",

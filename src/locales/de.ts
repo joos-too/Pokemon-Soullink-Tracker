@@ -557,7 +557,8 @@ export const de = {
         tooltipLabel: "Info Öffentlicher Tracker",
         tooltip:
           "Wenn aktiviert, kann jeder mit der URL diesen Tracker ansehen, auch ohne sich einzuloggen.\n\nNur Mitglieder können den Tracker weiterhin bearbeiten.",
-        description: "Erlaube allen, diesen Tracker über die URL anzusehen.",
+        description:
+          "Erlaube allen, diesen Tracker über die URL anzusehen. Nur der Owner kann diese Einstellung ändern.",
       },
       generationSprites: {
         title: "Generationsspezifische Sprites",

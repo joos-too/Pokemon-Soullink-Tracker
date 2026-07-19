@@ -644,7 +644,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                   checked={isPublic}
                   onChange={onPublicToggle}
                   ariaLabel={t("settings.features.publicTracker.title")}
-                  disabled={isGuest}
+                  disabled={!canManageMembers}
                 />
               </div>
             </section>
@@ -774,6 +774,9 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                           )}
                       </div>
                       <p className="text-xs text-gray-500">
+                        {canManageMembers && member.email && (
+                          <span className="block">{member.email}</span>
+                        )}
                         {member.addedAt
                           ? new Date(member.addedAt).toLocaleDateString()
                           : t("settings.members.unknownDate")}

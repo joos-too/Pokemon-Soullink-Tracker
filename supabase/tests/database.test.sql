@@ -3,7 +3,7 @@ begin;
 create extension if not exists pgtap with schema extensions;
 set search_path = public, extensions;
 
-select plan(41);
+select plan(48);
 
 select has_table('public', 'profiles', 'profiles table exists');
 select has_table('public', 'trackers', 'trackers table exists');
@@ -194,6 +194,15 @@ select is(
   'Test Trainer',
   'a tracker member can read participant display names through the RPC'
 );
+select is(
+  (
+    select email
+    from public.list_tracker_members('30000000-0000-0000-0000-000000000001')
+    where user_id = '10000000-0000-0000-0000-000000000001'
+  ),
+  null::text,
+  'an editor cannot read participant email addresses'
+);
 select lives_ok(
   $$select public.update_tracker_state(
     '30000000-0000-0000-0000-000000000001',
@@ -248,6 +257,15 @@ select throws_ok(
 );
 
 select set_config('request.jwt.claim.sub', '10000000-0000-0000-0000-000000000001', true);
+select is(
+  (
+    select email
+    from public.list_tracker_members('30000000-0000-0000-0000-000000000001')
+    where user_id = '10000000-0000-0000-0000-000000000002'
+  ),
+  'editor@example.com',
+  'the owner can read participant email addresses'
+);
 select lives_ok(
   $$select public.set_tracker_visibility(
     '30000000-0000-0000-0000-000000000001',
@@ -273,6 +291,55 @@ select throws_ok(
   'tracker_owner_cannot_be_removed',
   'the owner cannot remove themselves'
 );
+
+select set_config('request.jwt.claim.sub', '10000000-0000-0000-0000-000000000002', true);
+select throws_ok(
+  $$select public.remove_tracker_member(
+    '30000000-0000-0000-0000-000000000001',
+    '10000000-0000-0000-0000-000000000003'
+  )$$,
+  '42501',
+  'tracker_owner_required',
+  'an editor cannot remove another member'
+);
+select lives_ok(
+  $$select public.remove_tracker_member(
+    '30000000-0000-0000-0000-000000000001',
+    '10000000-0000-0000-0000-000000000002'
+  )$$,
+  'an editor can leave a tracker'
+);
+select is(
+  (
+    select count(*)
+    from public.tracker_members
+    where tracker_id = '30000000-0000-0000-0000-000000000001'
+      and user_id = '10000000-0000-0000-0000-000000000002'
+  ),
+  0::bigint,
+  'leaving removes the editor membership'
+);
+
+select set_config('request.jwt.claim.sub', '10000000-0000-0000-0000-000000000003', true);
+select lives_ok(
+  $$select public.remove_tracker_member(
+    '30000000-0000-0000-0000-000000000001',
+    '10000000-0000-0000-0000-000000000003'
+  )$$,
+  'a guest can leave a tracker'
+);
+select is(
+  (
+    select count(*)
+    from public.tracker_members
+    where tracker_id = '30000000-0000-0000-0000-000000000001'
+      and user_id = '10000000-0000-0000-0000-000000000003'
+  ),
+  0::bigint,
+  'leaving removes the guest membership'
+);
+
+select set_config('request.jwt.claim.sub', '10000000-0000-0000-0000-000000000001', true);
 select is(
   (select count(*) from public.rulesets),
   1::bigint,
