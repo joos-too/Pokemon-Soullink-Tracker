@@ -1,4 +1,10 @@
-import type { AppState, RivalGender, TrackerMeta, TrackerRole } from "@/types";
+import type {
+  AppState,
+  RivalGender,
+  TrackerMeta,
+  TrackerRole,
+  TrackerSummary,
+} from "@/types";
 import { getSupabaseClient } from "@/src/services/supabase.ts";
 import {
   toPersistedTrackerState,
@@ -16,8 +22,25 @@ type TrackerMemberDirectoryEntry =
 
 export type SupabaseTrackerSubscription = () => void;
 
+export interface SupabaseTrackerListEntry {
+  meta: TrackerMeta;
+  summary: TrackerSummary;
+}
+
 type ValueCallback<T> = (value: T | null) => void;
 type ErrorCallback = (error: Error) => void;
+
+type TrackerListQueryRow = {
+  added_at: string;
+  tracker_id: string;
+  role: TrackerRole;
+  trackers: TrackerRow & {
+    tracker_states:
+      | Pick<TrackerStateRow, "summary">
+      | Array<Pick<TrackerStateRow, "summary">>
+      | null;
+  };
+};
 
 export class TrackerStateConflictError extends Error {
   readonly code = "state-revision-conflict";
@@ -33,6 +56,68 @@ const toError = (error: { message: string; code?: string }): Error => {
     return new TrackerStateConflictError();
   }
   return Object.assign(new Error(error.message), { code: error.code });
+};
+
+const asJsonObject = (value: Json): Record<string, Json> =>
+  typeof value === "object" && value !== null && !Array.isArray(value)
+    ? value
+    : {};
+
+const toSummaryNumber = (value: Json | undefined): number => {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : 0;
+};
+
+const toTrackerSummary = (value: Json): TrackerSummary => {
+  const summary = asJsonObject(value);
+  return {
+    teamCount: toSummaryNumber(summary.teamCount),
+    boxCount: toSummaryNumber(summary.boxCount),
+    graveyardCount: toSummaryNumber(summary.graveyardCount),
+    deathCount: toSummaryNumber(summary.deathCount),
+    runs: toSummaryNumber(summary.runs),
+    championDone: summary.championDone === true,
+    doneCapsCount: toSummaryNumber(summary.doneCapsCount),
+    progressPct: toSummaryNumber(summary.progressPct),
+  };
+};
+
+const toTrackerListEntry = (
+  row: TrackerListQueryRow,
+  userId: string,
+): SupabaseTrackerListEntry => {
+  const trackerState = Array.isArray(row.trackers.tracker_states)
+    ? row.trackers.tracker_states[0]
+    : row.trackers.tracker_states;
+  const currentMember = {
+    uid: userId,
+    displayName: "",
+    role: row.role,
+    addedAt: Number.isFinite(Date.parse(row.added_at))
+      ? Date.parse(row.added_at)
+      : Date.now(),
+  };
+
+  return {
+    meta: {
+      id: row.trackers.id,
+      title: row.trackers.title,
+      playerNames: row.trackers.player_names,
+      createdAt: Date.parse(row.trackers.created_at),
+      createdBy: row.trackers.created_by,
+      members: row.role === "guest" ? {} : { [userId]: currentMember },
+      guests: row.role === "guest" ? { [userId]: currentMember } : {},
+      gameVersionId: row.trackers.game_version_id,
+      ...(row.trackers.all_pokemon_and_items
+        ? { allPokemonAndItems: true }
+        : {}),
+      ...(row.trackers.ruleset_id
+        ? { rulesetId: row.trackers.ruleset_id }
+        : {}),
+      isPublic: row.trackers.is_public,
+    },
+    summary: toTrackerSummary(trackerState?.summary ?? {}),
+  };
 };
 
 const loadMemberDirectory = async (
@@ -135,6 +220,68 @@ export const subscribeToSupabaseUserTrackerIds = (
         table: "tracker_members",
         filter: `user_id=eq.${userId}`,
       },
+      () => void load(),
+    )
+    .subscribe();
+
+  return () => {
+    active = false;
+    void supabase.removeChannel(channel);
+  };
+};
+
+/**
+ * Loads each accessible tracker together with its server-computed list summary.
+ * The channel refetches the joined list after a relevant Realtime change instead
+ * of opening one metadata and one state listener for every tracker card.
+ */
+export const subscribeToSupabaseTrackerList = (
+  userId: string,
+  onValueChange: ValueCallback<SupabaseTrackerListEntry[]>,
+  onError?: ErrorCallback,
+): SupabaseTrackerSubscription => {
+  const supabase = getSupabaseClient();
+  let active = true;
+  const load = async () => {
+    const { data, error } = await supabase
+      .from("tracker_members")
+      .select(
+        "tracker_id, role, added_at, trackers!inner(*, tracker_states(summary))",
+      )
+      .eq("user_id", userId);
+    if (!active) return;
+    if (error) {
+      onError?.(toError(error));
+      return;
+    }
+    onValueChange(
+      (data as unknown as TrackerListQueryRow[]).map((row) =>
+        toTrackerListEntry(row, userId),
+      ),
+    );
+  };
+
+  void load();
+  const channel = supabase
+    .channel(`tracker-list:${userId}`)
+    .on(
+      "postgres_changes",
+      {
+        event: "*",
+        schema: "public",
+        table: "tracker_members",
+        filter: `user_id=eq.${userId}`,
+      },
+      () => void load(),
+    )
+    .on(
+      "postgres_changes",
+      { event: "*", schema: "public", table: "trackers" },
+      () => void load(),
+    )
+    .on(
+      "postgres_changes",
+      { event: "*", schema: "public", table: "tracker_states" },
       () => void load(),
     )
     .subscribe();
@@ -372,11 +519,6 @@ export const deleteSupabaseTracker = async (
   });
   if (error) throw toError(error);
 };
-
-const asJsonObject = (value: Json): Record<string, Json> =>
-  typeof value === "object" && value !== null && !Array.isArray(value)
-    ? value
-    : {};
 
 export const updateSupabaseRivalPreference = async (
   trackerId: string,

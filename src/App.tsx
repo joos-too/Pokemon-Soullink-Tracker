@@ -85,6 +85,7 @@ import {
   getTrackerState,
   saveTrackerState,
   setTrackerVisibility,
+  subscribeToTrackerList,
   subscribeToTrackerMeta,
   subscribeToTrackerState,
   subscribeToUserTrackerIds,
@@ -1005,6 +1006,34 @@ const App: React.FC = () => {
     }
 
     setUserTrackersLoading(true);
+    if (isSupabaseBackend) {
+      const unsubscribe = subscribeToTrackerList(
+        user.uid,
+        (entries) => {
+          setUserTrackerIds(entries.map((entry) => entry.meta.id));
+          setTrackerMetas(() => {
+            const nextMetas: Record<string, TrackerMeta> = {};
+            entries.forEach(({ meta }) => {
+              nextMetas[meta.id] = normalizeTrackerMeta(meta.id, meta);
+            });
+            return nextMetas;
+          });
+          setTrackerSummaries(
+            Object.fromEntries(
+              entries.map(({ meta, summary }) => [meta.id, summary]),
+            ),
+          );
+          setUserTrackersLoading(false);
+        },
+        () => setUserTrackersLoading(false),
+      );
+
+      return () => {
+        unsubscribe();
+        setUserTrackersLoading(false);
+      };
+    }
+
     const unsubscribe = subscribeToUserTrackerIds(
       user.uid,
       (ids) => {
@@ -1021,7 +1050,7 @@ const App: React.FC = () => {
   }, [user]);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user || isSupabaseBackend) return;
 
     const listeners = metaListenersRef.current;
     for (const [trackerId, unsub] of listeners.entries()) {
@@ -1078,6 +1107,8 @@ const App: React.FC = () => {
       return;
     }
 
+    if (isSupabaseBackend) return;
+
     const listeners = trackerStateListenersRef.current;
     for (const [trackerId, unsubscribe] of listeners.entries()) {
       if (!userTrackerIds.includes(trackerId)) {
@@ -1119,6 +1150,31 @@ const App: React.FC = () => {
       }
     };
   }, [user, userTrackerIds]);
+
+  // The list query deliberately omits every participant's directory. Fetch
+  // that richer view only for the active tracker.
+  useEffect(() => {
+    if (
+      !isSupabaseBackend ||
+      !user ||
+      !activeTrackerId ||
+      !userTrackerIds.includes(activeTrackerId)
+    ) {
+      return;
+    }
+
+    return subscribeToTrackerMeta(
+      activeTrackerId,
+      (meta) => {
+        if (!meta) return;
+        setTrackerMetas((previousMetas) => ({
+          ...previousMetas,
+          [activeTrackerId]: normalizeTrackerMeta(activeTrackerId, meta),
+        }));
+      },
+      () => {},
+    );
+  }, [user, activeTrackerId, userTrackerIds]);
 
   // Load tracker metadata for direct URL access (used for public trackers)
   useEffect(() => {

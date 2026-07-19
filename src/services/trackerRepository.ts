@@ -1,10 +1,11 @@
 import { get, onValue, ref, set, update } from "firebase/database";
 import { db } from "@/src/firebaseConfig.ts";
-import type { AppState, TrackerMeta } from "@/types";
+import type { AppState, TrackerMeta, TrackerSummary } from "@/types";
 import { BACKEND } from "@/src/services/backend.ts";
 import {
   getSupabaseTrackerState,
   setSupabaseTrackerVisibility,
+  subscribeToSupabaseTrackerList,
   subscribeToSupabaseTrackerMeta,
   subscribeToSupabaseTrackerState,
   subscribeToSupabaseUserTrackerIds,
@@ -18,6 +19,11 @@ export type RepositorySubscription = () => void;
 
 type ValueCallback<T> = (value: T | null) => void;
 type ErrorCallback = (error: Error) => void;
+
+export interface TrackerListEntry {
+  meta: TrackerMeta;
+  summary: TrackerSummary;
+}
 
 const stateRevisions = new Map<string, number>();
 
@@ -42,6 +48,52 @@ export const subscribeToUserTrackerIds = (
         },
         (error) => onError?.(error),
       );
+
+export const subscribeToTrackerList = (
+  userId: string,
+  onValueChange: ValueCallback<TrackerListEntry[]>,
+  onError?: ErrorCallback,
+): RepositorySubscription => {
+  if (BACKEND === "supabase") {
+    return subscribeToSupabaseTrackerList(userId, onValueChange, onError);
+  }
+
+  return onValue(
+    ref(db, `userTrackers/${userId}`),
+    async (snapshot) => {
+      const trackerIds = snapshot.exists() ? Object.keys(snapshot.val()) : [];
+      const entries = await Promise.all(
+        trackerIds.map(async (trackerId) => {
+          const [metaSnapshot, stateSnapshot] = await Promise.all([
+            get(ref(db, `trackers/${trackerId}/meta`)),
+            get(ref(db, `trackers/${trackerId}/state`)),
+          ]);
+          return {
+            meta: metaSnapshot.val() as TrackerMeta,
+            summary: {
+              teamCount: Array.isArray(stateSnapshot.val()?.team)
+                ? stateSnapshot.val().team.length
+                : 0,
+              boxCount: Array.isArray(stateSnapshot.val()?.box)
+                ? stateSnapshot.val().box.length
+                : 0,
+              graveyardCount: Array.isArray(stateSnapshot.val()?.graveyard)
+                ? stateSnapshot.val().graveyard.length
+                : 0,
+              deathCount: 0,
+              runs: Number(stateSnapshot.val()?.stats?.runs ?? 0),
+              championDone: false,
+              doneCapsCount: 0,
+              progressPct: 0,
+            },
+          };
+        }),
+      );
+      onValueChange(entries);
+    },
+    (error) => onError?.(error),
+  );
+};
 
 export const subscribeToTrackerMeta = (
   trackerId: string,
