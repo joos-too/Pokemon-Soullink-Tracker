@@ -375,6 +375,8 @@ Create an idempotent server-side TypeScript tool, for example `scripts/migrate-f
 
 Database credentials come from target-specific server environment variables, never command-line output or the input JSON. `--dry-run` parses, normalizes, validates, hashes, and reports without changing the target. A real import first writes protected staging tables or uses one database transaction; any error rolls back the complete import.
 
+The implemented CLI is `npm run firebase:migrate -- ...`. Its exact Auth-map format, environment variables, dry-run workflow, production confirmation gate, and validation commands are documented in [`scripts/firebase-migration/README.md`](scripts/firebase-migration/README.md). The tool uses a serializable transaction and refuses to overwrite an existing deterministic tracker when its target data differs from the migration output.
+
 ### 7.3 Deterministic new tracker UUIDs
 
 Use UUIDv5 so staging rehearsals and reruns generate the same new tracker UUIDs without keeping the Firebase ID in production tables.
