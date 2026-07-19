@@ -1,7 +1,7 @@
-import { ITEMS } from "@/src/data/items";
-import { getItemsForVersion } from "@/src/services/itemFilter";
+import { ITEMS } from "@/src/data/items.ts";
+import { getItemsForVersion } from "@/src/services/filter/itemFilter.ts";
 import { MEGA_STONES, FOSSILS, STONES } from "@/src/data/special-items.ts";
-import type { SupportedLanguage } from "@/src/utils/language";
+import type { SupportedLanguage } from "@/src/utils/language.ts";
 
 /** Slugs already covered by the Stones tab */
 const STONE_SLUGS = new Set(STONES.map((s) => s.id));

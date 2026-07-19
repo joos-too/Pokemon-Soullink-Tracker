@@ -1,5 +1,5 @@
-import type { Pokemon } from "@/types";
-import { getPokemonNameById } from "@/src/services/pokemonSearch.ts";
+import type { Pokemon } from "@/types.ts";
+import { getPokemonNameById } from "@/src/services/search/pokemonSearch.ts";
 import { getSpriteUrlById } from "@/src/services/sprites.ts";
 import type { SupportedLanguage } from "@/src/utils/language.ts";
 

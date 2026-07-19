@@ -4,7 +4,7 @@ import type {
   TrackerMeta,
   TrackerRole,
   UserSettings,
-} from "@/types";
+} from "@/types.ts";
 import type { Database, Json } from "@/src/types/database.ts";
 
 type TrackerRow = Database["public"]["Tables"]["trackers"]["Row"];

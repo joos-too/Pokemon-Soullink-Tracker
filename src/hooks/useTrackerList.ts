@@ -13,14 +13,14 @@ import type {
   TrackerMeta,
   TrackerSummary,
 } from "@/types";
-import { isSupabaseBackend } from "@/src/services/backend.ts";
-import { getDefaultDisplayName } from "@/src/services/profileRepository.ts";
+import { isSupabaseBackend } from "@/src/services/backend/backend.ts";
+import { getDefaultDisplayName } from "@/src/services/repos/profileRepository.ts";
 import {
   subscribeToTrackerList,
   subscribeToTrackerMeta,
   subscribeToTrackerState,
   subscribeToUserTrackerIds,
-} from "@/src/services/trackerRepository.ts";
+} from "@/src/services/repos/trackerRepository.ts";
 import { computeWeightedProgress } from "@/src/utils/progressWeights.ts";
 
 const normalizeTrackerMeta = (

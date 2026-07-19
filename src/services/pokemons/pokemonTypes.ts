@@ -1,5 +1,5 @@
-import { POKEMON_DATA, POKEMON_TYPE_NAMES } from "@/src/data/pokemon";
-import type { SupportedLanguage } from "@/src/utils/language";
+import { POKEMON_DATA, POKEMON_TYPE_NAMES } from "@/src/data/pokemon.ts";
+import type { SupportedLanguage } from "@/src/utils/language.ts";
 
 const TYPE_NAMES: Record<SupportedLanguage, Record<string, string>> = {
   de: POKEMON_TYPE_NAMES.de,

@@ -7,9 +7,9 @@ import {
   signOut,
   verifyPasswordResetCode,
 } from "firebase/auth";
-import { auth as firebaseAuth } from "@/src/firebaseConfig";
-import { BACKEND } from "@/src/services/backend.ts";
-import { getSupabaseClient } from "@/src/services/supabase.ts";
+import { auth as firebaseAuth } from "@/src/firebaseConfig.ts";
+import { BACKEND } from "@/src/services/backend/backend.ts";
+import { getSupabaseClient } from "@/src/services/backend/supabase.ts";
 
 export interface AuthenticatedUser {
   uid: string;

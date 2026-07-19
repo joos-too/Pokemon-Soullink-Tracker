@@ -13,7 +13,7 @@ import {
   saveTrackerState,
   subscribeToTrackerState,
   TrackerStateConflictError,
-} from "@/src/services/trackerRepository.ts";
+} from "@/src/services/repos/trackerRepository.ts";
 
 export interface UseActiveTrackerOptions {
   activeTrackerId: string | null;

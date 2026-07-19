@@ -4,14 +4,14 @@ import type {
   TrackerMeta,
   TrackerRole,
   TrackerSummary,
-} from "@/types";
-import { getSupabaseClient } from "@/src/services/supabase.ts";
+} from "@/types.ts";
+import { getSupabaseClient } from "@/src/services/backend/supabase.ts";
 import {
   toPersistedTrackerState,
   toTrackerMeta,
   toTrackerStateSnapshot,
   type TrackerStateSnapshot,
-} from "@/src/services/supabaseTrackerMapper.ts";
+} from "@/src/services/backend/supabaseTrackerMapper.ts";
 import type { Database, Json } from "@/src/types/database.ts";
 
 type TrackerRow = Database["public"]["Tables"]["trackers"]["Row"];

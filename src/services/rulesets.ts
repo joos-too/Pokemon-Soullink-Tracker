@@ -2,9 +2,9 @@ import { get, onValue, ref, remove, set } from "firebase/database";
 import { db } from "@/src/firebaseConfig";
 import type { Ruleset } from "@/types";
 import { PRESET_RULESETS } from "@/src/data/rulesets";
-import { BACKEND } from "@/src/services/backend.ts";
+import { BACKEND } from "@/src/services/backend/backend.ts";
 import { sanitizeRules, sanitizeTags } from "@/src/services/init.ts";
-import { getSupabaseClient } from "@/src/services/supabase.ts";
+import { getSupabaseClient } from "@/src/services/backend/supabase.ts";
 import type { Database } from "@/src/types/database.ts";
 
 const generateRulesetId = (): string =>

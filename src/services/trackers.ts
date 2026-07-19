@@ -1,6 +1,6 @@
 import { get, ref, set, update } from "firebase/database";
-import { db } from "@/src/firebaseConfig";
-import { BACKEND } from "@/src/services/backend.ts";
+import { db } from "@/src/firebaseConfig.ts";
+import { BACKEND } from "@/src/services/backend/backend.ts";
 import {
   createInitialState,
   MIN_PLAYER_COUNT,
@@ -15,18 +15,18 @@ import {
   inviteSupabaseTrackerMember,
   removeSupabaseTrackerMember,
   updateSupabaseRivalPreference,
-} from "@/src/services/supabaseTrackerRepository.ts";
+} from "@/src/services/repos/supabaseTrackerRepository.ts";
 import {
   getDefaultDisplayName,
   getUserProfilePreferences,
-} from "@/src/services/profileRepository.ts";
+} from "@/src/services/repos/profileRepository.ts";
 import type {
   RivalGender,
   TrackerMember,
   TrackerMeta,
   TrackerRole,
-} from "@/types";
-import { AuthenticatedUser } from "@/src/services/auth.ts";
+} from "@/types.ts";
+import { AuthenticatedUser } from "@/src/services/backend/auth.ts";
 
 export class TrackerOperationError extends Error {
   code: "user-not-found" | "member-exists" | "invalid-input" | "unknown";

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { getAuthErrorCode, signUp } from "@/src/services/auth.ts";
+import { getAuthErrorCode, signUp } from "@/src/services/backend/auth.ts";
 import {
   focusRingBlueClasses,
   focusRingClasses,

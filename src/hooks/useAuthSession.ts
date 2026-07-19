@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import {
   onCurrentAuthStateChange,
   type AuthenticatedUser,
-} from "@/src/services/auth.ts";
+} from "@/src/services/backend/auth.ts";
 
 export interface AuthSessionState {
   user: AuthenticatedUser | null;

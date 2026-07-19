@@ -1,5 +1,5 @@
-import { LOCATIONS } from "@/src/data/locations";
-import { SupportedLanguage } from "@/src/utils/language";
+import { LOCATIONS } from "@/src/data/locations.ts";
+import { SupportedLanguage } from "@/src/utils/language.ts";
 import { t } from "i18next";
 import { FossilEntry, ItemEntry, PokemonLink } from "@/types.ts";
 

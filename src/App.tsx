@@ -37,7 +37,7 @@ import { useAuthSession } from "@/src/hooks/useAuthSession.ts";
 import { useActiveTracker } from "@/src/hooks/useActiveTracker.ts";
 import { useRulesets } from "@/src/hooks/useRulesets.ts";
 import { useTrackerList } from "@/src/hooks/useTrackerList.ts";
-import { getPokemonTypeSlugsById } from "@/src/services/pokemonTypes.ts";
+import { getPokemonTypeSlugsById } from "@/src/services/pokemons/pokemonTypes.ts";
 import InfoPanel from "@/src/components/widgets/InfoPanel.tsx";
 import Graveyard from "@/src/components/widgets/Graveyard.tsx";
 import ClearedLocations from "@/src/components/widgets/ClearedLocations.tsx";
@@ -79,8 +79,8 @@ import {
   setTrackerVisibility,
   subscribeToTrackerMeta,
   updateTrackerMetadata,
-} from "@/src/services/trackerRepository.ts";
-import { signOutCurrentUser } from "@/src/services/auth.ts";
+} from "@/src/services/repos/trackerRepository.ts";
+import { signOutCurrentUser } from "@/src/services/backend/auth.ts";
 import {
   addMemberByEmail,
   createTracker,
@@ -88,7 +88,7 @@ import {
   removeMemberFromTracker,
   TrackerOperationError,
   updateRivalPreference,
-} from "@/src/services/trackers";
+} from "@/src/services/trackers.ts";
 import {
   ensureUserProfile,
   getDefaultDisplayName,
@@ -98,8 +98,8 @@ import {
   updateUserMultiLocaleSearchPreference,
   updateUserSpritesInTeamTablePreference,
   updateUserWikiPreference,
-} from "@/src/services/profileRepository.ts";
-import { isSupabaseBackend } from "@/src/services/backend.ts";
+} from "@/src/services/repos/profileRepository.ts";
+import { isSupabaseBackend } from "@/src/services/backend/backend.ts";
 import { GAME_VERSIONS } from "@/src/data/game-versions";
 import {
   DEFAULT_RULES,
@@ -119,7 +119,7 @@ import {
   DEFAULT_WIKI_EN,
   type WikiId,
 } from "@/src/utils/wiki.ts";
-import { resolvePokemonLocationDisplay } from "@/src/services/locationSearch.ts";
+import { resolvePokemonLocationDisplay } from "@/src/services/search/locationSearch.ts";
 import { normalizeLanguage } from "@/src/utils/language.ts";
 import "@/src/pokeapi"; // initialize Pokedex once so sprite caching SW gets registered
 

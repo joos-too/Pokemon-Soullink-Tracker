@@ -1,6 +1,6 @@
 import { SupportedLanguage } from "@/src/utils/language.ts";
 import { TFunction } from "i18next";
-import { POKEMON_DATA, PokemonDataEntry } from "@/src/data/pokemon";
+import { POKEMON_DATA, PokemonDataEntry } from "@/src/data/pokemon.ts";
 
 interface EvolutionMethodRecord {
   slug: string;

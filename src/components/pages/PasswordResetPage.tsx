@@ -4,7 +4,7 @@ import {
   completePasswordReset,
   signOutCurrentUser,
   verifyPasswordReset,
-} from "@/src/services/auth.ts";
+} from "@/src/services/backend/auth.ts";
 import { useTranslation } from "react-i18next";
 
 interface PasswordResetPageProps {

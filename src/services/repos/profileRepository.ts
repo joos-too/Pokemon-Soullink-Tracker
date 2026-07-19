@@ -1,8 +1,8 @@
 import { get, ref, set, update } from "firebase/database";
-import { db } from "@/src/firebaseConfig";
-import type { AuthenticatedUser } from "@/src/services/auth.ts";
-import { BACKEND } from "@/src/services/backend.ts";
-import { getSupabaseClient } from "@/src/services/supabase.ts";
+import { db } from "@/src/firebaseConfig.ts";
+import type { AuthenticatedUser } from "@/src/services/backend/auth.ts";
+import { BACKEND } from "@/src/services/backend/backend.ts";
+import { getSupabaseClient } from "@/src/services/backend/supabase.ts";
 import type { TablesUpdate } from "@/src/types/database.ts";
 
 export class ProfileOperationError extends Error {

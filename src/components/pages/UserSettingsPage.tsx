@@ -13,7 +13,7 @@ import {
   focusRingClasses,
   focusRingRedClasses,
 } from "@/src/styles/focusRing.ts";
-import { requestPasswordReset } from "@/src/services/auth.ts";
+import { requestPasswordReset } from "@/src/services/backend/auth.ts";
 import ToggleSwitch from "@/src/components/toggles/ToggleSwitch.tsx";
 import { useTranslation } from "react-i18next";
 import LanguageToggle from "@/src/components/toggles/LanguageToggle.tsx";

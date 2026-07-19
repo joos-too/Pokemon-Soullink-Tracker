@@ -2,7 +2,7 @@
 import { type FirebaseOptions, initializeApp } from "firebase/app";
 import { connectDatabaseEmulator, getDatabase } from "firebase/database";
 import { connectAuthEmulator, getAuth } from "firebase/auth";
-import { BACKEND } from "@/src/services/backend";
+import { BACKEND } from "@/src/services/backend/backend.ts";
 
 // Read Firebase config from Vite env
 const apiKey = import.meta.env.VITE_FIREBASE_API_KEY as string | undefined;

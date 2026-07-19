@@ -1,5 +1,8 @@
-import { POKEMON_DATA } from "@/src/data/pokemon";
-import { SUPPORTED_LANGUAGES, SupportedLanguage } from "@/src/utils/language";
+import { POKEMON_DATA } from "@/src/data/pokemon.ts";
+import {
+  SUPPORTED_LANGUAGES,
+  SupportedLanguage,
+} from "@/src/utils/language.ts";
 
 interface SearchOptions {
   maxGeneration?: number;

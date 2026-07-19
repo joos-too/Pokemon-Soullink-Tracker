@@ -1,6 +1,6 @@
 import { act, renderHook } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { AuthenticatedUser } from "@/src/services/auth.ts";
+import type { AuthenticatedUser } from "@/src/services/backend/auth.ts";
 import { useAuthSession } from "@/src/hooks/useAuthSession.ts";
 
 const authMock = vi.hoisted(() => ({

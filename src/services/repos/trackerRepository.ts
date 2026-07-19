@@ -1,7 +1,7 @@
 import { get, onValue, ref, set, update } from "firebase/database";
 import { db } from "@/src/firebaseConfig.ts";
-import type { AppState, TrackerMeta, TrackerSummary } from "@/types";
-import { BACKEND } from "@/src/services/backend.ts";
+import type { AppState, TrackerMeta, TrackerSummary } from "@/types.ts";
+import { BACKEND } from "@/src/services/backend/backend.ts";
 import {
   getSupabaseTrackerState,
   setSupabaseTrackerVisibility,
@@ -11,9 +11,9 @@ import {
   subscribeToSupabaseUserTrackerIds,
   updateSupabaseTrackerMetadata,
   updateSupabaseTrackerState,
-} from "@/src/services/supabaseTrackerRepository.ts";
+} from "@/src/services/repos/supabaseTrackerRepository.ts";
 
-export { TrackerStateConflictError } from "@/src/services/supabaseTrackerRepository.ts";
+export { TrackerStateConflictError } from "@/src/services/repos/supabaseTrackerRepository.ts";
 
 export type RepositorySubscription = () => void;
 
