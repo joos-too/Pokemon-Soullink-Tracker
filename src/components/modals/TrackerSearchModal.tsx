@@ -118,6 +118,7 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
       locationMatchesQuery(locationLabel, normalizedQuery, {
         locale,
         gameVersionId,
+        multiLocaleSearch,
       })
     ) {
       return true;
@@ -164,6 +165,7 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
     gameVersionId,
     graveyard,
     locale,
+    multiLocaleSearch,
     team,
     t,
     matchingFamilyIds,
@@ -279,13 +281,14 @@ const TrackerSearchModal: React.FC<TrackerSearchModalProps> = ({
             locationMatchesQuery(item.location, normalizedQuery, {
               locale,
               gameVersionId,
+              multiLocaleSearch,
             })
           );
         });
         return { key, title: t(titleKey), items };
       })
       .filter((section) => section.items.length > 0);
-  }, [allItems, gameVersionId, locale, normalizedQuery, t]);
+  }, [allItems, gameVersionId, locale, multiLocaleSearch, normalizedQuery, t]);
 
   const hasPokemonResults = pokemonSections.length > 0;
   const hasItemResults = itemSections.length > 0;
