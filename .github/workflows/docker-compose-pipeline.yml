@@ -36,7 +36,7 @@ jobs:
       - name: Verify Supabase API
         env:
           # Supabase anon key is the client-side public key. It identifies the project to the API and is completely safe to use in frontend code
-          SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxvY2FsLXJlZiIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNjQwOTk1MjAwLCJleHAiOjE5NTY1NzUyMDB9.0w1qrLzvVm7KUDuyCyRhDe_1rG75vU37wB8WqFtnCqM
+          SUPABASE_ANON_KEY: sb_publishable_ACJWlzQHlZjBrEguHvfOxg_3BJgxAaH
         run: |
           curl --fail --silent --show-error \
             --header "apikey: $SUPABASE_ANON_KEY" \
@@ -49,7 +49,7 @@ jobs:
 
       - name: Stop Supabase CLI stack
         if: always()
-        run: docker compose run --rm supabase stop || true
+        run: docker compose run --rm supabase supabase stop || true
 
       - name: Tear down compose stack
         if: always()
