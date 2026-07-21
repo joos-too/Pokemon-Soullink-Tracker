@@ -1,0 +1,56 @@
+name: Docker Compose Full Stack
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  compose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Build frontend image
+        run: docker compose build frontend
+
+      - name: Start full stack
+        run: docker compose up -d frontend
+
+      - name: Wait for frontend
+        run: |
+          for attempt in {1..60}; do
+            if curl --fail --silent --show-error http://localhost:8080/healthz; then
+              exit 0
+            fi
+            sleep 2
+          done
+          docker compose ps
+          docker compose logs frontend
+          exit 1
+
+      - name: Verify Supabase API
+        env:
+          # Supabase anon key is the client-side public key. It identifies the project to the API and is completely safe to use in frontend code
+          SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxvY2FsLXJlZiIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNjQwOTk1MjAwLCJleHAiOjE5NTY1NzUyMDB9.0w1qrLzvVm7KUDuyCyRhDe_1rG75vU37wB8WqFtnCqM
+        run: |
+          curl --fail --silent --show-error \
+            --header "apikey: $SUPABASE_ANON_KEY" \
+            --header "Authorization: Bearer $SUPABASE_ANON_KEY" \
+            http://localhost:54321/rest/v1/
+
+      - name: Show full stack status
+        if: always()
+        run: docker compose ps
+
+      - name: Stop Supabase CLI stack
+        if: always()
+        run: docker compose run --rm supabase stop || true
+
+      - name: Tear down compose stack
+        if: always()
+        run: docker compose down --volumes --remove-orphans

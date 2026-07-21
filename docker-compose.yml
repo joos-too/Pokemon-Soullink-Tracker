@@ -1,0 +1,38 @@
+services:
+  supabase:
+    image: supabase/cli:v2.109.1
+    working_dir: ${PWD:-/workspace}
+    command: sh -c "supabase start && tail -f /dev/null"
+    environment:
+      SUPABASE_AUTH_SITE_URL: http://localhost:8080
+      SUPABASE_AUTH_RECOVERY_URL: http://localhost:8080/reset
+      OPENAI_API_KEY: ""
+    volumes:
+      - .:${PWD:-/workspace}
+      - /var/run/docker.sock:/var/run/docker.sock
+      - supabase-cli-cache:/root/.cache/supabase
+    healthcheck:
+      test: ["CMD-SHELL", "supabase status >/dev/null 2>&1"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+
+  frontend:
+    build:
+      context: .
+      args:
+        VITE_BACKEND: supabase
+        VITE_SUPABASE_URL: http://localhost:54321
+        # Supabase anon key is the client-side public key. It identifies the project to the API and is completely safe to use in frontend code
+        VITE_SUPABASE_ANON_KEY: ${VITE_SUPABASE_ANON_KEY:-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxvY2FsLXJlZiIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNjQwOTk1MjAwLCJleHAiOjE5NTY1NzUyMDB9.0w1qrLzvVm7KUDuyCyRhDe_1rG75vU37wB8WqFtnCqM}
+        VITE_FIREBASE_PROJECT_ID: soullink-tracker-local
+        VITE_USE_FIREBASE_EMULATOR: "false"
+    depends_on:
+      supabase:
+        condition: service_healthy
+    ports:
+      - "8080:80"
+
+volumes:
+  supabase-cli-cache:
