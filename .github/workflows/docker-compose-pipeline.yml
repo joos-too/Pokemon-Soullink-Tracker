@@ -38,10 +38,23 @@ jobs:
           # Supabase anon key is the client-side public key. It identifies the project to the API and is completely safe to use in frontend code
           SUPABASE_ANON_KEY: sb_publishable_ACJWlzQHlZjBrEguHvfOxg_3BJgxAaH
         run: |
+          for attempt in {1..60}; do
+            if curl --fail --silent \
+              --header "apikey: $SUPABASE_ANON_KEY" \
+              --header "Authorization: Bearer $SUPABASE_ANON_KEY" \
+              http://localhost:54321/rest/v1/; then
+              exit 0
+            fi
+            sleep 2
+          done
           curl --fail --silent --show-error \
             --header "apikey: $SUPABASE_ANON_KEY" \
             --header "Authorization: Bearer $SUPABASE_ANON_KEY" \
-            http://localhost:54321/rest/v1/
+            http://localhost:54321/rest/v1/ || true
+          docker compose ps
+          docker compose logs supabase
+          docker ps --all --filter "name=supabase_"
+          exit 1
 
       - name: Show full stack status
         if: always()

@@ -18,7 +18,14 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - supabase-cli-cache:/root/.cache/supabase
     healthcheck:
-      test: ["CMD-SHELL", "supabase status >/dev/null 2>&1"]
+      test:
+        [
+          "CMD",
+          "curl",
+          "--fail",
+          "--silent",
+          "http://host.docker.internal:54321/auth/v1/health",
+        ]
       interval: 10s
       timeout: 5s
       retries: 30

@@ -5,6 +5,9 @@ FROM node:22-bookworm-slim
 ARG SUPABASE_CLI_VERSION
 
 WORKDIR /opt/supabase-cli
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends curl \
+    && rm -rf /var/lib/apt/lists/*
 RUN npm install --no-save --no-package-lock "supabase@${SUPABASE_CLI_VERSION}" \
     && ln -s /opt/supabase-cli/node_modules/.bin/supabase /usr/local/bin/supabase
 
