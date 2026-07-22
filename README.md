@@ -1,5 +1,7 @@
 # Pokémon Soullink Tracker
 
+TEST
+
 Disclaimer: The website is still under development, data loss or bugs are possible.
 
 ## Run locally for development
