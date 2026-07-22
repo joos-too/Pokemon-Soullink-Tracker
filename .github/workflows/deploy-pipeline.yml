@@ -29,7 +29,7 @@ jobs:
     uses: FreakMediaLP/Workflows/.github/workflows/build-docker.yml@v2
     with:
       version: latest
-      image-name: soullink-tracker-supabase
+      image-name: ${{ github.repository_owner }}/soullink-tracker-supabase
       dockerfile: docker/supabase/Dockerfile
       cleanup: true
       keep-versions: 3
