@@ -15,8 +15,8 @@ jobs:
       keep-versions: 3
       build-args: |
         VITE_BACKEND=supabase
-        VITE_SUPABASE_URL=${{ secrets.VITE_SUPABASE_URL }}
-        VITE_SUPABASE_ANON_KEY=${{ secrets.VITE_SUPABASE_ANON_KEY }}
+        VITE_SUPABASE_URL=${{ vars.VITE_SUPABASE_URL }}
+        VITE_SUPABASE_ANON_KEY=${{ vars.VITE_SUPABASE_ANON_KEY }}
     secrets: inherit
 
   build-supabase:
@@ -35,7 +35,7 @@ jobs:
     needs: [build-frontend, build-supabase]
     uses: FreakMediaLP/Workflows/.github/workflows/deploy-docker-compose.yml@v2
     with:
-      remote-path: ${{ secrets.DEPLOY_PATH }}
+      remote-path: ${{ vars.DEPLOY_PATH }}
       compose-file: docker-compose.yml
       cleanup: true
     secrets: inherit
