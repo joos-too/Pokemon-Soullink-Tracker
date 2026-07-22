@@ -11,4 +11,7 @@ RUN apt-get update \
 RUN npm install --no-save --no-package-lock "supabase@${SUPABASE_CLI_VERSION}" \
     && ln -s /opt/supabase-cli/node_modules/.bin/supabase /usr/local/bin/supabase
 
+WORKDIR /workspace
+COPY supabase/ ./supabase/
+
 CMD ["supabase", "--help"]

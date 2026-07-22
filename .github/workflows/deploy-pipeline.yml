@@ -4,48 +4,38 @@ on:
   push:
     branches:
       - master
+      - 71-change-backend-to-self-hosted-supabase
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  build-frontend:
+    uses: FreakMediaLP/Workflows/.github/workflows/build-docker.yml@v2
+    with:
+      version: latest
+      cleanup: true
+      keep-versions: 3
+      build-args: |
+        VITE_BACKEND=supabase
+        VITE_SUPABASE_URL=${{ secrets.VITE_SUPABASE_URL }}
+        VITE_SUPABASE_ANON_KEY=${{ secrets.VITE_SUPABASE_ANON_KEY }}
+    secrets: inherit
 
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-
-      - name: Install Dependencies & Build
-        run: |
-          echo "${{ secrets.ENV }}" > .env
-          npm ci
-          npm run build
-          rm -f .env
-
-      - name: Upload Build Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: dist
-          path: dist/
+  build-supabase:
+    uses: FreakMediaLP/Workflows/.github/workflows/build-docker.yml@v2
+    with:
+      version: latest
+      image-name: soullink-tracker-supabase
+      dockerfile: docker/supabase/Dockerfile
+      cleanup: true
+      keep-versions: 3
+      build-args: |
+        SUPABASE_CLI_VERSION=2.109.1
+    secrets: inherit
 
   deploy:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Download Build Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: dist
-          path: dist/
-
-      - name: Deploy to Server
-        run: |
-          echo "${{ secrets.SSH_KEY }}" > private_key.pem
-          chmod 600 private_key.pem
-          rsync -avz --delete -e "ssh -i private_key.pem -o StrictHostKeyChecking=no -p 22" dist/ ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_PATH }}
-          rm -f private_key.pem
+    needs: [build-frontend, build-supabase]
+    uses: FreakMediaLP/Workflows/.github/workflows/deploy-docker-compose.yml@v2
+    with:
+      remote-path: ${{ secrets.DEPLOY_PATH }}
+      compose-file: docker-compose.yml
+      cleanup: true
+    secrets: inherit

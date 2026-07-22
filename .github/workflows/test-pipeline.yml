@@ -1,4 +1,4 @@
-name: Docker Compose Full Stack
+name: Docker Compose Full Stack Test
 
 on:
   pull_request:
@@ -16,10 +16,10 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build frontend image
-        run: docker compose build frontend
+        run: docker compose -f docker-compose.test.yml build frontend
 
       - name: Start full stack
-        run: docker compose up -d frontend
+        run: docker compose -f docker-compose.test.yml up -d frontend
 
       - name: Wait for frontend
         run: |
@@ -29,8 +29,8 @@ jobs:
             fi
             sleep 2
           done
-          docker compose ps
-          docker compose logs frontend
+          docker compose -f docker-compose.test.yml ps
+          docker compose -f docker-compose.test.yml logs frontend
           exit 1
 
       - name: Verify Supabase API
@@ -51,19 +51,19 @@ jobs:
             --header "apikey: $SUPABASE_ANON_KEY" \
             --header "Authorization: Bearer $SUPABASE_ANON_KEY" \
             http://localhost:54321/rest/v1/ || true
-          docker compose ps
-          docker compose logs supabase
+          docker compose -f docker-compose.test.yml ps
+          docker compose -f docker-compose.test.yml logs supabase
           docker ps --all --filter "name=supabase_"
           exit 1
 
       - name: Show full stack status
         if: always()
-        run: docker compose ps
+        run: docker compose -f docker-compose.test.yml ps
 
       - name: Stop Supabase CLI stack
         if: always()
-        run: docker compose run --rm supabase supabase stop || true
+        run: docker compose -f docker-compose.test.yml run --rm supabase supabase stop || true
 
       - name: Tear down compose stack
         if: always()
-        run: docker compose down --volumes --remove-orphans
+        run: docker compose -f docker-compose.test.yml down --volumes --remove-orphans

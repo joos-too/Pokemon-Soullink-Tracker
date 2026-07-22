@@ -1,17 +1,20 @@
 services:
   supabase:
-    image: ghcr.io/joos-too/soullink-tracker-supabase:latest
-    container_name: Soullink-Supabase
-    restart: unless-stopped
+    build:
+      context: docker/supabase
+      args:
+        SUPABASE_CLI_VERSION: 2.109.1
+    working_dir: /workspace
     command: sh -c "supabase start && tail -f /dev/null"
     environment:
-      SUPABASE_AUTH_SITE_URL: ${SUPABASE_AUTH_SITE_URL:-http://localhost:8080}
-      SUPABASE_AUTH_RECOVERY_URL: ${SUPABASE_AUTH_RECOVERY_URL:-http://localhost:8080/reset}
+      SUPABASE_AUTH_SITE_URL: http://localhost:8080
+      SUPABASE_AUTH_RECOVERY_URL: http://localhost:8080/reset
       SUPABASE_SERVICES_HOSTNAME: host.docker.internal
       OPENAI_API_KEY: ""
     extra_hosts:
       - "host.docker.internal:host-gateway"
     volumes:
+      - .:/workspace
       - /var/run/docker.sock:/var/run/docker.sock
       - supabase-cli-cache:/root/.cache/supabase
     healthcheck:
@@ -28,10 +31,16 @@ services:
       retries: 30
       start_period: 20m
 
-  soullink-tracker:
-    image: ghcr.io/joos-too/soullink-tracker:latest
-    container_name: Soullink-Tracker
-    restart: unless-stopped
+  frontend:
+    build:
+      context: .
+      args:
+        VITE_BACKEND: supabase
+        VITE_SUPABASE_URL: http://localhost:54321
+        # Supabase anon key is the client-side public key. It identifies the project to the API and is completely safe to use in frontend code
+        VITE_SUPABASE_ANON_KEY: ${VITE_SUPABASE_ANON_KEY:-sb_publishable_ACJWlzQHlZjBrEguHvfOxg_3BJgxAaH}
+        VITE_FIREBASE_PROJECT_ID: soullink-tracker-local
+        VITE_USE_FIREBASE_EMULATOR: "false"
     depends_on:
       supabase:
         condition: service_healthy
