@@ -39,9 +39,12 @@ jobs:
 
   deploy:
     needs: [build-frontend, build-supabase]
-    uses: FreakMediaLP/Workflows/.github/workflows/deploy-docker-compose.yml@v2
+    uses: FreakMediaLP/Workflows/.github/workflows/deploy-docker-compose.yml@v3
     with:
       remote-path: ${{ vars.DEPLOY_PATH }}
       compose-file: docker-compose.yml
       cleanup: true
-    secrets: inherit
+    secrets:
+      SSH_HOST: ${{ secrets.SSH_HOST }}
+      SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
