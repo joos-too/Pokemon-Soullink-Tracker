@@ -22,23 +22,8 @@ jobs:
         VITE_SUPABASE_ANON_KEY=${{ vars.VITE_SUPABASE_ANON_KEY }}
     secrets: inherit
 
-  build-supabase:
-    permissions:
-      contents: read
-      packages: write
-    uses: FreakMediaLP/Workflows/.github/workflows/build-docker.yml@v2
-    with:
-      version: latest
-      image-name: ${{ github.repository_owner }}/soullink-tracker-supabase
-      dockerfile: docker/supabase/Dockerfile
-      cleanup: true
-      keep-versions: 3
-      build-args: |
-        SUPABASE_CLI_VERSION=2.109.1
-    secrets: inherit
-
   deploy:
-    needs: [build-frontend, build-supabase]
+    needs: build-frontend
     uses: FreakMediaLP/Workflows/.github/workflows/deploy-docker-compose.yml@v3
     with:
       remote-path: ${{ vars.DEPLOY_PATH }}

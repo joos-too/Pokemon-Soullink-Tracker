@@ -1,4 +1,4 @@
-name: Docker Compose Full Stack Test
+name: Supabase E2E Tests
 
 on:
   pull_request:
@@ -7,63 +7,62 @@ on:
       - master
 
 jobs:
-  compose:
+  e2e:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    env:
+      OPENAI_API_KEY: ""
+      SUPABASE_AUTH_SITE_URL: http://127.0.0.1:4173
+      SUPABASE_AUTH_RECOVERY_URL: http://127.0.0.1:4173/reset
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
-      - name: Build frontend image
-        run: docker compose -f docker-compose.test.yml build frontend
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
 
-      - name: Start full stack
-        run: docker compose -f docker-compose.test.yml up -d frontend
+      - name: Install dependencies
+        run: npm ci
 
-      - name: Wait for frontend
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Setup Supabase CLI
+        uses: supabase/setup-cli@v2
+        with:
+          version: 2.109.1
+          github-token: ${{ github.token }}
+
+      - name: Start local Supabase
+        run: supabase start
+
+      - name: Export local Supabase environment
         run: |
-          for attempt in {1..60}; do
-            if curl --fail --silent --show-error http://localhost:8080/healthz; then
-              exit 0
-            fi
-            sleep 2
-          done
-          docker compose -f docker-compose.test.yml ps
-          docker compose -f docker-compose.test.yml logs frontend
-          exit 1
+          supabase status -o env \
+            --override-name api.url=VITE_SUPABASE_URL \
+            --override-name auth.anon_key=VITE_SUPABASE_ANON_KEY \
+            >> "$GITHUB_ENV"
 
-      - name: Verify Supabase API
-        env:
-          # Supabase anon key is the client-side public key. It identifies the project to the API and is completely safe to use in frontend code
-          SUPABASE_ANON_KEY: sb_publishable_ACJWlzQHlZjBrEguHvfOxg_3BJgxAaH
-        run: |
-          for attempt in {1..60}; do
-            if curl --fail --silent \
-              --header "apikey: $SUPABASE_ANON_KEY" \
-              --header "Authorization: Bearer $SUPABASE_ANON_KEY" \
-              http://localhost:54321/rest/v1/; then
-              exit 0
-            fi
-            sleep 2
-          done
-          curl --fail --silent --show-error \
-            --header "apikey: $SUPABASE_ANON_KEY" \
-            --header "Authorization: Bearer $SUPABASE_ANON_KEY" \
-            http://localhost:54321/rest/v1/ || true
-          docker compose -f docker-compose.test.yml ps
-          docker compose -f docker-compose.test.yml logs supabase
-          docker ps --all --filter "name=supabase_"
-          exit 1
+      - name: Run Playwright E2E tests
+        run: npm run test:e2e
 
-      - name: Show full stack status
-        if: always()
-        run: docker compose -f docker-compose.test.yml ps
+      - name: Upload Playwright diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-diagnostics
+          path: |
+            playwright-report/
+            test-results/
+          if-no-files-found: warn
+          retention-days: 7
 
       - name: Stop Supabase CLI stack
         if: always()
-        run: docker compose -f docker-compose.test.yml run --rm supabase supabase stop || true
-
-      - name: Tear down compose stack
-        if: always()
-        run: docker compose -f docker-compose.test.yml down --volumes --remove-orphans
+        run: supabase stop || true

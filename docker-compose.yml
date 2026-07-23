@@ -1,42 +1,7 @@
 services:
-  supabase:
-    image: ghcr.io/joos-too/soullink-tracker-supabase:latest
-    container_name: Soullink-Supabase
-    restart: unless-stopped
-    command: sh -c "supabase start && tail -f /dev/null"
-    environment:
-      SUPABASE_AUTH_SITE_URL: ${SUPABASE_AUTH_SITE_URL:-http://localhost:8080}
-      SUPABASE_AUTH_RECOVERY_URL: ${SUPABASE_AUTH_RECOVERY_URL:-http://localhost:8080/reset}
-      SUPABASE_SERVICES_HOSTNAME: host.docker.internal
-      OPENAI_API_KEY: ""
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - supabase-cli-cache:/root/.cache/supabase
-    healthcheck:
-      test:
-        [
-          "CMD",
-          "curl",
-          "--fail",
-          "--silent",
-          "http://host.docker.internal:54321/auth/v1/health",
-        ]
-      interval: 10s
-      timeout: 5s
-      retries: 30
-      start_period: 20m
-
   soullink-tracker:
     image: ghcr.io/joos-too/soullink-tracker:latest
     container_name: Soullink-Tracker
     restart: unless-stopped
-    depends_on:
-      supabase:
-        condition: service_healthy
     ports:
-      - "8080:80"
-
-volumes:
-  supabase-cli-cache:
+      - "8067:80"
