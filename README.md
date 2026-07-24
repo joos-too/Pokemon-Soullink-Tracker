@@ -2,6 +2,8 @@
 
 Disclaimer: The website is still under development, data loss or bugs are possible.
 
+TEST
+
 ## Run locally for development
 
 **Prerequisites:** [Node.js + npm](https://nodejs.org/en/download/), [git](https://git-scm.com/downloads) and [Java](https://www.oracle.com/java/technologies/downloads/#java21) installed
