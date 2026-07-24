@@ -5,3 +5,5 @@ services:
     restart: unless-stopped
     ports:
       - "8067:80"
+    labels:
+      - "ubuntu"

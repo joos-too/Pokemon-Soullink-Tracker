@@ -104,11 +104,15 @@ export const signIn = async (
   if (error) throw error;
 };
 
+export interface SignUpResult {
+  confirmationRequired: boolean;
+}
+
 export const signUp = async (
   email: string,
   password: string,
   displayName: string,
-): Promise<void> => {
+): Promise<SignUpResult> => {
   if (BACKEND === "firebase") {
     const credential = await createUserWithEmailAndPassword(
       firebaseAuth,
@@ -116,15 +120,31 @@ export const signUp = async (
       password,
     );
     await updateUserDisplayName(credential.user.uid, displayName);
-    return;
+    return { confirmationRequired: false };
   }
 
-  const { error } = await getSupabaseClient().auth.signUp({
+  const { data, error } = await getSupabaseClient().auth.signUp({
     email: normalizeEmail(email),
     password,
     options: {
       data: { display_name: displayName },
     },
+  });
+  if (error) throw error;
+
+  const confirmationRequired =
+    !!data.user && !data.session && data.user.identities?.length !== 0;
+  return { confirmationRequired };
+};
+
+export const verifyEmailOtp = async (
+  email: string,
+  token: string,
+): Promise<void> => {
+  const { error } = await getSupabaseClient().auth.verifyOtp({
+    email: normalizeEmail(email),
+    token,
+    type: "signup",
   });
   if (error) throw error;
 };

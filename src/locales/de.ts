@@ -731,6 +731,16 @@ export const de = {
         general:
           "Registrierung fehlgeschlagen. Bitte versuche es später erneut.",
       },
+      confirmation: {
+        title: "Email prüfen",
+        sent: "Wir haben einen Bestätigungscode an {{email}} gesendet.",
+        checkSpam: "Nicht gefunden? Überprüfe deinen Spam- oder Junk-Ordner.",
+        codeLabel: "Bestätigungscode",
+        submit: "Bestätigen",
+        error:
+          "Der Code ist ungültig oder abgelaufen. Bitte versuche es erneut oder registriere dich mit einem neuen Code.",
+        back: "Zurück zur Registrierung",
+      },
     },
     passwordReset: {
       title: "Passwort zurücksetzen",

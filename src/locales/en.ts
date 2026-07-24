@@ -721,6 +721,16 @@ export const en = {
         weakPassword: "The password must be at least 8 characters long.",
         general: "Registration failed. Please try again later.",
       },
+      confirmation: {
+        title: "Check your email",
+        sent: "We sent a confirmation code to {{email}}.",
+        checkSpam: "Can't find it? Check your spam or junk folder.",
+        codeLabel: "Confirmation code",
+        submit: "Confirm",
+        error:
+          "The code is invalid or expired. Please try again or register with a new code.",
+        back: "Back to registration",
+      },
     },
     passwordReset: {
       title: "Reset password",
