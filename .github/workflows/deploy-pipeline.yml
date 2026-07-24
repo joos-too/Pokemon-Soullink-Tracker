@@ -7,7 +7,7 @@ on:
       - 71-change-backend-to-self-hosted-supabase
 
 jobs:
-  build-frontend:
+  build:
     permissions:
       contents: read
       packages: write

@@ -19,26 +19,14 @@ View the generated credentials any time via:
 sh run.sh secrets
 ```
 
-## Public HTTPS access
-
-Supabase is exposed through the existing host Nginx installation at
-`https://supabase.janlieder.de`. The public endpoint serves Studio, Auth, REST,
-Storage, Realtime, and Edge Functions through Kong; do not expose Kong directly
-to the Internet.
-
-### DNS
-
-Create an `A` (and, if applicable, `AAAA`) record for
-`supabase.janlieder.de` pointing at the server.
-
 ### Supabase URLs
 
-In `supabase-project/.env`, configure the public Supabase and application URLs:
+If not entered in the install script, in `supabase-project/.env`, configure the public Supabase and application URLs:
 
 ```dotenv
-SUPABASE_PUBLIC_URL=https://supabase.janlieder.de
-API_EXTERNAL_URL=https://supabase.janlieder.de/auth/v1
-SITE_URL=https://soullink-tracker.janlieder.de
+SUPABASE_PUBLIC_URL=https://supabase.soullink-tracker.de
+API_EXTERNAL_URL=https://supabase.soullink-tracker.de/auth/v1
+SITE_URL=https://soullink-tracker.de
 ```
 
 After changing these values, recreate the stack:
@@ -135,50 +123,62 @@ Ports shown by `docker ps` without a host mapping, such as `5000/tcp` or
 
 ### Nginx virtual host
 
-Create an Nginx site for the Supabase subdomain (using the same certificate and
-common include setup as the other sites):
+Create an Nginx config for the Supabase subdomain, you can also integrate the Frontend in here as well (without subdomain):
 
 ```nginx
 server {
-    listen 443 ssl http2;
-    server_name supabase.janlieder.de;
+    listen 443 ssl;
+    server_name soullink-tracker.de;
 
-    include /etc/nginx/includes/default.conf;
+    include /etc/nginx/includes/default-sl.conf;
 
-    # Realtime requires WebSocket upgrades.
+    location / {
+        proxy_pass http://127.0.0.1:8067;
+        proxy_http_version 1.1;
+        proxy_set_header Host              $host;
+        proxy_set_header X-Real-IP         $remote_addr;
+        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+
+server {
+    listen 443 ssl;
+    server_name supabase.soullink-tracker.de;
+
+    include /etc/nginx/includes/default-sl.conf;
+
     location /realtime/v1/ {
         proxy_pass http://127.0.0.1:8000;
         proxy_http_version 1.1;
-
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host              $host;
+        proxy_set_header X-Real-IP         $remote_addr;
+        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
+
+        # WebSocket specific headers
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
-
-        proxy_read_timeout 3600s;
-        proxy_send_timeout 3600s;
-        proxy_buffering off;
     }
 
     # Studio, Auth, REST, Storage, Functions, GraphQL, and other API routes.
     location / {
         proxy_pass http://127.0.0.1:8000;
         proxy_http_version 1.1;
-
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host              $host;
+        proxy_set_header X-Real-IP         $remote_addr;
+        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
     }
 }
 
+
 server {
     listen 80;
-    server_name supabase.janlieder.de;
+    server_name supabase.soullink-tracker.de;
     return 301 https://$host$request_uri;
 }
+
 ```
 
 Enable and validate the site:
