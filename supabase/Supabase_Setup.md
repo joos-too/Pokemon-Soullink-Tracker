@@ -112,7 +112,7 @@ Recreate the pooler and verify that neither port is bound to `0.0.0.0` or
 `[::]`:
 
 ```bash
-docker compose up -d --force-recreate pooler
+docker compose up -d --force-recreate supavisor
 docker ps --format "table {{.Names}}\t{{.Ports}}"
 ```
 

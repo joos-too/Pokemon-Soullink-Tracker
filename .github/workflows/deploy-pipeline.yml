@@ -11,7 +11,7 @@ jobs:
     permissions:
       contents: read
       packages: write
-    uses: FreakMediaLP/Workflows/.github/workflows/build-docker.yml@v2
+    uses: FreakMediaLP/Workflows/.github/workflows/build-docker.yml@v3
     with:
       version: latest
       cleanup: true
@@ -20,7 +20,6 @@ jobs:
         VITE_BACKEND=supabase
         VITE_SUPABASE_URL=${{ vars.VITE_SUPABASE_URL }}
         VITE_SUPABASE_ANON_KEY=${{ vars.VITE_SUPABASE_ANON_KEY }}
-    secrets: inherit
 
   deploy:
     needs: build-frontend
